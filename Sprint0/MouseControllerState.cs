@@ -17,8 +17,8 @@ namespace Sprint0
 
         public MouseControllerState()
         {
-            leftClick = false;
-            rightClick = false;
+            leftClick = 0;
+            rightClick = 0;
 
             xPosition = 0;
             yPosition = 0;
