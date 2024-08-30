@@ -9,11 +9,11 @@ namespace Sprint0
     public class MouseControllerState
     {
 
-        private bool leftClick { get; set; }
-        private bool rightClick { get; set; }
+        public int leftClick { get; set; }
+        public int rightClick { get; set; }
 
-        private int xPosition { get; set; }
-        private int yPosition { get; set;  }
+        public int xPosition { get; set; }
+        public int yPosition { get; set;  }
 
         public MouseControllerState()
         {

@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System.Linq;
 
 namespace Sprint0;
 public class MouseController : IController
 {
-    private Rectangle firstQuadrant;
-    private Rectangle secondQuadrant;
-    private Rectangle thirdQuadrant;
-    private Rectangle fourthQuadrant;
+    private Rectangle firstQuadrant { get; }
+    private Rectangle secondQuadrant { get; }
+    private Rectangle thirdQuadrant { get; }
+    private Rectangle fourthQuadrant { get; }
 
     private Dictionary<MouseControllerState, ICommand> controllerMappings;     
 
@@ -42,6 +43,21 @@ public class MouseController : IController
 
     public void Update()
     {
-        MouseState mouse = GetState();
+        MouseState currentState = Mouse.GetState();
+
+        MouseControllerState simpleState = new MouseControllerState();
+        Sync(currentState, simpleState);
+
+        controllerMappings[simpleState].Execute();
+    }
+
+    private void Sync(MouseState state, MouseControllerState simpleState)
+    {
+        // LeftButton and RightButton are ButtonState enums
+        simpleState.leftClick = (int) state.LeftButton;
+        simpleState.rightClick = (int) state.RightButton;
+
+        simpleState.xPosition = state.X;
+        simpleState.yPosition = state.Y;
     }
 }
