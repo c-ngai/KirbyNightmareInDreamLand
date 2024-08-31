@@ -13,6 +13,7 @@ namespace Sprint0
 
         private Dictionary<string, Action> commandMapping;
 
+
         public Command(string name)
         {
             this.name = name;
@@ -39,19 +40,22 @@ namespace Sprint0
         {
 
             Game1.self.state = 1;
+            Game1.self.unanimatedUnmovingSprite.Draw(Game1.self.spriteBatch, new Vector2(350, 200));
         }
         private void AnimatedUnmoving()
         {
             Game1.self.state = 2;
-            //Game1.self.animatedUnmovingSprite.Draw(Game1.self.spriteBatch, new Vector2(350, 200));
+            Game1.self.animatedUnmovingSprite.Draw(Game1.self.spriteBatch, new Vector2(350, 200));
         }
         private void UnanimatedMovingVertically()
         {
             Game1.self.state = 3;
+            Game1.self.unanimatedMovingVertically.Draw(Game1.self.spriteBatch, new Vector2(350, 200));
         }
         private void AnimatedMovingHorizontally()
         {
             Game1.self.state = 4;
+            Game1.self.animatedMovingHorizontally.Draw(Game1.self.spriteBatch, new Vector2(350, 200));
         }
 
         public void Execute()

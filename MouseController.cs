@@ -6,83 +6,92 @@ using Microsoft.Xna.Framework.Input;
 namespace Sprint0;
 public class MouseController : IController
 {
-    private Dictionary<MouseControllerState, ICommand> controllerMappings;
+    public int leftClickIndex { get; set; }
+    public int rightClickIndex { get; set; }
+    public int quadrantIndex { get; set; }
 
-    private Window window;
+    public int leftClickPressed { get; set; }
+    public int rightClickPressed { get; set; }
+    public int quadrant { get; set; }
+
+    private Dictionary<int[], ICommand> ControllerMappings;
 
     public MouseController()
     {
-        controllerMappings = new Dictionary<MouseControllerState, ICommand>();
-        window = new Window();
+        ControllerMappings = new Dictionary<int[], ICommand>();
     }
 
-    public void SetQuadrant(Window windowInfo, MouseState reference,  MouseControllerState state)
+    public void SetQuadrant(MouseState reference, int[] mouseState)
     {
-        int horizontalMidPoint = 800 / 2;
-        int verticalMidPoint = 450 / 2;
-
-        // TODO: could data drive it by combining a dictionary mapping to an array? 
+        int horizontalMidPoint = Game1.self.windowWidth / 2;
+        int verticalMidPoint = Game1.self.windowHeight / 2;
+ 
+        // sets quadrants by dividing the game window into equal fourths
         if (reference.X <= horizontalMidPoint / 2 && reference.Y <= verticalMidPoint)
         {
-            state.quadrant = 1;
+            mouseState[quadrantIndex] = 1;
         }
         else if (reference.X > horizontalMidPoint && reference.Y <= verticalMidPoint)
         {
-            state.quadrant = 2;
+            mouseState[quadrantIndex] = 2;
         }
         else if (reference.X <= horizontalMidPoint && reference.Y > verticalMidPoint)
         {
-            state.quadrant = 3;
+            mouseState[quadrantIndex] = 3;
         }
         else if (reference.X > horizontalMidPoint && reference.Y > verticalMidPoint)
         {
-            state.quadrant = 4;
+            mouseState[quadrantIndex] = 4;
         } 
     }
 
-    public void RegisterCommand(MouseControllerState state, ICommand command)
+    public void RegisterCommand(int[] mouseState, ICommand command)
     {
-        controllerMappings.Add(state, command);
+        ControllerMappings.Add(mouseState, command);
     }
 
     public void Update()
     {
         MouseState currentState = Mouse.GetState();
 
-        MouseControllerState simpleState = new MouseControllerState();
-        Sync(currentState, simpleState);
-        SetQuadrant(window, currentState, simpleState);
+        int[] mouseState = new int[3];
+        Sync(currentState, mouseState);
+        SetQuadrant(currentState, mouseState);
 
-        if (simpleState.quadrant == 1 && simpleState.leftClick == 1)
+        // determines command by quadrant and button click
+        if (mouseState[quadrantIndex] == 1 && mouseState[leftClickIndex] == 1)
         {
             ICommand command = new Command("UnanimatedUnmoving");
             command.Execute();
-        } else if (simpleState.quadrant == 2 && simpleState.leftClick == 1)
+        }
+        else if (mouseState[quadrantIndex] == 2 && mouseState[leftClickIndex] == 1)
         {
             ICommand command = new Command("AnimatedUnmoving");
             command.Execute();
-        } 
-        else if (simpleState.quadrant == 3 && simpleState.leftClick == 1)
+        }
+        else if (mouseState[quadrantIndex] == 3 && mouseState[leftClickIndex] == 1)
         {
             ICommand command = new Command("UnanimatedMovingVertically");
             command.Execute();
         }
-        else if (simpleState.quadrant == 4 && simpleState.leftClick == 1)
+        else if (mouseState[quadrantIndex] == 4 && mouseState[leftClickIndex] == 1)
         {
             ICommand command = new Command("AnimatedMovingHorizontally");
             command.Execute();
         }
-        else if(simpleState.rightClick == 1)
+        else if (mouseState[rightClickIndex] == 1)
         {
             ICommand command = new Command("Quit");
             command.Execute();
         }
+
     }
 
-    private void Sync(MouseState state, MouseControllerState simpleState)
+    private void Sync(MouseState state, int[] mouseState)
     {
         // LeftButton and RightButton are ButtonState enums
-        simpleState.leftClick = (int) state.LeftButton;
-        simpleState.rightClick = (int) state.RightButton;
+        mouseState[leftClickIndex]= (int) state.LeftButton;
+
+        mouseState[rightClickIndex] = (int) state.RightButton;
     }
 }

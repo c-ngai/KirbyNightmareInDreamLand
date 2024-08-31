@@ -1,25 +1,27 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace Sprint0
 {
     public class Game1 : Game
     {
-
         public static Game1 self { get; set; }
-        public Window window { get; set; }
-        private GraphicsDeviceManager graphics;
-        public SpriteBatch spriteBatch;
+        public SpriteBatch spriteBatch { get; set; }
         public UnanimatedUnmovingSprite unanimatedUnmovingSprite { get; set; }
         public AnimatedUnmovingSprite animatedUnmovingSprite { get; set; }
         public UnanimatedMovingVertically unanimatedMovingVertically { get; set; }
         public AnimatedMovingHorizontally animatedMovingHorizontally { get; set; }
+        public int state { get; set; }
+        public int windowWidth { get; set; }
+        public int windowHeight { get; set; }
+
+        private GraphicsDeviceManager graphics;
         private GameFont gameFont;
         private SpriteFont font;
-        public MouseController mouse;
+        private MouseController mouse;
         private KeyboardController keyboard;
-        public int state = 1;
 
         public Game1()
         {
@@ -28,40 +30,23 @@ namespace Sprint0
             mouse = new MouseController();
             keyboard = new KeyboardController();
             Content.RootDirectory = "Content";
-            window = new Window();
             gameFont = new GameFont();
             IsMouseVisible = true;
+            state = 1;
+            windowWidth = 800;
+            windowHeight = 450;
         }
 
         // will later be changed to read in mouse control input
         public void SetMouseControls(MouseController mouse)
         {
-            //MouseControllerState state = new MouseControllerState();
+            mouse.leftClickIndex = 0;
+            mouse.rightClickIndex = 1;
+            mouse.quadrantIndex = 2;
 
-            //state.leftClick = 1;
-            //state.quadrant = 1;
-            //ICommand command = new Command("UnanimatedUnmoving");
-            //mouse.RegisterCommand(state, command);
-
-            //state.quadrant = 2;
-            //command = new Command("AnimatedUnmoving");
-            //mouse.RegisterCommand(state, command);
-
-            //state.quadrant = 3;
-            //command = new Command("UnanimatedMovingVertically");
-            //mouse.RegisterCommand(state, command);
-
-            //state.quadrant = 4;
-            //command = new Command("AnimatedMovingHorizontally");
-            //mouse.RegisterCommand(state, command);
-
-            //state.rightClick = 1;
-            //command = new Command("Quit");
-            //for (int quad = 0; quad < 4; quad++)
-            //{
-            //    state.quadrant = quad;
-            //    mouse.RegisterCommand(state, command);
-            //}
+            mouse.leftClickPressed = 1;
+            mouse.rightClickPressed = 0;
+            mouse.quadrant = 1;
         }
 
         // will later be changed to read in keyboard control input
@@ -84,7 +69,6 @@ namespace Sprint0
         }
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
 
             base.Initialize();
             SetMouseControls(mouse);
@@ -96,7 +80,6 @@ namespace Sprint0
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
             Texture2D texture = Content.Load<Texture2D>("SmileyWalk");
             unanimatedUnmovingSprite = new UnanimatedUnmovingSprite(texture, 4, 4);
             animatedUnmovingSprite = new AnimatedUnmovingSprite(texture, 4, 4);
@@ -107,12 +90,11 @@ namespace Sprint0
 
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+
         }
 
         protected override void Update(GameTime gameTime)
         {
-            // TODO: Add your update logic here
             base.Update(gameTime);
             mouse.Update();
             keyboard.Update();
@@ -125,9 +107,8 @@ namespace Sprint0
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            // draws the corresponding sprite given current game state (I cannot figure out how to create an array or dictionary containing non-Action functions)
             base.Draw(gameTime);
-
             if (state == 1)
             {
                 unanimatedUnmovingSprite.Draw(spriteBatch, new Vector2(350, 200));
@@ -148,6 +129,8 @@ namespace Sprint0
             {
                 this.Exit();
             }
+
+            // always draws font
             gameFont.ControlDraw(spriteBatch, font);
 
         }
