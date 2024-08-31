@@ -13,6 +13,6 @@ namespace Sprint0
         {
             spriteBatch.End();
         }
-        public abstract void Update(SpriteBatch spriteBatch, Vector2 location);
+        public abstract void Draw(SpriteBatch spriteBatch, Vector2 location);
     }
 }
