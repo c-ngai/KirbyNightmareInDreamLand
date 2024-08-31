@@ -18,8 +18,8 @@ public class MouseController : IController
 
     public void SetQuadrant(Window windowInfo, MouseState reference,  MouseControllerState state)
     {
-        int horizontalMidPoint = windowInfo.width / 2;
-        int verticalMidPoint = windowInfo.height / 2;
+        int horizontalMidPoint = 800 / 2;
+        int verticalMidPoint = 450 / 2;
 
         // TODO: could data drive it by combining a dictionary mapping to an array? 
         if (reference.X <= horizontalMidPoint / 2 && reference.Y <= verticalMidPoint)
@@ -53,7 +53,30 @@ public class MouseController : IController
         Sync(currentState, simpleState);
         SetQuadrant(window, currentState, simpleState);
 
-        controllerMappings[simpleState].Execute();
+        if (simpleState.quadrant == 1 && simpleState.leftClick == 1)
+        {
+            ICommand command = new Command("UnanimatedUnmoving");
+            command.Execute();
+        } else if (simpleState.quadrant == 2 && simpleState.leftClick == 1)
+        {
+            ICommand command = new Command("AnimatedUnmoving");
+            command.Execute();
+        } 
+        else if (simpleState.quadrant == 3 && simpleState.leftClick == 1)
+        {
+            ICommand command = new Command("UnanimatedMovingVertically");
+            command.Execute();
+        }
+        else if (simpleState.quadrant == 4 && simpleState.leftClick == 1)
+        {
+            ICommand command = new Command("AnimatedMovingHorizontally");
+            command.Execute();
+        }
+        else if(simpleState.rightClick == 1)
+        {
+            ICommand command = new Command("Quit");
+            command.Execute();
+        }
     }
 
     private void Sync(MouseState state, MouseControllerState simpleState)

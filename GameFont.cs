@@ -28,8 +28,8 @@ namespace Sprint0
         }
         public void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
-            string text = "Credits\nProgram Made By: Carman Ngai\nSprites from: https://www.spriters-resource.com/snes/kirbysuperstarkirbysfunpak/";
-            spriteBatch.DrawString(font, text, new Microsoft.Xna.Framework.Vector2(500, 500), Color.Black);
+            string text = "Credits\nProgram Made By: Carman Ngai\nSprites from: \n http://rbwhitaker.wikidot.com/monogame-texture-atlases-1 \n http://rbwhitaker.wikidot.com/monogame-drawing-text-with-spritefonts";
+            spriteBatch.DrawString(font, text, new Vector2(100, 300), Color.Black);
         }
 
     }

@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-
 namespace Sprint0
 {
-    public class UnanimatedUnmovingSprite : Sprite
+    public class AnimatedMovingHorizontally : Sprite
     {
         // Texture atlas
         public Texture2D Texture { get; set; }
@@ -11,15 +10,20 @@ namespace Sprint0
         public int Rows { get; set; }
         // Number of columns in the texture atlas
         public int Columns { get; set; }
+        public int x { get; set; }
+        public int y { get; set; }
         private int CurrentFrame;
         private int TotalFrames;
-        public UnanimatedUnmovingSprite(Texture2D texture, int rows, int columns)
+
+
+        public AnimatedMovingHorizontally(Texture2D texture, int rows, int columns, Vector2 location)
         {
             Texture = texture;
             Rows = rows;
             Columns = columns;
             CurrentFrame = 0;
             TotalFrames = Rows * Columns;
+            y = (int)location.Y;
         }
 
         public void Update()
@@ -28,6 +32,15 @@ namespace Sprint0
             if (CurrentFrame == TotalFrames)
             {
                 CurrentFrame = 0;
+            }
+
+            if (x < 800)
+            {
+                x += 5;
+            }
+            else if (x >= 800)
+            {
+                x = 0;
             }
         }
 
@@ -39,7 +52,7 @@ namespace Sprint0
             int column = CurrentFrame % Columns;
 
             Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
-            Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
+            Rectangle destinationRectangle = new Rectangle(x, (int)location.Y, width, height);
 
             spriteBatch.Begin();
             spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);

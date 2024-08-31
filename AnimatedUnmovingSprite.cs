@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace Sprint0
 {
-    public class UnanimatedUnmovingSprite : Sprite
+    public class AnimatedUnmovingSprite : Sprite
     {
         // Texture atlas
         public Texture2D Texture { get; set; }
@@ -13,7 +13,8 @@ namespace Sprint0
         public int Columns { get; set; }
         private int CurrentFrame;
         private int TotalFrames;
-        public UnanimatedUnmovingSprite(Texture2D texture, int rows, int columns)
+
+        public AnimatedUnmovingSprite(Texture2D texture, int rows, int columns)
         {
             Texture = texture;
             Rows = rows;
