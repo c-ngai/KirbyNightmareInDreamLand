@@ -1,97 +1,62 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
 
 namespace Sprint0
 {
-    /// <summary>
-    /// Command Design Pattern
-    /// </summary>
-
-    public class Program
+    public class Command : ICommand
     {
-        public static void Main(string[] args)
+        private string Name;
+
+        private Dictionary<string, Action> commandMapping;
+
+        public Command(string name)
         {
-            // Create receiver, command, and invoker
+            Name = name;
+            commandMapping = new Dictionary<string, Action>();
+            linkCommands(commandMapping);
 
-            Receiver receiver = new Receiver();
-            Command command = new ConcreteCommand(receiver);
-            Invoker invoker = new Invoker();
-
-            // Set and execute command
-
-            invoker.SetCommand(command);
-            invoker.ExecuteCommand();
-
-            // Wait for user
-
-            Console.ReadKey();
-        }
-    }
-
-    /// <summary>
-    /// The 'Command' abstract class
-    /// </summary>
-
-    public abstract class Command
-    {
-        protected Receiver receiver;
-
-        // Constructor
-
-        public Command(Receiver receiver)
-        {
-            this.receiver = receiver;
         }
 
-        public abstract void Execute();
-    }
-
-    /// <summary>
-    /// The 'ConcreteCommand' class
-    /// </summary>
-
-    public class ConcreteCommand : Command
-    {
-        // Constructor
-
-        public ConcreteCommand(Receiver receiver) :
-            base(receiver)
+        public void linkCommands(Dictionary<string, Action> commands)
         {
+            // must be updated with command changes
+            commands.Add("Quit", Quit);
+            commands.Add("UnanimatedUnmoving", UnanimatedUnmoving);
+            commands.Add("AnimatedUnmoving", AnimatedUnmoving);
+            commands.Add("UnanimatedMoving", UnanimatedMoving);
+            commands.Add("AnimatedMoving", AnimatedMoving);
+        }
+        private void Quit()
+        {
+            Game1.self.Exit();
         }
 
-        public override void Execute()
+        private void UnanimatedUnmoving()
         {
-            receiver.Action();
+
         }
-    }
-
-    /// <summary>
-    /// The 'Receiver' class
-    /// </summary>
-
-    public class Receiver
-    {
-        public void Action()
+        private void AnimatedUnmoving()
         {
-            Console.WriteLine("Called Receiver.Action()");
+
         }
-    }
-
-    /// <summary>
-    /// The 'Invoker' class
-    /// </summary>
-
-    public class Invoker
-    {
-        Command command;
-
-        public void SetCommand(Command command)
+        private void UnanimatedMoving()
         {
-            this.command = command;
+
         }
-
-        public void ExecuteCommand()
+        private void AnimatedMoving()
         {
-            command.Execute();
+
+        }
+        //private void DisplayText()
+        //{
+
+        //}
+
+        public void Execute()
+        {
+            commandMapping[Name]();
         }
     }
 }

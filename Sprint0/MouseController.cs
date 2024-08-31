@@ -1,39 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using System.Linq;
 
 namespace Sprint0;
 public class MouseController : IController
 {
-    private Rectangle firstQuadrant { get; }
-    private Rectangle secondQuadrant { get; }
-    private Rectangle thirdQuadrant { get; }
-    private Rectangle fourthQuadrant { get; }
-
     private Dictionary<MouseControllerState, ICommand> controllerMappings;     
 
-    public MouseController(int width, int height)
+    public MouseController()
     {
-        // creates starting quadrant point 
-        Point origin = new Point(0, 0);
-        Point topBorderMidPoint = new Point(width / 2, 0);
-        Point leftBorderMidPoint = new Point(0, height / 2);
-        Point center = new Point(width / 2, height / 2);
-
-        // creates size of quadrant
-        Point size = new Point(width / 2, height / 2);
-
-        // creates quadrants
-        firstQuadrant = new Rectangle(origin, size);
-        secondQuadrant = new Rectangle(topBorderMidPoint, size);
-        thirdQuadrant = new Rectangle(leftBorderMidPoint, size);
-        fourthQuadrant = new Rectangle(center, size);
-
         controllerMappings = new Dictionary<MouseControllerState, ICommand>();
-        
+    }
+
+    public void setQuadrant(Window windowInfo, MouseControllerState state)
+    {
+        int horizontalMidPoint = windowInfo.width / 2;
+        int verticalMidPoint = windowInfo.height / 2;
+
+        // TODO: could data drive it by combining a dictionary mapping to an array? 
+        if (state.xPosition <= horizontalMidPoint / 2 && state.yPosition <= verticalMidPoint)
+        {
+            state.quadrant = 1;
+        }
+        else if (state.xPosition > horizontalMidPoint && state.yPosition <= verticalMidPoint)
+        {
+            state.quadrant = 2;
+        }
+        else if (state.xPosition <= horizontalMidPoint && state.yPosition > verticalMidPoint)
+        {
+            state.quadrant = 3;
+        }
+        else if (state.xPosition >= horizontalMidPoint && state.yPosition > verticalMidPoint)
+        {
+            state.quadrant = 4;
+        } 
     }
 
     public void RegisterCommand(MouseControllerState state, ICommand command)

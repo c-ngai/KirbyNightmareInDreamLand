@@ -6,6 +6,8 @@ namespace Sprint0
 {
     public class Game1 : Game
     {
+
+        public static Game1 self;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
