@@ -6,32 +6,35 @@ using Microsoft.Xna.Framework.Input;
 namespace Sprint0;
 public class MouseController : IController
 {
-    private Dictionary<MouseControllerState, ICommand> controllerMappings;     
+    private Dictionary<MouseControllerState, ICommand> controllerMappings;
+
+    private Window window;
 
     public MouseController()
     {
         controllerMappings = new Dictionary<MouseControllerState, ICommand>();
+        window = new Window();
     }
 
-    public void setQuadrant(Window windowInfo, MouseControllerState state)
+    public void SetQuadrant(Window windowInfo, MouseState reference,  MouseControllerState state)
     {
         int horizontalMidPoint = windowInfo.width / 2;
         int verticalMidPoint = windowInfo.height / 2;
 
         // TODO: could data drive it by combining a dictionary mapping to an array? 
-        if (state.xPosition <= horizontalMidPoint / 2 && state.yPosition <= verticalMidPoint)
+        if (reference.X <= horizontalMidPoint / 2 && reference.Y <= verticalMidPoint)
         {
             state.quadrant = 1;
         }
-        else if (state.xPosition > horizontalMidPoint && state.yPosition <= verticalMidPoint)
+        else if (reference.X > horizontalMidPoint && reference.Y <= verticalMidPoint)
         {
             state.quadrant = 2;
         }
-        else if (state.xPosition <= horizontalMidPoint && state.yPosition > verticalMidPoint)
+        else if (reference.X <= horizontalMidPoint && reference.Y > verticalMidPoint)
         {
             state.quadrant = 3;
         }
-        else if (state.xPosition >= horizontalMidPoint && state.yPosition > verticalMidPoint)
+        else if (reference.X > horizontalMidPoint && reference.Y > verticalMidPoint)
         {
             state.quadrant = 4;
         } 
@@ -48,6 +51,7 @@ public class MouseController : IController
 
         MouseControllerState simpleState = new MouseControllerState();
         Sync(currentState, simpleState);
+        SetQuadrant(window, currentState, simpleState);
 
         controllerMappings[simpleState].Execute();
     }
@@ -57,8 +61,5 @@ public class MouseController : IController
         // LeftButton and RightButton are ButtonState enums
         simpleState.leftClick = (int) state.LeftButton;
         simpleState.rightClick = (int) state.RightButton;
-
-        simpleState.xPosition = state.X;
-        simpleState.yPosition = state.Y;
     }
 }

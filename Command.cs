@@ -7,19 +7,19 @@ namespace Sprint0
 {
     public class Command : ICommand
     {
-        private string Name;
+        private string name;
 
         private Dictionary<string, Action> commandMapping;
 
         public Command(string name)
         {
-            Name = name;
+            this.name = name;
             commandMapping = new Dictionary<string, Action>();
-            linkCommands(commandMapping);
+            LinkCommands(commandMapping);
 
         }
 
-        public void linkCommands(Dictionary<string, Action> commands)
+        public void LinkCommands(Dictionary<string, Action> commands)
         {
             // must be updated with command changes
             commands.Add("Quit", Quit);
@@ -27,6 +27,7 @@ namespace Sprint0
             commands.Add("AnimatedUnmoving", AnimatedUnmoving);
             commands.Add("UnanimatedMoving", UnanimatedMoving);
             commands.Add("AnimatedMoving", AnimatedMoving);
+            commands.Add("DisplayText", DisplayText);
         }
         private void Quit()
         {
@@ -49,14 +50,14 @@ namespace Sprint0
         {
 
         }
-        //private void DisplayText()
-        //{
+        private void DisplayText()
+        {
 
-        //}
+        }
 
         public void Execute()
         {
-            commandMapping[Name]();
+            commandMapping[name]();
         }
     }
 }

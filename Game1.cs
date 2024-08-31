@@ -8,31 +8,43 @@ namespace Sprint0
     {
 
         public static Game1 self;
+        public Window window;
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         private UnanimatedUnmovingSprite unanimatedUnmovingSprite;
         //private AnimatedSprite animatedSprite;
         private SpriteFont font;
-        private IController mouse;
-        private IController keyboard;
+        private MouseController mouse;
+        private KeyboardController keyboard;
 
         public Game1()
         {
+            self = this;
             graphics = new GraphicsDeviceManager(this);
             mouse = new MouseController();
             keyboard = new KeyboardController();
             Content.RootDirectory = "Content";
+            window = new Window();
             IsMouseVisible = true;
         }
 
         // will later be changed to read in mouse control input
-        public void setMouseControls(IController mouse)
+        public void SetMouseControls(IController mouse)
         {
+            MouseControllerState state = new MouseControllerState();
+            state.leftClick = 1;
+            state.quadrant = 1;
+            ICommand command = new Command("UnanimatedUnmoving");
 
+            for (int quad = 0; quad < 4; quad++)
+            {
+                state.quadrant = quad;
+                mouse.RegisterCommand(state, command);
+            }
         }
 
         // will later be changed to read in keyboard control input
-        public void setKeyboardControls(IController keyboard)
+        public void SetKeyboardControls(IController keyboard)
         {
 
         }
@@ -41,8 +53,8 @@ namespace Sprint0
             // TODO: Add your initialization logic here
 
             base.Initialize();
-            setMouseControls(mouse);
-            setKeyboardControls(keyboard);
+            SetMouseControls(mouse);
+            SetKeyboardControls(keyboard);
         }
 
         protected override void LoadContent()
@@ -53,6 +65,7 @@ namespace Sprint0
             // TODO: use this.Content to load your game content here
             Texture2D texture1 = Content.Load<Texture2D>("Idle");
             unanimatedUnmovingSprite = new UnanimatedUnmovingSprite(texture1);
+            font = Content.Load<SpriteFont>("DefaultFont");
         }
 
         protected override void UnloadContent()
@@ -75,6 +88,7 @@ namespace Sprint0
             // TODO: Add your drawing code here
             base.Draw(gameTime);
             unanimatedUnmovingSprite.ControlDraw(spriteBatch, new Vector2(200, 200));
+            
         }
     }
 }
