@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework.Input;
 
 namespace Sprint0;
 public class MouseController : IController
@@ -14,12 +11,7 @@ public class MouseController : IController
     public int rightClickPressed { get; set; }
     public int quadrant { get; set; }
 
-    private Dictionary<int[], ICommand> ControllerMappings;
-
-    public MouseController()
-    {
-        ControllerMappings = new Dictionary<int[], ICommand>();
-    }
+    public MouseController(){}
 
     public void SetQuadrant(MouseState reference, int[] mouseState)
     {
@@ -45,11 +37,6 @@ public class MouseController : IController
         } 
     }
 
-    public void RegisterCommand(int[] mouseState, ICommand command)
-    {
-        ControllerMappings.Add(mouseState, command);
-    }
-
     public void Update()
     {
         MouseState currentState = Mouse.GetState();
@@ -61,28 +48,23 @@ public class MouseController : IController
         // determines command by quadrant and button click
         if (mouseState[quadrantIndex] == 1 && mouseState[leftClickIndex] == 1)
         {
-            ICommand command = new Command("UnanimatedUnmoving");
-            command.Execute();
+            Game1.self.unanimatedUnmoving.SetState();
         }
         else if (mouseState[quadrantIndex] == 2 && mouseState[leftClickIndex] == 1)
         {
-            ICommand command = new Command("AnimatedUnmoving");
-            command.Execute();
+            Game1.self.animatedUnmoving.SetState();
         }
         else if (mouseState[quadrantIndex] == 3 && mouseState[leftClickIndex] == 1)
         {
-            ICommand command = new Command("UnanimatedMovingVertically");
-            command.Execute();
+            Game1.self.movingVertically.SetState();
         }
         else if (mouseState[quadrantIndex] == 4 && mouseState[leftClickIndex] == 1)
         {
-            ICommand command = new Command("AnimatedMovingHorizontally");
-            command.Execute();
+            Game1.self.movingHorizontally.SetState();
         }
         else if (mouseState[rightClickIndex] == 1)
         {
-            ICommand command = new Command("Quit");
-            command.Execute();
+            Game1.self.quit.SetState();
         }
 
     }

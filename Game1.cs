@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
 
 namespace Sprint0
 {
@@ -11,11 +10,16 @@ namespace Sprint0
         public SpriteBatch spriteBatch { get; set; }
         public UnanimatedUnmovingSprite unanimatedUnmovingSprite { get; set; }
         public AnimatedUnmovingSprite animatedUnmovingSprite { get; set; }
-        public UnanimatedMovingVertically unanimatedMovingVertically { get; set; }
-        public AnimatedMovingHorizontally animatedMovingHorizontally { get; set; }
+        public UnanimatedMovingVerticallySprite unanimatedMovingVerticallySprite { get; set; }
+        public AnimatedMovingHorizontallySprite animatedMovingHorizontallySprite { get; set; }
         public int state { get; set; }
         public int windowWidth { get; set; }
         public int windowHeight { get; set; }
+        public ICommand quit { get; set; }
+        public ICommand unanimatedUnmoving {  get; set; }
+        public ICommand animatedUnmoving { get; set; }
+        public ICommand movingVertically { get; set; }
+        public ICommand movingHorizontally { get; set; }
 
         private GraphicsDeviceManager graphics;
         private GameFont gameFont;
@@ -35,6 +39,13 @@ namespace Sprint0
             state = 1;
             windowWidth = 800;
             windowHeight = 450;
+
+            // sets up commands
+            quit = new QuitCommand();
+            unanimatedUnmoving = new UnanimatedUnmovingCommand();
+            animatedUnmoving = new AnimatedUnmovingCommand();
+            movingVertically = new UnanimatedMovingVerticallyCommand();
+            movingHorizontally = new AnimatedMovingHorizontallyCommand();
         }
 
         // will later be changed to read in mouse control input
@@ -52,20 +63,15 @@ namespace Sprint0
         // will later be changed to read in keyboard control input
         public void SetKeyboardControls(KeyboardController keyboard)
         {
-            ICommand command = new Command("Quit");
-            keyboard.RegisterCommand(Keys.D0, command);
+            keyboard.RegisterCommand(Keys.D0, quit);
 
-            command = new Command("UnanimatedUnmoving");
-            keyboard.RegisterCommand(Keys.D1, command);
+            keyboard.RegisterCommand(Keys.D1, unanimatedUnmoving);
 
-            command = new Command("AnimatedUnmoving");
-            keyboard.RegisterCommand(Keys.D2, command);
+            keyboard.RegisterCommand(Keys.D2, animatedUnmoving);
 
-            command = new Command("UnanimatedMovingVertically");
-            keyboard.RegisterCommand(Keys.D3, command);
+            keyboard.RegisterCommand(Keys.D3, movingVertically);
 
-            command = new Command("AnimatedMovingHorizontally");
-            keyboard.RegisterCommand(Keys.D4, command);
+            keyboard.RegisterCommand(Keys.D4, movingHorizontally);
         }
         protected override void Initialize()
         {
@@ -83,8 +89,8 @@ namespace Sprint0
             Texture2D texture = Content.Load<Texture2D>("SmileyWalk");
             unanimatedUnmovingSprite = new UnanimatedUnmovingSprite(texture, 4, 4);
             animatedUnmovingSprite = new AnimatedUnmovingSprite(texture, 4, 4);
-            unanimatedMovingVertically = new UnanimatedMovingVertically(texture, 4, 4, new Vector2(350, 200));
-            animatedMovingHorizontally = new AnimatedMovingHorizontally(texture, 4, 4, new Vector2(350, 200));
+            unanimatedMovingVerticallySprite = new UnanimatedMovingVerticallySprite(texture, 4, 4, new Vector2(350, 200));
+            animatedMovingHorizontallySprite = new AnimatedMovingHorizontallySprite(texture, 4, 4, new Vector2(350, 200));
             font = Content.Load<SpriteFont>("DefaultFont");
         }
 
@@ -99,36 +105,20 @@ namespace Sprint0
             mouse.Update();
             keyboard.Update();
             animatedUnmovingSprite.Update();
-            unanimatedMovingVertically.Update();
-            animatedMovingHorizontally.Update();
+            unanimatedMovingVerticallySprite.Update();
+            animatedMovingHorizontallySprite.Update();
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // draws the corresponding sprite given current game state (I cannot figure out how to create an array or dictionary containing non-Action functions)
+            ICommand[] commands = { quit, unanimatedUnmoving, animatedUnmoving, movingVertically, movingHorizontally };
+
             base.Draw(gameTime);
-            if (state == 1)
-            {
-                unanimatedUnmovingSprite.Draw(spriteBatch, new Vector2(350, 200));
-            } 
-            else if (state == 2)
-            {
-                animatedUnmovingSprite.Draw(spriteBatch, new Vector2(350, 200));
-            }
-            else if (state == 3)
-            {
-                unanimatedMovingVertically.Draw(spriteBatch, new Vector2(350, 200));
-            }
-            else if (state == 4)
-            {
-                animatedMovingHorizontally.Draw(spriteBatch, new Vector2(350, 200));
-            }
-            else if (state == 0)
-            {
-                this.Exit();
-            }
+
+            // draws the corresponding sprite given current game state
+            commands[state].Execute();
 
             // always draws font
             gameFont.ControlDraw(spriteBatch, font);
