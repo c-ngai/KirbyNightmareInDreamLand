@@ -12,6 +12,7 @@ namespace MasterGame
         public AnimatedUnmovingSprite animatedUnmovingSprite { get; set; }
         public UnanimatedMovingVerticallySprite unanimatedMovingVerticallySprite { get; set; }
         public AnimatedMovingHorizontallySprite animatedMovingHorizontallySprite { get; set; }
+        public AnimatedSpriteTest animatedSpriteTest { get; set; }
         public int state { get; set; }
         public int windowWidth { get; set; }
         public int windowHeight { get; set; }
@@ -92,6 +93,10 @@ namespace MasterGame
             unanimatedMovingVerticallySprite = new UnanimatedMovingVerticallySprite(texture, 4, 4, new Vector2(350, 200));
             animatedMovingHorizontallySprite = new AnimatedMovingHorizontallySprite(texture, 4, 4, new Vector2(350, 200));
             font = Content.Load<SpriteFont>("DefaultFont");
+
+            Texture2D KirbyUFO = Content.Load<Texture2D>("KirbyUFO");
+            Animation KirbyUFO_1 = new Animation("Content/KirbyUFO_1.csv");
+            animatedSpriteTest = new AnimatedSpriteTest(KirbyUFO, KirbyUFO_1, new Vector2(350, 200));
         }
 
         protected override void UnloadContent()
@@ -107,6 +112,7 @@ namespace MasterGame
             animatedUnmovingSprite.Update();
             unanimatedMovingVerticallySprite.Update();
             animatedMovingHorizontallySprite.Update();
+            animatedSpriteTest.Update();
         }
 
         protected override void Draw(GameTime gameTime)
@@ -122,6 +128,9 @@ namespace MasterGame
 
             // always draws font
             gameFont.ControlDraw(spriteBatch, font);
+
+            // TEST: draw Kirby UFO
+            animatedSpriteTest.Draw(spriteBatch, new Vector2(350, 200));
 
         }
     }
