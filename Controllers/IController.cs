@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using System;
-namespace Sprint0
+namespace MasterGame.Commands
 {
     public interface IController
     {
