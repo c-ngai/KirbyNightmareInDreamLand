@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Input;
-using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
-namespace MasterGame.Entities.Enemies
+namespace MasterGame
 {
     public class WaddleDee : IEnemy
     {
@@ -15,11 +8,11 @@ namespace MasterGame.Entities.Enemies
         private int health;
         private int damage;
         //private ISprite sprite;
-        public void takeDamage()
+        public void TakeDamage()
         {
              
         }
-        public void attack()
+        public void Attack()
         {
 
         }

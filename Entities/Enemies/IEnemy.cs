@@ -1,8 +1,4 @@
-﻿using Microsoft.Xna.Framework.Input;
-using System;
-using Microsoft.Xna.Framework;
-
-namespace MasterGame.Entities.Enemies
+﻿namespace MasterGame
 {
     public interface IEnemy : IEntity
     {

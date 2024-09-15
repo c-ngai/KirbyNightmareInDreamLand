@@ -1,32 +1,37 @@
-using Microsoft.Xna.Framework.Input;
-using System;
-using Microsoft.Xna.Framework;
-namespace MasterGame.Entities.PlayerSprites
+namespace MasterGame
 {
     public class Player{
-        private Vector2 position;
-        private int health;
-        private int damage; 
-        private int lives;
-        public void takeDamage()
+
+        public PlayerStateMachine state;
+
+        public Player()
+        {
+            state = new PlayerStateMachine();
+        }
+
+        public void SetDirection()
         {
 
         }
-        public void attack()
+
+        public void TakeDamage()
         {
 
         }
-        public void Update()
+        public void Attack()
         {
 
         }
+
         public void Draw()
         {
 
         }
-        public void setDirection()
+
+        // makes state changes by calling other player methods, calls state.Update(), and finally calls Draw last?
+        public void Update()
         {
-            
+
         }
     }
 }
