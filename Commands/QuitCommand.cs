@@ -1,4 +1,4 @@
-﻿namespace Sprint0
+﻿namespace MasterGame
 {
     public class QuitCommand : ICommand
     {

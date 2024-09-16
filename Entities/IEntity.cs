@@ -1,11 +1,8 @@
-using Microsoft.Xna.Framework.Input;
-using System;
-using Microsoft.Xna.Framework;
-namespace MasterGame.Entities
+namespace MasterGame
 {
     public interface IEntity{
-        void takeDamage();
-        void attack();
+        void TakeDamage();
+        void Attack();
         void Update();
         void Draw();
 

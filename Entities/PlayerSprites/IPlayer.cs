@@ -1,7 +1,4 @@
-using Microsoft.Xna.Framework.Input;
-using System;
-using Microsoft.Xna.Framework;
-namespace MasterGame.Entities.PlayerSprites
+namespace MasterGame
 {
     public interface IPlayer:IEntity
     {
