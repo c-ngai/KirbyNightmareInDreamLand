@@ -1,4 +1,4 @@
-﻿namespace Sprint0
+﻿namespace MasterGame
 {
     public interface ICommand
     {

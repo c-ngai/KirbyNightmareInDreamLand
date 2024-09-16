@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-namespace Sprint0
+
+namespace MasterGame
 {
-    public class AnimatedMovingHorizontallySprite : Sprite
+    public class AnimatedUnmovingSprite : Sprite
     {
         // Texture atlas
         public Texture2D texture { get; set; }
@@ -10,20 +11,16 @@ namespace Sprint0
         public int rows { get; set; }
         // Number of columns in the texture atlas
         public int columns { get; set; }
-        public int x { get; set; }
-        public int y { get; set; }
         private int currentFrame;
         private int totalFrames;
 
-
-        public AnimatedMovingHorizontallySprite(Texture2D texture, int rows, int columns, Vector2 location)
+        public AnimatedUnmovingSprite(Texture2D texture, int rows, int columns)
         {
             this.texture = texture;
             this.rows = rows;
             this.columns = columns;
             currentFrame = 0;
             totalFrames = this.rows * this.columns;
-            y = (int)location.Y;
         }
 
         public void Update()
@@ -33,16 +30,6 @@ namespace Sprint0
             if (currentFrame == totalFrames)
             {
                 currentFrame = 0;
-            }
-
-            // sets the horizontal movement to wrap around the screen
-            if (x < Game1.self.windowWidth)
-            {
-                x += 5;
-            }
-            else if (x >= Game1.self.windowWidth)
-            {
-                x = 0;
             }
         }
 
@@ -54,7 +41,7 @@ namespace Sprint0
             int column = currentFrame % columns;
 
             Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
-            Rectangle destinationRectangle = new Rectangle(x, (int)location.Y, width, height);
+            Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
 
             spriteBatch.Begin();
             spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White);
