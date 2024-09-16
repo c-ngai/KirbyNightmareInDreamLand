@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework.Input;
-using System;
-namespace MasterGame.Commands
+﻿namespace MasterGame
 {
     public interface IController
     {

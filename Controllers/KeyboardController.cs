@@ -1,30 +1,32 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
 
-namespace Sprint0;
-public class KeyboardController : IController
+namespace MasterGame
 {
-    private Dictionary<Keys, ICommand> controllerMappings;
-
-    public KeyboardController()
+    public class KeyboardController : IController
     {
-        controllerMappings = new Dictionary<Keys, ICommand>();
-    }
+        private Dictionary<Keys, ICommand> controllerMappings;
 
-    public void RegisterCommand(Keys key, ICommand command)
-    {
-        controllerMappings.Add(key, command);
-    }
-
-    public void Update()
-    {
-        Keys[] pressedKeys = Keyboard.GetState().GetPressedKeys();
-
-        // detects key state not transition (i.e. would move Mario, not change the sprite)
-        // needs separate method for transition to animate (i.e. keep track of old state and see if current state is different)
-        foreach (Keys key in pressedKeys)
+        public KeyboardController()
         {
-            controllerMappings[key].SetState();
+            controllerMappings = new Dictionary<Keys, ICommand>();
+        }
+
+        public void RegisterCommand(Keys key, ICommand command)
+        {
+            controllerMappings.Add(key, command);
+        }
+
+        public void Update()
+        {
+            Keys[] pressedKeys = Keyboard.GetState().GetPressedKeys();
+
+            // detects key state not transition (i.e. would move Mario, not change the sprite)
+            // needs separate method for transition to animate (i.e. keep track of old state and see if current state is different)
+            foreach (Keys key in pressedKeys)
+            {
+                controllerMappings[key].SetState();
+            }
         }
     }
 }

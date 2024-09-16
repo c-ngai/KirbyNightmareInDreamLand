@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-namespace Sprint0
+namespace MasterGame
 {
     public class AnimatedUnmovingCommand : ICommand
     {
