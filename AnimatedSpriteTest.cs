@@ -7,7 +7,7 @@ namespace MasterGame
         // Texture atlas
         public Texture2D texture { get; set; }
         // Animation object
-        public Sprite animation { get; set; }
+        public Sprite sprite { get; set; }
         public int x { get; set; }
         public int y { get; set; }
 
@@ -15,13 +15,13 @@ namespace MasterGame
         public AnimatedSpriteTest(Texture2D texture, Sprite animation, Vector2 location)
         {
             this.texture = texture;
-            this.animation = animation;
+            this.sprite = animation;
             y = (int)location.Y;
         }
 
         public void Update()
         {
-            animation.Update();
+            sprite.Update();
 
             // sets the horizontal movement to wrap around the screen
             if (x < Game1.self.windowWidth)
@@ -37,10 +37,10 @@ namespace MasterGame
         public override void Draw(SpriteBatch spriteBatch, Vector2 location)
         {
 
-            Rectangle sourceRectangle = animation.getSourceRectangle();
-            Rectangle destinationRectangle = new Rectangle(x, (int)location.Y, animation.getWidth(), animation.getHeight());
+            Rectangle sourceRectangle = sprite.getSourceRectangle();
+            Rectangle destinationRectangle = new Rectangle(x, (int)location.Y, sprite.getWidth(), sprite.getHeight());
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
             spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White);
             spriteBatch.End();
         }
