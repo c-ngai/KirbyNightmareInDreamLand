@@ -16,13 +16,15 @@ namespace MasterGame
         public int state { get; set; }
         public int windowWidth { get; set; }
         public int windowHeight { get; set; }
+        public bool IsFullscreen { get; set; }
         public ICommand quit { get; set; }
+        public ICommand toggleFullscreen { get; set; }
         public ICommand unanimatedUnmoving {  get; set; }
         public ICommand animatedUnmoving { get; set; }
         public ICommand movingVertically { get; set; }
         public ICommand movingHorizontally { get; set; }
 
-        private GraphicsDeviceManager graphics;
+        public GraphicsDeviceManager graphics;
         private GameFont gameFont;
         private SpriteFont font;
         private MouseController mouse;
@@ -40,9 +42,11 @@ namespace MasterGame
             state = 1;
             windowWidth = 800;
             windowHeight = 450;
+            IsFullscreen = false;
 
             // sets up commands
             quit = new QuitCommand();
+            toggleFullscreen = new ToggleFullscreenCommand();
             unanimatedUnmoving = new UnanimatedUnmovingCommand();
             animatedUnmoving = new AnimatedUnmovingCommand();
             movingVertically = new UnanimatedMovingVerticallyCommand();
@@ -66,6 +70,8 @@ namespace MasterGame
         {
             keyboard.RegisterCommand(Keys.D0, quit);
 
+            keyboard.RegisterCommand(Keys.F, toggleFullscreen);
+
             keyboard.RegisterCommand(Keys.D1, unanimatedUnmoving);
 
             keyboard.RegisterCommand(Keys.D2, animatedUnmoving);
@@ -76,6 +82,11 @@ namespace MasterGame
         }
         protected override void Initialize()
         {
+            // true = exclusive fullscreen, false = borderless fullscreen
+            graphics.HardwareModeSwitch = true;
+            graphics.IsFullScreen = IsFullscreen;
+            graphics.ApplyChanges();
+
 
             base.Initialize();
             SetMouseControls(mouse);
