@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 namespace MasterGame
 {
-    public abstract class Sprite 
+    public abstract class SpriteTemplate 
     {
         public void InitializeDraw(SpriteBatch spriteBatch)
         {

@@ -6,9 +6,9 @@ using System.Collections.Generic;
 
 // THIS IS MESSY, EARLY TEST!!!!
 
-namespace Sprint0
+namespace MasterGame
 {
-    public class Animation
+    public class Sprite
     {
 
         // The filepath of the source image for the animation's spritesheet.
@@ -32,7 +32,7 @@ namespace Sprint0
 
         /* Creates a new animation object from an animation file. Imports animation
          * data from a .csv file into the Animation object. */
-        public Animation(string filepath)
+        public Sprite(string filepath)
         {
             currentFrame = 0;
             tickCounter = 0;
