@@ -95,7 +95,7 @@ namespace MasterGame
             font = Content.Load<SpriteFont>("DefaultFont");
 
             Texture2D KirbyUFO = Content.Load<Texture2D>("KirbyUFO");
-            Animation KirbyUFO_1 = new Animation("Content/KirbyUFO_1.csv");
+            Sprite KirbyUFO_1 = new Sprite("Content/KirbyUFO_1.csv");
             animatedSpriteTest = new AnimatedSpriteTest(KirbyUFO, KirbyUFO_1, new Vector2(350, 200));
         }
 

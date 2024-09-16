@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace MasterGame
 {
-    public class AnimatedUnmovingSprite : Sprite
+    public class AnimatedUnmovingSprite : SpriteTemplate
     {
         // Texture atlas
         public Texture2D texture { get; set; }

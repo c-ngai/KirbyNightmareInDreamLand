@@ -1,18 +1,18 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-namespace Sprint0
+namespace MasterGame
 {
-    public class AnimatedSpriteTest : Sprite
+    public class AnimatedSpriteTest : SpriteTemplate
     {
         // Texture atlas
         public Texture2D texture { get; set; }
         // Animation object
-        public Animation animation { get; set; }
+        public Sprite animation { get; set; }
         public int x { get; set; }
         public int y { get; set; }
 
 
-        public AnimatedSpriteTest(Texture2D texture, Animation animation, Vector2 location)
+        public AnimatedSpriteTest(Texture2D texture, Sprite animation, Vector2 location)
         {
             this.texture = texture;
             this.animation = animation;
