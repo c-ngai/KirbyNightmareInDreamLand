@@ -8,10 +8,6 @@ namespace MasterGame
     {
         public static Game1 self { get; set; }
         public SpriteBatch spriteBatch { get; set; }
-        public UnanimatedUnmovingSprite unanimatedUnmovingSprite { get; set; }
-        public AnimatedUnmovingSprite animatedUnmovingSprite { get; set; }
-        public UnanimatedMovingVerticallySprite unanimatedMovingVerticallySprite { get; set; }
-        public AnimatedMovingHorizontallySprite animatedMovingHorizontallySprite { get; set; }
         public Sprite TestSprite { get; set; }
         public int state { get; set; }
         public int windowWidth { get; set; }
@@ -19,10 +15,6 @@ namespace MasterGame
         public bool IsFullscreen { get; set; }
         public ICommand quit { get; set; }
         public ICommand toggleFullscreen { get; set; }
-        public ICommand unanimatedUnmoving {  get; set; }
-        public ICommand animatedUnmoving { get; set; }
-        public ICommand movingVertically { get; set; }
-        public ICommand movingHorizontally { get; set; }
 
         // TODO: Loosen coupling. GraphicsDeviceManager should probably not be public, but ToggleFullscreenCommand still needs to be able to work.
         public GraphicsDeviceManager graphics;
@@ -48,10 +40,6 @@ namespace MasterGame
             // sets up commands
             quit = new QuitCommand();
             toggleFullscreen = new ToggleFullscreenCommand();
-            unanimatedUnmoving = new UnanimatedUnmovingCommand();
-            animatedUnmoving = new AnimatedUnmovingCommand();
-            movingVertically = new UnanimatedMovingVerticallyCommand();
-            movingHorizontally = new AnimatedMovingHorizontallyCommand();
         }
 
         // will later be changed to read in mouse control input
@@ -73,13 +61,6 @@ namespace MasterGame
 
             keyboard.RegisterCommand(Keys.F, toggleFullscreen);
 
-            keyboard.RegisterCommand(Keys.D1, unanimatedUnmoving);
-
-            keyboard.RegisterCommand(Keys.D2, animatedUnmoving);
-
-            keyboard.RegisterCommand(Keys.D3, movingVertically);
-
-            keyboard.RegisterCommand(Keys.D4, movingHorizontally);
         }
         protected override void Initialize()
         {
@@ -99,11 +80,6 @@ namespace MasterGame
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            Texture2D texture = Content.Load<Texture2D>("SmileyWalk");
-            unanimatedUnmovingSprite = new UnanimatedUnmovingSprite(texture, 4, 4);
-            animatedUnmovingSprite = new AnimatedUnmovingSprite(texture, 4, 4);
-            unanimatedMovingVerticallySprite = new UnanimatedMovingVerticallySprite(texture, 4, 4, new Vector2(350, 200));
-            animatedMovingHorizontallySprite = new AnimatedMovingHorizontallySprite(texture, 4, 4, new Vector2(350, 200));
             font = Content.Load<SpriteFont>("DefaultFont");
 
             // Load all sprite factory textures and sprites.
@@ -125,10 +101,6 @@ namespace MasterGame
             mouse.Update();
             keyboard.Update();
 
-            animatedUnmovingSprite.Update();
-            unanimatedMovingVerticallySprite.Update();
-            animatedMovingHorizontallySprite.Update();
-
             TestSprite.Update();
         }
 
@@ -136,12 +108,12 @@ namespace MasterGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            ICommand[] commands = { quit, unanimatedUnmoving, animatedUnmoving, movingVertically, movingHorizontally };
+            ICommand[] commands = { quit };
 
             base.Draw(gameTime);
 
             // draws the corresponding sprite given current game state
-            commands[state].Execute();
+            //commands[state].Execute();
 
             // always draws font
             gameFont.ControlDraw(spriteBatch, font);
