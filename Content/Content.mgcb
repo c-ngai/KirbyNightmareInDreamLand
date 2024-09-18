@@ -74,21 +74,6 @@
 /processorParam:TextureFormat=Color
 /build:Kirby/kirby_spark.png
 
-#begin KirbyUFO_1.csv
-/copy:KirbyUFO_1.csv
-
-#begin KirbyUFO.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:KirbyUFO.png
-
 #begin SmileyWalk.png
 /importer:TextureImporter
 /processor:TextureProcessor
