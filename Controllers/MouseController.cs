@@ -49,23 +49,23 @@ namespace MasterGame
             // determines command by quadrant and button click
             if (mouseState[quadrantIndex] == 1 && mouseState[leftClickIndex] == 1)
             {
-                Game1.self.unanimatedUnmoving.SetState();
+                //Game1.self.unanimatedUnmoving.SetState();
             }
             else if (mouseState[quadrantIndex] == 2 && mouseState[leftClickIndex] == 1)
             {
-                Game1.self.animatedUnmoving.SetState();
+                //Game1.self.animatedUnmoving.SetState();
             }
             else if (mouseState[quadrantIndex] == 3 && mouseState[leftClickIndex] == 1)
             {
-                Game1.self.movingVertically.SetState();
+                //Game1.self.movingVertically.SetState();
             }
             else if (mouseState[quadrantIndex] == 4 && mouseState[leftClickIndex] == 1)
             {
-                Game1.self.movingHorizontally.SetState();
+                //Game1.self.movingHorizontally.SetState();
             }
             else if (mouseState[rightClickIndex] == 1)
             {
-                Game1.self.quit.SetState();
+                //Game1.self.quit.SetState();
             }
 
         }
