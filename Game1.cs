@@ -12,7 +12,7 @@ namespace MasterGame
         public AnimatedUnmovingSprite animatedUnmovingSprite { get; set; }
         public UnanimatedMovingVerticallySprite unanimatedMovingVerticallySprite { get; set; }
         public AnimatedMovingHorizontallySprite animatedMovingHorizontallySprite { get; set; }
-        public AnimatedSpriteTest animatedSpriteTest { get; set; }
+        public Sprite TestSprite { get; set; }
         public int state { get; set; }
         public int windowWidth { get; set; }
         public int windowHeight { get; set; }
@@ -24,6 +24,7 @@ namespace MasterGame
         public ICommand movingVertically { get; set; }
         public ICommand movingHorizontally { get; set; }
 
+        // TODO: Loosen coupling. GraphicsDeviceManager should probably not be public, but ToggleFullscreenCommand still needs to be able to work.
         public GraphicsDeviceManager graphics;
         private GameFont gameFont;
         private SpriteFont font;
@@ -105,9 +106,11 @@ namespace MasterGame
             animatedMovingHorizontallySprite = new AnimatedMovingHorizontallySprite(texture, 4, 4, new Vector2(350, 200));
             font = Content.Load<SpriteFont>("DefaultFont");
 
-            Texture2D KirbyUFO = Content.Load<Texture2D>("KirbyUFO");
-            Sprite KirbyUFO_1 = new Sprite("Content/KirbyUFO_1.csv");
-            animatedSpriteTest = new AnimatedSpriteTest(KirbyUFO, KirbyUFO_1, new Vector2(350, 200));
+            // Load all sprite factory textures and sprites.
+            SpriteFactory.Instance.LoadAllTextures(Content);
+            SpriteFactory.Instance.LoadAllSprites();
+            // Create a test sprite (TEMPORARY)
+            TestSprite = SpriteFactory.Instance.createSprite("kirby_normal_walking");
         }
 
         protected override void UnloadContent()
@@ -118,12 +121,15 @@ namespace MasterGame
         protected override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
             mouse.Update();
             keyboard.Update();
+
             animatedUnmovingSprite.Update();
             unanimatedMovingVerticallySprite.Update();
             animatedMovingHorizontallySprite.Update();
-            animatedSpriteTest.Update();
+
+            TestSprite.Update();
         }
 
         protected override void Draw(GameTime gameTime)
@@ -140,8 +146,12 @@ namespace MasterGame
             // always draws font
             gameFont.ControlDraw(spriteBatch, font);
 
-            // TEST: draw Kirby UFO
-            animatedSpriteTest.Draw(spriteBatch, new Vector2(350, 200));
+            // Draw test sprite
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
+
+            TestSprite.Draw(spriteBatch, new Vector2(200, 200));
+
+            spriteBatch.End();
 
         }
     }
