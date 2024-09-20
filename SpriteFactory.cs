@@ -22,6 +22,7 @@ namespace MasterGame
         private Texture2D kirby_spark;
         private Texture2D kirby_fire;
 
+
         private static SpriteFactory instance = new SpriteFactory();
 
         public static SpriteFactory Instance
@@ -48,12 +49,14 @@ namespace MasterGame
             LoadTexture(content, kirby_beam, "kirby_beam", "Kirby/kirby_beam");
             LoadTexture(content, kirby_spark, "kirby_spark", "Kirby/kirby_spark");
             LoadTexture(content, kirby_fire, "kirby_fire", "Kirby/kirby_fire");
+
         }
 
         public void LoadAllSprites()
         {
             sprites.Add("kirby_normal_standing", "Content/Kirby/kirby_normal_standing.csv");
             sprites.Add("kirby_normal_walking", "Content/Kirby/kirby_normal_walking.csv");
+
         }
 
         // TODO: clean this up, it's super messy
