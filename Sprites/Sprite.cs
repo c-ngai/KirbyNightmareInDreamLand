@@ -91,20 +91,14 @@ namespace MasterGame
             // Scale by height
             float scale = windowHeight / gameHeight;
 
+            // Scale the position
+            position *= scale;
+            // Pull the frame center and source rectangle from data.
             Vector2 frameCenter = frameCenters[currentFrame];
             Rectangle sourceRectangle = frameSourceRectangles[currentFrame];
-            // Calculate the parameters of the destination rectangle - factoring in the frame's center for x and y, and the window's scale for all parameters.
-            int destX;
-            if (spriteEffects == SpriteEffects.FlipHorizontally)
-                destX = (int)(scale * (position.X + frameCenter.X - sourceRectangle.Width + 1) );
-            else
-                destX = (int)(scale * (position.X - frameCenter.X));
-            int destY = (int)( scale*(position.Y - frameCenter.Y) );
-            int destWidth = (int)(scale*sourceRectangle.Width);
-            int destHeight = (int)(scale *sourceRectangle.Height);
-            Rectangle destinationRectangle = new Rectangle(destX, destY, destWidth, destHeight);
 
-            spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White, 0, frameCenter, spriteEffects, 0);
+            // Draw the sprite to the spriteBatch.
+            spriteBatch.Draw(texture, position, sourceRectangle, Color.White, 0, frameCenter, scale, spriteEffects, 0);
         }
 
 

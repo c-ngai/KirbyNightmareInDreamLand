@@ -102,8 +102,8 @@ namespace MasterGame
             SpriteFactory.Instance.LoadAllTextures(Content);
             SpriteFactory.Instance.LoadAllSpriteAnimations();
             // Create a test sprite (TEMPORARY)
-            TestSprite1 = SpriteFactory.Instance.createSprite("kirby_normal_walking_left");
-            TestSprite2 = SpriteFactory.Instance.createSprite("kirby_normal_walking_right");
+            TestSprite1 = SpriteFactory.Instance.createSprite("kirby_normal_walking_right");
+            TestSprite2 = SpriteFactory.Instance.createSprite("tile_waterfall");
         }
 
         protected override void UnloadContent()
@@ -147,9 +147,11 @@ namespace MasterGame
             text = "GraphicsDevice.Viewport: (" + GraphicsDevice.Viewport.Width + ", " + GraphicsDevice.Viewport.Height + ")";
             spriteBatch.DrawString(font, text, new Vector2(10, 70), Color.Black);
 
+            float scale = windowHeight / gameHeight;
             // Draw test sprite
             TestSprite1.Draw(new Vector2(100, 100));
-            TestSprite2.Draw(new Vector2(100, 120));
+            TestSprite2.Draw(new Vector2(130, 92));
+            //TestSprite2.Draw(new Vector2((int)(Mouse.GetState().X/scale), (int)(Mouse.GetState().Y/scale)));
 
             // End spriteBatch
             spriteBatch.End();
