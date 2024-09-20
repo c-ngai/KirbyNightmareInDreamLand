@@ -76,7 +76,7 @@ namespace MasterGame
 
         public Sprite createSprite(string[] states)
         {
-             string spriteAnimationName = states[3] +"_" + states[2] +"_"+ states[1] ; //+"_"+states[0];
+             string spriteAnimationName = states[3] +"_" + states[2] +"_"+ states[1] +"_"+states[0];
             return new Sprite(spriteAnimations[spriteAnimationName]);
         }
 
