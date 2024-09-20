@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace MasterGame
 {
@@ -18,7 +19,6 @@ namespace MasterGame
 
         // TODO: Loosen coupling. GraphicsDeviceManager should probably not be public, but ToggleFullscreenCommand still needs to be able to work.
         public GraphicsDeviceManager graphics;
-        private GameFont gameFont;
         private SpriteFont font;
         private MouseController mouse;
         private KeyboardController keyboard;
@@ -30,11 +30,10 @@ namespace MasterGame
             mouse = new MouseController();
             keyboard = new KeyboardController();
             Content.RootDirectory = "Content";
-            gameFont = new GameFont();
             IsMouseVisible = true;
             state = 1;
-            windowWidth = 800;
-            windowHeight = 450;
+            windowWidth = 240;
+            windowHeight = 160;
             IsFullscreen = false;
 
             // sets up commands
@@ -67,8 +66,9 @@ namespace MasterGame
             // true = exclusive fullscreen, false = borderless fullscreen
             graphics.HardwareModeSwitch = true;
             graphics.IsFullScreen = IsFullscreen;
+            graphics.PreferredBackBufferWidth = 240;
+            graphics.PreferredBackBufferHeight = 160;
             graphics.ApplyChanges();
-
 
             base.Initialize();
             SetMouseControls(mouse);
@@ -84,7 +84,7 @@ namespace MasterGame
 
             // Load all sprite factory textures and sprites.
             SpriteFactory.Instance.LoadAllTextures(Content);
-            SpriteFactory.Instance.LoadAllSprites();
+            SpriteFactory.Instance.LoadAllSpriteAnimations();
             // Create a test sprite (TEMPORARY)
             TestSprite = SpriteFactory.Instance.createSprite("kirby_normal_walking");
         }
@@ -115,14 +115,24 @@ namespace MasterGame
             // draws the corresponding sprite given current game state
             //commands[state].Execute();
 
-            // always draws font
-            gameFont.ControlDraw(spriteBatch, font);
-
-            // Draw test sprite
+            // Start spriteBatch
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
 
-            TestSprite.Draw(spriteBatch, new Vector2(200, 200));
+            // Debug text: keeping track of resolutions
+            string text;
+            text = "GraphicsAdapter.DefaultAdapter.CurrentDisplayMode: (" + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width + ", " + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height + ")";
+            spriteBatch.DrawString(font, text, new Vector2(10, 10), Color.Black);
+            text = "graphics.PreferredBackBuffer______: (" + graphics.PreferredBackBufferWidth + ", " + graphics.PreferredBackBufferHeight + ")";
+            spriteBatch.DrawString(font, text, new Vector2(10, 30), Color.Black);
+            text = "GraphicsDevice.PresentationParameters: (" + GraphicsDevice.PresentationParameters.BackBufferWidth + ", " + GraphicsDevice.PresentationParameters.BackBufferHeight + ")";
+            spriteBatch.DrawString(font, text, new Vector2(10, 50), Color.Black);
+            text = "GraphicsDevice.Viewport: (" + GraphicsDevice.Viewport.Width + ", " + GraphicsDevice.Viewport.Height + ")";
+            spriteBatch.DrawString(font, text, new Vector2(10, 70), Color.Black);
 
+            // Draw test sprite
+            TestSprite.Draw(new Vector2(100, 100));
+
+            // End spriteBatch
             spriteBatch.End();
 
         }
