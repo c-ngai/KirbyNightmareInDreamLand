@@ -20,7 +20,7 @@
 /processorParam:TextureFormat=Compressed
 /build:DefaultFont.spritefont
 
-#begin Kirby/kirby_beam.png
+#begin Images/Sprites/Kirby/kirby_beam.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -30,9 +30,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Kirby/kirby_beam.png
+/build:Images/Sprites/Kirby/kirby_beam.png
 
-#begin Kirby/kirby_fire.png
+#begin Images/Sprites/Kirby/kirby_fire.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -42,15 +42,21 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Kirby/kirby_fire.png
+/build:Images/Sprites/Kirby/kirby_fire.png
 
-#begin Kirby/kirby_normal_standing.csv
-/copy:Kirby/kirby_normal_standing.csv
+#begin Images/Sprites/Kirby/kirby_normal_standing_left.csv
+/copy:Images/Sprites/Kirby/kirby_normal_standing_left.csv
 
-#begin Kirby/kirby_normal_walking.csv
-/copy:Kirby/kirby_normal_walking.csv
+#begin Images/Sprites/Kirby/kirby_normal_standing_right.csv
+/copy:Images/Sprites/Kirby/kirby_normal_standing_right.csv
 
-#begin Kirby/kirby_normal.png
+#begin Images/Sprites/Kirby/kirby_normal_walking_left.csv
+/copy:Images/Sprites/Kirby/kirby_normal_walking_left.csv
+
+#begin Images/Sprites/Kirby/kirby_normal_walking_right.csv
+/copy:Images/Sprites/Kirby/kirby_normal_walking_right.csv
+
+#begin Images/Sprites/Kirby/kirby_normal.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=0,219,255,255
@@ -60,9 +66,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Kirby/kirby_normal.png
+/build:Images/Sprites/Kirby/kirby_normal.png
 
-#begin Kirby/kirby_spark.png
+#begin Images/Sprites/Kirby/kirby_spark.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -72,5 +78,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Kirby/kirby_spark.png
+/build:Images/Sprites/Kirby/kirby_spark.png
 

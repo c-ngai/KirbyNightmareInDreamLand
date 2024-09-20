@@ -19,6 +19,8 @@ namespace MasterGame
         public Texture2D texture { get; set; }
         // The frame number to loop back to after reaching the end.
         public int loopPoint { get; set; }
+        // The sprite effects. Simply holds a flag of whether or not to horizontally flip the texture.
+        public SpriteEffects spriteEffects { get; set; }
         // List of frame source rectangles. Composed of positions imported from animation spreadsheet file.
         public List<Rectangle> frameSourceRectangles { get; set; }
         // List of frame centers, as Vectors.
@@ -61,11 +63,16 @@ namespace MasterGame
             texture = textures[TextureName];
             // Find loop point from spreadsheet header.
             loopPoint = int.Parse(spreadsheet[1][1]);
+            // Find the flip flag and set the spriteEffect enum accordingly.
+            if (spreadsheet[2][1].Equals("TRUE"))
+                spriteEffects = SpriteEffects.FlipHorizontally;
+            else
+                spriteEffects = SpriteEffects.None;
             // Set the total frame count.
-            frameCount = rows.Count - 3;
+            frameCount = rows.Count - 4;
 
             // For each row in the table, separate it into columns by commas
-            for (int i = 3; i < rows.Count; i++)
+            for (int i = 4; i < rows.Count; i++)
             {
                 // Pull data from each column of the current frame's row in the spreadsheet.
                 int frameX = int.Parse(spreadsheet[i][0]);

@@ -50,16 +50,18 @@ namespace MasterGame
 
         public void LoadAllTextures(ContentManager content)
         {
-            LoadTexture(content, kirby_normal, "kirby_normal", "Kirby/kirby_normal");
-            LoadTexture(content, kirby_beam, "kirby_beam", "Kirby/kirby_beam");
-            LoadTexture(content, kirby_spark, "kirby_spark", "Kirby/kirby_spark");
-            LoadTexture(content, kirby_fire, "kirby_fire", "Kirby/kirby_fire");
+            LoadTexture(content, kirby_normal, "kirby_normal", "Images/Sprites/Kirby/kirby_normal");
+            LoadTexture(content, kirby_beam, "kirby_beam", "Images/Sprites/Kirby/kirby_beam");
+            LoadTexture(content, kirby_spark, "kirby_spark", "Images/Sprites/Kirby/kirby_spark");
+            LoadTexture(content, kirby_fire, "kirby_fire", "Images/Sprites/Kirby/kirby_fire");
         }
 
         public void LoadAllSpriteAnimations()
         {
-            LoadSpriteAnimation("kirby_normal_standing", "Content/Kirby/kirby_normal_standing.csv");
-            LoadSpriteAnimation("kirby_normal_walking", "Content/Kirby/kirby_normal_walking.csv");
+            LoadSpriteAnimation("kirby_normal_standing_left", "Content/Images/Sprites/Kirby/kirby_normal_standing_left.csv");
+            LoadSpriteAnimation("kirby_normal_standing_right", "Content/Images/Sprites/Kirby/kirby_normal_standing_right.csv");
+            LoadSpriteAnimation("kirby_normal_walking_left", "Content/Images/Sprites/Kirby/kirby_normal_walking_left.csv");
+            LoadSpriteAnimation("kirby_normal_walking_right", "Content/Images/Sprites/Kirby/kirby_normal_walking_right.csv");
         }
 
         public Sprite createSprite(string SpriteAnimationName)

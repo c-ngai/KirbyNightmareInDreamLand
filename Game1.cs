@@ -9,8 +9,9 @@ namespace MasterGame
     {
         public static Game1 self { get; set; }
         public SpriteBatch spriteBatch { get; set; }
-        public Sprite TestSprite { get; set; }
         public int state { get; set; }
+        public int gameWidth { get; set; }
+        public int gameHeight { get; set; }
         public int windowWidth { get; set; }
         public int windowHeight { get; set; }
         public bool IsFullscreen { get; set; }
@@ -23,6 +24,10 @@ namespace MasterGame
         private MouseController mouse;
         private KeyboardController keyboard;
 
+        // Test sprites
+        public Sprite TestSprite1 { get; set; }
+        public Sprite TestSprite2 { get; set; }
+
         public Game1()
         {
             self = this;
@@ -32,8 +37,10 @@ namespace MasterGame
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             state = 1;
-            windowWidth = 240;
-            windowHeight = 160;
+            gameWidth = 240;
+            gameHeight = 160;
+            windowWidth = 720;
+            windowHeight = 480;
             IsFullscreen = false;
 
             // sets up commands
@@ -66,8 +73,8 @@ namespace MasterGame
             // true = exclusive fullscreen, false = borderless fullscreen
             graphics.HardwareModeSwitch = true;
             graphics.IsFullScreen = IsFullscreen;
-            graphics.PreferredBackBufferWidth = 240;
-            graphics.PreferredBackBufferHeight = 160;
+            graphics.PreferredBackBufferWidth = windowWidth;
+            graphics.PreferredBackBufferHeight = windowHeight;
             graphics.ApplyChanges();
 
             base.Initialize();
@@ -86,7 +93,8 @@ namespace MasterGame
             SpriteFactory.Instance.LoadAllTextures(Content);
             SpriteFactory.Instance.LoadAllSpriteAnimations();
             // Create a test sprite (TEMPORARY)
-            TestSprite = SpriteFactory.Instance.createSprite("kirby_normal_walking");
+            TestSprite1 = SpriteFactory.Instance.createSprite("kirby_normal_walking_left");
+            TestSprite2 = SpriteFactory.Instance.createSprite("kirby_normal_walking_right");
         }
 
         protected override void UnloadContent()
@@ -101,7 +109,8 @@ namespace MasterGame
             mouse.Update();
             keyboard.Update();
 
-            TestSprite.Update();
+            TestSprite1.Update();
+            TestSprite2.Update();
         }
 
         protected override void Draw(GameTime gameTime)
@@ -130,7 +139,8 @@ namespace MasterGame
             spriteBatch.DrawString(font, text, new Vector2(10, 70), Color.Black);
 
             // Draw test sprite
-            TestSprite.Draw(new Vector2(100, 100));
+            TestSprite1.Draw(new Vector2(100, 100));
+            TestSprite2.Draw(new Vector2(100, 120));
 
             // End spriteBatch
             spriteBatch.End();
