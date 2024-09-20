@@ -1,17 +1,18 @@
-﻿namespace MasterGame
+﻿using Microsoft.Xna.Framework;
+
+namespace MasterGame
 {
     public class QuitCommand : ICommand
     {
-        public QuitCommand(){}
-
-        public void SetState() 
+        private Game1 myGame;
+        public QuitCommand(Game1 game)
         {
-            Game1.self.state = 0;
+            myGame = game;
         }
 
         public void Execute()
         {
-            Game1.self.Exit();
+            myGame.Exit();
         }
     }
 }

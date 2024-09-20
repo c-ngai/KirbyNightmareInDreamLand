@@ -6,16 +6,16 @@ namespace MasterGame
     public class PlayerMovement
     {
         private GraphicsDevice graphicsDevice;
-        var viewHeight = graphicsDevice.Viewport.Height;
-        var viewWidth = graphicsDevice.Viewport.Width;
+        //var viewHeight = graphicsDevice.Viewport.Height;
+        //var viewWidth = graphicsDevice.Viewport.Width;
 
-        int floor = viewHeight * (2/3);
+        int floor = 200;
         //light hard coded physics
         //seperate movement and state 
-        int yVel = 0
-        int jumpVel = 10;
-        int xVel = 10;
-        int gravity = -10;
+        double yVel = 0;
+        double jumpVel = 10;
+        double xVel = 10;
+        double gravity = -10;
         double frameRate = (1.0/60.0);
 
         //change kirby velocity to go left
@@ -43,10 +43,12 @@ namespace MasterGame
         }
 
         //update kirby position in UI
-        public void UpdatePosition()
+        public void UpdatePosition(Player kirby)
         {
-            position.X += xVel;
-            position.Y += yVel * frameRate + .5* gravity * frameRate * frameRate;
+            float y = kirby.GetYPos();
+            float newY =(float) (yVel * frameRate + .5 * gravity * frameRate * frameRate + y);
+            kirby.SetXPos(kirby.GetXPos() + (float)xVel);
+            kirby.SetYPos(newY);
             yVel += gravity *frameRate;
         }
         // checks palyer doesnt go out of frame (up and down)
@@ -55,34 +57,34 @@ namespace MasterGame
 
         }
 
-        public void AdjustY()
+        public void AdjustY(Player kirby)
         {
             //dont go through the floor
-            if(position.Y > floor)
+            if(kirby.position.Y > floor)
             {
                 yVel = 0;
-                position.Y = floor;
+                //kirby.position.Y = (float) floor;
             }
 
             //dont go through the ceiling
-            if(position.Y < 0)
+            if(kirby.GetYPos() < 0)
             {
                 yVel = 0;
-                position.Y = 0 + 10;
+                //kirby.position.Y = 0 + 10;
             }
 
         }
 
-        public void Adjust()
+        public void Adjust(Player kirby)
         {
             AdjustX();
-            AdjustY();
+            AdjustY(kirby);
         }
         //updates position and adjusts frame. 
-        public void MovePlayer()
+        public void MovePlayer(Player kirby)
         {
-            UpdatePosition();
-            Adjust();
+            UpdatePosition(kirby);
+            Adjust(kirby);
         }
     }
 }
