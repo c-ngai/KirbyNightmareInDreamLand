@@ -23,6 +23,8 @@ namespace MasterGame
         private MouseController mouse;
         private KeyboardController keyboard;
 
+        // get kirby 
+        
         public Game1()
         {
             self = this;
