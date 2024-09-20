@@ -2,10 +2,15 @@
 {
     public class EnemyStateMachine : IEnemyStateMachine
     {
-        private bool facingLeft = false;
-        // Needs to be initialized by each enemy class
+        private bool facingLeft;
         private EnemyType type;
         private EnemyPose pose;
+        public EnemyStateMachine(EnemyType newType)
+        {
+            facingLeft = false;
+            type = newType;
+            pose = EnemyPose.Walking;
+        }
         #region Direction
         public void ChangeDirection()
         {
@@ -32,11 +37,6 @@
         public void ChangeType(EnemyType newType)
         {
             type = newType;
-        }
-
-        public EnemyType GetEnemyType()
-        {
-            return type;
         }
         #endregion Type
 

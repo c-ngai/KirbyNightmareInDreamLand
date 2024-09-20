@@ -6,7 +6,7 @@ namespace MasterGame
     {
         public ToggleFullscreenCommand() { }
 
-        public void SetState()
+        public void Execute()
         {
             //Game1.self.graphics.ToggleFullScreen();
 
@@ -16,11 +16,6 @@ namespace MasterGame
             //Game1.self.graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 2;
             //Game1.self.graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 2;
             //Game1.self.graphics.ApplyChanges();
-        }
-
-        public void Execute()
-        {
-            Game1.self.Exit();
         }
     }
 }
