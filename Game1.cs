@@ -58,7 +58,7 @@ namespace MasterGame
         {
             keyboard.RegisterCommand(Keys.D0, quit);
 
-            keyboard.RegisterCommand(Keys.F, toggleFullscreen);
+            //keyboard.RegisterCommand(Keys.F, toggleFullscreen);
 
         }
         protected override void Initialize()
