@@ -15,7 +15,7 @@ namespace MasterGame
         private static Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
 
         // Dictionary from string to string. For easily retrieving a sprite filepath by name.
-        private static Dictionary<string, string> sprites = new Dictionary<string, string>();
+        private static Dictionary<string, SpriteAnimation> spriteAnimations = new Dictionary<string, SpriteAnimation>();
 
         private Texture2D kirby_normal;
         private Texture2D kirby_beam;
@@ -42,6 +42,12 @@ namespace MasterGame
             textures.Add(TextureName, texture);
         }
 
+        private void LoadSpriteAnimation(string SpriteAnimationName, string SpriteAnimationFilepath)
+        {
+            SpriteAnimation spriteAnimation = new SpriteAnimation(SpriteAnimationFilepath, textures);
+            spriteAnimations.Add(SpriteAnimationName, spriteAnimation);
+        }
+
         public void LoadAllTextures(ContentManager content)
         {
             LoadTexture(content, kirby_normal, "kirby_normal", "Kirby/kirby_normal");
@@ -50,16 +56,15 @@ namespace MasterGame
             LoadTexture(content, kirby_fire, "kirby_fire", "Kirby/kirby_fire");
         }
 
-        public void LoadAllSprites()
+        public void LoadAllSpriteAnimations()
         {
-            sprites.Add("kirby_normal_standing", "Content/Kirby/kirby_normal_standing.csv");
-            sprites.Add("kirby_normal_walking", "Content/Kirby/kirby_normal_walking.csv");
+            LoadSpriteAnimation("kirby_normal_standing", "Content/Kirby/kirby_normal_standing.csv");
+            LoadSpriteAnimation("kirby_normal_walking", "Content/Kirby/kirby_normal_walking.csv");
         }
 
-        // TODO: clean this up, it's super messy
-        public Sprite createSprite(string SpriteName)
+        public Sprite createSprite(string SpriteAnimationName)
         {
-            return new Sprite(sprites[SpriteName], textures);
+            return new Sprite(spriteAnimations[SpriteAnimationName]);
         }
 
     }
