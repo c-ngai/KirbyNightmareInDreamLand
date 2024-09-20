@@ -1,8 +1,14 @@
+using Microsoft.Xna.Framework;
+
 namespace MasterGame
 {
     public class Player{
 
         public PlayerStateMachine state;
+        public static int maxHealth = 6;
+        private int health = maxHealth;
+        private int lives = 5;
+        private Vector2 position;
 
         public Player()
         {
