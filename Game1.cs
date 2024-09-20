@@ -100,11 +100,10 @@ namespace MasterGame
             SpriteFactory.Instance.LoadAllTextures(Content);
             SpriteFactory.Instance.LoadAllSpriteAnimations();
             // Create a test sprite (TEMPORARY)
-            //TestSprite1 = SpriteFactory.Instance.createSprite("kirby_normal_walking_left");
-            //TestSprite2 = SpriteFactory.Instance.createSprite("kirby_normal_walking_right");
+            TestSprite1 = SpriteFactory.Instance.createSprite("kirby_normal_walking_right");
+            TestSprite2 = SpriteFactory.Instance.createSprite("tile_waterfall");
             kirby.UpdateTexture();
-
-            toggleFullscreen = new ToggleFullscreenCommand();
+            //toggleFullscreen = new ToggleFullscreenCommand();
         }
 
         protected override void UnloadContent()
@@ -150,9 +149,10 @@ namespace MasterGame
             text = "GraphicsDevice.Viewport: (" + GraphicsDevice.Viewport.Width + ", " + GraphicsDevice.Viewport.Height + ")";
             spriteBatch.DrawString(font, text, new Vector2(10, 70), Color.Black);
 
+            float scale = windowHeight / gameHeight;
             // Draw test sprite
-            //TestSprite1.Draw(new Vector2(100, 100));
-            //TestSprite2.Draw(new Vector2(100, 120));
+            TestSprite1.Draw(new Vector2(100, 100));
+            TestSprite2.Draw(new Vector2(130, 92));
 
             kirby.Draw();
             // End spriteBatch

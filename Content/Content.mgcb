@@ -80,3 +80,54 @@
 /processorParam:TextureFormat=Color
 /build:Images/Sprites/Kirby/kirby_spark.png
 
+#begin Images/Tiles/Sprint2Tileset.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Tiles/Sprint2Tileset.png
+
+#begin Images/Tiles/tile_dirt.csv
+/copy:Images/Tiles/tile_dirt.csv
+
+#begin Images/Tiles/tile_grass.csv
+/copy:Images/Tiles/tile_grass.csv
+
+#begin Images/Tiles/tile_platform.csv
+/copy:Images/Tiles/tile_platform.csv
+
+#begin Images/Tiles/tile_rock.csv
+/copy:Images/Tiles/tile_rock.csv
+
+#begin Images/Tiles/tile_rocksurface.csv
+/copy:Images/Tiles/tile_rocksurface.csv
+
+#begin Images/Tiles/tile_slope_gentle1_left.csv
+/copy:Images/Tiles/tile_slope_gentle1_left.csv
+
+#begin Images/Tiles/tile_slope_gentle1_right.csv
+/copy:Images/Tiles/tile_slope_gentle1_right.csv
+
+#begin Images/Tiles/tile_slope_gentle2_left.csv
+/copy:Images/Tiles/tile_slope_gentle2_left.csv
+
+#begin Images/Tiles/tile_slope_gentle2_right.csv
+/copy:Images/Tiles/tile_slope_gentle2_right.csv
+
+#begin Images/Tiles/tile_slope_steep_left.csv
+/copy:Images/Tiles/tile_slope_steep_left.csv
+
+#begin Images/Tiles/tile_slope_steep_right.csv
+/copy:Images/Tiles/tile_slope_steep_right.csv
+
+#begin Images/Tiles/tile_stoneblock.csv
+/copy:Images/Tiles/tile_stoneblock.csv
+
+#begin Images/Tiles/tile_waterfall.csv
+/copy:Images/Tiles/tile_waterfall.csv
+

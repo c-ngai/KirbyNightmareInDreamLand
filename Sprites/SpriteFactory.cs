@@ -21,6 +21,7 @@ namespace MasterGame
         private Texture2D kirby_beam;
         private Texture2D kirby_spark;
         private Texture2D kirby_fire;
+        private Texture2D Sprint2Tileset;
 
         private static SpriteFactory instance = new SpriteFactory();
 
@@ -54,6 +55,7 @@ namespace MasterGame
             LoadTexture(content, kirby_beam, "kirby_beam", "Images/Sprites/Kirby/kirby_beam");
             LoadTexture(content, kirby_spark, "kirby_spark", "Images/Sprites/Kirby/kirby_spark");
             LoadTexture(content, kirby_fire, "kirby_fire", "Images/Sprites/Kirby/kirby_fire");
+            LoadTexture(content, Sprint2Tileset, "Sprint2Tileset", "Images/Tiles/Sprint2Tileset");
         }
 
         public void LoadAllSpriteAnimations()
@@ -62,6 +64,20 @@ namespace MasterGame
             LoadSpriteAnimation("kirby_normal_standing_right", "Content/Images/Sprites/Kirby/kirby_normal_standing_right.csv");
             LoadSpriteAnimation("kirby_normal_walking_left", "Content/Images/Sprites/Kirby/kirby_normal_walking_left.csv");
             LoadSpriteAnimation("kirby_normal_walking_right", "Content/Images/Sprites/Kirby/kirby_normal_walking_right.csv");
+
+            LoadSpriteAnimation("tile_grass", "Content/Images/Tiles/tile_grass.csv");
+            LoadSpriteAnimation("tile_dirt", "Content/Images/Tiles/tile_dirt.csv");
+            LoadSpriteAnimation("tile_rocksurface", "Content/Images/Tiles/tile_rocksurface.csv");
+            LoadSpriteAnimation("tile_rock", "Content/Images/Tiles/tile_rock.csv");
+            LoadSpriteAnimation("tile_platform", "Content/Images/Tiles/tile_platform.csv");
+            LoadSpriteAnimation("tile_stoneblock", "Content/Images/Tiles/tile_stoneblock.csv");
+            LoadSpriteAnimation("tile_slope_steep_left", "Content/Images/Tiles/tile_slope_steep_left.csv");
+            LoadSpriteAnimation("tile_slope_gentle1_left", "Content/Images/Tiles/tile_slope_gentle1_left.csv");
+            LoadSpriteAnimation("tile_slope_gentle2_left", "Content/Images/Tiles/tile_slope_gentle2_left.csv");
+            LoadSpriteAnimation("tile_slope_gentle2_right", "Content/Images/Tiles/tile_slope_gentle2_right.csv");
+            LoadSpriteAnimation("tile_slope_gentle1_right", "Content/Images/Tiles/tile_slope_gentle1_right.csv");
+            LoadSpriteAnimation("tile_slope_steep_right", "Content/Images/Tiles/tile_slope_steep_right.csv");
+            LoadSpriteAnimation("tile_waterfall", "Content/Images/Tiles/tile_waterfall.csv");
         }
 
         public Sprite createSprite(string spriteAnimationName)
