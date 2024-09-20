@@ -1,19 +1,45 @@
 using Microsoft.Xna.Framework;
+using System.Runtime.InteropServices;
 
 namespace MasterGame
 {
-    public class Player{
+    public class Player : IPlayer
+    {
         public PlayerStateMachine state;
+        public PlayerMovement movement;
         public static int maxHealth = 6;
         private int health = maxHealth;
         private int lives = 5;
-        private Vector2 position;
+        public Vector2 position;
 
         //constructor
         public Player(Vector2 pos)
         {
             state = new PlayerStateMachine();
+            movement = new PlayerMovement();
             position = pos;
+        }
+
+        public void setDirection()
+        {
+
+        }
+        public float GetXPos()
+        {
+            return position.X;
+        }
+        public float GetYPos()
+        {
+            return position.Y;
+        }
+
+        public void SetXPos(float newX)
+        {
+            position.X = newX;
+        }
+        public void SetYPos(float newY)
+        {
+            position.Y = newY;
         }
 
         public void SetDirectionLeft()
@@ -27,25 +53,25 @@ namespace MasterGame
         //calls state machine to drecease health
         public void TakeDamage()
         {
-            state.TakeDamage();
+            state.ChangePose(KirbyPose.Hurt);
         }
         //calls state machine to attack
         public void Attack()
         {
-            state.Attack();
+            state.ChangePose(KirbyPose.Attacking);
         }
 
         #region Movement
         public void MoveLeft()
         {
             state.SetDirectionLeft();
-            PlayerMovement.MovePlayer();
+            movement.MovePlayer(this);
         }
 
         public void MoveRight()
         {
             state.SetDirectionRight();
-            PlayerMovement.MovePlayer();
+            movement.MovePlayer(this);
         }
 
         public void RunLeft()
@@ -61,8 +87,8 @@ namespace MasterGame
         // makes state changes by calling other player methods, calls state.Update(), and finally calls Draw last?
         public void Update()
         {
-            state.Update();
-            PlayerMovement.Update();
+            //state.Update();
+            movement.MovePlayer(this);
         }
         public void Draw()
         {

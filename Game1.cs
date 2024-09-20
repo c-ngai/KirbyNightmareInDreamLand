@@ -41,7 +41,8 @@ namespace MasterGame
             IsFullscreen = false;
 
             // sets up commands
-            IPlayer kirby = new Player();
+            Vector2 startingLocation = new Vector2(200, 10);
+            Player kirby = new Player(startingLocation);
             quit = new QuitCommand(this);
             toggleFullscreen = new ToggleFullscreenCommand();
             kirbyMoveRight = new KirbyMoveRightCommand(kirby);
@@ -116,12 +117,12 @@ namespace MasterGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            ICommand[] commands = { quit };
+            ICommand[] commands = { quit, kirbyMoveRight };
 
             base.Draw(gameTime);
 
             // draws the corresponding sprite given current game state
-            //commands[state].Execute();
+            commands[state].Execute();
 
             // Start spriteBatch
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);

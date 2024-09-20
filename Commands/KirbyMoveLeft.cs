@@ -8,6 +8,11 @@
         {
             kirby = newPlayer;
         }
+
+        public void SetState()
+        {
+
+        }
         public void Execute()
         {
             //kirby.MoveLeft();
