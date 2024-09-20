@@ -10,7 +10,11 @@ namespace MasterGame
         //private ISprite sprite;
         public void TakeDamage()
         {
-             
+             //hp goes down
+
+            //if hp = 0, die animation
+            //turn invisable/blank sprite
+            //flag as dead?
         }
         public void Attack()
         {
