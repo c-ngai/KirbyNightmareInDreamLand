@@ -30,6 +30,7 @@ namespace MasterGame
         public Sprite TestSprite1 { get; set; }
         public Sprite TestSprite2 { get; set; }
 
+        public Player kirby;
         // get kirby 
         
         public Game1()
@@ -49,7 +50,7 @@ namespace MasterGame
 
             // sets up commands
             Vector2 startingLocation = new Vector2(200, 10);
-            Player kirby = new Player(startingLocation);
+            kirby = new Player(startingLocation);
             quit = new QuitCommand(this);
             toggleFullscreen = new ToggleFullscreenCommand();
             kirbyMoveRight = new KirbyMoveRightCommand(kirby);
@@ -120,6 +121,8 @@ namespace MasterGame
 
             TestSprite1.Update();
             TestSprite2.Update();
+            kirby.Update(); 
+            //TestSprite.Update();
         }
 
         protected override void Draw(GameTime gameTime)
@@ -151,6 +154,8 @@ namespace MasterGame
             TestSprite1.Draw(new Vector2(100, 100));
             TestSprite2.Draw(new Vector2(100, 120));
 
+            //TestSprite.Draw(new Vector2(100, 100));
+            kirby.Draw(spriteBatch);
             // End spriteBatch
             spriteBatch.End();
 

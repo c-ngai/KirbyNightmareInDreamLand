@@ -40,20 +40,30 @@
         }
         #endregion Type
 
-        public int[] GetSpriteParameters()
-        {
+        // public int[] GetSpriteParameters()
+        // {
 
-            int[] spriteParameters = new int[3];
-            if (facingLeft)
-            {
-                spriteParameters[0] = 1;
-            }
-            else
-            {
-                spriteParameters[0] = 0;
-            }
-            spriteParameters[1] = (int)pose;
-            spriteParameters[2] = (int)type;
+        //     int[] spriteParameters = new int[3];
+        //     if (facingLeft)
+        //     {
+        //         spriteParameters[0] = 1;
+        //     }
+        //     else
+        //     {
+        //         spriteParameters[0] = 0;
+        //     }
+        //     spriteParameters[1] = (int)pose;
+        //     spriteParameters[2] = (int)type;
+        //     return spriteParameters;
+        // }
+
+        public string[] GetSpriteParameters()
+        {
+            string[] spriteParameters = new string[4];
+            spriteParameters[0] = facingLeft ? "left":"right";
+            spriteParameters[1] = pose.ToString().ToLower();
+            spriteParameters[2] = type.ToString().ToLower();
+            spriteParameters[3] = "kirby";
             return spriteParameters;
         }
     }

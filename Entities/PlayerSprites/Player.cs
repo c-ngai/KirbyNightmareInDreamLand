@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Runtime.InteropServices;
 
 namespace MasterGame
@@ -7,16 +8,19 @@ namespace MasterGame
     {
         public PlayerStateMachine state;
         public PlayerMovement movement;
+        public SpriteFactory factory;
         public static int maxHealth = 6;
         private int health = maxHealth;
         private int lives = 5;
         public Vector2 position;
+        public Sprite TestSprite { get; set; }
 
         //constructor
         public Player(Vector2 pos)
         {
             state = new PlayerStateMachine();
             movement = new PlayerMovement();
+            factory = new SpriteFactory();
             position = pos;
         }
 
@@ -85,15 +89,20 @@ namespace MasterGame
         
         #endregion
         // makes state changes by calling other player methods, calls state.Update(), and finally calls Draw last?
+        public void UpdateTexture()
+        {
+            TestSprite = factory.createSprite(state.GetSpriteParameters());
+        }
         public void Update()
         {
             //state.Update();
+            UpdateTexture();
             movement.MovePlayer(this);
         }
-        public void Draw()
+        public void Draw(SpriteBatch spriteBatch)
         {
-            
-        }
+            TestSprite.Draw(this.position);
+        }   
     }
 }
 
