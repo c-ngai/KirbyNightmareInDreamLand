@@ -10,6 +10,7 @@ namespace MasterGame
         public static Game1 self { get; set; }
         public SpriteBatch spriteBatch { get; set; }
         public Sprite TestSprite { get; set; }
+        public IEntity WaddleDee { get; set; }
         public int state { get; set; }
         public int windowWidth { get; set; }
         public int windowHeight { get; set; }
@@ -87,6 +88,8 @@ namespace MasterGame
             SpriteFactory.Instance.LoadAllSpriteAnimations();
             // Create a test sprite (TEMPORARY)
             TestSprite = SpriteFactory.Instance.createSprite("kirby_normal_walking");
+
+            WaddleDee = new WaddleDee(new Vector2(100, 130));
         }
 
         protected override void UnloadContent()
@@ -102,6 +105,7 @@ namespace MasterGame
             keyboard.Update();
 
             TestSprite.Update();
+            //WaddleDee.Update();
         }
 
         protected override void Draw(GameTime gameTime)
@@ -131,6 +135,7 @@ namespace MasterGame
 
             // Draw test sprite
             TestSprite.Draw(new Vector2(100, 100));
+            WaddleDee.Draw();
 
             // End spriteBatch
             spriteBatch.End();

@@ -3,6 +3,5 @@
     public interface IEnemy : IEntity
     {
         void ChangeDirection();
-
     }
 }
