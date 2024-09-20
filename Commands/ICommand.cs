@@ -2,7 +2,6 @@
 {
     public interface ICommand
     {
-        void SetState();
         void Execute();
     }
 }

@@ -3,9 +3,17 @@ namespace MasterGame
     public class PlayerStateMachine : IPlayerStateMachine
     {
         // default is facing right
-        private bool facingLeft = false;
-        private KirbyPose pose = KirbyPose.Standing;
-        private KirbyType type = KirbyType.Normal;
+        private bool facingLeft;
+        private KirbyPose pose;
+        private KirbyType type;
+
+        public PlayerStateMachine()
+        {
+            facingLeft = false;
+            pose = KirbyPose.Standing;
+            type = KirbyType.Normal;
+
+        }
 
         #region Direction
         public void SetDirectionRight()

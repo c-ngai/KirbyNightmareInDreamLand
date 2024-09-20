@@ -7,7 +7,5 @@
         public void ChangeDirection();
         public void ChangePose(EnemyPose pose);
         public EnemyPose GetPose();
-        public void ChangeType(EnemyType enemy);
-        public EnemyType GetEnemyType();
     }
 }
