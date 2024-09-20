@@ -6,43 +6,49 @@ using System.Collections.Generic;
 
 namespace MasterGame
 {
-    public interface ISprite
+    public interface ISpriteAnimation
     {
-        public void Update();
-        public void Draw(SpriteBatch spriteBatch, Vector2 position);
+
     }
 
-    public class Sprite : ISprite
+    public class SpriteAnimation : ISpriteAnimation
     {
 
+
         // The spritesheet used.
-        private Texture2D texture;
+        public Texture2D texture { get; set; }
         // The frame number to loop back to after reaching the end.
-        private int loopPoint;
+        public int loopPoint { get; set; }
+        // The sprite effects. Simply holds a flag of whether or not to horizontally flip the texture.
+        public SpriteEffects spriteEffects { get; set; }
         // List of frame source rectangles. Composed of positions imported from animation spreadsheet file.
-        private List<Rectangle> frameSourceRectangles;
+        public List<Rectangle> frameSourceRectangles { get; set; }
         // List of frame centers, as Vectors.
-        private List<Vector2> frameCenters;
+        public List<Vector2> frameCenters { get; set; }
         // List of frame durations, in game cycles.
-        private List<int> frameTimes;
+        public List<int> frameTimes { get; set; }
         // The number of frames in the animation.
-        private int frameCount;
+        public int frameCount { get; set; }
 
-        // The current frame of the animation.
-        private int currentFrame;
-        // The current number of game ticks since last frame advance.
-        private int tickCounter;
 
-        /* Creates a new animation object from an animation file. Imports animation
-         * data from a .csv file into the Animation object. */
-        public Sprite(string SpriteFilepath, Dictionary<string, Texture2D> textures)
+
+        /* Creates a new sprite animation object from a sprite animation file. */
+        public SpriteAnimation(string SpriteFilepath, Dictionary<string, Texture2D> textures)
         {
-            currentFrame = 0;
-            tickCounter = 0;
+
             frameSourceRectangles = new List<Rectangle>();
             frameCenters = new List<Vector2>();
             frameTimes = new List<int>();
 
+            ImportAnimationFile(SpriteFilepath, textures);
+            
+        }
+
+
+
+        // Imports animation data from a .csv file into the proper fields of this object.
+        private void ImportAnimationFile(string SpriteFilepath, Dictionary<string, Texture2D> textures)
+        {
             // Read spreadsheet rows into list of strings.
             List<string> rows = new(File.ReadLines(SpriteFilepath));
             // Read spreadsheet into 2D array of strings.
@@ -51,17 +57,22 @@ namespace MasterGame
             {
                 spreadsheet[i] = rows[i].Split(',');
             }
-            
+
             // Find the source texture from spreadsheet header.
             string TextureName = spreadsheet[0][1];
             texture = textures[TextureName];
             // Find loop point from spreadsheet header.
             loopPoint = int.Parse(spreadsheet[1][1]);
+            // Find the flip flag and set the spriteEffect enum accordingly.
+            if (spreadsheet[2][1].Equals("TRUE"))
+                spriteEffects = SpriteEffects.FlipHorizontally;
+            else
+                spriteEffects = SpriteEffects.None;
             // Set the total frame count.
-            frameCount = rows.Count - 3;
+            frameCount = rows.Count - 4;
 
             // For each row in the table, separate it into columns by commas
-            for (int i = 3; i < rows.Count; i++)
+            for (int i = 4; i < rows.Count; i++)
             {
                 // Pull data from each column of the current frame's row in the spreadsheet.
                 int frameX = int.Parse(spreadsheet[i][0]);
@@ -78,44 +89,9 @@ namespace MasterGame
                 // Add the frame time to its list.
                 frameTimes.Add(int.Parse(spreadsheet[i][6]));
             }
-
         }
 
-        // Updates the animation for the game tick.
-        public void Update()
-        {
-            // Advance the tick counter. If it's reached the frame time of the current frame, advance the frame and reset the tick counter.
-            tickCounter++;
-            if (tickCounter == frameTimes[currentFrame])
-            {
-                tickCounter = 0;
-                currentFrame++;
-                // If the current frame has hit the end, cycle back to the loop point.
-                if (currentFrame == frameCount)
-                {
-                    currentFrame = loopPoint;
-                }
-            }
-        }
 
-        // TODO: stuff
-        public void Draw(SpriteBatch spriteBatch, Vector2 position)
-        {
-            Vector2 frameCenter = frameCenters[currentFrame];
-            Rectangle sourceRectangle = frameSourceRectangles[currentFrame];
-            int destX = (int)(position.X - frameCenter.X);
-            int destY = (int)(position.Y - frameCenter.Y);
-            Rectangle destinationRectangle = new Rectangle(destX, destY, sourceRectangle.Width, sourceRectangle.Height);
-
-            spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White);
-        }
-
-        // Resets the animation to the start. Should be desirable to call any time an entity's sprite is switched.
-        public void ResetAnimation()
-        {
-            currentFrame = 0;
-            tickCounter = 0;
-        }
 
     }
 }
