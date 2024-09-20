@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MasterGame
 {
@@ -20,7 +21,7 @@ namespace MasterGame
         {
 
         }
-        public void Draw()
+        public void Draw(SpriteBatch spriteBatch)
         {
 
         }
