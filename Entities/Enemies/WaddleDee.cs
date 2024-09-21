@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace MasterGame
 {
@@ -7,33 +6,37 @@ namespace MasterGame
     {
         private Vector2 position;
         private int health;
-        private int damage;
-        private ISprite sprite;
-        private IEnemyStateMachine stateMachine;
         private bool isDead;
-
-        private Vector2 leftBoundary = new Vector2(100, 100);
-        private Vector2 rightBoundary = new Vector2(300, 100);
+        private Sprite enemySprite;
+        private IEnemyStateMachine stateMachine;
+        private Vector2 leftBoundary = new Vector2(170, 100);
+        private Vector2 rightBoundary = new Vector2(210, 100);
 
         public WaddleDee(Vector2 startPosition)
         {
             position = startPosition;
-            health = 100; // health value
-            damage = 10;  // damage default
-            ///stateMachine = new EnemyStateMachine();
-            //stateMachine.ChangeType(EnemyType.WaddleDee);
-            stateMachine.ChangePose(EnemyPose.Walking);
+            health = 100;
             isDead = false;
+            stateMachine = new EnemyStateMachine(EnemyType.WaddleDee);
+            stateMachine.ChangePose(EnemyPose.Walking);
 
-            //initialize sprite
-            sprite = SpriteFactory.Instance.createSprite("kirby_normal_walking");
+            //need to add eventual waddledee animation
+            enemySprite = SpriteFactory.Instance.createSprite("kirby_normal_standing_right");
         }
 
-        //QUESTION: Should we have a int damageTaken param for this?
-        public void TakeDamage(/*int damageTaken*/)
+        public Vector2 Position
         {
+            get { return position; }
+            set { position = value; }
+        }
 
-            //hp goes down 10
+        public Sprite EnemySprite
+        {
+            set { enemySprite = value; }
+        }
+
+        public void TakeDamage()
+        {
             health -= 10;
             if (health <= 0)
             {
@@ -44,80 +47,64 @@ namespace MasterGame
 
         private void Die()
         {
-            //DEATH/DAMAGE ENUM? Placeholder for rn
-            stateMachine.ChangePose(EnemyPose.LoadingAttack); 
-
-            //flag as dead
             isDead = true;
+
+            //eventual death pose/animation
+            stateMachine.ChangePose(EnemyPose.LoadingAttack);
         }
 
         public void Attack()
         {
-            //Add actual attacks after after collision is added
-            //For right now just a pose state change
             stateMachine.ChangePose(EnemyPose.Attacking);
         }
 
-        //QUESTION: Do we need gameTime param for Update?
-        public void Update(/*GameTime gameTime*/)
+        public void Update()
         {
             if (!isDead)
             {
-                // Update WaddleDee position or other logic
+                //need to add walking left/right
                 if (stateMachine.GetPose() == EnemyPose.Walking)
                 {
                     Move();
                 }
 
-                // Update sprite based on state. Do I have gameTime?
-                //sprite.Update(gameTime, stateMachine.GetSpriteParameters());
-                sprite.Update();
+                //updates using state
+                enemySprite.Update();
             }
         }
 
-        //right now is hard coded movement/placement
         private void Move()
         {
-      
+            //walking back and forth
             if (stateMachine.IsLeft())
             {
-                position.X -= 1;
-
-                //if waddledee position is less than __ postion, turn left
+                position.X -= 0.5f;
                 if (position.X <= leftBoundary.X)
                 {
-                    ChangeDirection(); // Reverse direction
+                    ChangeDirection();
                 }
             }
             else
             {
-                position.X += 1;
-                //if waddledee position greater than __ position, turn right
+                position.X += 0.5f;
                 if (position.X >= rightBoundary.X)
                 {
-                    ChangeDirection(); // Reverse direction
+                    ChangeDirection();
                 }
             }
-
         }
 
-        //QUESTION: Do we need a spriteBatch param here?
-        public void Draw(/*SpriteBatch spriteBatch*/)
+        public void Draw()
         {
-
             if (!isDead)
             {
-                //draw sprite
-                //sprite.Draw(spriteBatch, position, stateMachine.IsLeft());
-                sprite.Draw(new Vector2(100, 130));
+                enemySprite.Draw(position);
             }
         }
+
         public void ChangeDirection()
         {
             stateMachine.ChangeDirection();
         }
-
-       
     }
-
 }
