@@ -1,5 +1,5 @@
-Source:,kirby_normal,,,,,
+Source:,Sprint2Tileset,,,,,
 Loop point:,0,,,,,
+Flip?:,FALSE,,,,,
 x,y,width,height,center x,center y,time (frames)
-5,5,20,18,10,17,81
-30,5,20,18,10,17,5
+48,48,16,16,8,8,1
