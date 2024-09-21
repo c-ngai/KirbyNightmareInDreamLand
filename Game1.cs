@@ -38,6 +38,7 @@ namespace MasterGame
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             state = 1;
+
             gameWidth = 240;
             gameHeight = 160;
             windowWidth = 720;
@@ -94,10 +95,13 @@ namespace MasterGame
             SpriteFactory.Instance.LoadAllTextures(Content);
             SpriteFactory.Instance.LoadAllSpriteAnimations();
             // Create a test sprite (TEMPORARY)
+            kirbyMoveRight = new KirbyMoveRightCommand();
+            kirby.PlayerSprite = SpriteFactory.Instance.createSprite("kirby_normal_standing_right");
+
             TestSprite1 = SpriteFactory.Instance.createSprite("kirby_normal_walking_right");
             TestSprite2 = SpriteFactory.Instance.createSprite("tile_waterfall");
             
-            kirby.UpdateTexture();
+            //kirby.UpdateTexture();
             //toggleFullscreen = new ToggleFullscreenCommand();
 
         }
