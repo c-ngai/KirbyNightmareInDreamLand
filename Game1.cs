@@ -44,7 +44,7 @@ namespace MasterGame
             windowWidth = 720;
             windowHeight = 480;
             IsFullscreen = false;
-            kirby = new Player(new Vector2(50, 150));
+            kirby = new Player(new Vector2(30, gameHeight * 4/5));
         }
 
         // will later be changed to read in mouse control input
@@ -95,7 +95,6 @@ namespace MasterGame
             SpriteFactory.Instance.LoadAllTextures(Content);
             SpriteFactory.Instance.LoadAllSpriteAnimations();
             // Create a test sprite (TEMPORARY)
-            kirbyMoveRight = new KirbyMoveRightCommand();
             kirby.PlayerSprite = SpriteFactory.Instance.createSprite("kirby_normal_standing_right");
 
             TestSprite1 = SpriteFactory.Instance.createSprite("kirby_normal_walking_right");
