@@ -70,10 +70,10 @@ namespace MasterGame
         #region Movement
         public void MoveLeft()
         {
-            movement.MoveLeft();
+            movement.Walk();
             movement.MovePlayer(this);
             state.ChangePose(KirbyPose.Walking);
-            state.SetDirectionRight();
+            state.SetDirectionLeft();
             UpdateTexture();
         }
 
@@ -88,7 +88,7 @@ namespace MasterGame
 
         public void StopMoving()
         {
-            movement.StopMoving();
+            movement.StopMovement();
             state.ChangePose(KirbyPose.Standing);
             UpdateTexture();
         }
