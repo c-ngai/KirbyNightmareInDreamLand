@@ -5,6 +5,8 @@ namespace MasterGame
     {
         Vector2 Position { get; set; }
         void MoveRight();
+        void MoveLeft();
+        void StopMoving();
         void UpdateTexture();
     }
 }

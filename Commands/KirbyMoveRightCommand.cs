@@ -4,17 +4,19 @@
     {
         private IPlayer kirby;
 
-        public KirbyMoveRightCommand()
+        public KirbyMoveRightCommand(IPlayer player)
         {
-            kirby = Game1.self.kirby;
+            kirby = player;
         }
-        // public void SetState()
-        // {
-        //     Game1.self.state = 1;
-        // }
+
         public void Execute()
         {
             kirby.MoveRight();
+        }
+
+        public void Undo()
+        {
+            kirby.StopMoving();
         }
     }
 }

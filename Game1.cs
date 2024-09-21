@@ -15,10 +15,6 @@ namespace MasterGame
         public int windowWidth { get; set; }
         public int windowHeight { get; set; }
         public bool IsFullscreen { get; set; }
-        public ICommand quit { get; set; }
-        public ICommand toggleFullscreen { get; set; }
-
-        public ICommand kirbyMoveRight { get; set; }
 
         // TODO: Loosen coupling. GraphicsDeviceManager should probably not be public, but ToggleFullscreenCommand still needs to be able to work.
         public GraphicsDeviceManager graphics;
@@ -42,15 +38,12 @@ namespace MasterGame
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             state = 1;
-            gameWidth = 240; //240
-            gameHeight = 150; //160
+            gameWidth = 240;
+            gameHeight = 160;
             windowWidth = 720;
             windowHeight = 480;
             IsFullscreen = false;
             kirby = new Player(new Vector2(50, 150));
-            // sets up commands
-            quit = new QuitCommand(this);
-            kirbyMoveRight = new KirbyMoveRightCommand();
         }
 
         // will later be changed to read in mouse control input
@@ -68,11 +61,12 @@ namespace MasterGame
         // will later be changed to read in keyboard control input
         public void SetKeyboardControls(KeyboardController keyboard)
         {
-            keyboard.RegisterCommand(Keys.D0, quit);
+            keyboard.RegisterCommand(Keys.Q, new QuitCommand(this));
 
             //keyboard.RegisterCommand(Keys.F, toggleFullscreen);
 
-            keyboard.RegisterCommand(Keys.D1, kirbyMoveRight);
+            keyboard.RegisterCommand(Keys.Right, new KirbyMoveRightCommand(kirby));
+            keyboard.RegisterCommand(Keys.Left, new KirbyMoveLeftCommand(kirby));
             
         }
         protected override void Initialize()

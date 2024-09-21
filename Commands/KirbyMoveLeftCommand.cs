@@ -9,13 +9,14 @@
             kirby = newPlayer;
         }
 
-        public void SetState()
-        {
-
-        }
         public void Execute()
         {
-            //kirby.MoveLeft();
+            kirby.MoveLeft();
+        }
+
+        public void Undo()
+        {
+            kirby.StopMoving();
         }
     }
 }
