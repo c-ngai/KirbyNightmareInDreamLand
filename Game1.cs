@@ -102,8 +102,10 @@ namespace MasterGame
             // Create a test sprite (TEMPORARY)
             TestSprite1 = SpriteFactory.Instance.createSprite("kirby_normal_walking_right");
             TestSprite2 = SpriteFactory.Instance.createSprite("tile_waterfall");
+            
             kirby.UpdateTexture();
             //toggleFullscreen = new ToggleFullscreenCommand();
+
         }
 
         protected override void UnloadContent()
@@ -118,8 +120,8 @@ namespace MasterGame
             mouse.Update();
             keyboard.Update();
 
-            //TestSprite1.Update();
-            //TestSprite2.Update();
+            TestSprite1.Update();
+            TestSprite2.Update();
             kirby.Update(); 
             //TestSprite.Update();
         }
@@ -153,6 +155,8 @@ namespace MasterGame
             // Draw test sprite
             TestSprite1.Draw(new Vector2(100, 100));
             TestSprite2.Draw(new Vector2(130, 92));
+
+            //TestSprite2.Draw(new Vector2((int)(Mouse.GetState().X/scale), (int)(Mouse.GetState().Y/scale)));
 
             kirby.Draw();
             // End spriteBatch
