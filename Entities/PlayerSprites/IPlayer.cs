@@ -1,8 +1,13 @@
+using Microsoft.Xna.Framework;
 namespace MasterGame
 {
     public interface IPlayer:IEntity
     {
-        void setDirection();
-
+        Vector2 Position { get; set; }
+        Sprite PlayerSprite { set; }
+        void MoveRight();
+        void MoveLeft();
+        void StopMoving();
+        void UpdateTexture();
     }
 }

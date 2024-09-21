@@ -6,7 +6,7 @@ namespace MasterGame
     {
         public ToggleFullscreenCommand() { }
 
-        public void SetState()
+        public void Execute()
         {
             //Game1.self.graphics.ToggleFullScreen();
 
@@ -18,9 +18,9 @@ namespace MasterGame
             //Game1.self.graphics.ApplyChanges();
         }
 
-        public void Execute()
+        public void Undo()
         {
-            Game1.self.Exit();
+
         }
     }
 }

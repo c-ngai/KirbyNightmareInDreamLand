@@ -2,7 +2,7 @@
 {
     public interface ICommand
     {
-        void SetState();
         void Execute();
+        void Undo();
     }
 }

@@ -9,13 +9,12 @@ namespace MasterGame
     {
         public static Game1 self { get; set; }
         public SpriteBatch spriteBatch { get; set; }
-        public Sprite TestSprite { get; set; }
         public int state { get; set; }
+        public int gameWidth { get; set; }
+        public int gameHeight { get; set; }
         public int windowWidth { get; set; }
         public int windowHeight { get; set; }
         public bool IsFullscreen { get; set; }
-        public ICommand quit { get; set; }
-        public ICommand toggleFullscreen { get; set; }
 
         // TODO: Loosen coupling. GraphicsDeviceManager should probably not be public, but ToggleFullscreenCommand still needs to be able to work.
         public GraphicsDeviceManager graphics;
@@ -23,6 +22,13 @@ namespace MasterGame
         private MouseController mouse;
         private KeyboardController keyboard;
 
+        // Test sprites
+        public Sprite TestSprite1 { get; set; }
+        public Sprite TestSprite2 { get; set; }
+
+        public IPlayer kirby;
+        // get kirby 
+        
         public Game1()
         {
             self = this;
@@ -32,13 +38,13 @@ namespace MasterGame
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             state = 1;
-            windowWidth = 240;
-            windowHeight = 160;
-            IsFullscreen = false;
 
-            // sets up commands
-            quit = new QuitCommand();
-            toggleFullscreen = new ToggleFullscreenCommand();
+            gameWidth = 240;
+            gameHeight = 160;
+            windowWidth = 720;
+            windowHeight = 480;
+            IsFullscreen = false;
+            kirby = new Player(new Vector2(30, gameHeight * 4/5));
         }
 
         // will later be changed to read in mouse control input
@@ -56,18 +62,21 @@ namespace MasterGame
         // will later be changed to read in keyboard control input
         public void SetKeyboardControls(KeyboardController keyboard)
         {
-            keyboard.RegisterCommand(Keys.D0, quit);
+            keyboard.RegisterCommand(Keys.Q, new QuitCommand(this));
 
             //keyboard.RegisterCommand(Keys.F, toggleFullscreen);
 
+            keyboard.RegisterCommand(Keys.Right, new KirbyMoveRightCommand(kirby));
+            keyboard.RegisterCommand(Keys.Left, new KirbyMoveLeftCommand(kirby));
+            
         }
         protected override void Initialize()
         {
             // true = exclusive fullscreen, false = borderless fullscreen
             graphics.HardwareModeSwitch = true;
             graphics.IsFullScreen = IsFullscreen;
-            graphics.PreferredBackBufferWidth = 240;
-            graphics.PreferredBackBufferHeight = 160;
+            graphics.PreferredBackBufferWidth = windowWidth;
+            graphics.PreferredBackBufferHeight = windowHeight;
             graphics.ApplyChanges();
 
             base.Initialize();
@@ -86,7 +95,14 @@ namespace MasterGame
             SpriteFactory.Instance.LoadAllTextures(Content);
             SpriteFactory.Instance.LoadAllSpriteAnimations();
             // Create a test sprite (TEMPORARY)
-            TestSprite = SpriteFactory.Instance.createSprite("kirby_normal_walking");
+            kirby.PlayerSprite = SpriteFactory.Instance.createSprite("kirby_normal_standing_right");
+
+            TestSprite1 = SpriteFactory.Instance.createSprite("kirby_normal_walking_right");
+            TestSprite2 = SpriteFactory.Instance.createSprite("tile_waterfall");
+            
+            //kirby.UpdateTexture();
+            //toggleFullscreen = new ToggleFullscreenCommand();
+
         }
 
         protected override void UnloadContent()
@@ -101,14 +117,17 @@ namespace MasterGame
             mouse.Update();
             keyboard.Update();
 
-            TestSprite.Update();
+            TestSprite1.Update();
+            TestSprite2.Update();
+            kirby.Update(); 
+            //TestSprite.Update();
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            ICommand[] commands = { quit };
+            //ICommand[] commands = { quit, kirbyMoveRight };
 
             base.Draw(gameTime);
 
@@ -129,9 +148,14 @@ namespace MasterGame
             text = "GraphicsDevice.Viewport: (" + GraphicsDevice.Viewport.Width + ", " + GraphicsDevice.Viewport.Height + ")";
             spriteBatch.DrawString(font, text, new Vector2(10, 70), Color.Black);
 
+            float scale = windowHeight / gameHeight;
             // Draw test sprite
-            TestSprite.Draw(new Vector2(100, 100));
+            TestSprite1.Draw(new Vector2(100, 100));
+            TestSprite2.Draw(new Vector2(130, 92));
 
+            //TestSprite2.Draw(new Vector2((int)(Mouse.GetState().X/scale), (int)(Mouse.GetState().Y/scale)));
+
+            kirby.Draw();
             // End spriteBatch
             spriteBatch.End();
 

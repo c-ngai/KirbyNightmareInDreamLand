@@ -1,12 +1,29 @@
+using Microsoft.Xna.Framework.Graphics;
+
 namespace MasterGame
 {
     public class PlayerStateMachine : IPlayerStateMachine
     {
         // default is facing right
-        private bool facingLeft = false;
-        private KirbyPose pose = KirbyPose.Standing;
-        private KirbyType type = KirbyType.Normal;
+        private bool facingLeft;
+        private KirbyPose pose;
+        private KirbyType type;
 
+        private static PlayerStateMachine instance = new PlayerStateMachine();
+        public static PlayerStateMachine Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+        public PlayerStateMachine()
+        {
+            facingLeft = false;
+            pose = KirbyPose.Standing;
+            type = KirbyType.Normal;
+
+        }
         #region Direction
         public void SetDirectionRight()
         {
@@ -47,20 +64,22 @@ namespace MasterGame
         }
         #endregion Type
 
-        public int[] GetSpriteParameters()
+        public string[] GetSpriteParameters()
         {
-            int[] spriteParameters = new int[3];
-            if (facingLeft)
-            {
-                spriteParameters[0] = 1;
-            } 
-            else
-            {
-                spriteParameters[0] = 0;
-            }
-            spriteParameters[1] = (int) pose;
-            spriteParameters[2] = (int) type;
+            string[] spriteParameters = new string[4];
+            spriteParameters[0] = facingLeft ? "left":"right";
+            spriteParameters[1] = pose.ToString().ToLower();
+            spriteParameters[2] = type.ToString().ToLower();
+            spriteParameters[3] = "kirby";
             return spriteParameters;
+        }
+
+        public string GetStateString()
+        {
+            string facing = facingLeft ? "left":"right";
+            string posing = pose.ToString().ToLower();
+            string power = type.ToString().ToLower();
+            return facing + posing + power;
         }
     }
 }
