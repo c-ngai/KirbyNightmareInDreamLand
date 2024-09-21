@@ -20,8 +20,8 @@ namespace MasterGame
             position = startPosition;
             health = 100; // health value
             damage = 10;  // damage default
-            stateMachine = new EnemyStateMachine();
-            stateMachine.ChangeType(EnemyType.WaddleDee);
+            ///stateMachine = new EnemyStateMachine();
+            //stateMachine.ChangeType(EnemyType.WaddleDee);
             stateMachine.ChangePose(EnemyPose.Walking);
             isDead = false;
 
