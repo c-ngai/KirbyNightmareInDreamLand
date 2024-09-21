@@ -43,14 +43,17 @@ namespace MasterGame
             IsMouseVisible = true;
             state = 1;
             gameWidth = 240; //240
-            gameHeight = 150; //160
+            gameHeight = 160; //160
             windowWidth = 720;
             windowHeight = 480;
             IsFullscreen = false;
-            kirby = new Player(new Vector2(50, 150));
+
+
+            kirby = new Player(new Vector2(30, gameHeight * 4/5));
+
             // sets up commands
             quit = new QuitCommand(this);
-            kirbyMoveRight = new KirbyMoveRightCommand();
+            
         }
 
         // will later be changed to read in mouse control input
@@ -100,10 +103,13 @@ namespace MasterGame
             SpriteFactory.Instance.LoadAllTextures(Content);
             SpriteFactory.Instance.LoadAllSpriteAnimations();
             // Create a test sprite (TEMPORARY)
+            kirbyMoveRight = new KirbyMoveRightCommand();
+            kirby.PlayerSprite = SpriteFactory.Instance.createSprite("kirby_normal_standing_right");
+
             TestSprite1 = SpriteFactory.Instance.createSprite("kirby_normal_walking_right");
             TestSprite2 = SpriteFactory.Instance.createSprite("tile_waterfall");
             
-            kirby.UpdateTexture();
+            //kirby.UpdateTexture();
             //toggleFullscreen = new ToggleFullscreenCommand();
 
         }

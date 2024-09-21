@@ -9,6 +9,14 @@ namespace MasterGame
         private KirbyPose pose;
         private KirbyType type;
 
+        private static PlayerStateMachine instance = new PlayerStateMachine();
+        public static PlayerStateMachine Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
         public PlayerStateMachine()
         {
             facingLeft = false;
@@ -16,7 +24,6 @@ namespace MasterGame
             type = KirbyType.Normal;
 
         }
-
         #region Direction
         public void SetDirectionRight()
         {
@@ -65,6 +72,14 @@ namespace MasterGame
             spriteParameters[2] = type.ToString().ToLower();
             spriteParameters[3] = "kirby";
             return spriteParameters;
+        }
+
+        public string GetStateString()
+        {
+            string facing = facingLeft ? "left":"right";
+            string posing = pose.ToString().ToLower();
+            string power = type.ToString().ToLower();
+            return facing + posing + power;
         }
     }
 }
