@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Runtime.InteropServices;
 
 namespace MasterGame
@@ -9,73 +10,69 @@ namespace MasterGame
         public PlayerStateMachine state;
         public PlayerMovement movement;
         public SpriteFactory factory;
+        public Sprite playerSprite ;
         public static int maxHealth = 6;
         private int health = maxHealth;
         private int lives = 5;
         public Vector2 position;
-        public Sprite TestSprite { get; set; }
 
         //constructor
         public Player(Vector2 pos)
         {
             state = new PlayerStateMachine();
             movement = new PlayerMovement();
-            factory = new SpriteFactory();
+            factory = SpriteFactory.Instance;
             position = pos;
         }
 
-        public void setDirection()
+         public Vector2 Position
         {
-
+            get { return position; }    // Getter returns the current position
+            set { position = value; }   // Setter updates the position
         }
-        public float GetXPos()
+        public void UpdateTexture()
         {
-            return position.X;
+            playerSprite = factory.createSprite(state.GetSpriteParameters());
         }
-        public float GetYPos()
-        {
-            return position.Y;
-        }
-
-        public void SetXPos(float newX)
-        {
-            position.X = newX;
-        }
-        public void SetYPos(float newY)
-        {
-            position.Y = newY;
-        }
-
         public void SetDirectionLeft()
         {
             state.SetDirectionLeft();
+            UpdateTexture();
         }
         public void SetDirectionRight()
         {
             state.SetDirectionRight();
+            UpdateTexture();
         }
         //calls state machine to drecease health
         public void TakeDamage()
         {
             state.ChangePose(KirbyPose.Hurt);
+            UpdateTexture();
         }
         //calls state machine to attack
         public void Attack()
         {
             state.ChangePose(KirbyPose.Attacking);
+            UpdateTexture();
         }
 
         #region Movement
         public void MoveLeft()
         {
             state.SetDirectionLeft();
+            state.ChangePose(KirbyPose.Walking);
             movement.MovePlayer(this);
+            UpdateTexture();
         }
 
         public void MoveRight()
         {
-            state.SetDirectionRight();
+            movement.MoveRight();
             movement.MovePlayer(this);
+            state.ChangePose(KirbyPose.Walking);
+            state.SetDirectionRight();
+            UpdateTexture();
         }
 
         public void RunLeft()
@@ -89,19 +86,14 @@ namespace MasterGame
         
         #endregion
         // makes state changes by calling other player methods, calls state.Update(), and finally calls Draw last?
-        public void UpdateTexture()
-        {
-            TestSprite = factory.createSprite(state.GetSpriteParameters());
-        }
         public void Update()
         {
-            //state.Update();
-            UpdateTexture();
+            playerSprite.Update();
             movement.MovePlayer(this);
         }
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw()
         {
-            TestSprite.Draw(this.position);
+            playerSprite.Draw(position);
         }   
     }
 }

@@ -2,16 +2,16 @@
 {
     public class KirbyMoveRightCommand : ICommand
     {
-        private Player kirby;
+        private IPlayer kirby;
 
-        public KirbyMoveRightCommand(Player newPlayer)
+        public KirbyMoveRightCommand()
         {
-            kirby = newPlayer;
+            kirby = Game1.self.kirby;
         }
-        public void SetState()
-        {
-            Game1.self.state = 1;
-        }
+        // public void SetState()
+        // {
+        //     Game1.self.state = 1;
+        // }
         public void Execute()
         {
             kirby.MoveRight();

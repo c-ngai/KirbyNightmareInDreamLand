@@ -5,28 +5,39 @@ namespace MasterGame
 {   
     public class PlayerMovement
     {
-        private GraphicsDevice graphicsDevice;
-        //var viewHeight = graphicsDevice.Viewport.Height;
-        //var viewWidth = graphicsDevice.Viewport.Width;
-
-        int floor = 200;
+        private int gameWidth;
+        private int gameHeight;
+        int floor;
         //light hard coded physics
         //seperate movement and state 
-        double yVel = 0;
-        double jumpVel = 10;
-        double xVel = 10;
-        double gravity = -10;
+        float yVel = 0;
+        float xVel = 0;
+        float jumpVel = 10f;
+        float leftVel = -.375f;
+        float rightVel = .375f;
+        float gravity = -10f;
         double frameRate = (1.0/60.0);
 
         //change kirby velocity to go left
+        public PlayerMovement()
+        {
+            gameWidth = Game1.self.windowWidth;
+            gameHeight = Game1.self.windowHeight;
+            floor =  gameHeight * 2/3;
+        }
         public void MoveLeft()
         {
-            xVel = - 10;
+            xVel = leftVel;
         }
         //change kirby velocity to go right
         public void MoveRight()
         {
-            xVel = 10;
+            xVel = rightVel;
+        }
+        //no kirby shouldnt move
+        public void StopMoving()
+        {
+            xVel = 0;
         }
         //change kirby yVelcoity to jump
         public void Jump() 
@@ -45,16 +56,19 @@ namespace MasterGame
         //update kirby position in UI
         public void UpdatePosition(Player kirby)
         {
-            float y = kirby.GetYPos();
-            float newY =(float) (yVel * frameRate + .5 * gravity * frameRate * frameRate + y);
-            kirby.SetXPos(kirby.GetXPos() + (float)xVel);
-            kirby.SetYPos(newY);
-            yVel += gravity *frameRate;
+            //float newY =(float) (yVel * frameRate + .5 * gravity * frameRate * frameRate + kirby.position.Y);
+            kirby.position.X += xVel;
+            //kirby.position.Y = newY;
+            //yVel += gravity *frameRate;
         }
-        // checks palyer doesnt go out of frame (up and down)
-        public void AdjustX()
-        {
 
+        // checks palyer doesnt go out of frame (up and down)
+        public void AdjustX(Player kirby)
+        {
+            if(kirby.position.X > 200)
+            {
+                kirby.position.X  = 100;  
+            }
         }
 
         public void AdjustY(Player kirby)
@@ -67,17 +81,17 @@ namespace MasterGame
             }
 
             //dont go through the ceiling
-            if(kirby.GetYPos() < 0)
+            if(kirby.position.Y < 0)
             {
                 yVel = 0;
                 //kirby.position.Y = 0 + 10;
             }
 
         }
-
+        //ensures sprite does not leave the window
         public void Adjust(Player kirby)
         {
-            AdjustX();
+            AdjustX(kirby);
             AdjustY(kirby);
         }
         //updates position and adjusts frame. 

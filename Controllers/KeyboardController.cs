@@ -25,7 +25,11 @@ namespace MasterGame
             // needs separate method for transition to animate (i.e. keep track of old state and see if current state is different)
             foreach (Keys key in pressedKeys)
             {
-                controllerMappings[key].Execute();
+                if (controllerMappings.ContainsKey(key))
+                {
+                // If the key exists in the dictionary, invoke the associated action
+                    controllerMappings[key].Execute();
+                }
             }
         }
     }
