@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 ﻿using MasterGame.Commands;
+=======
+﻿using System.Collections.Generic;
+using MasterGame.Commands;
+>>>>>>> a8f6ada808a3e6cd4614f1eebc7fb9db548ee563
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -16,6 +21,14 @@ namespace MasterGame
         public int windowWidth { get; set; }
         public int windowHeight { get; set; }
         public bool IsFullscreen { get; set; }
+<<<<<<< HEAD
+=======
+        public ICommand quit { get; set; }
+        public ICommand toggleFullscreen { get; set; }
+        public ICommand nextBlockCommand { get; set; }
+        public ICommand previousBlockCommand { get; set; }
+
+>>>>>>> a8f6ada808a3e6cd4614f1eebc7fb9db548ee563
 
         // TODO: Loosen coupling. GraphicsDeviceManager should probably not be public, but ToggleFullscreenCommand still needs to be able to work.
         public GraphicsDeviceManager graphics;
@@ -72,6 +85,11 @@ namespace MasterGame
             keyboard.RegisterCommand(Keys.T, new PreviousBlockCommand());
             keyboard.RegisterCommand(Keys.Y, new NextBlockCommand());
 
+            keyboard.RegisterCommand(Keys.T, previousBlockCommand);
+
+            keyboard.RegisterCommand(Keys.Y, nextBlockCommand);
+
+
         }
         protected override void Initialize()
         {
@@ -97,6 +115,22 @@ namespace MasterGame
             // Load all sprite factory textures and sprites.
             SpriteFactory.Instance.LoadAllTextures(Content);
             SpriteFactory.Instance.LoadAllSpriteAnimations();
+
+            // Load textures for blocks and load the names of the sprites into a list
+            List<Sprite> blockList = new List<Sprite>();
+            blockList = new List<Sprite>();
+
+            //Sprite testBlock1 = SpriteFactory.Instance.createSprite("test_block_1");
+            //Sprite testBlock2 = SpriteFactory.Instance.createSprite("test_block_1");
+            //Sprite testBlock3 = SpriteFactory.Instance.createSprite("test_block_1");
+
+
+            //blockList.Add(testBlock1);
+            //blockList.Add(testBlock2);
+            //blockList.Add(testBlock3);
+
+            BlockList.Instance.setBlockList(blockList);
+
             // Create a test sprite (TEMPORARY)
             kirby.PlayerSprite = SpriteFactory.Instance.createSprite("kirby_normal_standing_right");
 
@@ -184,6 +218,9 @@ namespace MasterGame
 
             kirby.Draw();
             // End spriteBatch
+            BlockList.Instance.Draw(spriteBatch, new Vector2(300, 300));
+
+
             spriteBatch.End();
 
         }

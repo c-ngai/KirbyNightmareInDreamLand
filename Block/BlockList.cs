@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -10,12 +11,36 @@ namespace MasterGame
         private static BlockList instance;
 
         // Using a singleton to avoid lots of global variables that will get deleted later. 
+        private static BlockList instance;
 
+        // Using a singleton to avoid lots of global variables that will get deleted later. 
+
+        List<Sprite> blockList;
         List<Sprite> blockList;
         int currentBlock;
         int firstBlock = 0;
         int lastBlock = 12;
 
+
+        private BlockList()
+        {
+        }
+
+        // Singleton instance method. Allows other files to access this classes variables. 
+        public static BlockList Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new BlockList();
+                }
+                return instance;
+            }
+        }
+
+        // Singleton constructor must be empty, so this does constructor stuff.
+        public void setBlockList(List<Sprite> myBlocks)
 
         private BlockList()
         {
