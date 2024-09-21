@@ -64,6 +64,7 @@ namespace MasterGame
             spriteParameters[1] = pose.ToString().ToLower();
             spriteParameters[2] = type.ToString().ToLower();
             spriteParameters[3] = "kirby";
+            System.Console.WriteLine(pose + " statemachine");
             return spriteParameters;
         }
     }

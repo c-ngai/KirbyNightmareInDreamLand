@@ -107,16 +107,11 @@ namespace MasterGame
             spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White, 0, frameCenter, spriteEffects, 0);
         }
 
-
-
         // Resets the animation to the start. Should be desirable to call any time an entity's sprite is switched.
         public void ResetAnimation()
         {
             currentFrame = 0;
             tickCounter = 0;
         }
-
-
-
     }
 }

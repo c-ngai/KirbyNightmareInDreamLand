@@ -21,7 +21,7 @@ namespace MasterGame
         {
 
         }
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw()
         {
 
         }
