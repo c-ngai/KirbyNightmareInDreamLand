@@ -71,7 +71,7 @@ namespace MasterGame
         public void MoveLeft()
         {
             movement.Walk();
-            movement.MovePlayer(this);
+            state.SetDirectionLeft();
             state.ChangePose(KirbyPose.Walking);
             state.SetDirectionLeft();
             UpdateTexture();
