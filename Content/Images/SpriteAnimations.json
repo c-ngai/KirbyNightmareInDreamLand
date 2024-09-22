@@ -435,9 +435,7 @@
         ]
     },
 
-    "tile_grass",
-
-    {
+    "tile_grass": {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -453,9 +451,7 @@
             }
         ]
     },
-    "tile_dirt",
-
-    {
+    "tile_dirt": {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -471,9 +467,7 @@
             }
         ]
     },
-    "tile_rocksurface",
-
-    {
+    "tile_rocksurface": {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -489,9 +483,7 @@
             }
         ]
     },
-    "tile_rock",
-
-    {
+    "tile_rock": {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -507,9 +499,7 @@
             }
         ]
     },
-    "tile_platform",
-
-    {
+    "tile_platform": {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -525,9 +515,7 @@
             }
         ]
     },
-    "tile_stoneblock",
-
-    {
+    "tile_stoneblock": {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -543,9 +531,7 @@
             }
         ]
     },
-    "tile_slope_steep_left",
-
-    {
+    "tile_slope_steep_left": {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -561,9 +547,7 @@
             }
         ]
     },
-    "tile_slope_gentle1_left",
-
-    {
+    "tile_slope_gentle1_left": {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -579,9 +563,7 @@
             }
         ]
     },
-    "tile_slope_gentle2_left",
-
-    {
+    "tile_slope_gentle2_left": {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -597,9 +579,7 @@
             }
         ]
     },
-    "tile_slope_gentle2_right",
-
-    {
+    "tile_slope_gentle2_right": {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -615,9 +595,7 @@
             }
         ]
     },
-    "tile_slope_gentle1_right",
-
-    {
+    "tile_slope_gentle1_right": {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -633,9 +611,7 @@
             }
         ]
     },
-    "tile_slope_steep_right",
-
-    {
+    "tile_slope_steep_right": {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -651,9 +627,7 @@
             }
         ]
     },
-    "tile_waterfall",
-
-    {
+    "tile_waterfall": {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -733,9 +707,7 @@
         ]
     },
 
-    "template",
-
-    {
+    "template": {
         "Source texture": "kirby_normal",
         "Loop point": 0,
         "Flip horizontally?": false,
