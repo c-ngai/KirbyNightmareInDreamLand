@@ -44,6 +44,7 @@ namespace MasterGame
             windowWidth = 720;
             windowHeight = 480;
             IsFullscreen = false;
+            
             kirby = new Player(new Vector2(30, gameHeight * 4/5));
         }
 
