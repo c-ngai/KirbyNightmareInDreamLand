@@ -62,7 +62,8 @@
             string[] spriteParameters = new string[4];
             spriteParameters[0] = facingLeft ? "left":"right";
             spriteParameters[1] = pose.ToString().ToLower();
-            spriteParameters[2] = type.ToString().ToLower();
+            //spriteParameters[2] = type.ToString().ToLower();
+            spriteParameters[2] = "normal";
             spriteParameters[3] = "kirby";
             return spriteParameters;
         }

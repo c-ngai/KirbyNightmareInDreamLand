@@ -18,10 +18,10 @@ namespace MasterGame
             health = 100;
             isDead = false;
             stateMachine = new EnemyStateMachine(EnemyType.WaddleDee);
-            stateMachine.ChangePose(EnemyPose.Walking);
+            //stateMachine.ChangePose(EnemyPose.Walking);
 
             //need to add eventual waddledee animation
-            enemySprite = SpriteFactory.Instance.createSprite("kirby_normal_standing_right");
+            enemySprite = SpriteFactory.Instance.createSprite("kirby_normal_walking_right");
         }
 
         public Vector2 Position
@@ -58,6 +58,13 @@ namespace MasterGame
             stateMachine.ChangePose(EnemyPose.Attacking);
         }
 
+        public void UpdateTexture()
+        {
+            // if(!stateMachine.GetStateString().Equals(oldState)){
+                enemySprite = SpriteFactory.Instance.createSprite(stateMachine.GetSpriteParameters());
+            //     oldState = state.GetStateString();
+            // } 
+        }
         public void Update()
         {
             if (!isDead)
@@ -69,6 +76,7 @@ namespace MasterGame
                 }
 
                 //updates using state
+                UpdateTexture();
                 enemySprite.Update();
             }
         }
@@ -81,7 +89,7 @@ namespace MasterGame
                 position.X -= 0.5f;
                 if (position.X <= leftBoundary.X)
                 {
-                    ChangeDirection();
+                    stateMachine.ChangeDirection();
                 }
             }
             else
@@ -89,7 +97,7 @@ namespace MasterGame
                 position.X += 0.5f;
                 if (position.X >= rightBoundary.X)
                 {
-                    ChangeDirection();
+                    stateMachine.ChangeDirection();
                 }
             }
         }

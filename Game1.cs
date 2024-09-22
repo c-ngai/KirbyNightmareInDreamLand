@@ -1,4 +1,4 @@
-using MasterGame.Block;
+﻿using MasterGame.Block;
 using MasterGame.Commands;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -26,10 +26,9 @@ namespace MasterGame
 
         public IPlayer kirby;
         // get kirby 
-
         public IEnemy waddledeeTest;
-        //get waddle dee
-
+        //get waddledee
+        
         public Game1()
         {
             self = this;
@@ -116,7 +115,7 @@ namespace MasterGame
                 SpriteFactory.Instance.createSprite("tile_slope_steep_right"),
                 SpriteFactory.Instance.createSprite("tile_stoneblock"),
                 SpriteFactory.Instance.createSprite("tile_waterfall"),
-        };
+            };
 
             BlockList.Instance.setBlockList(blockList);
 
