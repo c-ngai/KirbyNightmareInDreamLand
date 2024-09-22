@@ -17,5 +17,10 @@ namespace MasterGame
             //Game1.self.graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 2;
             //Game1.self.graphics.ApplyChanges();
         }
+
+        public void Undo()
+        {
+
+        }
     }
 }

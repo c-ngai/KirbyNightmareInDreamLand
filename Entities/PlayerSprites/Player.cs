@@ -15,24 +15,34 @@ namespace MasterGame
         private int health = maxHealth;
         private int lives = 5;
         public Vector2 position;
+        public string oldState;
 
         //constructor
         public Player(Vector2 pos)
         {
-            state = new PlayerStateMachine();
-            movement = new PlayerMovement();
+            state = PlayerStateMachine.Instance;
+            movement = new NormalPlayerMovement();
             factory = SpriteFactory.Instance;
+            oldState = state.GetStateString();
             position = pos;
         }
 
-         public Vector2 Position
+        public Vector2 Position
         {
             get { return position; }    // Getter returns the current position
             set { position = value; }   // Setter updates the position
         }
+        public Sprite PlayerSprite
+        {
+            set{playerSprite = value;}
+        }
+
         public void UpdateTexture()
         {
-            playerSprite = factory.createSprite(state.GetSpriteParameters());
+            if(!state.GetStateString().Equals(oldState)){
+                playerSprite = factory.createSprite(state.GetSpriteParameters());
+                oldState = state.GetStateString();
+            } 
         }
         public void SetDirectionLeft()
         {
@@ -53,25 +63,33 @@ namespace MasterGame
         //calls state machine to attack
         public void Attack()
         {
-            state.ChangePose(KirbyPose.Attacking);
+            movement.Attack();
             UpdateTexture();
         }
 
         #region Movement
         public void MoveLeft()
         {
+            movement.Walk();
             state.SetDirectionLeft();
             state.ChangePose(KirbyPose.Walking);
-            movement.MovePlayer(this);
+            state.SetDirectionLeft();
             UpdateTexture();
         }
 
         public void MoveRight()
         {
-            movement.MoveRight();
+            movement.Walk();
             movement.MovePlayer(this);
             state.ChangePose(KirbyPose.Walking);
             state.SetDirectionRight();
+            UpdateTexture();
+        }
+
+        public void StopMoving()
+        {
+            movement.StopMovement();
+            state.ChangePose(KirbyPose.Standing);
             UpdateTexture();
         }
 
