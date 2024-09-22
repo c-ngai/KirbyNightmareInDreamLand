@@ -26,9 +26,9 @@ namespace MasterGame
         public Sprite TestSprite1 { get; set; }
         public Sprite TestSprite2 { get; set; }
 
-        public IPlayer kirby;
         // get kirby 
-        
+        public IPlayer kirby;
+
         public Game1()
         {
             self = this;
