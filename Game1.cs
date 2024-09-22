@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-﻿using MasterGame.Commands;
-=======
-﻿using System.Collections.Generic;
 using MasterGame.Commands;
->>>>>>> a8f6ada808a3e6cd4614f1eebc7fb9db548ee563
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -85,14 +80,7 @@ namespace MasterGame
 
             keyboard.RegisterCommand(Keys.Right, new KirbyMoveRightCommand(kirby));
             keyboard.RegisterCommand(Keys.Left, new KirbyMoveLeftCommand(kirby));
-            keyboard.RegisterCommand(Keys.T, new PreviousBlockCommand());
-            keyboard.RegisterCommand(Keys.Y, new NextBlockCommand());
-
-            keyboard.RegisterCommand(Keys.T, previousBlockCommand);
-
-            keyboard.RegisterCommand(Keys.Y, nextBlockCommand);
-
-
+            
         }
         protected override void Initialize()
         {
@@ -142,28 +130,7 @@ namespace MasterGame
 
             TestSprite1 = SpriteFactory.Instance.createSprite("kirby_normal_walking_right");
             TestSprite2 = SpriteFactory.Instance.createSprite("tile_waterfall");
-
-            // Load textures for blocks and load the names of the sprites into a list
-            List<Sprite> blockList = new List<Sprite>();
-            blockList = new List<Sprite>
-            {
-                SpriteFactory.Instance.createSprite("tile_dirt"),
-                SpriteFactory.Instance.createSprite("tile_grass"),
-                SpriteFactory.Instance.createSprite("tile_platform"),
-                SpriteFactory.Instance.createSprite("tile_rock"),
-                SpriteFactory.Instance.createSprite("tile_rocksurface"),
-                SpriteFactory.Instance.createSprite("tile_slope_gentle1_left"),
-                SpriteFactory.Instance.createSprite("tile_slope_gentle1_right"),
-                SpriteFactory.Instance.createSprite("tile_slope_gentle2_left"),
-                SpriteFactory.Instance.createSprite("tile_slope_gentle2_right"),
-                SpriteFactory.Instance.createSprite("tile_slope_steep_left"),
-                SpriteFactory.Instance.createSprite("tile_slope_steep_right"),
-                SpriteFactory.Instance.createSprite("tile_stoneblock"),
-                SpriteFactory.Instance.createSprite("tile_waterfall"),
-        };
-
-            BlockList.Instance.setBlockList(blockList);
-
+            
             //kirby.UpdateTexture();
             //toggleFullscreen = new ToggleFullscreenCommand();
 
@@ -216,10 +183,7 @@ namespace MasterGame
             float scale = windowHeight / gameHeight;
             // Draw test sprite
             TestSprite1.Draw(new Vector2(100, 100));
-            //TestSprite2.Draw(new Vector2(130, 92));
-
-            BlockList.Instance.Draw(new Vector2(200, 100));
-
+            TestSprite2.Draw(new Vector2(130, 92));
 
             //TestSprite2.Draw(new Vector2((int)(Mouse.GetState().X/scale), (int)(Mouse.GetState().Y/scale)));
 
