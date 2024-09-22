@@ -21,7 +21,6 @@
 /build:DefaultFont.spritefont
 
 #begin Images/Sprites/Kirby/kirby_beam.png
->>>>>>> 2cd54eb628fe556a3e6cf9c91136e3151f17c3e7
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
