@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MasterGame.Block
 { 
-
     public class BlockList
     {
 

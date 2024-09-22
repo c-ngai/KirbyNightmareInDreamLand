@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
@@ -28,7 +28,10 @@ namespace MasterGame
 
         public IPlayer kirby;
         // get kirby 
-        
+
+        public IEnemy waddledeeTest;
+        //get waddle dee
+
         public Game1()
         {
             self = this;
@@ -98,6 +101,8 @@ namespace MasterGame
             // Create a test sprite (TEMPORARY)
             kirby.PlayerSprite = SpriteFactory.Instance.createSprite("kirby_normal_standing_right");
 
+            waddledeeTest = new WaddleDee(new Vector2(150, 100));
+
             TestSprite1 = SpriteFactory.Instance.createSprite("kirby_normal_walking_right");
             TestSprite2 = SpriteFactory.Instance.createSprite("tile_waterfall");
             
@@ -120,8 +125,9 @@ namespace MasterGame
 
             TestSprite1.Update();
             TestSprite2.Update();
-            kirby.Update(); 
+            kirby.Update();
             //TestSprite.Update();
+            waddledeeTest.Update();
         }
 
         protected override void Draw(GameTime gameTime)
@@ -157,6 +163,7 @@ namespace MasterGame
             //TestSprite2.Draw(new Vector2((int)(Mouse.GetState().X/scale), (int)(Mouse.GetState().Y/scale)));
 
             kirby.Draw();
+            waddledeeTest.Draw();
             // End spriteBatch
             spriteBatch.End();
 
