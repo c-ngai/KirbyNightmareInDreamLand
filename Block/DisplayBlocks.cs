@@ -5,9 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MasterGame.Block
 {
-	public class DisplayBlocks
-	{
-		public DisplayBlocks()
+	public DisplayBlocks()
         {
         }
 
@@ -20,8 +18,6 @@ namespace MasterGame.Block
         public void Update()
         {
             // do nothing 
-		}
-
 	}
 }
 
