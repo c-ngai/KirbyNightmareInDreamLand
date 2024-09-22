@@ -1,27 +1,22 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json;
+using System.IO;
 
-namespace MasterGame
-{
+namespace MasterGame {
+
+
     public class SpriteFactory
     {
+        
         // Dictionary from string to Texture2D. For easily retrieving a texture by name.
         private static Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
 
-        // Dictionary from string to string. For easily retrieving a sprite filepath by name.
+        // Dictionary from string to SpriteAnimation. For easily retrieving a sprite animation by name.
         private static Dictionary<string, SpriteAnimation> spriteAnimations = new Dictionary<string, SpriteAnimation>();
 
-        private Texture2D kirby_normal;
-        private Texture2D kirby_beam;
-        private Texture2D kirby_spark;
-        private Texture2D kirby_fire;
-        private Texture2D Sprint2Tileset;
+
 
         private static SpriteFactory instance = new SpriteFactory();
 
@@ -33,57 +28,74 @@ namespace MasterGame
             }
         }
 
+
+
         public SpriteFactory()
         {
         }
 
-        private void LoadTexture(ContentManager content, Texture2D texture, string TextureName, string TextureFilepath)
+
+
+        // Loads a texture image given its name and filepath.
+        private void LoadTexture(string TextureName, string TextureFilepath)
         {
-            texture = content.Load<Texture2D>(TextureFilepath);
+            ContentManager content = Game1.self.Content;
+            Texture2D texture = content.Load<Texture2D>(TextureFilepath);
             textures.Add(TextureName, texture);
         }
 
-        private void LoadSpriteAnimation(string SpriteAnimationName, string SpriteAnimationFilepath)
+
+
+        // Loads a sprite animation given its name and data.
+        private void LoadSpriteAnimation(string SpriteAnimationName, SpriteJsonData spriteJsonData)
         {
-            SpriteAnimation spriteAnimation = new SpriteAnimation(SpriteAnimationFilepath, textures);
+            SpriteAnimation spriteAnimation = new SpriteAnimation(spriteJsonData, textures);
             spriteAnimations.Add(SpriteAnimationName, spriteAnimation);
         }
 
+
+
+        // Loads all textures from the texture list file.
         public void LoadAllTextures(ContentManager content)
         {
-            LoadTexture(content, kirby_normal, "kirby_normal", "Images/Sprites/Kirby/kirby_normal");
-            LoadTexture(content, kirby_beam, "kirby_beam", "Images/Sprites/Kirby/kirby_beam");
-            LoadTexture(content, kirby_spark, "kirby_spark", "Images/Sprites/Kirby/kirby_spark");
-            LoadTexture(content, kirby_fire, "kirby_fire", "Images/Sprites/Kirby/kirby_fire");
-            LoadTexture(content, Sprint2Tileset, "Sprint2Tileset", "Images/Tiles/Sprint2Tileset");
+            // Open the texture list data file and read its lines into a string array.
+            string textureList = "Content/Images/Textures.txt";
+            string[] textureFilepaths = File.ReadAllLines(textureList);
+
+            // Run through the array and load each texture.
+            foreach (string textureFilepath in textureFilepaths)
+            {
+                string textureName = Path.GetFileNameWithoutExtension(textureFilepath);
+                LoadTexture(textureName, textureFilepath);
+            }
         }
 
+
+
+        // Loads all sprite animations from the .json file.
         public void LoadAllSpriteAnimations()
         {
-            LoadSpriteAnimation("kirby_normal_standing_left", "Content/Images/Sprites/Kirby/kirby_normal_standing_left.csv");
-            LoadSpriteAnimation("kirby_normal_standing_right", "Content/Images/Sprites/Kirby/kirby_normal_standing_right.csv");
-            LoadSpriteAnimation("kirby_normal_walking_left", "Content/Images/Sprites/Kirby/kirby_normal_walking_left.csv");
-            LoadSpriteAnimation("kirby_normal_walking_right", "Content/Images/Sprites/Kirby/kirby_normal_walking_right.csv");
+            // Open the sprite animation data file and deserialize it into a dictionary.
+            string spriteFile = "Content/Images/SpriteAnimations.json";
+            Dictionary<string, SpriteJsonData> SpriteJsonDatas = new Dictionary<string, SpriteJsonData>();
+            SpriteJsonDatas = JsonSerializer.Deserialize<Dictionary<string, SpriteJsonData>>(File.ReadAllText(spriteFile), new JsonSerializerOptions());
 
-            LoadSpriteAnimation("tile_grass", "Content/Images/Tiles/tile_grass.csv");
-            LoadSpriteAnimation("tile_dirt", "Content/Images/Tiles/tile_dirt.csv");
-            LoadSpriteAnimation("tile_rocksurface", "Content/Images/Tiles/tile_rocksurface.csv");
-            LoadSpriteAnimation("tile_rock", "Content/Images/Tiles/tile_rock.csv");
-            LoadSpriteAnimation("tile_platform", "Content/Images/Tiles/tile_platform.csv");
-            LoadSpriteAnimation("tile_stoneblock", "Content/Images/Tiles/tile_stoneblock.csv");
-            LoadSpriteAnimation("tile_slope_steep_left", "Content/Images/Tiles/tile_slope_steep_left.csv");
-            LoadSpriteAnimation("tile_slope_gentle1_left", "Content/Images/Tiles/tile_slope_gentle1_left.csv");
-            LoadSpriteAnimation("tile_slope_gentle2_left", "Content/Images/Tiles/tile_slope_gentle2_left.csv");
-            LoadSpriteAnimation("tile_slope_gentle2_right", "Content/Images/Tiles/tile_slope_gentle2_right.csv");
-            LoadSpriteAnimation("tile_slope_gentle1_right", "Content/Images/Tiles/tile_slope_gentle1_right.csv");
-            LoadSpriteAnimation("tile_slope_steep_right", "Content/Images/Tiles/tile_slope_steep_right.csv");
-            LoadSpriteAnimation("tile_waterfall", "Content/Images/Tiles/tile_waterfall.csv");
+            // Run through the dictionary and load each sprite.
+            foreach (KeyValuePair<string, SpriteJsonData> data in SpriteJsonDatas)
+            {
+                LoadSpriteAnimation(data.Key, data.Value);
+            }
         }
 
+
+
+        // Returns a new sprite object from a sprite animation's name.
         public Sprite createSprite(string spriteAnimationName)
         {
             return new Sprite(spriteAnimations[spriteAnimationName]);
         }
+
+
 
         //method to get sprite file name from current state 
         public Sprite createSprite(string[] states)

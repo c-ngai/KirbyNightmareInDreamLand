@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using System;
-using System.IO;
 using System.Collections.Generic;
 
 namespace MasterGame
@@ -33,61 +31,40 @@ namespace MasterGame
 
 
         /* Creates a new sprite animation object from a sprite animation file. */
-        public SpriteAnimation(string SpriteFilepath, Dictionary<string, Texture2D> textures)
+        public SpriteAnimation(SpriteJsonData spriteJsonData, Dictionary<string, Texture2D> textures)
         {
-
             frameSourceRectangles = new List<Rectangle>();
             frameCenters = new List<Vector2>();
             frameTimes = new List<int>();
 
-            ImportAnimationFile(SpriteFilepath, textures);
-            
+            ImportAnimation(spriteJsonData, textures);
         }
 
 
 
         // Imports animation data from a .csv file into the proper fields of this object.
-        private void ImportAnimationFile(string SpriteFilepath, Dictionary<string, Texture2D> textures)
+        private void ImportAnimation(SpriteJsonData spriteJsonData, Dictionary<string, Texture2D> textures)
         {
-            // Read spreadsheet rows into list of strings.
-            List<string> rows = new(File.ReadLines(SpriteFilepath));
-            // Read spreadsheet into 2D array of strings.
-            string[][] spreadsheet = new string[rows.Count][];
-            for (int i = 0; i < rows.Count; i++)
-            {
-                spreadsheet[i] = rows[i].Split(',');
-            }
 
-            // Find the source texture from spreadsheet header.
-            string TextureName = spreadsheet[0][1];
-            texture = textures[TextureName];
-            // Find loop point from spreadsheet header.
-            loopPoint = int.Parse(spreadsheet[1][1]);
-            // Find the flip flag and set the spriteEffect enum accordingly.
-            if (spreadsheet[2][1].Equals("TRUE"))
+            texture = textures[spriteJsonData.texture];
+            loopPoint = spriteJsonData.loopPoint;
+            if (spriteJsonData.flip == true)
                 spriteEffects = SpriteEffects.FlipHorizontally;
             else
                 spriteEffects = SpriteEffects.None;
             // Set the total frame count.
-            frameCount = rows.Count - 4;
+            frameCount = spriteJsonData.frames.Count;
 
             // For each row in the table, separate it into columns by commas
-            for (int i = 4; i < rows.Count; i++)
+            for (int i = 0; i < frameCount; i++)
             {
-                // Pull data from each column of the current frame's row in the spreadsheet.
-                int frameX = int.Parse(spreadsheet[i][0]);
-                int frameY = int.Parse(spreadsheet[i][1]);
-                int frameWidth = int.Parse(spreadsheet[i][2]);
-                int frameHeight = int.Parse(spreadsheet[i][3]);
-                int frameCenterX = int.Parse(spreadsheet[i][4]);
-                int frameCenterY = int.Parse(spreadsheet[i][5]);
-                int frameTime = int.Parse(spreadsheet[i][6]);
+                Frame frame = spriteJsonData.frames[i];
                 // Use the x, y, width, and height values to create a source rectangle for the current frame, and add it to its list.
-                frameSourceRectangles.Add(new Rectangle(frameX, frameY, frameWidth, frameHeight));
+                frameSourceRectangles.Add(new Rectangle(frame.X, frame.Y, frame.Width, frame.Height));
                 // Use the center x and y values to create a vector for the frame's center, and add it to its list.
-                frameCenters.Add(new Vector2(frameCenterX, frameCenterY));
+                frameCenters.Add(new Vector2(frame.CenterX, frame.CenterY));
                 // Add the frame time to its list.
-                frameTimes.Add(int.Parse(spreadsheet[i][6]));
+                frameTimes.Add(frame.Time);
             }
         }
 
