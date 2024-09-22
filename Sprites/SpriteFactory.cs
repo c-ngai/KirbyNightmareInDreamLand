@@ -5,10 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using System.IO;
+using System.Diagnostics;
+using System.Text.Json.Serialization;
 
-namespace MasterGame
-{
+namespace MasterGame {
+
+
     public class SpriteFactory
     {
         // Dictionary from string to Texture2D. For easily retrieving a texture by name.
@@ -43,9 +48,9 @@ namespace MasterGame
             textures.Add(TextureName, texture);
         }
 
-        private void LoadSpriteAnimation(string SpriteAnimationName, string SpriteAnimationFilepath)
+        private void LoadSpriteAnimation(string SpriteAnimationName, SpriteJsonData spriteJsonData)
         {
-            SpriteAnimation spriteAnimation = new SpriteAnimation(SpriteAnimationFilepath, textures);
+            SpriteAnimation spriteAnimation = new SpriteAnimation(spriteJsonData, textures);
             spriteAnimations.Add(SpriteAnimationName, spriteAnimation);
         }
 
@@ -60,24 +65,24 @@ namespace MasterGame
 
         public void LoadAllSpriteAnimations()
         {
-            LoadSpriteAnimation("kirby_normal_standing_left", "Content/Images/Sprites/Kirby/kirby_normal_standing_left.csv");
-            LoadSpriteAnimation("kirby_normal_standing_right", "Content/Images/Sprites/Kirby/kirby_normal_standing_right.csv");
-            LoadSpriteAnimation("kirby_normal_walking_left", "Content/Images/Sprites/Kirby/kirby_normal_walking_left.csv");
-            LoadSpriteAnimation("kirby_normal_walking_right", "Content/Images/Sprites/Kirby/kirby_normal_walking_right.csv");
+            // Open the sprite animation data file and deserialize it into a dictionary.
+            string spriteFile = "Content/Images/Sprites/SpriteAnimations.json";
+            Dictionary<string, SpriteJsonData> SpriteJsonDatas = new Dictionary<string, SpriteJsonData>();
+            SpriteJsonDatas = JsonSerializer.Deserialize<Dictionary<string, SpriteJsonData>>(File.ReadAllText(spriteFile), new JsonSerializerOptions());
 
-            LoadSpriteAnimation("tile_grass", "Content/Images/Tiles/tile_grass.csv");
-            LoadSpriteAnimation("tile_dirt", "Content/Images/Tiles/tile_dirt.csv");
-            LoadSpriteAnimation("tile_rocksurface", "Content/Images/Tiles/tile_rocksurface.csv");
-            LoadSpriteAnimation("tile_rock", "Content/Images/Tiles/tile_rock.csv");
-            LoadSpriteAnimation("tile_platform", "Content/Images/Tiles/tile_platform.csv");
-            LoadSpriteAnimation("tile_stoneblock", "Content/Images/Tiles/tile_stoneblock.csv");
-            LoadSpriteAnimation("tile_slope_steep_left", "Content/Images/Tiles/tile_slope_steep_left.csv");
-            LoadSpriteAnimation("tile_slope_gentle1_left", "Content/Images/Tiles/tile_slope_gentle1_left.csv");
-            LoadSpriteAnimation("tile_slope_gentle2_left", "Content/Images/Tiles/tile_slope_gentle2_left.csv");
-            LoadSpriteAnimation("tile_slope_gentle2_right", "Content/Images/Tiles/tile_slope_gentle2_right.csv");
-            LoadSpriteAnimation("tile_slope_gentle1_right", "Content/Images/Tiles/tile_slope_gentle1_right.csv");
-            LoadSpriteAnimation("tile_slope_steep_right", "Content/Images/Tiles/tile_slope_steep_right.csv");
-            LoadSpriteAnimation("tile_waterfall", "Content/Images/Tiles/tile_waterfall.csv");
+            // Run through the dictionary and load each pair.
+            foreach (KeyValuePair<string, SpriteJsonData> data in SpriteJsonDatas)
+            {
+                LoadSpriteAnimation(data.Key, data.Value);
+                
+                Debug.WriteLine("//////////////////////////////");
+                Debug.WriteLine("key: " + data.Key);
+                Debug.WriteLine("texture: " + data.Value.texture);
+                Debug.WriteLine("loopPoint: " + data.Value.loopPoint);
+                Debug.WriteLine("flip: " + data.Value.flip);
+                Debug.WriteLine("frame count: " + data.Value.frames.Count);
+            }
+
         }
 
         public Sprite createSprite(string spriteAnimationName)

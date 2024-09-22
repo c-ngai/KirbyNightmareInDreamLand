@@ -80,6 +80,9 @@
 /processorParam:TextureFormat=Color
 /build:Images/Sprites/Kirby/kirby_spark.png
 
+#begin Images/Sprites/SpriteAnimations.json
+/copy:Images/Sprites/SpriteAnimations.json
+
 #begin Images/Tiles/Sprint2Tileset.png
 /importer:TextureImporter
 /processor:TextureProcessor
