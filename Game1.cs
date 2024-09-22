@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-﻿using MasterGame.Commands;
-=======
-﻿using System.Collections.Generic;
-using MasterGame.Commands;
->>>>>>> a8f6ada808a3e6cd4614f1eebc7fb9db548ee563
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -21,14 +15,6 @@ namespace MasterGame
         public int windowWidth { get; set; }
         public int windowHeight { get; set; }
         public bool IsFullscreen { get; set; }
-<<<<<<< HEAD
-=======
-        public ICommand quit { get; set; }
-        public ICommand toggleFullscreen { get; set; }
-        public ICommand nextBlockCommand { get; set; }
-        public ICommand previousBlockCommand { get; set; }
-
->>>>>>> a8f6ada808a3e6cd4614f1eebc7fb9db548ee563
 
         // TODO: Loosen coupling. GraphicsDeviceManager should probably not be public, but ToggleFullscreenCommand still needs to be able to work.
         public GraphicsDeviceManager graphics;
@@ -40,8 +26,8 @@ namespace MasterGame
         public Sprite TestSprite1 { get; set; }
         public Sprite TestSprite2 { get; set; }
 
-        public IPlayer kirby;
         // get kirby 
+        public IPlayer kirby;
 
         public IEnemy waddledeeTest;
         //get waddle dee
