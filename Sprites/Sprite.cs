@@ -1,8 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using System;
-using System.IO;
-using System.Collections.Generic;
 
 namespace MasterGame
 {
@@ -10,6 +7,7 @@ namespace MasterGame
     {
         public void Update();
         public void Draw(Vector2 position);
+        public void ResetAnimation();
     }
 
     public class Sprite : ISprite
@@ -17,6 +15,7 @@ namespace MasterGame
 
         // To store a reference to the global spritebatch.
         private SpriteBatch spriteBatch;
+        // The game's INTERNAL resolution. For placement on screen relative to the scale. Not to be confused with window resolution.
         private int gameWidth;
         private int gameHeight;
 

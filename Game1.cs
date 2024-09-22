@@ -101,7 +101,7 @@ namespace MasterGame
             SpriteFactory.Instance.LoadAllSpriteAnimations();
             // Create a test sprite (TEMPORARY)
             TestSprite1 = SpriteFactory.Instance.createSprite("kirby_normal_walking_right");
-            TestSprite2 = SpriteFactory.Instance.createSprite("tile_waterfall");
+            TestSprite2 = SpriteFactory.Instance.createSprite("waddledee_walking_left");
             
             kirby.UpdateTexture();
             //toggleFullscreen = new ToggleFullscreenCommand();

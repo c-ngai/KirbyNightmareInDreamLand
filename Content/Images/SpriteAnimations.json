@@ -244,7 +244,200 @@
         ]
     },
 
-    "tile_grass": {
+    "waddledee_walking_right": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 8,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 11,
+                "CenterY": 23,
+                "Time": 11
+            },
+            {
+                "X": 34,
+                "Y": 8,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 11,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 60,
+                "Y": 8,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 11,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 86,
+                "Y": 8,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 11,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 112,
+                "Y": 8,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 11,
+                "CenterY": 23,
+                "Time": 11
+            },
+            {
+                "X": 86,
+                "Y": 8,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 11,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 60,
+                "Y": 8,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 11,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 34,
+                "Y": 8,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 11,
+                "CenterY": 23,
+                "Time": 8
+            }
+        ]
+    },
+    "waddledee_walking_left": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 8,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 11,
+                "CenterY": 23,
+                "Time": 11
+            },
+            {
+                "X": 34,
+                "Y": 8,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 11,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 60,
+                "Y": 8,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 11,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 86,
+                "Y": 8,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 11,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 112,
+                "Y": 8,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 11,
+                "CenterY": 23,
+                "Time": 11
+            },
+            {
+                "X": 86,
+                "Y": 8,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 11,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 60,
+                "Y": 8,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 11,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 34,
+                "Y": 8,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 11,
+                "CenterY": 23,
+                "Time": 8
+            }
+        ]
+    },
+    "waddledee_hurt_right": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 36,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 11,
+                "CenterY": 23,
+                "Time": 1
+            }
+        ]
+    },
+    "waddledee_hurt_left": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 36,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 11,
+                "CenterY": 23,
+                "Time": 1
+            }
+        ]
+    },
+
+    "tile_grass",
+
+    {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -260,7 +453,9 @@
             }
         ]
     },
-    "tile_dirt": {
+    "tile_dirt",
+
+    {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -276,7 +471,9 @@
             }
         ]
     },
-    "tile_rocksurface": {
+    "tile_rocksurface",
+
+    {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -292,7 +489,9 @@
             }
         ]
     },
-    "tile_rock": {
+    "tile_rock",
+
+    {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -308,7 +507,9 @@
             }
         ]
     },
-    "tile_platform": {
+    "tile_platform",
+
+    {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -324,7 +525,9 @@
             }
         ]
     },
-    "tile_stoneblock": {
+    "tile_stoneblock",
+
+    {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -340,7 +543,9 @@
             }
         ]
     },
-    "tile_slope_steep_left": {
+    "tile_slope_steep_left",
+
+    {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -356,7 +561,9 @@
             }
         ]
     },
-    "tile_slope_gentle1_left": {
+    "tile_slope_gentle1_left",
+
+    {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -372,7 +579,9 @@
             }
         ]
     },
-    "tile_slope_gentle2_left": {
+    "tile_slope_gentle2_left",
+
+    {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -388,7 +597,9 @@
             }
         ]
     },
-    "tile_slope_gentle2_right": {
+    "tile_slope_gentle2_right",
+
+    {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -404,7 +615,9 @@
             }
         ]
     },
-    "tile_slope_gentle1_right": {
+    "tile_slope_gentle1_right",
+
+    {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -420,7 +633,9 @@
             }
         ]
     },
-    "tile_slope_steep_right": {
+    "tile_slope_steep_right",
+
+    {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -436,7 +651,9 @@
             }
         ]
     },
-    "tile_waterfall": {
+    "tile_waterfall",
+
+    {
         "Source texture": "Sprint2Tileset",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -516,7 +733,9 @@
         ]
     },
 
-    "template": {
+    "template",
+
+    {
         "Source texture": "kirby_normal",
         "Loop point": 0,
         "Flip horizontally?": false,

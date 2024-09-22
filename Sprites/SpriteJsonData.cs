@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace MasterGame
 {
+    // Class for deserializing each sprite animation data in the .json file.
     public class SpriteJsonData
     {
         [JsonPropertyName("Source texture")]
@@ -22,6 +19,7 @@ namespace MasterGame
         public List<Frame> frames { get; set; } = new List<Frame>();
     }
 
+    // Class for deserializing each frame in SpriteJsonData.
     public class Frame
     {
         public int X { get; set; }
