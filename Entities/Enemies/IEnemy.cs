@@ -4,5 +4,6 @@
     {
         void ChangeDirection();
 
+        Sprite EnemySprite { set; }
     }
 }

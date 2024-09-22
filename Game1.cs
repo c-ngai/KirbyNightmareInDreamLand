@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
@@ -29,6 +29,9 @@ namespace MasterGame
         // get kirby 
         public IPlayer kirby;
 
+        public IEnemy waddledeeTest;
+        //get waddle dee
+        
         public Game1()
         {
             self = this;
@@ -68,7 +71,14 @@ namespace MasterGame
 
             keyboard.RegisterCommand(Keys.Right, new KirbyMoveRightCommand(kirby));
             keyboard.RegisterCommand(Keys.Left, new KirbyMoveLeftCommand(kirby));
-            
+            keyboard.RegisterCommand(Keys.T, new PreviousBlockCommand());
+            keyboard.RegisterCommand(Keys.Y, new NextBlockCommand());
+
+            keyboard.RegisterCommand(Keys.T, previousBlockCommand);
+
+            keyboard.RegisterCommand(Keys.Y, nextBlockCommand);
+
+
         }
         protected override void Initialize()
         {
@@ -94,12 +104,52 @@ namespace MasterGame
             // Load all sprite factory textures and sprites.
             SpriteFactory.Instance.LoadAllTextures(Content);
             SpriteFactory.Instance.LoadAllSpriteAnimations();
+
+            // Load textures for blocks and load the names of the sprites into a list
+            List<Sprite> blockList = new List<Sprite>();
+            blockList = new List<Sprite>();
+
+            //Sprite testBlock1 = SpriteFactory.Instance.createSprite("test_block_1");
+            //Sprite testBlock2 = SpriteFactory.Instance.createSprite("test_block_1");
+            //Sprite testBlock3 = SpriteFactory.Instance.createSprite("test_block_1");
+
+
+            //blockList.Add(testBlock1);
+            //blockList.Add(testBlock2);
+            //blockList.Add(testBlock3);
+
+            BlockList.Instance.setBlockList(blockList);
+
             // Create a test sprite (TEMPORARY)
             kirby.PlayerSprite = SpriteFactory.Instance.createSprite("kirby_normal_standing_right");
+            //waddledeeTest.EnemySprite = SpriteFactory.Instance.createSprite("kirby_normal_standing_right");
+
+            waddledeeTest = new WaddleDee(new Vector2(150, 100));
 
             TestSprite1 = SpriteFactory.Instance.createSprite("kirby_normal_walking_right");
             TestSprite2 = SpriteFactory.Instance.createSprite("tile_waterfall");
-            
+
+            // Load textures for blocks and load the names of the sprites into a list
+            List<Sprite> blockList = new List<Sprite>();
+            blockList = new List<Sprite>
+            {
+                SpriteFactory.Instance.createSprite("tile_dirt"),
+                SpriteFactory.Instance.createSprite("tile_grass"),
+                SpriteFactory.Instance.createSprite("tile_platform"),
+                SpriteFactory.Instance.createSprite("tile_rock"),
+                SpriteFactory.Instance.createSprite("tile_rocksurface"),
+                SpriteFactory.Instance.createSprite("tile_slope_gentle1_left"),
+                SpriteFactory.Instance.createSprite("tile_slope_gentle1_right"),
+                SpriteFactory.Instance.createSprite("tile_slope_gentle2_left"),
+                SpriteFactory.Instance.createSprite("tile_slope_gentle2_right"),
+                SpriteFactory.Instance.createSprite("tile_slope_steep_left"),
+                SpriteFactory.Instance.createSprite("tile_slope_steep_right"),
+                SpriteFactory.Instance.createSprite("tile_stoneblock"),
+                SpriteFactory.Instance.createSprite("tile_waterfall"),
+        };
+
+            BlockList.Instance.setBlockList(blockList);
+
             //kirby.UpdateTexture();
             //toggleFullscreen = new ToggleFullscreenCommand();
 
@@ -119,7 +169,8 @@ namespace MasterGame
 
             TestSprite1.Update();
             TestSprite2.Update();
-            kirby.Update(); 
+            kirby.Update();
+            waddledeeTest.Update();
             //TestSprite.Update();
         }
 
@@ -151,12 +202,19 @@ namespace MasterGame
             float scale = windowHeight / gameHeight;
             // Draw test sprite
             TestSprite1.Draw(new Vector2(100, 100));
-            TestSprite2.Draw(new Vector2(130, 92));
+            //TestSprite2.Draw(new Vector2(130, 92));
+
+            BlockList.Instance.Draw(new Vector2(200, 100));
+
 
             //TestSprite2.Draw(new Vector2((int)(Mouse.GetState().X/scale), (int)(Mouse.GetState().Y/scale)));
 
             kirby.Draw();
+            waddledeeTest.Draw();
             // End spriteBatch
+            BlockList.Instance.Draw(spriteBatch, new Vector2(300, 300));
+
+
             spriteBatch.End();
 
         }
