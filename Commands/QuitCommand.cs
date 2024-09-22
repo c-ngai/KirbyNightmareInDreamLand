@@ -14,5 +14,10 @@ namespace MasterGame
         {
             myGame.Exit();
         }
+
+        public void Undo()
+        {
+            
+        }
     }
 }

@@ -80,23 +80,17 @@ namespace MasterGame
             LoadSpriteAnimation("tile_waterfall", "Content/Images/Tiles/tile_waterfall.csv");
         }
 
-        public string GetSpriteName(string[] states)
-        {
-            string currentState = states[3] +"_" + states[2] +"_"+ states[1] ; //+"_"+states[0];
-            return currentState;
-        }
         public Sprite createSprite(string spriteAnimationName)
         {
             return new Sprite(spriteAnimations[spriteAnimationName]);
         }
 
+        //method to get sprite file name from current state 
         public Sprite createSprite(string[] states)
         {
-             string spriteAnimationName = states[3] +"_" + states[2] +"_"+ states[1] +"_"+states[0];
+            string spriteAnimationName = states[3] +"_" + states[2] +"_"+ states[1] +"_"+states[0];
             return new Sprite(spriteAnimations[spriteAnimationName]);
         }
-
-
 
     }
 }
