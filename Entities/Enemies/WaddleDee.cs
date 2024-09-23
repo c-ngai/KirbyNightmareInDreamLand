@@ -50,7 +50,7 @@ namespace MasterGame
             isDead = true;
 
             //eventual death pose/animation
-            stateMachine.ChangePose(EnemyPose.LoadingAttack);
+            stateMachine.ChangePose(EnemyPose.Hurt);
             UpdateTexture();
         }
 

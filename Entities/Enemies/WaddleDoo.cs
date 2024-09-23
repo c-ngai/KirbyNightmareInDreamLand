@@ -14,8 +14,8 @@ namespace MasterGame
         private string oldState;
         private int frameCounter = 0;
         private int walkFrames = 180;  //3 sec (if 60fps)
-        private int stopFrames = 120;  //2 sec
-        private int attackFrames = 60; //1 sec
+        private int stopFrames = 60;  //2 sec
+        private int attackFrames = 100; //1 sec
         private int ichangedthis;
 
         public WaddleDoo(Vector2 startPosition)
@@ -55,7 +55,7 @@ namespace MasterGame
             isDead = true;
 
             //eventual death pose/animation
-            stateMachine.ChangePose(EnemyPose.LoadingAttack);
+            stateMachine.ChangePose(EnemyPose.Charging);
             UpdateTexture();
         }
 
@@ -86,13 +86,13 @@ namespace MasterGame
 
                     if (frameCounter >= walkFrames)
                     {
-                        stateMachine.ChangePose(EnemyPose.LoadingAttack); // Stop after walking to load attack
+                        stateMachine.ChangePose(EnemyPose.Charging); // Stop after walking to load attack
                         frameCounter = 0;
                         UpdateTexture();
                     }
                 }
                 // Handle idle (stopped) state
-                else if (stateMachine.GetPose() == EnemyPose.LoadingAttack) //If Loading Attack,
+                else if (stateMachine.GetPose() == EnemyPose.Charging) //If Loading Attack,
                 {
                     if (frameCounter >= stopFrames)
                     {
