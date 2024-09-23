@@ -1,7 +1,7 @@
 ﻿namespace MasterGame
 {
     public enum EnemyType { WaddleDee, WaddleDoo, BrontoBurt, PoppyBrosJr, Sparky, Hothead }
-    public enum EnemyPose { Walking, Attacking, Jumping, LoadingAttack, Flying, Hopping }
+    public enum EnemyPose { Walking, Attacking, Jumping, Charging, Flying, Hopping, Hurt }
     public interface IEnemyStateMachine : IStateMachine
     {
         public void ChangeDirection();

@@ -914,7 +914,7 @@
                 "Y": 8,
                 "Width": 24,
                 "Height": 24,
-                "CenterX": 11,
+                "CenterX": 10,
                 "CenterY": 23,
                 "Time": 11
             },
@@ -923,7 +923,7 @@
                 "Y": 8,
                 "Width": 24,
                 "Height": 24,
-                "CenterX": 11,
+                "CenterX": 10,
                 "CenterY": 23,
                 "Time": 8
             },
@@ -932,7 +932,7 @@
                 "Y": 8,
                 "Width": 24,
                 "Height": 24,
-                "CenterX": 11,
+                "CenterX": 10,
                 "CenterY": 23,
                 "Time": 8
             },
@@ -941,7 +941,7 @@
                 "Y": 8,
                 "Width": 24,
                 "Height": 24,
-                "CenterX": 11,
+                "CenterX": 10,
                 "CenterY": 23,
                 "Time": 8
             },
@@ -950,7 +950,7 @@
                 "Y": 8,
                 "Width": 24,
                 "Height": 24,
-                "CenterX": 11,
+                "CenterX": 10,
                 "CenterY": 23,
                 "Time": 11
             },
@@ -959,7 +959,7 @@
                 "Y": 8,
                 "Width": 24,
                 "Height": 24,
-                "CenterX": 11,
+                "CenterX": 10,
                 "CenterY": 23,
                 "Time": 8
             },
@@ -968,7 +968,7 @@
                 "Y": 8,
                 "Width": 24,
                 "Height": 24,
-                "CenterX": 11,
+                "CenterX": 10,
                 "CenterY": 23,
                 "Time": 8
             },
@@ -977,7 +977,7 @@
                 "Y": 8,
                 "Width": 24,
                 "Height": 24,
-                "CenterX": 11,
+                "CenterX": 10,
                 "CenterY": 23,
                 "Time": 8
             }
@@ -993,7 +993,7 @@
                 "Y": 8,
                 "Width": 24,
                 "Height": 24,
-                "CenterX": 11,
+                "CenterX": 10,
                 "CenterY": 23,
                 "Time": 11
             },
@@ -1002,7 +1002,7 @@
                 "Y": 8,
                 "Width": 24,
                 "Height": 24,
-                "CenterX": 11,
+                "CenterX": 10,
                 "CenterY": 23,
                 "Time": 8
             },
@@ -1011,7 +1011,7 @@
                 "Y": 8,
                 "Width": 24,
                 "Height": 24,
-                "CenterX": 11,
+                "CenterX": 10,
                 "CenterY": 23,
                 "Time": 8
             },
@@ -1020,7 +1020,7 @@
                 "Y": 8,
                 "Width": 24,
                 "Height": 24,
-                "CenterX": 11,
+                "CenterX": 10,
                 "CenterY": 23,
                 "Time": 8
             },
@@ -1029,7 +1029,7 @@
                 "Y": 8,
                 "Width": 24,
                 "Height": 24,
-                "CenterX": 11,
+                "CenterX": 10,
                 "CenterY": 23,
                 "Time": 11
             },
@@ -1038,7 +1038,7 @@
                 "Y": 8,
                 "Width": 24,
                 "Height": 24,
-                "CenterX": 11,
+                "CenterX": 10,
                 "CenterY": 23,
                 "Time": 8
             },
@@ -1047,7 +1047,7 @@
                 "Y": 8,
                 "Width": 24,
                 "Height": 24,
-                "CenterX": 11,
+                "CenterX": 10,
                 "CenterY": 23,
                 "Time": 8
             },
@@ -1056,7 +1056,7 @@
                 "Y": 8,
                 "Width": 24,
                 "Height": 24,
-                "CenterX": 11,
+                "CenterX": 10,
                 "CenterY": 23,
                 "Time": 8
             }
@@ -1072,7 +1072,7 @@
                 "Y": 36,
                 "Width": 24,
                 "Height": 24,
-                "CenterX": 11,
+                "CenterX": 10,
                 "CenterY": 23,
                 "Time": 1
             }
@@ -1088,8 +1088,694 @@
                 "Y": 36,
                 "Width": 24,
                 "Height": 24,
-                "CenterX": 11,
+                "CenterX": 10,
                 "CenterY": 23,
+                "Time": 1
+            }
+        ]
+    },
+
+    "waddledoo_walking_right": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 11
+            },
+            {
+                "X": 34,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 60,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 86,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 112,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 11
+            },
+            {
+                "X": 86,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 60,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 34,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 8
+            }
+        ]
+    },
+    "waddledoo_walking_left": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 11
+            },
+            {
+                "X": 34,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 60,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 86,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 112,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 11
+            },
+            {
+                "X": 86,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 60,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 34,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 8
+            }
+        ]
+    },
+    "waddledoo_hurt_right": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 92,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 1
+            }
+        ]
+    },
+    "waddledoo_hurt_left": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 92,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 1
+            }
+        ]
+    },
+    "waddledoo_jumping_right": {
+        "Source texture": "enemies",
+        "Loop point": 6,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 60,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 1
+            },
+            {
+                "X": 86,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 2
+            },
+            {
+                "X": 60,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 2
+            },
+            {
+                "X": 34,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 2
+            },
+            {
+                "X": 60,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 2
+            },
+            {
+                "X": 86,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 2
+            },
+            {
+                "X": 112,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 1
+            }
+        ]
+    },
+    "waddledoo_jumping_left": {
+        "Source texture": "enemies",
+        "Loop point": 6,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 60,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 1
+            },
+            {
+                "X": 86,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 2
+            },
+            {
+                "X": 60,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 2
+            },
+            {
+                "X": 34,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 2
+            },
+            {
+                "X": 60,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 2
+            },
+            {
+                "X": 86,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 2
+            },
+            {
+                "X": 112,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 1
+            }
+        ]
+    },
+    "waddledoo_charging_right": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 60,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 2
+            },
+            {
+                "X": 34,
+                "Y": 92,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 2
+            }
+        ]
+    },
+    "waddledoo_charging_left": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 60,
+                "Y": 64,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 2
+            },
+            {
+                "X": 34,
+                "Y": 92,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 2
+            }
+        ]
+    },
+    "waddledoo_attacking_right": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 60,
+                "Y": 92,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 2
+            },
+            {
+                "X": 86,
+                "Y": 92,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 2
+            }
+        ]
+    },
+    "waddledoo_attacking_left": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 60,
+                "Y": 92,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 2
+            },
+            {
+                "X": 86,
+                "Y": 92,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 2
+            }
+        ]
+    },
+
+    "brontoburt_standing_right": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 120,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 13,
+                "CenterY": 20,
+                "Time": 18
+            },
+            {
+                "X": 34,
+                "Y": 120,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 13,
+                "CenterY": 20,
+                "Time": 10
+            }
+        ]
+    },
+    "brontoburt_standing_left": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 120,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 13,
+                "CenterY": 20,
+                "Time": 18
+            },
+            {
+                "X": 34,
+                "Y": 120,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 13,
+                "CenterY": 20,
+                "Time": 10
+            }
+        ]
+    },
+    "brontoburt_flyingslow_right": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 34,
+                "Y": 148,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 13,
+                "CenterY": 20,
+                "Time": 6
+            },
+            {
+                "X": 8,
+                "Y": 148,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 13,
+                "CenterY": 20,
+                "Time": 3
+            },
+            {
+                "X": 60,
+                "Y": 148,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 13,
+                "CenterY": 20,
+                "Time": 6
+            },
+            {
+                "X": 8,
+                "Y": 148,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 13,
+                "CenterY": 20,
+                "Time": 1
+            }
+        ]
+    },
+    "brontoburt_flyingslow_left": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 34,
+                "Y": 148,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 13,
+                "CenterY": 20,
+                "Time": 6
+            },
+            {
+                "X": 8,
+                "Y": 148,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 13,
+                "CenterY": 20,
+                "Time": 3
+            },
+            {
+                "X": 60,
+                "Y": 148,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 13,
+                "CenterY": 20,
+                "Time": 6
+            },
+            {
+                "X": 8,
+                "Y": 148,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 13,
+                "CenterY": 20,
+                "Time": 1
+            }
+        ]
+    },
+    "brontoburt_flyingfast_right": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 34,
+                "Y": 148,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 13,
+                "CenterY": 20,
+                "Time": 2
+            },
+            {
+                "X": 8,
+                "Y": 148,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 13,
+                "CenterY": 20,
+                "Time": 2
+            },
+            {
+                "X": 60,
+                "Y": 148,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 13,
+                "CenterY": 20,
+                "Time": 2
+            },
+            {
+                "X": 8,
+                "Y": 148,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 13,
+                "CenterY": 20,
+                "Time": 2
+            }
+        ]
+    },
+    "brontoburt_flyingfast_left": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 34,
+                "Y": 148,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 13,
+                "CenterY": 20,
+                "Time": 2
+            },
+            {
+                "X": 8,
+                "Y": 148,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 13,
+                "CenterY": 20,
+                "Time": 2
+            },
+            {
+                "X": 60,
+                "Y": 148,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 13,
+                "CenterY": 20,
+                "Time": 2
+            },
+            {
+                "X": 8,
+                "Y": 148,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 13,
+                "CenterY": 20,
+                "Time": 2
+            }
+        ]
+    },
+    "brontoburt_hurt_right": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 176,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 13,
+                "CenterY": 20,
+                "Time": 1
+            }
+        ]
+    },
+    "brontoburt_hurt_left": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 176,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 13,
+                "CenterY": 20,
                 "Time": 1
             }
         ]
@@ -1367,19 +2053,19 @@
         ]
     },
 
-    "template": {
-        "Source texture": "kirby_normal",
+    "invalidspritename": {
+        "Source texture": "invalidspritename",
         "Loop point": 0,
         "Flip horizontally?": false,
         "Frames": [
             {
-                "X": 4,
-                "Y": 99,
-                "Width": 23,
-                "Height": 19,
-                "CenterX": 11,
-                "CenterY": 18,
-                "Time": 4
+                "X": 0,
+                "Y": 0,
+                "Width": 25,
+                "Height": 25,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 1
             }
         ]
     }

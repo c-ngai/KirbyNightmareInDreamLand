@@ -67,19 +67,19 @@ namespace MasterGame
         public string[] GetSpriteParameters()
         {
             string[] spriteParameters = new string[4];
-            spriteParameters[0] = facingLeft ? "left":"right";
-            spriteParameters[1] = pose.ToString().ToLower();
-            spriteParameters[2] = type.ToString().ToLower();
-            spriteParameters[3] = "kirby";
+            spriteParameters[0] = "kirby";
+            spriteParameters[1] = type.ToString().ToLower();
+            spriteParameters[2] = pose.ToString().ToLower();
+            spriteParameters[3] = facingLeft ? "left" : "right";
             return spriteParameters;
         }
 
         public string GetStateString()
         {
-            string facing = facingLeft ? "left":"right";
-            string posing = pose.ToString().ToLower();
             string power = type.ToString().ToLower();
-            return facing + posing + power;
+            string posing = pose.ToString().ToLower();
+            string facing = facingLeft ? "left" : "right";
+            return "kirby_" + power + "_"+ posing + "_" + facing;
         }
     }
 }

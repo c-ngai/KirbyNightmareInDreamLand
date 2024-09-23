@@ -74,6 +74,7 @@ namespace MasterGame
             float scale = windowHeight / gameHeight;
 
             // Scale the position
+            position.Floor();
             position *= scale;
             // Pull the frame center and source rectangle from data.
             Vector2 frameCenter = _spriteAnimation.frameCenters[currentFrame];

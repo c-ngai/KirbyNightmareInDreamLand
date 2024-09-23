@@ -4,3 +4,4 @@ Images/Spritesheets/kirby_spark
 Images/Spritesheets/kirby_fire
 Images/Spritesheets/enemies
 Images/Tiles/Sprint2Tileset
+Images/invalidspritename
