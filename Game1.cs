@@ -28,6 +28,11 @@ namespace MasterGame
         // get kirby 
         public IEnemy waddledeeTest;
         //get waddledee
+        public IEnemy waddledooTest;
+        //get waddledoo
+        public IEnemy[] enemyList;
+        //list of all enemies
+        public int currentEnemyIndex;
         
         public Game1()
         {
@@ -71,6 +76,9 @@ namespace MasterGame
             keyboard.RegisterCommand(Keys.Left, new KirbyMoveLeftCommand(kirby));
             keyboard.RegisterCommand(Keys.T, new NextBlockCommand());
             keyboard.RegisterCommand(Keys.Y, new PreviousBlockCommand());
+
+            keyboard.RegisterCommand(Keys.O, new PreviousEnemyCommand(this));
+            keyboard.RegisterCommand(Keys.P, new NextEnemyCommand(this));
 
         }
         protected override void Initialize()
@@ -123,8 +131,11 @@ namespace MasterGame
             kirby.PlayerSprite = SpriteFactory.Instance.createSprite("kirby_normal_standing_right");
 
             waddledeeTest = new WaddleDee(new Vector2(170, 100));
+            waddledooTest = new WaddleDoo(new Vector2(170, 100));
 
-            
+            enemyList = new IEnemy[] { waddledeeTest, waddledooTest };
+            currentEnemyIndex = 0;
+
             //kirby.UpdateTexture();
             //toggleFullscreen = new ToggleFullscreenCommand();
 
@@ -144,7 +155,7 @@ namespace MasterGame
             kirby.Update();
             BlockList.Instance.Update();
 
-            waddledeeTest.Update();
+            enemyList[currentEnemyIndex].Update();
         }
 
         protected override void Draw(GameTime gameTime)
@@ -175,7 +186,10 @@ namespace MasterGame
             float scale = windowHeight / gameHeight;
 
             kirby.Draw();
-            waddledeeTest.Draw();
+
+            // draw only selected enemy
+            enemyList[currentEnemyIndex].Draw();
+
             BlockList.Instance.Draw(new Vector2(100, 150));
 
             // End spriteBatch
