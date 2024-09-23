@@ -13,8 +13,7 @@ namespace MasterGame
         // is there a better way to do this beyond resetting every single game object?
         public void Execute()
         {
-            //game.kirby = new Player(new Vector2(30, game.gameHeight * 4 / 5));
-            //game.kirby.PlayerSprite = SpriteFactory.Instance.createSprite("kirby_normal_standing_right");
+            game.LoadObjects();
         }
         public void Undo()
         {

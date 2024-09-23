@@ -17,6 +17,7 @@
 
         public void Undo()
         {
+            kirby.StopMoving();
         }
     }
 }

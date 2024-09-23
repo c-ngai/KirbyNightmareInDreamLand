@@ -23,16 +23,20 @@ namespace MasterGame
         private SpriteFont font;
         public KeyboardController keyboard;
 
-        public IPlayer kirby;
         // get kirby 
-        public IEnemy waddledeeTest;
+        public IPlayer kirby;
+
         //get waddledee
-        public IEnemy waddledooTest;
+        public IEnemy waddledeeTest;
+
         //get waddledoo
-        public IEnemy[] enemyList;
+        public IEnemy waddledooTest;
+
         //list of all enemies
+        public IEnemy[] enemyList;
+
         public int currentEnemyIndex;
-        
+
         public Game1()
         {
             self = this;
@@ -46,8 +50,6 @@ namespace MasterGame
             windowWidth = 720;
             windowHeight = 480;
             IsFullscreen = false;
-            
-            kirby = new Player(new Vector2(30, gameHeight * 4/5));
         }
 
         // will later be changed to read in keyboard control input
@@ -80,21 +82,15 @@ namespace MasterGame
             graphics.ApplyChanges();
 
             base.Initialize();
-            SetKeyboardControls(keyboard);
         }
 
-        protected override void LoadContent()
+        public void LoadObjects()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            // Creates kirby object
+            kirby = new Player(new Vector2(30, gameHeight * 4 / 5));
+            kirby.PlayerSprite = SpriteFactory.Instance.createSprite("kirby_normal_standing_right");
 
-            font = Content.Load<SpriteFont>("DefaultFont");
-
-            // Load all sprite factory textures and sprites.
-            SpriteFactory.Instance.LoadAllTextures(Content);
-            SpriteFactory.Instance.LoadAllSpriteAnimations();
-
-            // Load textures for blocks and load the names of the sprites into a list
+            // Creates blocks
             List<Sprite> blockList = new List<Sprite>();
             blockList = new List<Sprite>
             {
@@ -112,17 +108,33 @@ namespace MasterGame
                 SpriteFactory.Instance.createSprite("tile_stoneblock"),
                 SpriteFactory.Instance.createSprite("tile_waterfall"),
             };
-
             BlockList.Instance.setBlockList(blockList);
 
-            // Create a kirby sprite 
-            kirby.PlayerSprite = SpriteFactory.Instance.createSprite("kirby_normal_standing_right");
-
+            // Creates enemies
             waddledeeTest = new WaddleDee(new Vector2(170, 100));
             waddledooTest = new WaddleDoo(new Vector2(170, 100));
 
             enemyList = new IEnemy[] { waddledeeTest, waddledooTest };
             currentEnemyIndex = 0;
+
+            // Remapping keyboard to new Kirby 
+            keyboard = new KeyboardController();
+            SetKeyboardControls(keyboard);
+        }
+
+        protected override void LoadContent()
+        {
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            font = Content.Load<SpriteFont>("DefaultFont");
+
+            // Load all sprite factory textures and sprites.
+            SpriteFactory.Instance.LoadAllTextures(Content);
+            SpriteFactory.Instance.LoadAllSpriteAnimations();
+
+            // Load all objects 
+            LoadObjects();
 
             //kirby.UpdateTexture();
             //toggleFullscreen = new ToggleFullscreenCommand();
@@ -140,6 +152,7 @@ namespace MasterGame
 
             keyboard.Update();
             kirby.Update();
+
             BlockList.Instance.Update();
 
             enemyList[currentEnemyIndex].Update();
