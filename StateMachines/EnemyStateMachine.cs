@@ -59,24 +59,11 @@
 
         public string[] GetSpriteParameters()
         {
-            string[] spriteParameters = new string[4];
-            spriteParameters[0] = facingLeft ? "left":"right";
+            string[] spriteParameters = new string[3];
+            spriteParameters[0] = type.ToString().ToLower();
             spriteParameters[1] = pose.ToString().ToLower();
-            //spriteParameters[2] = type.ToString().ToLower();
-            spriteParameters[2] = "normal";
-            spriteParameters[3] = "kirby";
-            //spriteParameters[2] = "waddledee";
-
+            spriteParameters[2] = facingLeft ? "left" : "right";
             return spriteParameters;
-        }
-
-        public string GetStateString()
-        {
-            string facing = facingLeft ? "left" : "right";
-            string posing = pose.ToString().ToLower();
-            string enemy = type.ToString().ToLower();
-            return facing + posing + enemy;
-            //return enemy + posing + facing;
         }
     }
 }

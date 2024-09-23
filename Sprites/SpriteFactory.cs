@@ -100,7 +100,17 @@ namespace MasterGame {
         //method to get sprite file name from current state 
         public Sprite createSprite(string[] states)
         {
-            string spriteAnimationName = states[3] +"_" + states[2] +"_"+ states[1] +"_"+states[0];
+            // Create a single string to combine all the strings of states into one, with underscores between.
+            string spriteAnimationName = "";
+            for (int i = 0; i < states.Length; i++)
+            {
+                spriteAnimationName += states[i];
+                if (i < states.Length - 1)
+                {
+                    spriteAnimationName += "_";
+                }
+            }
+
             return new Sprite(spriteAnimations[spriteAnimationName]);
         }
 
