@@ -37,6 +37,7 @@ namespace MasterGame
 
         public void TakeDamage()
         {
+            stateMachine.ChangePose(EnemyPose.Hurt);
             health -= 10;
             if (health <= 0)
             {

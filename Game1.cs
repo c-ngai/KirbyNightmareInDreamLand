@@ -122,7 +122,7 @@ namespace MasterGame
             // Create a kirby sprite 
             kirby.PlayerSprite = SpriteFactory.Instance.createSprite("kirby_normal_standing_right");
 
-            waddledeeTest = new WaddleDee(new Vector2(150, 100));
+            waddledeeTest = new WaddleDee(new Vector2(170, 100));
 
             
             //kirby.UpdateTexture();

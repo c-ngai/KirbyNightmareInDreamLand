@@ -65,6 +65,7 @@
             //spriteParameters[2] = type.ToString().ToLower();
             spriteParameters[2] = "normal";
             spriteParameters[3] = "kirby";
+            //spriteParameters[2] = "waddledee";
 
             return spriteParameters;
         }
