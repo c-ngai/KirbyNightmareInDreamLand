@@ -20,7 +20,7 @@
 /processorParam:TextureFormat=Compressed
 /build:DefaultFont.spritefont
 
-#begin Images/Sprites/Kirby/kirby_beam.png
+#begin Images/invalidspritename.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -30,9 +30,24 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/Sprites/Kirby/kirby_beam.png
+/build:Images/invalidspritename.png
 
-#begin Images/Sprites/Kirby/kirby_fire.png
+#begin Images/SpriteAnimations.json
+/copy:Images/SpriteAnimations.json
+
+#begin Images/Spritesheets/enemies.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=0,104,0,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Spritesheets/enemies.png
+
+#begin Images/Spritesheets/kirby_beam.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -42,21 +57,21 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/Sprites/Kirby/kirby_fire.png
+/build:Images/Spritesheets/kirby_beam.png
 
-#begin Images/Sprites/Kirby/kirby_normal_standing_left.csv
-/copy:Images/Sprites/Kirby/kirby_normal_standing_left.csv
+#begin Images/Spritesheets/kirby_fire.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Spritesheets/kirby_fire.png
 
-#begin Images/Sprites/Kirby/kirby_normal_standing_right.csv
-/copy:Images/Sprites/Kirby/kirby_normal_standing_right.csv
-
-#begin Images/Sprites/Kirby/kirby_normal_walking_left.csv
-/copy:Images/Sprites/Kirby/kirby_normal_walking_left.csv
-
-#begin Images/Sprites/Kirby/kirby_normal_walking_right.csv
-/copy:Images/Sprites/Kirby/kirby_normal_walking_right.csv
-
-#begin Images/Sprites/Kirby/kirby_normal.png
+#begin Images/Spritesheets/kirby_normal.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=0,219,255,255
@@ -66,9 +81,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/Sprites/Kirby/kirby_normal.png
+/build:Images/Spritesheets/kirby_normal.png
 
-#begin Images/Sprites/Kirby/kirby_spark.png
+#begin Images/Spritesheets/kirby_spark.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -78,7 +93,10 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/Sprites/Kirby/kirby_spark.png
+/build:Images/Spritesheets/kirby_spark.png
+
+#begin Images/Textures.txt
+/copy:Images/Textures.txt
 
 #begin Images/Tiles/Sprint2Tileset.png
 /importer:TextureImporter
@@ -91,43 +109,4 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/Tiles/Sprint2Tileset.png
-
-#begin Images/Tiles/tile_dirt.csv
-/copy:Images/Tiles/tile_dirt.csv
-
-#begin Images/Tiles/tile_grass.csv
-/copy:Images/Tiles/tile_grass.csv
-
-#begin Images/Tiles/tile_platform.csv
-/copy:Images/Tiles/tile_platform.csv
-
-#begin Images/Tiles/tile_rock.csv
-/copy:Images/Tiles/tile_rock.csv
-
-#begin Images/Tiles/tile_rocksurface.csv
-/copy:Images/Tiles/tile_rocksurface.csv
-
-#begin Images/Tiles/tile_slope_gentle1_left.csv
-/copy:Images/Tiles/tile_slope_gentle1_left.csv
-
-#begin Images/Tiles/tile_slope_gentle1_right.csv
-/copy:Images/Tiles/tile_slope_gentle1_right.csv
-
-#begin Images/Tiles/tile_slope_gentle2_left.csv
-/copy:Images/Tiles/tile_slope_gentle2_left.csv
-
-#begin Images/Tiles/tile_slope_gentle2_right.csv
-/copy:Images/Tiles/tile_slope_gentle2_right.csv
-
-#begin Images/Tiles/tile_slope_steep_left.csv
-/copy:Images/Tiles/tile_slope_steep_left.csv
-
-#begin Images/Tiles/tile_slope_steep_right.csv
-/copy:Images/Tiles/tile_slope_steep_right.csv
-
-#begin Images/Tiles/tile_stoneblock.csv
-/copy:Images/Tiles/tile_stoneblock.csv
-
-#begin Images/Tiles/tile_waterfall.csv
-/copy:Images/Tiles/tile_waterfall.csv
 

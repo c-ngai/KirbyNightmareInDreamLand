@@ -70,17 +70,16 @@ namespace MasterGame
         #region Movement
         public void MoveLeft()
         {
+            state.SetDirectionLeft();
             movement.Walk();
-            state.SetDirectionLeft();
             state.ChangePose(KirbyPose.Walking);
-            state.SetDirectionLeft();
+            
             UpdateTexture();
         }
 
         public void MoveRight()
         {
             movement.Walk();
-            movement.MovePlayer(this);
             state.ChangePose(KirbyPose.Walking);
             state.SetDirectionRight();
             UpdateTexture();
@@ -106,8 +105,8 @@ namespace MasterGame
         // makes state changes by calling other player methods, calls state.Update(), and finally calls Draw last?
         public void Update()
         {
-            playerSprite.Update();
             movement.MovePlayer(this);
+            playerSprite.Update();
         }
         public void Draw()
         {
