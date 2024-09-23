@@ -31,7 +31,7 @@ namespace MasterGame
 
             IDictionaryEnumerator enumerator = oldKeyStates.GetEnumerator();
             Dictionary<Keys, bool> tempDict = new Dictionary<Keys, bool>();
-
+            
             for (int i = 0; i < pressedKeys.Length; i++)
             {
                 tempDict.Add(pressedKeys[i], true);

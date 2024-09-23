@@ -5,11 +5,11 @@ namespace MasterGame
     public abstract class PlayerMovement
     {
         protected PlayerStateMachine state;
-        protected int gameWidth;
-        protected int gameHeight;
         protected int floor;
         //light hard coded physics
         //seperate movement and state 
+        //make these #define
+        
         protected float yVel = 0;
         protected float xVel = 0;
         protected float jumpVel = 10f;
@@ -19,14 +19,15 @@ namespace MasterGame
         protected float runningVel = .75f;
         protected float gravity = -10f;
 
+        //decrease public access
+        public bool floating;
+        public bool crouching;
+
         //change kirby velocity to go left
         public PlayerMovement()
         {
-            gameWidth = Game1.self.gameWidth;
-            gameHeight = Game1.self.gameHeight;
-            floor =  gameHeight * 4/5;
             state = PlayerStateMachine.Instance;
-    
+            floating = false;
         }
 
         public void StopMovement()
@@ -35,7 +36,7 @@ namespace MasterGame
         }
 
         #region Walking
-        public void Walk()
+        public virtual void Walk()
         {   
             if(state.IsLeft()){
                 xVel = walkingVel * -1;
@@ -46,9 +47,13 @@ namespace MasterGame
         #endregion
 
         #region Running
-        public void RunLeft()
+        public virtual void Run()
         {
-            
+            if(state.IsLeft()){
+                xVel = runningVel * -1;
+            } else {
+                xVel = runningVel;
+            }
         }
         #endregion
 
@@ -77,7 +82,7 @@ namespace MasterGame
         public void UpdatePosition(Player kirby)
         {
             //float newY =(float) (yVel * frameRate + .5 * gravity * frameRate * frameRate + kirby.position.Y);
-            kirby.position.X += xVel;
+            kirby.PositionX += xVel;
             //kirby.position.Y = newY;
             //yVel += gravity *frameRate;
         }
@@ -85,27 +90,28 @@ namespace MasterGame
         // checks palyer doesnt go out of frame (up and down)
         public void AdjustX(Player kirby)
         {
-            if(kirby.position.X > gameWidth)
+            if(kirby.PositionX > Constants.Graphics.GAME_WIDTH)
             {
-                kirby.position.X  = gameWidth;  
+
+                kirby.PositionX  = Constants.Graphics.GAME_WIDTH;  
             }
-            if(kirby.position.X < 0)
+            if(kirby.PositionX < 0)
             {
-                kirby.position.X  = 0;  
+                kirby.PositionX  = 0;  
             }
         }
 
         public void AdjustY(Player kirby)
         {
             //dont go through the floor
-            if(kirby.position.Y > floor)
+            if(kirby.PositionY > Constants.Graphics.FLOOR)
             {
                 yVel = 0;
                 //kirby.position.Y = (float) floor;
             }
 
             //dont go through the ceiling
-            if(kirby.position.Y < 0)
+            if(kirby.PositionY < 0)
             {
                 yVel = 0;
                 //kirby.position.Y = 0 + 10;

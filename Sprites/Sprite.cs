@@ -6,7 +6,7 @@ namespace MasterGame
     public interface ISprite
     {
         public void Update();
-        public void Draw(Vector2 position);
+        public void Draw(Vector2 position, SpriteBatch spriteBatch);
         public void ResetAnimation();
     }
 
@@ -33,9 +33,8 @@ namespace MasterGame
          * data from a .csv file into the Animation object. */
         public Sprite(SpriteAnimation spriteAnimation)
         {
-            spriteBatch = Game1.self.spriteBatch;
-            gameWidth = Game1.self.gameWidth;
-            gameHeight = Game1.self.gameHeight;
+            gameWidth = Constants.Graphics.GAME_WIDTH;
+            gameHeight = Constants.Graphics.GAME_HEIGHT;
 
             _spriteAnimation = spriteAnimation;
 
@@ -65,11 +64,11 @@ namespace MasterGame
 
 
         // Draws the sprite to the spriteBatch.
-        public void Draw(Vector2 position)
+        public void Draw(Vector2 position, SpriteBatch spriteBatch)
         {
             // Get window width and height from Game1 for scaling.
-            int windowWidth = Game1.self.windowWidth;
-            int windowHeight = Game1.self.windowHeight;
+            int windowWidth = Constants.Graphics.WINDOW_WIDTH;
+            int windowHeight = Constants.Graphics.WINDOW_HEIGHT;
             // Scale by height
             float scale = windowHeight / gameHeight;
 
