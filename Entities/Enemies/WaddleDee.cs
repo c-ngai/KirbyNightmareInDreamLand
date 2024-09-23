@@ -11,7 +11,7 @@ namespace MasterGame
         private EnemyStateMachine stateMachine;
         private Vector2 leftBoundary = new Vector2(170, 100);
         private Vector2 rightBoundary = new Vector2(210, 100);
-        public string oldState;
+        private string oldState;
 
         public WaddleDee(Vector2 startPosition)
         {
