@@ -8,6 +8,8 @@ namespace MasterGame
         void MoveRight();
         void MoveLeft();
         void StopMoving();
+        void SetDirectionLeft();
+        void SetDirectionRight();
         void UpdateTexture();
     }
 }

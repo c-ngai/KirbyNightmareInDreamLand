@@ -21,59 +21,50 @@ namespace MasterGame
         // TODO: Loosen coupling. GraphicsDeviceManager should probably not be public, but ToggleFullscreenCommand still needs to be able to work.
         public GraphicsDeviceManager graphics;
         private SpriteFont font;
-        private MouseController mouse;
-        private KeyboardController keyboard;
+        public KeyboardController keyboard;
 
-        public IPlayer kirby;
         // get kirby 
-        public IEnemy waddledeeTest;
+        public IPlayer kirby;
+
         //get waddledee
-        public IEnemy waddledooTest;
+        public IEnemy waddledeeTest;
+
         //get waddledoo
-        public IEnemy[] enemyList;
+        public IEnemy waddledooTest;
+
         //list of all enemies
+        public IEnemy[] enemyList;
+
         public int currentEnemyIndex;
-        
+
         public Game1()
         {
             self = this;
             graphics = new GraphicsDeviceManager(this);
-            mouse = new MouseController();
             keyboard = new KeyboardController();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            state = 1;
 
             gameWidth = 240;
             gameHeight = 160;
             windowWidth = 720;
             windowHeight = 480;
             IsFullscreen = false;
-            
-            kirby = new Player(new Vector2(30, gameHeight * 4/5));
-        }
-
-        // will later be changed to read in mouse control input
-        public void SetMouseControls(MouseController mouse)
-        {
-            mouse.leftClickIndex = 0;
-            mouse.rightClickIndex = 1;
-            mouse.quadrantIndex = 2;
-
-            mouse.leftClickPressed = 1;
-            mouse.rightClickPressed = 0;
-            mouse.quadrant = 1;
         }
 
         // will later be changed to read in keyboard control input
         public void SetKeyboardControls(KeyboardController keyboard)
         {
             keyboard.RegisterCommand(Keys.Q, new QuitCommand(this));
+            keyboard.RegisterCommand(Keys.R, new ResetCommand(this));
 
             //keyboard.RegisterCommand(Keys.F, toggleFullscreen);
 
             keyboard.RegisterCommand(Keys.Right, new KirbyMoveRightCommand(kirby));
             keyboard.RegisterCommand(Keys.Left, new KirbyMoveLeftCommand(kirby));
+            keyboard.RegisterCommand(Keys.A, new KirbyFaceLeftCommand(kirby));
+            keyboard.RegisterCommand(Keys.D, new KirbyFaceRightCommand(kirby));
+            keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby));
             keyboard.RegisterCommand(Keys.T, new NextBlockCommand());
             keyboard.RegisterCommand(Keys.Y, new PreviousBlockCommand());
 
@@ -91,22 +82,15 @@ namespace MasterGame
             graphics.ApplyChanges();
 
             base.Initialize();
-            SetMouseControls(mouse);
-            SetKeyboardControls(keyboard);
         }
 
-        protected override void LoadContent()
+        public void LoadObjects()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            // Creates kirby object
+            kirby = new Player(new Vector2(30, gameHeight * 4 / 5));
+            kirby.PlayerSprite = SpriteFactory.Instance.createSprite("kirby_normal_standing_right");
 
-            font = Content.Load<SpriteFont>("DefaultFont");
-
-            // Load all sprite factory textures and sprites.
-            SpriteFactory.Instance.LoadAllTextures(Content);
-            SpriteFactory.Instance.LoadAllSpriteAnimations();
-
-            // Load textures for blocks and load the names of the sprites into a list
+            // Creates blocks
             List<Sprite> blockList = new List<Sprite>();
             blockList = new List<Sprite>
             {
@@ -124,17 +108,33 @@ namespace MasterGame
                 SpriteFactory.Instance.createSprite("tile_stoneblock"),
                 SpriteFactory.Instance.createSprite("tile_waterfall"),
             };
-
             BlockList.Instance.setBlockList(blockList);
 
-            // Create a kirby sprite 
-            kirby.PlayerSprite = SpriteFactory.Instance.createSprite("kirby_normal_standing_right");
-
+            // Creates enemies
             waddledeeTest = new WaddleDee(new Vector2(170, 100));
             waddledooTest = new WaddleDoo(new Vector2(170, 100));
 
             enemyList = new IEnemy[] { waddledeeTest, waddledooTest };
             currentEnemyIndex = 0;
+
+            // Remapping keyboard to new Kirby 
+            keyboard = new KeyboardController();
+            SetKeyboardControls(keyboard);
+        }
+
+        protected override void LoadContent()
+        {
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            font = Content.Load<SpriteFont>("DefaultFont");
+
+            // Load all sprite factory textures and sprites.
+            SpriteFactory.Instance.LoadAllTextures(Content);
+            SpriteFactory.Instance.LoadAllSpriteAnimations();
+
+            // Load all objects 
+            LoadObjects();
 
             //kirby.UpdateTexture();
             //toggleFullscreen = new ToggleFullscreenCommand();
@@ -150,9 +150,9 @@ namespace MasterGame
         {
             base.Update(gameTime);
 
-            mouse.Update();
             keyboard.Update();
             kirby.Update();
+
             BlockList.Instance.Update();
 
             enemyList[currentEnemyIndex].Update();
@@ -162,12 +162,7 @@ namespace MasterGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            //ICommand[] commands = { quit, kirbyMoveRight };
-
             base.Draw(gameTime);
-
-            // draws the corresponding sprite given current game state
-            //commands[state].Execute();
 
             // Start spriteBatch
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
