@@ -92,7 +92,10 @@ namespace MasterGame {
         // Returns a new sprite object from a sprite animation's name.
         public Sprite createSprite(string spriteAnimationName)
         {
-            return new Sprite(spriteAnimations[spriteAnimationName]);
+            if (spriteAnimations.ContainsKey(spriteAnimationName))
+                return new Sprite(spriteAnimations[spriteAnimationName]);
+            else
+                return new Sprite(spriteAnimations["invalidspritename"]);
         }
 
 
@@ -111,7 +114,10 @@ namespace MasterGame {
                 }
             }
 
-            return new Sprite(spriteAnimations[spriteAnimationName]);
+            if (spriteAnimations.ContainsKey(spriteAnimationName))
+                return new Sprite(spriteAnimations[spriteAnimationName]);
+            else
+                return new Sprite(spriteAnimations["invalidspritename"]);
         }
 
     }
