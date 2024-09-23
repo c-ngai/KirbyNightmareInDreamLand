@@ -65,5 +65,15 @@
             spriteParameters[2] = facingLeft ? "left" : "right";
             return spriteParameters;
         }
+
+        public string GetStateString()
+        {
+            string facing = facingLeft ? "left" : "right";
+            string posing = pose.ToString().ToLower();
+            string enemy = type.ToString().ToLower();
+            return enemy + "_" + posing + "_" + facing;
+            //return enemy + posing + facing;
+        }
+
     }
 }
