@@ -11,7 +11,7 @@ namespace MasterGame
         private EnemyStateMachine stateMachine;
         private Vector2 leftBoundary = new Vector2(100, 100);
         private Vector2 rightBoundary = new Vector2(230, 100);
-        public string oldState;
+        private string oldState;
         private int frameCounter = 0;
         private int walkFrames = 180;  //3 sec (if 60fps)
         private int stopFrames = 120;  //2 sec
