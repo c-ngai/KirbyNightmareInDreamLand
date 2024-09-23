@@ -8,9 +8,10 @@ namespace MasterGame
         private int health;
         private bool isDead;
         private Sprite enemySprite;
-        private IEnemyStateMachine stateMachine;
+        private EnemyStateMachine stateMachine;
         private Vector2 leftBoundary = new Vector2(170, 100);
         private Vector2 rightBoundary = new Vector2(210, 100);
+        public string oldState;
 
         public WaddleDee(Vector2 startPosition)
         {
@@ -20,8 +21,7 @@ namespace MasterGame
             stateMachine = new EnemyStateMachine(EnemyType.WaddleDee);
             //stateMachine.ChangePose(EnemyPose.Walking);
 
-            //need to add eventual waddledee animation
-            enemySprite = SpriteFactory.Instance.createSprite("kirby_normal_walking_right");
+           enemySprite = SpriteFactory.Instance.createSprite("waddledee_walking_right");
         }
 
         public Vector2 Position
@@ -51,20 +51,23 @@ namespace MasterGame
 
             //eventual death pose/animation
             stateMachine.ChangePose(EnemyPose.LoadingAttack);
+            UpdateTexture();
         }
 
         public void Attack()
         {
             stateMachine.ChangePose(EnemyPose.Attacking);
+            UpdateTexture();
         }
 
         public void UpdateTexture()
         {
-            // if(!stateMachine.GetStateString().Equals(oldState)){
+             if(!stateMachine.GetStateString().Equals(oldState)){
                 enemySprite = SpriteFactory.Instance.createSprite(stateMachine.GetSpriteParameters());
-            //     oldState = state.GetStateString();
-            // } 
+                 oldState = stateMachine.GetStateString();
+             } 
         }
+
         public void Update()
         {
             if (!isDead)
@@ -90,6 +93,7 @@ namespace MasterGame
                 if (position.X <= leftBoundary.X)
                 {
                     stateMachine.ChangeDirection();
+                    UpdateTexture();
                 }
             }
             else
@@ -98,6 +102,7 @@ namespace MasterGame
                 if (position.X >= rightBoundary.X)
                 {
                     stateMachine.ChangeDirection();
+                    UpdateTexture();
                 }
             }
         }

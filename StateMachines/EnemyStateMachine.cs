@@ -65,7 +65,17 @@
             //spriteParameters[2] = type.ToString().ToLower();
             spriteParameters[2] = "normal";
             spriteParameters[3] = "kirby";
+
             return spriteParameters;
+        }
+
+        public string GetStateString()
+        {
+            string facing = facingLeft ? "left" : "right";
+            string posing = pose.ToString().ToLower();
+            string enemy = type.ToString().ToLower();
+            return facing + posing + enemy;
+            //return enemy + posing + facing;
         }
     }
 }
