@@ -21,7 +21,7 @@ namespace MasterGame
         // TODO: Loosen coupling. GraphicsDeviceManager should probably not be public, but ToggleFullscreenCommand still needs to be able to work.
         public GraphicsDeviceManager graphics;
         private SpriteFont font;
-        private KeyboardController keyboard;
+        public KeyboardController keyboard;
 
         public IPlayer kirby;
         // get kirby 
@@ -50,7 +50,7 @@ namespace MasterGame
         public void SetKeyboardControls(KeyboardController keyboard)
         {
             keyboard.RegisterCommand(Keys.Q, new QuitCommand(this));
-            keyboard.RegisterCommand(Keys.R, new ResetCommand());
+            keyboard.RegisterCommand(Keys.R, new ResetCommand(this));
 
             //keyboard.RegisterCommand(Keys.F, toggleFullscreen);
 
