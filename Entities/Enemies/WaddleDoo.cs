@@ -16,6 +16,7 @@ namespace MasterGame
         private int walkFrames = 180;  //3 sec (if 60fps)
         private int stopFrames = 120;  //2 sec
         private int attackFrames = 60; //1 sec
+        private int ichangedthis;
 
         public WaddleDoo(Vector2 startPosition)
         {
