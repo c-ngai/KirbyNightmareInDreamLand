@@ -21,7 +21,6 @@ namespace MasterGame
         // TODO: Loosen coupling. GraphicsDeviceManager should probably not be public, but ToggleFullscreenCommand still needs to be able to work.
         public GraphicsDeviceManager graphics;
         private SpriteFont font;
-        private MouseController mouse;
         private KeyboardController keyboard;
 
         public IPlayer kirby;
@@ -34,11 +33,9 @@ namespace MasterGame
         {
             self = this;
             graphics = new GraphicsDeviceManager(this);
-            mouse = new MouseController();
             keyboard = new KeyboardController();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            state = 1;
 
             gameWidth = 240;
             gameHeight = 160;
@@ -49,27 +46,19 @@ namespace MasterGame
             kirby = new Player(new Vector2(30, gameHeight * 4/5));
         }
 
-        // will later be changed to read in mouse control input
-        public void SetMouseControls(MouseController mouse)
-        {
-            mouse.leftClickIndex = 0;
-            mouse.rightClickIndex = 1;
-            mouse.quadrantIndex = 2;
-
-            mouse.leftClickPressed = 1;
-            mouse.rightClickPressed = 0;
-            mouse.quadrant = 1;
-        }
-
         // will later be changed to read in keyboard control input
         public void SetKeyboardControls(KeyboardController keyboard)
         {
             keyboard.RegisterCommand(Keys.Q, new QuitCommand(this));
+            keyboard.RegisterCommand(Keys.R, new ResetCommand());
 
             //keyboard.RegisterCommand(Keys.F, toggleFullscreen);
 
             keyboard.RegisterCommand(Keys.Right, new KirbyMoveRightCommand(kirby));
             keyboard.RegisterCommand(Keys.Left, new KirbyMoveLeftCommand(kirby));
+            keyboard.RegisterCommand(Keys.A, new KirbyFaceLeftCommand(kirby));
+            keyboard.RegisterCommand(Keys.D, new KirbyFaceRightCommand(kirby));
+            keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby));
             keyboard.RegisterCommand(Keys.T, new NextBlockCommand());
             keyboard.RegisterCommand(Keys.Y, new PreviousBlockCommand());
 
@@ -84,7 +73,6 @@ namespace MasterGame
             graphics.ApplyChanges();
 
             base.Initialize();
-            SetMouseControls(mouse);
             SetKeyboardControls(keyboard);
         }
 
@@ -140,7 +128,6 @@ namespace MasterGame
         {
             base.Update(gameTime);
 
-            mouse.Update();
             keyboard.Update();
 
             kirby.Update();
@@ -152,12 +139,7 @@ namespace MasterGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            //ICommand[] commands = { quit, kirbyMoveRight };
-
             base.Draw(gameTime);
-
-            // draws the corresponding sprite given current game state
-            //commands[state].Execute();
 
             // Start spriteBatch
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
