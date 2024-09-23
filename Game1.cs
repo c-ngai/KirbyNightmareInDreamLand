@@ -141,8 +141,8 @@ namespace MasterGame
 
             mouse.Update();
             keyboard.Update();
-
             kirby.Update();
+            BlockList.Instance.Update();
 
             waddledeeTest.Update();
         }

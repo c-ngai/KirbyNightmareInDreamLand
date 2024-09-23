@@ -68,7 +68,9 @@ namespace MasterGame.Block
 
         public void Update()
         {
-            // do nothing 
+            // do nothing
+            blockList[currentBlock].Update();
+
         }
 
     }
