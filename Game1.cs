@@ -9,23 +9,22 @@ namespace MasterGame
 {
     public class Game1 : Game
     {
+        //there should be a thing that gets all the  ?? of each kind
+
+        //Priority fix these!!
+        //PRIVATE MAKE THEM PRIVATE
         public static Game1 self { get; set; }
-        public SpriteBatch spriteBatch { get; set; }
-        public int state { get; set; }
-        public int gameWidth { get; set; }
-        public int gameHeight { get; set; }
-        public int windowWidth { get; set; }
-        public int windowHeight { get; set; }
-        public bool IsFullscreen { get; set; }
+        private SpriteBatch spriteBatch;
+        
+
+
 
         // TODO: Loosen coupling. GraphicsDeviceManager should probably not be public, but ToggleFullscreenCommand still needs to be able to work.
-        public GraphicsDeviceManager graphics;
+        private GraphicsDeviceManager graphics;
         private SpriteFont font;
-        public KeyboardController keyboard;
-
-        // get kirby 
-        public IPlayer kirby;
-
+        private KeyboardController keyboard;
+        // get kirbys -- make it so it is multiple in cardinality!!
+        private IPlayer kirby;
         //get waddledee
         public IEnemy waddledeeTest;
 
@@ -44,41 +43,48 @@ namespace MasterGame
             keyboard = new KeyboardController();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-
-            gameWidth = 240;
-            gameHeight = 160;
-            windowWidth = 720;
-            windowHeight = 480;
-            IsFullscreen = false;
         }
 
-        // will later be changed to read in keyboard control input
+        // will later be changed to read in mouse control input 
+        //not necesary delete
+        public void SetMouseControls(MouseController mouse)
+        {
+            mouse.leftClickIndex = 0;
+            mouse.rightClickIndex = 1;
+            mouse.quadrantIndex = 2;
+
+            mouse.leftClickPressed = 1;
+            mouse.rightClickPressed = 0;
+            mouse.quadrant = 1;
+        }
+
+        // will later be changed to read in keyboard control input -- put into into eventual loader file
+        //you wan key bindngs to be loaded after being instatiated
         public void SetKeyboardControls(KeyboardController keyboard)
         {
-            keyboard.RegisterCommand(Keys.Q, new QuitCommand(this));
-            keyboard.RegisterCommand(Keys.R, new ResetCommand(this));
+            keyboard.RegisterCommand(Keys.Q, new QuitCommand(this), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.R, new ResetCommand(this), ExecutionType.StartingPress);
 
             //keyboard.RegisterCommand(Keys.F, toggleFullscreen);
 
-            keyboard.RegisterCommand(Keys.Right, new KirbyMoveRightCommand(kirby));
-            keyboard.RegisterCommand(Keys.Left, new KirbyMoveLeftCommand(kirby));
-            keyboard.RegisterCommand(Keys.A, new KirbyFaceLeftCommand(kirby));
-            keyboard.RegisterCommand(Keys.D, new KirbyFaceRightCommand(kirby));
-            keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby));
-            keyboard.RegisterCommand(Keys.T, new NextBlockCommand());
-            keyboard.RegisterCommand(Keys.Y, new PreviousBlockCommand());
-
-            keyboard.RegisterCommand(Keys.O, new PreviousEnemyCommand(this));
-            keyboard.RegisterCommand(Keys.P, new NextEnemyCommand(this));
+            keyboard.RegisterCommand(Keys.Right, new KirbyMoveRightCommand(kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.Left, new KirbyMoveLeftCommand(kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.A, new KirbyFaceLeftCommand(kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.D, new KirbyFaceRightCommand(kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.T, new NextBlockCommand(), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.Y, new PreviousBlockCommand(), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.O, new PreviousEnemyCommand(this), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.P, new NextEnemyCommand(this), ExecutionType.StartingPress);
 
         }
         protected override void Initialize()
         {
             // true = exclusive fullscreen, false = borderless fullscreen
             graphics.HardwareModeSwitch = true;
-            graphics.IsFullScreen = IsFullscreen;
-            graphics.PreferredBackBufferWidth = windowWidth;
-            graphics.PreferredBackBufferHeight = windowHeight;
+            graphics.IsFullScreen = Constants.Graphics.IS_FULL_SCREEN;
+            graphics.PreferredBackBufferWidth = Constants.Graphics.WINDOW_WIDTH;
+            graphics.PreferredBackBufferHeight = Constants.Graphics.WINDOW_HEIGHT;
             graphics.ApplyChanges();
 
             base.Initialize();
@@ -87,11 +93,14 @@ namespace MasterGame
         public void LoadObjects()
         {
             // Creates kirby object
-            kirby = new Player(new Vector2(30, gameHeight * 4 / 5));
+            kirby = new Player(new Vector2(30, Constants.Graphics.FLOOR));
             kirby.PlayerSprite = SpriteFactory.Instance.createSprite("kirby_normal_standing_right");
 
             // Creates blocks
             List<Sprite> blockList = new List<Sprite>();
+            //want this away from game to a (in the future) level loader file
+
+            //make it its own function
             blockList = new List<Sprite>
             {
                 SpriteFactory.Instance.createSprite("tile_dirt"),
@@ -169,6 +178,9 @@ namespace MasterGame
 
             // Debug text: keeping track of resolutions
             string text;
+            //make this its own method?? -- mark
+            //kill all magic numbers 
+            //for future; magic.category.
             text = "GraphicsAdapter.DefaultAdapter.CurrentDisplayMode: (" + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width + ", " + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height + ")";
             spriteBatch.DrawString(font, text, new Vector2(10, 10), Color.Black);
             text = "graphics.PreferredBackBuffer______: (" + graphics.PreferredBackBufferWidth + ", " + graphics.PreferredBackBufferHeight + ")";
@@ -178,14 +190,13 @@ namespace MasterGame
             text = "GraphicsDevice.Viewport: (" + GraphicsDevice.Viewport.Width + ", " + GraphicsDevice.Viewport.Height + ")";
             spriteBatch.DrawString(font, text, new Vector2(10, 70), Color.Black);
 
-            float scale = windowHeight / gameHeight;
-
-            kirby.Draw();
+            float scale = Constants.Graphics.WINDOW_HEIGHT / Constants.Graphics.GAME_HEIGHT; //what is this???
 
             // draw only selected enemy
-            enemyList[currentEnemyIndex].Draw();
-
-            BlockList.Instance.Draw(new Vector2(100, 150));
+            enemyList[currentEnemyIndex].Draw(spriteBatch);
+            kirby.Draw(spriteBatch);
+            waddledeeTest.Draw(spriteBatch);
+            BlockList.Instance.Draw(new Vector2(100, 150), spriteBatch);
 
             // End spriteBatch
             spriteBatch.End();

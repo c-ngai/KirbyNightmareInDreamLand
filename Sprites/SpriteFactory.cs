@@ -16,8 +16,6 @@ namespace MasterGame {
         // Dictionary from string to SpriteAnimation. For easily retrieving a sprite animation by name.
         private static Dictionary<string, SpriteAnimation> spriteAnimations = new Dictionary<string, SpriteAnimation>();
 
-
-
         private static SpriteFactory instance = new SpriteFactory();
 
         public static SpriteFactory Instance
@@ -28,18 +26,13 @@ namespace MasterGame {
             }
         }
 
-
-
         public SpriteFactory()
         {
         }
 
-
-
         // Loads a texture image given its name and filepath.
-        private void LoadTexture(string TextureName, string TextureFilepath)
+        private void LoadTexture(ContentManager content, string TextureName, string TextureFilepath)
         {
-            ContentManager content = Game1.self.Content;
             Texture2D texture = content.Load<Texture2D>(TextureFilepath);
             textures.Add(TextureName, texture);
         }
@@ -66,13 +59,13 @@ namespace MasterGame {
             foreach (string textureFilepath in textureFilepaths)
             {
                 string textureName = Path.GetFileNameWithoutExtension(textureFilepath);
-                LoadTexture(textureName, textureFilepath);
+                LoadTexture(content, textureName, textureFilepath);
             }
         }
 
 
 
-        // Loads all sprite animations from the .json file.
+        // Loads all sprite animations from the .json file. -- goes to level loader eventually
         public void LoadAllSpriteAnimations()
         {
             // Open the sprite animation data file and deserialize it into a dictionary.

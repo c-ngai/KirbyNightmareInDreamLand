@@ -47,6 +47,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/Spritesheets/enemies.png
 
+#begin Images/Spritesheets/items.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=0,104,0,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Spritesheets/items.png
+
 #begin Images/Spritesheets/kirby_beam.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -94,6 +106,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/Spritesheets/kirby_spark.png
+
+#begin Images/Spritesheets/projectiles.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=0,104,0,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Spritesheets/projectiles.png
 
 #begin Images/Textures.txt
 /copy:Images/Textures.txt
