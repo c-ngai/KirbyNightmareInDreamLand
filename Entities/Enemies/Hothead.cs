@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace MasterGame
 {
@@ -18,7 +19,8 @@ namespace MasterGame
         private int stopFrames = 60;  //2 sec
         private int attackFrames = 100; //1 sec
         private int shootFrames = 100; //1 sec
-        private IProjectile fireball;
+        private List<IProjectile> fireballs; // all fireballs
+
 
         public Hothead(Vector2 startPosition)
         {
@@ -28,6 +30,7 @@ namespace MasterGame
             stateMachine = new EnemyStateMachine(EnemyType.WaddleDoo);
             //stateMachine = new EnemyStateMachine(EnemyType.Hothead);
             stateMachine.ChangePose(EnemyPose.Walking);
+            fireballs = new List<IProjectile>();
         }
 
         public Vector2 Position
@@ -63,15 +66,13 @@ namespace MasterGame
 
         public void Attack()
         {
-            //if kirby is close, firebreath. else, fire projectile.
-            //for now, this is just fire breath
             stateMachine.ChangePose(EnemyPose.Attacking);
             UpdateTexture();
         }
 
         public void UpdateTexture()
         {
-            if (!stateMachine.GetStateString().Equals(oldState) && !stateMachine.GetStateString().Equals(oldState))
+            if (!stateMachine.GetStateString().Equals(oldState))
             {
                 enemySprite = SpriteFactory.Instance.createSprite(stateMachine.GetSpriteParameters());
                 oldState = stateMachine.GetStateString();
@@ -98,7 +99,7 @@ namespace MasterGame
                     }
                 }
                 //shooting
-               // else if (stateMachine.GetPose() == EnemyPose.Shooting)
+                //else if (stateMachine.GetPose() == EnemyPose.Shooting)
                 else if (stateMachine.GetPose() == EnemyPose.Charging)
                         {
                     if (frameCounter == 1) // fireball projectile
@@ -108,6 +109,7 @@ namespace MasterGame
 
                     if (frameCounter >= shootFrames)
                     {
+                        // blow fire
                         stateMachine.ChangePose(EnemyPose.Attacking); // attacks (blows fire) after shooting
                         frameCounter = 0;
                         UpdateTexture();
@@ -123,21 +125,24 @@ namespace MasterGame
 
                     if (frameCounter >= attackFrames)
                     {
-                        stateMachine.ChangePose(EnemyPose.Walking); //walk after 
+                        // after attack, walk
+                        stateMachine.ChangePose(EnemyPose.Walking);
                         frameCounter = 0;
                         UpdateTexture();
                     }
                 }
 
-                // Update sprite animation
+                UpdateTexture();
+
                 enemySprite.Update();
 
-                // IF EXISTS update fireball
-                fireball?.Update();
+                //update fireballs
+                UpdateFireballs();
             }
         }
+    
 
-        private void Move()
+    private void Move()
         {
             //walking back and forth
             if (stateMachine.IsLeft())
@@ -162,19 +167,43 @@ namespace MasterGame
 
         private void ShootProjectile()
         {
-            if (fireball == null)
+
+            Vector2 projectileDirection;
+
+            if (stateMachine.IsLeft())
             {
-                fireball = new EnemyFireball(position, new Vector2(1, -0.5f));
+                projectileDirection = new Vector2(-1, -0.5f); // aim left
             }
+            else
+            {
+                projectileDirection = new Vector2(1, -0.5f); // aim right
+            }
+
+            IProjectile newFireball = new EnemyFireball(position, projectileDirection);
+            fireballs.Add(newFireball);
         }
+
+        private void UpdateFireballs()
+        {
+            foreach (var fireball in fireballs)
+            {
+                fireball.Update();
+            }
+
+            //should prob eventually remove fireballs from list after off screen
+        }
+
 
         public void Draw(SpriteBatch spriteBatch)
         {
             if (!isDead)
             {
                 enemySprite.Draw(position, spriteBatch);
-                // IF EXISTS, draw fireball
-                fireball?.Draw(spriteBatch);
+
+                foreach (var fireball in fireballs)
+                {
+                    fireball.Draw(spriteBatch);
+                }
             }
         }
 
