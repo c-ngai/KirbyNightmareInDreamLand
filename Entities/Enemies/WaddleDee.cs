@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MasterGame
 {
@@ -50,7 +51,7 @@ namespace MasterGame
             isDead = true;
 
             //eventual death pose/animation
-            stateMachine.ChangePose(EnemyPose.LoadingAttack);
+            stateMachine.ChangePose(EnemyPose.Hurt);
             UpdateTexture();
         }
 
@@ -107,11 +108,11 @@ namespace MasterGame
             }
         }
 
-        public void Draw()
+        public void Draw(SpriteBatch spriteBatch)
         {
             if (!isDead)
             {
-                enemySprite.Draw(position);
+                enemySprite.Draw(position, spriteBatch);
             }
         }
 

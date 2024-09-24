@@ -6,7 +6,7 @@ namespace MasterGame
         void TakeDamage();
         void Attack();
         void Update();
-        void Draw();
+        void Draw(SpriteBatch spriteBatch);
 
     }
 }
