@@ -86,12 +86,13 @@ namespace MasterGame {
         public Sprite createSprite(string spriteAnimationName)
         {
             if (spriteAnimations.ContainsKey(spriteAnimationName))
+            {
                 return new Sprite(spriteAnimations[spriteAnimationName]);
-            else
+            }else{
+                //System.Console.WriteLine(spriteAnimationName ); //debug line
                 return new Sprite(spriteAnimations["invalidspritename"]);
+            }
         }
-
-
 
         //method to get sprite file name from current state 
         public Sprite createSprite(string[] states)
@@ -110,6 +111,7 @@ namespace MasterGame {
             if (spriteAnimations.ContainsKey(spriteAnimationName))
                 return new Sprite(spriteAnimations[spriteAnimationName]);
             else
+                //System.Console.WriteLine(spriteAnimationName ); //debug line
                 return new Sprite(spriteAnimations["invalidspritename"]);
         }
 

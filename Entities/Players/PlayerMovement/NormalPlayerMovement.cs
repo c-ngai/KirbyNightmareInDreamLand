@@ -5,7 +5,10 @@ namespace MasterGame
 {   
     public class NormalPlayerMovement : PlayerMovement
     {
-        public NormalPlayerMovement(){}
+        public NormalPlayerMovement(ref PlayerStateMachine pState) : base(ref pState)
+        {
+
+        }
    
 
         public override void Attack()

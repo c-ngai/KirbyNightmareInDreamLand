@@ -69,7 +69,7 @@ namespace MasterGame
              } 
         }
 
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             if (!isDead)
             {

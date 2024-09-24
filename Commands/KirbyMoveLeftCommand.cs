@@ -11,6 +11,7 @@
 
         public void Execute()
         {
+            // If it switches from moving left to moving right it needs a skid animation
             kirby.MoveLeft();
         }
 
