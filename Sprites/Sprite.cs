@@ -64,8 +64,8 @@ namespace MasterGame
 
 
 
-        // Draws the sprite to the spriteBatch.
-        public void Draw(Vector2 position)
+        // Draws the sprite to the spriteBatch. Color parameter for multiplying the image. (color multiplication)
+        public void Draw(Vector2 position, Color color)
         {
             // Get window width and height from Game1 for scaling.
             int windowWidth = Game1.self.windowWidth;
@@ -81,7 +81,15 @@ namespace MasterGame
             Rectangle sourceRectangle = _spriteAnimation.frameSourceRectangles[currentFrame];
 
             // Draw the sprite to the spriteBatch.
-            spriteBatch.Draw(_spriteAnimation.texture, position, sourceRectangle, Color.White, 0, frameCenter, scale, _spriteAnimation.spriteEffects, 0);
+            spriteBatch.Draw(_spriteAnimation.texture, position, sourceRectangle, color, 0, frameCenter, scale, _spriteAnimation.spriteEffects, 0);
+        }
+
+        
+
+        // Draws the sprite to the spriteBatch. With unspecified color, uses white.
+        public void Draw(Vector2 position)
+        {
+            Draw(position, Color.White);
         }
 
 

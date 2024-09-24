@@ -11,7 +11,6 @@ namespace MasterGame
     {
         public static Game1 self { get; set; }
         public SpriteBatch spriteBatch { get; set; }
-        public int state { get; set; }
         public int gameWidth { get; set; }
         public int gameHeight { get; set; }
         public int windowWidth { get; set; }
@@ -42,7 +41,6 @@ namespace MasterGame
             keyboard = new KeyboardController();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            state = 1;
 
             gameWidth = 240;
             gameHeight = 160;
@@ -128,7 +126,7 @@ namespace MasterGame
             BlockList.Instance.setBlockList(blockList);
 
             // Create a kirby sprite 
-            kirby.PlayerSprite = SpriteFactory.Instance.createSprite("kirby_normal_standing_right");
+            kirby.PlayerSprite = SpriteFactory.Instance.createSprite("projectile_hothead_fire");
 
             waddledeeTest = new WaddleDee(new Vector2(170, 100));
             waddledooTest = new WaddleDoo(new Vector2(170, 100));

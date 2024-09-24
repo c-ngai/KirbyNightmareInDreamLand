@@ -37,9 +37,8 @@ namespace MasterGame {
 
 
         // Loads a texture image given its name and filepath.
-        private void LoadTexture(string TextureName, string TextureFilepath)
+        private void LoadTexture(ContentManager content, string TextureName, string TextureFilepath)
         {
-            ContentManager content = Game1.self.Content;
             Texture2D texture = content.Load<Texture2D>(TextureFilepath);
             textures.Add(TextureName, texture);
         }
@@ -66,7 +65,7 @@ namespace MasterGame {
             foreach (string textureFilepath in textureFilepaths)
             {
                 string textureName = Path.GetFileNameWithoutExtension(textureFilepath);
-                LoadTexture(textureName, textureFilepath);
+                LoadTexture(content, textureName, textureFilepath);
             }
         }
 
