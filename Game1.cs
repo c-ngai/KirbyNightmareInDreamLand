@@ -28,6 +28,9 @@ namespace MasterGame
         //get waddledoo
         public IEnemy waddledooTest;
 
+        //get brontoburt
+        public IEnemy brontoburtTest;
+
         //list of all enemies
         public IEnemy[] enemyList;
 
@@ -137,8 +140,9 @@ namespace MasterGame
             // Creates enemies
             waddledeeTest = new WaddleDee(new Vector2(170, 100));
             waddledooTest = new WaddleDoo(new Vector2(170, 100));
+            brontoburtTest = new BrontoBurt(new Vector2(170, 100));
 
-            enemyList = new IEnemy[] { waddledeeTest, waddledooTest };
+            enemyList = new IEnemy[] { waddledeeTest, waddledooTest, brontoburtTest };
             currentEnemyIndex = 0;
 
             // Remapping keyboard to new Kirby 
