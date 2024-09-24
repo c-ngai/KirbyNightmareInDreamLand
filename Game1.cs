@@ -195,7 +195,13 @@ namespace MasterGame
 
             BlockList.Instance.Update();
 
-            enemyList[currentEnemyIndex].Update();
+            enemyList[currentEnemyIndex].Update(gameTime);
+
+            // Spawn a new projectile every few frames (for demonstration)
+            if (gameTime.TotalGameTime.TotalMilliseconds % 2000 < 20) // Spawn every 2000 ms
+            {
+                projectiles.Add(new EnemyFireball(new Vector2(100, 100), new Vector2(1, -2))); // Spawn at this position and move at this speed and direction (up and to the right)
+            }
         }
 
         protected override void Draw(GameTime gameTime)
