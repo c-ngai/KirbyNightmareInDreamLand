@@ -18,12 +18,13 @@ namespace MasterGame
 
         public static class Physics
         {
-
+            public const float GRAVITY = -10;
         }
 
         public class Kirby
         {
             public const int MAX_HEALTH = 6;
+            public const int MAX_LIVES = 3;
         }
 
     }
