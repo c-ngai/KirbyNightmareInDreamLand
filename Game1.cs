@@ -34,6 +34,9 @@ namespace MasterGame
         //list of all enemies
         public IEnemy[] enemyList;
 
+        // List to manage projectiles
+        private List<IProjectile> projectiles;
+
         public int currentEnemyIndex;
 
         public Game1()
@@ -126,6 +129,9 @@ namespace MasterGame
             enemyList = new IEnemy[] { waddledeeTest, waddledooTest };
             currentEnemyIndex = 0;
 
+            projectiles = new List<IProjectile>(); // Initialize the projectiles list
+
+
             // Remapping keyboard to new Kirby 
             keyboard = new KeyboardController();
             SetKeyboardControls(keyboard);
@@ -162,9 +168,21 @@ namespace MasterGame
             keyboard.Update();
             kirby.Update();
 
+            // Update projectiles
+            foreach (var projectile in projectiles)
+            {
+                projectile.Update();
+            }
+
             BlockList.Instance.Update();
 
             enemyList[currentEnemyIndex].Update();
+
+            // Spawn a new projectile every few frames (for demonstration)
+            if (gameTime.TotalGameTime.TotalMilliseconds % 800 < 20) // Spawn every 800 ms
+            {
+                projectiles.Add(new EnemyFireball(new Vector2(100, 100))); // Spawn at this position
+            }
         }
 
         protected override void Draw(GameTime gameTime)
@@ -191,6 +209,13 @@ namespace MasterGame
             spriteBatch.DrawString(font, text, new Vector2(10, 70), Color.Black);
 
             float scale = Constants.Graphics.WINDOW_HEIGHT / Constants.Graphics.GAME_HEIGHT; //what is this???
+
+            // Draw projectiles
+            foreach (var projectile in projectiles)
+            {
+                projectile.Draw(spriteBatch);
+            }
+
 
             // draw only selected enemy
             enemyList[currentEnemyIndex].Draw(spriteBatch);
