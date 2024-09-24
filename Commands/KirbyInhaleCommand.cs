@@ -1,17 +1,18 @@
-﻿namespace MasterGame
+﻿namespace MasterGame.Commands
 {
-    public class KirbyCrouchCommand : ICommand
+    public class KirbyInhaleCommand : ICommand
     {
-        private IPlayer kirby;
-
-        public KirbyCrouchCommand(IPlayer player)
+        IPlayer kirby;
+        public KirbyInhaleCommand(IPlayer player)
         {
             kirby = player;
         }
+
         public void Execute()
         {
-            //kirby.Crouch();
+            // kirby.Inhale();
         }
+
         public void Undo()
         {
             kirby.StopMoving();

@@ -1,20 +1,21 @@
 ﻿namespace MasterGame
 {
-    public class KirbyCrouchCommand : ICommand
+    public class KirbyFloatCommand : ICommand
     {
         private IPlayer kirby;
-
-        public KirbyCrouchCommand(IPlayer player)
+        public KirbyFloatCommand(IPlayer player)
         {
             kirby = player;
         }
+
         public void Execute()
         {
-            //kirby.Crouch();
+            //kirby.Float();
         }
+
         public void Undo()
         {
-            kirby.StopMoving();
+            //kirby.Fall();
         }
     }
 }
