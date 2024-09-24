@@ -8,24 +8,32 @@ namespace MasterGame
         private Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;
-        private const float Speed = 2f; // Speed of the fireball
+        private const float Speed = 1f; // Constant speed of the fireball
 
         public Vector2 Position
         {
-            get => position;
-            set => position = value;
+            get => position;            // Return position of fireball
+            set => position = value;    // Set the position of the fireball to the given value
         }
 
         public Vector2 Velocity
         {
-            get => velocity;
-            set => velocity = value;
+            get => velocity;            // Return the current velocity of the fireball
+            set => velocity = value;    // Set the velocity of the fireball to the given value
         }
 
-        public EnemyFireball(Vector2 startPosition)
+        public EnemyFireball(Vector2 startPosition, Vector2 fireballDirection)
         {
             Position = startPosition;
-            Velocity = new Vector2(Speed, 0); // Moving to the right (if needs to be moving to left, make speed negative)
+
+            // Normalize the direction vector and multiply by the constant speed
+            if (fireballDirection != Vector2.Zero)
+            {
+                fireballDirection.Normalize(); // Ensures the vector has a length of 1
+            }
+            
+            Velocity = fireballDirection * Speed; // Apply the constant speed
+
             projectileSprite = SpriteFactory.Instance.createSprite("projectile_hothead_fireball");
         }
 
