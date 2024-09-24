@@ -55,21 +55,20 @@ namespace MasterGame
         // will later be changed to read in keyboard control input
         public void SetKeyboardControls(KeyboardController keyboard)
         {
-            keyboard.RegisterCommand(Keys.Q, new QuitCommand(this));
-            keyboard.RegisterCommand(Keys.R, new ResetCommand(this));
+            keyboard.RegisterCommand(Keys.Q, new QuitCommand(this), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.R, new ResetCommand(this), ExecutionType.StartingPress);
 
             //keyboard.RegisterCommand(Keys.F, toggleFullscreen);
 
-            keyboard.RegisterCommand(Keys.Right, new KirbyMoveRightCommand(kirby));
-            keyboard.RegisterCommand(Keys.Left, new KirbyMoveLeftCommand(kirby));
-            keyboard.RegisterCommand(Keys.A, new KirbyFaceLeftCommand(kirby));
-            keyboard.RegisterCommand(Keys.D, new KirbyFaceRightCommand(kirby));
-            keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby));
-            keyboard.RegisterCommand(Keys.T, new NextBlockCommand());
-            keyboard.RegisterCommand(Keys.Y, new PreviousBlockCommand());
-
-            keyboard.RegisterCommand(Keys.O, new PreviousEnemyCommand(this));
-            keyboard.RegisterCommand(Keys.P, new NextEnemyCommand(this));
+            keyboard.RegisterCommand(Keys.Right, new KirbyMoveRightCommand(kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.Left, new KirbyMoveLeftCommand(kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.A, new KirbyFaceLeftCommand(kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.D, new KirbyFaceRightCommand(kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.T, new NextBlockCommand(), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.Y, new PreviousBlockCommand(), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.O, new PreviousEnemyCommand(this), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.P, new NextEnemyCommand(this), ExecutionType.StartingPress);
 
         }
         protected override void Initialize()

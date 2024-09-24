@@ -7,52 +7,63 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MasterGame
 {
+    public enum ExecutionType { Pressed, StartingPress, StoppingPress }
     public class KeyboardController : IController
     {
-        private Dictionary<Keys, ICommand> controllerMappings;
+        private Dictionary<Keys, (ICommand, ExecutionType)> controllerMappings;
 
         private Dictionary<Keys, bool> oldKeyStates;
 
+        // TODO: change this to a public property later;
+        public Keys[] currentState;
+
         public KeyboardController()
         {
-            controllerMappings = new Dictionary<Keys, ICommand>();
+            controllerMappings = new Dictionary<Keys, (ICommand, ExecutionType)>();
             oldKeyStates = new Dictionary<Keys, bool>();
         }
 
-        public void RegisterCommand(Keys key, ICommand command)
+        public void RegisterCommand(Keys key, ICommand command, ExecutionType type)
         {
-            controllerMappings.Add(key, command);
+            (ICommand, ExecutionType) commandMapping = (command, type);
+            controllerMappings.Add(key, commandMapping);
             oldKeyStates.Add(key, false);
         }
 
         public void Update()
         {
-            Keys[] pressedKeys = Keyboard.GetState().GetPressedKeys();
+            currentState = Keyboard.GetState().GetPressedKeys();
 
             IDictionaryEnumerator enumerator = oldKeyStates.GetEnumerator();
             Dictionary<Keys, bool> tempDict = new Dictionary<Keys, bool>();
 
-            for (int i = 0; i < pressedKeys.Length; i++)
+            for (int i = 0; i < currentState.Length; i++)
             {
-                tempDict.Add(pressedKeys[i], true);
+                tempDict.Add(currentState[i], true);
             }
 
-            // Only executes if there has been a state change for the key pressed
+            // TODO: Very ugly rn, I will make it prettier later 
             while (enumerator.MoveNext())
             {
                 Keys key = (Keys)enumerator.Key;
 
-                // Executes the current key if it is being pressed, if a previous key that was being pressed
-                // is now no longer pressed, undo that key command
+                // Determines command execution by the type of command it is
                 if (controllerMappings.ContainsKey(key))
                 {
-                    if (pressedKeys.Contains(key))
+                    (ICommand, ExecutionType) commandMapping = (controllerMappings[key]);
+                    ICommand command = commandMapping.Item1;
+                    ExecutionType type = commandMapping.Item2;
+
+                    // Pressed execution type: executes the command when pressed
+                    // Starting press execution type: executes the command when it shifts from not being pressed to pressed
+                    if (currentState.Contains(key) && ((type == ExecutionType.Pressed) || (!oldKeyStates[key] && type == ExecutionType.StartingPress)))
                     {
-                        controllerMappings[key].Execute();
+                        command.Execute();
                     }
-                    else if (oldKeyStates[key] != false)
+                    // Pressed execution type: undos the command if it is no longer pressed 
+                    else if (oldKeyStates[key] && type == ExecutionType.Pressed)
                     {
-                        controllerMappings[key].Undo();
+                        command.Undo();
                     }
 
                 }
