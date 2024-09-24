@@ -74,10 +74,10 @@ namespace MasterGame
         }
         #endregion
 
-        #region slide
+        #region Slide
         #endregion
 
-        #region move sprite
+        #region Move Sprite
         //update kirby position in UI
         public void UpdatePosition(Player kirby)
         {
