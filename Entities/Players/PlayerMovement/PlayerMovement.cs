@@ -14,6 +14,7 @@ namespace MasterGame
         protected float yVel = 0;
         protected float xVel = 0;
         protected float jumpVel = -2f;
+        protected float jumpVelX = 2f;
         protected float floatVelX = 5f;
         protected float floatVelY = 5f;
         protected float walkingVel = .375f;
@@ -26,7 +27,7 @@ namespace MasterGame
         //decrease public access
         public bool floating;
         public bool crouching;
-        protected bool jumping;
+        public bool jumping;
 
         //change kirby velocity to go left
         public PlayerMovement(ref PlayerStateMachine pState)
@@ -48,6 +49,9 @@ namespace MasterGame
                 xVel = walkingVel * -1;
             } else {
                 xVel = walkingVel;
+            }
+            if(jumping){
+                JumpXY();
             }
         }
         #endregion
@@ -88,9 +92,9 @@ namespace MasterGame
         {
             JumpY();
             if(state.IsLeft()){
-                xVel = walkingVel * -1;
+                xVel = jumpVelX * -1;
             } else {
-                xVel = walkingVel;
+                xVel = jumpVelX;
             }
         }
         #endregion
@@ -160,7 +164,6 @@ namespace MasterGame
                 yVel = 0;
                 kirby.PositionY = (float) Constants.Graphics.FLOOR;
                 FinishJump(kirby);
-
             }
 
             //dont go through the ceiling

@@ -54,7 +54,6 @@ namespace MasterGame
 
         public void UpdateTexture()
         {
-            System.Console.WriteLine("texture" + state.GetStateString());
             if(!state.GetStateString().Equals(oldState)){
                 playerSprite = factory.createSprite(state.GetSpriteParameters());
                 oldState = state.GetStateString();
@@ -115,15 +114,17 @@ namespace MasterGame
         #region Movement
         public void MoveLeft()
         {   
-            ChangePose(KirbyPose.Walking);
             SetDirectionLeft();
-            UpdateTexture();
+            if(!movement.jumping){
+                movement.Walk();
+                ChangePose(KirbyPose.Walking);
+            }
         }
 
         public void MoveRight()
         {
             SetDirectionRight();
-            if(!state.GetPose().ToString().Equals("JumpRising")){
+            if(!movement.jumping){
                 movement.Walk();
                 ChangePose(KirbyPose.Walking);
             }
