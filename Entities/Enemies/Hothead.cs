@@ -71,7 +71,7 @@ namespace MasterGame
 
         public void UpdateTexture()
         {
-            if (!stateMachine.GetStateString().Equals(oldState))
+            if (!stateMachine.GetStateString().Equals(oldState) && !stateMachine.GetStateString().Equals(oldState))
             {
                 enemySprite = SpriteFactory.Instance.createSprite(stateMachine.GetSpriteParameters());
                 oldState = stateMachine.GetStateString();

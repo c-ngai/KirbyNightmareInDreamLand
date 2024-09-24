@@ -31,6 +31,9 @@ namespace MasterGame
         //get brontoburt
         public IEnemy brontoburtTest;
 
+        //get hothead
+        public IEnemy hotheadTest;
+
         //list of all enemies
         public IEnemy[] enemyList;
 
@@ -144,8 +147,9 @@ namespace MasterGame
             waddledeeTest = new WaddleDee(new Vector2(170, 100));
             waddledooTest = new WaddleDoo(new Vector2(170, 100));
             brontoburtTest = new BrontoBurt(new Vector2(170, 100));
+            hotheadTest = new Hothead(new Vector2(170, 100));
 
-            enemyList = new IEnemy[] { waddledeeTest, waddledooTest, brontoburtTest };
+            enemyList = new IEnemy[] { waddledeeTest, waddledooTest, brontoburtTest, hotheadTest };
             currentEnemyIndex = 0;
 
             projectiles = new List<IProjectile>(); // Initialize the projectiles list
