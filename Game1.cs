@@ -195,7 +195,6 @@ namespace MasterGame
             // draw only selected enemy
             enemyList[currentEnemyIndex].Draw(spriteBatch);
             kirby.Draw(spriteBatch);
-            waddledeeTest.Draw(spriteBatch);
             BlockList.Instance.Draw(new Vector2(100, 150), spriteBatch);
 
             // End spriteBatch
