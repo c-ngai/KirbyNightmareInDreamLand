@@ -10,13 +10,13 @@ namespace MasterGame
         private KirbyType type;
 
         private static PlayerStateMachine instance = new PlayerStateMachine();
-        public static PlayerStateMachine Instance
-        {
-            get
-            {
-                return instance;
-            }
-        }
+        // public static PlayerStateMachine Instance
+        // {
+        //     get
+        //     {
+        //         return instance;
+        //     }
+        // }
         public PlayerStateMachine()
         {
             facingLeft = false;

@@ -16,9 +16,6 @@ namespace MasterGame
         public static Game1 self { get; set; }
         private SpriteBatch spriteBatch;
         
-
-
-
         // TODO: Loosen coupling. GraphicsDeviceManager should probably not be public, but ToggleFullscreenCommand still needs to be able to work.
         private GraphicsDeviceManager graphics;
         private SpriteFont font;
@@ -31,11 +28,11 @@ namespace MasterGame
         //get waddledoo
         public IEnemy waddledooTest;
 
+        //get brontoburt
+        public IEnemy brontoburtTest;
+
         //list of all enemies
         public IEnemy[] enemyList;
-
-        // List to manage projectiles
-        private List<IProjectile> projectiles;
 
         public int currentEnemyIndex;
 
@@ -50,35 +47,53 @@ namespace MasterGame
 
         // will later be changed to read in mouse control input 
         //not necesary delete
-        public void SetMouseControls(MouseController mouse)
-        {
-            mouse.leftClickIndex = 0;
-            mouse.rightClickIndex = 1;
-            mouse.quadrantIndex = 2;
+        // public void SetMouseControls(MouseController mouse)
+        // {
+        //     mouse.leftClickIndex = 0;
+        //     mouse.rightClickIndex = 1;
+        //     mouse.quadrantIndex = 2;
 
-            mouse.leftClickPressed = 1;
-            mouse.rightClickPressed = 0;
-            mouse.quadrant = 1;
-        }
+        //     mouse.leftClickPressed = 1;
+        //     mouse.rightClickPressed = 0;
+        //     mouse.quadrant = 1;
+        // }
 
         // will later be changed to read in keyboard control input -- put into into eventual loader file
         //you wan key bindngs to be loaded after being instatiated
         public void SetKeyboardControls(KeyboardController keyboard)
         {
-            keyboard.RegisterCommand(Keys.Q, new QuitCommand(this), ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.R, new ResetCommand(this), ExecutionType.StartingPress);
-
-            //keyboard.RegisterCommand(Keys.F, toggleFullscreen);
-
-            keyboard.RegisterCommand(Keys.Right, new KirbyMoveRightCommand(kirby), ExecutionType.Pressed);
+             keyboard.RegisterCommand(Keys.Right, new KirbyMoveRightCommand(kirby), ExecutionType.Pressed);
             keyboard.RegisterCommand(Keys.Left, new KirbyMoveLeftCommand(kirby), ExecutionType.Pressed);
-            keyboard.RegisterCommand(Keys.A, new KirbyFaceLeftCommand(kirby), ExecutionType.Pressed);
-            keyboard.RegisterCommand(Keys.D, new KirbyFaceRightCommand(kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.Down, new KirbyCrouchCommand(kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.Up, new KirbyFloatCommand(kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.X, new KirbyJumpCommand(kirby), ExecutionType.Pressed);
+
+            keyboard.RegisterCommand(Keys.A, new KirbyFaceLeftCommand(kirby), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.D, new KirbyFaceRightCommand(kirby), ExecutionType.StartingPress);
+
+            keyboard.RegisterCommand(Keys.Z, new KirbyInhaleCommand(kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.N, new KirbyAttackCommand(kirby), ExecutionType.StartingPress);
+
+            keyboard.RegisterCommand(Keys.D1, new KirbyChangeNormalCommand(kirby), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.D2, new KirbyChangeBeamCommand(kirby), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.D3, new KirbyChangeFireCommand(kirby), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.D4, new KirbyChangeSparkCommand(kirby), ExecutionType.StartingPress);
+
             keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby), ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.T, new NextBlockCommand(), ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.Y, new PreviousBlockCommand(), ExecutionType.StartingPress);
+
+            keyboard.RegisterCommand(Keys.T, new PreviousBlockCommand(), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.Y, new NextBlockCommand(), ExecutionType.StartingPress);
+
+            keyboard.RegisterCommand(Keys.U, new PreviousItemCommand(), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.I, new NextItemCommand(), ExecutionType.StartingPress);
+
             keyboard.RegisterCommand(Keys.O, new PreviousEnemyCommand(this), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.P, new NextEnemyCommand(this), ExecutionType.StartingPress);
+
+            keyboard.RegisterCommand(Keys.Q, new QuitCommand(this), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.R, new ResetCommand(this), ExecutionType.StartingPress);
+            //keyboard.RegisterCommand(Keys.F, new ToggleFullscreenCommand(), ExecutionType.StartingPress);
+
 
         }
         protected override void Initialize()
@@ -125,12 +140,10 @@ namespace MasterGame
             // Creates enemies
             waddledeeTest = new WaddleDee(new Vector2(170, 100));
             waddledooTest = new WaddleDoo(new Vector2(170, 100));
+            brontoburtTest = new BrontoBurt(new Vector2(170, 100));
 
-            enemyList = new IEnemy[] { waddledeeTest, waddledooTest };
+            enemyList = new IEnemy[] { waddledeeTest, waddledooTest, brontoburtTest };
             currentEnemyIndex = 0;
-
-            projectiles = new List<IProjectile>(); // Initialize the projectiles list
-
 
             // Remapping keyboard to new Kirby 
             keyboard = new KeyboardController();
@@ -166,23 +179,11 @@ namespace MasterGame
             base.Update(gameTime);
 
             keyboard.Update();
-            kirby.Update();
-
-            // Update projectiles
-            foreach (var projectile in projectiles)
-            {
-                projectile.Update();
-            }
+            kirby.Update(gameTime);
 
             BlockList.Instance.Update();
 
-            enemyList[currentEnemyIndex].Update();
-
-            // Spawn a new projectile every few frames (for demonstration)
-            if (gameTime.TotalGameTime.TotalMilliseconds % 2000 < 20) // Spawn every 2000 ms
-            {
-                projectiles.Add(new EnemyFireball(new Vector2(100, 100), new Vector2(1, -2))); // Spawn at this position and move at this speed and direction (up and to the right)
-            }
+            enemyList[currentEnemyIndex].Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -210,17 +211,9 @@ namespace MasterGame
 
             float scale = Constants.Graphics.WINDOW_HEIGHT / Constants.Graphics.GAME_HEIGHT; //what is this???
 
-            // Draw projectiles
-            foreach (var projectile in projectiles)
-            {
-                projectile.Draw(spriteBatch);
-            }
-
-
             // draw only selected enemy
             enemyList[currentEnemyIndex].Draw(spriteBatch);
             kirby.Draw(spriteBatch);
-            waddledeeTest.Draw(spriteBatch);
             BlockList.Instance.Draw(new Vector2(100, 150), spriteBatch);
 
             // End spriteBatch

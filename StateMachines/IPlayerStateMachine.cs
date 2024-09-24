@@ -1,4 +1,4 @@
-﻿public enum KirbyPose { Standing, Crouching, Swimming, Attacking, ThrowEnemy, Jumping, Walking, Floating, AbsorbingAir, FloatingAbsorbing, Running, Hurt, Sliding};
+﻿public enum KirbyPose { Standing, Crouching, Swimming, Attacking, ThrowEnemy, JumpRising, JumpFalling, Walking, Floating, AbsorbingAir, FloatingAbsorbing, Running, Hurt, Sliding};
 
 public enum KirbyType { Normal, Dead, Beam, Spark, Fire };
 namespace MasterGame

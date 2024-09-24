@@ -31,7 +31,6 @@ namespace MasterGame.Commands
         // Move forward to the next enemy
         public void Undo()
         {
-            game.currentEnemyIndex = (game.currentEnemyIndex + 1) % game.enemyList.Length;
         }
     }
 

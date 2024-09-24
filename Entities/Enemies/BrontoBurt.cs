@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MasterGame
 {
-    public class WaddleDee : IEnemy
+    public class BrontoBurt : IEnemy
     {
         private Vector2 position;
         private int health;
@@ -14,14 +14,14 @@ namespace MasterGame
         private Vector2 rightBoundary = new Vector2(210, 100);
         private string oldState;
 
-        public WaddleDee(Vector2 startPosition)
+        public BrontoBurt(Vector2 startPosition)
         {
             position = startPosition;
             health = 100;
             isDead = false;
-            stateMachine = new EnemyStateMachine(EnemyType.WaddleDee);
+            stateMachine = new EnemyStateMachine(EnemyType.BrontoBurt);
             //stateMachine.ChangePose(EnemyPose.Walking);
-           enemySprite = SpriteFactory.Instance.createSprite("waddledee_walking_right");
+           enemySprite = SpriteFactory.Instance.createSprite("brontoburt_flyingslow_right");
         }
 
         public Vector2 Position
@@ -57,7 +57,7 @@ namespace MasterGame
 
         public void Attack()
         {
-            stateMachine.ChangePose(EnemyPose.Attacking);
+            stateMachine.ChangePose(EnemyPose.FlyingSlow);
             UpdateTexture();
         }
 
@@ -74,7 +74,7 @@ namespace MasterGame
             if (!isDead)
             {
                 //need to add walking left/right
-                if (stateMachine.GetPose() == EnemyPose.Walking)
+                if (stateMachine.GetPose() == EnemyPose.FlyingSlow)
                 {
                     Move();
                 }

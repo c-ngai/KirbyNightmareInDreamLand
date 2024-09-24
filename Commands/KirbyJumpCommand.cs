@@ -1,4 +1,5 @@
-﻿namespace MasterGame
+﻿using System.Threading.Tasks;
+namespace MasterGame
 {
     public class KirbyJumpCommand : ICommand
     {
@@ -11,11 +12,11 @@
 
         public void Execute()
         {
-            //kirby.Jump();
+            kirby.JumpY();
         }
         public void Undo()
         {
-
+            //kirby.StopMoving();
         }
     }
 }

@@ -4,6 +4,7 @@ namespace MasterGame
     public interface IPlayer:IEntity
     {
         Sprite PlayerSprite { set; }
+        void JumpY();
         void MoveRight();
         void MoveLeft();
         void StopMoving();
