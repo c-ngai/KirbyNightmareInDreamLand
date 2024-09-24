@@ -16,9 +16,6 @@ namespace MasterGame
         public static Game1 self { get; set; }
         private SpriteBatch spriteBatch;
         
-
-
-
         // TODO: Loosen coupling. GraphicsDeviceManager should probably not be public, but ToggleFullscreenCommand still needs to be able to work.
         private GraphicsDeviceManager graphics;
         private SpriteFont font;
@@ -30,6 +27,9 @@ namespace MasterGame
 
         //get waddledoo
         public IEnemy waddledooTest;
+
+        //get brontoburt
+        public IEnemy brontoburtTest;
 
         //list of all enemies
         public IEnemy[] enemyList;
@@ -45,14 +45,28 @@ namespace MasterGame
             IsMouseVisible = true;
         }
 
-        // will later be changed to read in keyboard control input -- put into eventual loader file
+        // will later be changed to read in mouse control input 
+        //not necesary delete
+        // public void SetMouseControls(MouseController mouse)
+        // {
+        //     mouse.leftClickIndex = 0;
+        //     mouse.rightClickIndex = 1;
+        //     mouse.quadrantIndex = 2;
+
+        //     mouse.leftClickPressed = 1;
+        //     mouse.rightClickPressed = 0;
+        //     mouse.quadrant = 1;
+        // }
+
+        // will later be changed to read in keyboard control input -- put into into eventual loader file
+        //you wan key bindngs to be loaded after being instatiated
         public void SetKeyboardControls(KeyboardController keyboard)
         {
-
-            keyboard.RegisterCommand(Keys.Right, new KirbyMoveRightCommand(kirby), ExecutionType.Pressed);
+             keyboard.RegisterCommand(Keys.Right, new KirbyMoveRightCommand(kirby), ExecutionType.Pressed);
             keyboard.RegisterCommand(Keys.Left, new KirbyMoveLeftCommand(kirby), ExecutionType.Pressed);
             keyboard.RegisterCommand(Keys.Down, new KirbyCrouchCommand(kirby), ExecutionType.Pressed);
             keyboard.RegisterCommand(Keys.Up, new KirbyFloatCommand(kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.X, new KirbyJumpCommand(kirby), ExecutionType.Pressed);
 
             keyboard.RegisterCommand(Keys.A, new KirbyFaceLeftCommand(kirby), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.D, new KirbyFaceRightCommand(kirby), ExecutionType.StartingPress);
@@ -79,6 +93,7 @@ namespace MasterGame
             keyboard.RegisterCommand(Keys.Q, new QuitCommand(this), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.R, new ResetCommand(this), ExecutionType.StartingPress);
             //keyboard.RegisterCommand(Keys.F, new ToggleFullscreenCommand(), ExecutionType.StartingPress);
+
 
         }
         protected override void Initialize()
@@ -125,8 +140,9 @@ namespace MasterGame
             // Creates enemies
             waddledeeTest = new WaddleDee(new Vector2(170, 100));
             waddledooTest = new WaddleDoo(new Vector2(170, 100));
+            brontoburtTest = new BrontoBurt(new Vector2(170, 100));
 
-            enemyList = new IEnemy[] { waddledeeTest, waddledooTest };
+            enemyList = new IEnemy[] { waddledeeTest, waddledooTest, brontoburtTest };
             currentEnemyIndex = 0;
 
             // Remapping keyboard to new Kirby 
@@ -145,8 +161,12 @@ namespace MasterGame
             SpriteFactory.Instance.LoadAllTextures(Content);
             SpriteFactory.Instance.LoadAllSpriteAnimations();
 
-            // Load all other objects 
+            // Load all objects 
             LoadObjects();
+
+            //kirby.UpdateTexture();
+            //toggleFullscreen = new ToggleFullscreenCommand();
+
         }
 
         protected override void UnloadContent()
@@ -159,11 +179,11 @@ namespace MasterGame
             base.Update(gameTime);
 
             keyboard.Update();
-            kirby.Update();
+            kirby.Update(gameTime);
 
             BlockList.Instance.Update();
 
-            enemyList[currentEnemyIndex].Update();
+            enemyList[currentEnemyIndex].Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -194,7 +214,6 @@ namespace MasterGame
             // draw only selected enemy
             enemyList[currentEnemyIndex].Draw(spriteBatch);
             kirby.Draw(spriteBatch);
-            waddledeeTest.Draw(spriteBatch);
             BlockList.Instance.Draw(new Vector2(100, 150), spriteBatch);
 
             // End spriteBatch

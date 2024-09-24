@@ -1,4 +1,5 @@
-
+using Microsoft.Xna.Framework;
+using System.ComponentModel.DataAnnotations;
 
 namespace MasterGame
 {
@@ -12,22 +13,28 @@ namespace MasterGame
         
         protected float yVel = 0;
         protected float xVel = 0;
-        protected float jumpVel = 10f;
+        protected float jumpVel = -2f;
+        protected float jumpVelX = 2f;
         protected float floatVelX = 5f;
         protected float floatVelY = 5f;
         protected float walkingVel = .375f;
         protected float runningVel = .75f;
-        protected float gravity = -10f;
+        protected float gravity = 10f;  // Gravity in pixels per second^2
+        protected float damageVel = 2f;
+
+        protected float frameRate = 0.03125f;
 
         //decrease public access
         public bool floating;
         public bool crouching;
+        public bool jumping;
 
         //change kirby velocity to go left
-        public PlayerMovement()
+        public PlayerMovement(ref PlayerStateMachine pState)
         {
-            state = PlayerStateMachine.Instance;
+            state = pState;
             floating = false;
+            jumping = false;
         }
 
         public void StopMovement()
@@ -42,6 +49,9 @@ namespace MasterGame
                 xVel = walkingVel * -1;
             } else {
                 xVel = walkingVel;
+            }
+            if(jumping){
+                JumpXY();
             }
         }
         #endregion
@@ -58,6 +68,35 @@ namespace MasterGame
         #endregion
 
         #region Jumping
+        public void FinishJump(Player kirby)
+        {
+            if(jumping)
+            {
+                kirby.ChangePose(KirbyPose.Standing);
+                jumping = false;
+            }
+        }
+        public void JumpCheck(Player kirby)
+        {
+            if(jumping && yVel > 0)
+            {
+                kirby.ChangePose(KirbyPose.JumpFalling);
+            }
+        }
+        public void JumpY()
+        {
+            jumping = true;
+            yVel = jumpVel;
+        }
+        public void JumpXY()
+        {
+            JumpY();
+            if(state.IsLeft()){
+                xVel = jumpVelX * -1;
+            } else {
+                xVel = jumpVelX;
+            }
+        }
         #endregion
 
         #region Attack
@@ -70,21 +109,38 @@ namespace MasterGame
         #region Attacked
         public void ReceiveDamage()
         {
-
+            if(state.IsLeft()){
+                xVel = damageVel;
+            } else {
+                xVel = damageVel * -1;
+            }
+            if(yVel > 0 !)
+            {
+                yVel *= -1;
+            } else{
+                yVel *= -1;
+            }
         }
         #endregion
 
-        #region Slide
+        #region slide
+        public void Slide()
+        {
+            state.ChangePose(KirbyPose.Sliding);
+        }
         #endregion
 
         #region Move Sprite
         //update kirby position in UI
-        public void UpdatePosition(Player kirby)
+        public void UpdatePosition(Player kirby, GameTime gameTime)
         {
-            //float newY =(float) (yVel * frameRate + .5 * gravity * frameRate * frameRate + kirby.position.Y);
+
             kirby.PositionX += xVel;
-            //kirby.position.Y = newY;
-            //yVel += gravity *frameRate;
+            kirby.PositionY += yVel;
+            if(jumping || floating){
+                yVel += gravity *  (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            
         }
 
         // checks palyer doesnt go out of frame (up and down)
@@ -92,7 +148,6 @@ namespace MasterGame
         {
             if(kirby.PositionX > Constants.Graphics.GAME_WIDTH)
             {
-
                 kirby.PositionX  = Constants.Graphics.GAME_WIDTH;  
             }
             if(kirby.PositionX < 0)
@@ -107,14 +162,18 @@ namespace MasterGame
             if(kirby.PositionY > Constants.Graphics.FLOOR)
             {
                 yVel = 0;
-                //kirby.position.Y = (float) floor;
+                kirby.PositionY = (float) Constants.Graphics.FLOOR;
+                FinishJump(kirby);
             }
 
             //dont go through the ceiling
-            if(kirby.PositionY < 0)
+            if(kirby.PositionY < 10)
             {
                 yVel = 0;
-                //kirby.position.Y = 0 + 10;
+                kirby.PositionY = 10;
+            }
+            if(!jumping){
+                yVel = 0;
             }
 
         }
@@ -123,11 +182,12 @@ namespace MasterGame
         {
             AdjustX(kirby);
             AdjustY(kirby);
+            JumpCheck(kirby);
         }
         //updates position and adjusts frame. 
-        public void MovePlayer(Player kirby)
+        public void MovePlayer(Player kirby, GameTime gameTime)
         {
-            UpdatePosition(kirby);
+            UpdatePosition(kirby, gameTime);
             Adjust(kirby);
         }
         #endregion
