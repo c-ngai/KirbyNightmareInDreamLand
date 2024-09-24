@@ -16,26 +16,26 @@ namespace MasterGame
 
         public void SetQuadrant(MouseState reference, int[] mouseState)
         {
-            int horizontalMidPoint = Game1.self.windowWidth / 2;
-            int verticalMidPoint = Game1.self.windowHeight / 2;
+            //int horizontalMidPoint = Game1.self.windowWidth / 2;
+            //int verticalMidPoint = Game1.self.windowHeight / 2;
 
             // sets quadrants by dividing the game window into equal fourths
-            if (reference.X <= horizontalMidPoint / 2 && reference.Y <= verticalMidPoint)
-            {
-                mouseState[quadrantIndex] = 1;
-            }
-            else if (reference.X > horizontalMidPoint && reference.Y <= verticalMidPoint)
-            {
-                mouseState[quadrantIndex] = 2;
-            }
-            else if (reference.X <= horizontalMidPoint && reference.Y > verticalMidPoint)
-            {
-                mouseState[quadrantIndex] = 3;
-            }
-            else if (reference.X > horizontalMidPoint && reference.Y > verticalMidPoint)
-            {
-                mouseState[quadrantIndex] = 4;
-            }
+            // if (reference.X <= horizontalMidPoint / 2 && reference.Y <= verticalMidPoint)
+            // {
+            //     mouseState[quadrantIndex] = 1;
+            // }
+            // else if (reference.X > horizontalMidPoint && reference.Y <= verticalMidPoint)
+            // {
+            //     mouseState[quadrantIndex] = 2;
+            // }
+            // else if (reference.X <= horizontalMidPoint && reference.Y > verticalMidPoint)
+            // {
+            //     mouseState[quadrantIndex] = 3;
+            // }
+            // else if (reference.X > horizontalMidPoint && reference.Y > verticalMidPoint)
+            // {
+            //     mouseState[quadrantIndex] = 4;
+            // }
         }
 
         public void Update()

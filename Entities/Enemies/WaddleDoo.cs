@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MasterGame
 {
@@ -11,20 +12,21 @@ namespace MasterGame
         private EnemyStateMachine stateMachine;
         private Vector2 leftBoundary = new Vector2(100, 100);
         private Vector2 rightBoundary = new Vector2(230, 100);
-        public string oldState;
+        private string oldState;
         private int frameCounter = 0;
         private int walkFrames = 180;  //3 sec (if 60fps)
-        private int stopFrames = 120;  //2 sec
-        private int attackFrames = 60; //1 sec
+        private int stopFrames = 60;  //2 sec
+        private int attackFrames = 100; //1 sec
+        private int ichangedthis;
 
         public WaddleDoo(Vector2 startPosition)
         {
             position = startPosition;
             health = 100;
             isDead = false;
-            stateMachine = new EnemyStateMachine(EnemyType.WaddleDee);
+            stateMachine = new EnemyStateMachine(EnemyType.WaddleDoo);
             //stateMachine.ChangePose(EnemyPose.Walking);
-           enemySprite = SpriteFactory.Instance.createSprite("waddledee_walking_right");
+           enemySprite = SpriteFactory.Instance.createSprite("waddledoo_walking_right");
         }
 
         public Vector2 Position
@@ -54,7 +56,7 @@ namespace MasterGame
             isDead = true;
 
             //eventual death pose/animation
-            stateMachine.ChangePose(EnemyPose.LoadingAttack);
+            stateMachine.ChangePose(EnemyPose.Charging);
             UpdateTexture();
         }
 
@@ -85,27 +87,27 @@ namespace MasterGame
 
                     if (frameCounter >= walkFrames)
                     {
-                        stateMachine.ChangePose(EnemyPose.Hurt); // Stop after walking (Should be Idle, hurt is placeholder)
+                        stateMachine.ChangePose(EnemyPose.Charging); // Stop after walking to load attack
                         frameCounter = 0;
                         UpdateTexture();
                     }
                 }
                 // Handle idle (stopped) state
-                else if (stateMachine.GetPose() == EnemyPose.Hurt) //Should be Idle, hurt is placeholder
+                else if (stateMachine.GetPose() == EnemyPose.Charging) //If Loading Attack,
                 {
                     if (frameCounter >= stopFrames)
                     {
-                        stateMachine.ChangePose(EnemyPose.Walking); // Attack after stopping (Should be Attack, walking is placeholder)
+                        stateMachine.ChangePose(EnemyPose.Attacking); // Attack after stopping
                         frameCounter = 0;
                         UpdateTexture();
                     }
                 }
                 // Handle attacking state
-                else if (stateMachine.GetPose() == EnemyPose.Walking) //(Should be Attack, walking is placeholder)
+                else if (stateMachine.GetPose() == EnemyPose.Attacking) //If attacking
                 {
                     if (frameCounter >= attackFrames)
                     {
-                        stateMachine.ChangePose(EnemyPose.Hurt); // Walk again after attacking (Should be Walking, Hurt is placeholder))
+                        stateMachine.ChangePose(EnemyPose.Walking); // Walk again after attacking 
                         frameCounter = 0;
                         UpdateTexture();
                     }
@@ -139,11 +141,11 @@ namespace MasterGame
             }
         }
 
-        public void Draw()
+        public void Draw(SpriteBatch spriteBatch)
         {
             if (!isDead)
             {
-                enemySprite.Draw(position);
+                enemySprite.Draw(position, spriteBatch);
             }
         }
 

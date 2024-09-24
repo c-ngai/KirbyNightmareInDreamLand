@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MasterGame
 {
@@ -11,7 +12,7 @@ namespace MasterGame
         private EnemyStateMachine stateMachine;
         private Vector2 leftBoundary = new Vector2(170, 100);
         private Vector2 rightBoundary = new Vector2(210, 100);
-        public string oldState;
+        private string oldState;
 
         public WaddleDee(Vector2 startPosition)
         {
@@ -50,7 +51,7 @@ namespace MasterGame
             isDead = true;
 
             //eventual death pose/animation
-            stateMachine.ChangePose(EnemyPose.LoadingAttack);
+            stateMachine.ChangePose(EnemyPose.Hurt);
             UpdateTexture();
         }
 
@@ -107,11 +108,11 @@ namespace MasterGame
             }
         }
 
-        public void Draw()
+        public void Draw(SpriteBatch spriteBatch)
         {
             if (!isDead)
             {
-                enemySprite.Draw(position);
+                enemySprite.Draw(position, spriteBatch);
             }
         }
 
