@@ -40,9 +40,9 @@ namespace MasterGame
         {
             self = this;
             graphics = new GraphicsDeviceManager(this);
-            IsFullscreen = false;
-            
-            kirby = new Player(new Vector2(30, gameHeight * 4/5));
+            keyboard = new KeyboardController();
+            Content.RootDirectory = "Content";
+            IsMouseVisible = true;
         }
 
         // will later be changed to read in mouse control input 
@@ -117,10 +117,10 @@ namespace MasterGame
                 SpriteFactory.Instance.createSprite("tile_slope_steep_right"),
                 SpriteFactory.Instance.createSprite("tile_stoneblock"),
                 SpriteFactory.Instance.createSprite("tile_waterfall"),
-            // Creates enemies
-            // Create a kirby sprite 
-            kirby.PlayerSprite = SpriteFactory.Instance.createSprite("kirby_normal_standing_right");
+            };
+            BlockList.Instance.setBlockList(blockList);
 
+            // Creates enemies
             waddledeeTest = new WaddleDee(new Vector2(170, 100));
             waddledooTest = new WaddleDoo(new Vector2(170, 100));
 
