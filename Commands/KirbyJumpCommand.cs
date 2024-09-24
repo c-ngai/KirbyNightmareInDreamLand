@@ -1,4 +1,5 @@
-﻿namespace MasterGame
+﻿using System.Threading.Tasks;
+namespace MasterGame
 {
     public class KirbyJumpCommand : ICommand
     {
@@ -11,13 +12,11 @@
 
         public void Execute()
         {
-            /* Depends on if move left, move right, jump, or double jump is pressed */
-            // Also has longer jump if jump key is held
-            // Can only be interrupted by: another jump command (aka now float), move right or move left, or float
+            kirby.JumpY();
         }
         public void Undo()
         {
-            kirby.StopMoving();
+            //kirby.StopMoving();
         }
     }
 }

@@ -7,24 +7,29 @@ namespace MasterGame
 {
     public class Player : IPlayer
     {
+        //
         private PlayerStateMachine state;
         private PlayerMovement movement;
         private SpriteFactory factory;
         private Sprite playerSprite ;
+
+        //health stuffs
         private int health = Constants.Kirby.MAX_HEALTH;
-        private int lives = 5;
+        private int lives = Constants.Kirby.MAX_LIVES;
+
+
         private Vector2 position;
         private string oldState;
 
 
         //todo:
-        // make kirby and game instance fields private, and take out state machine instance
+        //take out state machine instance
         //projectiles should be its own objs (obv)
         //constructor
         public Player(Vector2 pos)
         {
-            state = PlayerStateMachine.Instance;
-            movement = new NormalPlayerMovement();
+            state = new PlayerStateMachine();
+            movement = new NormalPlayerMovement(ref state);
             factory = SpriteFactory.Instance;
             oldState = state.GetStateString();
             position = pos;
@@ -54,7 +59,13 @@ namespace MasterGame
                 oldState = state.GetStateString();
             } 
         }
+         public void ChangePose(KirbyPose pose)
+        {
+            state.ChangePose(pose);
+            UpdateTexture();
+        }
 
+        #region direction
         public void SetDirectionLeft()
         {
             state.SetDirectionLeft();
@@ -65,11 +76,32 @@ namespace MasterGame
             state.SetDirectionRight();
             UpdateTexture();
         }
-        //calls state machine to drecease health
+        #endregion
+
+        #region health
+        public void Death()
+        {
+            //state.ChangeType(KirbyType.Dead);
+        }
+        public void DecreaseHealth()
+        {
+            health --;
+            if(health == 0)
+            {
+                health = Constants.Kirby.MAX_HEALTH;
+                lives--;
+            }
+            if(lives == 0)
+            {
+                Death();
+            }
+        }
+        //calls method to drecease health & changes kirby pose
         public void TakeDamage()
         {
-            state.ChangePose(KirbyPose.Hurt);
-            UpdateTexture();
+            ChangePose(KirbyPose.Hurt);
+            movement.ReceiveDamage();
+            DecreaseHealth();
         }
         //calls state machine to attack
         public void Attack()
@@ -77,55 +109,69 @@ namespace MasterGame
             movement.Attack();
             UpdateTexture();
         }
+        #endregion
 
         #region Movement
         public void MoveLeft()
-        {
-            state.ChangePose(KirbyPose.Walking);
-            state.SetDirectionLeft();
-            movement.Walk();
-            UpdateTexture();
+        {   
+            SetDirectionLeft();
+            if(!movement.jumping){
+                movement.Walk();
+                ChangePose(KirbyPose.Walking);
+            }
         }
 
         public void MoveRight()
         {
-            state.SetDirectionRight();
-            if(movement.floating == true)
-            {
+            SetDirectionRight();
+            if(!movement.jumping){
                 movement.Walk();
-            } else {
-                movement.Walk();
-                state.ChangePose(KirbyPose.Walking);
+                ChangePose(KirbyPose.Walking);
             }
-            UpdateTexture();
         }
 
         public void StopMoving()
         {
-            state.ChangePose(KirbyPose.Standing);
+            ChangePose(KirbyPose.Standing);
             movement.StopMovement();
-            UpdateTexture();
         }
 
         #region running
         public void RunLeft()
         {
-            state.SetDirectionLeft();
+            ChangePose(KirbyPose.Running);
+            SetDirectionLeft();
             movement.Run();
-            state.ChangePose(KirbyPose.Running);
         }
         public void RunRight()
         {
-            state.SetDirectionRight();
+            SetDirectionRight();
             movement.Run();
             state.ChangePose(KirbyPose.Running);
         }
         #endregion
+        public void JumpFall()
+        {
+            state.ChangePose(KirbyPose.JumpFalling);
+            UpdateTexture();
+        }
+        public void JumpY()
+        {
+            state.ChangePose(KirbyPose.JumpRising);  
+            UpdateTexture();
+            movement.JumpY();
+
+        }
+
+        public void JumpXY()
+        {
+            
+        }
         public void Float()
         {
             //crouching and sliding cannot be overwritten by float 
             if(state.GetPose()!= KirbyPose.Crouching || state.GetPose()!= KirbyPose.Sliding){
-                movement = new FloatingMovement();
+                movement = new FloatingMovement(ref state);
                 state.ChangePose(KirbyPose.Floating);
             } 
             if(state.GetPose()== KirbyPose.Floating)
@@ -141,10 +187,11 @@ namespace MasterGame
         }
         
         #endregion
+
         // makes state changes by calling other player methods, calls state.Update(), and finally calls Draw last?
-        public void Update()
+        public void Update(GameTime gameTime)
         {
-            movement.MovePlayer(this);
+            movement.MovePlayer(this, gameTime);
             playerSprite.Update();
         }
         public void Draw(SpriteBatch spriteBatch)

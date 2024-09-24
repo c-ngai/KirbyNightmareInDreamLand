@@ -1,4 +1,5 @@
-﻿namespace MasterGame
+﻿using System.Threading.Tasks;
+namespace MasterGame
 {
     public class KirbyTakeDamageCommand : ICommand
     {
@@ -15,8 +16,9 @@
             kirby.TakeDamage();
         }
 
-        public void Undo()
+        public async void Undo()
         {
+            //await Task.Delay(100);
             kirby.StopMoving();
         }
     }

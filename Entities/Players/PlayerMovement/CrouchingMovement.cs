@@ -2,7 +2,7 @@ namespace MasterGame
 {
     public class CrouchingMovement : PlayerMovement
     {
-        public CrouchingMovement()
+        public CrouchingMovement(ref PlayerStateMachine pState) : base(ref pState)
         {
 
         }
