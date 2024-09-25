@@ -32,6 +32,7 @@ namespace MasterGame.Block
             lastBlock = myBlocks.Count - 1;
         }
 
+        // if we aren't at the end of the list, increment. Otherwise, go to start. 
         public void viewNext()
         {
             if (currentBlock < lastBlock)
@@ -45,6 +46,7 @@ namespace MasterGame.Block
             }
         }
 
+        // if we aren't at the beginning of the list, decrement. Otherwise, got to end. 
         public void viewPrevious()
         {
             if (currentBlock > firstBlock)
@@ -68,7 +70,7 @@ namespace MasterGame.Block
 
         public void Update()
         {
-            // do nothing
+            // do nothing for most tile, animates waterfall tile.
             blockList[currentBlock].Update();
 
         }
