@@ -1,4 +1,3 @@
-﻿/*
 using Microsoft.Xna.Framework;
 
 namespace MasterGame
@@ -42,7 +41,5 @@ namespace MasterGame
         {
             enemySprite.Draw(position); // TODO: change to sprite for fireball
         }
-
     }
 }
-*/
