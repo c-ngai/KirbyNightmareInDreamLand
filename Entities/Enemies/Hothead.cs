@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace MasterGame
 {
-    public class WaddleDoo : IEnemy
+    public class Hothead : IEnemy
     {
         private Vector2 position;
         private int health;
@@ -17,15 +18,19 @@ namespace MasterGame
         private int walkFrames = 180;  //3 sec (if 60fps)
         private int stopFrames = 60;  //2 sec
         private int attackFrames = 100; //1 sec
+        private int shootFrames = 100; //1 sec
+        private List<IProjectile> fireballs; // all fireballs
 
-        public WaddleDoo(Vector2 startPosition)
+
+        public Hothead(Vector2 startPosition)
         {
             position = startPosition;
             health = 100;
             isDead = false;
             stateMachine = new EnemyStateMachine(EnemyType.WaddleDoo);
-            //stateMachine.ChangePose(EnemyPose.Walking);
-           enemySprite = SpriteFactory.Instance.createSprite("waddledoo_walking_right");
+            //stateMachine = new EnemyStateMachine(EnemyType.Hothead);
+            stateMachine.ChangePose(EnemyPose.Walking);
+            fireballs = new List<IProjectile>();
         }
 
         public Vector2 Position
@@ -67,10 +72,11 @@ namespace MasterGame
 
         public void UpdateTexture()
         {
-             if(!stateMachine.GetStateString().Equals(oldState)){
+            if (!stateMachine.GetStateString().Equals(oldState))
+            {
                 enemySprite = SpriteFactory.Instance.createSprite(stateMachine.GetSpriteParameters());
-                 oldState = stateMachine.GetStateString();
-             } 
+                oldState = stateMachine.GetStateString();
+            }
         }
 
         public void Update(GameTime gameTime)
@@ -79,45 +85,64 @@ namespace MasterGame
             {
                 frameCounter++;
 
-                // Handle walking state
+                //walking
                 if (stateMachine.GetPose() == EnemyPose.Walking)
                 {
                     Move();
 
                     if (frameCounter >= walkFrames)
                     {
-                        stateMachine.ChangePose(EnemyPose.Charging); // Stop after walking to load attack
+                        //stateMachine.ChangePose(EnemyPose.Shooting);
+                        stateMachine.ChangePose(EnemyPose.Charging);
                         frameCounter = 0;
                         UpdateTexture();
                     }
                 }
-                // Handle idle (stopped) state
-                else if (stateMachine.GetPose() == EnemyPose.Charging) //If Loading Attack,
-                {
-                    if (frameCounter >= stopFrames)
+                //shooting
+                //else if (stateMachine.GetPose() == EnemyPose.Shooting)
+                else if (stateMachine.GetPose() == EnemyPose.Charging)
+                        {
+                    if (frameCounter == 1) // fireball projectile
                     {
-                        stateMachine.ChangePose(EnemyPose.Attacking); // Attack after stopping
+                        ShootProjectile();
+                    }
+
+                    if (frameCounter >= shootFrames)
+                    {
+                        // blow fire
+                        stateMachine.ChangePose(EnemyPose.Attacking); // attacks (blows fire) after shooting
                         frameCounter = 0;
                         UpdateTexture();
                     }
                 }
-                // Handle attacking state
-                else if (stateMachine.GetPose() == EnemyPose.Attacking) //If attacking
+                //blows fire
+                else if (stateMachine.GetPose() == EnemyPose.Attacking)
                 {
+                    if (frameCounter == 1) //blowing fire projectile
+                    {
+                        Attack();
+                    }
+
                     if (frameCounter >= attackFrames)
                     {
-                        stateMachine.ChangePose(EnemyPose.Walking); // Walk again after attacking 
+                        // after attack, walk
+                        stateMachine.ChangePose(EnemyPose.Walking);
                         frameCounter = 0;
                         UpdateTexture();
                     }
                 }
 
-                // Update sprite animation
+                UpdateTexture();
+
                 enemySprite.Update();
+
+                //update fireballs
+                UpdateFireballs();
             }
         }
+    
 
-        private void Move()
+    private void Move()
         {
             //walking back and forth
             if (stateMachine.IsLeft())
@@ -140,11 +165,45 @@ namespace MasterGame
             }
         }
 
+        private void ShootProjectile()
+        {
+
+            Vector2 projectileDirection;
+
+            if (stateMachine.IsLeft())
+            {
+                projectileDirection = new Vector2(-1, -0.5f); // aim left
+            }
+            else
+            {
+                projectileDirection = new Vector2(1, -0.5f); // aim right
+            }
+
+            IProjectile newFireball = new EnemyFireball(position, projectileDirection);
+            fireballs.Add(newFireball);
+        }
+
+        private void UpdateFireballs()
+        {
+            foreach (var fireball in fireballs)
+            {
+                fireball.Update();
+            }
+
+            //should prob eventually remove fireballs from list after off screen
+        }
+
+
         public void Draw(SpriteBatch spriteBatch)
         {
             if (!isDead)
             {
                 enemySprite.Draw(position, spriteBatch);
+
+                foreach (var fireball in fireballs)
+                {
+                    fireball.Draw(spriteBatch);
+                }
             }
         }
 

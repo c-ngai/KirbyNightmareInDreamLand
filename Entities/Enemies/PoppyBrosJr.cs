@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace MasterGame
 {
-    public class WaddleDee : IEnemy
+    public class PoppyBrosJr : IEnemy
     {
         private Vector2 position;
         private int health;
@@ -14,14 +15,19 @@ namespace MasterGame
         private Vector2 rightBoundary = new Vector2(230, 100);
         private string oldState;
 
-        public WaddleDee(Vector2 startPosition)
+        //hopping
+        private int hopCounter = 0;
+        private int hopFrequency = 60; //framws between hops
+        private float hopHeight = 1f;
+
+        public PoppyBrosJr(Vector2 startPosition)
         {
             position = startPosition;
             health = 100;
             isDead = false;
+            //stateMachine = new EnemyStateMachine(EnemyType.PoppyBrosJr);
             stateMachine = new EnemyStateMachine(EnemyType.WaddleDee);
-            //stateMachine.ChangePose(EnemyPose.Walking);
-           enemySprite = SpriteFactory.Instance.createSprite("waddledee_walking_right");
+            stateMachine.ChangePose(EnemyPose.Walking);
         }
 
         public Vector2 Position
@@ -77,6 +83,7 @@ namespace MasterGame
                 if (stateMachine.GetPose() == EnemyPose.Walking)
                 {
                     Move();
+                    Hop();
                 }
 
                 //updates using state
@@ -105,6 +112,21 @@ namespace MasterGame
                     stateMachine.ChangeDirection();
                     UpdateTexture();
                 }
+            }
+        }
+
+        private void Hop()
+        {
+            hopCounter++;
+            float t = (float)hopCounter / hopFrequency; // Normalize hopCounter to [0, 1]
+
+            // Smooth vertical movement using sine function
+            position.Y = position.Y - (float)(Math.Sin(t * Math.PI * 2) * hopHeight / 2); // Adjust hop height
+
+            // Reset hopCounter to create a repeating cycle
+            if (hopCounter >= hopFrequency)
+            {
+                hopCounter = 0; // Reset for the next hop cycle
             }
         }
 

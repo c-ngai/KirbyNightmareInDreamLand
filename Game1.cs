@@ -21,14 +21,14 @@ namespace MasterGame
         private KeyboardController keyboard;
         // get kirbys -- make it so it is multiple in cardinality!!
         private IPlayer kirby;
+
         //get waddledee
         public IEnemy waddledeeTest;
-
-        //get waddledoo
         public IEnemy waddledooTest;
-
-        //get brontoburt
         public IEnemy brontoburtTest;
+        public IEnemy hotheadTest;
+        public IEnemy poppybrosjrTest;
+        public IEnemy sparkyTest;
 
         //list of all enemies
         public IEnemy[] enemyList;
@@ -112,8 +112,11 @@ namespace MasterGame
             waddledeeTest = new WaddleDee(new Vector2(170, 100));
             waddledooTest = new WaddleDoo(new Vector2(170, 100));
             brontoburtTest = new BrontoBurt(new Vector2(170, 100));
+            hotheadTest = new Hothead(new Vector2(170, 100));
+            poppybrosjrTest = new PoppyBrosJr(new Vector2(170, 100));
+            sparkyTest = new Sparky(new Vector2(170, 100));
 
-            enemyList = new IEnemy[] { waddledeeTest, waddledooTest, brontoburtTest };
+            enemyList = new IEnemy[] { waddledeeTest, waddledooTest, brontoburtTest, hotheadTest, poppybrosjrTest, sparkyTest };
             currentEnemyIndex = 0;
 
             // Remapping keyboard to new Kirby 
@@ -168,6 +171,7 @@ namespace MasterGame
             BlockList.Instance.Update();
 
             enemyList[currentEnemyIndex].Update(gameTime);
+
         }
 
         protected override void Draw(GameTime gameTime)
