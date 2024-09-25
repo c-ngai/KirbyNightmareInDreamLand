@@ -12,7 +12,6 @@ namespace MasterGame
 
     public class Sprite : ISprite
     {
-
         // To store a reference to the global spritebatch.
         private SpriteBatch spriteBatch;
         // The game's INTERNAL resolution. For placement on screen relative to the scale. Not to be confused with window resolution.
@@ -26,8 +25,6 @@ namespace MasterGame
         private int currentFrame;
         // The current number of game ticks since last frame advance.
         private int tickCounter;
-
-
 
         /* Creates a new animation object from an animation file. Imports animation
          * data from a .csv file into the Animation object. */
@@ -61,8 +58,6 @@ namespace MasterGame
             }
         }
 
-
-
         // Draws the sprite to the spriteBatch.
         public void Draw(Vector2 position, SpriteBatch spriteBatch, Color color)
         {
@@ -83,15 +78,11 @@ namespace MasterGame
             spriteBatch.Draw(_spriteAnimation.texture, position, sourceRectangle, color, 0, frameCenter, scale, _spriteAnimation.spriteEffects, 0);
         }
 
-        
-
         // Draws the sprite to the spriteBatch. With unspecified color, uses white.
         public void Draw(Vector2 position, SpriteBatch spriteBatch)
         {
             Draw(position, spriteBatch, Color.White);
         }
-
-
 
         // Resets the animation to the start. Should be desirable to call any time an entity's sprite is switched.
         public void ResetAnimation()
@@ -99,8 +90,5 @@ namespace MasterGame
             currentFrame = 0;
             tickCounter = 0;
         }
-
-
-
     }
 }

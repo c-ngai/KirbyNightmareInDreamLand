@@ -7,6 +7,8 @@ namespace MasterGame
         void JumpY();
         void MoveRight();
         void MoveLeft();
+        void RunRight();
+        void RunLeft();
         void StopMoving();
         void SetDirectionLeft();
         void SetDirectionRight();

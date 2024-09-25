@@ -27,5 +27,11 @@ namespace MasterGame
             public const int MAX_LIVES = 3;
         }
 
+        public class Controller
+        {
+            // determines max time that can elapse for double button presses to register as a command
+            public const double RESPONSE_TIME = 250;
+        }
+
     }
 }

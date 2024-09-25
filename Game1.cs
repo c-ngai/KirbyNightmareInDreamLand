@@ -9,68 +9,69 @@ namespace MasterGame
 {
     public class Game1 : Game
     {
-        //there should be a thing that gets all the  ?? of each kind
-
-        //Priority fix these!!
-        //PRIVATE MAKE THEM PRIVATE
-        public static Game1 self { get; set; }
         private SpriteBatch spriteBatch;
         
-        // TODO: Loosen coupling. GraphicsDeviceManager should probably not be public, but ToggleFullscreenCommand still needs to be able to work.
         private GraphicsDeviceManager graphics;
         private SpriteFont font;
         private KeyboardController keyboard;
-        // get kirbys -- make it so it is multiple in cardinality!!
+
+        // Single-player but can later be updated to an array of kirbys for multiplayer
         private IPlayer kirby;
 
-        //get enemies
-        public IEnemy waddledeeTest;
-        public IEnemy waddledooTest;
-        public IEnemy brontoburtTest;
-        public IEnemy hotheadTest;
-        public IEnemy poppybrosjrTest;
-        public IEnemy sparkyTest;
+        // Get enemies (currently one of each but can change to an array of each enemy type)
+        private IEnemy waddledeeTest;
+        private IEnemy waddledooTest;
+        private IEnemy brontoburtTest;
+        private IEnemy hotheadTest;
+        private IEnemy poppybrosjrTest;
+        private IEnemy sparkyTest;
 
-        //list of all enemies
-        public IEnemy[] enemyList;
+        // List of all enemies
+        public IEnemy[] enemyList { get; set; }
 
         // List to manage projectiles
         private List<IProjectile> projectiles; // TODO: Delete after synching with entity
 
 
         public int currentEnemyIndex;
+        // TODO: Decoupling: move this out later
+        public int currentEnemyIndex { get; set; }
+
+        // Sets up single reference for game time for things such as commands which cannot get current time elsewise
+        // Note this is program time and not game time 
+        public GameTime time { get; set; }
 
         // Flamethrower instance
         private KirbyFlamethrower flamethrower;
 
         public Game1()
         {
-            self = this;
             graphics = new GraphicsDeviceManager(this);
-            keyboard = new KeyboardController();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
 
-        // will later be changed to read in mouse control input 
-        //not necesary delete
-        // public void SetMouseControls(MouseController mouse)
-        // {
-        //     mouse.leftClickIndex = 0;
-        //     mouse.rightClickIndex = 1;
-        //     mouse.quadrantIndex = 2;
+        protected override void Initialize()
+        {
+            // true = exclusive fullscreen, false = borderless fullscreen
+            graphics.HardwareModeSwitch = true;
+            graphics.IsFullScreen = Constants.Graphics.IS_FULL_SCREEN;
+            graphics.PreferredBackBufferWidth = Constants.Graphics.WINDOW_WIDTH;
+            graphics.PreferredBackBufferHeight = Constants.Graphics.WINDOW_HEIGHT;
+            graphics.ApplyChanges();
 
-        //     mouse.leftClickPressed = 1;
-        //     mouse.rightClickPressed = 0;
-        //     mouse.quadrant = 1;
-        // }
+            keyboard = new KeyboardController();
 
-        // will later be changed to read in keyboard control input -- put into into eventual loader file
-        //you wan key bindngs to be loaded after being instatiated
+            base.Initialize();
+        }
+
+        // Everything in this region will move into eventual loader file
+        #region LoaderDetails
+        // Will later be changed to read in keyboard control input 
         public void SetKeyboardControls(KeyboardController keyboard)
         {
-             keyboard.RegisterCommand(Keys.Right, new KirbyMoveRightCommand(kirby), ExecutionType.Pressed);
-            keyboard.RegisterCommand(Keys.Left, new KirbyMoveLeftCommand(kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.Right, new KirbyMoveRightCommand(kirby, Keys.Right, keyboard, this), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.Left, new KirbyMoveLeftCommand(kirby, Keys.Left, keyboard, this), ExecutionType.Pressed);
             keyboard.RegisterCommand(Keys.Down, new KirbyCrouchCommand(kirby), ExecutionType.Pressed);
             keyboard.RegisterCommand(Keys.Up, new KirbyFloatCommand(kirby), ExecutionType.Pressed);
             keyboard.RegisterCommand(Keys.X, new KirbyJumpCommand(kirby), ExecutionType.Pressed);
@@ -86,7 +87,7 @@ namespace MasterGame
             keyboard.RegisterCommand(Keys.D3, new KirbyChangeFireCommand(kirby), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.D4, new KirbyChangeSparkCommand(kirby), ExecutionType.StartingPress);
 
-            keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby), ExecutionType.Pressed);
 
             keyboard.RegisterCommand(Keys.T, new PreviousBlockCommand(), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.Y, new NextBlockCommand(), ExecutionType.StartingPress);
@@ -100,21 +101,7 @@ namespace MasterGame
             keyboard.RegisterCommand(Keys.Q, new QuitCommand(this), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.R, new ResetCommand(this), ExecutionType.StartingPress);
             //keyboard.RegisterCommand(Keys.F, new ToggleFullscreenCommand(), ExecutionType.StartingPress);
-
-
         }
-        protected override void Initialize()
-        {
-            // true = exclusive fullscreen, false = borderless fullscreen
-            graphics.HardwareModeSwitch = true;
-            graphics.IsFullScreen = Constants.Graphics.IS_FULL_SCREEN;
-            graphics.PreferredBackBufferWidth = Constants.Graphics.WINDOW_WIDTH;
-            graphics.PreferredBackBufferHeight = Constants.Graphics.WINDOW_HEIGHT;
-            graphics.ApplyChanges();
-
-            base.Initialize();
-        }
-
         public void LoadObjects()
         {
             // Creates kirby object
@@ -157,15 +144,13 @@ namespace MasterGame
 
             // Initialize the flamethrower
             flamethrower = new KirbyFlamethrower(); // TODO: delete when synched with entity
-
             projectiles = new List<IProjectile>(); // Initialize the projectiles list
-
-
 
             // Remapping keyboard to new Kirby 
             keyboard = new KeyboardController();
             SetKeyboardControls(keyboard);
         }
+        #endregion
 
         protected override void LoadContent()
         {
@@ -180,10 +165,6 @@ namespace MasterGame
 
             // Load all objects 
             LoadObjects();
-
-            //kirby.UpdateTexture();
-            //toggleFullscreen = new ToggleFullscreenCommand();
-
         }
 
         protected override void UnloadContent()
@@ -194,10 +175,10 @@ namespace MasterGame
         protected override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            time = gameTime;
 
             keyboard.Update();
-            kirby.Update(gameTime);
-
+            
             // TODO: delete after synched with entity
             // Update projectiles
             foreach (var projectile in projectiles)
@@ -208,10 +189,6 @@ namespace MasterGame
             // TODO: delete after synching with entities
             flamethrower.Update(gameTime, new Vector2 (60, Constants.Graphics.FLOOR - 10), new Vector2 (1, 0)); 
 
-            BlockList.Instance.Update();
-
-            enemyList[currentEnemyIndex].Update(gameTime);
-
             // TODO: delete when synched with entity
             // Spawn a new projectile every few frames (for demonstration)
             if (gameTime.TotalGameTime.TotalMilliseconds % 2000 < 20) // Spawn every 2000 ms
@@ -219,6 +196,24 @@ namespace MasterGame
                 projectiles.Add(new KirbyStar(new Vector2(100, 70), new Vector2(1, -2))); // Spawn at this position and move at this speed and direction (up and to the right)
             }
 
+
+            kirby.Update(time);
+            enemyList[currentEnemyIndex].Update(time);
+            BlockList.Instance.Update();
+        }
+
+        // TODO: Decoupling: move text draw details out
+        public void DrawText()
+        {
+            string text;
+            text = "GraphicsAdapter.DefaultAdapter.CurrentDisplayMode: (" + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width + ", " + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height + ")";
+            spriteBatch.DrawString(font, text, new Vector2(10, 10), Color.Black);
+            text = "graphics.PreferredBackBuffer______: (" + graphics.PreferredBackBufferWidth + ", " + graphics.PreferredBackBufferHeight + ")";
+            spriteBatch.DrawString(font, text, new Vector2(10, 30), Color.Black);
+            text = "GraphicsDevice.PresentationParameters: (" + GraphicsDevice.PresentationParameters.BackBufferWidth + ", " + GraphicsDevice.PresentationParameters.BackBufferHeight + ")";
+            spriteBatch.DrawString(font, text, new Vector2(10, 50), Color.Black);
+            text = "GraphicsDevice.Viewport: (" + GraphicsDevice.Viewport.Width + ", " + GraphicsDevice.Viewport.Height + ")";
+            spriteBatch.DrawString(font, text, new Vector2(10, 70), Color.Black);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -230,21 +225,8 @@ namespace MasterGame
             // Start spriteBatch
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
 
-            // Debug text: keeping track of resolutions
-            string text;
-            //make this its own method?? -- mark
-            //kill all magic numbers 
-            //for future; magic.category.
-            text = "GraphicsAdapter.DefaultAdapter.CurrentDisplayMode: (" + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width + ", " + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height + ")";
-            spriteBatch.DrawString(font, text, new Vector2(10, 10), Color.Black);
-            text = "graphics.PreferredBackBuffer______: (" + graphics.PreferredBackBufferWidth + ", " + graphics.PreferredBackBufferHeight + ")";
-            spriteBatch.DrawString(font, text, new Vector2(10, 30), Color.Black);
-            text = "GraphicsDevice.PresentationParameters: (" + GraphicsDevice.PresentationParameters.BackBufferWidth + ", " + GraphicsDevice.PresentationParameters.BackBufferHeight + ")";
-            spriteBatch.DrawString(font, text, new Vector2(10, 50), Color.Black);
-            text = "GraphicsDevice.Viewport: (" + GraphicsDevice.Viewport.Width + ", " + GraphicsDevice.Viewport.Height + ")";
-            spriteBatch.DrawString(font, text, new Vector2(10, 70), Color.Black);
+            DrawText();
 
-            float scale = Constants.Graphics.WINDOW_HEIGHT / Constants.Graphics.GAME_HEIGHT; //what is this???
 
             // Draw projectiles
             foreach (var projectile in projectiles)
@@ -252,9 +234,14 @@ namespace MasterGame
                 projectile.Draw(spriteBatch);
             }
 
-            // draw only selected enemy
+            // What is this??
+            // float scale = Constants.Graphics.WINDOW_HEIGHT / Constants.Graphics.GAME_HEIGHT; 
+
+            // Draw only selected enemy
             enemyList[currentEnemyIndex].Draw(spriteBatch);
+
             kirby.Draw(spriteBatch);
+
             BlockList.Instance.Draw(new Vector2(100, 150), spriteBatch);
 
             // Draw the flamethrower segments

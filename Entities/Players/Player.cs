@@ -7,7 +7,7 @@ namespace MasterGame
 {
     public class Player : IPlayer
     {
-        //
+        // TODO: Is it possible to make this a public property so commands can access it?
         private PlayerStateMachine state;
         private PlayerMovement movement;
         private SpriteFactory factory;
@@ -23,7 +23,6 @@ namespace MasterGame
 
 
         //todo:
-        //take out state machine instance
         //projectiles should be its own objs (obv)
         //constructor
         public Player(Vector2 pos)
