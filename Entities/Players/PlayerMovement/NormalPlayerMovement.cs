@@ -5,34 +5,20 @@ namespace MasterGame
 {   
     public class NormalPlayerMovement : PlayerMovement
     {
-        public NormalPlayerMovement(ref PlayerStateMachine pState) : base(ref pState)
+        protected float walkingVel = .25f;
+        public NormalPlayerMovement() 
         {
-
+            normal = true;
         }
    
-
-        public override void Attack()
+        public override void Attack(Player kirby)
         {
-            if(state.GetPose() == KirbyPose.Attacking){
-                state.ChangePose(KirbyPose.ThrowEnemy);
+            if(kirby.GetPose().Equals("Attacking")){
+                kirby.ChangePose(KirbyPose.ThrowEnemy);
             } else {
-                state.ChangePose(KirbyPose.Attacking);
-            }
-        }
-        //change kirby yVelcoity to jump
-        public void Jump() 
-        {
-            if(yVel == 0){
-                yVel = jumpVel;
+                kirby.ChangePose(KirbyPose.Attacking);
             }
         }
 
-        //floats kirby
-        public void Float()
-        {
-            
-        }
-
-        
     }
 }

@@ -2,17 +2,17 @@ namespace MasterGame
 {
     public class CrouchingMovement : PlayerMovement
     {
-        public CrouchingMovement(ref PlayerStateMachine pState) : base(ref pState)
+        public CrouchingMovement()
         {
-
+            crouching = true;
         }
 
-        public override void Walk()
+        public override void Walk(bool isLeft)
         {   
             //does nothing
         }
 
-        public override void Run()
+        public override void Run(bool isLeft)
         {   
             //does nothing
         }

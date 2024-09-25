@@ -12,9 +12,10 @@ namespace MasterGame
     {
         private Dictionary<Keys, (ICommand, ExecutionType)> controllerMappings;
 
-        private Dictionary<Keys, bool> oldKeyStates;
+        // TODO: change these to private properties later
 
-        // TODO: change this to a public property later;
+        public Dictionary<Keys, bool> oldKeyStates;
+
         public Keys[] currentState;
 
         public KeyboardController()
@@ -57,6 +58,9 @@ namespace MasterGame
 
                     // Pressed execution type: executes the command when pressed
                     // Starting press execution type: executes the command when it shifts from not being pressed to pressed
+
+                    //command shoudl only have execute
+                    //single command by single condition
                     if (currentState.Contains(key) && ((type == ExecutionType.Pressed) || (!oldKeyStates[key] && type == ExecutionType.StartingPress)))
                     {
                         command.Execute();

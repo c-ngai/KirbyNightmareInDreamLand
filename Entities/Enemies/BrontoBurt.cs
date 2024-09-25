@@ -26,8 +26,8 @@ namespace MasterGame
             initialY = startPosition.Y;
             health = 100;
             isDead = false;
-            stateMachine = new EnemyStateMachine(EnemyType.BrontoBurt);
-            //stateMachine = new EnemyStateMachine(EnemyType.WaddleDee);
+            //stateMachine = new EnemyStateMachine(EnemyType.BrontoBurt);
+            stateMachine = new EnemyStateMachine(EnemyType.WaddleDee);
             stateMachine.ChangePose(EnemyPose.Walking);
         }
 
@@ -63,8 +63,8 @@ namespace MasterGame
 
         public void Attack()
         {
-            //stateMachine.ChangePose(EnemyPose.Walking);
-            stateMachine.ChangePose(EnemyPose.FlyingSlow);
+            stateMachine.ChangePose(EnemyPose.Walking);
+            //stateMachine.ChangePose(EnemyPose.FlyingSlow);
             UpdateTexture();
         }
 
@@ -80,9 +80,8 @@ namespace MasterGame
         {
             if (!isDead)
             {
-                //need to add walking left/right
-               //if (stateMachine.GetPose() == EnemyPose.Walking)
-                if (stateMachine.GetPose() == EnemyPose.FlyingSlow)
+               if (stateMachine.GetPose() == EnemyPose.Walking)
+                //if (stateMachine.GetPose() == EnemyPose.FlyingSlow)
                     {
                     Move();
                 }
@@ -97,7 +96,7 @@ namespace MasterGame
         {
             timeCounter += waveFrequency;
 
-            //Y oscillation using sin
+            //Y oscillation using sin. smooth flying
             position.Y = initialY + waveAmplitude * (float)Math.Sin(timeCounter);
 
             if (stateMachine.IsLeft())

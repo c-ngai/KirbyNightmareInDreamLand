@@ -6,13 +6,12 @@ namespace MasterGame.Block
 { 
     public class BlockList
     {
-
         private static BlockList instance;
 
-        List<Sprite> blockList;
-        int currentBlock;
-        int firstBlock = 0;
-        int lastBlock;
+        private List<Sprite> blockList;
+        private int currentBlock;
+        private int firstBlock = 0;
+        private int lastBlock;
 
         public static BlockList Instance
         {

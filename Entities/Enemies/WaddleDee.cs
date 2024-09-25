@@ -20,8 +20,7 @@ namespace MasterGame
             health = 100;
             isDead = false;
             stateMachine = new EnemyStateMachine(EnemyType.WaddleDee);
-            //stateMachine.ChangePose(EnemyPose.Walking);
-           enemySprite = SpriteFactory.Instance.createSprite("waddledee_walking_right");
+            stateMachine.ChangePose(EnemyPose.Walking);
         }
 
         public Vector2 Position
@@ -49,8 +48,6 @@ namespace MasterGame
         private void Die()
         {
             isDead = true;
-
-            //eventual death pose/animation
             stateMachine.ChangePose(EnemyPose.Hurt);
             UpdateTexture();
         }
@@ -73,7 +70,6 @@ namespace MasterGame
         {
             if (!isDead)
             {
-                //need to add walking left/right
                 if (stateMachine.GetPose() == EnemyPose.Walking)
                 {
                     Move();

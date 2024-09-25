@@ -1094,7 +1094,6 @@
             }
         ]
     },
-
     "waddledoo_walking_right": {
         "Source texture": "enemies",
         "Loop point": 0,

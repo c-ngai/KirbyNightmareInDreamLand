@@ -24,7 +24,7 @@ namespace MasterGame
             health = 100;
             isDead = false;
             stateMachine = new EnemyStateMachine(EnemyType.WaddleDoo);
-            //stateMachine.ChangePose(EnemyPose.Walking);
+            stateMachine.ChangePose(EnemyPose.Walking);
            enemySprite = SpriteFactory.Instance.createSprite("waddledoo_walking_right");
         }
 
@@ -79,40 +79,43 @@ namespace MasterGame
             {
                 frameCounter++;
 
-                // Handle walking state
-                if (stateMachine.GetPose() == EnemyPose.Walking)
+                switch (stateMachine.GetPose())
                 {
-                    Move();
+                    case EnemyPose.Walking:
+                        Move();
+                        if (frameCounter >= walkFrames)
+                        {
+                            //stop after walking to load attack
+                            stateMachine.ChangePose(EnemyPose.Charging); 
+                            frameCounter = 0;
+                            UpdateTexture();
+                        }
+                        break;
 
-                    if (frameCounter >= walkFrames)
-                    {
-                        stateMachine.ChangePose(EnemyPose.Charging); // Stop after walking to load attack
-                        frameCounter = 0;
-                        UpdateTexture();
-                    }
-                }
-                // Handle idle (stopped) state
-                else if (stateMachine.GetPose() == EnemyPose.Charging) //If Loading Attack,
-                {
-                    if (frameCounter >= stopFrames)
-                    {
-                        stateMachine.ChangePose(EnemyPose.Attacking); // Attack after stopping
-                        frameCounter = 0;
-                        UpdateTexture();
-                    }
-                }
-                // Handle attacking state
-                else if (stateMachine.GetPose() == EnemyPose.Attacking) //If attacking
-                {
-                    if (frameCounter >= attackFrames)
-                    {
-                        stateMachine.ChangePose(EnemyPose.Walking); // Walk again after attacking 
-                        frameCounter = 0;
-                        UpdateTexture();
-                    }
+                    case EnemyPose.Charging:
+                        if (frameCounter >= stopFrames)
+                        {
+                            //attack after stopping
+                            stateMachine.ChangePose(EnemyPose.Attacking); 
+                            frameCounter = 0;
+                            UpdateTexture();
+                        }
+                        break;
+
+                    case EnemyPose.Attacking:
+                        if (frameCounter >= attackFrames)
+                        {
+                            // wlk again after attacking
+                            stateMachine.ChangePose(EnemyPose.Walking);
+                            frameCounter = 0;
+                            UpdateTexture();
+                        }
+                        break;
+                    default:
+                        break;
                 }
 
-                // Update sprite animation
+                // update animation
                 enemySprite.Update();
             }
         }
