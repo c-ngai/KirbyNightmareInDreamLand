@@ -29,12 +29,20 @@ namespace MasterGame
         // List of all enemies
         public IEnemy[] enemyList { get; set; }
 
+        // List to manage projectiles
+        private List<IProjectile> projectiles; // TODO: Delete after synching with entity
+
+
+        public int currentEnemyIndex;
         // TODO: Decoupling: move this out later
         public int currentEnemyIndex { get; set; }
 
         // Sets up single reference for game time for things such as commands which cannot get current time elsewise
         // Note this is program time and not game time 
         public GameTime time { get; set; }
+
+        // Flamethrower instance
+        private KirbyFlamethrower flamethrower;
 
         public Game1()
         {
@@ -101,7 +109,7 @@ namespace MasterGame
             kirby.PlayerSprite = SpriteFactory.Instance.createSprite("kirby_normal_standing_right");
 
             // Creates blocks
-            List<Sprite> blockList = new List<Sprite>();
+            List<Sprite> blockList = new List<Sprite>(); // TODO: Delete when synched with entity
             //want this away from game to a (in the future) level loader file
 
             //make it its own function
@@ -133,6 +141,10 @@ namespace MasterGame
 
             enemyList = new IEnemy[] { waddledeeTest, waddledooTest, brontoburtTest, hotheadTest, poppybrosjrTest, sparkyTest };
             currentEnemyIndex = 0;
+
+            // Initialize the flamethrower
+            flamethrower = new KirbyFlamethrower(); // TODO: delete when synched with entity
+            projectiles = new List<IProjectile>(); // Initialize the projectiles list
 
             // Remapping keyboard to new Kirby 
             keyboard = new KeyboardController();
@@ -166,6 +178,24 @@ namespace MasterGame
             time = gameTime;
 
             keyboard.Update();
+            
+            // TODO: delete after synched with entity
+            // Update projectiles
+            foreach (var projectile in projectiles)
+            {
+                projectile.Update();
+            }
+
+            // TODO: delete after synching with entities
+            flamethrower.Update(gameTime, new Vector2 (60, Constants.Graphics.FLOOR - 10), new Vector2 (1, 0)); 
+
+            // TODO: delete when synched with entity
+            // Spawn a new projectile every few frames (for demonstration)
+            if (gameTime.TotalGameTime.TotalMilliseconds % 2000 < 20) // Spawn every 2000 ms
+            {
+                projectiles.Add(new KirbyStar(new Vector2(100, 70), new Vector2(1, -2))); // Spawn at this position and move at this speed and direction (up and to the right)
+            }
+
 
             kirby.Update(time);
             enemyList[currentEnemyIndex].Update(time);
@@ -197,6 +227,13 @@ namespace MasterGame
 
             DrawText();
 
+
+            // Draw projectiles
+            foreach (var projectile in projectiles)
+            {
+                projectile.Draw(spriteBatch);
+            }
+
             // What is this??
             // float scale = Constants.Graphics.WINDOW_HEIGHT / Constants.Graphics.GAME_HEIGHT; 
 
@@ -206,6 +243,9 @@ namespace MasterGame
             kirby.Draw(spriteBatch);
 
             BlockList.Instance.Draw(new Vector2(100, 150), spriteBatch);
+
+            // Draw the flamethrower segments
+            flamethrower.Draw(spriteBatch); // TODO: delete when synched with enemy.
 
             // End spriteBatch
             spriteBatch.End();
