@@ -10,11 +10,11 @@
         }
         public void Execute()
         {
-            //kirby.Crouch();
+            kirby.Crouch();
         }
         public void Undo()
         {
-            kirby.StopMoving();
+            kirby.EndCrouch();
         }
     }
 }

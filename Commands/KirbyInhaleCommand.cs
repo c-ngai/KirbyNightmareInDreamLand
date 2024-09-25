@@ -10,7 +10,7 @@
 
         public void Execute()
         {
-            // kirby.Inhale();
+            kirby.Attack();
         }
 
         public void Undo()
