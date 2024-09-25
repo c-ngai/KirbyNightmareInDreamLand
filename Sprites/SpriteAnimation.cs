@@ -11,8 +11,6 @@ namespace MasterGame
 
     public class SpriteAnimation : ISpriteAnimation
     {
-
-
         // The spritesheet used.
         public Texture2D texture { get; set; }
         // The frame number to loop back to after reaching the end.
@@ -28,8 +26,6 @@ namespace MasterGame
         // The number of frames in the animation.
         public int frameCount { get; set; }
 
-
-
         /* Creates a new sprite animation object from a sprite animation file. */
         public SpriteAnimation(SpriteJsonData spriteJsonData, Dictionary<string, Texture2D> textures)
         {
@@ -40,12 +36,9 @@ namespace MasterGame
             ImportAnimation(spriteJsonData, textures);
         }
 
-
-
         // Imports animation data from a .csv file into the proper fields of this object.
         private void ImportAnimation(SpriteJsonData spriteJsonData, Dictionary<string, Texture2D> textures)
         {
-
             texture = textures[spriteJsonData.texture];
             loopPoint = spriteJsonData.loopPoint;
             if (spriteJsonData.flip == true)
@@ -67,8 +60,5 @@ namespace MasterGame
                 frameTimes.Add(frame.Time);
             }
         }
-
-
-
     }
 }

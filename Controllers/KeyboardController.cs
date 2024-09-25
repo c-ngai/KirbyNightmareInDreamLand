@@ -12,9 +12,10 @@ namespace MasterGame
     {
         private Dictionary<Keys, (ICommand, ExecutionType)> controllerMappings;
 
-        private Dictionary<Keys, bool> oldKeyStates;
+        // TODO: change these to private properties later
 
-        // TODO: change this to a public property later;
+        public Dictionary<Keys, bool> oldKeyStates;
+
         public Keys[] currentState;
 
         public KeyboardController()

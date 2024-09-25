@@ -28,6 +28,7 @@ namespace MasterGame
         public bool floating;
         public bool crouching;
         public bool jumping;
+        public ITimeCalculator timer;
 
         //change kirby velocity to go left
         public PlayerMovement(ref PlayerStateMachine pState)
@@ -35,6 +36,7 @@ namespace MasterGame
             state = pState;
             floating = false;
             jumping = false;
+            timer = new TimeCalculator();
         }
 
         public void StopMovement()
@@ -138,7 +140,7 @@ namespace MasterGame
             kirby.PositionX += xVel;
             kirby.PositionY += yVel;
             if(jumping || floating){
-                yVel += gravity *  (float)gameTime.ElapsedGameTime.TotalSeconds;
+                yVel += gravity *  (float)timer.GetElapsedTimeInS(gameTime);
             }
             
         }
