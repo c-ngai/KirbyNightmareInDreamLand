@@ -10,7 +10,7 @@
 
         public void Execute()
         {
-            //kirby.Float();
+            kirby.Float();
         }
 
         public void Undo()

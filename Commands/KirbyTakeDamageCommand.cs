@@ -18,7 +18,7 @@ namespace MasterGame
 
         public async void Undo()
         {
-            //await Task.Delay(100);
+            await Task.Delay(200);
             kirby.StopMoving();
         }
     }

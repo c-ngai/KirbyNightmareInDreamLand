@@ -15,10 +15,14 @@ namespace MasterGame
         private Vector2 rightBoundary = new Vector2(230, 100);
         private string oldState;
 
-        //hopping
         private int hopCounter = 0;
-        private int hopFrequency = 60; //framws between hops
-        private float hopHeight = 1f;
+        private int hopFrequency = 60; // frames between hops
+        private float shortHopHeight = 1f;
+        private float tallHopHeight = 2f;
+        private float hopSpeed = 0.4f; // speed
+
+        private int stateCounter = 0;
+        private string currentState = "HoppingForward"; //state name
 
         public Sparky(Vector2 startPosition)
         {
@@ -79,26 +83,77 @@ namespace MasterGame
         {
             if (!isDead)
             {
-                //need to add walking left/right
-                if (stateMachine.GetPose() == EnemyPose.Walking)
+                stateCounter++;
+
+                switch (currentState)
                 {
-                    Move();
-                    Hop();
+                    case "HoppingForward":
+                        Hop(shortHopHeight);
+                        if (stateCounter >= hopFrequency) // short hop
+                        {
+                            stateCounter = 0;
+                            currentState = "Pausing";
+                        }
+                        break;
+
+                    case "Pausing":
+                        if (stateCounter >= 30) // pause
+                        {
+                            stateCounter = 0;
+                            currentState = "HoppingTall";
+                        }
+                        break;
+
+                    case "HoppingTall":
+                        Hop(tallHopHeight);
+                        if (stateCounter >= hopFrequency) // tall hop
+                        {
+                            stateCounter = 0;
+                            currentState = "PausingAgain";
+                        }
+                        break;
+
+                    case "PausingAgain":
+                        if (stateCounter >= 30) // Pause 
+                        {
+                            stateCounter = 0;
+                            currentState = "Attacking";
+                        }
+                        break;
+
+                    case "Attacking":
+                        Attack();
+                        if (stateCounter >= 120) // Attack
+                        {
+                            stateCounter = 0;
+                            currentState = "HoppingForward"; // back to hop
+                            stateMachine.ChangePose(EnemyPose.Walking); 
+                        }
+                        break;
                 }
 
-                //updates using state
+                // Update texture and enemy sprite
                 UpdateTexture();
                 enemySprite.Update();
             }
         }
 
-        private void Move()
+        private void Hop(float height)
         {
-            //walking back and forth
-            if (stateMachine.IsLeft())
+            hopCounter++;
+            float t = (float) hopCounter / hopFrequency;
+
+            //smooth hops
+            position.Y = position.Y - (float)(Math.Sin(t * Math.PI * 2) * height / 2); // Adjust hop height
+
+            bool isMovingRight = !stateMachine.IsLeft();
+
+            //check boundaries
+            if (isMovingRight)
             {
-                position.X -= 0.5f;
-                if (position.X <= leftBoundary.X)
+                //move right. if passed right boundary, switch direction
+                position.X += hopSpeed; 
+                if (position.X >= rightBoundary.X) 
                 {
                     stateMachine.ChangeDirection();
                     UpdateTexture();
@@ -106,29 +161,22 @@ namespace MasterGame
             }
             else
             {
-                position.X += 0.5f;
-                if (position.X >= rightBoundary.X)
+                //move left. if passed left boundary, switch direction
+                position.X -= hopSpeed; 
+                if (position.X <= leftBoundary.X) 
                 {
                     stateMachine.ChangeDirection();
                     UpdateTexture();
                 }
             }
-        }
 
-        private void Hop()
-        {
-            hopCounter++;
-            float t = (float)hopCounter / hopFrequency; // Normalize hopCounter to [0, 1]
-
-            // Smooth vertical movement using sine function
-            position.Y = position.Y - (float)(Math.Sin(t * Math.PI * 2) * hopHeight / 2); // Adjust hop height
-
-            // Reset hopCounter to create a repeating cycle
+            // reset and repeat
             if (hopCounter >= hopFrequency)
             {
-                hopCounter = 0; // Reset for the next hop cycle
+                hopCounter = 0; 
             }
         }
+
 
         public void Draw(SpriteBatch spriteBatch)
         {

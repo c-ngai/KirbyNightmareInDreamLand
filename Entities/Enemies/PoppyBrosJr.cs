@@ -56,7 +56,6 @@ namespace MasterGame
         {
             isDead = true;
 
-            //eventual death pose/animation
             stateMachine.ChangePose(EnemyPose.Hurt);
             UpdateTexture();
         }
@@ -118,15 +117,15 @@ namespace MasterGame
         private void Hop()
         {
             hopCounter++;
-            float t = (float)hopCounter / hopFrequency; // Normalize hopCounter to [0, 1]
+            float t = (float)hopCounter / hopFrequency;
 
-            // Smooth vertical movement using sine function
-            position.Y = position.Y - (float)(Math.Sin(t * Math.PI * 2) * hopHeight / 2); // Adjust hop height
+            //smooth hopping
+            position.Y = position.Y - (float)(Math.Sin(t * Math.PI * 2) * hopHeight / 2);
 
-            // Reset hopCounter to create a repeating cycle
+            //reset hop counter for cycle
             if (hopCounter >= hopFrequency)
             {
-                hopCounter = 0; // Reset for the next hop cycle
+                hopCounter = 0;
             }
         }
 
