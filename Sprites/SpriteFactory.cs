@@ -5,11 +5,8 @@ using System.Text.Json;
 using System.IO;
 
 namespace MasterGame {
-
-
     public class SpriteFactory
     {
-        
         // Dictionary from string to Texture2D. For easily retrieving a texture by name.
         private static Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
 
@@ -37,16 +34,12 @@ namespace MasterGame {
             textures.Add(TextureName, texture);
         }
 
-
-
         // Loads a sprite animation given its name and data.
         private void LoadSpriteAnimation(string SpriteAnimationName, SpriteJsonData spriteJsonData)
         {
             SpriteAnimation spriteAnimation = new SpriteAnimation(spriteJsonData, textures);
             spriteAnimations.Add(SpriteAnimationName, spriteAnimation);
         }
-
-
 
         // Loads all textures from the texture list file.
         public void LoadAllTextures(ContentManager content)
@@ -63,8 +56,6 @@ namespace MasterGame {
             }
         }
 
-
-
         // Loads all sprite animations from the .json file. -- goes to level loader eventually
         public void LoadAllSpriteAnimations()
         {
@@ -79,8 +70,6 @@ namespace MasterGame {
                 LoadSpriteAnimation(data.Key, data.Value);
             }
         }
-
-
 
         // Returns a new sprite object from a sprite animation's name.
         public Sprite createSprite(string spriteAnimationName)
@@ -114,6 +103,5 @@ namespace MasterGame {
                 //System.Console.WriteLine(spriteAnimationName ); //debug line
                 return new Sprite(spriteAnimations["invalidspritename"]);
         }
-
     }
 }

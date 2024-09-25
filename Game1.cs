@@ -9,46 +9,61 @@ namespace MasterGame
 {
     public class Game1 : Game
     {
-        //there should be a thing that gets all the  ?? of each kind
-
-        //Priority fix these!!
-        //PRIVATE MAKE THEM PRIVATE
         private SpriteBatch spriteBatch;
         
-        // TODO: Loosen coupling. GraphicsDeviceManager should probably not be public, but ToggleFullscreenCommand still needs to be able to work.
         private GraphicsDeviceManager graphics;
         private SpriteFont font;
         private KeyboardController keyboard;
-        // get kirbys -- make it so it is multiple in cardinality!!
+
+        // Single-player but can later be updated to an array of kirbys for multiplayer
         private IPlayer kirby;
 
-        //get enemies
-        public IEnemy waddledeeTest;
-        public IEnemy waddledooTest;
-        public IEnemy brontoburtTest;
-        public IEnemy hotheadTest;
-        public IEnemy poppybrosjrTest;
-        public IEnemy sparkyTest;
+        // Get enemies (currently one of each but can change to an array of each enemy type)
+        private IEnemy waddledeeTest;
+        private IEnemy waddledooTest;
+        private IEnemy brontoburtTest;
+        private IEnemy hotheadTest;
+        private IEnemy poppybrosjrTest;
+        private IEnemy sparkyTest;
 
-        //list of all enemies
-        public IEnemy[] enemyList;
+        // List of all enemies
+        public IEnemy[] enemyList { get; set; }
 
-        public int currentEnemyIndex;
+        // TODO: Decoupling: move this out later
+        public int currentEnemyIndex { get; set; }
+
+        // Sets up single reference for game time for things such as commands which cannot get current time elsewise
+        // Note this is program time and not game time 
+        public GameTime time { get; set; }
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            keyboard = new KeyboardController();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
 
+        protected override void Initialize()
+        {
+            // true = exclusive fullscreen, false = borderless fullscreen
+            graphics.HardwareModeSwitch = true;
+            graphics.IsFullScreen = Constants.Graphics.IS_FULL_SCREEN;
+            graphics.PreferredBackBufferWidth = Constants.Graphics.WINDOW_WIDTH;
+            graphics.PreferredBackBufferHeight = Constants.Graphics.WINDOW_HEIGHT;
+            graphics.ApplyChanges();
+
+            keyboard = new KeyboardController();
+
+            base.Initialize();
+        }
+
+        // Everything in this region will move into eventual loader file
         #region LoaderDetails
-        // will later be changed to read in keyboard control input -- put into into eventual loader file
+        // Will later be changed to read in keyboard control input 
         public void SetKeyboardControls(KeyboardController keyboard)
         {
-            keyboard.RegisterCommand(Keys.Right, new KirbyMoveRightCommand(kirby), ExecutionType.Pressed);
-            keyboard.RegisterCommand(Keys.Left, new KirbyMoveLeftCommand(kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.Right, new KirbyMoveRightCommand(kirby, Keys.Right, keyboard, this), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.Left, new KirbyMoveLeftCommand(kirby, Keys.Left, keyboard, this), ExecutionType.Pressed);
             keyboard.RegisterCommand(Keys.Down, new KirbyCrouchCommand(kirby), ExecutionType.Pressed);
             keyboard.RegisterCommand(Keys.Up, new KirbyFloatCommand(kirby), ExecutionType.Pressed);
             keyboard.RegisterCommand(Keys.X, new KirbyJumpCommand(kirby), ExecutionType.Pressed);
@@ -125,18 +140,6 @@ namespace MasterGame
         }
         #endregion
 
-        protected override void Initialize()
-        {
-            // true = exclusive fullscreen, false = borderless fullscreen
-            graphics.HardwareModeSwitch = true;
-            graphics.IsFullScreen = Constants.Graphics.IS_FULL_SCREEN;
-            graphics.PreferredBackBufferWidth = Constants.Graphics.WINDOW_WIDTH;
-            graphics.PreferredBackBufferHeight = Constants.Graphics.WINDOW_HEIGHT;
-            graphics.ApplyChanges();
-
-            base.Initialize();
-        }
-
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
@@ -150,10 +153,6 @@ namespace MasterGame
 
             // Load all objects 
             LoadObjects();
-
-            //kirby.UpdateTexture();
-            //toggleFullscreen = new ToggleFullscreenCommand();
-
         }
 
         protected override void UnloadContent()
@@ -164,14 +163,27 @@ namespace MasterGame
         protected override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            time = gameTime;
 
             keyboard.Update();
-            kirby.Update(gameTime);
 
+            kirby.Update(time);
+            enemyList[currentEnemyIndex].Update(time);
             BlockList.Instance.Update();
+        }
 
-            enemyList[currentEnemyIndex].Update(gameTime);
-
+        // TODO: Decoupling: move text draw details out
+        public void DrawText()
+        {
+            string text;
+            text = "GraphicsAdapter.DefaultAdapter.CurrentDisplayMode: (" + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width + ", " + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height + ")";
+            spriteBatch.DrawString(font, text, new Vector2(10, 10), Color.Black);
+            text = "graphics.PreferredBackBuffer______: (" + graphics.PreferredBackBufferWidth + ", " + graphics.PreferredBackBufferHeight + ")";
+            spriteBatch.DrawString(font, text, new Vector2(10, 30), Color.Black);
+            text = "GraphicsDevice.PresentationParameters: (" + GraphicsDevice.PresentationParameters.BackBufferWidth + ", " + GraphicsDevice.PresentationParameters.BackBufferHeight + ")";
+            spriteBatch.DrawString(font, text, new Vector2(10, 50), Color.Black);
+            text = "GraphicsDevice.Viewport: (" + GraphicsDevice.Viewport.Width + ", " + GraphicsDevice.Viewport.Height + ")";
+            spriteBatch.DrawString(font, text, new Vector2(10, 70), Color.Black);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -183,25 +195,16 @@ namespace MasterGame
             // Start spriteBatch
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
 
-            // Debug text: keeping track of resolutions
-            string text;
-            //make this its own method?? -- mark
-            //kill all magic numbers 
-            //for future; magic.category.
-            text = "GraphicsAdapter.DefaultAdapter.CurrentDisplayMode: (" + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width + ", " + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height + ")";
-            spriteBatch.DrawString(font, text, new Vector2(10, 10), Color.Black);
-            text = "graphics.PreferredBackBuffer______: (" + graphics.PreferredBackBufferWidth + ", " + graphics.PreferredBackBufferHeight + ")";
-            spriteBatch.DrawString(font, text, new Vector2(10, 30), Color.Black);
-            text = "GraphicsDevice.PresentationParameters: (" + GraphicsDevice.PresentationParameters.BackBufferWidth + ", " + GraphicsDevice.PresentationParameters.BackBufferHeight + ")";
-            spriteBatch.DrawString(font, text, new Vector2(10, 50), Color.Black);
-            text = "GraphicsDevice.Viewport: (" + GraphicsDevice.Viewport.Width + ", " + GraphicsDevice.Viewport.Height + ")";
-            spriteBatch.DrawString(font, text, new Vector2(10, 70), Color.Black);
+            DrawText();
 
-            float scale = Constants.Graphics.WINDOW_HEIGHT / Constants.Graphics.GAME_HEIGHT; //what is this???
+            // What is this??
+            // float scale = Constants.Graphics.WINDOW_HEIGHT / Constants.Graphics.GAME_HEIGHT; 
 
-            // draw only selected enemy
+            // Draw only selected enemy
             enemyList[currentEnemyIndex].Draw(spriteBatch);
+
             kirby.Draw(spriteBatch);
+
             BlockList.Instance.Draw(new Vector2(100, 150), spriteBatch);
 
             // End spriteBatch
