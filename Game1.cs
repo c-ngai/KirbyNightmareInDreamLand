@@ -32,8 +32,6 @@ namespace MasterGame
         // List to manage projectiles
         private List<IProjectile> projectiles; // TODO: Delete after synching with entity
 
-
-        public int currentEnemyIndex;
         // TODO: Decoupling: move this out later
         public int currentEnemyIndex { get; set; }
 
