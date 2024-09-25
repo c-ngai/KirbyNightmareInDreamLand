@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MasterGame.Block
 { 
@@ -60,11 +61,11 @@ namespace MasterGame.Block
         }
 
         // Draws the current block. 
-        public void Draw(Vector2 location)
+        public void Draw(Vector2 location, SpriteBatch spriteBatch)
         {
             if (currentBlock >= 0 && currentBlock < blockList.Count)
             {
-                blockList[currentBlock].Draw(location);
+                blockList[currentBlock].Draw(location,spriteBatch);
             }
         }
 
