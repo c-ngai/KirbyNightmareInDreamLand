@@ -42,6 +42,8 @@ namespace MasterGame
         // Flamethrower instance
         private KirbyFlamethrower flamethrower;
 
+        //why is game time public?? take out set in the game time make anybody that is not that commmand not be anle to set it
+        //
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -78,7 +80,7 @@ namespace MasterGame
             keyboard.RegisterCommand(Keys.D, new KirbyFaceRightCommand(kirby), ExecutionType.StartingPress);
 
             keyboard.RegisterCommand(Keys.Z, new KirbyInhaleCommand(kirby), ExecutionType.Pressed);
-            keyboard.RegisterCommand(Keys.N, new KirbyAttackCommand(kirby), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.N, new KirbyAttackCommand(kirby), ExecutionType.Pressed);
 
             keyboard.RegisterCommand(Keys.D1, new KirbyChangeNormalCommand(kirby), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.D2, new KirbyChangeBeamCommand(kirby), ExecutionType.StartingPress);
@@ -103,6 +105,7 @@ namespace MasterGame
         public void LoadObjects()
         {
             // Creates kirby object
+            //make it a list from the get go to make it multiplayer asap
             kirby = new Player(new Vector2(30, Constants.Graphics.FLOOR));
             kirby.PlayerSprite = SpriteFactory.Instance.createSprite("kirby_normal_standing_right");
 
@@ -111,6 +114,9 @@ namespace MasterGame
             //want this away from game to a (in the future) level loader file
 
             //make it its own function
+            //create them on demand??  performance vs code 
+            //for indestructoble terrain it could be a singleton that gets borrowed by other things
+            //so there is not a BUCNCH loaded
             blockList = new List<Sprite>
             {
                 SpriteFactory.Instance.createSprite("tile_dirt"),
@@ -213,6 +219,11 @@ namespace MasterGame
             text = "GraphicsDevice.Viewport: (" + GraphicsDevice.Viewport.Width + ", " + GraphicsDevice.Viewport.Height + ")";
             spriteBatch.DrawString(font, text, new Vector2(10, 70), Color.Black);
         }
+
+        //take off draw text magic numbers
+        //eventually take these off and make game only deal with high level objects 
+        //game object management takes care of the lists and iterates them
+        //game then grabs it from them and does its job.
 
         protected override void Draw(GameTime gameTime)
         {
