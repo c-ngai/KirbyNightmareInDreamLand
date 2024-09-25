@@ -34,6 +34,9 @@ namespace MasterGame
         //get hothead
         public IEnemy hotheadTest;
 
+        //get poppybrosjr
+        public IEnemy poppybrosjrTest;
+
         //list of all enemies
         public IEnemy[] enemyList;
 
@@ -145,8 +148,9 @@ namespace MasterGame
             waddledooTest = new WaddleDoo(new Vector2(170, 100));
             brontoburtTest = new BrontoBurt(new Vector2(170, 100));
             hotheadTest = new Hothead(new Vector2(170, 100));
+            poppybrosjrTest = new PoppyBrosJr(new Vector2(170, 100));
 
-            enemyList = new IEnemy[] { waddledeeTest, waddledooTest, brontoburtTest, hotheadTest };
+            enemyList = new IEnemy[] { waddledeeTest, waddledooTest, brontoburtTest, hotheadTest, poppybrosjrTest };
             currentEnemyIndex = 0;
 
             // Remapping keyboard to new Kirby 
