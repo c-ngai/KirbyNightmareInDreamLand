@@ -1,45 +1,54 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
 
 namespace MasterGame
 {
-    public class EnemyBeam : IProjectile
+    public class EnemyBeam
     {
-        private Vector2 position;
-        private Vector2 velocity;
-        private Sprite projectileSprite; // TODO: change to projectileSprite
+        private int totalSegments = 16;
+        private int segmentsFired = 0;
+        private int frameCounter = 0;
+        private List<EnemyBeamSegment> beamSegments;
+        private Vector2 startPosition;
+        private Vector2 pivotPosition; // WaddleDoo's eye position
+        private float rotationStep = MathHelper.PiOver4 / 4; // 22.5 degrees in radians
 
-        public EnemyBeam(Vector2 startPosition, Vector2 direction)
+        public EnemyBeam(Vector2 startPosition, Vector2 pivotPosition)
         {
-            position = startPosition;
-            velocity = direction;
-            projectileSprite = SpriteFactory.Instance.createSprite("waddledee_walking_right"); // TODO: delete and use line below instead
-            // fireballSprite = SpriteFactory.Instance.createSprite("enemy_fireball");
-        }
-
-        public Vector2 Position
-        {
-            get { return position; }
-            set { position = value; }
-        }
-        public Vector2 Velocity
-        {
-            get { return velocity; }
-            set { velocity = value; }
+            this.startPosition = startPosition;
+            this.pivotPosition = pivotPosition;
+            beamSegments = new List<EnemyBeamSegment>();
         }
 
         public void Update()
         {
-            // Move the fireball based on its velocity
-            position += velocity;
+            // Fire a new segment every 2 frames, up to 16 segments
+            if (segmentsFired < totalSegments && frameCounter % 2 == 0)
+            {
+                float rotation = (segmentsFired / 2) * rotationStep; // Change direction every other segment
+                Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation)) * 8; // Move 8 units per frame
 
-            // Update the fireball sprite animation
-            enemySprite.Update(); // TODO: change to sprite for fireball
+                beamSegments.Add(new EnemyBeamSegment(startPosition, velocity, pivotPosition));
+                segmentsFired++;
+            }
 
+            frameCounter++;
+
+            // Update all existing beam segments
+            for (int i = 0; i < beamSegments.Count; i++)
+            {
+                beamSegments[i].Update();
+            }
         }
 
-        public void Draw()
+        public void Draw(SpriteBatch spriteBatch)
         {
-            enemySprite.Draw(position); // TODO: change to sprite for fireball
+            foreach (var segment in beamSegments)
+            {
+                segment.Draw(spriteBatch);
+            }
         }
     }
 }
