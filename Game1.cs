@@ -22,7 +22,7 @@ namespace MasterGame
         // get kirbys -- make it so it is multiple in cardinality!!
         private IPlayer kirby;
 
-        //get waddledee
+        //get enemies
         public IEnemy waddledeeTest;
         public IEnemy waddledooTest;
         public IEnemy brontoburtTest;

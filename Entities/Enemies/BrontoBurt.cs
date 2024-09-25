@@ -80,7 +80,6 @@ namespace MasterGame
         {
             if (!isDead)
             {
-                //need to add walking left/right
                //if (stateMachine.GetPose() == EnemyPose.Walking)
                 if (stateMachine.GetPose() == EnemyPose.FlyingSlow)
                     {
@@ -97,7 +96,7 @@ namespace MasterGame
         {
             timeCounter += waveFrequency;
 
-            //Y oscillation using sin
+            //Y oscillation using sin. smooth flying
             position.Y = initialY + waveAmplitude * (float)Math.Sin(timeCounter);
 
             if (stateMachine.IsLeft())
