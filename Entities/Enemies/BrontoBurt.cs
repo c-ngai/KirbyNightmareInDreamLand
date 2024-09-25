@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace MasterGame
 {
-    public class WaddleDee : IEnemy
+    public class BrontoBurt : IEnemy
     {
         private Vector2 position;
         private int health;
@@ -14,14 +15,20 @@ namespace MasterGame
         private Vector2 rightBoundary = new Vector2(230, 100);
         private string oldState;
 
-        public WaddleDee(Vector2 startPosition)
+        private float waveAmplitude = 10f; //height of wave
+        private float waveFrequency = 0.05f; //wave speed
+        private float initialY; //initial height
+        private float timeCounter = 0f; //wave time counter
+
+        public BrontoBurt(Vector2 startPosition)
         {
             position = startPosition;
+            initialY = startPosition.Y;
             health = 100;
             isDead = false;
-            stateMachine = new EnemyStateMachine(EnemyType.WaddleDee);
-            //stateMachine.ChangePose(EnemyPose.Walking);
-           enemySprite = SpriteFactory.Instance.createSprite("waddledee_walking_right");
+            stateMachine = new EnemyStateMachine(EnemyType.BrontoBurt);
+            //stateMachine = new EnemyStateMachine(EnemyType.WaddleDee);
+            stateMachine.ChangePose(EnemyPose.Walking);
         }
 
         public Vector2 Position
@@ -50,14 +57,14 @@ namespace MasterGame
         {
             isDead = true;
 
-            //eventual death pose/animation
             stateMachine.ChangePose(EnemyPose.Hurt);
             UpdateTexture();
         }
 
         public void Attack()
         {
-            stateMachine.ChangePose(EnemyPose.Attacking);
+            //stateMachine.ChangePose(EnemyPose.Walking);
+            stateMachine.ChangePose(EnemyPose.FlyingSlow);
             UpdateTexture();
         }
 
@@ -74,8 +81,9 @@ namespace MasterGame
             if (!isDead)
             {
                 //need to add walking left/right
-                if (stateMachine.GetPose() == EnemyPose.Walking)
-                {
+               //if (stateMachine.GetPose() == EnemyPose.Walking)
+                if (stateMachine.GetPose() == EnemyPose.FlyingSlow)
+                    {
                     Move();
                 }
 
@@ -87,7 +95,11 @@ namespace MasterGame
 
         private void Move()
         {
-            //walking back and forth
+            timeCounter += waveFrequency;
+
+            //Y oscillation using sin
+            position.Y = initialY + waveAmplitude * (float)Math.Sin(timeCounter);
+
             if (stateMachine.IsLeft())
             {
                 position.X -= 0.5f;

@@ -1,20 +1,17 @@
 ﻿namespace MasterGame
 {
-    public class KirbyMoveRightCommand : ICommand
+    public class KirbyCrouchCommand : ICommand
     {
         private IPlayer kirby;
 
-        public KirbyMoveRightCommand(IPlayer player)
+        public KirbyCrouchCommand(IPlayer player)
         {
             kirby = player;
         }
-
         public void Execute()
         {
-            // if it switches from moving right to moving left it needs a skid animation 
-            kirby.MoveRight();
+            //kirby.Crouch();
         }
-
         public void Undo()
         {
             kirby.StopMoving();

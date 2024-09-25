@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MasterGame
@@ -5,8 +6,8 @@ namespace MasterGame
     public interface IEntity{
         void TakeDamage();
         void Attack();
-        void Update();
-        void Draw();
+        void Update(GameTime gametime);
+        void Draw(SpriteBatch spriteBatch);
 
     }
 }
