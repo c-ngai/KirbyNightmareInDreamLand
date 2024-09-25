@@ -18,6 +18,10 @@ namespace MasterGame
 
         public void Undo()
         {
+<<<<<<< HEAD
+=======
+            await Task.Delay(200);
+>>>>>>> ea90984 (more kirby movement is functional now: jump (though buggy and crouch))
             kirby.StopMoving();
         }
     }
