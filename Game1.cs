@@ -13,7 +13,6 @@ namespace MasterGame
 
         //Priority fix these!!
         //PRIVATE MAKE THEM PRIVATE
-        public static Game1 self { get; set; }
         private SpriteBatch spriteBatch;
         
         // TODO: Loosen coupling. GraphicsDeviceManager should probably not be public, but ToggleFullscreenCommand still needs to be able to work.
@@ -38,31 +37,17 @@ namespace MasterGame
 
         public Game1()
         {
-            self = this;
             graphics = new GraphicsDeviceManager(this);
             keyboard = new KeyboardController();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
 
-        // will later be changed to read in mouse control input 
-        //not necesary delete
-        // public void SetMouseControls(MouseController mouse)
-        // {
-        //     mouse.leftClickIndex = 0;
-        //     mouse.rightClickIndex = 1;
-        //     mouse.quadrantIndex = 2;
-
-        //     mouse.leftClickPressed = 1;
-        //     mouse.rightClickPressed = 0;
-        //     mouse.quadrant = 1;
-        // }
-
+        #region LoaderDetails
         // will later be changed to read in keyboard control input -- put into into eventual loader file
-        //you wan key bindngs to be loaded after being instatiated
         public void SetKeyboardControls(KeyboardController keyboard)
         {
-             keyboard.RegisterCommand(Keys.Right, new KirbyMoveRightCommand(kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.Right, new KirbyMoveRightCommand(kirby), ExecutionType.Pressed);
             keyboard.RegisterCommand(Keys.Left, new KirbyMoveLeftCommand(kirby), ExecutionType.Pressed);
             keyboard.RegisterCommand(Keys.Down, new KirbyCrouchCommand(kirby), ExecutionType.Pressed);
             keyboard.RegisterCommand(Keys.Up, new KirbyFloatCommand(kirby), ExecutionType.Pressed);
@@ -79,7 +64,7 @@ namespace MasterGame
             keyboard.RegisterCommand(Keys.D3, new KirbyChangeFireCommand(kirby), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.D4, new KirbyChangeSparkCommand(kirby), ExecutionType.StartingPress);
 
-            keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby), ExecutionType.Pressed);
 
             keyboard.RegisterCommand(Keys.T, new PreviousBlockCommand(), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.Y, new NextBlockCommand(), ExecutionType.StartingPress);
@@ -93,21 +78,7 @@ namespace MasterGame
             keyboard.RegisterCommand(Keys.Q, new QuitCommand(this), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.R, new ResetCommand(this), ExecutionType.StartingPress);
             //keyboard.RegisterCommand(Keys.F, new ToggleFullscreenCommand(), ExecutionType.StartingPress);
-
-
         }
-        protected override void Initialize()
-        {
-            // true = exclusive fullscreen, false = borderless fullscreen
-            graphics.HardwareModeSwitch = true;
-            graphics.IsFullScreen = Constants.Graphics.IS_FULL_SCREEN;
-            graphics.PreferredBackBufferWidth = Constants.Graphics.WINDOW_WIDTH;
-            graphics.PreferredBackBufferHeight = Constants.Graphics.WINDOW_HEIGHT;
-            graphics.ApplyChanges();
-
-            base.Initialize();
-        }
-
         public void LoadObjects()
         {
             // Creates kirby object
@@ -148,6 +119,19 @@ namespace MasterGame
             // Remapping keyboard to new Kirby 
             keyboard = new KeyboardController();
             SetKeyboardControls(keyboard);
+        }
+        #endregion
+
+        protected override void Initialize()
+        {
+            // true = exclusive fullscreen, false = borderless fullscreen
+            graphics.HardwareModeSwitch = true;
+            graphics.IsFullScreen = Constants.Graphics.IS_FULL_SCREEN;
+            graphics.PreferredBackBufferWidth = Constants.Graphics.WINDOW_WIDTH;
+            graphics.PreferredBackBufferHeight = Constants.Graphics.WINDOW_HEIGHT;
+            graphics.ApplyChanges();
+
+            base.Initialize();
         }
 
         protected override void LoadContent()
