@@ -14,12 +14,16 @@ namespace MasterGame
         private Vector2 leftBoundary = new Vector2(100, 100);
         private Vector2 rightBoundary = new Vector2(230, 100);
         private string oldState;
+
+        //frame tracker
         private int frameCounter = 0;
-        private int walkFrames = 180;  //3 sec (if 60fps)
-        private int stopFrames = 60;  //2 sec
-        private int attackFrames = 100; //1 sec
-        private int shootFrames = 100; //1 sec
-        private List<IProjectile> fireballs; // all fireballs
+        private int walkFrames = 180; 
+        private int stopFrames = 60;
+        private int attackFrames = 100;
+        private int shootFrames = 100;
+
+        // all fireballs
+        private List<IProjectile> fireballs;
 
 
         public Hothead(Vector2 startPosition)
@@ -58,8 +62,6 @@ namespace MasterGame
         private void Die()
         {
             isDead = true;
-
-            //eventual death pose/animation
             stateMachine.ChangePose(EnemyPose.Hurt);
             UpdateTexture();
         }
@@ -82,63 +84,57 @@ namespace MasterGame
         public void Update(GameTime gameTime)
         {
             if (!isDead)
-            {
-                frameCounter++;
-
-                //walking
-                if (stateMachine.GetPose() == EnemyPose.Walking)
+                if (!isDead)
                 {
-                    Move();
+                    frameCounter++;
 
-                    if (frameCounter >= walkFrames)
+                    switch (stateMachine.GetPose())
                     {
-                        //stateMachine.ChangePose(EnemyPose.Shooting);
-                        stateMachine.ChangePose(EnemyPose.Charging);
-                        frameCounter = 0;
-                        UpdateTexture();
+                        case EnemyPose.Walking:
+                            Move();
+                            if (frameCounter >= walkFrames)
+                            {
+                                stateMachine.ChangePose(EnemyPose.Charging);
+                                frameCounter = 0;
+                                UpdateTexture();
+                            }
+                            break;
+
+                        case EnemyPose.Charging:
+                            if (frameCounter == 1) // fireball projectile
+                            {
+                                ShootProjectile();
+                            }
+
+                            if (frameCounter >= shootFrames)
+                            {
+                                stateMachine.ChangePose(EnemyPose.Attacking); // attacks (blows fire) after shooting
+                                frameCounter = 0;
+                                UpdateTexture();
+                            }
+                            break;
+
+                        case EnemyPose.Attacking:
+                            if (frameCounter == 1) // blowing fire projectile
+                            {
+                                Attack();
+                            }
+
+                            if (frameCounter >= attackFrames)
+                            {
+                                stateMachine.ChangePose(EnemyPose.Walking); // after attack, walk
+                                frameCounter = 0;
+                                UpdateTexture();
+                            }
+                            break;
                     }
+
+                    UpdateTexture();
+                    enemySprite.Update();
+
+                    //update fireballs
+                    UpdateFireballs();
                 }
-                //shooting
-                //else if (stateMachine.GetPose() == EnemyPose.Shooting)
-                else if (stateMachine.GetPose() == EnemyPose.Charging)
-                        {
-                    if (frameCounter == 1) // fireball projectile
-                    {
-                        ShootProjectile();
-                    }
-
-                    if (frameCounter >= shootFrames)
-                    {
-                        // blow fire
-                        stateMachine.ChangePose(EnemyPose.Attacking); // attacks (blows fire) after shooting
-                        frameCounter = 0;
-                        UpdateTexture();
-                    }
-                }
-                //blows fire
-                else if (stateMachine.GetPose() == EnemyPose.Attacking)
-                {
-                    if (frameCounter == 1) //blowing fire projectile
-                    {
-                        Attack();
-                    }
-
-                    if (frameCounter >= attackFrames)
-                    {
-                        // after attack, walk
-                        stateMachine.ChangePose(EnemyPose.Walking);
-                        frameCounter = 0;
-                        UpdateTexture();
-                    }
-                }
-
-                UpdateTexture();
-
-                enemySprite.Update();
-
-                //update fireballs
-                UpdateFireballs();
-            }
         }
     
 
