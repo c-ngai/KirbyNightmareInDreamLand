@@ -14,6 +14,8 @@ namespace MasterGame
 
             public const bool IS_FULL_SCREEN = false;
             public const int FLOOR = 128;
+
+            public const bool DEBUG_SPRITE_MODE = false;
         } 
 
         public static class Physics

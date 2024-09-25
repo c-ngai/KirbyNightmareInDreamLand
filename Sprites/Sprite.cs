@@ -79,8 +79,41 @@ namespace MasterGame
             Vector2 frameCenter = _spriteAnimation.frameCenters[currentFrame];
             Rectangle sourceRectangle = _spriteAnimation.frameSourceRectangles[currentFrame];
 
+            if (_spriteAnimation.spriteEffects.Equals(SpriteEffects.FlipHorizontally))
+            {
+                frameCenter.X = sourceRectangle.Width - frameCenter.X;
+            }
+
             // Draw the sprite to the spriteBatch.
             spriteBatch.Draw(_spriteAnimation.texture, position, sourceRectangle, color, 0, frameCenter, scale, _spriteAnimation.spriteEffects, 0);
+
+
+            // DEBUG VISUALS, TIDY UP LATER
+            if (Constants.Graphics.DEBUG_SPRITE_MODE == true)
+            {
+                Texture2D red;
+                red = new Texture2D(Game1.self.GraphicsDevice, 1, 1);
+                red.SetData(new Color[] { Color.Red });
+                Texture2D blue;
+                blue = new Texture2D(Game1.self.GraphicsDevice, 1, 1);
+                blue.SetData(new Color[] { Color.Blue });
+
+                Color translucent = new Color(255, 255, 255, 63);
+
+                // Draw box around sprite
+                // top side
+                spriteBatch.Draw(blue, new Rectangle((int)(position.X - frameCenter.X*scale), (int)(position.Y - frameCenter.Y*scale), (int)(sourceRectangle.Width*scale), (int)scale), translucent);
+                // bottom side
+                spriteBatch.Draw(blue, new Rectangle((int)(position.X - frameCenter.X * scale), (int)(position.Y + (sourceRectangle.Height - frameCenter.Y - 1) * scale), (int)(sourceRectangle.Width * scale), (int)scale), translucent);
+                // left side
+                spriteBatch.Draw(blue, new Rectangle((int)(position.X - frameCenter.X * scale), (int)(position.Y - frameCenter.Y * scale), (int)scale, (int)(sourceRectangle.Height * scale)), translucent);
+                // right side
+                spriteBatch.Draw(blue, new Rectangle((int)(position.X + (sourceRectangle.Width - frameCenter.X - 1) * scale), (int)(position.Y - frameCenter.Y * scale), (int)scale, (int)(sourceRectangle.Height * scale)), translucent);
+
+                // Draw dot at center of sprite
+                spriteBatch.Draw(red, new Rectangle((int)(position.X - scale), (int)(position.Y - scale), (int)scale * 2, (int)scale * 2), translucent);
+            }
+            
         }
 
         

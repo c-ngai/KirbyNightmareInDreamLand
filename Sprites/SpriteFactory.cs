@@ -86,14 +86,18 @@ namespace MasterGame {
         public Sprite createSprite(string spriteAnimationName)
         {
             if (spriteAnimations.ContainsKey(spriteAnimationName))
+            {
                 return new Sprite(spriteAnimations[spriteAnimationName]);
+            }
             else
+            {
                 return new Sprite(spriteAnimations["invalidspritename"]);
+            }
         }
 
 
 
-        //method to get sprite file name from current state 
+        // Returns a new sprite object from an array of state strings.
         public Sprite createSprite(string[] states)
         {
             // Create a single string to combine all the strings of states into one, with underscores between.
@@ -107,10 +111,7 @@ namespace MasterGame {
                 }
             }
 
-            if (spriteAnimations.ContainsKey(spriteAnimationName))
-                return new Sprite(spriteAnimations[spriteAnimationName]);
-            else
-                return new Sprite(spriteAnimations["invalidspritename"]);
+            return createSprite(spriteAnimationName);
         }
 
     }
