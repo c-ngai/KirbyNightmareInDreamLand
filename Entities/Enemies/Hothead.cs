@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 
 namespace MasterGame
@@ -24,7 +25,9 @@ namespace MasterGame
 
         // all fireballs
         private List<IProjectile> fireballs;
-
+        //will swap for enemy flamethrower
+        private KirbyFlamethrower flamethrower;
+        private bool isFlamethrowerActive;
 
         public Hothead(Vector2 startPosition)
         {
@@ -35,6 +38,8 @@ namespace MasterGame
             //stateMachine = new EnemyStateMachine(EnemyType.Hothead);
             stateMachine.ChangePose(EnemyPose.Walking);
             fireballs = new List<IProjectile>();
+            flamethrower = new KirbyFlamethrower();
+            isFlamethrowerActive = false;
         }
 
         public Vector2 Position
@@ -70,6 +75,28 @@ namespace MasterGame
         {
             stateMachine.ChangePose(EnemyPose.Attacking);
             UpdateTexture();
+        }
+
+        public void Flamethrower(GameTime gametime)
+        {
+            stateMachine.ChangePose(EnemyPose.Attacking);
+            UpdateTexture();
+
+            isFlamethrowerActive = true;
+
+            //blow fire/flamethrower left or right
+            Vector2 flameDirection;
+            if (stateMachine.IsLeft())
+            {
+                flameDirection = new Vector2(-1, 0);
+            }
+            else
+            {
+                flameDirection = new Vector2(1, 0);
+            }
+
+            //note: don't have the gameTime within the hothead class
+            flamethrower.Update(gametime, new Vector2(60, Constants.Graphics.FLOOR - 10), new Vector2(1, 0));
         }
 
         public void UpdateTexture()
@@ -117,11 +144,12 @@ namespace MasterGame
                         case EnemyPose.Attacking:
                             if (frameCounter == 1) // blowing fire projectile
                             {
-                                Attack();
+                                Flamethrower(gameTime);
                             }
 
                             if (frameCounter >= attackFrames)
                             {
+                                isFlamethrowerActive = false;
                                 stateMachine.ChangePose(EnemyPose.Walking); // after attack, walk
                                 frameCounter = 0;
                                 UpdateTexture();
@@ -134,6 +162,12 @@ namespace MasterGame
 
                     //update fireballs
                     UpdateFireballs();
+
+                    //if attacking, update flamethrower
+                    if (stateMachine.GetPose() == EnemyPose.Attacking && isFlamethrowerActive)
+                    {
+                        flamethrower.Update(gameTime, position, stateMachine.IsLeft() ? new Vector2(-1, 0) : new Vector2(1, 0));
+                    }
                 }
         }
     
@@ -194,12 +228,19 @@ namespace MasterGame
         {
             if (!isDead)
             {
+
+                if (isFlamethrowerActive)
+                {
+                    flamethrower.Draw(spriteBatch);
+                }
+
                 enemySprite.Draw(position, spriteBatch);
 
                 foreach (var fireball in fireballs)
                 {
                     fireball.Draw(spriteBatch);
                 }
+   
             }
         }
 
