@@ -5,10 +5,11 @@ namespace MasterGame
 {  
     public class PowerupMovement : PlayerMovement
     {
-        public PowerupMovement(){}
-        public override void Attack()
+        public PowerupMovement()
+        {}
+        public override void Attack(Player kirby)
         {
-            state.ChangePose(KirbyPose.Attacking);
+            kirby.ChangePose(KirbyPose.Attacking);
         }
     }
 

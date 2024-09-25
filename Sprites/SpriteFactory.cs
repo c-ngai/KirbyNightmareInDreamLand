@@ -5,11 +5,8 @@ using System.Text.Json;
 using System.IO;
 
 namespace MasterGame {
-
-
     public class SpriteFactory
     {
-        
         // Dictionary from string to Texture2D. For easily retrieving a texture by name.
         private static Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
 
@@ -37,8 +34,6 @@ namespace MasterGame {
             textures.Add(TextureName, texture);
         }
 
-
-
         // Loads a sprite animation given its name and data.
         private void LoadSpriteAnimation(string SpriteAnimationName, SpriteJsonData spriteJsonData)
         {
@@ -46,12 +41,17 @@ namespace MasterGame {
             spriteAnimations.Add(SpriteAnimationName, spriteAnimation);
         }
 
-
-
         // Loads all textures from the texture list file.
         public void LoadAllTextures(ContentManager content)
         {
             // Open the texture list data file and read its lines into a string array.
+            //level loader pulls this open and loads the fatory
+            //factory only knows how to build sprites not what sprites it is building
+            //reference to grahics and dictionaries get build.
+            //data problem, take it to level loader !!
+            //tear it out early
+            //what is the interface i need to shove all the data else where?
+
             string textureList = "Content/Images/Textures.txt";
             string[] textureFilepaths = File.ReadAllLines(textureList);
 
@@ -62,8 +62,6 @@ namespace MasterGame {
                 LoadTexture(content, textureName, textureFilepath);
             }
         }
-
-
 
         // Loads all sprite animations from the .json file. -- goes to level loader eventually
         public void LoadAllSpriteAnimations()
@@ -80,21 +78,20 @@ namespace MasterGame {
             }
         }
 
-
-
         // Returns a new sprite object from a sprite animation's name.
         public Sprite createSprite(string spriteAnimationName)
         {
             if (spriteAnimations.ContainsKey(spriteAnimationName))
             {
                 return new Sprite(spriteAnimations[spriteAnimationName]);
-            }
-            else
-            {
+            }else{
+                System.Console.WriteLine(spriteAnimationName ); //debug line
                 return new Sprite(spriteAnimations["invalidspritename"]);
             }
         }
 
+        //method to get sprite file name from current state
+        //override method should be undone 
 
 
         // Returns a new sprite object from an array of state strings.
@@ -113,6 +110,5 @@ namespace MasterGame {
 
             return createSprite(spriteAnimationName);
         }
-
     }
 }

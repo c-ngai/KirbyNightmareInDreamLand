@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace MasterGame
 {
-    public class WaddleDee : IEnemy
+    public class PoppyBrosJr : IEnemy
     {
         private Vector2 position;
         private int health;
@@ -14,11 +15,17 @@ namespace MasterGame
         private Vector2 rightBoundary = new Vector2(230, 100);
         private string oldState;
 
-        public WaddleDee(Vector2 startPosition)
+        //hopping
+        private int hopCounter = 0;
+        private int hopFrequency = 60; //framws between hops
+        private float hopHeight = 1f;
+
+        public PoppyBrosJr(Vector2 startPosition)
         {
             position = startPosition;
             health = 100;
             isDead = false;
+            //stateMachine = new EnemyStateMachine(EnemyType.PoppyBrosJr);
             stateMachine = new EnemyStateMachine(EnemyType.WaddleDee);
             stateMachine.ChangePose(EnemyPose.Walking);
         }
@@ -48,6 +55,7 @@ namespace MasterGame
         private void Die()
         {
             isDead = true;
+
             stateMachine.ChangePose(EnemyPose.Hurt);
             UpdateTexture();
         }
@@ -70,9 +78,11 @@ namespace MasterGame
         {
             if (!isDead)
             {
+                //need to add walking left/right
                 if (stateMachine.GetPose() == EnemyPose.Walking)
                 {
                     Move();
+                    Hop();
                 }
 
                 //updates using state
@@ -101,6 +111,21 @@ namespace MasterGame
                     stateMachine.ChangeDirection();
                     UpdateTexture();
                 }
+            }
+        }
+
+        private void Hop()
+        {
+            hopCounter++;
+            float t = (float)hopCounter / hopFrequency;
+
+            //smooth hopping
+            position.Y = position.Y - (float)(Math.Sin(t * Math.PI * 2) * hopHeight / 2);
+
+            //reset hop counter for cycle
+            if (hopCounter >= hopFrequency)
+            {
+                hopCounter = 0;
             }
         }
 

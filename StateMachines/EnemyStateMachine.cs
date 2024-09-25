@@ -40,23 +40,6 @@
         }
         #endregion Type
 
-        // public int[] GetSpriteParameters()
-        // {
-
-        //     int[] spriteParameters = new int[3];
-        //     if (facingLeft)
-        //     {
-        //         spriteParameters[0] = 1;
-        //     }
-        //     else
-        //     {
-        //         spriteParameters[0] = 0;
-        //     }
-        //     spriteParameters[1] = (int)pose;
-        //     spriteParameters[2] = (int)type;
-        //     return spriteParameters;
-        // }
-
         public string[] GetSpriteParameters()
         {
             string[] spriteParameters = new string[3];
