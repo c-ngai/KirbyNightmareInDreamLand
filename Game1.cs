@@ -158,9 +158,7 @@ namespace MasterGame
             Vector2 beamStartPosition = new Vector2(100, 100); // Example position (would really be WaddleDoo's eye)
             enemyBeam = new EnemyBeam(beamStartPosition); // Initialize the beam
             
-            Vector2 beamStartPosition = new Vector2(100, 100); // Example position near WaddleDoo
             Vector2 beamPivotPosition = new Vector2(100, 90);  // Example pivot position (would really be WaddleDoo's eye)
-            enemyBeam = new EnemyBeam(beamStartPosition, beamPivotPosition); // Initialize the beam
             kirbyBeam = new KirbyBeam(beamStartPosition, true); // Initialize the beam
 
             // Remapping keyboard to new Kirby 
