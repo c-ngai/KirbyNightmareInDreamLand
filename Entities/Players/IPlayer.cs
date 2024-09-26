@@ -9,7 +9,7 @@ namespace MasterGame
         void Slide();
         void Float();
         void Inhale();
-        void JumpY();
+        void Jump();
         void MoveRight();
         void MoveLeft();
         void RunRight();
