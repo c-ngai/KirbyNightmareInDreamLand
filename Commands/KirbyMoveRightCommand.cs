@@ -21,7 +21,7 @@ namespace MasterGame
             keyboard = currentKeyboard;
             key = keyMapped;
 
-                        timer = new TimeCalculator();
+            timer = new TimeCalculator();
             timeSinceMoveStopped = 0;
 
             kirby = player;

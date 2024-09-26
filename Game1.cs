@@ -72,22 +72,23 @@ namespace MasterGame
         {
             keyboard.RegisterCommand(Keys.Right, new KirbyMoveRightCommand(kirby, Keys.Right, keyboard, this), ExecutionType.Pressed);
             keyboard.RegisterCommand(Keys.Left, new KirbyMoveLeftCommand(kirby, Keys.Left, keyboard, this), ExecutionType.Pressed);
-            keyboard.RegisterCommand(Keys.Down, new KirbyCrouchCommand(kirby), ExecutionType.Pressed);
+
+            // this is hard-coded bc it needs to know the keybind to attack to check if it needs to slide
+            keyboard.RegisterCommand(Keys.Down, new KirbyCrouchCommand(kirby, Keys.Z, keyboard, this), ExecutionType.Pressed);
             keyboard.RegisterCommand(Keys.Up, new KirbyFloatCommand(kirby), ExecutionType.Pressed);
             keyboard.RegisterCommand(Keys.X, new KirbyJumpCommand(kirby), ExecutionType.Pressed);
 
             keyboard.RegisterCommand(Keys.A, new KirbyFaceLeftCommand(kirby), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.D, new KirbyFaceRightCommand(kirby), ExecutionType.StartingPress);
 
-            keyboard.RegisterCommand(Keys.Z, new KirbyInhaleCommand(kirby), ExecutionType.Pressed);
-            keyboard.RegisterCommand(Keys.N, new KirbyAttackCommand(kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.Z, new KirbyAttackCommand(kirby), ExecutionType.Pressed);
 
             keyboard.RegisterCommand(Keys.D1, new KirbyChangeNormalCommand(kirby), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.D2, new KirbyChangeBeamCommand(kirby), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.D3, new KirbyChangeFireCommand(kirby), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.D4, new KirbyChangeSparkCommand(kirby), ExecutionType.StartingPress);
 
-            keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby), ExecutionType.StartingPress);
 
             keyboard.RegisterCommand(Keys.T, new PreviousBlockCommand(), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.Y, new NextBlockCommand(), ExecutionType.StartingPress);

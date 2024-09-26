@@ -6,6 +6,7 @@ namespace MasterGame
         Sprite PlayerSprite { set; }
         void Crouch();
         void EndCrouch();
+        void Slide();
         void Float();
         void Inhale();
         void JumpY();
