@@ -53,22 +53,12 @@ namespace MasterGame
                 }
                 else
                 {
-                    projectileSprite = SpriteFactory.Instance.createSprite("projectile_kirby_fire1_right");
-                }
-            }
-            else
-            {
                 // Left-facing direction
                 if (useSecondSprite)
                 {
                     projectileSprite = SpriteFactory.Instance.createSprite("projectile_kirby_fire2_left");
                 }
-                else
-                {
-                    projectileSprite = SpriteFactory.Instance.createSprite("projectile_kirby_fire1_left");
                 }
-            }
-        }
 
         public void Update()
         {
