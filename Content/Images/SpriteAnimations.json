@@ -1890,6 +1890,303 @@
         ]
     },
 
+    "kirby_beam_standing_right": {
+        "Source texture": "kirby_beam",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 6,
+                "Y": 7,
+                "Width": 24,
+                "Height": 23,
+                "CenterX": 14,
+                "CenterY": 22,
+                "Time": 81
+            },
+            {
+                "X": 35,
+                "Y": 7,
+                "Width": 24,
+                "Height": 23,
+                "CenterX": 14,
+                "CenterY": 22,
+                "Time": 5
+            },
+            {
+                "X": 6,
+                "Y": 7,
+                "Width": 24,
+                "Height": 23,
+                "CenterX": 14,
+                "CenterY": 22,
+                "Time": 81
+            },
+            {
+                "X": 35,
+                "Y": 7,
+                "Width": 24,
+                "Height": 23,
+                "CenterX": 14,
+                "CenterY": 22,
+                "Time": 5
+            },
+            {
+                "X": 6,
+                "Y": 7,
+                "Width": 24,
+                "Height": 23,
+                "CenterX": 14,
+                "CenterY": 22,
+                "Time": 16
+            },
+            {
+                "X": 35,
+                "Y": 7,
+                "Width": 24,
+                "Height": 23,
+                "CenterX": 14,
+                "CenterY": 22,
+                "Time": 5
+            }
+        ]
+    },
+    "kirby_beam_standing_left": {
+        "Source texture": "kirby_beam",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 6,
+                "Y": 7,
+                "Width": 24,
+                "Height": 23,
+                "CenterX": 14,
+                "CenterY": 22,
+                "Time": 81
+            },
+            {
+                "X": 35,
+                "Y": 7,
+                "Width": 24,
+                "Height": 23,
+                "CenterX": 14,
+                "CenterY": 22,
+                "Time": 5
+            },
+            {
+                "X": 6,
+                "Y": 7,
+                "Width": 24,
+                "Height": 23,
+                "CenterX": 14,
+                "CenterY": 22,
+                "Time": 81
+            },
+            {
+                "X": 35,
+                "Y": 7,
+                "Width": 24,
+                "Height": 23,
+                "CenterX": 14,
+                "CenterY": 22,
+                "Time": 5
+            },
+            {
+                "X": 6,
+                "Y": 7,
+                "Width": 24,
+                "Height": 23,
+                "CenterX": 14,
+                "CenterY": 22,
+                "Time": 16
+            },
+            {
+                "X": 35,
+                "Y": 7,
+                "Width": 24,
+                "Height": 23,
+                "CenterX": 14,
+                "CenterY": 22,
+                "Time": 5
+            }
+        ]
+    },
+
+    "kirby_spark_standing_right": {
+        "Source texture": "kirby_spark",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 4,
+                "Width": 23,
+                "Height": 32,
+                "CenterX": 12,
+                "CenterY": 31,
+                "Time": 2
+            },
+            {
+                "X": 35,
+                "Y": 4,
+                "Width": 23,
+                "Height": 32,
+                "CenterX": 12,
+                "CenterY": 31,
+                "Time": 2
+            },
+            {
+                "X": 61,
+                "Y": 4,
+                "Width": 23,
+                "Height": 32,
+                "CenterX": 12,
+                "CenterY": 31,
+                "Time": 2
+            },
+            {
+                "X": 87,
+                "Y": 4,
+                "Width": 23,
+                "Height": 32,
+                "CenterX": 12,
+                "CenterY": 31,
+                "Time": 2
+            }
+        ]
+    },
+    "kirby_spark_standing_left": {
+        "Source texture": "kirby_spark",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 4,
+                "Width": 23,
+                "Height": 32,
+                "CenterX": 12,
+                "CenterY": 31,
+                "Time": 2
+            },
+            {
+                "X": 35,
+                "Y": 4,
+                "Width": 23,
+                "Height": 32,
+                "CenterX": 12,
+                "CenterY": 31,
+                "Time": 2
+            },
+            {
+                "X": 61,
+                "Y": 4,
+                "Width": 23,
+                "Height": 32,
+                "CenterX": 12,
+                "CenterY": 31,
+                "Time": 2
+            },
+            {
+                "X": 87,
+                "Y": 4,
+                "Width": 23,
+                "Height": 32,
+                "CenterX": 12,
+                "CenterY": 31,
+                "Time": 2
+            }
+        ]
+    },
+
+    "kirby_fire_standing_right": {
+        "Source texture": "kirby_fire",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 4,
+                "Width": 23,
+                "Height": 32,
+                "CenterX": 12,
+                "CenterY": 31,
+                "Time": 2
+            },
+            {
+                "X": 35,
+                "Y": 4,
+                "Width": 23,
+                "Height": 32,
+                "CenterX": 12,
+                "CenterY": 31,
+                "Time": 2
+            },
+            {
+                "X": 61,
+                "Y": 4,
+                "Width": 23,
+                "Height": 32,
+                "CenterX": 12,
+                "CenterY": 31,
+                "Time": 2
+            },
+            {
+                "X": 87,
+                "Y": 4,
+                "Width": 23,
+                "Height": 32,
+                "CenterX": 12,
+                "CenterY": 31,
+                "Time": 2
+            }
+        ]
+    },
+    "kirby_fire_standing_left": {
+        "Source texture": "kirby_fire",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 4,
+                "Width": 23,
+                "Height": 32,
+                "CenterX": 12,
+                "CenterY": 31,
+                "Time": 2
+            },
+            {
+                "X": 35,
+                "Y": 4,
+                "Width": 23,
+                "Height": 32,
+                "CenterX": 12,
+                "CenterY": 31,
+                "Time": 2
+            },
+            {
+                "X": 61,
+                "Y": 4,
+                "Width": 23,
+                "Height": 32,
+                "CenterX": 12,
+                "CenterY": 31,
+                "Time": 2
+            },
+            {
+                "X": 87,
+                "Y": 4,
+                "Width": 23,
+                "Height": 32,
+                "CenterX": 12,
+                "CenterY": 31,
+                "Time": 2
+            }
+        ]
+    },
+
     "waddledee_walking_right": {
         "Source texture": "enemies",
         "Loop point": 0,

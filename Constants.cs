@@ -33,6 +33,7 @@ namespace MasterGame
         {
             // determines max time that can elapse for double button presses to register as a command
             public const double RESPONSE_TIME = 250;
+            public const double SLIDE_TIME = 250;
         }
 
     }
