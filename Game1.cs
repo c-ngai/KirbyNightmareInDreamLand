@@ -44,7 +44,7 @@ namespace MasterGame
         // Flamethrower instance
         private KirbyFlamethrower flamethrower;
 
-        private EnemyBeam enemyBeam; // Add this line to manage the WaddleDoo beam
+        private EnemyBeam enemyBeam; // ENEMYBEAM TEST
         private KirbyBeam kirbyBeam; // KIRBYBEAM TEST
 
 
@@ -167,7 +167,7 @@ namespace MasterGame
 
             // Initialize the WaddleDoo beam    
             Vector2 beamStartPosition = new Vector2(100, 100); // Example position (would really be WaddleDoo's eye)
-            enemyBeam = new EnemyBeam(beamStartPosition); // Initialize the beam
+            enemyBeam = new EnemyBeam(beamStartPosition, true); // Initialize the beam
             
             Vector2 beamPivotPosition = new Vector2(100, 90);  // Example pivot position (would really be WaddleDoo's eye)
             kirbyBeam = new KirbyBeam(beamStartPosition, true); // Initialize the beam
@@ -282,8 +282,8 @@ namespace MasterGame
             BlockList.Instance.Draw(new Vector2(100, 150), spriteBatch);
 
             // Draw the WaddleDoo beam
-            //enemyBeam.Draw(spriteBatch); // Draw the beam projectile
-            kirbyBeam.Draw(spriteBatch); // Draw the beam projectile
+            enemyBeam.Draw(spriteBatch); // Draw the beam projectile
+            //kirbyBeam.Draw(spriteBatch); // Draw the beam projectile
 
             // Draw the flamethrower segments
             //flamethrower.Draw(spriteBatch); // TODO: delete when synched with enemy.

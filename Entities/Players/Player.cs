@@ -19,7 +19,7 @@ namespace MasterGame
         private int lives = Constants.Kirby.MAX_LIVES;
 
 
-        private Vector2 position;
+        //private Vector2 position;
         private string oldState;
 
 
@@ -29,28 +29,13 @@ namespace MasterGame
         public Player(Vector2 pos)
         {
             state = new PlayerStateMachine();
-            movement = new NormalPlayerMovement();
+            movement = new NormalPlayerMovement(pos);
             //grab the factory whenever you need it -- take it out of here
             //if factory gets rebuilt youre fucked
-
+            //ask in office hours
             factory = SpriteFactory.Instance;
             oldState = state.GetStateString();
-            position = pos;
         }
-
-        #region Position
-        //mposition should be an ask not 
-        public float PositionX
-        {
-            get { return position.X; }    // Getter returns the current position
-            set { position.X = value; }   // Setter updates the position
-        }
-        public float PositionY
-        {
-            get { return position.Y; }    // Getter returns the current position
-            set { position.Y = value; }   // Setter updates the position
-        }
-    #endregion
         public Sprite PlayerSprite
         {
             set{playerSprite = value;}
@@ -61,6 +46,7 @@ namespace MasterGame
             if(!state.GetStateString().Equals(oldState)){
                 playerSprite = factory.createSprite(state.GetSpriteParameters());
                 oldState = state.GetStateString();
+                System.Console.WriteLine(state.GetStateString());
             } 
         }
         //have draw ask if it has the right sprite and call update texture from there
@@ -77,16 +63,23 @@ namespace MasterGame
         }
         public string GetKirbyType()
         {
-            return state.GetType().ToString();
+            return state.GetKirbyType().ToString();
         }
         public void ChangeMovement()
         {
+<<<<<<< HEAD
             if(this.GetKirbyType().Equals("Normal"))
             {
-                movement = new NormalPlayerMovement();
+                movement = new NormalPlayerMovement(movement.GetPosition());
             } else {
-                movement = new PowerupMovement();
+                movement = new PowerupMovement(movement.GetPosition());
             }
+=======
+            movement = new NormalPlayerMovement(movement.GetPosition());
+        }
+        public bool IsLeft(){
+            return state.IsLeft();
+>>>>>>> 90f3b72 (float and jumping are fully functional)
         }
 
         #region Power-Up
@@ -146,7 +139,6 @@ namespace MasterGame
         //calls state machine to attack
         public void Attack()
         {
-            ChangePose(KirbyPose.Attacking);
             movement.Attack(this);
         }
         #endregion
@@ -156,7 +148,7 @@ namespace MasterGame
         {   
             SetDirectionLeft();
             movement.Walk(state.IsLeft());
-            if(!movement.jumping && !movement.crouching){
+            if(!movement.jumping && !movement.crouching&& !movement.floating){
                 ChangePose(KirbyPose.Walking);
             }
         }
@@ -165,16 +157,18 @@ namespace MasterGame
         {
             SetDirectionRight();
             movement.Walk(state.IsLeft());
-            if(!movement.jumping&& !movement.crouching){
+            if(!movement.jumping&& !movement.crouching && !movement.floating){
                 ChangePose(KirbyPose.Walking);
             }
         }
 
         public void StopMoving()
         {
-            if(!movement.jumping){
-            ChangePose(KirbyPose.Standing);
-            movement.StopMovement();}
+            movement.StopMovement();
+            if(!movement.jumping && !movement.floating)
+            {
+                ChangePose(KirbyPose.Standing);
+            }
         }
         public void DontMove()
         {
@@ -184,58 +178,62 @@ namespace MasterGame
         #region running
         public void RunLeft()
         {
-            ChangePose(KirbyPose.Running);
             SetDirectionLeft();
             movement.Run(state.IsLeft());
+           if(!movement.jumping&& !movement.crouching && !movement.floating){
+                ChangePose(KirbyPose.Running);
+            }
         }
         public void RunRight()
         {
             SetDirectionRight();
             movement.Run(state.IsLeft());
-            state.ChangePose(KirbyPose.Running);
+            if(!movement.jumping&& !movement.crouching && !movement.floating){
+                ChangePose(KirbyPose.Running);
+            }
         }
         #endregion
 
         #region jumping
-        public void JumpFloat()
-        {
-            if(movement.jumping)
-            {
-                movement = new FloatingMovement();
-                ChangePose(KirbyPose.Floating);
-            }
-        }
+        // public void JumpFloat()
+        // {
+        //     if(movement.jumping)
+        //     {
+        //         movement = new FloatingMovement(movement.GetPosition());
+        //         ChangePose(KirbyPose.Floating);
+        //     }
+        // }
         public void JumpFall()
         {
             ChangePose(KirbyPose.JumpFalling);
         }
-        public void JumpY()
+        public void Jump()
         {
-            //JumpFloat();
-            movement = new JumpMovement();
-            movement.Jump();
-            ChangePose(KirbyPose.JumpRising);
-            //movement.JumpY();
-
-        }
-        public void JumpXY()
-        {
-            movement = new JumpMovement();
-            //JumpFloat();
-            ChangePose(KirbyPose.JumpRising);  
-            //movement.JumpXY(state.IsLeft());
+            if(!movement.crouching && !movement.floating && !movement.jumping){ //not floating, not jumping
+                movement = new JumpMovement(movement.GetPosition());
+                //movement.Jump(state.IsLeft());
+                ChangePose(KirbyPose.JumpRising);
+            }else if (movement.jumping && !movement.floating){ //if jumping and x is pressed again
+                //Float();
+                movement.Jump(state.IsLeft());
+            } else if (movement.jumping){ // floating and jump is pressed
+                //movement = new FloatingMovement(movement.GetPosition());
+                //ChangePose(KirbyPose.Floating);
+                //movement.Jump(state.IsLeft());
+            }
         }
         #endregion
         public void Float()
         {
             //crouching and sliding cannot be overwritten by float 
-            if(!movement.crouching || state.GetPose()!= KirbyPose.Sliding){
-                movement = new FloatingMovement();
-                ChangePose(KirbyPose.Floating);
+            if(!movement.crouching && !movement.floating){
+                movement.StartFloating(this);
+                movement = new FloatingMovement(movement.GetPosition());
+                ChangePose(KirbyPose.FloatingRising);
             } 
-            if(state.GetPose()== KirbyPose.Floating)
-            {
-                //movement.Jump(state.IsLeft()); //change this to flowting geenral movement
+            if(!movement.crouching){
+                ChangePose(KirbyPose.FloatingRising);
+                movement.Jump(state.IsLeft()); //change this to flowting geenral movement
             }
         }
 
@@ -244,7 +242,7 @@ namespace MasterGame
         {
             if(!movement.jumping && !movement.floating){
                 ChangePose(KirbyPose.Crouching);
-                movement = new CrouchingMovement();
+                movement = new CrouchingMovement(movement.GetPosition());
             }
         }
         public void EndCrouch()
@@ -259,11 +257,11 @@ namespace MasterGame
         public void Slide()
         {
             ChangePose(KirbyPose.Sliding);
-            movement.Slide(this, state.IsLeft());
+            movement.Slide(state.IsLeft());
         }
         public void Inhale()
         {
-            ChangePose(KirbyPose.AbsorbingAir);
+            ChangePose(KirbyPose.Inhaling);
             movement.StopMovement();
         }
         #endregion //movement region
@@ -277,7 +275,7 @@ namespace MasterGame
         public void Draw(SpriteBatch spriteBatch)
         {
             UpdateTexture();
-            playerSprite.Draw(position, spriteBatch);
+            playerSprite.Draw(movement.GetPosition(), spriteBatch);
         }   
     }
 }
