@@ -1,4 +1,126 @@
 {
+    "kirby_normal_standing_right": {
+        "Source texture": "kirby_normal",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 5,
+                "Y": 5,
+                "Width": 20,
+                "Height": 18,
+                "CenterX": 10,
+                "CenterY": 17,
+                "Time": 81
+            },
+            {
+                "X": 30,
+                "Y": 5,
+                "Width": 20,
+                "Height": 18,
+                "CenterX": 10,
+                "CenterY": 17,
+                "Time": 5
+            },
+            {
+                "X": 5,
+                "Y": 5,
+                "Width": 20,
+                "Height": 18,
+                "CenterX": 10,
+                "CenterY": 17,
+                "Time": 81
+            },
+            {
+                "X": 30,
+                "Y": 5,
+                "Width": 20,
+                "Height": 18,
+                "CenterX": 10,
+                "CenterY": 17,
+                "Time": 5
+            },
+            {
+                "X": 5,
+                "Y": 5,
+                "Width": 20,
+                "Height": 18,
+                "CenterX": 10,
+                "CenterY": 17,
+                "Time": 16
+            },
+            {
+                "X": 30,
+                "Y": 5,
+                "Width": 20,
+                "Height": 18,
+                "CenterX": 10,
+                "CenterY": 17,
+                "Time": 5
+            }
+        ]
+    },
+    "kirby_normal_standing_left": {
+        "Source texture": "kirby_normal",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 5,
+                "Y": 5,
+                "Width": 20,
+                "Height": 18,
+                "CenterX": 10,
+                "CenterY": 17,
+                "Time": 81
+            },
+            {
+                "X": 30,
+                "Y": 5,
+                "Width": 20,
+                "Height": 18,
+                "CenterX": 10,
+                "CenterY": 17,
+                "Time": 5
+            },
+            {
+                "X": 5,
+                "Y": 5,
+                "Width": 20,
+                "Height": 18,
+                "CenterX": 10,
+                "CenterY": 17,
+                "Time": 81
+            },
+            {
+                "X": 30,
+                "Y": 5,
+                "Width": 20,
+                "Height": 18,
+                "CenterX": 10,
+                "CenterY": 17,
+                "Time": 5
+            },
+            {
+                "X": 5,
+                "Y": 5,
+                "Width": 20,
+                "Height": 18,
+                "CenterX": 10,
+                "CenterY": 17,
+                "Time": 16
+            },
+            {
+                "X": 30,
+                "Y": 5,
+                "Width": 20,
+                "Height": 18,
+                "CenterX": 10,
+                "CenterY": 17,
+                "Time": 5
+            }
+        ]
+    },
     "kirby_normal_walking_right": {
         "Source texture": "kirby_normal",
         "Loop point": 0,
@@ -193,125 +315,193 @@
             }
         ]
     },
-    "kirby_normal_standing_right": {
+    "kirby_normal_running_right": {
         "Source texture": "kirby_normal",
         "Loop point": 0,
         "Flip horizontally?": false,
         "Frames": [
             {
                 "X": 5,
-                "Y": 5,
-                "Width": 20,
-                "Height": 18,
-                "CenterX": 10,
-                "CenterY": 17,
-                "Time": 81
+                "Y": 124,
+                "Width": 24,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 2
             },
             {
-                "X": 30,
-                "Y": 5,
-                "Width": 20,
-                "Height": 18,
-                "CenterX": 10,
-                "CenterY": 17,
-                "Time": 5
+                "X": 32,
+                "Y": 124,
+                "Width": 24,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 3
             },
             {
-                "X": 5,
-                "Y": 5,
-                "Width": 20,
-                "Height": 18,
-                "CenterX": 10,
-                "CenterY": 17,
-                "Time": 81
+                "X": 54,
+                "Y": 124,
+                "Width": 24,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 2
             },
             {
-                "X": 30,
-                "Y": 5,
-                "Width": 20,
-                "Height": 18,
-                "CenterX": 10,
-                "CenterY": 17,
-                "Time": 5
+                "X": 77,
+                "Y": 124,
+                "Width": 24,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 3
             },
             {
-                "X": 5,
-                "Y": 5,
-                "Width": 20,
-                "Height": 18,
-                "CenterX": 10,
-                "CenterY": 17,
-                "Time": 16
+                "X": 100,
+                "Y": 124,
+                "Width": 24,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 2
             },
             {
-                "X": 30,
-                "Y": 5,
-                "Width": 20,
-                "Height": 18,
-                "CenterX": 10,
-                "CenterY": 17,
-                "Time": 5
+                "X": 124,
+                "Y": 124,
+                "Width": 24,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 3
+            },
+            {
+                "X": 146,
+                "Y": 124,
+                "Width": 24,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 2
+            },
+            {
+                "X": 170,
+                "Y": 124,
+                "Width": 24,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 3
             }
         ]
     },
-    "kirby_normal_standing_left": {
+    "kirby_normal_running_left": {
         "Source texture": "kirby_normal",
         "Loop point": 0,
         "Flip horizontally?": true,
         "Frames": [
             {
                 "X": 5,
-                "Y": 5,
-                "Width": 20,
-                "Height": 18,
-                "CenterX": 10,
-                "CenterY": 17,
-                "Time": 81
+                "Y": 124,
+                "Width": 24,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 2
             },
             {
-                "X": 30,
-                "Y": 5,
-                "Width": 20,
-                "Height": 18,
-                "CenterX": 10,
-                "CenterY": 17,
-                "Time": 5
+                "X": 32,
+                "Y": 124,
+                "Width": 24,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 3
             },
             {
-                "X": 5,
-                "Y": 5,
-                "Width": 20,
-                "Height": 18,
-                "CenterX": 10,
-                "CenterY": 17,
-                "Time": 81
+                "X": 54,
+                "Y": 124,
+                "Width": 24,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 2
             },
             {
-                "X": 30,
-                "Y": 5,
-                "Width": 20,
-                "Height": 18,
-                "CenterX": 10,
-                "CenterY": 17,
-                "Time": 5
+                "X": 77,
+                "Y": 124,
+                "Width": 24,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 3
             },
             {
-                "X": 5,
-                "Y": 5,
-                "Width": 20,
-                "Height": 18,
-                "CenterX": 10,
-                "CenterY": 17,
-                "Time": 16
+                "X": 100,
+                "Y": 124,
+                "Width": 24,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 2
             },
             {
-                "X": 30,
-                "Y": 5,
-                "Width": 20,
-                "Height": 18,
+                "X": 124,
+                "Y": 124,
+                "Width": 24,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 3
+            },
+            {
+                "X": 146,
+                "Y": 124,
+                "Width": 24,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 2
+            },
+            {
+                "X": 170,
+                "Y": 124,
+                "Width": 24,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 3
+            }
+        ]
+    },
+    "kirby_normal_skidding_right": {
+        "Source texture": "kirby_normal",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 201,
+                "Y": 123,
+                "Width": 22,
+                "Height": 20,
                 "CenterX": 10,
-                "CenterY": 17,
-                "Time": 5
+                "CenterY": 19,
+                "Time": 1
+            }
+        ]
+    },
+    "kirby_normal_skidding_left": {
+        "Source texture": "kirby_normal",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 201,
+                "Y": 123,
+                "Width": 22,
+                "Height": 20,
+                "CenterX": 10,
+                "CenterY": 19,
+                "Time": 1
             }
         ]
     },
@@ -495,7 +685,7 @@
             {
                 "X": 4,
                 "Y": 73,
-                "Width": 21,
+                "Width": 22,
                 "Height": 20,
                 "CenterX": 11,
                 "CenterY": 19,
@@ -511,7 +701,7 @@
             {
                 "X": 4,
                 "Y": 73,
-                "Width": 21,
+                "Width": 22,
                 "Height": 20,
                 "CenterX": 11,
                 "CenterY": 19,
@@ -525,36 +715,36 @@
         "Flip horizontally?": false,
         "Frames": [
             {
-                "X": 29,
+                "X": 30,
                 "Y": 73,
-                "Width": 21,
+                "Width": 22,
                 "Height": 20,
                 "CenterX": 11,
                 "CenterY": 19,
                 "Time": 2
             },
             {
-                "X": 54,
+                "X": 55,
                 "Y": 73,
-                "Width": 21,
+                "Width": 22,
                 "Height": 20,
                 "CenterX": 11,
                 "CenterY": 19,
                 "Time": 2
             },
             {
-                "X": 80,
+                "X": 81,
                 "Y": 73,
-                "Width": 21,
+                "Width": 22,
                 "Height": 20,
                 "CenterX": 11,
                 "CenterY": 19,
                 "Time": 2
             },
             {
-                "X": 105,
+                "X": 107,
                 "Y": 73,
-                "Width": 21,
+                "Width": 22,
                 "Height": 20,
                 "CenterX": 11,
                 "CenterY": 19,
@@ -563,7 +753,7 @@
             {
                 "X": 131,
                 "Y": 73,
-                "Width": 21,
+                "Width": 22,
                 "Height": 20,
                 "CenterX": 11,
                 "CenterY": 19,
@@ -572,7 +762,7 @@
             {
                 "X": 158,
                 "Y": 73,
-                "Width": 21,
+                "Width": 22,
                 "Height": 20,
                 "CenterX": 11,
                 "CenterY": 19,
@@ -581,7 +771,7 @@
             {
                 "X": 184,
                 "Y": 73,
-                "Width": 21,
+                "Width": 22,
                 "Height": 20,
                 "CenterX": 11,
                 "CenterY": 19,
@@ -590,7 +780,7 @@
             {
                 "X": 210,
                 "Y": 73,
-                "Width": 21,
+                "Width": 22,
                 "Height": 20,
                 "CenterX": 11,
                 "CenterY": 19,
@@ -604,36 +794,36 @@
         "Flip horizontally?": true,
         "Frames": [
             {
-                "X": 29,
+                "X": 30,
                 "Y": 73,
-                "Width": 21,
+                "Width": 22,
                 "Height": 20,
                 "CenterX": 11,
                 "CenterY": 19,
                 "Time": 2
             },
             {
-                "X": 54,
+                "X": 55,
                 "Y": 73,
-                "Width": 21,
+                "Width": 22,
                 "Height": 20,
                 "CenterX": 11,
                 "CenterY": 19,
                 "Time": 2
             },
             {
-                "X": 80,
+                "X": 81,
                 "Y": 73,
-                "Width": 21,
+                "Width": 22,
                 "Height": 20,
                 "CenterX": 11,
                 "CenterY": 19,
                 "Time": 2
             },
             {
-                "X": 105,
+                "X": 107,
                 "Y": 73,
-                "Width": 21,
+                "Width": 22,
                 "Height": 20,
                 "CenterX": 11,
                 "CenterY": 19,
@@ -642,7 +832,7 @@
             {
                 "X": 131,
                 "Y": 73,
-                "Width": 21,
+                "Width": 22,
                 "Height": 20,
                 "CenterX": 11,
                 "CenterY": 19,
@@ -651,7 +841,7 @@
             {
                 "X": 158,
                 "Y": 73,
-                "Width": 21,
+                "Width": 22,
                 "Height": 20,
                 "CenterX": 11,
                 "CenterY": 19,
@@ -660,7 +850,7 @@
             {
                 "X": 184,
                 "Y": 73,
-                "Width": 21,
+                "Width": 22,
                 "Height": 20,
                 "CenterX": 11,
                 "CenterY": 19,
@@ -669,7 +859,7 @@
             {
                 "X": 210,
                 "Y": 73,
-                "Width": 21,
+                "Width": 22,
                 "Height": 20,
                 "CenterX": 11,
                 "CenterY": 19,
@@ -685,7 +875,7 @@
             {
                 "X": 184,
                 "Y": 73,
-                "Width": 21,
+                "Width": 22,
                 "Height": 20,
                 "CenterX": 11,
                 "CenterY": 19,
@@ -694,7 +884,7 @@
             {
                 "X": 210,
                 "Y": 73,
-                "Width": 21,
+                "Width": 22,
                 "Height": 20,
                 "CenterX": 11,
                 "CenterY": 19,
@@ -710,7 +900,7 @@
             {
                 "X": 184,
                 "Y": 73,
-                "Width": 21,
+                "Width": 22,
                 "Height": 20,
                 "CenterX": 11,
                 "CenterY": 19,
@@ -719,11 +909,807 @@
             {
                 "X": 210,
                 "Y": 73,
-                "Width": 21,
+                "Width": 22,
                 "Height": 20,
                 "CenterX": 11,
                 "CenterY": 19,
                 "Time": 2
+            }
+        ]
+    },
+    "kirby_normal_floatingstart_right": {
+        "Source texture": "kirby_normal",
+        "Loop point": 4,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 5,
+                "Y": 153,
+                "Width": 22,
+                "Height": 18,
+                "CenterX": 11,
+                "CenterY": 17,
+                "Time": 2
+            },
+            {
+                "X": 32,
+                "Y": 155,
+                "Width": 22,
+                "Height": 16,
+                "CenterX": 10,
+                "CenterY": 15,
+                "Time": 2
+            },
+            {
+                "X": 59,
+                "Y": 151,
+                "Width": 19,
+                "Height": 20,
+                "CenterX": 10,
+                "CenterY": 19,
+                "Time": 2
+            },
+            {
+                "X": 83,
+                "Y": 149,
+                "Width": 20,
+                "Height": 22,
+                "CenterX": 11,
+                "CenterY": 21,
+                "Time": 2
+            },
+            {
+                "X": 108,
+                "Y": 147,
+                "Width": 21,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 2
+            }
+        ]
+    },
+    "kirby_normal_floatingstart_left": {
+        "Source texture": "kirby_normal",
+        "Loop point": 4,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 5,
+                "Y": 153,
+                "Width": 22,
+                "Height": 18,
+                "CenterX": 11,
+                "CenterY": 17,
+                "Time": 2
+            },
+            {
+                "X": 32,
+                "Y": 155,
+                "Width": 22,
+                "Height": 16,
+                "CenterX": 10,
+                "CenterY": 15,
+                "Time": 2
+            },
+            {
+                "X": 59,
+                "Y": 151,
+                "Width": 19,
+                "Height": 20,
+                "CenterX": 10,
+                "CenterY": 19,
+                "Time": 2
+            },
+            {
+                "X": 83,
+                "Y": 149,
+                "Width": 20,
+                "Height": 22,
+                "CenterX": 11,
+                "CenterY": 21,
+                "Time": 2
+            },
+            {
+                "X": 108,
+                "Y": 147,
+                "Width": 21,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 2
+            }
+        ]
+    },
+    "kirby_normal_floatinggrounded_right": {
+        "Source texture": "kirby_normal",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 3,
+                "Y": 174,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 4
+            },
+            {
+                "X": 32,
+                "Y": 175,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 4
+            },
+            {
+                "X": 61,
+                "Y": 176,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 4
+            },
+            {
+                "X": 91,
+                "Y": 176,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 4
+            },
+            {
+                "X": 122,
+                "Y": 177,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 4
+            },
+            {
+                "X": 91,
+                "Y": 176,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 4
+            },
+            {
+                "X": 61,
+                "Y": 176,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 4
+            },
+            {
+                "X": 32,
+                "Y": 175,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 4
+            }
+        ]
+    },
+    "kirby_normal_floatinggrounded_left": {
+        "Source texture": "kirby_normal",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 3,
+                "Y": 174,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 4
+            },
+            {
+                "X": 32,
+                "Y": 175,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 4
+            },
+            {
+                "X": 61,
+                "Y": 176,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 4
+            },
+            {
+                "X": 91,
+                "Y": 176,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 4
+            },
+            {
+                "X": 122,
+                "Y": 177,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 4
+            },
+            {
+                "X": 91,
+                "Y": 176,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 4
+            },
+            {
+                "X": 61,
+                "Y": 176,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 4
+            },
+            {
+                "X": 32,
+                "Y": 175,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 4
+            }
+        ]
+    },
+    "kirby_normal_floatingrising_right": {
+        "Source texture": "kirby_normal",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 3,
+                "Y": 174,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 4
+            },
+            {
+                "X": 32,
+                "Y": 175,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 2
+            },
+            {
+                "X": 61,
+                "Y": 176,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 2
+            },
+            {
+                "X": 91,
+                "Y": 176,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 2
+            },
+            {
+                "X": 122,
+                "Y": 177,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 4
+            },
+            {
+                "X": 61,
+                "Y": 176,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 2
+            }
+        ]
+    },
+    "kirby_normal_floatingrising_left": {
+        "Source texture": "kirby_normal",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 3,
+                "Y": 174,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 4
+            },
+            {
+                "X": 32,
+                "Y": 175,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 2
+            },
+            {
+                "X": 61,
+                "Y": 176,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 2
+            },
+            {
+                "X": 91,
+                "Y": 176,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 2
+            },
+            {
+                "X": 122,
+                "Y": 177,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 4
+            },
+            {
+                "X": 61,
+                "Y": 176,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 2
+            }
+        ]
+    },
+    "kirby_normal_floatingfalling_right": {
+        "Source texture": "kirby_normal",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 3,
+                "Y": 234,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 6
+            },
+            {
+                "X": 32,
+                "Y": 234,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 3
+            },
+            {
+                "X": 61,
+                "Y": 234,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 6
+            },
+            {
+                "X": 32,
+                "Y": 234,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 3
+            }
+        ]
+    },
+    "kirby_normal_floatingfalling_left": {
+        "Source texture": "kirby_normal",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 3,
+                "Y": 234,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 6
+            },
+            {
+                "X": 32,
+                "Y": 234,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 3
+            },
+            {
+                "X": 61,
+                "Y": 234,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 6
+            },
+            {
+                "X": 32,
+                "Y": 234,
+                "Width": 26,
+                "Height": 27,
+                "CenterX": 14,
+                "CenterY": 24,
+                "Time": 3
+            }
+        ]
+    },
+    "kirby_normal_floatingend_right": {
+        "Source texture": "kirby_normal",
+        "Loop point": 1,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 83,
+                "Y": 149,
+                "Width": 20,
+                "Height": 22,
+                "CenterX": 11,
+                "CenterY": 21,
+                "Time": 6
+            },
+            {
+                "X": 59,
+                "Y": 151,
+                "Width": 19,
+                "Height": 20,
+                "CenterX": 10,
+                "CenterY": 19,
+                "Time": 3
+            }
+        ]
+    },
+    "kirby_normal_floatingend_left": {
+        "Source texture": "kirby_normal",
+        "Loop point": 1,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 83,
+                "Y": 149,
+                "Width": 20,
+                "Height": 22,
+                "CenterX": 11,
+                "CenterY": 21,
+                "Time": 6
+            },
+            {
+                "X": 59,
+                "Y": 151,
+                "Width": 19,
+                "Height": 20,
+                "CenterX": 10,
+                "CenterY": 19,
+                "Time": 3
+            }
+        ]
+    },
+    "kirby_normal_inhaling_right": {
+        "Source texture": "kirby_normal",
+        "Loop point": 3,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 5,
+                "Y": 526,
+                "Width": 23,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 4
+            },
+            {
+                "X": 31,
+                "Y": 526,
+                "Width": 23,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 2
+            },
+            {
+                "X": 58,
+                "Y": 526,
+                "Width": 23,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 2
+            },
+            {
+                "X": 85,
+                "Y": 526,
+                "Width": 23,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 3
+            },
+            {
+                "X": 113,
+                "Y": 526,
+                "Width": 23,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 3
+            }
+        ]
+    },
+    "kirby_normal_inhaling_left": {
+        "Source texture": "kirby_normal",
+        "Loop point": 3,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 5,
+                "Y": 526,
+                "Width": 23,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 4
+            },
+            {
+                "X": 31,
+                "Y": 526,
+                "Width": 23,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 2
+            },
+            {
+                "X": 58,
+                "Y": 526,
+                "Width": 23,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 2
+            },
+            {
+                "X": 85,
+                "Y": 526,
+                "Width": 23,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 3
+            },
+            {
+                "X": 113,
+                "Y": 526,
+                "Width": 23,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 3
+            }
+        ]
+    },
+    "kirby_normal_inhalingend_right": {
+        "Source texture": "kirby_normal",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 5,
+                "Y": 526,
+                "Width": 23,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 3
+            }
+        ]
+    },
+    "kirby_normal_inhalingend_left": {
+        "Source texture": "kirby_normal",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 5,
+                "Y": 526,
+                "Width": 23,
+                "Height": 19,
+                "CenterX": 11,
+                "CenterY": 18,
+                "Time": 3
+            }
+        ]
+    },
+    "kirby_normal_attacking_right": {
+        "Source texture": "kirby_normal",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 3,
+                "Y": 574,
+                "Width": 26,
+                "Height": 22,
+                "CenterX": 16,
+                "CenterY": 21,
+                "Time": 1
+            },
+            {
+                "X": 34,
+                "Y": 574,
+                "Width": 24,
+                "Height": 22,
+                "CenterX": 16,
+                "CenterY": 21,
+                "Time": 1
+            },
+            {
+                "X": 63,
+                "Y": 575,
+                "Width": 21,
+                "Height": 21,
+                "CenterX": 7,
+                "CenterY": 20,
+                "Time": 2
+            },
+            {
+                "X": 63,
+                "Y": 575,
+                "Width": 21,
+                "Height": 21,
+                "CenterX": 15,
+                "CenterY": 20,
+                "Time": 1
+            },
+            {
+                "X": 63,
+                "Y": 575,
+                "Width": 21,
+                "Height": 21,
+                "CenterX": 11,
+                "CenterY": 20,
+                "Time": 8
+            },
+            {
+                "X": 89,
+                "Y": 576,
+                "Width": 22,
+                "Height": 20,
+                "CenterX": 12,
+                "CenterY": 19,
+                "Time": 1
+            },
+            {
+                "X": 116,
+                "Y": 577,
+                "Width": 21,
+                "Height": 19,
+                "CenterX": 12,
+                "CenterY": 18,
+                "Time": 1
+            }
+        ]
+    },
+    "kirby_normal_attacking_left": {
+        "Source texture": "kirby_normal",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 3,
+                "Y": 574,
+                "Width": 26,
+                "Height": 22,
+                "CenterX": 16,
+                "CenterY": 21,
+                "Time": 1
+            },
+            {
+                "X": 34,
+                "Y": 574,
+                "Width": 24,
+                "Height": 22,
+                "CenterX": 16,
+                "CenterY": 21,
+                "Time": 1
+            },
+            {
+                "X": 63,
+                "Y": 575,
+                "Width": 21,
+                "Height": 21,
+                "CenterX": 7,
+                "CenterY": 20,
+                "Time": 2
+            },
+            {
+                "X": 63,
+                "Y": 575,
+                "Width": 21,
+                "Height": 21,
+                "CenterX": 15,
+                "CenterY": 20,
+                "Time": 1
+            },
+            {
+                "X": 63,
+                "Y": 575,
+                "Width": 21,
+                "Height": 21,
+                "CenterX": 11,
+                "CenterY": 20,
+                "Time": 8
+            },
+            {
+                "X": 89,
+                "Y": 576,
+                "Width": 22,
+                "Height": 20,
+                "CenterX": 12,
+                "CenterY": 19,
+                "Time": 1
+            },
+            {
+                "X": 116,
+                "Y": 577,
+                "Width": 21,
+                "Height": 19,
+                "CenterX": 12,
+                "CenterY": 18,
+                "Time": 1
             }
         ]
     },
@@ -2405,6 +3391,92 @@
                 "CenterX": 12,
                 "CenterY": 12,
                 "Time": 3
+            }
+        ]
+    },
+    "projectile_kirby_airpuff_right": {
+        "Source texture": "projectiles",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 114,
+                "Y": 204,
+                "Width": 19,
+                "Height": 19,
+                "CenterX": 9,
+                "CenterY": 9,
+                "Time": 2
+            },
+            {
+                "X": 135,
+                "Y": 204,
+                "Width": 19,
+                "Height": 19,
+                "CenterX": 9,
+                "CenterY": 9,
+                "Time": 1
+            },
+            {
+                "X": 114,
+                "Y": 204,
+                "Width": 19,
+                "Height": 19,
+                "CenterX": 9,
+                "CenterY": 9,
+                "Time": 2
+            },
+            {
+                "X": 156,
+                "Y": 204,
+                "Width": 19,
+                "Height": 19,
+                "CenterX": 9,
+                "CenterY": 9,
+                "Time": 2
+            }
+        ]
+    },
+    "projectile_kirby_airpuff_left": {
+        "Source texture": "projectiles",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 114,
+                "Y": 204,
+                "Width": 19,
+                "Height": 19,
+                "CenterX": 9,
+                "CenterY": 9,
+                "Time": 2
+            },
+            {
+                "X": 135,
+                "Y": 204,
+                "Width": 19,
+                "Height": 19,
+                "CenterX": 9,
+                "CenterY": 9,
+                "Time": 1
+            },
+            {
+                "X": 114,
+                "Y": 204,
+                "Width": 19,
+                "Height": 19,
+                "CenterX": 9,
+                "CenterY": 9,
+                "Time": 2
+            },
+            {
+                "X": 156,
+                "Y": 204,
+                "Width": 19,
+                "Height": 19,
+                "CenterX": 9,
+                "CenterY": 9,
+                "Time": 2
             }
         ]
     },
