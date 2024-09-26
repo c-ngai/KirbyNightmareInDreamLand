@@ -10,7 +10,7 @@
 
         public void Execute()
         {
-            // kirby.ChangeToFire();
+            kirby.ChangeToFire();
         }
 
         public void Undo()

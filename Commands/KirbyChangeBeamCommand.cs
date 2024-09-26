@@ -10,7 +10,7 @@
 
         public void Execute()
         {
-            // kirby.ChangeToBeam();
+            kirby.ChangeToBeam();
         }
 
         public void Undo()
