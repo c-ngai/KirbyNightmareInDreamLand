@@ -47,9 +47,14 @@ public class EnemyBeam
         frameCounter++;
 
         // Update all existing beam segments
-        for (int i = 0; i < beamSegments.Count; i++)
+        for (int i = beamSegments.Count - 1; i >= 0; i--) // Loop backwards to avoid index issues
         {
             beamSegments[i].Update();
+            // Remove the segment if it's no longer active
+            if (!beamSegments[i].IsActive)
+            {
+                beamSegments.RemoveAt(i);
+            }
         }
     }
 
