@@ -17,6 +17,10 @@ namespace MasterGame
         void StopMoving();
         void SetDirectionLeft();
         void SetDirectionRight();
+        void ChangeToNormal();
+        void ChangeToBeam();
+        void ChangeToFire();
+        void ChangeToSpark();
         void UpdateTexture();
     }
 }

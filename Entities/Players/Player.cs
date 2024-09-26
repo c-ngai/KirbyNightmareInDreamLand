@@ -89,6 +89,24 @@ namespace MasterGame
             }
         }
 
+        #region Power-Up
+        public void ChangeToNormal()
+        {
+            state.ChangeType(KirbyType.Normal);
+        }
+        public void ChangeToBeam()
+        {
+            state.ChangeType(KirbyType.Beam);
+        }
+        public void ChangeToFire()
+        {
+            state.ChangeType(KirbyType.Fire);
+        }
+        public void ChangeToSpark()
+        {
+            state.ChangeType(KirbyType.Spark);
+        }
+        #endregion
         #region direction
         public void SetDirectionLeft()
         {
