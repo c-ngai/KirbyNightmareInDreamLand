@@ -74,8 +74,21 @@ namespace MasterGame
             Vector2 frameCenter = _spriteAnimation.frameCenters[currentFrame];
             Rectangle sourceRectangle = _spriteAnimation.frameSourceRectangles[currentFrame];
 
+            if (_spriteAnimation.spriteEffects.Equals(SpriteEffects.FlipHorizontally))
+            {
+                frameCenter.X = sourceRectangle.Width - frameCenter.X;
+            }
+
             // Draw the sprite to the spriteBatch.
             spriteBatch.Draw(_spriteAnimation.texture, position, sourceRectangle, color, 0, frameCenter, scale, _spriteAnimation.spriteEffects, 0);
+
+
+            // DEBUG VISUALS, TIDY UP LATER
+            if (Constants.Graphics.DEBUG_SPRITE_MODE == true)
+            {
+                SpriteDebug.Instance.Draw(spriteBatch, position, frameCenter, sourceRectangle, scale);
+            }
+            
         }
 
         // Draws the sprite to the spriteBatch. With unspecified color, uses white.

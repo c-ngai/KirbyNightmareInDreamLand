@@ -1,48 +1,63 @@
-﻿/*
+﻿using MasterGame;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using System;
 
-namespace MasterGame
+public class EnemyBeam
 {
-    public class EnemyBeam : IProjectile
+    private int totalSegments = 16;
+    private int segmentsFired = 0;
+    private int frameCounter = 0;
+    private List<EnemyBeamSegment> beamSegments;
+    private Vector2 startPosition;
+    private float initialRotation = -MathHelper.PiOver2; // -90 degrees to fire straight up
+    private float rotationStep = MathHelper.PiOver4 / 2; // 22.5 degrees in radians
+
+    public EnemyBeam(Vector2 startPosition)
     {
-        private Vector2 position;
-        private Vector2 velocity;
-        private Sprite projectileSprite; // TODO: change to projectileSprite
+        this.startPosition = startPosition;
+        beamSegments = new List<EnemyBeamSegment>();
+    }
 
-        public EnemyBeam(Vector2 startPosition, Vector2 direction)
+    public void Update()
+    {
+        // Fire a new segment every 2 frames, up to 16 segments
+        if (segmentsFired < totalSegments && frameCounter % 2 == 0)
         {
-            position = startPosition;
-            velocity = direction;
-            projectileSprite = SpriteFactory.Instance.createSprite("waddledee_walking_right"); // TODO: delete and use line below instead
-            // fireballSprite = SpriteFactory.Instance.createSprite("enemy_fireball");
+            float rotation;
+
+            if (segmentsFired == 0)
+            {
+                // Fire the first segment straight up
+                rotation = initialRotation;
+            }
+            else
+            {
+                // After the first, rotate every other segment
+                rotation = initialRotation + (segmentsFired / 2) * rotationStep;
+            }
+
+            Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation)) * 8; // Move 8 units per frame
+
+            beamSegments.Add(new EnemyBeamSegment(startPosition, velocity));
+            segmentsFired++;
         }
 
-        public Vector2 Position
+        frameCounter++;
+
+        // Update all existing beam segments
+        for (int i = 0; i < beamSegments.Count; i++)
         {
-            get { return position; }
-            set { position = value; }
+            beamSegments[i].Update();
         }
-        public Vector2 Velocity
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        foreach (var segment in beamSegments)
         {
-            get { return velocity; }
-            set { velocity = value; }
+            segment.Draw(spriteBatch);
         }
-
-        public void Update()
-        {
-            // Move the fireball based on its velocity
-            position += velocity;
-
-            // Update the fireball sprite animation
-            enemySprite.Update(); // TODO: change to sprite for fireball
-
-        }
-
-        public void Draw()
-        {
-            enemySprite.Draw(position); // TODO: change to sprite for fireball
-        }
-
     }
 }
-*/

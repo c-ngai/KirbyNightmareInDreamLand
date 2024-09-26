@@ -42,6 +42,9 @@ namespace MasterGame
         // Flamethrower instance
         private KirbyFlamethrower flamethrower;
 
+        private EnemyBeam enemyBeam; // Add this line to manage the WaddleDoo beam
+
+
         //why is game time public?? take out set in the game time make anybody that is not that commmand not be anle to set it
         //
         public Game1()
@@ -150,6 +153,10 @@ namespace MasterGame
             flamethrower = new KirbyFlamethrower(); // TODO: delete when synched with entity
             projectiles = new List<IProjectile>(); // Initialize the projectiles list
 
+            // Initialize the WaddleDoo beam
+            Vector2 beamStartPosition = new Vector2(100, 100); // Example position (would really be WaddleDoo's eye)
+            enemyBeam = new EnemyBeam(beamStartPosition); // Initialize the beam
+
             // Remapping keyboard to new Kirby 
             keyboard = new KeyboardController();
             SetKeyboardControls(keyboard);
@@ -166,6 +173,7 @@ namespace MasterGame
             // Load all sprite factory textures and sprites.
             SpriteFactory.Instance.LoadAllTextures(Content);
             SpriteFactory.Instance.LoadAllSpriteAnimations();
+            SpriteDebug.Instance.Load(GraphicsDevice);
 
             // Load all objects 
             LoadObjects();
@@ -190,8 +198,11 @@ namespace MasterGame
                 projectile.Update();
             }
 
+            // Update the WaddleDoo beam
+            enemyBeam.Update();
+
             // TODO: delete after synching with entities
-            flamethrower.Update(gameTime, new Vector2 (60, Constants.Graphics.FLOOR - 10), new Vector2 (1, 0)); 
+            //flamethrower.Update(gameTime, new Vector2 (60, Constants.Graphics.FLOOR - 10), new Vector2 (1, 0)); 
 
             // TODO: delete when synched with entity
             // Spawn a new projectile every few frames (for demonstration)
@@ -252,6 +263,9 @@ namespace MasterGame
             kirby.Draw(spriteBatch);
 
             BlockList.Instance.Draw(new Vector2(100, 150), spriteBatch);
+
+            // Draw the WaddleDoo beam
+            enemyBeam.Draw(spriteBatch); // Draw the beam projectile
 
             // Draw the flamethrower segments
             flamethrower.Draw(spriteBatch); // TODO: delete when synched with enemy.
