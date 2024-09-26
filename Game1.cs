@@ -45,6 +45,7 @@ namespace MasterGame
         private KirbyFlamethrower flamethrower;
 
         private EnemyBeam enemyBeam; // Add this line to manage the WaddleDoo beam
+        private KirbyBeam kirbyBeam; // KIRBYBEAM TEST
 
 
         //why is game time public?? take out set in the game time make anybody that is not that commmand not be anle to set it
@@ -167,6 +168,9 @@ namespace MasterGame
             // Initialize the WaddleDoo beam    
             Vector2 beamStartPosition = new Vector2(100, 100); // Example position (would really be WaddleDoo's eye)
             enemyBeam = new EnemyBeam(beamStartPosition); // Initialize the beam
+            
+            Vector2 beamPivotPosition = new Vector2(100, 90);  // Example pivot position (would really be WaddleDoo's eye)
+            kirbyBeam = new KirbyBeam(beamStartPosition, true); // Initialize the beam
 
             // Remapping keyboard to new Kirby 
             keyboard = new KeyboardController();
@@ -211,6 +215,8 @@ namespace MasterGame
 
             // Update the WaddleDoo beam
             enemyBeam.Update();
+            kirbyBeam.Update();
+
 
             // TODO: delete after synching with entities
             //flamethrower.Update(gameTime, new Vector2 (60, Constants.Graphics.FLOOR - 10), new Vector2 (1, 0)); 
@@ -276,10 +282,11 @@ namespace MasterGame
             BlockList.Instance.Draw(new Vector2(100, 150), spriteBatch);
 
             // Draw the WaddleDoo beam
-            enemyBeam.Draw(spriteBatch); // Draw the beam projectile
+            //enemyBeam.Draw(spriteBatch); // Draw the beam projectile
+            kirbyBeam.Draw(spriteBatch); // Draw the beam projectile
 
             // Draw the flamethrower segments
-            flamethrower.Draw(spriteBatch); // TODO: delete when synched with enemy.
+            //flamethrower.Draw(spriteBatch); // TODO: delete when synched with enemy.
 
             if (item != null)
             {
