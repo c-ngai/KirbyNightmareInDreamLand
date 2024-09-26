@@ -1,8 +1,9 @@
+using Microsoft.Xna.Framework;
 namespace MasterGame
 {
     public class CrouchingMovement : PlayerMovement
     {
-        public CrouchingMovement()
+        public CrouchingMovement(Vector2 pos) : base(pos)
         {
             crouching = true;
         }

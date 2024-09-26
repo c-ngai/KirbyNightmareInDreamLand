@@ -4,7 +4,8 @@ namespace MasterGame
     public class JumpMovement : PlayerMovement
     {
         public const float jumpCeiling = (float)Constants.Graphics.FLOOR * 1.5f/5f;
-        public JumpMovement() 
+        public float yVel = -2f;
+        public JumpMovement(Vector2 pos) : base(pos) 
         {
             jumping = true;
         }
@@ -38,13 +39,12 @@ namespace MasterGame
                 kirby.ChangePose(KirbyPose.JumpFalling);
             }
         }
-        public override void Jump()
+        public override void Jump(bool isLeft)
         {
-            yVel = jumpVel;
+            
         }
         public void JumpXY(bool isLeft)
         {
-            Jump();
             if(isLeft){
                 xVel = jumpVelX * -1;
             } else {
@@ -55,10 +55,10 @@ namespace MasterGame
 
         #region Move Sprite
         //update kirby position in UI
-        public override void UpdatePosition(Player kirby, GameTime gameTime)
+        public override void UpdatePosition(GameTime gameTime)
         {
-            kirby.PositionX += xVel;
-            kirby.PositionY += yVel;
+            position.X += xVel;
+            position.Y += yVel;
             yVel += gravity *  (float)gameTime.ElapsedGameTime.TotalSeconds;
             
         }
@@ -67,19 +67,18 @@ namespace MasterGame
         public override void AdjustY(Player kirby)
         {
             //dont go through the floor
-            if(kirby.PositionY > Constants.Graphics.FLOOR)
+            if(position.Y > Constants.Graphics.FLOOR)
             {
                 yVel = 0;
-                kirby.PositionY = (float) Constants.Graphics.FLOOR;
+                position.Y = (float) Constants.Graphics.FLOOR;
                 FinishJump(kirby);
             }
-
             //dont go through the ceiling
             //check if left and right are overriding the state change
-            if(kirby.PositionY < jumpCeiling)
+            if(position.Y < jumpCeiling)
             {
                 yVel = 0;
-                kirby.PositionY = jumpCeiling;
+                position.Y = jumpCeiling;
             }
             if(!jumping){
                 yVel = 0;
@@ -96,7 +95,7 @@ namespace MasterGame
         //updates position and adjusts frame. 
         public override void MovePlayer(Player kirby, GameTime gameTime)
         {
-            UpdatePosition(kirby, gameTime);
+            UpdatePosition(gameTime);
             Adjust(kirby);
         }
         #endregion
