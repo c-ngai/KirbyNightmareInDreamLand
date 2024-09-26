@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace MasterGame
 {
-    public class KirbyCrouchCommand : ICommand
+    public class KirbyMoveCrouchedCommand : ICommand
     {
         private Game1 game;
         private IPlayer kirby;
@@ -15,7 +15,7 @@ namespace MasterGame
         private ITimeCalculator timer;
         private double startingTime;
 
-        public KirbyCrouchCommand(IPlayer player, Keys keyMapped, KeyboardController currentKeyboard, Game1 currentGame)
+        public KirbyMoveCrouchedCommand(IPlayer player, Keys keyMapped, KeyboardController currentKeyboard, Game1 currentGame)
         {
             kirby = player;
             attackKey = keyMapped;

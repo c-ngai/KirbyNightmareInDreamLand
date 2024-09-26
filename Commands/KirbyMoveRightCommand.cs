@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using System.Linq;
+﻿using Microsoft.Xna.Framework.Input;
 namespace MasterGame
 {
     public class KirbyMoveRightCommand : ICommand

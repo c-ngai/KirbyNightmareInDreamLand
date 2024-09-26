@@ -75,13 +75,13 @@ namespace MasterGame
         {
             return state.GetPose().ToString();
         }
-        public string GetType()
+        public string GetKirbyType()
         {
             return state.GetType().ToString();
         }
         public void ChangeMovement()
         {
-            if(this.GetType().Equals("Normal"))
+            if(this.GetKirbyType().Equals("Normal"))
             {
                 movement = new NormalPlayerMovement();
             } else {
