@@ -173,6 +173,7 @@ namespace MasterGame
             // Load all sprite factory textures and sprites.
             SpriteFactory.Instance.LoadAllTextures(Content);
             SpriteFactory.Instance.LoadAllSpriteAnimations();
+            SpriteDebug.Instance.Load(GraphicsDevice);
 
             // Load all objects 
             LoadObjects();
