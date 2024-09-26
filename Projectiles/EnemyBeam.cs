@@ -50,11 +50,6 @@ public class EnemyBeam
         for (int i = beamSegments.Count - 1; i >= 0; i--) // Loop backwards to avoid index issues
         {
             beamSegments[i].Update();
-            // Remove the segment if it's no longer active
-            if (!beamSegments[i].IsActive)
-            {
-                beamSegments.RemoveAt(i);
-            }
         }
     }
 
