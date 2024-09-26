@@ -7,7 +7,6 @@ namespace MasterGame
     {
         private Vector2 position;
         private Vector2 velocity;
-        private Vector2 pivotPosition; // Beam's origin point
         private int frameCount = 0;
         private int maxFrames = 6; // Segment disappears after 6 frames
         private ISprite sprite;
