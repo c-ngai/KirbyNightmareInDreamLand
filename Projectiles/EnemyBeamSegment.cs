@@ -5,12 +5,12 @@ namespace MasterGame
 {
     public class EnemyBeamSegment : IProjectile
     {
-        private Vector2 position;
+        private Vector2 position; // acts as pivot point
         private Vector2 velocity;
-        private Vector2 pivotPosition; // Beam's origin point
         private int frameCount = 0;
         private int maxFrames = 6; // Segment disappears after 6 frames
-        private ISprite sprite;
+        private Sprite projectileSprite;
+        public bool IsActive = true; // Track whether the segment is active or not
 
         public Vector2 Position
         {
@@ -24,33 +24,38 @@ namespace MasterGame
             set => velocity = value;
         }
 
-        public EnemyBeamSegment(Vector2 startPosition, Vector2 beamVelocity, Vector2 pivotPosition)
+        public EnemyBeamSegment(Vector2 startPosition, Vector2 beamVelocity)
         {
             Position = startPosition;
             Velocity = beamVelocity;
-            this.pivotPosition = pivotPosition;
-            this.sprite = SpriteFactory.Instance.createSprite("projectile_waddledoo_beam");
+            projectileSprite = SpriteFactory.Instance.createSprite("projectile_waddledoo_beam");
         }
 
         public void Update()
         {
-            // Update position based on velocity
-            Position += Velocity;
-
-            // Update animation (handled internally by sprite)
-            sprite.Update();
-
-            // Increment frame count and check if the segment should disappear
-            frameCount++;
-            if (frameCount > maxFrames)
+            if (IsActive)
             {
-                // Mark the segment as inactive or remove it from the list in EnemyBeam
+                // Update position based on velocity
+                Position += Velocity;
+
+                // Update animation
+                projectileSprite.Update();
+
+                // Increment frame count and check if the segment should disappear
+                frameCount++;
+                if (frameCount >= maxFrames)
+                {
+                    IsActive = false; // Mark the segment as inactive
+                }
             }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            sprite.Draw(Position, spriteBatch);
+            if (IsActive)
+            {
+                projectileSprite.Draw(Position, spriteBatch);
+            }
         }
     }
 }

@@ -155,6 +155,9 @@ namespace MasterGame
             projectiles = new List<IProjectile>(); // Initialize the projectiles list
 
             // Initialize the WaddleDoo beam
+            Vector2 beamStartPosition = new Vector2(100, 100); // Example position (would really be WaddleDoo's eye)
+            enemyBeam = new EnemyBeam(beamStartPosition); // Initialize the beam
+            
             Vector2 beamStartPosition = new Vector2(100, 100); // Example position near WaddleDoo
             Vector2 beamPivotPosition = new Vector2(100, 90);  // Example pivot position (would really be WaddleDoo's eye)
             enemyBeam = new EnemyBeam(beamStartPosition, beamPivotPosition); // Initialize the beam
@@ -176,6 +179,7 @@ namespace MasterGame
             // Load all sprite factory textures and sprites.
             SpriteFactory.Instance.LoadAllTextures(Content);
             SpriteFactory.Instance.LoadAllSpriteAnimations();
+            SpriteDebug.Instance.Load(GraphicsDevice);
 
             // Load all objects 
             LoadObjects();
@@ -206,7 +210,7 @@ namespace MasterGame
 
 
             // TODO: delete after synching with entities
-            flamethrower.Update(gameTime, new Vector2 (60, Constants.Graphics.FLOOR - 10), new Vector2 (1, 0)); 
+            //flamethrower.Update(gameTime, new Vector2 (60, Constants.Graphics.FLOOR - 10), new Vector2 (1, 0)); 
 
             // TODO: delete when synched with entity
             // Spawn a new projectile every few frames (for demonstration)
