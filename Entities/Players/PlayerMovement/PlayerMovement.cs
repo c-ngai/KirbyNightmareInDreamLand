@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace MasterGame
 {
@@ -77,9 +78,6 @@ namespace MasterGame
         {
             kirby.ChangePose(KirbyPose.Attacking);
         }
-        #endregion
-
-        #region Attacked
         public void ReceiveDamage(bool isLeft)
         {
             if(isLeft){
@@ -97,18 +95,33 @@ namespace MasterGame
         #endregion
 
         #region slide
-        public void Slide(Player kirby, bool isLeft)
+        public void Slide(bool isLeft)
         {
             //slideStarting = kirby.PositionX;
             if(isLeft){
-                xVel = runningVel;
+                xVel = runningVel *-1;
             } else {
-                xVel = runningVel * -1;
+                xVel = runningVel;
             }
         }
        
         #endregion
 
+        #region Floating
+        public async void StartFloating(Player kirby)
+        {
+            kirby.ChangePose(KirbyPose.FloatingStart);
+        }
+        public virtual void EndFloat()
+        {
+
+        }
+        #endregion
+
+        public virtual void EndJump()
+        {
+
+        }
         public virtual void Jump(bool isLeft)
         {
             //does nothing

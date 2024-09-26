@@ -41,7 +41,9 @@ namespace MasterGame
         }
         public override void Jump(bool isLeft)
         {
-            
+            if(position.Y > 80 && yVel <0){
+                yVel = jumpVel;
+            }
         }
         public void JumpXY(bool isLeft)
         {

@@ -12,11 +12,12 @@ namespace MasterGame
    
         public override void Attack(Player kirby)
         {
-            if(kirby.GetKirbyType().Equals("Normal") && kirby.GetPose().Equals("WithEnemy"))
+            if(kirby.GetKirbyType().Equals("Normal"))// && !kirby.GetPose().Equals("WithEnemy"))
             {
-                kirby.ChangePose(KirbyPose.ThrowEnemy);
+                kirby.ChangePose(KirbyPose.Inhaling);
             } else {
                 kirby.ChangePose(KirbyPose.Attacking);
+                
             }
         }
 

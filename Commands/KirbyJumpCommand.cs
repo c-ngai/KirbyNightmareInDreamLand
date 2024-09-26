@@ -12,7 +12,7 @@ namespace MasterGame
 
         public void Execute()
         {
-            kirby.JumpY();
+            kirby.Jump();
         }
         public void Undo()
         {

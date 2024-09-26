@@ -18,6 +18,17 @@ namespace MasterGame
             //does nothing
         }
 
-        
+        public override void Attack(Player kirby)
+        {
+            Slide(kirby.IsLeft());
+        }
+
+        public override void Jump(bool isLeft)
+        {
+            Slide(isLeft);
+        }
+
+
+
     }
 }
