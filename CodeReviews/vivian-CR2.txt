@@ -1,0 +1,63 @@
+﻿Sprint 2 Quality Code Review 
+
+Author of Code Review: Vivian Ferrigni, 9/26/24
+Name of .cs file being reviewed: KeyBoardController.cs
+Author of .cs file being reivewed: Carman Ngai
+
+Time taken to complete review: start time = 55 minutes
+
+################################################################################
+
+10 Code Smells:
+
+1. God class
+2. Duplicated code
+3. TooManyParameters
+4. WhileTrueLoop
+5. LongMethodSmell ***
+6. ParallelInheritanceHierarchies
+7. SameNameDifferentMeaning
+8. SwitchCaseSmell
+9. VariableNameSameAsType
+10.DataClumps
+
+################################################################################
+
+Comments:
+
+    I learned a lot by reading this code! I like the use of the dictionary
+enumerator to traverse the dictionary, it makes the logic of the while loop very
+readable. I also previously did not understand the application of enums and this
+code uses them very effectively. 
+    
+
+Readability-
+
+    I would suggest focusing on adding comments where the code may not be self-
+explanatory (I don't totally understand the purpose of the TempDict). Having a
+summary of what the method does above the function and before logic statements
+would be super helpful.
+
+
+Potential Improvments-
+
+    It could be a good idea to add error handling into the register command
+function, that way duplicate keys or keys we don't use don't get added accidentally
+into the map. I would also consider replacing the oldKeyStates dictionary with a
+hash set, I think this could make the code simpler in that the presence of a key
+in the set indicates it has been presses and searching through hash sets is
+generally very fast.
+    Using a hash set and adding error checking would eliminate a lot of the extra
+checks in the Update method, making it cleaner and shorter, getting rid of the
+LongMethodSmell.Overall, I think this code has very solid logic and works well,
+the mentioned critques could just help make it more concise.
+
+
+A Hypothetical Game Change-
+
+    If we were to hypothetically add multiplayer to our game, I think that this
+file could pretty easily support that change. Especially given that all of the
+command registering/mapping happens outside of this file. Next sprint that content
+loading will be even more centralized but currently this file can execute keyboard
+commands without caring what commands or what keys are being pressed/executed.
+In that way this code is cohesive and decoupled! Good job!
