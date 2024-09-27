@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using MasterGame.Entities.Enemies.EnemyState;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MasterGame
