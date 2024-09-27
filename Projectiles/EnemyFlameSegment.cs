@@ -90,5 +90,6 @@ namespace MasterGame
                 projectileSprite.Draw(Position, spriteBatch);
             }
         }
+
     }
 }

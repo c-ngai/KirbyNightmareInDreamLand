@@ -4,17 +4,8 @@ using System;
 
 namespace MasterGame
 {
-    public class Sparky : IEnemy
+    public class Sparky : Enemy
     {
-        private Vector2 position;
-        private int health;
-        private bool isDead;
-        private Sprite enemySprite;
-        private EnemyStateMachine stateMachine;
-        private Vector2 leftBoundary = new Vector2(100, 100);
-        private Vector2 rightBoundary = new Vector2(230, 100);
-        private string oldState;
-
         private int hopCounter = 0;
         private int hopFrequency = 60; // frames between hops
         private float shortHopHeight = 1f;
@@ -22,64 +13,20 @@ namespace MasterGame
         private float hopSpeed = 0.4f; // speed
 
         private int stateCounter = 0;
-        private string currentState = "HoppingForward"; //state name
+        private string currentState = "HoppingForward"; // state name
 
-        public Sparky(Vector2 startPosition)
+        public Sparky(Vector2 startPosition) : base(startPosition, EnemyType.Sparky)
         {
-            position = startPosition;
-            health = 100;
-            isDead = false;
-            //stateMachine = new EnemyStateMachine(EnemyType.Sparky);
-            stateMachine = new EnemyStateMachine(EnemyType.WaddleDee);
             stateMachine.ChangePose(EnemyPose.Walking);
         }
 
-        public Vector2 Position
-        {
-            get { return position; }
-            set { position = value; }
-        }
-
-        public Sprite EnemySprite
-        {
-            set { enemySprite = value; }
-        }
-
-        public void TakeDamage()
-        {
-            stateMachine.ChangePose(EnemyPose.Hurt);
-            health -= 10;
-            if (health <= 0)
-            {
-                health = 0;
-                Die();
-            }
-        }
-
-        private void Die()
-        {
-            isDead = true;
-
-            //eventual death pose/animation
-            stateMachine.ChangePose(EnemyPose.Hurt);
-            UpdateTexture();
-        }
-
-        public void Attack()
+        public override void Attack()
         {
             stateMachine.ChangePose(EnemyPose.Attacking);
             UpdateTexture();
         }
 
-        public void UpdateTexture()
-        {
-             if(!stateMachine.GetStateString().Equals(oldState)){
-                enemySprite = SpriteFactory.Instance.createSprite(stateMachine.GetSpriteParameters());
-                 oldState = stateMachine.GetStateString();
-             } 
-        }
-
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             if (!isDead)
             {
@@ -87,8 +34,11 @@ namespace MasterGame
 
                 switch (currentState)
                 {
+
+                    //TO-DO: Ask if State Machine should handle this
+                    //Depending on pose, will play specific number of frames and swap to other pose
                     case "HoppingForward":
-                        Hop(shortHopHeight);
+                        Move(); // Call Move without parameters for short hop
                         if (stateCounter >= hopFrequency) // short hop
                         {
                             stateCounter = 0;
@@ -105,7 +55,7 @@ namespace MasterGame
                         break;
 
                     case "HoppingTall":
-                        Hop(tallHopHeight);
+                        Move(); // Call Move without parameters for tall hop
                         if (stateCounter >= hopFrequency) // tall hop
                         {
                             stateCounter = 0;
@@ -127,7 +77,7 @@ namespace MasterGame
                         {
                             stateCounter = 0;
                             currentState = "HoppingForward"; // back to hop
-                            stateMachine.ChangePose(EnemyPose.Walking); 
+                            stateMachine.ChangePose(EnemyPose.Walking);
                         }
                         break;
                 }
@@ -137,58 +87,48 @@ namespace MasterGame
                 enemySprite.Update();
             }
         }
-
-        private void Hop(float height)
+        protected override void Move()
         {
             hopCounter++;
-            float t = (float) hopCounter / hopFrequency;
+            float height = (currentState == "HoppingForward") ? shortHopHeight : tallHopHeight; // Choose height based on state
+            float t = (float)hopCounter / hopFrequency;
 
-            //smooth hops
-            position.Y = position.Y - (float)(Math.Sin(t * Math.PI * 2) * height / 2); // Adjust hop height
+            // Smooth hops
+            position.Y = position.Y - (float)(Math.Sin(t * Math.PI * 2) * height / 2);
 
             bool isMovingRight = !stateMachine.IsLeft();
 
-            //check boundaries
+            // Check direction for boundaries 
             if (isMovingRight)
             {
-                //move right. if passed right boundary, switch direction
-                position.X += hopSpeed; 
-                if (position.X >= rightBoundary.X) 
+                position.X += hopSpeed;
+                if (position.X >= rightBoundary.X)
                 {
-                    stateMachine.ChangeDirection();
-                    UpdateTexture();
+                    ChangeDirection();
                 }
             }
             else
             {
-                //move left. if passed left boundary, switch direction
-                position.X -= hopSpeed; 
-                if (position.X <= leftBoundary.X) 
+                position.X -= hopSpeed;
+                if (position.X <= leftBoundary.X)
                 {
-                    stateMachine.ChangeDirection();
-                    UpdateTexture();
+                    ChangeDirection();
                 }
             }
 
-            // reset and repeat
+            // Reset and repeat hops
             if (hopCounter >= hopFrequency)
             {
-                hopCounter = 0; 
+                hopCounter = 0;
             }
         }
 
-
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             if (!isDead)
             {
                 enemySprite.Draw(position, spriteBatch);
             }
-        }
-
-        public void ChangeDirection()
-        {
-            stateMachine.ChangeDirection();
         }
     }
 }

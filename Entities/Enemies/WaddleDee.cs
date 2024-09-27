@@ -3,118 +3,64 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MasterGame
 {
-    public class WaddleDee : IEnemy
+    public class WaddleDee : Enemy
     {
-        private Vector2 position;
-        private int health;
-        private bool isDead;
-        private Sprite enemySprite;
-        private EnemyStateMachine stateMachine;
-        private Vector2 leftBoundary = new Vector2(100, 100);
-        private Vector2 rightBoundary = new Vector2(230, 100);
-        private string oldState;
+        private const float MoveSpeed = 0.5f;
 
-        public WaddleDee(Vector2 startPosition)
+        public WaddleDee(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDee)
         {
-            position = startPosition;
-            health = 100;
-            isDead = false;
-            stateMachine = new EnemyStateMachine(EnemyType.WaddleDee);
-            stateMachine.ChangePose(EnemyPose.Walking);
+            stateMachine.ChangePose(EnemyPose.Walking); // Set initial pose
+            UpdateTexture(); // Update the sprite based on the initial state
         }
 
-        public Vector2 Position
-        {
-            get { return position; }
-            set { position = value; }
-        }
-
-        public Sprite EnemySprite
-        {
-            set { enemySprite = value; }
-        }
-
-        public void TakeDamage()
-        {
-            stateMachine.ChangePose(EnemyPose.Hurt);
-            health -= 10;
-            if (health <= 0)
-            {
-                health = 0;
-                Die();
-            }
-        }
-
-        private void Die()
-        {
-            isDead = true;
-            stateMachine.ChangePose(EnemyPose.Hurt);
-            UpdateTexture();
-        }
-
-        public void Attack()
-        {
-            stateMachine.ChangePose(EnemyPose.Attacking);
-            UpdateTexture();
-        }
-
-        public void UpdateTexture()
-        {
-             if(!stateMachine.GetStateString().Equals(oldState)){
-                enemySprite = SpriteFactory.Instance.createSprite(stateMachine.GetSpriteParameters());
-                oldState = stateMachine.GetStateString();
-             } 
-        }
-
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             if (!isDead)
             {
                 if (stateMachine.GetPose() == EnemyPose.Walking)
                 {
-                    Move();
+                    Move(); // Call the move logic
                 }
 
-                //updates using state
+                // Update sprite based on state
                 UpdateTexture();
                 enemySprite.Update();
             }
         }
 
-        private void Move()
+        protected override void Move()
         {
-            //walking back and forth
+            // Implementing the movement logic
             if (stateMachine.IsLeft())
             {
-                position.X -= 0.5f;
+                position.X -= MoveSpeed;
                 if (position.X <= leftBoundary.X)
                 {
-                    stateMachine.ChangeDirection();
-                    UpdateTexture();
+                    ChangeDirection(); // Change direction if hitting left boundary
                 }
             }
             else
             {
-                position.X += 0.5f;
+                position.X += MoveSpeed;
                 if (position.X >= rightBoundary.X)
                 {
-                    stateMachine.ChangeDirection();
-                    UpdateTexture();
+                    ChangeDirection(); // Change direction if hitting right boundary
                 }
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Attack()
+        {
+            stateMachine.ChangePose(EnemyPose.Attacking);
+            UpdateTexture();
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
         {
             if (!isDead)
             {
                 enemySprite.Draw(position, spriteBatch);
             }
-        }
-
-        public void ChangeDirection()
-        {
-            stateMachine.ChangeDirection();
         }
     }
 }

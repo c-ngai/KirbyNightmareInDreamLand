@@ -74,4 +74,10 @@ public class EnemyBeam
             segment.Draw(spriteBatch);
         }
     }
+
+    public bool IsBeamActive()
+    {
+        // Check if there are any active segments
+        return beamSegments.Count > 0; // Returns true if there are active segments
+    }
 }

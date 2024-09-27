@@ -1,92 +1,45 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace MasterGame
 {
-    public class WaddleDoo : IEnemy
+    public class WaddleDoo : Enemy
     {
-        private Vector2 position;
-        private int health;
-        private bool isDead;
-        private Sprite enemySprite;
-        private EnemyStateMachine stateMachine;
-        private Vector2 leftBoundary = new Vector2(100, 100);
-        private Vector2 rightBoundary = new Vector2(230, 100);
-        private string oldState;
+        private const float MoveSpeed = 0.5f;
+
+        // Walking and attacking frames
         private int frameCounter = 0;
-        private int walkFrames = 180;  //3 sec (if 60fps)
-        private int stopFrames = 60;  //2 sec
-        private int attackFrames = 100; //1 sec
+        private int walkFrames = 180;
+        private int stopFrames = 60;
+        private int attackFrames = 33;
 
-        public WaddleDoo(Vector2 startPosition)
+        // Beam
+        private EnemyBeam beam; // Change from List<EnemyBeam> to a single instance
+        private bool isBeamActive = false;
+
+        public WaddleDoo(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDoo)
         {
-            position = startPosition;
-            health = 100;
-            isDead = false;
-            stateMachine = new EnemyStateMachine(EnemyType.WaddleDoo);
             stateMachine.ChangePose(EnemyPose.Walking);
-           enemySprite = SpriteFactory.Instance.createSprite("waddledoo_walking_right");
+            enemySprite = SpriteFactory.Instance.createSprite("waddledoo_walking_right");
         }
 
-        public Vector2 Position
-        {
-            get { return position; }
-            set { position = value; }
-        }
-
-        public Sprite EnemySprite
-        {
-            set { enemySprite = value; }
-        }
-
-        public void TakeDamage()
-        {
-            stateMachine.ChangePose(EnemyPose.Hurt);
-            health -= 10;
-            if (health <= 0)
-            {
-                health = 0;
-                Die();
-            }
-        }
-
-        private void Die()
-        {
-            isDead = true;
-
-            //eventual death pose/animation
-            stateMachine.ChangePose(EnemyPose.Hurt);
-            UpdateTexture();
-        }
-
-        public void Attack()
-        {
-            stateMachine.ChangePose(EnemyPose.Attacking);
-            UpdateTexture();
-        }
-
-        public void UpdateTexture()
-        {
-             if(!stateMachine.GetStateString().Equals(oldState)){
-                enemySprite = SpriteFactory.Instance.createSprite(stateMachine.GetSpriteParameters());
-                 oldState = stateMachine.GetStateString();
-             } 
-        }
-
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             if (!isDead)
             {
                 frameCounter++;
 
+
+                //TO-DO: Should I use statemachine to avoid switch cases?
+                //Changes behavior depending on pose
                 switch (stateMachine.GetPose())
                 {
                     case EnemyPose.Walking:
                         Move();
                         if (frameCounter >= walkFrames)
                         {
-                            //stop after walking to load attack
-                            stateMachine.ChangePose(EnemyPose.Charging); 
+                            stateMachine.ChangePose(EnemyPose.Charging);
                             frameCounter = 0;
                             UpdateTexture();
                         }
@@ -95,65 +48,81 @@ namespace MasterGame
                     case EnemyPose.Charging:
                         if (frameCounter >= stopFrames)
                         {
-                            //attack after stopping
-                            stateMachine.ChangePose(EnemyPose.Attacking); 
+                            stateMachine.ChangePose(EnemyPose.Attacking);
                             frameCounter = 0;
                             UpdateTexture();
                         }
                         break;
 
                     case EnemyPose.Attacking:
+                        Attack();
                         if (frameCounter >= attackFrames)
                         {
-                            // wlk again after attacking
                             stateMachine.ChangePose(EnemyPose.Walking);
                             frameCounter = 0;
                             UpdateTexture();
                         }
                         break;
-                    default:
-                        break;
                 }
 
-                // update animation
                 enemySprite.Update();
+
+                // Update the beam if it's active
+                if (isBeamActive)
+                {
+                    beam.Update();
+
+                    // If the beam is no longer active, reset the state
+                    if (!beam.IsBeamActive())
+                    {
+                        isBeamActive = false;
+                    }
+                }
             }
         }
 
-        private void Move()
+        protected override void Move()
         {
-            //walking back and forth
             if (stateMachine.IsLeft())
             {
-                position.X -= 0.5f;
+                position.X -= MoveSpeed;
                 if (position.X <= leftBoundary.X)
                 {
-                    stateMachine.ChangeDirection();
-                    UpdateTexture();
+                    ChangeDirection();
                 }
             }
             else
             {
-                position.X += 0.5f;
+                position.X += MoveSpeed;
                 if (position.X >= rightBoundary.X)
                 {
-                    stateMachine.ChangeDirection();
-                    UpdateTexture();
+                    ChangeDirection();
                 }
+            }
+            UpdateTexture();
+        }
+
+        public override void Attack()
+        {
+            if (!isBeamActive)
+            {
+                // Create a new beam using the current position and direction
+                beam = new EnemyBeam(position, !stateMachine.IsLeft());
+                isBeamActive = true; 
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             if (!isDead)
             {
+                // Draw the beam if it's active
+                if (isBeamActive)
+                {
+                    beam.Draw(spriteBatch);
+                }
                 enemySprite.Draw(position, spriteBatch);
             }
-        }
-
-        public void ChangeDirection()
-        {
-            stateMachine.ChangeDirection();
         }
     }
 }
