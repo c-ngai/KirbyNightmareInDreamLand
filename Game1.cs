@@ -282,8 +282,8 @@ namespace MasterGame
             BlockList.Instance.Draw(new Vector2(100, 150), spriteBatch);
 
             // Draw the WaddleDoo beam
-            enemyBeam.Draw(spriteBatch); // Draw the beam projectile
-            //kirbyBeam.Draw(spriteBatch); // Draw the beam projectile
+            //enemyBeam.Draw(spriteBatch); // Draw the beam projectile
+            kirbyBeam.Draw(spriteBatch); // Draw the beam projectile
 
             // Draw the flamethrower segments
             //flamethrower.Draw(spriteBatch); // TODO: delete when synched with enemy.
