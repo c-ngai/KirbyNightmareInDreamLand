@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using static MasterGame.Constants;
 
 namespace MasterGame
 {
@@ -152,7 +153,7 @@ namespace MasterGame
                 "tile_stoneblock",
                 "tile_waterfall",
             };
-            BlockList.Instance.setBlockList(blockList);
+            BlockList.Instance.SetBlockList(blockList);
 
             LoadItem();
 
@@ -203,6 +204,7 @@ namespace MasterGame
 
             kirby.Update(time);
             enemyList[currentEnemyIndex].Update(time);
+            item.Update();
             BlockList.Instance.Update();
         }
 

@@ -1,4 +1,3 @@
-
 using Microsoft.Xna.Framework;
 using System.Numerics;
 
@@ -33,7 +32,7 @@ namespace MasterGame
             public const double SLIDE_TIME = 250;
         }
 
-        public class EnemyFire
+      public class EnemyFire
         {
             // For flame segmentts
             public const int MAX_FRAMES = 13; // Number of frames before the flame segment disappears
@@ -51,7 +50,6 @@ namespace MasterGame
 
             // For fireball
             public const float SPEED = 1f; // Constant speed of the fireball
-
         }
 
         public class WaddleDooBeam
@@ -97,7 +95,15 @@ namespace MasterGame
 
         }
 
-
-
+        public class KirbyBeam
+        { 
+            public const int TOTAL_SEGMENTS = 18;
+            public const float ROTATION_STEP = MathHelper.Pi / 32; // approx 4 degrees in radians
+            public const float INIT_POSITION_RIGHT = -MathHelper.PiOver4;
+            public const float INIT_POSITION_LEFT = MathHelper.PiOver4 * 5; // 5pi/4
+            public const int UNITS_PER_FRAME = 10;
+            public const int FRAME_FOUR = 3;
+            public const int FRAME_FIVE = 4;
+        }
     }
 }
