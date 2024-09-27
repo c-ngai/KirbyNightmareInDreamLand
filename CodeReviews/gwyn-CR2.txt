@@ -1,0 +1,39 @@
+Author of Code Review: Gwyn Barnholtz
+Date: 9/27
+Sprint 2
+Reviewing: Sprite.cs
+Author of .cs file: Vivian
+Number of minutes to complete review: 15
+################################################################################ 
+
+10 Code Smells
+
+Long Functions
+Large Class
+Long Parameters
+Duplicate Code
+Feature Envy
+Switch Statements
+Shotgun Surgery
+Same Name, Different Meaning
+Data Clumps
+Temporary Field
+
+################################################################################
+
+Comments on Code Smells:
+No extremely long methods, classes, or parameters. Very easy to follow using comments. 
+No duplicate code really or concerning coupling. Changes could be made easily here. 
+Not sure if any of these fields count be moved to the constants folder, but I don’t think it should be super concerning.
+
+
+
+Comments on Quality
+Could simplify Blocklist instance to avoid 2 return statements.
+if (instance == null)
+ {
+          instance = new BlockList();
+ }
+ return instance;
+Using more descriptive variables such as firstBlockIndex, previousBlockIndex, and finalBlockIndex would be more descriptive.
+Overall, logic seems pretty sound and works well when ran. I think you did a great job! 
