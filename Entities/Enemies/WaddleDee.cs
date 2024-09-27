@@ -62,7 +62,7 @@ namespace MasterGame
         {
              if(!stateMachine.GetStateString().Equals(oldState)){
                 enemySprite = SpriteFactory.Instance.createSprite(stateMachine.GetSpriteParameters());
-                 oldState = stateMachine.GetStateString();
+                oldState = stateMachine.GetStateString();
              } 
         }
 
