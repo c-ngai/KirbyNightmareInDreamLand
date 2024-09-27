@@ -2,15 +2,17 @@
 
 namespace MasterGame
 {
-    public class NextItemCommand : ICommand
+    public class HideItemCommand : ICommand
     {
-        public NextItemCommand()
+        Game1 game;
+        public HideItemCommand(Game1 currentGame)
         {
+            game = currentGame;
         }
 
         public void Execute()
         {
-
+            game.item = null;
         }
 
         public void Undo()

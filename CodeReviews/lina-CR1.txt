@@ -1,0 +1,36 @@
+Author of Review: Lina Ordonez Aguiar
+Date: 9.26.24
+Sprint #2
+Reviewing: KeyboardController.cs & some of the command classes
+Author of file: Carman 
+Time: 20 minutes
+
+Chosen code smells:
+    1. Long Functions ***
+    2. same name different meaning
+    3. long parameters
+    4. god Objects
+    5. Duplicate code
+    6. Feature Envy
+    7. Data clumps
+    8. Comments *
+    9. Temporary Field
+    10. Large Class
+
+Readability:
+    - The file and code is understandable and the code helps understand the 
+        thought process better.
+    - Variables are well named.
+    - There is a todo to make it prettier that has not been changed. Probably 
+        would help with how long update is.
+    - besides update the file is understandable and well organized.
+    - all the command classes are short, well named, and straight to the point. 
+        very well done.
+
+Specific Comments:
+    - Update is pretty long, and doesn't have only one function.
+        Suggested solution: breaking it up into other methods that are 
+        called by update.
+    - it could have a few more comments to just better explain the funtions 
+        of all the dictionaries
+    

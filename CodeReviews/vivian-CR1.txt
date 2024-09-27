@@ -1,0 +1,63 @@
+Sprint 2 Readabilty Code Review     9/26/2024
+
+Author of Code Review: Vivian Ferrigni
+Name of .cs file being reviewed: Player.cs
+Author of .cs file being reivewed: Lina Ordonez Aguiar
+
+Time taken to complete review: 50 minutes
+
+################################################################################
+
+10 Code Smells:
+
+1. God class ***
+2. Duplicated code
+3. TooManyParameters
+4. WhileTrueLoop
+5. LongMethodSmell *** 
+6. ParallelInheritanceHierarchies
+7. SameNameDifferentMeaning
+8. SwitchCaseSmell
+9. VariableNameSameAsType
+10.DataClumps
+
+################################################################################
+
+Comments:
+
+    This file has a lot going on in it (God Class Smell). I would consider
+distributing Player class responsibilties like state management, movement, health
+management, and rendering into their own files and use Player class to manage
+how they work together.
+
+    Also, (duplicated code smell) you could cut down on repeated code, making the
+file shorter and therefore more readable by combining methods with very similar
+logic. Like moveLeft and moveRight, runLeft and runRight, etc into a single method
+which takes in a boolean parameter isFacingRight.
+
+Overall Readability:
+Comments-
+    This file has a lot of well placed comments that give the reader valuable
+information about how the system works as a whole.
+
+        //have draw ask if it has the right sprite and call update texture from there
+        //draw if sprite is not good -- fix it and everyone else is freed from that job
+        //have parent class check if the sprite is right
+
+This is awesome! In general, the methods don't have super complex logical
+conditions so internal method comments aren't super necessary. I would maybe add
+more one-line comments above less intuitvely named methods but otherwise the code
+is well-commented. 
+
+Naming Conventions-
+    Variables and fields are named consistently and clearly. 
+    
+Method Naming-
+    I would recommend refactoring some of the method names so that they are consistent
+and informative. Methods like JumpY and JumpXY are slightly ambiguous. Similarly,
+methods such as Death, TakeDamage, and DecreaseHealth all seem very similar based
+on name; either renaming these or moving them to their coresponding subclass (state
+mangagement, movement, health, or rendering) would make it more clear what the purpose
+of the method is in this context.
+
+Great job overall! I enjoyed reading your code :) 

@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using System.Linq;
+﻿using Microsoft.Xna.Framework.Input;
 namespace MasterGame
 {
     public class KirbyMoveRightCommand : ICommand
@@ -21,7 +19,7 @@ namespace MasterGame
             keyboard = currentKeyboard;
             key = keyMapped;
 
-                        timer = new TimeCalculator();
+            timer = new TimeCalculator();
             timeSinceMoveStopped = 0;
 
             kirby = player;

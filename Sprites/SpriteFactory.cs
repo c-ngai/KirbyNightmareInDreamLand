@@ -96,11 +96,12 @@ namespace MasterGame {
         {
             if (spriteAnimations.ContainsKey(spriteAnimationName))
             {
+                //System.Console.WriteLine(spriteAnimationName );
                 return new Sprite(spriteAnimations[spriteAnimationName]);
             }
             else
             {
-                System.Console.WriteLine(spriteAnimationName ); //debug line
+                //System.Console.WriteLine(spriteAnimationName ); //debug line
                 return new Sprite(spriteAnimations["invalidspritename"]);
             }
         }
@@ -123,7 +124,7 @@ namespace MasterGame {
                     spriteAnimationName += "_";
                 }
             }
-
+            //System.Console.WriteLine(spriteAnimationName );
             return createSprite(spriteAnimationName);
         }
     }

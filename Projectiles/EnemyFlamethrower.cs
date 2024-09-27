@@ -83,5 +83,9 @@ namespace MasterGame
                 segment.Draw(spriteBatch);
             }
         }
+        public void ClearSegments()
+        {
+            flameSegments.Clear(); // Clear all flame segments
+        }
     }
 }
