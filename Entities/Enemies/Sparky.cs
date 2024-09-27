@@ -34,6 +34,9 @@ namespace MasterGame
 
                 switch (currentState)
                 {
+
+                    //TO-DO: Ask if State Machine should handle this
+                    //Depending on pose, will play specific number of frames and swap to other pose
                     case "HoppingForward":
                         Move(); // Call Move without parameters for short hop
                         if (stateCounter >= hopFrequency) // short hop
@@ -84,8 +87,6 @@ namespace MasterGame
                 enemySprite.Update();
             }
         }
-
-        // Move method updated to have no parameters
         protected override void Move()
         {
             hopCounter++;
@@ -93,31 +94,29 @@ namespace MasterGame
             float t = (float)hopCounter / hopFrequency;
 
             // Smooth hops
-            position.Y = position.Y - (float)(Math.Sin(t * Math.PI * 2) * height / 2); // Adjust hop height
+            position.Y = position.Y - (float)(Math.Sin(t * Math.PI * 2) * height / 2);
 
             bool isMovingRight = !stateMachine.IsLeft();
 
-            // Check boundaries
+            // Check direction for boundaries 
             if (isMovingRight)
             {
-                // Move right. If passed right boundary, switch direction
                 position.X += hopSpeed;
                 if (position.X >= rightBoundary.X)
                 {
-                    ChangeDirection(); // Use method from base class
+                    ChangeDirection();
                 }
             }
             else
             {
-                // Move left. If passed left boundary, switch direction
                 position.X -= hopSpeed;
                 if (position.X <= leftBoundary.X)
                 {
-                    ChangeDirection(); // Use method from base class
+                    ChangeDirection();
                 }
             }
 
-            // Reset and repeat
+            // Reset and repeat hops
             if (hopCounter >= hopFrequency)
             {
                 hopCounter = 0;

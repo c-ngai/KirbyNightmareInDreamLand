@@ -5,10 +5,13 @@ namespace MasterGame
 {
     public class WaddleDoo : Enemy
     {
+        private const float MoveSpeed = 0.5f;
+
+        //Walking and attacking frames
         private int frameCounter = 0;
-        private int walkFrames = 180;  // 3 sec (if 60fps)
-        private int stopFrames = 60;   // 2 sec
-        private int attackFrames = 100; // 1 sec
+        private int walkFrames = 180;
+        private int stopFrames = 60;
+        private int attackFrames = 100;
 
         public WaddleDoo(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDoo)
         {
@@ -61,7 +64,7 @@ namespace MasterGame
         {
             if (stateMachine.IsLeft())
             {
-                position.X -= 0.5f;
+                position.X -= MoveSpeed;
                 if (position.X <= leftBoundary.X)
                 {
                     ChangeDirection();
@@ -69,7 +72,7 @@ namespace MasterGame
             }
             else
             {
-                position.X += 0.5f;
+                position.X += MoveSpeed;
                 if (position.X >= rightBoundary.X)
                 {
                     ChangeDirection();
@@ -80,7 +83,7 @@ namespace MasterGame
 
         public override void Attack()
         {
-            // Implement attack logic specific to WaddleDoo
+            //Beam attack
         }
 
         public override void Draw(SpriteBatch spriteBatch)

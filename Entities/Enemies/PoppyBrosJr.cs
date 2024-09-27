@@ -6,10 +6,11 @@ namespace MasterGame
 {
     public class PoppyBrosJr : Enemy
     {
-        // Hopping
-        private int hopCounter = 0;
+        private const float MoveSpeed = 0.5f;
+        // Hopping Variables
+        private int hopCounter = 0; //number of hops
         private int hopFrequency = 60; // frames between hops
-        private float hopHeight = 1f;
+        private float hopHeight = 1f; //height of hops
 
         public PoppyBrosJr(Vector2 startPosition) : base(startPosition, EnemyType.PoppyBrosJr)
         {
@@ -41,10 +42,10 @@ namespace MasterGame
 
         protected override void Move()
         {
-            // Walking back and forth
+            // Walking back and forth until left/right boundary
             if (stateMachine.IsLeft())
             {
-                position.X -= 0.5f;
+                position.X -= MoveSpeed;
                 if (position.X <= leftBoundary.X)
                 {
                     ChangeDirection();
@@ -52,7 +53,7 @@ namespace MasterGame
             }
             else
             {
-                position.X += 0.5f;
+                position.X += MoveSpeed;
                 if (position.X >= rightBoundary.X)
                 {
                     ChangeDirection();
@@ -65,7 +66,7 @@ namespace MasterGame
             hopCounter++;
             float t = (float)hopCounter / hopFrequency;
 
-            // Smooth hopping
+            // Smooth hopping math
             position.Y = position.Y - (float)(Math.Sin(t * Math.PI * 2) * hopHeight / 2);
 
             // Reset hop counter for cycle

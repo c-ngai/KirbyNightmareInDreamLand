@@ -7,6 +7,8 @@ namespace MasterGame
 {
     public class Hothead : Enemy
     {
+        private const float MoveSpeed = 0.5f;
+
         // Frame tracker
         private int frameCounter = 0;
         private int walkFrames = 180;
@@ -14,13 +16,14 @@ namespace MasterGame
         private int attackFrames = 100;
         private int shootFrames = 100;
 
-        // All fireballs
+        // All fireballs and flamethrower
         private List<IProjectile> fireballs;
         private KirbyFlamethrower flamethrower;
         private bool isFlamethrowerActive;
 
         public Hothead(Vector2 startPosition) : base(startPosition, EnemyType.Hothead)
         {
+            //initilize variables
             health = 100;
             fireballs = new List<IProjectile>();
             flamethrower = new KirbyFlamethrower();
@@ -34,6 +37,8 @@ namespace MasterGame
             {
                 frameCounter++;
 
+                //TO-DO: Ask if State Machine should handle this
+                //Depending on pose, will play specific number of frames and swap to other pose
                 switch (stateMachine.GetPose())
                 {
                     case EnemyPose.Walking:
@@ -78,8 +83,6 @@ namespace MasterGame
 
                 UpdateTexture();
                 enemySprite.Update();
-
-                // Update fireballs
                 UpdateFireballs();
 
                 // If attacking, update flamethrower
@@ -95,7 +98,7 @@ namespace MasterGame
             // Walking back and forth
             if (stateMachine.IsLeft())
             {
-                position.X -= 0.5f;
+                position.X -= MoveSpeed;
                 if (position.X <= leftBoundary.X)
                 {
                     ChangeDirection();
@@ -104,7 +107,7 @@ namespace MasterGame
             }
             else
             {
-                position.X += 0.5f;
+                position.X += MoveSpeed;
                 if (position.X >= rightBoundary.X)
                 {
                     ChangeDirection();
@@ -115,18 +118,17 @@ namespace MasterGame
 
         private void Flamethrower(GameTime gameTime)
         {
-            stateMachine.ChangePose(EnemyPose.Attacking);
-            UpdateTexture();
+            //TO-DO: check if need these lines
+            //stateMachine.ChangePose(EnemyPose.Attacking);
+            //UpdateTexture();
 
             isFlamethrowerActive = true;
 
             // Blow fire/flamethrower left or right
             Vector2 flameDirection = stateMachine.IsLeft() ? new Vector2(-1, 0) : new Vector2(1, 0);
-
-            flamethrower.Update(gameTime, position, flameDirection);
         }
 
-        //fireball
+        //Fireball attack
         public override void Attack()
         {
             Vector2 projectileDirection = stateMachine.IsLeft() ? new Vector2(-1, -0.5f) : new Vector2(1, -0.5f); // Aim left or right
@@ -142,7 +144,7 @@ namespace MasterGame
                 fireball.Update();
             }
 
-            // Remove fireballs from list after off screen logic can be added here
+            //TO-DO: Remove fireballs from list after off screen logic can be added here
         }
 
         public override void Draw(SpriteBatch spriteBatch)

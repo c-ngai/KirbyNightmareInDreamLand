@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MasterGame
 {
-    public class WaddleDee : Enemy // Inherit from Enemy
+    public class WaddleDee : Enemy
     {
-        private const float MoveSpeed = 0.5f; // Speed of the WaddleDee
+        private const float MoveSpeed = 0.5f;
 
         public WaddleDee(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDee)
         {
