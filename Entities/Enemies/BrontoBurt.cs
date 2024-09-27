@@ -25,9 +25,7 @@ namespace MasterGame
 
         public override void Attack()
         {
-            //TO-DO: check if Bronto Burt has an attack animation/pose
-            //stateMachine.ChangePose(EnemyPose.Walking);
-            //UpdateTexture();
+            //Note: Does not have attack pose
         }
 
         public override void Update(GameTime gameTime)

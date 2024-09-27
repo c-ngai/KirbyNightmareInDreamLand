@@ -1,22 +1,35 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 
 namespace MasterGame
 {
     public class Sparky : Enemy
     {
         private int hopCounter = 0;
-        private int hopFrequency = 60; // frames between hops
         private float shortHopHeight = 1f;
         private float tallHopHeight = 2f;
         private float hopSpeed = 0.4f; // speed
 
+        // List of (state, frames) tuples in order
+        private List<(string state, int frames)> stateFrames;
+        private int currentStateIndex = 0;
         private int stateCounter = 0;
-        private string currentState = "HoppingForward"; // state name
 
         public Sparky(Vector2 startPosition) : base(startPosition, EnemyType.Sparky)
         {
+            // Initialize the list of states and corresponding frames
+            stateFrames = new List<(string, int)>
+            {
+                ("HoppingForward", 60),    // Short hop with 60 frames
+                ("Pausing", 30),           // Pause with 30 frames
+                ("HoppingTall", 60),       // Tall hop with 60 frames
+                ("PausingAgain", 30),      // Another pause with 30 frames
+                ("Attacking", 120)         // Attacking with 120 frames
+            };
+
+            // Start with the first state
             stateMachine.ChangePose(EnemyPose.Walking);
         }
 
@@ -32,73 +45,54 @@ namespace MasterGame
             {
                 stateCounter++;
 
-                switch (currentState)
+                // Get the current state and number of frames
+                var (currentState, requiredFrames) = stateFrames[currentStateIndex];
+
+                if (stateCounter >= requiredFrames)
                 {
+                    // Move to the next state in the cycle
+                    currentStateIndex = (currentStateIndex + 1) % stateFrames.Count;
+                    stateCounter = 0;
 
-                    //TO-DO: Ask if State Machine should handle this
-                    //Depending on pose, will play specific number of frames and swap to other pose
-                    case "HoppingForward":
-                        Move(); // Call Move without parameters for short hop
-                        if (stateCounter >= hopFrequency) // short hop
-                        {
-                            stateCounter = 0;
-                            currentState = "Pausing";
-                        }
-                        break;
-
-                    case "Pausing":
-                        if (stateCounter >= 30) // pause
-                        {
-                            stateCounter = 0;
-                            currentState = "HoppingTall";
-                        }
-                        break;
-
-                    case "HoppingTall":
-                        Move(); // Call Move without parameters for tall hop
-                        if (stateCounter >= hopFrequency) // tall hop
-                        {
-                            stateCounter = 0;
-                            currentState = "PausingAgain";
-                        }
-                        break;
-
-                    case "PausingAgain":
-                        if (stateCounter >= 30) // Pause 
-                        {
-                            stateCounter = 0;
-                            currentState = "Attacking";
-                        }
-                        break;
-
-                    case "Attacking":
+                    // Update pose or attack state based on the current state
+                    if (currentState == "Attacking")
+                    {
+                        stateMachine.ChangePose(EnemyPose.Attacking);
                         Attack();
-                        if (stateCounter >= 120) // Attack
-                        {
-                            stateCounter = 0;
-                            currentState = "HoppingForward"; // back to hop
-                            stateMachine.ChangePose(EnemyPose.Walking);
-                        }
-                        break;
+                    }
+                    else
+                    {
+                        stateMachine.ChangePose(EnemyPose.Walking); // Reset to walking for hops
+                    }
                 }
 
-                // Update texture and enemy sprite
+                // Execute specific actions for each state
+                if (currentState == "HoppingForward" || currentState == "HoppingTall")
+                {
+                    Move(); // Now Move doesn't need parameters
+                }
+
+                // Update texture and sprite
                 UpdateTexture();
                 enemySprite.Update();
             }
         }
+
         protected override void Move()
         {
             hopCounter++;
-            float height = (currentState == "HoppingForward") ? shortHopHeight : tallHopHeight; // Choose height based on state
-            float t = (float)hopCounter / hopFrequency;
 
-            // Smooth hops
+            // Use current state to determine hop height
+            var currentState = stateFrames[currentStateIndex].state;
+            float height = (currentState == "HoppingForward") ? shortHopHeight : tallHopHeight;
+            float t = (float)hopCounter / stateFrames[currentStateIndex].frames;
+
+            // Smooth hopping motion
             position.Y = position.Y - (float)(Math.Sin(t * Math.PI * 2) * height / 2);
 
             bool isMovingRight = !stateMachine.IsLeft();
 
-            // Check direction for boundaries 
+            // Move horizontally and check for boundaries
             if (isMovingRight)
             {
                 position.X += hopSpeed;
@@ -116,8 +110,8 @@ namespace MasterGame
                 }
             }
 
-            // Reset and repeat hops
-            if (hopCounter >= hopFrequency)
+            // Reset hop counter
+            if (hopCounter >= stateFrames[currentStateIndex].frames)
             {
                 hopCounter = 0;
             }
