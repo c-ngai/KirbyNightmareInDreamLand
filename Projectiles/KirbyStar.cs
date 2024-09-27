@@ -47,7 +47,6 @@ namespace MasterGame
 
         public void Update()
         {
-            // Update position based on velocity
             Position += Velocity;
 
             projectileSprite.Update();

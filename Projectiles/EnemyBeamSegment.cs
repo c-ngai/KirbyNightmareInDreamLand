@@ -35,10 +35,8 @@ namespace MasterGame
         {
             if (IsActive)
             {
-                // Update position based on velocity
                 Position += Velocity;
 
-                // Update animation
                 projectileSprite.Update();
 
                 // Increment frame count and check if the segment should disappear

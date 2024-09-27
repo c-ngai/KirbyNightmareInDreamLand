@@ -56,7 +56,6 @@ namespace MasterGame
                 // Decelerate the puff by reducing its velocity
                 if (Velocity.Length() > 0)
                 {
-                    // Reduce the velocity vector by the deceleration rate
                     Vector2 deceleration = Vector2.Normalize(Velocity) * DecelerationRate;
                     Velocity -= deceleration;
 
@@ -67,7 +66,6 @@ namespace MasterGame
                     }
                 }
 
-                // Update the position based on the current velocity
                 Position += Velocity;
 
                 // Increment frame count and check if puff should disappear

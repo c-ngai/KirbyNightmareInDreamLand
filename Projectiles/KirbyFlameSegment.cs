@@ -92,7 +92,6 @@ namespace MasterGame
             {
                 Position += Velocity; // Update position based on velocity
 
-                // Count the frames the segment has been active
                 frameCount++;
 
                 // Mark the segment as inactive after a certain number of frames

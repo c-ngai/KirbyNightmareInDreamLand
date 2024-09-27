@@ -53,7 +53,6 @@ namespace MasterGame
             // Create multiple flame segments with varying angles and delays
             for (int i = -numberOfSegments / 2; i <= numberOfSegments / 2; i++)
             {
-                // Calculate the total angle spread
                 float totalAngleRange = maxAngle - minAngle;
 
                 // Calculate the angle offset based on the number of segments
