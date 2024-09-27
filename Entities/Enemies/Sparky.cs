@@ -1,35 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 
 namespace MasterGame
 {
     public class Sparky : Enemy
     {
         private int hopCounter = 0;
-        private float shortHopHeight = 1f;
-        private float tallHopHeight = 2f;
-        private float hopSpeed = 0.4f; // speed
-
-        // List of (state, frames) tuples in order
-        private List<(string state, int frames)> stateFrames;
-        private int currentStateIndex = 0;
         private int stateCounter = 0;
+        private string currentState = "HoppingForward"; // state name
 
         public Sparky(Vector2 startPosition) : base(startPosition, EnemyType.Sparky)
         {
-            // Initialize the list of states and corresponding frames
-            stateFrames = new List<(string, int)>
-            {
-                ("HoppingForward", 60),    // Short hop with 60 frames
-                ("Pausing", 30),           // Pause with 30 frames
-                ("HoppingTall", 60),       // Tall hop with 60 frames
-                ("PausingAgain", 30),      // Another pause with 30 frames
-                ("Attacking", 120)         // Attacking with 120 frames
-            };
-
-            // Start with the first state
             stateMachine.ChangePose(EnemyPose.Walking);
         }
 
@@ -45,57 +27,74 @@ namespace MasterGame
             {
                 stateCounter++;
 
-                // Get the current state and number of frames
-                var (currentState, requiredFrames) = stateFrames[currentStateIndex];
-
-                if (stateCounter >= requiredFrames)
+                //TO-DO: Change switch case into state pattern design
+                switch (currentState)
                 {
-                    // Move to the next state in the cycle
-                    currentStateIndex = (currentStateIndex + 1) % stateFrames.Count;
-                    stateCounter = 0;
+                    case "HoppingForward":
+                        Move(); // Call Move without parameters for short hop
+                        if (stateCounter >= Constants.Sparky.HOP_FREQUENCY) // short hop
+                        {
+                            stateCounter = 0;
+                            currentState = "Pausing";
+                        }
+                        break;
 
-                    // Update pose or attack state based on the current state
-                    if (currentState == "Attacking")
-                    {
-                        stateMachine.ChangePose(EnemyPose.Attacking);
+                    case "Pausing":
+                        if (stateCounter >= Constants.Sparky.PAUSE_TIME) // pause
+                        {
+                            stateCounter = 0;
+                            currentState = "HoppingTall";
+                        }
+                        break;
+
+                    case "HoppingTall":
+                        Move(); // Call Move without parameters for tall hop
+                        if (stateCounter >= Constants.Sparky.HOP_FREQUENCY) // tall hop
+                        {
+                            stateCounter = 0;
+                            currentState = "PausingAgain";
+                        }
+                        break;
+
+                    case "PausingAgain":
+                        if (stateCounter >= Constants.Sparky.PAUSE_TIME) // Pause 
+                        {
+                            stateCounter = 0;
+                            currentState = "Attacking";
+                        }
+                        break;
+
+                    case "Attacking":
                         Attack();
-                    }
-                    else
-                    {
-                        stateMachine.ChangePose(EnemyPose.Walking); // Reset to walking for hops
-                    }
+                        if (stateCounter >= Constants.Sparky.ATTACK_TIME) // Attack
+                        {
+                            stateCounter = 0;
+                            currentState = "HoppingForward"; // back to hop
+                            stateMachine.ChangePose(EnemyPose.Walking);
+                        }
+                        break;
                 }
 
-                // Execute specific actions for each state
-                if (currentState == "HoppingForward" || currentState == "HoppingTall")
-                {
-                    Move(); // Now Move doesn't need parameters
-                }
-
-                // Update texture and sprite
+                // Update texture and enemy sprite
                 UpdateTexture();
                 enemySprite.Update();
             }
         }
-
         protected override void Move()
         {
             hopCounter++;
+            float height = (currentState == "HoppingForward") ? Constants.Sparky.SHORT_HOP_HEIGHT : Constants.Sparky.TALL_HOP_HEIGHT; // Choose height based on state
+            float t = (float)hopCounter / Constants.Sparky.HOP_FREQUENCY;
 
-            // Use current state to determine hop height
-            var currentState = stateFrames[currentStateIndex].state;
-            float height = (currentState == "HoppingForward") ? shortHopHeight : tallHopHeight;
-            float t = (float)hopCounter / stateFrames[currentStateIndex].frames;
-
-            // Smooth hopping motion
+            // Smooth hops
             position.Y = position.Y - (float)(Math.Sin(t * Math.PI * 2) * height / 2);
 
             bool isMovingRight = !stateMachine.IsLeft();
 
-            // Move horizontally and check for boundaries
+            // Check direction for boundaries 
             if (isMovingRight)
             {
-                position.X += hopSpeed;
+                position.X += Constants.Sparky.HOP_SPEED;
                 if (position.X >= rightBoundary.X)
                 {
                     ChangeDirection();
@@ -103,15 +102,15 @@ namespace MasterGame
             }
             else
             {
-                position.X -= hopSpeed;
+                position.X -= Constants.Sparky.HOP_SPEED;
                 if (position.X <= leftBoundary.X)
                 {
                     ChangeDirection();
                 }
             }
 
-            // Reset hop counter
-            if (hopCounter >= stateFrames[currentStateIndex].frames)
+            // Reset and repeat hops
+            if (hopCounter >= Constants.Sparky.HOP_FREQUENCY)
             {
                 hopCounter = 0;
             }

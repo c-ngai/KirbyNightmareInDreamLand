@@ -5,8 +5,6 @@ namespace MasterGame
 {
     public class WaddleDee : Enemy
     {
-        private const float MoveSpeed = 0.5f;
-
         public WaddleDee(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDee)
         {
             stateMachine.ChangePose(EnemyPose.Walking); // Set initial pose
@@ -33,7 +31,7 @@ namespace MasterGame
             // Implementing the movement logic
             if (stateMachine.IsLeft())
             {
-                position.X -= MoveSpeed;
+                position.X -= Constants.WaddleDee.MOVE_SPEED;
                 if (position.X <= leftBoundary.X)
                 {
                     ChangeDirection(); // Change direction if hitting left boundary
@@ -41,7 +39,7 @@ namespace MasterGame
             }
             else
             {
-                position.X += MoveSpeed;
+                position.X += Constants.WaddleDee.MOVE_SPEED;
                 if (position.X >= rightBoundary.X)
                 {
                     ChangeDirection(); // Change direction if hitting right boundary

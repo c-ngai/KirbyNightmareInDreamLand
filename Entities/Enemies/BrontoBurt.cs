@@ -6,11 +6,7 @@ namespace MasterGame
 {
     public class BrontoBurt : Enemy
     {
-        private const float MoveSpeed = 0.5f;
 
-        //Flying movement properties
-        private float waveAmplitude = 10f; // height of wave
-        private float waveFrequency = 0.05f; // wave speed
         private float initialY; // initial height
         private float timeCounter = 0f; // wave time counter
 
@@ -44,15 +40,15 @@ namespace MasterGame
 
         protected override void Move()
         {
-            timeCounter += waveFrequency;
+            timeCounter += Constants.BrontoBurt.WAVE_FREQUENCY;
 
             // Y oscillation using sin. Smooth flying motion up and down
-            position.Y = initialY + waveAmplitude * (float)Math.Sin(timeCounter);
+            position.Y = initialY + Constants.BrontoBurt.WAVE_AMPLITUDE * (float)Math.Sin(timeCounter);
 
             //Checks to change if within bounds
             if (stateMachine.IsLeft())
             {
-                position.X -= MoveSpeed;
+                position.X -= Constants.BrontoBurt.MOVE_SPEED;
                 if (position.X <= leftBoundary.X)
                 {
                     ChangeDirection();
@@ -60,7 +56,7 @@ namespace MasterGame
             }
             else
             {
-                position.X += MoveSpeed;
+                position.X += Constants.BrontoBurt.MOVE_SPEED;
                 if (position.X >= rightBoundary.X)
                 {
                     ChangeDirection();

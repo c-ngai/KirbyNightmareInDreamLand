@@ -6,13 +6,8 @@ namespace MasterGame
 {
     public class WaddleDoo : Enemy
     {
-        private const float MoveSpeed = 0.5f;
-
         // Walking and attacking frames
         private int frameCounter = 0;
-        private int walkFrames = 180;
-        private int stopFrames = 60;
-        private int attackFrames = 33;
 
         // Beam
         private EnemyBeam beam; // Change from List<EnemyBeam> to a single instance
@@ -30,13 +25,12 @@ namespace MasterGame
             {
                 frameCounter++;
 
-
                 //TO-DO: Change switch case into state pattern design
                 switch (stateMachine.GetPose())
                 {
                     case EnemyPose.Walking:
                         Move();
-                        if (frameCounter >= walkFrames)
+                        if (frameCounter >= Constants.WaddleDoo.WALK_FRAMES)
                         {
                             stateMachine.ChangePose(EnemyPose.Charging);
                             frameCounter = 0;
@@ -45,7 +39,7 @@ namespace MasterGame
                         break;
 
                     case EnemyPose.Charging:
-                        if (frameCounter >= stopFrames)
+                        if (frameCounter >= Constants.WaddleDoo.STOP_FRAMES)
                         {
                             stateMachine.ChangePose(EnemyPose.Attacking);
                             frameCounter = 0;
@@ -55,7 +49,7 @@ namespace MasterGame
 
                     case EnemyPose.Attacking:
                         Attack();
-                        if (frameCounter >= attackFrames)
+                        if (frameCounter >= Constants.WaddleDoo.ATTACK_FRAMES)
                         {
                             stateMachine.ChangePose(EnemyPose.Walking);
                             frameCounter = 0;
@@ -90,7 +84,7 @@ namespace MasterGame
         {
             if (stateMachine.IsLeft())
             {
-                position.X -= MoveSpeed;
+                position.X -= Constants.WaddleDoo.MOVE_SPEED;
                 if (position.X <= leftBoundary.X)
                 {
                     ChangeDirection();
@@ -98,7 +92,7 @@ namespace MasterGame
             }
             else
             {
-                position.X += MoveSpeed;
+                position.X += Constants.WaddleDoo.MOVE_SPEED;
                 if (position.X >= rightBoundary.X)
                 {
                     ChangeDirection();

@@ -6,14 +6,8 @@ namespace MasterGame
 {
     public class Hothead : Enemy
     {
-        private const float MoveSpeed = 0.5f;
-
         // Frame tracker
         private int frameCounter = 0;
-        private int walkFrames = 180;
-        private int stopFrames = 60;
-        private int attackFrames = 100;
-        private int shootFrames = 100;
 
         // All fireballs and flamethrower
         private List<IProjectile> fireballs;
@@ -42,7 +36,7 @@ namespace MasterGame
                 {
                     case EnemyPose.Walking:
                         Move();
-                        if (frameCounter >= walkFrames)
+                        if (frameCounter >= Constants.Hothead.WALK_FRAMES)
                         {
                             stateMachine.ChangePose(EnemyPose.Charging);
                             frameCounter = 0;
@@ -56,7 +50,7 @@ namespace MasterGame
                             Attack();
                         }
 
-                        if (frameCounter >= shootFrames)
+                        if (frameCounter >= Constants.Hothead.SHOOT_FRAMES)
                         {
                             stateMachine.ChangePose(EnemyPose.Attacking); // Attacks after shooting
                             frameCounter = 0;
@@ -70,7 +64,7 @@ namespace MasterGame
                             Flamethrower(gameTime);
                         }
 
-                        if (frameCounter >= attackFrames)
+                        if (frameCounter >= Constants.Hothead.ATTACK_FRAMES)
                         {
                             isFlamethrowerActive = false; // Deactivate flamethrower after attack
                             flamethrower.ClearSegments(); // Clear
@@ -108,7 +102,7 @@ namespace MasterGame
             // Walking back and forth
             if (stateMachine.IsLeft())
             {
-                position.X -= MoveSpeed;
+                position.X -= Constants.Hothead.MOVE_SPEED;
                 if (position.X <= leftBoundary.X)
                 {
                     ChangeDirection();
@@ -117,7 +111,7 @@ namespace MasterGame
             }
             else
             {
-                position.X += MoveSpeed;
+                position.X += Constants.Hothead.MOVE_SPEED;
                 if (position.X >= rightBoundary.X)
                 {
                     ChangeDirection();
