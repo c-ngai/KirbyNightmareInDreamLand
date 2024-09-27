@@ -12,11 +12,6 @@ public class EnemyBeam
     private Vector2 startPosition;
     private bool isFacingRight; // Track if WaddleDoo is facing left
 
-    private const int TotalSegments = 16;
-    private const float InitialRotation = -MathHelper.PiOver2; // -90 degrees to fire straight up
-    private const float RotationStep = MathHelper.PiOver4 / 2; // 22.5 degrees in radians
-    private const int UnitsPerFrame = 8;
-
     public EnemyBeam(Vector2 startPosition, bool isFacingRight)
     {
         this.startPosition = startPosition;
@@ -27,22 +22,22 @@ public class EnemyBeam
     public void Update()
     {
         // Fire a new segment every 2 frames, up to 16 segments
-        if (segmentsFired < TotalSegments && frameCounter % 2 == 0)
+        if (segmentsFired < Constants.WaddleDooBeam.TOTAL_SEGMENTS && frameCounter % 2 == 0)
         {
             float rotation;
 
             if (segmentsFired == 0)
             {
                 // Fire the first segment straight up
-                rotation = InitialRotation;
+                rotation = Constants.WaddleDooBeam.INITIAL_ROTATION;
             }
             else
             {
                 // After the first, rotate every other segment
-                rotation = InitialRotation + (segmentsFired / 2) * RotationStep;
+                rotation = Constants.WaddleDooBeam.INITIAL_ROTATION + (segmentsFired / 2) * Constants.WaddleDooBeam.ROTATION_STEP;
             }
 
-            Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation)) * UnitsPerFrame; // Move 8 units per frame
+            Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation)) * Constants.WaddleDooBeam.UNITS_PER_FRAME; // Move 8 units per frame
             
             // If facing left, mirror the velocity
             if (!isFacingRight)
