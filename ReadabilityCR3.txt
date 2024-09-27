@@ -1,0 +1,52 @@
+﻿Author of review: Payton Murphy
+Sprint number: 2
+File being reviewed: WaddleDoo.cs
+Author of the file being reviewed: Gwyneth Barnholtz
+Date reviewed: 9/26/2024
+Minutes taken to complete review: ADD MINUTES
+
+################################################################
+
+***List of Code Smells and Comments***
+
+
+1.) Switch Statement Smell:
+Switch Statements (AKA "Case Statements") is a canonical CodeSmell (at least, in ObjectOriented code) described in RefactoringImprovingTheDesignOfExistingCode. The alleged problem with switch statements is that of DuplicatedCode. Typically, similar switch statements are scattered throughout a program. If you add or remove a clause in one switch, you often have to find and repair the others too.
+
+2.) Same Name Different Meaning:
+Sometimes in code we find that the same names are used multiple places to mean different things. This is a CodeSmell that easily leads to misinterpretation.
+
+3.) Too Many Parameters
+When does the function (or method, if you use Java)
+  myFunction(param1, param2, ..., paramn)
+have too many parameters?
+Clearly one parameter is not too many, and clearly 16 parameters would be too many. I personally prefer to use no more than two or three parameters, but even this can be too many when all of the parameters are of the same type. For example, it is easy to inadvertently swap the parameters in a call to the function
+
+4.) Inappropriate Intamacy
+InappropriateIntimacy is a CodeSmell that describes a method that has too much intimate knowledge of another class or method's inner workings, inner data, etc.
+These two methods or classes may be serving the same purpose, the similar parts should be extracted into a separate class using the ExtractClass refactoring.
+
+5.) Vague Identifiers
+This generally happens when the OneResponsibilityRule has been violated.
+Example: An identifier for a class is given a very vague name because each meaningful name for the class is incomplete; it only describes part of the use of the class and not its whole responsibility.
+Rather than fix the class with refactoring, the author takes the short cut and invents a name that doesn't clearly mean anything in order to avoid disinformation.
+
+6.) Variable Name Same as Type
+In self-documenting code, the variable name should convey information about the contents, usage, and/or purpose of the variable. Naming the variable as the type, or a trivial derivative of the type, guarantees that the code will not be optimally self-documenting.
+
+7.) While Not Done Loop
+A WhileNotDoneLoop is a while loop in which the loop-control variable is a boolean, typically named done, which is set to true somewhere in the body of the loop. This is a CodeSmell that may indicate the designer didn't understand the purpose of the loop or didn't understand what the exit condition is. Frequently, you can refactor a WhileNotDoneLoop into a more expressive for loop.
+
+8.) Middle Man
+A MiddleMan is a class that delegates most of its work to other classes. A MiddleMan is a class that is doing too much simple delegation instead of really contributing to the application.
+MiddleMan can often be removed and their functionality placed in the classes that they were mediating.
+
+9.) Data Clumps
+DataClumps is when two or more variables are always used in group and it wouldn't make sense to use one of the variables by itself. This group of variables should be extracted into a class.
+
+10.) Instanceof In Conditionals
+A code smell. You are asking an external entity (the JavaVirtualMachine or other provider of RunTimeTypeInformation) to tell you something that the object should know about itself. It causes problems in practice because it means that business-level code has to know about the class hierarchy of Customer objects, that is, it has to understand implementation rather than specification.
+
+
+
+
