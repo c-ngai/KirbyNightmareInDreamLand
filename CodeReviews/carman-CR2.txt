@@ -1,10 +1,10 @@
-Sprint 2 Quality Code Review 
+Sprint 2 Quality Code Review 9/26/24
 
-Author of Code Review: Carman Ngai, 9/26/24
+Author of Code Review: Carman Ngai
 Name of .cs file being reviewed: WaddleDee.cs
 Author of .cs file being reivewed: Gwyneth Barnholtz
 
-Time taken to complete review: 20 minutes
+Time taken to complete review: 30 minutes
 
 ################################################################################
 

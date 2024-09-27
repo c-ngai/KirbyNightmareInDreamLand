@@ -1,10 +1,10 @@
-Sprint 2 Readabilty Code Review 
+Sprint 2 Readabilty Code Review 9/26/24
 
-Author of Code Review: Carman Ngai, 9/26/24
+Author of Code Review: Carman Ngai
 Name of .cs file being reviewed: EnemyFlamethrower.cs and EnemyFlameSegment.cs
 Author of .cs file being reivewed: Payton Murphy
 
-Time taken to complete review: 20 minutes
+Time taken to complete review: 30 minutes
 
 ################################################################################
 
