@@ -41,6 +41,11 @@ namespace MasterGame
         // Note this is program time and not game time 
         public GameTime time { get; set; }
 
+        // Graphics settings modifiable at runtime
+        public bool DEBUG_SPRITE_MODE { get; set; }
+        public int WINDOW_WIDTH;
+        public int WINDOW_HEIGHT;
+
         // Flamethrower instance
         private KirbyFlamethrower flamethrower;
 
@@ -59,12 +64,17 @@ namespace MasterGame
 
         protected override void Initialize()
         {
+            DEBUG_SPRITE_MODE = false;
+            WINDOW_WIDTH = 720;
+            WINDOW_HEIGHT = 480;
+
             // true = exclusive fullscreen, false = borderless fullscreen
             graphics.HardwareModeSwitch = true;
             graphics.IsFullScreen = Constants.Graphics.IS_FULL_SCREEN;
-            graphics.PreferredBackBufferWidth = Constants.Graphics.WINDOW_WIDTH;
-            graphics.PreferredBackBufferHeight = Constants.Graphics.WINDOW_HEIGHT;
+            graphics.PreferredBackBufferWidth = this.WINDOW_WIDTH;
+            graphics.PreferredBackBufferHeight = this.WINDOW_HEIGHT;
             graphics.ApplyChanges();
+            
 
             keyboard = new KeyboardController();
 
@@ -107,6 +117,10 @@ namespace MasterGame
 
             keyboard.RegisterCommand(Keys.Q, new QuitCommand(this), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.R, new ResetCommand(this), ExecutionType.StartingPress);
+
+            keyboard.RegisterCommand(Keys.LeftControl, new GraphicsToggleDebugCommand(this), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.OemPlus, new GraphicsIncreaseWindowSizeCommand(this, graphics), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.OemMinus, new GraphicsDecreaseWindowSizeCommand(this, graphics), ExecutionType.Pressed);
             //keyboard.RegisterCommand(Keys.F, new ToggleFullscreenCommand(), ExecutionType.StartingPress);
         }
 
@@ -186,7 +200,7 @@ namespace MasterGame
             font = Content.Load<SpriteFont>("DefaultFont");
 
             // Load all sprite factory textures and sprites.
-            SpriteFactory.Instance.LoadAllTextures(Content);
+            SpriteFactory.Instance.LoadAllTextures(Content, this);
             SpriteFactory.Instance.LoadAllSpriteAnimations();
             SpriteDebug.Instance.Load(GraphicsDevice);
 

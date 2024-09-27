@@ -12,8 +12,9 @@ namespace MasterGame
 
     public class Sprite : ISprite
     {
-        // To store a reference to the global spritebatch.
+        // To store a reference to the global spritebatch and current game.
         private SpriteBatch spriteBatch;
+        private Game1 game;
         // The game's INTERNAL resolution. For placement on screen relative to the scale. Not to be confused with window resolution.
         private int gameWidth;
         private int gameHeight;
@@ -28,7 +29,7 @@ namespace MasterGame
 
         /* Creates a new animation object from an animation file. Imports animation
          * data from a .csv file into the Animation object. */
-        public Sprite(SpriteAnimation spriteAnimation)
+        public Sprite(SpriteAnimation spriteAnimation, Game1 game)
         {
             gameWidth = Constants.Graphics.GAME_WIDTH;
             gameHeight = Constants.Graphics.GAME_HEIGHT;
@@ -37,6 +38,7 @@ namespace MasterGame
 
             currentFrame = 0;
             tickCounter = 0;
+            this.game = game;
         }
 
 
@@ -62,10 +64,10 @@ namespace MasterGame
         public void Draw(Vector2 position, SpriteBatch spriteBatch, Color color)
         {
             // Get window width and height from Game1 for scaling.
-            int windowWidth = Constants.Graphics.WINDOW_WIDTH;
-            int windowHeight = Constants.Graphics.WINDOW_HEIGHT;
+            int windowWidth = game.WINDOW_WIDTH;
+            int windowHeight = game.WINDOW_HEIGHT;
             // Scale by height
-            float scale = windowHeight / gameHeight;
+            float scale = (float)windowHeight / gameHeight;
 
             // Scale the position
             position.Floor();
@@ -84,7 +86,7 @@ namespace MasterGame
 
 
             // DEBUG VISUALS, TIDY UP LATER
-            if (Constants.Graphics.DEBUG_SPRITE_MODE == true)
+            if (game.DEBUG_SPRITE_MODE == true)
             {
                 SpriteDebug.Instance.Draw(spriteBatch, position, frameCenter, sourceRectangle, scale);
             }
