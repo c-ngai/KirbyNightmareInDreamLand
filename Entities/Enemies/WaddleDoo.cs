@@ -3,77 +3,20 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MasterGame
 {
-    public class WaddleDoo : IEnemy
+    public class WaddleDoo : Enemy
     {
-        private Vector2 position;
-        private int health;
-        private bool isDead;
-        private Sprite enemySprite;
-        private EnemyStateMachine stateMachine;
-        private Vector2 leftBoundary = new Vector2(100, 100);
-        private Vector2 rightBoundary = new Vector2(230, 100);
-        private string oldState;
         private int frameCounter = 0;
-        private int walkFrames = 180;  //3 sec (if 60fps)
-        private int stopFrames = 60;  //2 sec
-        private int attackFrames = 100; //1 sec
+        private int walkFrames = 180;  // 3 sec (if 60fps)
+        private int stopFrames = 60;   // 2 sec
+        private int attackFrames = 100; // 1 sec
 
-        public WaddleDoo(Vector2 startPosition)
+        public WaddleDoo(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDoo)
         {
-            position = startPosition;
-            health = 100;
-            isDead = false;
-            stateMachine = new EnemyStateMachine(EnemyType.WaddleDoo);
             stateMachine.ChangePose(EnemyPose.Walking);
-           enemySprite = SpriteFactory.Instance.createSprite("waddledoo_walking_right");
+            enemySprite = SpriteFactory.Instance.createSprite("waddledoo_walking_right");
         }
 
-        public Vector2 Position
-        {
-            get { return position; }
-            set { position = value; }
-        }
-
-        public Sprite EnemySprite
-        {
-            set { enemySprite = value; }
-        }
-
-        public void TakeDamage()
-        {
-            stateMachine.ChangePose(EnemyPose.Hurt);
-            health -= 10;
-            if (health <= 0)
-            {
-                health = 0;
-                Die();
-            }
-        }
-
-        private void Die()
-        {
-            isDead = true;
-
-            //eventual death pose/animation
-            stateMachine.ChangePose(EnemyPose.Hurt);
-            UpdateTexture();
-        }
-
-        public void Attack()
-        {
-            stateMachine.ChangePose(EnemyPose.Attacking);
-            UpdateTexture();
-        }
-
-        public void UpdateTexture()
-        {
-             if(!stateMachine.GetStateString().Equals(oldState)){
-                enemySprite = SpriteFactory.Instance.createSprite(stateMachine.GetSpriteParameters());
-                 oldState = stateMachine.GetStateString();
-             } 
-        }
-
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             if (!isDead)
             {
@@ -85,8 +28,7 @@ namespace MasterGame
                         Move();
                         if (frameCounter >= walkFrames)
                         {
-                            //stop after walking to load attack
-                            stateMachine.ChangePose(EnemyPose.Charging); 
+                            stateMachine.ChangePose(EnemyPose.Charging);
                             frameCounter = 0;
                             UpdateTexture();
                         }
@@ -95,8 +37,7 @@ namespace MasterGame
                     case EnemyPose.Charging:
                         if (frameCounter >= stopFrames)
                         {
-                            //attack after stopping
-                            stateMachine.ChangePose(EnemyPose.Attacking); 
+                            stateMachine.ChangePose(EnemyPose.Attacking);
                             frameCounter = 0;
                             UpdateTexture();
                         }
@@ -105,31 +46,25 @@ namespace MasterGame
                     case EnemyPose.Attacking:
                         if (frameCounter >= attackFrames)
                         {
-                            // wlk again after attacking
                             stateMachine.ChangePose(EnemyPose.Walking);
                             frameCounter = 0;
                             UpdateTexture();
                         }
                         break;
-                    default:
-                        break;
                 }
 
-                // update animation
                 enemySprite.Update();
             }
         }
 
-        private void Move()
+        protected override void Move()
         {
-            //walking back and forth
             if (stateMachine.IsLeft())
             {
                 position.X -= 0.5f;
                 if (position.X <= leftBoundary.X)
                 {
-                    stateMachine.ChangeDirection();
-                    UpdateTexture();
+                    ChangeDirection();
                 }
             }
             else
@@ -137,23 +72,23 @@ namespace MasterGame
                 position.X += 0.5f;
                 if (position.X >= rightBoundary.X)
                 {
-                    stateMachine.ChangeDirection();
-                    UpdateTexture();
+                    ChangeDirection();
                 }
             }
+            UpdateTexture();
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Attack()
+        {
+            // Implement attack logic specific to WaddleDoo
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
         {
             if (!isDead)
             {
                 enemySprite.Draw(position, spriteBatch);
             }
-        }
-
-        public void ChangeDirection()
-        {
-            stateMachine.ChangeDirection();
         }
     }
 }
