@@ -13,12 +13,13 @@ namespace MasterGame
         private float elapsedTime; 
         private Vector2 flameDirection;
         private int numberOfSegments = 10;
-        private float minSpeed = 1f; 
-        private float maxSpeed = 4f; 
-        private float minDelay = 0f; 
-        private float maxDelay = 0.3f; 
-        private float minAngle = -0.3f;
-        private float maxAngle = 0.3f;
+        
+        private const float MinSpeed = 1f; 
+        private const float MaxSpeed = 4f; 
+        private const float MinDelay = 0f; 
+        private const float MaxDelay = 0.3f; 
+        private const float MinAngle = -0.3f;
+        private const float MaxAngle = 0.3f;
 
         public KirbyFlamethrower()
         {
@@ -53,21 +54,21 @@ namespace MasterGame
             // Create multiple flame segments with varying angles and delays
             for (int i = -numberOfSegments / 2; i <= numberOfSegments / 2; i++)
             {
-                float totalAngleRange = maxAngle - minAngle;
+                float totalAngleRange = MaxAngle - MinAngle;
 
                 // Calculate the angle offset based on the number of segments
-                float angle = minAngle + (i + (numberOfSegments / 2)) * (totalAngleRange / numberOfSegments);
+                float angle = MinAngle + (i + (numberOfSegments / 2)) * (totalAngleRange / numberOfSegments);
 
                 // Ensure the angle stays within the minAngle and maxAngle range
-                if (angle < minAngle) angle = minAngle;
-                if (angle > maxAngle) angle = maxAngle;
+                if (angle < MinAngle) angle = MinAngle;
+                if (angle > MaxAngle) angle = MaxAngle;
 
                 // Rotate the direction vector by the calculated angle
                 Vector2 direction = Vector2.Transform(flameDirection, Matrix.CreateRotationZ(angle));
 
                 // Generate a random speed and delay for each segment
-                float randomSpeed = (float)(random.NextDouble() * (maxSpeed - minSpeed) + minSpeed);
-                float randomDelay = (float)(random.NextDouble() * (maxDelay - minDelay) + minDelay);
+                float randomSpeed = (float)(random.NextDouble() * (MaxSpeed - MinSpeed) + MinSpeed);
+                float randomDelay = (float)(random.NextDouble() * (MaxDelay - MinDelay) + MinDelay);
 
                 KirbyFlameSegment newSegment = new KirbyFlameSegment(startPosition, direction, randomSpeed, randomDelay);
                 flameSegments.Add(newSegment);

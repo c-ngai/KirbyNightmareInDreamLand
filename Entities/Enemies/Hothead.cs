@@ -89,7 +89,7 @@ namespace MasterGame
                 // Update flamethrower if active
                 if (isFlamethrowerActive)
                 {
-                    flamethrower.Update(gameTime, position, stateMachine.IsLeft() ? new Vector2(-1, 0) : new Vector2(1, 0));
+                    flamethrower.Update(gameTime, ProjectilePosition(), stateMachine.IsLeft() ? new Vector2(-1, 0) : new Vector2(1, 0));
                 }
                 else
                 {
@@ -98,6 +98,11 @@ namespace MasterGame
             }
         }
 
+        private Vector2 ProjectilePosition()
+        {
+            // Adjust flamethrower position based on Hothead's facing direction
+            return stateMachine.IsLeft() ? new Vector2(position.X - 18, position.Y) : new Vector2(position.X + 18, position.Y); // TODO: I think these values need to be changed to be accurate. Check how far the position for hothead is from the edges of the sprite.
+        }
 
         protected override void Move()
         {
@@ -130,7 +135,7 @@ namespace MasterGame
 
                 // Set the start position for the flamethrower
                 Vector2 flameDirection = stateMachine.IsLeft() ? new Vector2(-1, 0) : new Vector2(1, 0);
-                flamethrower.Update(gameTime, position, flameDirection);
+                flamethrower.Update(gameTime, ProjectilePosition(), flameDirection);
 
                 canUseFlamethrower = false; // Prevent re-activation
             }
@@ -139,7 +144,7 @@ namespace MasterGame
         public override void Attack()
         {
             Vector2 projectileDirection = stateMachine.IsLeft() ? new Vector2(-1, -0.5f) : new Vector2(1, -0.5f);
-            IProjectile newFireball = new EnemyFireball(position, projectileDirection);
+            IProjectile newFireball = new EnemyFireball(ProjectilePosition(), projectileDirection);
             fireballs.Add(newFireball);
         }
 

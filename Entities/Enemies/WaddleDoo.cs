@@ -81,6 +81,12 @@ namespace MasterGame
             }
         }
 
+        private Vector2 ProjectilePosition()
+        {
+            // Adjust flamethrower position based on Hothead's facing direction
+            return stateMachine.IsLeft() ? new Vector2(position.X - 17, position.Y - 7) : new Vector2(position.X + 17, position.Y - 7); // TODO: These values probably need to be changed to be accurate. Check how far the position for hothead is from the edges of the sprite.
+        }
+
         protected override void Move()
         {
             if (stateMachine.IsLeft())
@@ -107,8 +113,8 @@ namespace MasterGame
             if (!isBeamActive)
             {
                 // Create a new beam using the current position and direction
-                beam = new EnemyBeam(position, !stateMachine.IsLeft());
-                isBeamActive = true; 
+                beam = new EnemyBeam(ProjectilePosition(), !stateMachine.IsLeft());
+                isBeamActive = true;
             }
         }
 

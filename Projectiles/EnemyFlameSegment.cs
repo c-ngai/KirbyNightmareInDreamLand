@@ -13,8 +13,11 @@ namespace MasterGame
         private float delay; // Delay before this segment becomes active
         private bool isActive; 
         private static Random random = new Random(); // Random instance for sprite selection
-        private const int MaxFrames = 13; // Number of frames before the flame segment disappears
         private int frameCount;
+
+        private const int MaxFrames = 13; // Number of frames before the flame segment disappears
+        private const float SecondsPerFrame = 0.016f; // 60fps. 1/60 = ~0.016 seconds per frame
+
 
         public Vector2 Position
         {
@@ -54,7 +57,7 @@ namespace MasterGame
             // Reduce delay over time
             if (delay > 0)
             {
-                delay -= 0.016f; // 60fps. 1/60 = ~0.016 seconds per frame
+                delay -= SecondsPerFrame;
             }
             else
             {

@@ -150,7 +150,7 @@ namespace MasterGame
 
             enemyList = new IEnemy[] { waddledeeTest, waddledooTest, brontoburtTest, hotheadTest, poppybrosjrTest, sparkyTest };
             currentEnemyIndex = 0;
-
+            
             // Remapping keyboard to new Kirby 
             keyboard = new KeyboardController();
             SetKeyboardControls(keyboard);
@@ -184,7 +184,7 @@ namespace MasterGame
             time = gameTime;
 
             keyboard.Update();
-            
+
             kirby.Update(time);
             enemyList[currentEnemyIndex].Update(time);
             BlockList.Instance.Update();
