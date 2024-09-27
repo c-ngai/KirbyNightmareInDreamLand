@@ -11,14 +11,14 @@ namespace MasterGame
         
         public Vector2 Position
         {
-            get => position;            // Return position of fireball
-            set => position = value;    // Set the position of the fireball to the given value
+            get => position;            // Return position of star
+            set => position = value;    // Set the position of the star to the given value
         }
 
         public Vector2 Velocity
         {
-            get => velocity;            // Return the current velocity of the fireball
-            set => velocity = value;    // Set the velocity of the fireball to the given value
+            get => velocity;            // Return the current velocity of the star
+            set => velocity = value;    // Set the velocity of the star to the given value
         }
 
         public KirbyStar(Vector2 startPosition, Vector2 starDirection)
@@ -31,7 +31,7 @@ namespace MasterGame
                 starDirection.Normalize(); // Ensures the vector has a length of 1
             }
 
-            Velocity = starDirection * Speed; // Apply the constant speed
+            Velocity = starDirection * Constants.Star.SPEED; // Apply the constant speed
 
             // Check the direction and assign the appropriate sprite
             if (starDirection.X >= 0)

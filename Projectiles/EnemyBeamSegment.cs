@@ -40,7 +40,7 @@ namespace MasterGame
 
                 // Increment frame count and check if the segment should disappear
                 frameCount++;
-                if (frameCount >= MaxFrames)
+                if (frameCount >= Constants.WaddleDooBeam.MAX_FRAMES)
                 {
                     IsActive = false; // Mark the segment as inactive
                 }

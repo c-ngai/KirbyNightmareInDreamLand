@@ -79,7 +79,7 @@ namespace MasterGame
             // Reduce delay over time
             if (delay > 0)
             {
-                delay -= SecondsPerFrame; // 60fps. 1/60 = ~0.016 seconds per frame
+                delay -= Constants.KirbyFire.SECONDS_PER_FRAME; // 60fps. 1/60 = ~0.016 seconds per frame
             }
             else
             {
@@ -94,7 +94,7 @@ namespace MasterGame
                 frameCount++;
 
                 // Mark the segment as inactive after a certain number of frames
-                if (frameCount >= MaxFrames)
+                if (frameCount >= Constants.KirbyFire.MAX_FRAMES)
                 {
                     IsActive = false;
                     projectileSprite = null; // Set sprite to null to avoid further drawing

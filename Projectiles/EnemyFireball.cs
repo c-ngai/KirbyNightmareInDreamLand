@@ -31,7 +31,7 @@ namespace MasterGame
                 fireballDirection.Normalize(); // Ensures the vector has a length of 1
             }
             
-            Velocity = fireballDirection * Speed;
+            Velocity = fireballDirection * Constants.EnemyFire.SPEED;
 
             projectileSprite = SpriteFactory.Instance.createSprite("projectile_hothead_fireball");
         }

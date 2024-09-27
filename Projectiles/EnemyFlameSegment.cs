@@ -53,7 +53,7 @@ namespace MasterGame
             // Reduce delay over time
             if (delay > 0)
             {
-                delay -= SecondsPerFrame;
+                delay -= Constants.EnemyFire.SECONDS_PER_FRAME;
             }
             else
             {
@@ -68,7 +68,7 @@ namespace MasterGame
                 frameCount++;
 
                 // Mark the segment as inactive after a certain number of frames
-                if (frameCount >= MaxFrames)
+                if (frameCount >= Constants.EnemyFire.MAX_FRAMES)
                 {
                     isActive = false;
                     projectileSprite = null; // Set sprite to null to avoid further drawing
