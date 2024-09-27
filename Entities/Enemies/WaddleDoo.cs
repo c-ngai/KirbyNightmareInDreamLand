@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace MasterGame
 {
@@ -7,11 +8,15 @@ namespace MasterGame
     {
         private const float MoveSpeed = 0.5f;
 
-        //Walking and attacking frames
+        // Walking and attacking frames
         private int frameCounter = 0;
         private int walkFrames = 180;
         private int stopFrames = 60;
-        private int attackFrames = 100;
+        private int attackFrames = 33;
+
+        // Beam
+        private EnemyBeam beam; // Change from List<EnemyBeam> to a single instance
+        private bool isBeamActive = false;
 
         public WaddleDoo(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDoo)
         {
@@ -25,6 +30,9 @@ namespace MasterGame
             {
                 frameCounter++;
 
+
+                //TO-DO: Should I use statemachine to avoid switch cases?
+                //Changes behavior depending on pose
                 switch (stateMachine.GetPose())
                 {
                     case EnemyPose.Walking:
@@ -47,6 +55,7 @@ namespace MasterGame
                         break;
 
                     case EnemyPose.Attacking:
+                        Attack();
                         if (frameCounter >= attackFrames)
                         {
                             stateMachine.ChangePose(EnemyPose.Walking);
@@ -57,6 +66,18 @@ namespace MasterGame
                 }
 
                 enemySprite.Update();
+
+                // Update the beam if it's active
+                if (isBeamActive)
+                {
+                    beam.Update();
+
+                    // If the beam is no longer active, reset the state
+                    if (!beam.IsBeamActive())
+                    {
+                        isBeamActive = false;
+                    }
+                }
             }
         }
 
@@ -83,13 +104,23 @@ namespace MasterGame
 
         public override void Attack()
         {
-            //Beam attack
+            if (!isBeamActive)
+            {
+                // Create a new beam using the current position and direction
+                beam = new EnemyBeam(position, !stateMachine.IsLeft());
+                isBeamActive = true; 
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (!isDead)
             {
+                // Draw the beam if it's active
+                if (isBeamActive)
+                {
+                    beam.Draw(spriteBatch);
+                }
                 enemySprite.Draw(position, spriteBatch);
             }
         }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 
 namespace MasterGame
@@ -18,18 +17,20 @@ namespace MasterGame
 
         // All fireballs and flamethrower
         private List<IProjectile> fireballs;
-        private KirbyFlamethrower flamethrower;
+        private EnemyFlamethrower flamethrower;
         private bool isFlamethrowerActive;
+        private bool canUseFlamethrower;
 
         public Hothead(Vector2 startPosition) : base(startPosition, EnemyType.Hothead)
         {
-            //initilize variables
             health = 100;
             fireballs = new List<IProjectile>();
-            flamethrower = new KirbyFlamethrower();
+            flamethrower = new EnemyFlamethrower();
             isFlamethrowerActive = false;
+            canUseFlamethrower = true;
             stateMachine.ChangePose(EnemyPose.Walking);
         }
+
 
         public override void Update(GameTime gameTime)
         {
@@ -37,8 +38,8 @@ namespace MasterGame
             {
                 frameCounter++;
 
-                //TO-DO: Ask if State Machine should handle this
-                //Depending on pose, will play specific number of frames and swap to other pose
+                //TO-DO: Should I use statemachine to avoid switch cases?
+                //Changes behavior depending on pose
                 switch (stateMachine.GetPose())
                 {
                     case EnemyPose.Walking:
@@ -66,14 +67,15 @@ namespace MasterGame
                         break;
 
                     case EnemyPose.Attacking:
-                        if (frameCounter == 1) // Blowing fire projectile
+                        if (frameCounter == 1) // Start flamethrower attack
                         {
                             Flamethrower(gameTime);
                         }
 
                         if (frameCounter >= attackFrames)
                         {
-                            isFlamethrowerActive = false;
+                            isFlamethrowerActive = false; // Deactivate flamethrower after attack
+                            flamethrower.ClearSegments(); // Clear
                             stateMachine.ChangePose(EnemyPose.Walking); // After attack, walk
                             frameCounter = 0;
                             UpdateTexture();
@@ -85,13 +87,18 @@ namespace MasterGame
                 enemySprite.Update();
                 UpdateFireballs();
 
-                // If attacking, update flamethrower
-                if (stateMachine.GetPose() == EnemyPose.Attacking && isFlamethrowerActive)
+                // Update flamethrower if active
+                if (isFlamethrowerActive)
                 {
                     flamethrower.Update(gameTime, position, stateMachine.IsLeft() ? new Vector2(-1, 0) : new Vector2(1, 0));
                 }
+                else
+                {
+                    flamethrower.ClearSegments(); // Clear segments when not active
+                }
             }
         }
+
 
         protected override void Move()
         {
@@ -118,21 +125,21 @@ namespace MasterGame
 
         private void Flamethrower(GameTime gameTime)
         {
-            //TO-DO: check if need these lines
-            //stateMachine.ChangePose(EnemyPose.Attacking);
-            //UpdateTexture();
+            if (!isFlamethrowerActive)
+            {
+                isFlamethrowerActive = true;
 
-            isFlamethrowerActive = true;
+                // Set the start position for the flamethrower
+                Vector2 flameDirection = stateMachine.IsLeft() ? new Vector2(-1, 0) : new Vector2(1, 0);
+                flamethrower.Update(gameTime, position, flameDirection);
 
-            // Blow fire/flamethrower left or right
-            Vector2 flameDirection = stateMachine.IsLeft() ? new Vector2(-1, 0) : new Vector2(1, 0);
+                canUseFlamethrower = false; // Prevent re-activation
+            }
         }
 
-        //Fireball attack
         public override void Attack()
         {
-            Vector2 projectileDirection = stateMachine.IsLeft() ? new Vector2(-1, -0.5f) : new Vector2(1, -0.5f); // Aim left or right
-
+            Vector2 projectileDirection = stateMachine.IsLeft() ? new Vector2(-1, -0.5f) : new Vector2(1, -0.5f);
             IProjectile newFireball = new EnemyFireball(position, projectileDirection);
             fireballs.Add(newFireball);
         }
@@ -143,8 +150,6 @@ namespace MasterGame
             {
                 fireball.Update();
             }
-
-            //TO-DO: Remove fireballs from list after off screen logic can be added here
         }
 
         public override void Draw(SpriteBatch spriteBatch)
