@@ -36,7 +36,8 @@ Use 'q' to quit and 'r' to reset the program back to its initial state.
 
 *** NOTE: Due to time constraints and the overwhelming amount
 of animations for each powerup, animations for Beam, Fire, and Spark Kirby (other
-than right/left facing Kirby) have been backlogged. To be done by Sprint3. 
+than right/left facing Kirby) have been backlogged with permission from Professor Kirby.
+To be done by Sprint3. 
 
 ###############################################################################
 
