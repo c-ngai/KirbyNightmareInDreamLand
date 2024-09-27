@@ -10,13 +10,9 @@ namespace MasterGame
 
         // Walking and attacking frames
         private int frameCounter = 0;
-
-        // Define a list of tuples (EnemyPose, number of frames)
-        private List<(EnemyPose pose, int frames)> poseFrames;
-        private int currentPoseIndex = 0;
-        private int walkingFrames = 180;
-        private int chargingFrames = 60;
-        private int attackingFrames = 33;
+        private int walkFrames = 180;
+        private int stopFrames = 60;
+        private int attackFrames = 33;
 
         // Beam
         private EnemyBeam beam; // Change from List<EnemyBeam> to a single instance
@@ -24,18 +20,8 @@ namespace MasterGame
 
         public WaddleDoo(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDoo)
         {
+            stateMachine.ChangePose(EnemyPose.Walking);
             enemySprite = SpriteFactory.Instance.createSprite("waddledoo_walking_right");
-
-            // Initialize the list of pose and frame pairs
-            poseFrames = new List<(EnemyPose, int)>
-            {
-                (EnemyPose.Walking, walkingFrames),
-                (EnemyPose.Charging, chargingFrames), 
-                (EnemyPose.Attacking, attackingFrames) 
-            };
-
-            // Start with the first pose
-            stateMachine.ChangePose(poseFrames[currentPoseIndex].pose);
         }
 
         public override void Update(GameTime gameTime)
@@ -44,28 +30,39 @@ namespace MasterGame
             {
                 frameCounter++;
 
-                // Get the current pose and frames
-                var (currentPose, requiredFrames) = poseFrames[currentPoseIndex];
 
-                if (frameCounter >= requiredFrames)
+                //TO-DO: Should I use statemachine to avoid switch cases?
+                //Changes behavior depending on pose
+                switch (stateMachine.GetPose())
                 {
-                    // Move to the next pose in the cycle
-                    currentPoseIndex = (currentPoseIndex + 1) % poseFrames.Count;
-                    frameCounter = 0;
+                    case EnemyPose.Walking:
+                        Move();
+                        if (frameCounter >= walkFrames)
+                        {
+                            stateMachine.ChangePose(EnemyPose.Charging);
+                            frameCounter = 0;
+                            UpdateTexture();
+                        }
+                        break;
 
-                    // Update the state machine and texture for the new pose
-                    stateMachine.ChangePose(poseFrames[currentPoseIndex].pose);
-                    UpdateTexture();
-                }
+                    case EnemyPose.Charging:
+                        if (frameCounter >= stopFrames)
+                        {
+                            stateMachine.ChangePose(EnemyPose.Attacking);
+                            frameCounter = 0;
+                            UpdateTexture();
+                        }
+                        break;
 
-                // Perform specific actions for the current pose
-                if (currentPose == EnemyPose.Walking)
-                {
-                    Move();
-                }
-                else if (currentPose == EnemyPose.Attacking)
-                {
-                    Attack();
+                    case EnemyPose.Attacking:
+                        Attack();
+                        if (frameCounter >= attackFrames)
+                        {
+                            stateMachine.ChangePose(EnemyPose.Walking);
+                            frameCounter = 0;
+                            UpdateTexture();
+                        }
+                        break;
                 }
 
                 enemySprite.Update();
@@ -74,6 +71,8 @@ namespace MasterGame
                 if (isBeamActive)
                 {
                     beam.Update();
+
+                    // If the beam is no longer active, reset the state
                     if (!beam.IsBeamActive())
                     {
                         isBeamActive = false;
