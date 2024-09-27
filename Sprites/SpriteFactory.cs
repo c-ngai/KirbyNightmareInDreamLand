@@ -16,7 +16,8 @@ namespace MasterGame {
 
         private static SpriteFactory instance = new SpriteFactory();
 
-
+        // Storing a reference to the current game to pass into sprites for retrieving graphics info.
+        private Game1 game;
 
         public static SpriteFactory Instance
         {
@@ -58,8 +59,11 @@ namespace MasterGame {
         //what is the interface i need to shove all the data else where?
 
         // Loads all textures from the texture list file.
-        public void LoadAllTextures(ContentManager content)
+        public void LoadAllTextures(ContentManager content, Game1 game)
         {
+            // Loads the current game
+            this.game = game;
+            
             // Open the texture list data file and read its lines into a string array.
             string textureList = "Content/Images/Textures.txt";
             string[] textureFilepaths = File.ReadAllLines(textureList);
@@ -97,12 +101,12 @@ namespace MasterGame {
             if (spriteAnimations.ContainsKey(spriteAnimationName))
             {
                 //System.Console.WriteLine(spriteAnimationName );
-                return new Sprite(spriteAnimations[spriteAnimationName]);
+                return new Sprite(spriteAnimations[spriteAnimationName], game);
             }
             else
             {
                 //System.Console.WriteLine(spriteAnimationName ); //debug line
-                return new Sprite(spriteAnimations["invalidspritename"]);
+                return new Sprite(spriteAnimations["invalidspritename"], game);
             }
         }
 

@@ -56,7 +56,7 @@ namespace MasterGame
             spriteBatch.Draw(blue, new Rectangle((int)(position.X + (sourceRectangle.Width - frameCenter.X - 1) * scale), (int)(position.Y - (frameCenter.Y - 1) * scale), (int)scale, (int)((sourceRectangle.Height - 2) * scale)), translucent);
 
             // Draw dot at center of sprite
-            spriteBatch.Draw(red, new Rectangle((int)(position.X - scale), (int)(position.Y - scale), (int)scale * 2, (int)scale * 2), translucent);
+            spriteBatch.Draw(red, new Rectangle((int)(position.X - scale), (int)(position.Y - scale), (int)(scale * 2), (int)(scale * 2)), translucent);
             
         }
 
