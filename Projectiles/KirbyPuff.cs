@@ -8,11 +8,11 @@ namespace MasterGame
         private Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;
-        private const float InitialSpeed = 3.5f; // Initial speed of the puff
-        private const float DecelerationRate = 0.05f; // Rate at which the puff decelerates
-        private int frameCount = 0; // Tracks the number of frames the puff has existed
+        private const float InitialSpeed = 3.5f; 
+        private const float DecelerationRate = 0.05f; 
+        private int frameCount = 0; 
         private const int MaxFrames = 20; // Puff disappears after 20 frames
-        public bool isActive = true; // Track whether the puff is still active (exists)
+        public bool isActive = true;
 
         public Vector2 Position
         {
@@ -59,7 +59,7 @@ namespace MasterGame
                     Vector2 deceleration = Vector2.Normalize(Velocity) * DecelerationRate;
                     Velocity -= deceleration;
 
-                    // Clamp the velocity to zero if it becomes negative or close to zero
+                    // Make the velocity zero if it becomes negative or close to zero
                     if (Velocity.Length() < 0.01f)
                     {
                         Velocity = Vector2.Zero;
@@ -72,7 +72,7 @@ namespace MasterGame
                 frameCount++;
                 if (frameCount >= MaxFrames || Velocity == Vector2.Zero)
                 {
-                    isActive = false; // Mark the puff as inactive
+                    isActive = false;
                     projectileSprite = null; // Remove the sprite to avoid memory leaks
                 }
 

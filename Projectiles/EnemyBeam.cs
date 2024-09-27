@@ -40,13 +40,12 @@ public class EnemyBeam
                 rotation = initialRotation + (segmentsFired / 2) * rotationStep;
             }
 
-            // Calculate the velocity vector
             Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation)) * 8; // Move 8 units per frame
             
             // If facing left, mirror the velocity
             if (!isFacingRight)
             {
-                velocity.X = -velocity.X; // Reverse the X component for left facing
+                velocity.X = -velocity.X;
             }
 
             beamSegments.Add(new EnemyBeamSegment(startPosition, velocity));

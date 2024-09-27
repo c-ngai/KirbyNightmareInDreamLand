@@ -10,7 +10,7 @@ namespace MasterGame
         private int frameCount = 0;
         private int maxFrames = 6; // Segment disappears after 6 frames
         private Sprite projectileSprite;
-        public bool IsActive = true; // Track whether the segment is active or not
+        public bool IsActive = true;
 
         public Vector2 Position
         {

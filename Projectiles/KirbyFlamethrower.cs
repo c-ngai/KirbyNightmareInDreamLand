@@ -8,17 +8,17 @@ namespace MasterGame
     public class KirbyFlamethrower
     {
         private List<KirbyFlameSegment> flameSegments;
-        private Vector2 startPosition; // Position where the flame segments will spawn
+        private Vector2 startPosition; 
         private float fireRate = 0.35f; // Time between each segment spawn
-        private float elapsedTime; // Track time for firing
-        private Vector2 flameDirection; // Direction of the flamethrower
-        private int numberOfSegments = 10; // Number of flame segments to spawn at once
-        private float minSpeed = 1f; // Minimum speed of flame segments
-        private float maxSpeed = 4f; // Maximum speed of flame segments
-        private float minDelay = 0f; // Minimum delay for each segment
-        private float maxDelay = 0.3f; // Maximum delay for each segment
-        private float minAngle = -0.3f; // Minimum angle for flame spread (in radians)
-        private float maxAngle = 0.3f; // Maximum angle for flame spread (in radians)
+        private float elapsedTime; 
+        private Vector2 flameDirection;
+        private int numberOfSegments = 10;
+        private float minSpeed = 1f; 
+        private float maxSpeed = 4f; 
+        private float minDelay = 0f; 
+        private float maxDelay = 0.3f; 
+        private float minAngle = -0.3f;
+        private float maxAngle = 0.3f;
 
         public KirbyFlamethrower()
         {
