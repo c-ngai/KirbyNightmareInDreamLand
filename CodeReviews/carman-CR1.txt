@@ -1,0 +1,38 @@
+Sprint 2 Readabilty Code Review 9/26/24
+
+Author of Code Review: Carman Ngai
+Name of .cs file being reviewed: EnemyFlamethrower.cs and EnemyFlameSegment.cs
+Author of .cs file being reivewed: Payton Murphy
+
+Time taken to complete review: 30 minutes
+
+################################################################################
+
+10 Code Smells:
+
+1. Data Clumps
+2. SameNameDifferentMeaning
+3. TooMuchDocumentation
+4. Divergent Change
+5. Shotgun Surgery
+6. Middleman
+7. Lazy Class
+8. Inappropriate Intimacy
+9. Backpedaling
+10. YouDon'tNeedItAnymore
+
+################################################################################
+
+Readability:
+
+	Variables are well-named enough that it makes some of the comments redundant. Most of the comments for the fields were unnecessary (TooMuchDocumentation).
+There are a few magic numbers that still need to be removed; specifically the 2 used to help define the for loop condition and the condition itself was a bit
+confusing for me and would be nice to be further explained. There was also the use of two dot operators to get time and we have a time calculator that could
+be used instead to make the code more readable. I really appreciate the naming choices as it made the code easy to understand and methods met the 
+single-responsibility criteria well.
+
+
+Comments: 
+
+	In the EnemyFlameSegment, there is sitll a TODO comment so just a reminder to follow-up on it. I saw a really cool null-condition operator I did not know existed 
+with your use of "?.". Overall the code was very readable and well segmented into its respective classes and methods.
