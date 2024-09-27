@@ -12,11 +12,6 @@ public class EnemyBeam
     private Vector2 startPosition;
     private bool isFacingRight; // Track if WaddleDoo is facing left
 
-    private const int TotalSegments = 16;
-    private const float InitialRotation = -MathHelper.PiOver2; // -90 degrees to fire straight up
-    private const float RotationStep = MathHelper.PiOver4 / 2; // 22.5 degrees in radians
-    private const int UnitsPerFrame = 8;
-
     public EnemyBeam(Vector2 startPosition, bool isFacingRight)
     {
         this.startPosition = startPosition;

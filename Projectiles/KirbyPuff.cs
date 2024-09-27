@@ -11,12 +11,6 @@ namespace MasterGame
         private int frameCount = 0; 
         public bool isActive = true;
 
-        private const float InitialSpeed = 3.5f;
-        private const float DecelerationRate = 0.05f;
-        private const int MaxFrames = 20; // Puff disappears after 20 frames
-        private const float SmallVelocity = 0.01f; // Cutoff for Velocity getting close to zero
-
-
         public Vector2 Position
         {
             get => position;            // Return position of puff

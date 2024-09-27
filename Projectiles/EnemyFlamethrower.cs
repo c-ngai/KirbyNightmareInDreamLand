@@ -12,15 +12,6 @@ namespace MasterGame
         private float elapsedTime;
         private Vector2 flameDirection; 
 
-        private const float FireRate = 0.35f; // Time between each segment spawn
-        private const int NumberOfSegments = 10; // Number of flame segments to spawn at once
-        private const float MinSpeed = 1f;
-        private const float MaxSpeed = 4f;
-        private const float MinDelay = 0f;
-        private float MaxDelay = 0.3f;
-        private const float MinAngle = -0.3f;
-        private const float MaxAngle = 0.3f;
-
         public EnemyFlamethrower()
         {
             flameSegments = new List<EnemyFlameSegment>();

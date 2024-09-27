@@ -9,8 +9,6 @@ namespace MasterGame
         private Vector2 position;
         private Vector2 velocity;
         
-        private const float Speed = 1f; // Constant speed of the fireball
-
         public Vector2 Position
         {
             get => position;            // Return position of fireball

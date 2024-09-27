@@ -15,9 +15,6 @@ namespace MasterGame
         private static Random random = new Random(); // Random instance for sprite selection
         private int frameCount;
 
-        private const int MaxFrames = 14; // Number of frames before the flame segment disappears   
-        private const float SecondsPerFrame = 0.016f; 
-
         public bool IsActive { get; private set; } // Expose IsActive for external checks
 
         public Vector2 Position

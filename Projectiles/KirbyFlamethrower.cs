@@ -12,15 +12,7 @@ namespace MasterGame
         private float fireRate = 0.35f; // Time between each segment spawn
         private float elapsedTime; 
         private Vector2 flameDirection;
-        private int numberOfSegments = 10;
         
-        private const float MinSpeed = 1f; 
-        private const float MaxSpeed = 4f; 
-        private const float MinDelay = 0f; 
-        private const float MaxDelay = 0.3f; 
-        private const float MinAngle = -0.3f;
-        private const float MaxAngle = 0.3f;
-
         public KirbyFlamethrower()
         {
             flameSegments = new List<KirbyFlameSegment>();
