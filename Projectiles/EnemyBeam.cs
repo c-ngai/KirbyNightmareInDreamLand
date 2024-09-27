@@ -6,14 +6,16 @@ using System;
 
 public class EnemyBeam
 {
-    private int totalSegments = 16;
     private int segmentsFired = 0;
     private int frameCounter = 0;
     private List<EnemyBeamSegment> beamSegments;
     private Vector2 startPosition;
-    private float initialRotation = -MathHelper.PiOver2; // -90 degrees to fire straight up
-    private float rotationStep = MathHelper.PiOver4 / 2; // 22.5 degrees in radians
     private bool isFacingRight; // Track if WaddleDoo is facing left
+
+    private const int TotalSegments = 16;
+    private const float InitialRotation = -MathHelper.PiOver2; // -90 degrees to fire straight up
+    private const float RotationStep = MathHelper.PiOver4 / 2; // 22.5 degrees in radians
+    private const int UnitsPerFrame = 8;
 
     public EnemyBeam(Vector2 startPosition, bool isFacingRight)
     {
@@ -25,28 +27,27 @@ public class EnemyBeam
     public void Update()
     {
         // Fire a new segment every 2 frames, up to 16 segments
-        if (segmentsFired < totalSegments && frameCounter % 2 == 0)
+        if (segmentsFired < TotalSegments && frameCounter % 2 == 0)
         {
             float rotation;
 
             if (segmentsFired == 0)
             {
                 // Fire the first segment straight up
-                rotation = initialRotation;
+                rotation = InitialRotation;
             }
             else
             {
                 // After the first, rotate every other segment
-                rotation = initialRotation + (segmentsFired / 2) * rotationStep;
+                rotation = InitialRotation + (segmentsFired / 2) * RotationStep;
             }
 
-            // Calculate the velocity vector
-            Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation)) * 8; // Move 8 units per frame
+            Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation)) * UnitsPerFrame; // Move 8 units per frame
             
             // If facing left, mirror the velocity
             if (!isFacingRight)
             {
-                velocity.X = -velocity.X; // Reverse the X component for left facing
+                velocity.X = -velocity.X;
             }
 
             beamSegments.Add(new EnemyBeamSegment(startPosition, velocity));

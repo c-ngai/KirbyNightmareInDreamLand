@@ -8,6 +8,7 @@ namespace MasterGame
         private Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;
+        
         private const float Speed = 1f; // Constant speed of the fireball
 
         public Vector2 Position
@@ -47,7 +48,6 @@ namespace MasterGame
 
         public void Update()
         {
-            // Update position based on velocity
             Position += Velocity;
 
             projectileSprite.Update();

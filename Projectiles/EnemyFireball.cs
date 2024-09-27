@@ -8,6 +8,7 @@ namespace MasterGame
         private Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;
+
         private const float Speed = 1f; // Constant speed of the fireball
 
         public Vector2 Position
@@ -32,14 +33,13 @@ namespace MasterGame
                 fireballDirection.Normalize(); // Ensures the vector has a length of 1
             }
             
-            Velocity = fireballDirection * Speed; // Apply the constant speed
+            Velocity = fireballDirection * Speed;
 
             projectileSprite = SpriteFactory.Instance.createSprite("projectile_hothead_fireball");
         }
 
         public void Update()
         {
-            // Update position based on velocity
             Position += Velocity;
 
             projectileSprite.Update();

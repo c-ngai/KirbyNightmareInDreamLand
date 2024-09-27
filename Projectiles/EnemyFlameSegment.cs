@@ -9,12 +9,15 @@ namespace MasterGame
         private Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;
-        private float speed; // Speed of the flame segment
+        private float speed;
         private float delay; // Delay before this segment becomes active
-        private bool isActive; // Whether the flame segment has started moving
+        private bool isActive; 
         private static Random random = new Random(); // Random instance for sprite selection
+        private int frameCount;
+
         private const int MaxFrames = 13; // Number of frames before the flame segment disappears
-        private int frameCount; // Track the frames since activation
+        private const float SecondsPerFrame = 0.016f; // 60fps. 1/60 = ~0.016 seconds per frame
+
 
         public Vector2 Position
         {
@@ -31,17 +34,16 @@ namespace MasterGame
         public EnemyFlameSegment(Vector2 startPosition, Vector2 flameDirection, float speed, float delay)
         {
             Position = startPosition;
-            this.speed = speed; // Set speed from parameter
-            this.delay = delay; // Set delay from parameter
-            isActive = false; // Start as inactive
+            this.speed = speed;
+            this.delay = delay;
+            isActive = false;
 
-            // Normalize the direction vector and multiply by the speed
             if (flameDirection != Vector2.Zero)
             {
                 flameDirection.Normalize();
             }
 
-            Velocity = flameDirection * speed; // Apply the variable speed
+            Velocity = flameDirection * speed;
 
             // Randomly select either the first or second set of sprites based on direction
             bool useSecondSprite = random.Next(2) == 0; // 50% chance to use the second sprite
@@ -55,7 +57,7 @@ namespace MasterGame
             // Reduce delay over time
             if (delay > 0)
             {
-                delay -= 0.016f; // TODO: Check. If 60fps, 1/60 = ~0.016 seconds per frame
+                delay -= SecondsPerFrame;
             }
             else
             {
@@ -65,9 +67,8 @@ namespace MasterGame
             // Only update position if the flame segment is active
             if (isActive)
             {
-                Position += Velocity; // Update position based on velocity
+                Position += Velocity; 
 
-                // Count the frames the segment has been active
                 frameCount++;
 
                 // Mark the segment as inactive after a certain number of frames
@@ -85,7 +86,7 @@ namespace MasterGame
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (isActive) // Only draw when active
+            if (isActive)
             {
                 projectileSprite.Draw(Position, spriteBatch);
             }

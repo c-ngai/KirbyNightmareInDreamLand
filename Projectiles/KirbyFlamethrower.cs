@@ -8,17 +8,18 @@ namespace MasterGame
     public class KirbyFlamethrower
     {
         private List<KirbyFlameSegment> flameSegments;
-        private Vector2 startPosition; // Position where the flame segments will spawn
+        private Vector2 startPosition; 
         private float fireRate = 0.35f; // Time between each segment spawn
-        private float elapsedTime; // Track time for firing
-        private Vector2 flameDirection; // Direction of the flamethrower
-        private int numberOfSegments = 10; // Number of flame segments to spawn at once
-        private float minSpeed = 1f; // Minimum speed of flame segments
-        private float maxSpeed = 4f; // Maximum speed of flame segments
-        private float minDelay = 0f; // Minimum delay for each segment
-        private float maxDelay = 0.3f; // Maximum delay for each segment
-        private float minAngle = -0.3f; // Minimum angle for flame spread (in radians)
-        private float maxAngle = 0.3f; // Maximum angle for flame spread (in radians)
+        private float elapsedTime; 
+        private Vector2 flameDirection;
+        private int numberOfSegments = 10;
+        
+        private const float MinSpeed = 1f; 
+        private const float MaxSpeed = 4f; 
+        private const float MinDelay = 0f; 
+        private const float MaxDelay = 0.3f; 
+        private const float MinAngle = -0.3f;
+        private const float MaxAngle = 0.3f;
 
         public KirbyFlamethrower()
         {
@@ -53,22 +54,21 @@ namespace MasterGame
             // Create multiple flame segments with varying angles and delays
             for (int i = -numberOfSegments / 2; i <= numberOfSegments / 2; i++)
             {
-                // Calculate the total angle spread
-                float totalAngleRange = maxAngle - minAngle;
+                float totalAngleRange = MaxAngle - MinAngle;
 
                 // Calculate the angle offset based on the number of segments
-                float angle = minAngle + (i + (numberOfSegments / 2)) * (totalAngleRange / numberOfSegments);
+                float angle = MinAngle + (i + (numberOfSegments / 2)) * (totalAngleRange / numberOfSegments);
 
                 // Ensure the angle stays within the minAngle and maxAngle range
-                if (angle < minAngle) angle = minAngle;
-                if (angle > maxAngle) angle = maxAngle;
+                if (angle < MinAngle) angle = MinAngle;
+                if (angle > MaxAngle) angle = MaxAngle;
 
                 // Rotate the direction vector by the calculated angle
                 Vector2 direction = Vector2.Transform(flameDirection, Matrix.CreateRotationZ(angle));
 
                 // Generate a random speed and delay for each segment
-                float randomSpeed = (float)(random.NextDouble() * (maxSpeed - minSpeed) + minSpeed);
-                float randomDelay = (float)(random.NextDouble() * (maxDelay - minDelay) + minDelay);
+                float randomSpeed = (float)(random.NextDouble() * (MaxSpeed - MinSpeed) + MinSpeed);
+                float randomDelay = (float)(random.NextDouble() * (MaxDelay - MinDelay) + MinDelay);
 
                 KirbyFlameSegment newSegment = new KirbyFlameSegment(startPosition, direction, randomSpeed, randomDelay);
                 flameSegments.Add(newSegment);

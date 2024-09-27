@@ -9,12 +9,14 @@ namespace MasterGame
         private Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;
-        private float speed; // Speed of the flame segment
+        private float speed;
         private float delay; // Delay before this segment becomes active
-        private bool isActive; // Whether the flame segment has started moving
+        private bool isActive;
         private static Random random = new Random(); // Random instance for sprite selection
-        private const int MaxFrames = 14; // Number of frames before the flame segment disappears
-        private int frameCount; // Track the frames since activation
+        private int frameCount;
+
+        private const int MaxFrames = 14; // Number of frames before the flame segment disappears   
+        private const float SecondsPerFrame = 0.016f; 
 
         public bool IsActive { get; private set; } // Expose IsActive for external checks
 
@@ -33,9 +35,9 @@ namespace MasterGame
         public KirbyFlameSegment(Vector2 startPosition, Vector2 flameDirection, float speed, float delay)
         {
             Position = startPosition;
-            this.speed = speed; // Set speed from parameter
-            this.delay = delay; // Set delay from parameter
-            IsActive = false; // Start as inactive
+            this.speed = speed;
+            this.delay = delay;
+            IsActive = false;
             frameCount = 0;
 
             // Normalize the direction vector and multiply by the speed
@@ -80,7 +82,7 @@ namespace MasterGame
             // Reduce delay over time
             if (delay > 0)
             {
-                delay -= 0.016f; // Assuming 60fps, 1/60 = ~0.016 seconds per frame
+                delay -= SecondsPerFrame; // 60fps. 1/60 = ~0.016 seconds per frame
             }
             else
             {
@@ -92,7 +94,6 @@ namespace MasterGame
             {
                 Position += Velocity; // Update position based on velocity
 
-                // Count the frames the segment has been active
                 frameCount++;
 
                 // Mark the segment as inactive after a certain number of frames
@@ -110,7 +111,7 @@ namespace MasterGame
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (IsActive && projectileSprite != null) // Only draw when active
+            if (IsActive && projectileSprite != null)
             {
                 projectileSprite.Draw(Position, spriteBatch);
             }

@@ -7,12 +7,15 @@ namespace MasterGame
     {
         private Sprite projectileSprite;
         private Vector2 position;
-        private Vector2 velocity;
-        private const float InitialSpeed = 3.5f; // Initial speed of the puff
-        private const float DecelerationRate = 0.05f; // Rate at which the puff decelerates
-        private int frameCount = 0; // Tracks the number of frames the puff has existed
+        private Vector2 velocity; 
+        private int frameCount = 0; 
+        public bool isActive = true;
+
+        private const float InitialSpeed = 3.5f;
+        private const float DecelerationRate = 0.05f;
         private const int MaxFrames = 20; // Puff disappears after 20 frames
-        public bool isActive = true; // Track whether the puff is still active (exists)
+        private const float SmallVelocity = 0.01f; // Cutoff for Velocity getting close to zero
+
 
         public Vector2 Position
         {
@@ -56,25 +59,23 @@ namespace MasterGame
                 // Decelerate the puff by reducing its velocity
                 if (Velocity.Length() > 0)
                 {
-                    // Reduce the velocity vector by the deceleration rate
                     Vector2 deceleration = Vector2.Normalize(Velocity) * DecelerationRate;
                     Velocity -= deceleration;
 
-                    // Clamp the velocity to zero if it becomes negative or close to zero
-                    if (Velocity.Length() < 0.01f)
+                    // Make the velocity zero if it becomes negative or close to zero
+                    if (Velocity.Length() < SmallVelocity)
                     {
                         Velocity = Vector2.Zero;
                     }
                 }
 
-                // Update the position based on the current velocity
                 Position += Velocity;
 
                 // Increment frame count and check if puff should disappear
                 frameCount++;
                 if (frameCount >= MaxFrames || Velocity == Vector2.Zero)
                 {
-                    isActive = false; // Mark the puff as inactive
+                    isActive = false;
                     projectileSprite = null; // Remove the sprite to avoid memory leaks
                 }
 

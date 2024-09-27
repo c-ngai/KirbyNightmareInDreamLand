@@ -8,17 +8,18 @@ namespace MasterGame
     public class EnemyFlamethrower
     {
         private List<EnemyFlameSegment> flameSegments;
-        private Vector2 startPosition; // Position where the flame segments will spawn
-        private float fireRate = 0.35f; // Time between each segment spawn
-        private float elapsedTime; // Track time for firing
-        private Vector2 flameDirection; // Direction of the flamethrower
-        private int numberOfSegments = 10; // Number of flame segments to spawn at once
-        private float minSpeed = 1f; // Minimum speed of flame segments
-        private float maxSpeed = 4f; // Maximum speed of flame segments
-        private float minDelay = 0f; // Minimum delay for each segment
-        private float maxDelay = 0.3f; // Maximum delay for each segment
-        private float minAngle = -0.3f; // Minimum angle for flame spread (in radians)
-        private float maxAngle = 0.3f; // Maximum angle for flame spread (in radians)
+        private Vector2 startPosition;
+        private float elapsedTime;
+        private Vector2 flameDirection; 
+
+        private const float FireRate = 0.35f; // Time between each segment spawn
+        private const int NumberOfSegments = 10; // Number of flame segments to spawn at once
+        private const float MinSpeed = 1f;
+        private const float MaxSpeed = 4f;
+        private const float MinDelay = 0f;
+        private float MaxDelay = 0.3f;
+        private const float MinAngle = -0.3f;
+        private const float MaxAngle = 0.3f;
 
         public EnemyFlamethrower()
         {
@@ -33,7 +34,7 @@ namespace MasterGame
             elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             // Check if it's time to spawn new flame segments
-            if (elapsedTime >= fireRate)
+            if (elapsedTime >= FireRate)
             {
                 SpawnFlameSegments();
                 elapsedTime = 0f; // Reset elapsed time
@@ -51,24 +52,23 @@ namespace MasterGame
             Random random = new Random();
 
             // Create multiple flame segments with varying angles and delays
-            for (int i = -numberOfSegments / 2; i <= numberOfSegments / 2; i++)
+            for (int i = -NumberOfSegments / 2; i <= NumberOfSegments / 2; i++)
             {
-                // Calculate the total angle spread
-                float totalAngleRange = maxAngle - minAngle;
+                float totalAngleRange = MaxAngle - MinAngle;
 
                 // Calculate the angle offset based on the number of segments
-                float angle = minAngle + (i + (numberOfSegments / 2)) * (totalAngleRange / numberOfSegments);
+                float angle = MinAngle + (i + (NumberOfSegments / 2)) * (totalAngleRange / NumberOfSegments);
 
                 // Ensure the angle stays within the minAngle and maxAngle range
-                if (angle < minAngle) angle = minAngle;
-                if (angle > maxAngle) angle = maxAngle;
+                if (angle < MinAngle) angle = MinAngle;
+                if (angle > MaxAngle) angle = MaxAngle;
 
                 // Rotate the direction vector by the calculated angle
                 Vector2 direction = Vector2.Transform(flameDirection, Matrix.CreateRotationZ(angle));
 
                 // Generate a random speed and delay for each segment
-                float randomSpeed = (float)(random.NextDouble() * (maxSpeed - minSpeed) + minSpeed);
-                float randomDelay = (float)(random.NextDouble() * (maxDelay - minDelay) + minDelay);
+                float randomSpeed = (float)(random.NextDouble() * (MaxSpeed - MinSpeed) + MinSpeed);
+                float randomDelay = (float)(random.NextDouble() * (MaxDelay - MinDelay) + MinDelay);
 
                 EnemyFlameSegment newSegment = new EnemyFlameSegment(startPosition, direction, randomSpeed, randomDelay);
                 flameSegments.Add(newSegment);
@@ -77,7 +77,6 @@ namespace MasterGame
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            // Draw all flame segments
             foreach (var segment in flameSegments)
             {
                 segment.Draw(spriteBatch);
@@ -85,7 +84,7 @@ namespace MasterGame
         }
         public void ClearSegments()
         {
-            flameSegments.Clear(); // Clear all flame segments
+            flameSegments.Clear();
         }
     }
 }

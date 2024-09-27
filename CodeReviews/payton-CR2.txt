@@ -1,0 +1,39 @@
+﻿Sprint 2 Readabilty Code Review     9/27/2024
+
+Author of Code Review: Payton Murphy
+Name of .cs file being reviewed: SpriteFactory.cs
+Author of .cs file being reivewed: Mark DeLeo
+
+Time taken to complete review: 40 minutes
+
+################################################################################
+
+10 Code Smells:
+
+1. SwitchStatementsSmell
+2. SameNameDifferentMeaning ***
+3. TooManyParameters
+4. InappropriateIntimacy
+5. VagueIdentifiers
+6. Middleman
+7. VariableNameSameAsType
+8. WhileNotDoneLoop
+9. DataClumps
+10. InstanceofInConditionals
+
+################################################################################
+
+Comments on code smells:
+There are two methods with the same name: createSprite(). While this is technically a code smell, I think it's acceptable here since their purpose
+is clear and the same. Depending on the interpretation, this could potentially be the same "meaning," or perhaps the different parameter types could
+pose a different "meaning." Other than that, none of the other code smells listed above were detected.
+
+
+Readability comments:
+
+The quality of the code in this file is generally good, with clear structure and adherance to the single responsibility rule. Each method has a distinct
+purpose. Good job! As for a hypothetical change, consider if the sprite textures were loaded from an external source. The current implementation couples 
+loading from a file system using hardcoded paths. To support the new feature, SpriteFactory would need significant refactoring/revising to allow 
+different loading mechanisms. This could potentially be done by abstracting the loading logic into a separate class that supports different source 
+types, which could improve that maintainability and flexibility of the system. For the purposes of our game, this shouldn't matter too much, but it is 
+something to consider. 
