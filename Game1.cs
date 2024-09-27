@@ -29,6 +29,8 @@ namespace MasterGame
         // List of all enemies
         public IEnemy[] enemyList { get; set; }
 
+        public Sprite item { get; set; }
+
         // List to manage projectiles
         private List<IProjectile> projectiles; // TODO: Delete after synching with entity
 
@@ -42,7 +44,7 @@ namespace MasterGame
         // Flamethrower instance
         private KirbyFlamethrower flamethrower;
 
-        private EnemyBeam enemyBeam; // Add this line to manage the WaddleDoo beam
+        private EnemyBeam enemyBeam; // ENEMYBEAM TEST
         private KirbyBeam kirbyBeam; // KIRBYBEAM TEST
 
 
@@ -76,28 +78,29 @@ namespace MasterGame
         {
             keyboard.RegisterCommand(Keys.Right, new KirbyMoveRightCommand(kirby, Keys.Right, keyboard, this), ExecutionType.Pressed);
             keyboard.RegisterCommand(Keys.Left, new KirbyMoveLeftCommand(kirby, Keys.Left, keyboard, this), ExecutionType.Pressed);
-            keyboard.RegisterCommand(Keys.Down, new KirbyCrouchCommand(kirby), ExecutionType.Pressed);
+
+            // this is hard-coded bc it needs to know the keybind to attack to check if it needs to slide
+            keyboard.RegisterCommand(Keys.Down, new KirbyMoveCrouchedCommand(kirby, Keys.Z, keyboard, this), ExecutionType.Pressed);
             keyboard.RegisterCommand(Keys.Up, new KirbyFloatCommand(kirby), ExecutionType.Pressed);
             keyboard.RegisterCommand(Keys.X, new KirbyJumpCommand(kirby), ExecutionType.Pressed);
 
             keyboard.RegisterCommand(Keys.A, new KirbyFaceLeftCommand(kirby), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.D, new KirbyFaceRightCommand(kirby), ExecutionType.StartingPress);
 
-            keyboard.RegisterCommand(Keys.Z, new KirbyInhaleCommand(kirby), ExecutionType.Pressed);
-            keyboard.RegisterCommand(Keys.N, new KirbyAttackCommand(kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.Z, new KirbyAttackCommand(kirby), ExecutionType.Pressed);
 
             keyboard.RegisterCommand(Keys.D1, new KirbyChangeNormalCommand(kirby), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.D2, new KirbyChangeBeamCommand(kirby), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.D3, new KirbyChangeFireCommand(kirby), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.D4, new KirbyChangeSparkCommand(kirby), ExecutionType.StartingPress);
 
-            keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby), ExecutionType.StartingPress);
 
             keyboard.RegisterCommand(Keys.T, new PreviousBlockCommand(), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.Y, new NextBlockCommand(), ExecutionType.StartingPress);
 
-            keyboard.RegisterCommand(Keys.U, new PreviousItemCommand(), ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.I, new NextItemCommand(), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.U, new HideItemCommand(this), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.I, new ShowItemCommand(this), ExecutionType.StartingPress);
 
             keyboard.RegisterCommand(Keys.O, new PreviousEnemyCommand(this), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.P, new NextEnemyCommand(this), ExecutionType.StartingPress);
@@ -106,6 +109,12 @@ namespace MasterGame
             keyboard.RegisterCommand(Keys.R, new ResetCommand(this), ExecutionType.StartingPress);
             //keyboard.RegisterCommand(Keys.F, new ToggleFullscreenCommand(), ExecutionType.StartingPress);
         }
+
+        public void LoadItem()
+        {
+            item = SpriteFactory.Instance.createSprite("item_maximtomato");
+        }
+
         public void LoadObjects()
         {
             // Creates kirby object
@@ -139,6 +148,8 @@ namespace MasterGame
             };
             BlockList.Instance.setBlockList(blockList);
 
+            LoadItem();
+
             // Creates enemies
             waddledeeTest = new WaddleDee(new Vector2(170, 100));
             waddledooTest = new WaddleDoo(new Vector2(170, 100));
@@ -154,9 +165,9 @@ namespace MasterGame
             flamethrower = new KirbyFlamethrower(); // TODO: delete when synched with entity
             projectiles = new List<IProjectile>(); // Initialize the projectiles list
 
-            // Initialize the WaddleDoo beam
+            // Initialize the WaddleDoo beam    
             Vector2 beamStartPosition = new Vector2(100, 100); // Example position (would really be WaddleDoo's eye)
-            enemyBeam = new EnemyBeam(beamStartPosition); // Initialize the beam
+            enemyBeam = new EnemyBeam(beamStartPosition, true); // Initialize the beam
             
             Vector2 beamPivotPosition = new Vector2(100, 90);  // Example pivot position (would really be WaddleDoo's eye)
             kirbyBeam = new KirbyBeam(beamStartPosition, true); // Initialize the beam
@@ -271,11 +282,16 @@ namespace MasterGame
             BlockList.Instance.Draw(new Vector2(100, 150), spriteBatch);
 
             // Draw the WaddleDoo beam
-            //enemyBeam.Draw(spriteBatch); // Draw the beam projectile
-            kirbyBeam.Draw(spriteBatch); // Draw the beam projectile
+            enemyBeam.Draw(spriteBatch); // Draw the beam projectile
+            //kirbyBeam.Draw(spriteBatch); // Draw the beam projectile
 
             // Draw the flamethrower segments
             //flamethrower.Draw(spriteBatch); // TODO: delete when synched with enemy.
+
+            if (item != null)
+            {
+                item.Draw(new Vector2(200, 150), spriteBatch);
+            }
 
             // End spriteBatch
             spriteBatch.End();

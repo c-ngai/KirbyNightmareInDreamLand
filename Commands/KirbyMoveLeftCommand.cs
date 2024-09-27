@@ -57,6 +57,7 @@ namespace MasterGame
             {
                 timeSinceMoveStopped = timer.GetCurrentTimeInMS(game.time);
             }
+            
             kirby.StopMoving();
         }
     }

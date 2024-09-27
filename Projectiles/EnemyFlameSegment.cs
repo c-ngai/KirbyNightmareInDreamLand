@@ -13,6 +13,8 @@ namespace MasterGame
         private float delay; // Delay before this segment becomes active
         private bool isActive; // Whether the flame segment has started moving
         private static Random random = new Random(); // Random instance for sprite selection
+        private const int MaxFrames = 13; // Number of frames before the flame segment disappears
+        private int frameCount; // Track the frames since activation
 
         public Vector2 Position
         {
@@ -64,7 +66,20 @@ namespace MasterGame
             if (isActive)
             {
                 Position += Velocity; // Update position based on velocity
-                projectileSprite.Update();
+
+                // Count the frames the segment has been active
+                frameCount++;
+
+                // Mark the segment as inactive after a certain number of frames
+                if (frameCount >= MaxFrames)
+                {
+                    isActive = false;
+                    projectileSprite = null; // Set sprite to null to avoid further drawing
+                }
+                else
+                {
+                    projectileSprite?.Update();
+                }
             }
         }
 

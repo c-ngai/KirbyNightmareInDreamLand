@@ -10,7 +10,7 @@
 
         public void Execute()
         {
-            // kirby.ChangeToSpark();
+            kirby.ChangeToSpark();
         }
 
         public void Undo()

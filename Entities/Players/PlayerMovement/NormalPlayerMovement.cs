@@ -5,18 +5,19 @@ namespace MasterGame
 {   
     public class NormalPlayerMovement : PlayerMovement
     {
-        protected float walkingVel = .25f;
-        public NormalPlayerMovement() 
+        public NormalPlayerMovement(Vector2 pos) : base(pos)
         {
             normal = true;
         }
    
         public override void Attack(Player kirby)
         {
-            if(kirby.GetPose().Equals("Attacking")){
-                kirby.ChangePose(KirbyPose.ThrowEnemy);
+            if(kirby.GetKirbyType().Equals("Normal"))// && !kirby.GetPose().Equals("WithEnemy"))
+            {
+                kirby.ChangePose(KirbyPose.Inhaling);
             } else {
                 kirby.ChangePose(KirbyPose.Attacking);
+                
             }
         }
 

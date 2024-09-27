@@ -15,11 +15,12 @@
             // kirby.Exhale();
             // kirby.Fall();
             // kirby.StopMoving();
+            kirby.Attack();
         }
 
         public void Undo()
         {
-
+            kirby.StopMoving();
         }
     }
 }

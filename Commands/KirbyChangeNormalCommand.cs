@@ -10,7 +10,7 @@
 
         public void Execute()
         {
-            // kirby.ChangeToNormal();
+            kirby.ChangeToNormal();
         }
 
         public void Undo()
