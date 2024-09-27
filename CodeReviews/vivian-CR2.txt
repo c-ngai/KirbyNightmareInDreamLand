@@ -1,10 +1,10 @@
-﻿Sprint 2 Quality Code Review 
+﻿Sprint 2 Quality Code Review    9/26/2024
 
-Author of Code Review: Vivian Ferrigni, 9/26/24
+Author of Code Review: Vivian Ferrigni
 Name of .cs file being reviewed: KeyBoardController.cs
 Author of .cs file being reivewed: Carman Ngai
 
-Time taken to complete review: start time = 55 minutes
+Time taken to complete review: 55 minutes
 
 ################################################################################
 
@@ -49,7 +49,7 @@ in the set indicates it has been presses and searching through hash sets is
 generally very fast.
     Using a hash set and adding error checking would eliminate a lot of the extra
 checks in the Update method, making it cleaner and shorter, getting rid of the
-LongMethodSmell.Overall, I think this code has very solid logic and works well,
+LongMethodSmell. Overall, I think this code has very solid logic and works well,
 the mentioned critques could just help make it more concise.
 
 
@@ -57,7 +57,7 @@ A Hypothetical Game Change-
 
     If we were to hypothetically add multiplayer to our game, I think that this
 file could pretty easily support that change. Especially given that all of the
-command registering/mapping happens outside of this file. Next sprint that content
+command registering/mapping happens outside of this file. Next sprint the content
 loading will be even more centralized but currently this file can execute keyboard
-commands without caring what commands or what keys are being pressed/executed.
+commands without knowing or caring what commands or what keys are being pressed/executed.
 In that way this code is cohesive and decoupled! Good job!
