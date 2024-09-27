@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MasterGame.Block
-{ 
+{
     public class BlockList
     {
         private static BlockList instance;
@@ -11,7 +11,7 @@ namespace MasterGame.Block
         private List<string> blockList;
         private int currentBlock;
         private Sprite currentSprite;
-        private int firstBlock = 0;
+        private readonly int firstBlock = 0;
         private int oldBlock;
         private int lastBlock;
 
@@ -19,15 +19,20 @@ namespace MasterGame.Block
         {
             get
             {
-                if( instance == null)
+                if (instance != null)
+                {
+                    return instance;
+                }
+                else
                 {
                     instance = new BlockList();
                 }
-                return instance; 
+                return instance;
             }
         }
 
-        public void setBlockList(List<string> myBlocks)
+        // init because Instance init must be empty. 
+        public void SetBlockList(List<string> myBlocks)
         {
             blockList = myBlocks;
             currentBlock = firstBlock;
@@ -37,7 +42,7 @@ namespace MasterGame.Block
         }
 
         // if we aren't at the end of the list, increment. Otherwise, go to start. 
-        public void viewNext()
+        public void ViewNext()
         {
             if (currentBlock < lastBlock)
             {
@@ -46,12 +51,11 @@ namespace MasterGame.Block
             else
             {
                 currentBlock = firstBlock;
-
             }
         }
 
-        // if we aren't at the beginning of the list, decrement. Otherwise, got to end. 
-        public void viewPrevious()
+        // if we aren't at the beginning of the list, decrement. Otherwise, go to end. 
+        public void ViewPrevious()
         {
             if (currentBlock > firstBlock)
             {
@@ -63,19 +67,20 @@ namespace MasterGame.Block
             }
         }
 
-
-
-        // Draws the current block. 
+        // Draw the current block.
         public void Draw(Vector2 location, SpriteBatch spriteBatch)
         {
             if (currentBlock >= 0 && currentBlock < blockList.Count)
             {
-                currentSprite.Draw(location,spriteBatch);
+                currentSprite.Draw(location, spriteBatch);
             }
         }
 
         public void Update()
         {
+            // don't want to make a new sprite with every update.
+            // only make a new sprite if we are looking at a new block.
+            // this if block allows waterfall tile to animate. 
             if (oldBlock != currentBlock)
             {
                 currentSprite = SpriteFactory.Instance.createSprite(blockList[currentBlock]);

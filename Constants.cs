@@ -1,5 +1,4 @@
-
-using System.Numerics;
+using Microsoft.Xna.Framework;
 
 namespace MasterGame
 {
@@ -30,6 +29,17 @@ namespace MasterGame
             // determines max time that can elapse for double button presses to register as a command
             public const double RESPONSE_TIME = 250;
             public const double SLIDE_TIME = 250;
+        }
+
+        public class KirbyBeam
+        { 
+            public const int TOTAL_SEGMENTS = 18;
+            public const float ROTATION_STEP = MathHelper.Pi / 32; // approx 4 degrees in radians
+            public const float INIT_POSITION_RIGHT = -MathHelper.PiOver4;
+            public const float INIT_POSITION_LEFT = MathHelper.PiOver4 * 5; // 5pi/4
+            public const int UNITS_PER_FRAME = 10;
+            public const int FRAME_FOUR = 3;
+            public const int FRAME_FIVE = 4;
         }
 
     }
