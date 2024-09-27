@@ -114,28 +114,28 @@ namespace MasterGame
             kirby.PlayerSprite = SpriteFactory.Instance.createSprite("kirby_normal_standing_right");
 
             // Creates blocks
-            List<Sprite> blockList = new List<Sprite>(); // TODO: Delete when synched with entity
+            List<string> blockList = new List<string>(); // TODO: Delete when synched with entity
             //want this away from game to a (in the future) level loader file
 
             //make it its own function
             //create them on demand??  performance vs code 
             //for indestructoble terrain it could be a singleton that gets borrowed by other things
-            //so there is not a BUCNCH loaded
-            blockList = new List<Sprite>
+            //so there is not a BUNCH loaded
+            blockList = new List<string>
             {
-                SpriteFactory.Instance.createSprite("tile_dirt"),
-                SpriteFactory.Instance.createSprite("tile_grass"),
-                SpriteFactory.Instance.createSprite("tile_platform"),
-                SpriteFactory.Instance.createSprite("tile_rock"),
-                SpriteFactory.Instance.createSprite("tile_rocksurface"),
-                SpriteFactory.Instance.createSprite("tile_slope_gentle1_left"),
-                SpriteFactory.Instance.createSprite("tile_slope_gentle1_right"),
-                SpriteFactory.Instance.createSprite("tile_slope_gentle2_left"),
-                SpriteFactory.Instance.createSprite("tile_slope_gentle2_right"),
-                SpriteFactory.Instance.createSprite("tile_slope_steep_left"),
-                SpriteFactory.Instance.createSprite("tile_slope_steep_right"),
-                SpriteFactory.Instance.createSprite("tile_stoneblock"),
-                SpriteFactory.Instance.createSprite("tile_waterfall"),
+                "tile_dirt",
+                "tile_grass",
+                "tile_platform",
+                "tile_rock",
+                "tile_rocksurface",
+                "tile_slope_gentle1_left",
+                "tile_slope_gentle1_right",
+                "tile_slope_gentle2_left",
+                "tile_slope_steep_right",
+                "tile_slope_gentle2_right",
+                "tile_slope_steep_left",
+                "tile_stoneblock",
+                "tile_waterfall",
             };
             BlockList.Instance.setBlockList(blockList);
 

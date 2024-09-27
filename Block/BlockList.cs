@@ -8,9 +8,11 @@ namespace MasterGame.Block
     {
         private static BlockList instance;
 
-        private List<Sprite> blockList;
+        private List<string> blockList;
         private int currentBlock;
+        private Sprite currentSprite;
         private int firstBlock = 0;
+        private int oldBlock;
         private int lastBlock;
 
         public static BlockList Instance
@@ -25,11 +27,13 @@ namespace MasterGame.Block
             }
         }
 
-        public void setBlockList(List<Sprite> myBlocks)
+        public void setBlockList(List<string> myBlocks)
         {
             blockList = myBlocks;
             currentBlock = firstBlock;
+            oldBlock = currentBlock;
             lastBlock = myBlocks.Count - 1;
+            currentSprite = SpriteFactory.Instance.createSprite(blockList[currentBlock]);
         }
 
         // if we aren't at the end of the list, increment. Otherwise, go to start. 
@@ -59,20 +63,26 @@ namespace MasterGame.Block
             }
         }
 
+
+
         // Draws the current block. 
         public void Draw(Vector2 location, SpriteBatch spriteBatch)
         {
             if (currentBlock >= 0 && currentBlock < blockList.Count)
             {
-                blockList[currentBlock].Draw(location,spriteBatch);
+                currentSprite.Draw(location,spriteBatch);
             }
         }
 
         public void Update()
         {
-            // do nothing for most tile, animates waterfall tile.
-            blockList[currentBlock].Update();
-
+            if (oldBlock != currentBlock)
+            {
+                currentSprite = SpriteFactory.Instance.createSprite(blockList[currentBlock]);
+                oldBlock = currentBlock;
+            }
+            // do nothing for most tile, animates waterfall tiles.
+            currentSprite.Update();
         }
 
     }
