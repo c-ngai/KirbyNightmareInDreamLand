@@ -1,10 +1,10 @@
-Sprint 2 Readabilty Code Review 
+Sprint 2 Readabilty Code Review     9/26/2024
 
-Author of Code Review: Vivian Ferrigni, 9/26/24
+Author of Code Review: Vivian Ferrigni
 Name of .cs file being reviewed: Player.cs
 Author of .cs file being reivewed: Lina Ordonez Aguiar
 
-Time taken to complete review: start time = 8:00pm
+Time taken to complete review: 50 minutes
 
 ################################################################################
 
@@ -44,9 +44,9 @@ information about how the system works as a whole.
         //draw if sprite is not good -- fix it and everyone else is freed from that job
         //have parent class check if the sprite is right
 
-This is awesome! In general the methods don't have super complex long logical
+This is awesome! In general, the methods don't have super complex logical
 conditions so internal method comments aren't super necessary. I would maybe add
-more one line comments above less intuitvely named methods but otherwise the code
+more one-line comments above less intuitvely named methods but otherwise the code
 is well-commented. 
 
 Naming Conventions-
