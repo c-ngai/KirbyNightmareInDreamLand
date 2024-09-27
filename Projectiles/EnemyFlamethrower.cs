@@ -9,16 +9,8 @@ namespace MasterGame
     {
         private List<EnemyFlameSegment> flameSegments;
         private Vector2 startPosition;
-        private float fireRate = 0.35f; // Time between each segment spawn
         private float elapsedTime;
         private Vector2 flameDirection; 
-        private int numberOfSegments = 10; // Number of flame segments to spawn at once
-        private float minSpeed = 1f; 
-        private float maxSpeed = 4f;
-        private float minDelay = 0f;
-        private float maxDelay = 0.3f; 
-        private float minAngle = -0.3f; 
-        private float maxAngle = 0.3f; 
 
         public EnemyFlamethrower()
         {

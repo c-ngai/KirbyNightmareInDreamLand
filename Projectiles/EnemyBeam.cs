@@ -6,13 +6,10 @@ using System;
 
 public class EnemyBeam
 {
-    private int totalSegments = 16;
     private int segmentsFired = 0;
     private int frameCounter = 0;
     private List<EnemyBeamSegment> beamSegments;
     private Vector2 startPosition;
-    private float initialRotation = -MathHelper.PiOver2; // -90 degrees to fire straight up
-    private float rotationStep = MathHelper.PiOver4 / 2; // 22.5 degrees in radians
     private bool isFacingRight; // Track if WaddleDoo is facing left
 
     public EnemyBeam(Vector2 startPosition, bool isFacingRight)

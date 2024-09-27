@@ -31,7 +31,6 @@ namespace MasterGame
             stateMachine.ChangePose(EnemyPose.Walking);
         }
 
-
         public override void Update(GameTime gameTime)
         {
             if (!isDead)

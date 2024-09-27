@@ -8,7 +8,6 @@ namespace MasterGame
         private Vector2 position; // acts as pivot point
         private Vector2 velocity;
         private int frameCount = 0;
-        private int maxFrames = 6; // Segment disappears after 6 frames
         private Sprite projectileSprite;
         public bool IsActive = true;
 
