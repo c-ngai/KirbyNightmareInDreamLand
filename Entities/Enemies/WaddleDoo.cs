@@ -31,8 +31,7 @@ namespace MasterGame
                 frameCounter++;
 
 
-                //TO-DO: Should I use statemachine to avoid switch cases?
-                //Changes behavior depending on pose
+                //TO-DO: Change switch case into state pattern design
                 switch (stateMachine.GetPose())
                 {
                     case EnemyPose.Walking:
