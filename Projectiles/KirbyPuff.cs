@@ -7,12 +7,9 @@ namespace MasterGame
     {
         private Sprite projectileSprite;
         private Vector2 position;
-        private Vector2 velocity;
-        private const float InitialSpeed = 3.5f; // Initial speed of the puff
-        private const float DecelerationRate = 0.05f; // Rate at which the puff decelerates
-        private int frameCount = 0; // Tracks the number of frames the puff has existed
-        private const int MaxFrames = 20; // Puff disappears after 20 frames
-        public bool isActive = true; // Track whether the puff is still active (exists)
+        private Vector2 velocity; 
+        private int frameCount = 0; 
+        public bool isActive = true;
 
         public Vector2 Position
         {
@@ -36,7 +33,7 @@ namespace MasterGame
                 puffDirection.Normalize(); // Ensures the vector has a length of 1
             }
 
-            Velocity = puffDirection * InitialSpeed; // Set the initial velocity
+            Velocity = puffDirection * Constants.Puff.INITIAL_SPEED; // Set the initial velocity
 
             // Check the direction and assign the appropriate sprite
             if (puffDirection.X >= 0)
@@ -56,25 +53,23 @@ namespace MasterGame
                 // Decelerate the puff by reducing its velocity
                 if (Velocity.Length() > 0)
                 {
-                    // Reduce the velocity vector by the deceleration rate
-                    Vector2 deceleration = Vector2.Normalize(Velocity) * DecelerationRate;
+                    Vector2 deceleration = Vector2.Normalize(Velocity) * Constants.Puff.DECELERATION_RATE;
                     Velocity -= deceleration;
 
-                    // Clamp the velocity to zero if it becomes negative or close to zero
-                    if (Velocity.Length() < 0.01f)
+                    // Make the velocity zero if it becomes negative or close to zero
+                    if (Velocity.Length() < Constants.Puff.SMALL_VELOCITY)
                     {
                         Velocity = Vector2.Zero;
                     }
                 }
 
-                // Update the position based on the current velocity
                 Position += Velocity;
 
                 // Increment frame count and check if puff should disappear
                 frameCount++;
-                if (frameCount >= MaxFrames || Velocity == Vector2.Zero)
+                if (frameCount >= Constants.Puff.MAX_FRAMES || Velocity == Vector2.Zero)
                 {
-                    isActive = false; // Mark the puff as inactive
+                    isActive = false;
                     projectileSprite = null; // Remove the sprite to avoid memory leaks
                 }
 

@@ -1,159 +1,182 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace MasterGame
 {
-    public class WaddleDoo : IEnemy
+    public class WaddleDoo : Enemy
     {
-        private Vector2 position;
-        private int health;
-        private bool isDead;
-        private Sprite enemySprite;
-        private EnemyStateMachine stateMachine;
-        private Vector2 leftBoundary = new Vector2(100, 100);
-        private Vector2 rightBoundary = new Vector2(230, 100);
-        private string oldState;
+        //Keep track of current frame
         private int frameCounter = 0;
-        private int walkFrames = 180;  //3 sec (if 60fps)
-        private int stopFrames = 60;  //2 sec
-        private int attackFrames = 100; //1 sec
 
-        public WaddleDoo(Vector2 startPosition)
+        // Jump variables
+        private bool isJumping = false;
+        private float originalY;
+        private float jumpVelocity = 0;
+
+        // Beam ability
+        private EnemyBeam beam;
+        private bool isBeamActive = false;
+
+        public WaddleDoo(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDoo)
         {
-            position = startPosition;
-            health = 100;
-            isDead = false;
-            stateMachine = new EnemyStateMachine(EnemyType.WaddleDoo);
+            //Initialize pose
             stateMachine.ChangePose(EnemyPose.Walking);
-           enemySprite = SpriteFactory.Instance.createSprite("waddledoo_walking_right");
         }
 
-        public Vector2 Position
-        {
-            get { return position; }
-            set { position = value; }
-        }
-
-        public Sprite EnemySprite
-        {
-            set { enemySprite = value; }
-        }
-
-        public void TakeDamage()
-        {
-            stateMachine.ChangePose(EnemyPose.Hurt);
-            health -= 10;
-            if (health <= 0)
-            {
-                health = 0;
-                Die();
-            }
-        }
-
-        private void Die()
-        {
-            isDead = true;
-
-            //eventual death pose/animation
-            stateMachine.ChangePose(EnemyPose.Hurt);
-            UpdateTexture();
-        }
-
-        public void Attack()
-        {
-            stateMachine.ChangePose(EnemyPose.Attacking);
-            UpdateTexture();
-        }
-
-        public void UpdateTexture()
-        {
-             if(!stateMachine.GetStateString().Equals(oldState)){
-                enemySprite = SpriteFactory.Instance.createSprite(stateMachine.GetSpriteParameters());
-                 oldState = stateMachine.GetStateString();
-             } 
-        }
-
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             if (!isDead)
             {
                 frameCounter++;
 
+                //TO-DO: Change switch case into state pattern design
                 switch (stateMachine.GetPose())
                 {
+                    //Move if walking for specfic number of frames. Transition to charging.
                     case EnemyPose.Walking:
                         Move();
-                        if (frameCounter >= walkFrames)
+                        if (frameCounter >= Constants.WaddleDoo.WALK_FRAMES)
                         {
-                            //stop after walking to load attack
-                            stateMachine.ChangePose(EnemyPose.Charging); 
+                            stateMachine.ChangePose(EnemyPose.Charging);
                             frameCounter = 0;
                             UpdateTexture();
                         }
                         break;
-
+                    //Charge attack. Transitions to attack
                     case EnemyPose.Charging:
-                        if (frameCounter >= stopFrames)
+                        if (frameCounter >= Constants.WaddleDoo.STOP_FRAMES)
                         {
-                            //attack after stopping
-                            stateMachine.ChangePose(EnemyPose.Attacking); 
+                            stateMachine.ChangePose(EnemyPose.Attacking);
+                            frameCounter = 0;
+                            UpdateTexture();
+                        }
+                        break;
+                    //Use beam attack, spawning beam projectile. Transitions back to walking.
+                    case EnemyPose.Attacking:
+                        Attack();
+                        if (frameCounter >= Constants.WaddleDoo.ATTACK_FRAMES)
+                        {
+                            stateMachine.ChangePose(EnemyPose.Hurt);
+                            frameCounter = 0;
+                            UpdateTexture();
+                        }
+                        break;
+                    case EnemyPose.Hurt:
+                        // Transition back to walking after hurtFrames
+                        if (frameCounter >= Constants.WaddleDoo.HURT_FRAMES)
+                        {
+                            stateMachine.ChangePose(EnemyPose.Jumping);
                             frameCounter = 0;
                             UpdateTexture();
                         }
                         break;
 
-                    case EnemyPose.Attacking:
-                        if (frameCounter >= attackFrames)
-                        {
-                            // wlk again after attacking
-                            stateMachine.ChangePose(EnemyPose.Walking);
-                            frameCounter = 0;
-                            UpdateTexture();
-                        }
-                        break;
-                    default:
+                    case EnemyPose.Jumping:
+                        Jump();
                         break;
                 }
 
-                // update animation
+                //update waddle doo
                 enemySprite.Update();
+
+                // Update the beam if it's active
+                if (isBeamActive)
+                {
+                    beam.Update();
+
+                    // If the beam is no longer active, reset the state
+                    if (!beam.IsBeamActive())
+                    {
+                        isBeamActive = false;
+                    }
+                }
             }
         }
 
-        private void Move()
+        private Vector2 ProjectilePosition()
         {
-            //walking back and forth
+            // Adjust beam based on direction facing
+            return stateMachine.IsLeft() ? new Vector2(position.X - 17, position.Y - 7) : new Vector2(position.X + 17, position.Y - 7);
+        }
+
+        protected override void Move()
+        {
+            //X moevement left and right. Turns around at left/right boundary
             if (stateMachine.IsLeft())
             {
-                position.X -= 0.5f;
+                position.X -= Constants.WaddleDoo.MOVE_SPEED;
                 if (position.X <= leftBoundary.X)
                 {
-                    stateMachine.ChangeDirection();
-                    UpdateTexture();
+                    ChangeDirection();
                 }
             }
             else
             {
-                position.X += 0.5f;
+                position.X += Constants.WaddleDoo.MOVE_SPEED;
                 if (position.X >= rightBoundary.X)
                 {
-                    stateMachine.ChangeDirection();
-                    UpdateTexture();
+                    ChangeDirection();
                 }
+            }
+            UpdateTexture();
+        }
+
+        private void Jump()
+        {
+            if (!isJumping)
+            {
+                // Start jumping and store initial y
+                isJumping = true;
+                originalY = position.Y;
+                jumpVelocity = -Constants.WaddleDoo.JUMP_HEIGHT; 
+            }
+
+            // Apply gravity and update Y position
+            position.Y += jumpVelocity;
+            jumpVelocity += Constants.WaddleDoo.GRAVITY;
+
+            //Move right or left on x axis in jump
+            if (stateMachine.IsLeft())
+            {
+                position.X -= Constants.WaddleDoo.FORWARD_MOVEMENT; 
+            }
+            else
+            {
+                position.X += Constants.WaddleDoo.FORWARD_MOVEMENT; 
+            }
+
+            // Check if the character has landed and stop walking
+            if (position.Y >= originalY)
+            {
+                position.Y = originalY; 
+                isJumping = false;
+                stateMachine.ChangePose(EnemyPose.Walking);
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Attack()
+        {
+            //If active, create a new beam using the current position and direction
+            if (!isBeamActive)
+            {
+                beam = new EnemyBeam(ProjectilePosition(), !stateMachine.IsLeft());
+                isBeamActive = true;
+            }
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
         {
             if (!isDead)
             {
+                // Draw the beam if it's active
+                if (isBeamActive)
+                {
+                    beam.Draw(spriteBatch);
+                }
+                //draw enemy
                 enemySprite.Draw(position, spriteBatch);
             }
-        }
-
-        public void ChangeDirection()
-        {
-            stateMachine.ChangeDirection();
         }
     }
 }

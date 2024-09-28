@@ -8,8 +8,8 @@ namespace MasterGame
         private Vector2 position;
         private Vector2 velocity;
         private int frameCount = 0;
-        private int maxFrames = 6; // Segment disappears after 6 frames
         private bool IsActive = true;
+        private int maxFrames = 6; // Segment disappears after 6 frames
         private ISprite sprite1;
         private ISprite sprite2;
 
@@ -30,8 +30,8 @@ namespace MasterGame
         {
             Position = startPosition;
             Velocity = beamVelocity;
-            this.sprite1 = SpriteFactory.Instance.createSprite("projectile_kirby_beam1");
-            this.sprite2 = SpriteFactory.Instance.createSprite("projectile_kirby_beam2");
+            sprite1 = SpriteFactory.Instance.createSprite("projectile_kirby_beam1");
+            sprite2 = SpriteFactory.Instance.createSprite("projectile_kirby_beam2");
 
         }
 

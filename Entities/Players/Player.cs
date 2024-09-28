@@ -67,19 +67,10 @@ namespace MasterGame
         }
         public void ChangeMovement()
         {
-<<<<<<< HEAD
-            if(this.GetKirbyType().Equals("Normal"))
-            {
-                movement = new NormalPlayerMovement(movement.GetPosition());
-            } else {
-                movement = new PowerupMovement(movement.GetPosition());
-            }
-=======
             movement = new NormalPlayerMovement(movement.GetPosition());
         }
         public bool IsLeft(){
             return state.IsLeft();
->>>>>>> 90f3b72 (float and jumping are fully functional)
         }
 
         #region Power-Up

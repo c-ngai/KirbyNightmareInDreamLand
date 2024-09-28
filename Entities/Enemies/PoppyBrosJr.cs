@@ -4,142 +4,107 @@ using System;
 
 namespace MasterGame
 {
-    public class PoppyBrosJr : IEnemy
+    public class PoppyBrosJr : Enemy
     {
-        private Vector2 position;
-        private int health;
-        private bool isDead;
-        private Sprite enemySprite;
-        private EnemyStateMachine stateMachine;
-        private Vector2 leftBoundary = new Vector2(100, 100);
-        private Vector2 rightBoundary = new Vector2(230, 100);
-        private string oldState;
 
-        //hopping
-        private int hopCounter = 0;
-        private int hopFrequency = 60; //framws between hops
-        private float hopHeight = 1f;
+        //Keep track of current frame
+        private int frameCounter = 0;
 
-        public PoppyBrosJr(Vector2 startPosition)
+        private int hopCounter = 0; //number of hops
+
+        public PoppyBrosJr(Vector2 startPosition) : base(startPosition, EnemyType.PoppyBrosJr)
         {
-            position = startPosition;
-            health = 100;
-            isDead = false;
-            //stateMachine = new EnemyStateMachine(EnemyType.PoppyBrosJr);
-            stateMachine = new EnemyStateMachine(EnemyType.WaddleDee);
-            stateMachine.ChangePose(EnemyPose.Walking);
+            //initialize first sprite
+            stateMachine.ChangePose(EnemyPose.Hopping);
         }
 
-        public Vector2 Position
+        public override void Attack()
         {
-            get { return position; }
-            set { position = value; }
+            //NOTE: Poppy Bros Jr does not have attack sprite
         }
 
-        public Sprite EnemySprite
-        {
-            set { enemySprite = value; }
-        }
-
-        public void TakeDamage()
-        {
-            stateMachine.ChangePose(EnemyPose.Hurt);
-            health -= 10;
-            if (health <= 0)
-            {
-                health = 0;
-                Die();
-            }
-        }
-
-        private void Die()
-        {
-            isDead = true;
-
-            stateMachine.ChangePose(EnemyPose.Hurt);
-            UpdateTexture();
-        }
-
-        public void Attack()
-        {
-            stateMachine.ChangePose(EnemyPose.Attacking);
-            UpdateTexture();
-        }
-
-        public void UpdateTexture()
-        {
-             if(!stateMachine.GetStateString().Equals(oldState)){
-                enemySprite = SpriteFactory.Instance.createSprite(stateMachine.GetSpriteParameters());
-                 oldState = stateMachine.GetStateString();
-             } 
-        }
-
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             if (!isDead)
             {
-                //need to add walking left/right
-                if (stateMachine.GetPose() == EnemyPose.Walking)
-                {
-                    Move();
-                    Hop();
-                }
+                frameCounter++;
 
-                //updates using state
+                // Switch case to handle enemy states
+                switch (stateMachine.GetPose())
+                {
+                    case EnemyPose.Hopping:
+                        Move();
+                        Hop();
+
+                        // Transition to Hurt state after hopFrames
+                        if (frameCounter >= Constants.PoppyBrosJr.HOP_FRAMES)
+                        {
+                            stateMachine.ChangePose(EnemyPose.Hurt);
+                            frameCounter = 0; // Reset frame counter
+                            UpdateTexture();  // Update texture for the new pose
+                        }
+                        break;
+
+                    case EnemyPose.Hurt:
+                        // Transition back to Hopping after hurtFrames
+                        if (frameCounter >= Constants.PoppyBrosJr.HURT_FRAMES)
+                        {
+                            stateMachine.ChangePose(EnemyPose.Hopping);
+                            frameCounter = 0;
+                            UpdateTexture();
+                        }
+                        break;
+                }
                 UpdateTexture();
+                // Update the enemy sprite
                 enemySprite.Update();
             }
         }
 
-        private void Move()
+        protected override void Move()
         {
-            //walking back and forth
+            // Handles x movement. Walking back and forth until left/right boundary
             if (stateMachine.IsLeft())
             {
-                position.X -= 0.5f;
+                position.X -= Constants.PoppyBrosJr.MOVE_SPEED;
                 if (position.X <= leftBoundary.X)
                 {
-                    stateMachine.ChangeDirection();
-                    UpdateTexture();
+                    ChangeDirection();
                 }
             }
             else
             {
-                position.X += 0.5f;
+                position.X += Constants.PoppyBrosJr.MOVE_SPEED;
                 if (position.X >= rightBoundary.X)
                 {
-                    stateMachine.ChangeDirection();
-                    UpdateTexture();
+                    ChangeDirection();
                 }
             }
         }
 
         private void Hop()
         {
+            //Handles Y movement and calculates oscillation of hops.
             hopCounter++;
-            float t = (float)hopCounter / hopFrequency;
+            float t = (float)hopCounter / Constants.PoppyBrosJr.HOP_FREQUENCY;
 
-            //smooth hopping
-            position.Y = position.Y - (float)(Math.Sin(t * Math.PI * 2) * hopHeight / 2);
+            // Smooth hopping math
+            position.Y = position.Y - (float)(Math.Sin(t * Math.PI * 2) * Constants.PoppyBrosJr.HOP_HEIGHT / 2);
 
-            //reset hop counter for cycle
-            if (hopCounter >= hopFrequency)
+            // Reset hop counter for cycle
+            if (hopCounter >= Constants.PoppyBrosJr.HOP_FREQUENCY)
             {
                 hopCounter = 0;
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
+            //Draws if enemy is alive
             if (!isDead)
             {
                 enemySprite.Draw(position, spriteBatch);
             }
-        }
-
-        public void ChangeDirection()
-        {
-            stateMachine.ChangeDirection();
         }
     }
 }

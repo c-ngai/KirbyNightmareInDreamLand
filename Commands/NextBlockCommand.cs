@@ -1,18 +1,16 @@
-﻿using System;
-using MasterGame.Block;
-using Microsoft.Xna.Framework;
+﻿using MasterGame.Block;
 
 namespace MasterGame.Commands
 {
-	public class NextBlockCommand : ICommand
-	{
-		public NextBlockCommand()
-		{
-		}
+    public class NextBlockCommand : ICommand
+    {
+        public NextBlockCommand()
+        {
+        }
 
         public void Execute()
         {
-            BlockList.Instance.viewNext();
+            BlockList.Instance.ViewNext();
         }
 
         public void Undo()
