@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MasterGame.Sprites;
 
-namespace MasterGame
+namespace MasterGame.Projectiles
 {
     public class EnemyBeamSegment : IProjectile
     {
@@ -27,7 +28,7 @@ namespace MasterGame
         {
             Position = startPosition;
             Velocity = beamVelocity;
-            projectileSprite = SpriteFactory.Instance.createSprite("projectile_waddledoo_beam");
+            projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_waddledoo_beam");
         }
 
         public void Update()

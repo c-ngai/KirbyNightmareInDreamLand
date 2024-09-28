@@ -4,7 +4,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
-using static MasterGame.Constants;
+using MasterGame.Sprites;
+using MasterGame.Entities.Players;
+using MasterGame.Entities.Enemies;
+using MasterGame.Controllers;
 
 namespace MasterGame
 {
@@ -119,7 +122,7 @@ namespace MasterGame
 
         public void LoadItem()
         {
-            item = SpriteFactory.Instance.createSprite("item_maximtomato");
+            item = SpriteFactory.Instance.CreateSprite("item_maximtomato");
         }
 
         public void LoadObjects()
@@ -127,17 +130,14 @@ namespace MasterGame
             // Creates kirby object
             //make it a list from the get go to make it multiplayer asap
             kirby = new Player(new Vector2(30, Constants.Graphics.FLOOR));
-            kirby.PlayerSprite = SpriteFactory.Instance.createSprite("kirby_normal_standing_right");
+            kirby.PlayerSprite = SpriteFactory.Instance.CreateSprite("kirby_normal_standing_right");
 
             // Creates blocks
-            List<string> blockList = new List<string>(); // TODO: Delete when synched with entity
-            //want this away from game to a (in the future) level loader file
-
             //make it its own function
             //create them on demand??  performance vs code 
             //for indestructoble terrain it could be a singleton that gets borrowed by other things
             //so there is not a BUNCH loaded
-            blockList = new List<string>
+            List<string> blockList = new List<string>
             {
                 "tile_dirt",
                 "tile_grass",
@@ -204,7 +204,11 @@ namespace MasterGame
 
             kirby.Update(time);
             enemyList[currentEnemyIndex].Update(time);
-            item.Update();
+            
+            if (item != null)
+            {
+                item.Update();
+            }
             BlockList.Instance.Update();
         }
 

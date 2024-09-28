@@ -1,12 +1,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using System.Transactions;
+using MasterGame.Sprites;
+using MasterGame.StateMachines;
 
-namespace MasterGame
+namespace MasterGame.Entities.Players
 {
     public class Player : IPlayer
     {
@@ -46,7 +44,7 @@ namespace MasterGame
         public void UpdateTexture()
         {
             if(!state.GetStateString().Equals(oldState)){
-                playerSprite = SpriteFactory.Instance.createSprite(state.GetSpriteParameters());
+                playerSprite = SpriteFactory.Instance.CreateSprite(state.GetSpriteParameters());
                 oldState = state.GetStateString();
             } 
         }

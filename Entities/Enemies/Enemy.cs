@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MasterGame.Sprites;
+using MasterGame.StateMachines;
 
-namespace MasterGame
+namespace MasterGame.Entities.Enemies
 {
     public abstract class Enemy : IEnemy
     {
@@ -55,7 +57,7 @@ namespace MasterGame
         {
             if (!stateMachine.GetStateString().Equals(oldState))
             {
-                enemySprite = SpriteFactory.Instance.createSprite(stateMachine.GetSpriteParameters());
+                enemySprite = SpriteFactory.Instance.CreateSprite(stateMachine.GetSpriteParameters());
                 oldState = stateMachine.GetStateString();
             }
         }

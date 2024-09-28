@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
-namespace MasterGame
+namespace MasterGame.Sprites
 {
     public interface ISpriteAnimation
     {
@@ -39,19 +39,19 @@ namespace MasterGame
         // Imports animation data from a .csv file into the proper fields of this object.
         private void ImportAnimation(SpriteJsonData spriteJsonData, Dictionary<string, Texture2D> textures)
         {
-            Texture = textures[spriteJsonData.texture];
-            LoopPoint = spriteJsonData.loopPoint;
-            if (spriteJsonData.flip == true)
+            Texture = textures[spriteJsonData.Textures];
+            LoopPoint = spriteJsonData.LoopPoint;
+            if (spriteJsonData.Flip == true)
                 SpriteEffects = SpriteEffects.FlipHorizontally;
             else
                 SpriteEffects = SpriteEffects.None;
             // Set the total frame count.
-            FrameCount = spriteJsonData.frames.Count;
+            FrameCount = spriteJsonData.Frames.Count;
 
             // For each row in the table, separate it into columns by commas
             for (int i = 0; i < FrameCount; i++)
             {
-                Frame frame = spriteJsonData.frames[i];
+                Frame frame = spriteJsonData.Frames[i];
                 // Use the x, y, width, and height values to create a source rectangle for the current frame, and add it to its list.
                 FrameSourceRectangles.Add(new Rectangle(frame.X, frame.Y, frame.Width, frame.Height));
                 // Use the center x and y values to create a vector for the frame's center, and add it to its list.

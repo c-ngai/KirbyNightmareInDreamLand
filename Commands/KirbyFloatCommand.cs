@@ -1,4 +1,5 @@
-﻿namespace MasterGame
+﻿using MasterGame.Entities.Players;
+namespace MasterGame.Commands
 {
     public class KirbyFloatCommand : ICommand
     {
@@ -15,6 +16,7 @@
 
         public void Undo()
         {
+
         }
     }
 }

@@ -1,22 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace MasterGame
+namespace MasterGame.Sprites
 {
     // Class for deserializing each sprite animation data in the .json file.
     public class SpriteJsonData
     {
         [JsonPropertyName("Source texture")]
-        public string texture { get; set; }
+        public string Textures { get; set; }
 
         [JsonPropertyName("Loop point")]
-        public int loopPoint { get; set; }
+        public int LoopPoint { get; set; }
 
         [JsonPropertyName("Flip horizontally?")]
-        public bool flip { get; set; }
+        public bool Flip { get; set; }
 
         [JsonPropertyName("Frames")]
-        public List<Frame> frames { get; set; } = new List<Frame>();
+        public List<Frame> Frames { get; set; } = new List<Frame>();
     }
 
     // Class for deserializing each frame in SpriteJsonData.

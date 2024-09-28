@@ -1,4 +1,4 @@
-﻿namespace MasterGame
+﻿namespace MasterGame.StateMachines
 {
     public class EnemyStateMachine : IEnemyStateMachine
     {
@@ -55,7 +55,6 @@
             string posing = pose.ToString().ToLower();
             string enemy = type.ToString().ToLower();
             return enemy + "_" + posing + "_" + facing;
-            //return enemy + posing + facing;
         }
 
     }

@@ -1,9 +1,8 @@
-﻿using System.Threading.Tasks;
-namespace MasterGame
+﻿using MasterGame.Entities.Players;
+namespace MasterGame.Commands
 {
     public class KirbyTakeDamageCommand : ICommand
-    {
-            
+    { 
         private IPlayer kirby;
 
         public KirbyTakeDamageCommand(IPlayer player)

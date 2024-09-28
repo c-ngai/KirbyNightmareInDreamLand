@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MasterGame.Sprites;
 
-namespace MasterGame
+namespace MasterGame.Projectiles
 {
     public class KirbyPuff : IProjectile
     {
@@ -38,11 +39,11 @@ namespace MasterGame
             // Check the direction and assign the appropriate sprite
             if (puffDirection.X >= 0)
             {
-                projectileSprite = SpriteFactory.Instance.createSprite("projectile_kirby_airpuff_right");
+                projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_right");
             }
             else if (puffDirection.X < 0)
             {
-                projectileSprite = SpriteFactory.Instance.createSprite("projectile_kirby_airpuff_left");
+                projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_left");
             }
         }
 

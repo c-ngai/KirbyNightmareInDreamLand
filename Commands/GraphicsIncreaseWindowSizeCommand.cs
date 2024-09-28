@@ -1,12 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace MasterGame
+namespace MasterGame.Commands
 {
-    public class GraphicsDecreaseWindowSizeCommand : ICommand
+    public class GraphicsIncreaseWindowSizeCommand : ICommand
     {
         Game1 game;
         GraphicsDeviceManager graphics;
-        public GraphicsDecreaseWindowSizeCommand(Game1 game, GraphicsDeviceManager graphics)
+        public GraphicsIncreaseWindowSizeCommand(Game1 game, GraphicsDeviceManager graphics)
         {
             this.game = game;
             this.graphics = graphics;
@@ -14,8 +14,8 @@ namespace MasterGame
 
         public void Execute()
         {
-            game.WINDOW_WIDTH -= 3;
-            game.WINDOW_HEIGHT -= 2;
+            game.WINDOW_WIDTH += 3;
+            game.WINDOW_HEIGHT += 2;
             graphics.PreferredBackBufferWidth = game.WINDOW_WIDTH;
             graphics.PreferredBackBufferHeight = game.WINDOW_HEIGHT;
             graphics.ApplyChanges();

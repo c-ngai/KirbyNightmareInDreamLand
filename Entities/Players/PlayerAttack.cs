@@ -1,7 +1,10 @@
 //using System.Numerics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-namespace MasterGame{
+using MasterGame.Projectiles;
+
+namespace MasterGame.Entities.Players
+{
     public class PlayerAttack
     {
         private KirbyBeam beam;

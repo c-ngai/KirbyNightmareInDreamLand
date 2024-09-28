@@ -1,5 +1,6 @@
 ﻿
-Team Kirby Superstars - Sprint2 - 9/28/2024
+Team Kirby Superstars
+Sprint2: 9/9/2024 - 9/28/2024
 
 Group Members:  Gwyneth Barnholtz, Mark DeLeo, Vivian Ferrigni, Payton Murphy,
                 Carman Ngai, Lina Ordonez Aguiar
@@ -16,24 +17,24 @@ Left and right arrows move Kirby.
 Two consecutive left or right arrow presses (either hold then press or press
 press) makes Kirby run.
 
-'x' and down arrow allow him to jump and crouch respectively.
+'x' allows him to jump. Hold for long jump and press for short.
+
+Down arrow allows him to crouch.
 
 The 'a' and 'd' keys change Kirby's facing direction. We did not implement 'w'
 and 's' keys bc Kirby never faces up or down.
 
 The 'z' key:
     Kirby inhales when standing still
-    Kirby holds his breath when moving left or right
     Kirby slides when crouching and z is pressed
     Kirby attacks (exhales) when floating
 
 Number keys (1, 2, 3, 4) can be used to show Kirby use a different power-up modes
 (Normal, Beam, Fire, Spark). ***
 
-Use 'e' to cause Kirby to take damage and get "thrown" until other movement is
-executed or he hits the edge of the screen.
+Use 'e' to cause Kirby to take damage and get the invulnerable animation.
 
-Use keys 't' and 'y' to cycle between which block is currently being shown.
+Use keys 't' and 'y' to cycle forward and backward between which block is currently being shown.
 
 Use keys 'u' to hide item and 'i' to show item.
 
@@ -41,10 +42,12 @@ Use keys 'o' and 'p' to cycle between which enemy or npc is currently being show
 
 Use 'q' to quit and 'r' to reset the program back to its initial state.
 
-*** NOTE: Due to time constraints and the overwhelming amount
+*** NOTE: Backlogged: Due to time constraints and the overwhelming amount
 of animations for each powerup, animations for Beam, Fire, and Spark Kirby (other
-than right/left facing Kirby) have been backlogged with permission from Professor
-Kirby. To be done by Sprint3. 
+than right/left facing Kirby and using attack ('z' during beam and fire Kirbys) have been 
+backlogged with permission from Professor Kirby. Note the "Invalid Sprite" icon shows up
+because there is an animation of these sprites that has not been implemented for reasons
+mentioned before. To be done by Sprint3. 
 
 ###############################################################################
 
@@ -52,30 +55,37 @@ Backlogged Tasks:
 
 Kirby movement animation sprites for power-up modes.
     note: if you press 2/3 and z the attacks for Beam and Fire kirby show up since
-    these are projectiles (kiry itself appears as invalid since they were backlogged). 
+    these are projectiles (kirby itself appears as invalid since they were backlogged). 
     Spark kirby's attack is not a projectile so it is not 
     implemented in this sprint. Normal kirby can inhale, however, since object
     interaction is not being implemented his throwing up an enemy is not implemented.
-    The star it self however, is done in this sprint.
+    The star itself however, is done in this sprint.
 
-Particle implementation. 
+Particle implementation. Adding extra animations to make things look better.
 
 Item class, Kirby: Nightmare in Dreamland only has one item, maxim tomato, so we
 chose to keep the drawing and loading code for this sprite just in our Game1.cs
 file. This will move to a more appropriate place next Sprint. 
+
+Refactoring current enemy implementation into a enemy state pattern to remove switch switches.
+
+Refactoring keyboard controller and commands. the controller and commands were implemented in 
+a unconventional way and Professor Kirby is concerned of the consequences of having "Undo"
+in commands but it is currently working correctly. To avoid future issues, this will be 
+refactored after Sprint2. 
 
 ###############################################################################
 
 
 Known bugs:
 
-In our Sprint2, there are currently bugs regarding Kirby's multi-key movement
+In our Sprint2, there are currently bugs regarding Kirby's multi-key/combo movement
 commands. Given a lot of the code around these commands depend on our future
 Physics and keyboard implementation, we will leave this for next Sprint. 
     - For example the combo of crouch + z (slide) has a small frame interference
-      we hope to work this out with the control refactor as well.
-
-When letting go of float on the ground, 
+      and does not stop after a designated time when pressed down. 
+    - When letting go of float on the ground, Kirby does not attack/exhale.
+    - Pressing x while floating does not make Kirby float up.
 
 
 ###############################################################################
@@ -91,5 +101,16 @@ read-only public fields, if-statement can be simplified, including paraenthesis
 for clarity.
 
 We went through our files one by one and corrected each style/quality warning.
-The only warning that we suppressed were making feilds read-only. This will be
+The only warning that we suppressed were making fields read-only. This will be
 refactored later to have only private fields. 
+
+###############################################################################
+
+Documentation/Planning Tools:
+
+Google Drive of Meeting Notes and other Documents: https://drive.google.com/drive/folders/1nM9rI0OnBROJPyXMQbhXYzAOB0yF1QNA?usp=sharing 
+Current Trello of Task Management: https://trello.com/invite/b/66f251d9de3625e8267d2b35/ATTI4fe46a09f5ff46b9f0fbfb8de88d8bff86EA3A3F/kirby-nightmare-in-dreamland-pls-use-this-one
+Old Trello of Task Management: https://trello.com/b/J3QRsOik/do-not-use-outdated-kirby-nightmare-in-dreamland
+    Note: This was used before we realized we were on a free trial and had to migrate to the 
+    free version. However, the time documentation of edits are still there. And because the free trial ended
+    we can no longer add more pepole into it to view it. 

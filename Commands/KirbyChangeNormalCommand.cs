@@ -1,8 +1,9 @@
-﻿namespace MasterGame
+﻿using MasterGame.Entities.Players;
+namespace MasterGame.Commands
 {
     public class KirbyChangeNormalCommand : ICommand
     {
-        IPlayer kirby;
+        private IPlayer kirby;
         public KirbyChangeNormalCommand(IPlayer player)
         {
             kirby = player;

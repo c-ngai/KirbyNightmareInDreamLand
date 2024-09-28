@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MasterGame.Sprites;
 
-namespace MasterGame
+namespace MasterGame.Projectiles
 {
     public class KirbyStar : IProjectile
     {
@@ -36,11 +37,11 @@ namespace MasterGame
             // Check the direction and assign the appropriate sprite
             if (starDirection.X >= 0)
             {
-                projectileSprite = SpriteFactory.Instance.createSprite("projectile_kirby_star_right");
+                projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_star_right");
             }
             else if (starDirection.X < 0)
             {
-                projectileSprite = SpriteFactory.Instance.createSprite("projectile_kirby_star_left");
+                projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_star_left");
             }
         }
 

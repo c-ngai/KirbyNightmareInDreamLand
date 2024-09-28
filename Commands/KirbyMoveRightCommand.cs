@@ -1,5 +1,9 @@
 ﻿using Microsoft.Xna.Framework.Input;
-namespace MasterGame
+using MasterGame.Time;
+using MasterGame.Entities.Players;
+using MasterGame.Controllers;
+
+namespace MasterGame.Commands
 {
     public class KirbyMoveRightCommand : ICommand
     {
