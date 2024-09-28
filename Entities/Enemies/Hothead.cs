@@ -72,7 +72,7 @@ namespace MasterGame
                         {
                             isFlamethrowerActive = false; // Deactivate flamethrower after attack
                             flamethrower.ClearSegments(); // Clear fire
-                            stateMachine.ChangePose(EnemyPose.Walking); // After attack, walk
+                            stateMachine.ChangePose(EnemyPose.Hurt); // After attack, walk
                             frameCounter = 0;
                             UpdateTexture();
                         }
