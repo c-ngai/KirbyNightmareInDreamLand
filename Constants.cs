@@ -38,7 +38,8 @@ namespace MasterGame
             public const int FLAME_ATTACK_FRAMES = 200;
             public const int BEAM_ATTACK_FRAMES = 50;
             public const int PUFF_ATTACK_FRAMES = 30;
-            public static Vector2 BEAM_ATTACK_OFFSET = new Vector2(13, 0);
+            public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(13, -7);
+            public static Vector2 BEAM_ATTACK_OFFSET_LEFT = new Vector2(-13, -7);
             public static Vector2 PUFF_ATTACK_OFFSET = new Vector2(10, 0);
             public static Vector2 FLAME_ATTACK_OFFSET_RIGHT = new Vector2(25, -10);
             public static Vector2 FLAME_ATTACK_OFFSET_LEFT = new Vector2(-25, -10);
