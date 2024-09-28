@@ -49,7 +49,7 @@ namespace MasterGame
                         // Transition back to Hopping after hurtFrames
                         if (frameCounter >= Constants.PoppyBrosJr.HURT_FRAMES)
                         {
-                            stateMachine.ChangePose(EnemyPose.Hopping);
+                            stateMachine.ChangePose(EnemyPose.Hop);
                             frameCounter = 0;
                             UpdateTexture();
                         }

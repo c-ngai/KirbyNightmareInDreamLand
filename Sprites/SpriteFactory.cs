@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.IO;
 using Microsoft.Xna.Framework;
+using System.Diagnostics;
 
 namespace MasterGame {
     public class SpriteFactory
@@ -105,7 +106,7 @@ namespace MasterGame {
             }
             else
             {
-                //System.Console.WriteLine(spriteAnimationName ); //debug line
+                Debug.WriteLine("INVALID SPRITE NAME: " + spriteAnimationName); //debug line
                 return new Sprite(spriteAnimations["invalidspritename"], game);
             }
         }

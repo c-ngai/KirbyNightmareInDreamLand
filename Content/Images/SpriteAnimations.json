@@ -2377,6 +2377,7 @@
             }
         ]
     },
+
     "waddledoo_walking_right": {
         "Source texture": "enemies",
         "Loop point": 0,
@@ -2532,38 +2533,6 @@
                 "CenterX": 10,
                 "CenterY": 23,
                 "Time": 8
-            }
-        ]
-    },
-    "waddledoo_hurt_right": {
-        "Source texture": "enemies",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 8,
-                "Y": 92,
-                "Width": 24,
-                "Height": 24,
-                "CenterX": 10,
-                "CenterY": 23,
-                "Time": 1
-            }
-        ]
-    },
-    "waddledoo_hurt_left": {
-        "Source texture": "enemies",
-        "Loop point": 0,
-        "Flip horizontally?": true,
-        "Frames": [
-            {
-                "X": 8,
-                "Y": 92,
-                "Width": 24,
-                "Height": 24,
-                "CenterX": 10,
-                "CenterY": 23,
-                "Time": 1
             }
         ]
     },
@@ -2804,6 +2773,38 @@
                 "CenterX": 10,
                 "CenterY": 23,
                 "Time": 2
+            }
+        ]
+    },
+    "waddledoo_hurt_right": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 92,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 1
+            }
+        ]
+    },
+    "waddledoo_hurt_left": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 92,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 10,
+                "CenterY": 23,
+                "Time": 1
             }
         ]
     },
@@ -3778,6 +3779,38 @@
             }
         ]
     },
+    "sparky_hurt_right": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 112,
+                "Y": 234,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 1
+            }
+        ]
+    },
+    "sparky_hurt_left": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 112,
+                "Y": 234,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 1
+            }
+        ]
+    },
 
     "hothead_walking_right": {
         "Source texture": "enemies",
@@ -3937,38 +3970,6 @@
             }
         ]
     },
-    "hothead_hurt_right": {
-        "Source texture": "enemies",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 8,
-                "Y": 410,
-                "Width": 24,
-                "Height": 24,
-                "CenterX": 12,
-                "CenterY": 23,
-                "Time": 1
-            }
-        ]
-    },
-    "hothead_hurt_left": {
-        "Source texture": "enemies",
-        "Loop point": 0,
-        "Flip horizontally?": true,
-        "Frames": [
-            {
-                "X": 8,
-                "Y": 410,
-                "Width": 24,
-                "Height": 24,
-                "CenterX": 12,
-                "CenterY": 23,
-                "Time": 1
-            }
-        ]
-    },
     "hothead_charging_right": {
         "Source texture": "enemies",
         "Loop point": 0,
@@ -4048,6 +4049,38 @@
                 "CenterX": 12,
                 "CenterY": 23,
                 "Time": 2
+            }
+        ]
+    },
+    "hothead_hurt_right": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 410,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 1
+            }
+        ]
+    },
+    "hothead_hurt_left": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 410,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 1
             }
         ]
     },
