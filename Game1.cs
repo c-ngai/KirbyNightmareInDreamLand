@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using static MasterGame.Constants;
 
 namespace MasterGame
 {
@@ -96,7 +97,7 @@ namespace MasterGame
             keyboard.RegisterCommand(Keys.D3, new KirbyChangeFireCommand(kirby), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.D4, new KirbyChangeSparkCommand(kirby), ExecutionType.StartingPress);
 
-            keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby), ExecutionType.Pressed);
 
             keyboard.RegisterCommand(Keys.T, new PreviousBlockCommand(), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.Y, new NextBlockCommand(), ExecutionType.StartingPress);
@@ -152,7 +153,7 @@ namespace MasterGame
                 "tile_stoneblock",
                 "tile_waterfall",
             };
-            BlockList.Instance.setBlockList(blockList);
+            BlockList.Instance.SetBlockList(blockList);
 
             LoadItem();
 
@@ -203,6 +204,7 @@ namespace MasterGame
 
             kirby.Update(time);
             enemyList[currentEnemyIndex].Update(time);
+            item.Update();
             BlockList.Instance.Update();
         }
 

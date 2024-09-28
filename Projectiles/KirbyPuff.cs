@@ -11,12 +11,6 @@ namespace MasterGame
         private int frameCount = 0; 
         public bool isActive = true;
 
-        private const float InitialSpeed = 3.5f;
-        private const float DecelerationRate = 0.05f;
-        private const int MaxFrames = 20; // Puff disappears after 20 frames
-        private const float SmallVelocity = 0.01f; // Cutoff for Velocity getting close to zero
-
-
         public Vector2 Position
         {
             get => position;            // Return position of puff
@@ -39,7 +33,7 @@ namespace MasterGame
                 puffDirection.Normalize(); // Ensures the vector has a length of 1
             }
 
-            Velocity = puffDirection * InitialSpeed; // Set the initial velocity
+            Velocity = puffDirection * Constants.Puff.INITIAL_SPEED; // Set the initial velocity
 
             // Check the direction and assign the appropriate sprite
             if (puffDirection.X >= 0)
@@ -59,11 +53,11 @@ namespace MasterGame
                 // Decelerate the puff by reducing its velocity
                 if (Velocity.Length() > 0)
                 {
-                    Vector2 deceleration = Vector2.Normalize(Velocity) * DecelerationRate;
+                    Vector2 deceleration = Vector2.Normalize(Velocity) * Constants.Puff.DECELERATION_RATE;
                     Velocity -= deceleration;
 
                     // Make the velocity zero if it becomes negative or close to zero
-                    if (Velocity.Length() < SmallVelocity)
+                    if (Velocity.Length() < Constants.Puff.SMALL_VELOCITY)
                     {
                         Velocity = Vector2.Zero;
                     }
@@ -73,7 +67,7 @@ namespace MasterGame
 
                 // Increment frame count and check if puff should disappear
                 frameCount++;
-                if (frameCount >= MaxFrames || Velocity == Vector2.Zero)
+                if (frameCount >= Constants.Puff.MAX_FRAMES || Velocity == Vector2.Zero)
                 {
                     isActive = false;
                     projectileSprite = null; // Remove the sprite to avoid memory leaks

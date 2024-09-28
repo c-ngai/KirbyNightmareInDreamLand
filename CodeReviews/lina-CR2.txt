@@ -30,7 +30,7 @@ Quality:
     - most of the instance fiels in FlameThrower can become constants in the Constants.cs file
     - Unclear why direction is a Vector if its interacted as (1,0) or (-1,0)
         Potential solution: get bool position (as that is how the players obtain it) and
-        have that translate into the Tranform vector.
+        have that translate into the Tranform vector. Thats not the hardest inmplementation.
     -Start position and flame direction do not change once the flamethrower is activated
         it is potentially not the best practice to have Update have parameters that do not even change.
 

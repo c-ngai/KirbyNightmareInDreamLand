@@ -6,46 +6,67 @@ namespace MasterGame
 {
     public class PoppyBrosJr : Enemy
     {
-        private const float MoveSpeed = 0.5f;
-        // Hopping Variables
+
+        //Keep track of current frame
+        private int frameCounter = 0;
+
         private int hopCounter = 0; //number of hops
-        private int hopFrequency = 60; // frames between hops
-        private float hopHeight = 1f; //height of hops
 
         public PoppyBrosJr(Vector2 startPosition) : base(startPosition, EnemyType.PoppyBrosJr)
         {
+            //initialize first sprite
             stateMachine.ChangePose(EnemyPose.Hop);
         }
 
         public override void Attack()
         {
-            stateMachine.ChangePose(EnemyPose.Attacking);
-            UpdateTexture();
+            //NOTE: Poppy Bros Jr does not have attack sprite
         }
 
         public override void Update(GameTime gameTime)
         {
             if (!isDead)
             {
-                // Walking left/right
-                if (stateMachine.GetPose() == EnemyPose.Hop)
-                {
-                    Move();
-                    Hop();
-                }
+                frameCounter++;
 
-                // Update texture and enemy sprite
+                // Switch case to handle enemy states
+                switch (stateMachine.GetPose())
+                {
+                    case EnemyPose.Hop:
+                        Move();
+                        Hop();
+
+                        // Transition to Hurt state after hopFrames
+                        if (frameCounter >= Constants.PoppyBrosJr.HOP_FRAMES)
+                        {
+                            stateMachine.ChangePose(EnemyPose.Hurt);
+                            frameCounter = 0; // Reset frame counter
+                            UpdateTexture();  // Update texture for the new pose
+                        }
+                        break;
+
+                    case EnemyPose.Hurt:
+                        // Transition back to Hopping after hurtFrames
+                        if (frameCounter >= Constants.PoppyBrosJr.HURT_FRAMES)
+                        {
+                            stateMachine.ChangePose(EnemyPose.Hopping);
+                            frameCounter = 0;
+                            UpdateTexture();
+                        }
+                        break;
+                }
                 UpdateTexture();
+                // Update the enemy sprite
                 enemySprite.Update();
             }
         }
 
         protected override void Move()
         {
-            // Walking back and forth until left/right boundary
+            // Handles x movement. Walking back and forth until left/right boundary
             if (stateMachine.IsLeft())
             {
-                position.X -= MoveSpeed;
+                position.X -= Constants.PoppyBrosJr.MOVE_SPEED;
                 if (position.X <= leftBoundary.X)
                 {
                     ChangeDirection();
@@ -53,7 +74,7 @@ namespace MasterGame
             }
             else
             {
-                position.X += MoveSpeed;
+                position.X += Constants.PoppyBrosJr.MOVE_SPEED;
                 if (position.X >= rightBoundary.X)
                 {
                     ChangeDirection();
@@ -63,14 +84,15 @@ namespace MasterGame
 
         private void Hop()
         {
+            //Handles Y movement and calculates oscillation of hops.
             hopCounter++;
-            float t = (float)hopCounter / hopFrequency;
+            float t = (float)hopCounter / Constants.PoppyBrosJr.HOP_FREQUENCY;
 
             // Smooth hopping math
-            position.Y = position.Y - (float)(Math.Sin(t * Math.PI * 2) * hopHeight / 2);
+            position.Y = position.Y - (float)(Math.Sin(t * Math.PI * 2) * Constants.PoppyBrosJr.HOP_HEIGHT / 2);
 
             // Reset hop counter for cycle
-            if (hopCounter >= hopFrequency)
+            if (hopCounter >= Constants.PoppyBrosJr.HOP_FREQUENCY)
             {
                 hopCounter = 0;
                 enemySprite.ResetAnimation(); // Mark addition: since hop is a non-looping animation that we want to repeat but we already have that sprite, just call ResetAnimation on it.
@@ -79,6 +101,7 @@ namespace MasterGame
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            //Draws if enemy is alive
             if (!isDead)
             {
                 enemySprite.Draw(position, spriteBatch);

@@ -6,24 +6,20 @@ namespace MasterGame
 {
     public class Hothead : Enemy
     {
-        private const float MoveSpeed = 0.5f;
-
         // Frame tracker
         private int frameCounter = 0;
-        private int walkFrames = 180;
-        private int stopFrames = 60;
-        private int attackFrames = 100;
-        private int shootFrames = 100;
 
         // All fireballs and flamethrower
         private List<IProjectile> fireballs;
         private EnemyFlamethrower flamethrower;
+
+        //Checks if flamethrower attack is active
         private bool isFlamethrowerActive;
         private bool canUseFlamethrower;
 
         public Hothead(Vector2 startPosition) : base(startPosition, EnemyType.Hothead)
         {
-            health = 100;
+            //Initializes attacks and pose for enemy
             fireballs = new List<IProjectile>();
             flamethrower = new EnemyFlamethrower();
             isFlamethrowerActive = false;
@@ -37,13 +33,13 @@ namespace MasterGame
             {
                 frameCounter++;
 
-                //TO-DO: Should I use statemachine to avoid switch cases?
-                //Changes behavior depending on pose
+                //TO-DO: Change switch case into state pattern design.
                 switch (stateMachine.GetPose())
                 {
+                    //Walk for certain number of frames, then transition to spitting projectile
                     case EnemyPose.Walking:
                         Move();
-                        if (frameCounter >= walkFrames)
+                        if (frameCounter >= Constants.Hothead.WALK_FRAMES)
                         {
                             stateMachine.ChangePose(EnemyPose.Charging);
                             frameCounter = 0;
@@ -51,37 +47,48 @@ namespace MasterGame
                         }
                         break;
 
+                    //Spit projectile then transition to flamethrower
                     case EnemyPose.Charging:
-                        if (frameCounter == 1) // Fireball projectile
+                        if (frameCounter == 1) // Fireball projectile on frame 1
                         {
                             Attack();
                         }
 
-                        if (frameCounter >= shootFrames)
+                        if (frameCounter >= Constants.Hothead.SHOOT_FRAMES)
                         {
-                            stateMachine.ChangePose(EnemyPose.Attacking); // Attacks after shooting
+                            stateMachine.ChangePose(EnemyPose.Attacking);
                             frameCounter = 0;
                             UpdateTexture();
                         }
                         break;
-
+                    //Flamethrower attack then transition to walking
                     case EnemyPose.Attacking:
-                        if (frameCounter == 1) // Start flamethrower attack
+                        if (frameCounter == 1) // Start flamethrower attack on frame 1
                         {
                             Flamethrower(gameTime);
                         }
 
-                        if (frameCounter >= attackFrames)
+                        if (frameCounter >= Constants.Hothead.ATTACK_FRAMES)
                         {
                             isFlamethrowerActive = false; // Deactivate flamethrower after attack
-                            flamethrower.ClearSegments(); // Clear
+                            flamethrower.ClearSegments(); // Clear fire
                             stateMachine.ChangePose(EnemyPose.Walking); // After attack, walk
+                            frameCounter = 0;
+                            UpdateTexture();
+                        }
+                        break;
+                    case EnemyPose.Hurt:
+                        // Transition back to walking after hurtFrames
+                        if (frameCounter >= Constants.Hothead.HURT_FRAMES)
+                        {
+                            stateMachine.ChangePose(EnemyPose.Walking);
                             frameCounter = 0;
                             UpdateTexture();
                         }
                         break;
                 }
 
+                //Update all sprites
                 UpdateTexture();
                 enemySprite.Update();
                 UpdateFireballs();
@@ -94,6 +101,7 @@ namespace MasterGame
                 else
                 {
                     flamethrower.ClearSegments(); // Clear segments when not active
+                    //NOTE: Need to find some way to remove off-screen fireballs
                 }
             }
         }
@@ -106,10 +114,10 @@ namespace MasterGame
 
         protected override void Move()
         {
-            // Walking back and forth
+            // Walking back and forth in X axis 
             if (stateMachine.IsLeft())
             {
-                position.X -= MoveSpeed;
+                position.X -= Constants.Hothead.MOVE_SPEED;
                 if (position.X <= leftBoundary.X)
                 {
                     ChangeDirection();
@@ -118,7 +126,7 @@ namespace MasterGame
             }
             else
             {
-                position.X += MoveSpeed;
+                position.X += Constants.Hothead.MOVE_SPEED;
                 if (position.X >= rightBoundary.X)
                 {
                     ChangeDirection();
@@ -129,6 +137,7 @@ namespace MasterGame
 
         private void Flamethrower(GameTime gameTime)
         {
+            //Shoots flamethrower if called while inactive
             if (!isFlamethrowerActive)
             {
                 isFlamethrowerActive = true;
@@ -143,6 +152,7 @@ namespace MasterGame
 
         public override void Attack()
         {
+            //Shoots fireball projectile attack
             Vector2 projectileDirection = stateMachine.IsLeft() ? new Vector2(-1, -0.5f) : new Vector2(1, -0.5f);
             IProjectile newFireball = new EnemyFireball(ProjectilePosition(), projectileDirection);
             fireballs.Add(newFireball);
@@ -150,6 +160,7 @@ namespace MasterGame
 
         private void UpdateFireballs()
         {
+            //Updates all fireballs on list
             foreach (var fireball in fireballs)
             {
                 fireball.Update();
@@ -158,6 +169,7 @@ namespace MasterGame
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            //Draw enemy, flamethrower, and projectile depending if alive or active
             if (!isDead)
             {
                 if (isFlamethrowerActive)

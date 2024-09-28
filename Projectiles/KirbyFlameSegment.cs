@@ -15,9 +15,6 @@ namespace MasterGame
         private static Random random = new Random(); // Random instance for sprite selection
         private int frameCount;
 
-        private const int MaxFrames = 14; // Number of frames before the flame segment disappears   
-        private const float SecondsPerFrame = 0.016f; 
-
         public bool IsActive { get; private set; } // Expose IsActive for external checks
 
         public Vector2 Position
@@ -82,7 +79,7 @@ namespace MasterGame
             // Reduce delay over time
             if (delay > 0)
             {
-                delay -= SecondsPerFrame; // 60fps. 1/60 = ~0.016 seconds per frame
+                delay -= Constants.KirbyFire.SECONDS_PER_FRAME; // 60fps. 1/60 = ~0.016 seconds per frame
             }
             else
             {
@@ -97,7 +94,7 @@ namespace MasterGame
                 frameCount++;
 
                 // Mark the segment as inactive after a certain number of frames
-                if (frameCount >= MaxFrames)
+                if (frameCount >= Constants.KirbyFire.MAX_FRAMES)
                 {
                     IsActive = false;
                     projectileSprite = null; // Set sprite to null to avoid further drawing

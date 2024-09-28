@@ -1,0 +1,34 @@
+Author of Code Review: Gwyn Barnholtz
+Date: 9/27
+Sprint 2
+Reviewing: Sprite.cs (Peeked at SpriteAnimation.cs)
+Author of .cs file: Mark
+Number of minutes to complete review: 15
+################################################################################ 
+
+10 Code Smells
+
+Long Functions
+Large Class
+Long Parameters
+Duplicate Code
+Feature Envy
+Switch Statements
+Shotgun Surgery
+Same Name, Different Meaning
+Data Clumps
+Temporary Field
+
+################################################################################
+
+Comments on Code Smells:
+Pretty good length of the file - no long methods, parameters, or class. No duplicate code within the file and looks concise. 
+No crazy coupling, feature envy or switch statements. 
+It doesn’t seem the interface ISpriteAnimation is ever used within your file, so that might be able to be removed. 
+
+Comments on Readability
+The amount of comments is amazing! I can follow pretty clearly what is going on, even if it is pretty complex. I can tell easily what you want to clean up later, which is good touch.
+Pretty sure you checked with Professor Kirby and he said it was okay, but your ISprite Interface is within the Sprite.cs file. 
+Overall, I really appreciated your dedication to the sheer number of sprites that were created for this Sprint. 
+Your focus on data-driven code and creating a system that is easy for others to implement is much appreciated (as someone who has been using your code as a client this whole sprint). Great work!
+	

@@ -5,35 +5,58 @@ namespace MasterGame
 {
     public class WaddleDee : Enemy
     {
-        private const float MoveSpeed = 0.5f;
+        //Keep track of current frame
+        private int frameCounter = 0;
 
         public WaddleDee(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDee)
         {
-            stateMachine.ChangePose(EnemyPose.Walking); // Set initial pose
-            UpdateTexture(); // Update the sprite based on the initial state
+            //Set pose and sprite
+            stateMachine.ChangePose(EnemyPose.Walking);
+            UpdateTexture();
         }
 
         public override void Update(GameTime gameTime)
         {
             if (!isDead)
             {
-                if (stateMachine.GetPose() == EnemyPose.Walking)
-                {
-                    Move(); // Call the move logic
-                }
+                frameCounter++;
 
-                // Update sprite based on state
+                //TO-DO: Change switch case into state pattern design
+                switch (stateMachine.GetPose())
+                {
+                    case EnemyPose.Walking:
+                        Move();
+                        // Transition to Hurt state after hopFrames
+                        if (frameCounter >= Constants.WaddleDee.WALK_FRAMES)
+                        {
+                            stateMachine.ChangePose(EnemyPose.Hurt);
+                            frameCounter = 0; // Reset frame counter
+                            UpdateTexture();  // Update texture for the new pose
+                        }
+                        break;
+
+                    case EnemyPose.Hurt:
+                        // Transition back to walking after hurtFrames
+                        if (frameCounter >= Constants.WaddleDee.HURT_FRAMES)
+                        {
+                            stateMachine.ChangePose(EnemyPose.Walking);
+                            frameCounter = 0;
+                            UpdateTexture();
+                        }
+                        break;
+                }
                 UpdateTexture();
+                // Update the enemy sprite
                 enemySprite.Update();
             }
         }
 
         protected override void Move()
         {
-            // Implementing the movement logic
+            //X movement logic. Moves until boundaries
             if (stateMachine.IsLeft())
             {
-                position.X -= MoveSpeed;
+                position.X -= Constants.WaddleDee.MOVE_SPEED;
                 if (position.X <= leftBoundary.X)
                 {
                     ChangeDirection(); // Change direction if hitting left boundary
@@ -41,7 +64,7 @@ namespace MasterGame
             }
             else
             {
-                position.X += MoveSpeed;
+                position.X += Constants.WaddleDee.MOVE_SPEED;
                 if (position.X >= rightBoundary.X)
                 {
                     ChangeDirection(); // Change direction if hitting right boundary
@@ -51,12 +74,12 @@ namespace MasterGame
 
         public override void Attack()
         {
-            stateMachine.ChangePose(EnemyPose.Attacking);
-            UpdateTexture();
+            //WaddleDee has no attack sprite
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            //Draw if alive
             if (!isDead)
             {
                 enemySprite.Draw(position, spriteBatch);

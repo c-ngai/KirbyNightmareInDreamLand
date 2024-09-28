@@ -26,6 +26,7 @@ namespace MasterGame
         private int currentFrame;
         // The current number of game ticks since last frame advance.
         private int tickCounter;
+        private int counter = 0;
 
         /* Creates a new animation object from an animation file. Imports animation
          * data from a .csv file into the Animation object. */
@@ -97,6 +98,18 @@ namespace MasterGame
         public void Draw(Vector2 position, SpriteBatch spriteBatch)
         {
             Draw(position, spriteBatch, Color.White);
+        }
+
+        public void DamageDraw(Vector2 position, SpriteBatch spriteBatch)
+        {
+            counter ++;
+            if (counter < 10)
+            {
+                Draw(position, spriteBatch, Color.White);
+            } else{
+                if(counter == 20)
+                    counter = 0;
+            }
         }
 
         // Resets the animation to the start. Should be desirable to call any time an entity's sprite is switched.
