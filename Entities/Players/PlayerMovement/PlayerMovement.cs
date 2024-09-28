@@ -12,20 +12,12 @@ namespace MasterGame
         
         protected float yVel = 0;
         protected float xVel = 0;
-        protected float jumpVel = -2f;
-        protected float jumpVelX = 2f;
-        protected float floatVelX = 5f;
-        protected float floatVelY = 5f;
-        protected float walkingVel = .4f;
-        protected float runningVel = .8f;
-        protected float gravity = 10f;  // Gravity in pixels per second^2
-        protected float damageVel = 2f;
+        protected float walkingVel = Constants.Physics.WALKING_VELOCITY;
+        protected float runningVel = Constants.Physics.RUNNING_VELOCITY;
+        protected float gravity = Constants.Physics.GRAVITY;  // Gravity in pixels per second^2
+        protected float damageVel = Constants.Physics.DAMAGE_VELOCITY;
 
-        //protected static float slideStarting;
-        //protected const float slideDistance = Constants.Graphics.GAME_WIDTH /3;
-        protected float frameRate = 0.03125f;
-
-        //decrease public access
+        //only kirby has access to this to check the cuttent state of kirby
         public bool floating = false;
         public bool crouching = false;
         public bool jumping = false;
@@ -33,8 +25,7 @@ namespace MasterGame
         public ITimeCalculator timer;
 
         protected Vector2 position;
-
-        //change kirby velocity to go left
+        //constructor
         public PlayerMovement(Vector2 pos)
         {
             timer = new TimeCalculator();
@@ -76,7 +67,7 @@ namespace MasterGame
         #region Attack
         public virtual void Attack(Player kirby)
         {
-            kirby.ChangePose(KirbyPose.Attacking);
+            //overwritten by other methods
         }
         public void ReceiveDamage(bool isLeft)
         {
@@ -108,23 +99,17 @@ namespace MasterGame
         #endregion
 
         #region Floating
+        //starts floating pose animation
         public async void StartFloating(Player kirby)
         {
             kirby.ChangePose(KirbyPose.FloatingStart);
-        }
-        public virtual void EndFloat()
-        {
-
+            await Task.Delay(Constants.Physics.DELAY);
         }
         #endregion
 
-        public virtual void EndJump()
-        {
-
-        }
         public virtual void Jump(bool isLeft)
         {
-            //does nothing
+            //does nothing -- overwritten by other classes
         }
         #region Move Sprite
         //update kirby position in UI
@@ -132,9 +117,6 @@ namespace MasterGame
         {
             position.X += xVel;
             position.Y += yVel;
-            if(jumping || floating){
-                yVel += gravity *  (float)timer.GetElapsedTimeInS(gameTime);
-            }
             if(position.Y > 0){
                 yVel += gravity *  (float)gameTime.ElapsedGameTime.TotalSeconds;
             }

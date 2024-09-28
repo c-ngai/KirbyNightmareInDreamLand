@@ -6,8 +6,10 @@ namespace MasterGame
 {
     public class FloatingMovement : PlayerMovement
     {
-        protected float floatVel = .50f;
-        protected float floatGravity = 2f;
+        protected float floatVel = Constants.Physics.FLOAT_VEL;
+        protected float floatGravity = Constants.Physics.FLOAT_GRAVITY;
+        protected new float gravity = Constants.Physics.FLOAT_GRAVITY2;
+        private float floatFallingWindow = Constants.Graphics.FLOOR + 30;
         protected bool endFloat = false;        
         public FloatingMovement(Vector2 pos) : base(pos)
         {
@@ -16,53 +18,60 @@ namespace MasterGame
         public override void Walk(bool isLeft)
         {   
            if(isLeft){
-                xVel = floatVel * -1;
+                xVel = floatVel * -1; // times -1 to go in opposite direction
             } else {
                 xVel = floatVel;
             }
         }
-
+        
         public override void Run(bool isLeft)
         {   
             Walk(isLeft);
         }
 
+        //pressing x (jump) makes float go up
         public override void Jump(bool isLeft)
         {
-            yVel = floatVel * -1;
+            endFloat = false;
+            yVel = floatVel * -1; //go up
         }
 
-        public override void EndFloat()
+        public void AdjustYWhileFloating(Player kirby)
         {
-            yVel = floatVel;
+            //dont go through the floor but float state as not been terminated
+            if(position.Y > Constants.Graphics.FLOOR)
+            {
+                yVel = 0;
+                xVel= 0;
+                position.Y = Constants.Graphics.FLOOR;
+                kirby.ChangePose(KirbyPose.FloatingGrounded);
+            }
         }
-        public async void FloatingEndAnimation(Player kirby)
+        public void AdjustYWhileNotFloating(Player kirby)
         {
-            kirby.ChangePose(KirbyPose.FloatingEnd);
-            await Task.Delay (500);
+            //dont go through the floor but floating was ended
+            if(position.Y > Constants.Graphics.FLOOR)
+            {
+                position.Y = Constants.Graphics.FLOOR;
+                //kirby.ChangePose(KirbyPose.Standing);
+                kirby.ChangeMovement();
+            }
         }
 
         public override void AdjustY(Player kirby)
         {
-            //dont go through the floor
-            if(position.Y > Constants.Graphics.FLOOR  && endFloat)
+            if(endFloat)
             {
-                FloatingEndAnimation(kirby);
-                kirby.ChangePose(KirbyPose.Standing);
-                kirby.ChangeMovement();
+                AdjustYWhileNotFloating(kirby);
+            } else {
+                AdjustYWhileFloating(kirby);
             }
-            if(position.Y > Constants.Graphics.FLOOR  && !endFloat)
-            {
-                yVel = 0;
-                xVel=0;
-                position.Y = (float) Constants.Graphics.FLOOR;
-                kirby.ChangePose(KirbyPose.FloatingGrounded);
-            }
+            
             //dont go through the ceiling
             if(position.Y < 20)
             {
                 yVel = 0;
-                position.Y = 10;
+                position.Y = 20;
             }
 
         }
@@ -71,15 +80,31 @@ namespace MasterGame
         {
             position.X += xVel;
             position.Y += yVel;
-            yVel += floatGravity *  (float)gameTime.ElapsedGameTime.TotalSeconds;
+            yVel += floatGravity;
         }
 
+        public void FloatingEndAnimation(Player kirby)
+        {
+            kirby.ChangePose(KirbyPose.FloatingEnd);
+        }
+
+        public async void FloatingFallingAnimation(Player kirby)
+        {
+            if(position.Y < floatFallingWindow){ //floating doesnt go into the falling animation within a certain distance from floor
+                await Task.Delay(Constants.Physics.DELAY2);
+                kirby.ChangePose(KirbyPose.JumpFalling);
+            }
+        }
+
+        //attack (or pressing z) undoes float
         public override void Attack(Player kirby)
         {
+            kirby.ChangeAttackBool(true);
+            FloatingEndAnimation(kirby);
             floatGravity = gravity;
             endFloat = true;
-            EndFloat();
-            kirby.ChangePose(KirbyPose.JumpFalling);
+            yVel = floatVel;
+            FloatingFallingAnimation(kirby);
         }
 
     }

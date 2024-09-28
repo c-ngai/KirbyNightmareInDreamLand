@@ -3,8 +3,10 @@ namespace MasterGame
 {   
     public class JumpMovement : PlayerMovement
     {
-        public const float jumpCeiling = (float)Constants.Graphics.FLOOR * 1.5f/5f;
-        public float yVel = -2f;
+        public const float jumpCeiling = Constants.Physics.JUMP_CEILING;
+
+        protected float jumpVel = Constants.Physics.JUMP_VEL;
+        public new float yVel = -2f;
         public JumpMovement(Vector2 pos) : base(pos) 
         {
             jumping = true;
@@ -15,11 +17,9 @@ namespace MasterGame
             if(isLeft){
                 xVel = jumpVel;
             } else {
-                xVel = jumpVel *-1;
+                xVel = jumpVel * -1;
             }
-            JumpXY(isLeft);
         }
-
         #region Jumping
         public void FinishJump(Player kirby)
         {
@@ -32,6 +32,7 @@ namespace MasterGame
                 
             }
         }
+        //checks if kirby is going down to start the falling animation
         public void JumpCheck(Player kirby)
         {
             if(yVel > 0)
@@ -41,20 +42,17 @@ namespace MasterGame
         }
         public override void Jump(bool isLeft)
         {
-            if(position.Y > 80 && yVel <0){
+            if(position.Y > 80 && yVel <0){ //makes it so kirby can only jump so hight
                 yVel = jumpVel;
             }
         }
-        public void JumpXY(bool isLeft)
-        {
-            if(isLeft){
-                xVel = jumpVelX * -1;
-            } else {
-                xVel = jumpVelX;
-            }
-        }
+       
         #endregion
 
+        public override void Attack(Player kirby)
+        {
+            //does nothing
+        }
         #region Move Sprite
         //update kirby position in UI
         public override void UpdatePosition(GameTime gameTime)
@@ -72,11 +70,10 @@ namespace MasterGame
             if(position.Y > Constants.Graphics.FLOOR)
             {
                 yVel = 0;
-                position.Y = (float) Constants.Graphics.FLOOR;
-                FinishJump(kirby);
+                position.Y = Constants.Graphics.FLOOR;
+                FinishJump(kirby); //once he is back on the floor kirby is normal again
             }
             //dont go through the ceiling
-            //check if left and right are overriding the state change
             if(position.Y < jumpCeiling)
             {
                 yVel = 0;
