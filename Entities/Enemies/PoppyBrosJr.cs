@@ -14,7 +14,7 @@ namespace MasterGame
 
         public PoppyBrosJr(Vector2 startPosition) : base(startPosition, EnemyType.PoppyBrosJr)
         {
-            stateMachine.ChangePose(EnemyPose.Walking);
+            stateMachine.ChangePose(EnemyPose.Hop);
         }
 
         public override void Attack()
@@ -28,7 +28,7 @@ namespace MasterGame
             if (!isDead)
             {
                 // Walking left/right
-                if (stateMachine.GetPose() == EnemyPose.Walking)
+                if (stateMachine.GetPose() == EnemyPose.Hop)
                 {
                     Move();
                     Hop();
@@ -73,6 +73,7 @@ namespace MasterGame
             if (hopCounter >= hopFrequency)
             {
                 hopCounter = 0;
+                enemySprite.ResetAnimation(); // Mark addition: since hop is a non-looping animation that we want to repeat but we already have that sprite, just call ResetAnimation on it.
             }
         }
 

@@ -3063,9 +3063,9 @@
         ]
     },
 
-    "poppybrosjr_hopping_right": {
+    "poppybrosjr_hop_right": {
         "Source texture": "enemies",
-        "Loop point": 0,
+        "Loop point": 4,
         "Flip horizontally?": false,
         "Frames": [
             {
@@ -3111,13 +3111,13 @@
                 "Height": 26,
                 "CenterX": 14,
                 "CenterY": 25,
-                "Time": 11
+                "Time": 1
             }
         ]
     },
-    "poppybrosjr_hopping_left": {
+    "poppybrosjr_hop_left": {
         "Source texture": "enemies",
-        "Loop point": 0,
+        "Loop point": 4,
         "Flip horizontally?": true,
         "Frames": [
             {
@@ -3163,7 +3163,7 @@
                 "Height": 26,
                 "CenterX": 14,
                 "CenterY": 25,
-                "Time": 11
+                "Time": 1
             }
         ]
     },
@@ -3196,6 +3196,858 @@
                 "CenterX": 14,
                 "CenterY": 25,
                 "Time": 1
+            }
+        ]
+    },
+
+    "sparky_standing_right": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 234,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 1
+            }
+        ]
+    },
+    "sparky_standing_left": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 234,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 1
+            }
+        ]
+    },
+    "sparky_hop_right": {
+        "Source texture": "enemies",
+        "Loop point": 5,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 34,
+                "Y": 234,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 3
+            },
+            {
+                "X": 60,
+                "Y": 234,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 4
+            },
+            {
+                "X": 86,
+                "Y": 234,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 4
+            },
+            {
+                "X": 60,
+                "Y": 234,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 4
+            },
+            {
+                "X": 34,
+                "Y": 234,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 3
+            },
+            {
+                "X": 8,
+                "Y": 234,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 1
+            }
+        ]
+    },
+    "sparky_hop_left": {
+        "Source texture": "enemies",
+        "Loop point": 5,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 34,
+                "Y": 234,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 3
+            },
+            {
+                "X": 60,
+                "Y": 234,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 4
+            },
+            {
+                "X": 86,
+                "Y": 234,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 4
+            },
+            {
+                "X": 60,
+                "Y": 234,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 4
+            },
+            {
+                "X": 34,
+                "Y": 234,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 3
+            },
+            {
+                "X": 8,
+                "Y": 234,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 1
+            }
+        ]
+    },
+    "sparky_charging_right": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 108,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 2
+            },
+            {
+                "X": 8,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 2
+            },
+            {
+                "X": 158,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 2
+            },
+            {
+                "X": 8,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 2
+            },
+            {
+                "X": 8,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 4
+            },
+            {
+                "X": 58,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 4
+            },
+            {
+                "X": 8,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 4
+            },
+            {
+                "X": 258,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 2
+            },
+            {
+                "X": 58,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 2
+            },
+            {
+                "X": 208,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 2
+            },
+            {
+                "X": 8,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 2
+            },
+            {
+                "X": 58,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 4
+            },
+            {
+                "X": 8,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 4
+            },
+            {
+                "X": 58,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 4
+            }
+        ]
+    },
+    "sparky_charging_left": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 108,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 2
+            },
+            {
+                "X": 8,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 2
+            },
+            {
+                "X": 158,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 2
+            },
+            {
+                "X": 8,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 2
+            },
+            {
+                "X": 8,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 4
+            },
+            {
+                "X": 58,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 4
+            },
+            {
+                "X": 8,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 4
+            },
+            {
+                "X": 258,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 2
+            },
+            {
+                "X": 58,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 2
+            },
+            {
+                "X": 208,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 2
+            },
+            {
+                "X": 8,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 2
+            },
+            {
+                "X": 58,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 4
+            },
+            {
+                "X": 8,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 4
+            },
+            {
+                "X": 58,
+                "Y": 262,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 33,
+                "Time": 4
+            }
+        ]
+    },
+    "sparky_attacking_right": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 314,
+                "Width": 64,
+                "Height": 64,
+                "CenterX": 32,
+                "CenterY": 41,
+                "Time": 2
+            },
+            {
+                "X": 74,
+                "Y": 314,
+                "Width": 64,
+                "Height": 64,
+                "CenterX": 32,
+                "CenterY": 41,
+                "Time": 2
+            },
+            {
+                "X": 140,
+                "Y": 314,
+                "Width": 64,
+                "Height": 64,
+                "CenterX": 32,
+                "CenterY": 41,
+                "Time": 2
+            },
+            {
+                "X": 206,
+                "Y": 314,
+                "Width": 64,
+                "Height": 64,
+                "CenterX": 32,
+                "CenterY": 41,
+                "Time": 2
+            },
+            {
+                "X": 272,
+                "Y": 314,
+                "Width": 64,
+                "Height": 64,
+                "CenterX": 32,
+                "CenterY": 41,
+                "Time": 2
+            },
+            {
+                "X": 338,
+                "Y": 314,
+                "Width": 64,
+                "Height": 64,
+                "CenterX": 32,
+                "CenterY": 41,
+                "Time": 2
+            },
+            {
+                "X": 404,
+                "Y": 314,
+                "Width": 64,
+                "Height": 64,
+                "CenterX": 32,
+                "CenterY": 41,
+                "Time": 2
+            },
+            {
+                "X": 470,
+                "Y": 314,
+                "Width": 64,
+                "Height": 64,
+                "CenterX": 32,
+                "CenterY": 41,
+                "Time": 2
+            }
+        ]
+    },
+    "sparky_attacking_left": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 314,
+                "Width": 64,
+                "Height": 64,
+                "CenterX": 32,
+                "CenterY": 41,
+                "Time": 2
+            },
+            {
+                "X": 74,
+                "Y": 314,
+                "Width": 64,
+                "Height": 64,
+                "CenterX": 32,
+                "CenterY": 41,
+                "Time": 2
+            },
+            {
+                "X": 140,
+                "Y": 314,
+                "Width": 64,
+                "Height": 64,
+                "CenterX": 32,
+                "CenterY": 41,
+                "Time": 2
+            },
+            {
+                "X": 206,
+                "Y": 314,
+                "Width": 64,
+                "Height": 64,
+                "CenterX": 32,
+                "CenterY": 41,
+                "Time": 2
+            },
+            {
+                "X": 272,
+                "Y": 314,
+                "Width": 64,
+                "Height": 64,
+                "CenterX": 32,
+                "CenterY": 41,
+                "Time": 2
+            },
+            {
+                "X": 338,
+                "Y": 314,
+                "Width": 64,
+                "Height": 64,
+                "CenterX": 32,
+                "CenterY": 41,
+                "Time": 2
+            },
+            {
+                "X": 404,
+                "Y": 314,
+                "Width": 64,
+                "Height": 64,
+                "CenterX": 32,
+                "CenterY": 41,
+                "Time": 2
+            },
+            {
+                "X": 470,
+                "Y": 314,
+                "Width": 64,
+                "Height": 64,
+                "CenterX": 32,
+                "CenterY": 41,
+                "Time": 2
+            }
+        ]
+    },
+
+    "hothead_walking_right": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 382,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 34,
+                "Y": 382,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 60,
+                "Y": 382,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 7
+            },
+            {
+                "X": 86,
+                "Y": 382,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 112,
+                "Y": 382,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 86,
+                "Y": 382,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 60,
+                "Y": 382,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 7
+            },
+            {
+                "X": 34,
+                "Y": 382,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 8
+            }
+        ]
+    },
+    "hothead_walking_left": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 382,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 34,
+                "Y": 382,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 60,
+                "Y": 382,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 7
+            },
+            {
+                "X": 86,
+                "Y": 382,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 112,
+                "Y": 382,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 86,
+                "Y": 382,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 8
+            },
+            {
+                "X": 60,
+                "Y": 382,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 7
+            },
+            {
+                "X": 34,
+                "Y": 382,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 8
+            }
+        ]
+    },
+    "hothead_hurt_right": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 410,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 1
+            }
+        ]
+    },
+    "hothead_hurt_left": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 410,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 1
+            }
+        ]
+    },
+    "hothead_charging_right": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 438,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 24
+            }
+        ]
+    },
+    "hothead_charging_left": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 438,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 24
+            }
+        ]
+    },
+    "hothead_attacking_right": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 34,
+                "Y": 438,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 2
+            },
+            {
+                "X": 60,
+                "Y": 438,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 2
+            }
+        ]
+    },
+    "hothead_attacking_left": {
+        "Source texture": "enemies",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 34,
+                "Y": 438,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 2
+            },
+            {
+                "X": 60,
+                "Y": 438,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 23,
+                "Time": 2
             }
         ]
     },

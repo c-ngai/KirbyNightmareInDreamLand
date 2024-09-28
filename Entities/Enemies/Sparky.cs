@@ -17,7 +17,7 @@ namespace MasterGame
 
         public Sparky(Vector2 startPosition) : base(startPosition, EnemyType.Sparky)
         {
-            stateMachine.ChangePose(EnemyPose.Walking);
+            stateMachine.ChangePose(EnemyPose.Hop);
         }
 
         public override void Attack()
@@ -51,6 +51,7 @@ namespace MasterGame
                         {
                             stateCounter = 0;
                             currentState = "HoppingTall";
+                            enemySprite.ResetAnimation();  // Mark addition: since hop is a non-looping animation that we want to repeat but we already have that sprite, just call ResetAnimation on it.
                         }
                         break;
 
@@ -77,7 +78,7 @@ namespace MasterGame
                         {
                             stateCounter = 0;
                             currentState = "HoppingForward"; // back to hop
-                            stateMachine.ChangePose(EnemyPose.Walking);
+                            stateMachine.ChangePose(EnemyPose.Hop);
                         }
                         break;
                 }
