@@ -6,7 +6,8 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
 
-namespace MasterGame {
+namespace MasterGame
+{
     public class SpriteFactory
     {
         // Dictionary from string to Texture2D. For easily retrieving a texture by name.

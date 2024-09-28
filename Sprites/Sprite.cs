@@ -3,17 +3,10 @@ using Microsoft.Xna.Framework;
 
 namespace MasterGame
 {
-    public interface ISprite
-    {
-        public void Update();
-        public void Draw(Vector2 position, SpriteBatch spriteBatch);
-        public void ResetAnimation();
-    }
 
     public class Sprite : ISprite
     {
-        // To store a reference to the global spritebatch and current game.
-        private SpriteBatch spriteBatch;
+        // To store a reference to the current game.
         private Game1 game;
         // The game's INTERNAL resolution. For placement on screen relative to the scale. Not to be confused with window resolution.
         private int gameWidth;
@@ -49,14 +42,14 @@ namespace MasterGame
         {
             // Advance the tick counter. If it's reached the frame time of the current frame, advance the frame and reset the tick counter.
             tickCounter++;
-            if (tickCounter == _spriteAnimation.frameTimes[currentFrame])
+            if (tickCounter == _spriteAnimation.FrameTimes[currentFrame])
             {
                 tickCounter = 0;
                 currentFrame++;
                 // If the current frame has hit the end, cycle back to the loop point.
-                if (currentFrame == _spriteAnimation.frameCount)
+                if (currentFrame == _spriteAnimation.FrameCount)
                 {
-                    currentFrame = _spriteAnimation.loopPoint;
+                    currentFrame = _spriteAnimation.LoopPoint;
                 }
             }
         }
@@ -74,16 +67,16 @@ namespace MasterGame
             position.Floor();
             position *= scale;
             // Pull the frame center and source rectangle from data.
-            Vector2 frameCenter = _spriteAnimation.frameCenters[currentFrame];
-            Rectangle sourceRectangle = _spriteAnimation.frameSourceRectangles[currentFrame];
+            Vector2 frameCenter = _spriteAnimation.FrameCenters[currentFrame];
+            Rectangle sourceRectangle = _spriteAnimation.FrameSourceRectangles[currentFrame];
 
-            if (_spriteAnimation.spriteEffects.Equals(SpriteEffects.FlipHorizontally))
+            if (_spriteAnimation.SpriteEffects.Equals(SpriteEffects.FlipHorizontally))
             {
                 frameCenter.X = sourceRectangle.Width - frameCenter.X;
             }
 
             // Draw the sprite to the spriteBatch.
-            spriteBatch.Draw(_spriteAnimation.texture, position, sourceRectangle, color, 0, frameCenter, scale, _spriteAnimation.spriteEffects, 0);
+            spriteBatch.Draw(_spriteAnimation.Texture, position, sourceRectangle, color, 0, frameCenter, scale, _spriteAnimation.SpriteEffects, 0);
 
 
             // DEBUG VISUALS, TIDY UP LATER

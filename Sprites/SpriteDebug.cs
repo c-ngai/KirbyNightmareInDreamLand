@@ -7,13 +7,13 @@ namespace MasterGame
     public class SpriteDebug
     {
 
-        private Color translucent = new Color(255, 255, 255, 63);
+        private Color translucent = new(255, 255, 255, 63);
         private Texture2D red;
         private Texture2D blue;
 
 
 
-        private static SpriteDebug instance = new SpriteDebug();
+        private static SpriteDebug instance = new();
 
         public static SpriteDebug Instance
         {
