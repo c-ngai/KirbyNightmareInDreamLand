@@ -9,6 +9,11 @@ namespace MasterGame
         //Keep track of current frame
         private int frameCounter = 0;
 
+        // Jump variables
+        private bool isJumping = false;
+        private float originalY;
+        private float jumpVelocity = 0;
+
         // Beam ability
         private EnemyBeam beam;
         private bool isBeamActive = false;
@@ -52,7 +57,7 @@ namespace MasterGame
                         Attack();
                         if (frameCounter >= Constants.WaddleDoo.ATTACK_FRAMES)
                         {
-                            stateMachine.ChangePose(EnemyPose.Walking);
+                            stateMachine.ChangePose(EnemyPose.Hurt);
                             frameCounter = 0;
                             UpdateTexture();
                         }
@@ -69,12 +74,6 @@ namespace MasterGame
 
                     case EnemyPose.Jumping:
                         Jump();
-                        if (frameCounter >= Constants.WaddleDoo.JUMPING_FRAMES)
-                        {
-                            stateMachine.ChangePose(EnemyPose.Walking);
-                            frameCounter = 0;
-                            UpdateTexture();
-                        }
                         break;
                 }
 
@@ -125,7 +124,35 @@ namespace MasterGame
 
         private void Jump()
         {
-            position.Y -= Constants.WaddleDoo.JUMP_HEIGHT;
+            if (!isJumping)
+            {
+                // Start jumping and store initial y
+                isJumping = true;
+                originalY = position.Y;
+                jumpVelocity = -Constants.WaddleDoo.JUMP_HEIGHT; 
+            }
+
+            // Apply gravity and update Y position
+            position.Y += jumpVelocity;
+            jumpVelocity += Constants.WaddleDoo.GRAVITY;
+
+            //Move right or left on x axis in jump
+            if (stateMachine.IsLeft())
+            {
+                position.X -= Constants.WaddleDoo.FORWARD_MOVEMENT; 
+            }
+            else
+            {
+                position.X += Constants.WaddleDoo.FORWARD_MOVEMENT; 
+            }
+
+            // Check if the character has landed and stop walking
+            if (position.Y >= originalY)
+            {
+                position.Y = originalY; 
+                isJumping = false;
+                stateMachine.ChangePose(EnemyPose.Walking);
+            }
         }
 
         public override void Attack()

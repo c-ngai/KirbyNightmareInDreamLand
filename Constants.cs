@@ -164,7 +164,9 @@ namespace MasterGame
             public const int ATTACK_FRAMES = 33;
             public const int HURT_FRAMES = 50;
             public const int JUMPING_FRAMES = 50;
-            public const float JUMP_HEIGHT = 50f;
+            public const float JUMP_HEIGHT = 5f;
+            public const float GRAVITY = 0.5f;
+            public const float FORWARD_MOVEMENT = 1f;
         }
     }
 }
