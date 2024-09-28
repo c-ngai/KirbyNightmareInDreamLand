@@ -6,17 +6,17 @@ namespace MasterGame
 {
     public class WaddleDoo : Enemy
     {
-        // Walking and attacking frames
+        //Keep track of current frame
         private int frameCounter = 0;
 
-        // Beam
-        private EnemyBeam beam; // Change from List<EnemyBeam> to a single instance
+        // Beam ability
+        private EnemyBeam beam;
         private bool isBeamActive = false;
 
         public WaddleDoo(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDoo)
         {
+            //Initialize pose
             stateMachine.ChangePose(EnemyPose.Walking);
-            enemySprite = SpriteFactory.Instance.createSprite("waddledoo_walking_right");
         }
 
         public override void Update(GameTime gameTime)
@@ -28,6 +28,7 @@ namespace MasterGame
                 //TO-DO: Change switch case into state pattern design
                 switch (stateMachine.GetPose())
                 {
+                    //Move if walking for specfic number of frames. Transition to charging.
                     case EnemyPose.Walking:
                         Move();
                         if (frameCounter >= Constants.WaddleDoo.WALK_FRAMES)
@@ -37,7 +38,7 @@ namespace MasterGame
                             UpdateTexture();
                         }
                         break;
-
+                    //Charge attack. Transitions to attack
                     case EnemyPose.Charging:
                         if (frameCounter >= Constants.WaddleDoo.STOP_FRAMES)
                         {
@@ -46,7 +47,7 @@ namespace MasterGame
                             UpdateTexture();
                         }
                         break;
-
+                    //Use beam attack, spawning beam projectile. Transitions back to walking.
                     case EnemyPose.Attacking:
                         Attack();
                         if (frameCounter >= Constants.WaddleDoo.ATTACK_FRAMES)
@@ -58,6 +59,7 @@ namespace MasterGame
                         break;
                 }
 
+                //update waddle doo
                 enemySprite.Update();
 
                 // Update the beam if it's active
@@ -76,12 +78,13 @@ namespace MasterGame
 
         private Vector2 ProjectilePosition()
         {
-            // Adjust flamethrower position based on Hothead's facing direction
-            return stateMachine.IsLeft() ? new Vector2(position.X - 17, position.Y - 7) : new Vector2(position.X + 17, position.Y - 7); // TODO: These values probably need to be changed to be accurate. Check how far the position for hothead is from the edges of the sprite.
+            // Adjust beam based on direction facing
+            return stateMachine.IsLeft() ? new Vector2(position.X - 17, position.Y - 7) : new Vector2(position.X + 17, position.Y - 7);
         }
 
         protected override void Move()
         {
+            //X moevement left and right. Turns around at left/right boundary
             if (stateMachine.IsLeft())
             {
                 position.X -= Constants.WaddleDoo.MOVE_SPEED;
@@ -103,9 +106,9 @@ namespace MasterGame
 
         public override void Attack()
         {
+            //If active, create a new beam using the current position and direction
             if (!isBeamActive)
             {
-                // Create a new beam using the current position and direction
                 beam = new EnemyBeam(ProjectilePosition(), !stateMachine.IsLeft());
                 isBeamActive = true;
             }
@@ -120,6 +123,7 @@ namespace MasterGame
                 {
                     beam.Draw(spriteBatch);
                 }
+                //draw enemy
                 enemySprite.Draw(position, spriteBatch);
             }
         }

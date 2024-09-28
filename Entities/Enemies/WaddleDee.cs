@@ -7,17 +7,19 @@ namespace MasterGame
     {
         public WaddleDee(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDee)
         {
-            stateMachine.ChangePose(EnemyPose.Walking); // Set initial pose
-            UpdateTexture(); // Update the sprite based on the initial state
+            //Set pose and sprite
+            stateMachine.ChangePose(EnemyPose.Walking);
+            UpdateTexture();
         }
 
         public override void Update(GameTime gameTime)
         {
+            //Walk forward if alive
             if (!isDead)
             {
                 if (stateMachine.GetPose() == EnemyPose.Walking)
                 {
-                    Move(); // Call the move logic
+                    Move();
                 }
 
                 // Update sprite based on state
@@ -28,7 +30,7 @@ namespace MasterGame
 
         protected override void Move()
         {
-            // Implementing the movement logic
+            //X movement logic. Moves until boundaries
             if (stateMachine.IsLeft())
             {
                 position.X -= Constants.WaddleDee.MOVE_SPEED;
@@ -49,12 +51,12 @@ namespace MasterGame
 
         public override void Attack()
         {
-            stateMachine.ChangePose(EnemyPose.Attacking);
-            UpdateTexture();
+            //WaddleDee has no attack sprite
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            //Draw if alive
             if (!isDead)
             {
                 enemySprite.Draw(position, spriteBatch);

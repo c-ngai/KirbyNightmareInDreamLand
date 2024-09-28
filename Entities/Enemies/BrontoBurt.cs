@@ -6,16 +6,13 @@ namespace MasterGame
 {
     public class BrontoBurt : Enemy
     {
-
         private float initialY; // initial height
         private float timeCounter = 0f; // wave time counter
 
         public BrontoBurt(Vector2 startPosition) : base(startPosition, EnemyType.BrontoBurt)
         {
-            //Initialization
+            //Initialize starting Y position,
             initialY = startPosition.Y;
-            health = 100;
-            isDead = false;
             stateMachine.ChangePose(EnemyPose.FlyingSlow);
         }
 
@@ -26,6 +23,7 @@ namespace MasterGame
 
         public override void Update(GameTime gameTime)
         {
+            //Moves forward flying slow if not dead
             if (!isDead)
             {
                 if (stateMachine.GetPose() == EnemyPose.FlyingSlow)
@@ -40,12 +38,11 @@ namespace MasterGame
 
         protected override void Move()
         {
+            //Creats Y oscillation using sin. Smooth flying motion up and down
             timeCounter += Constants.BrontoBurt.WAVE_FREQUENCY;
-
-            // Y oscillation using sin. Smooth flying motion up and down
             position.Y = initialY + Constants.BrontoBurt.WAVE_AMPLITUDE * (float)Math.Sin(timeCounter);
 
-            //Checks to change if within bounds
+            //Checks to change if X value is within left/right bounds
             if (stateMachine.IsLeft())
             {
                 position.X -= Constants.BrontoBurt.MOVE_SPEED;
@@ -66,6 +63,7 @@ namespace MasterGame
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            //Draw if enemy is alive
             if (!isDead)
             {
                 enemySprite.Draw(position, spriteBatch);

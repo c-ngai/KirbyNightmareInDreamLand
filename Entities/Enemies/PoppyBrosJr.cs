@@ -10,17 +10,18 @@ namespace MasterGame
 
         public PoppyBrosJr(Vector2 startPosition) : base(startPosition, EnemyType.PoppyBrosJr)
         {
+            //initialize first sprite
             stateMachine.ChangePose(EnemyPose.Walking);
         }
 
         public override void Attack()
         {
-            stateMachine.ChangePose(EnemyPose.Attacking);
-            UpdateTexture();
+            //NOTE: Poppy Bros Jr does not have attack sprite
         }
 
         public override void Update(GameTime gameTime)
         {
+            //Enemy hops left and right on screen and updates
             if (!isDead)
             {
                 // Walking left/right
@@ -38,7 +39,7 @@ namespace MasterGame
 
         protected override void Move()
         {
-            // Walking back and forth until left/right boundary
+            // Handles x movement. Walking back and forth until left/right boundary
             if (stateMachine.IsLeft())
             {
                 position.X -= Constants.PoppyBrosJr.MOVE_SPEED;
@@ -59,6 +60,7 @@ namespace MasterGame
 
         private void Hop()
         {
+            //Handles Y movement and calculates oscillation of hops.
             hopCounter++;
             float t = (float)hopCounter / Constants.PoppyBrosJr.HOP_FREQUENCY;
 
@@ -74,6 +76,7 @@ namespace MasterGame
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            //Draws if enemy is alive
             if (!isDead)
             {
                 enemySprite.Draw(position, spriteBatch);
