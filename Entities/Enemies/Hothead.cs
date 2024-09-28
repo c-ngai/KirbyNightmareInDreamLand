@@ -77,6 +77,15 @@ namespace MasterGame
                             UpdateTexture();
                         }
                         break;
+                    case EnemyPose.Hurt:
+                        // Transition back to walking after hurtFrames
+                        if (frameCounter >= Constants.Hothead.HURT_FRAMES)
+                        {
+                            stateMachine.ChangePose(EnemyPose.Walking);
+                            frameCounter = 0;
+                            UpdateTexture();
+                        }
+                        break;
                 }
 
                 //Update all sprites

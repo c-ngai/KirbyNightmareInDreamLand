@@ -57,6 +57,25 @@ namespace MasterGame
                             UpdateTexture();
                         }
                         break;
+                    case EnemyPose.Hurt:
+                        // Transition back to walking after hurtFrames
+                        if (frameCounter >= Constants.WaddleDoo.HURT_FRAMES)
+                        {
+                            stateMachine.ChangePose(EnemyPose.Jumping);
+                            frameCounter = 0;
+                            UpdateTexture();
+                        }
+                        break;
+
+                    case EnemyPose.Jumping:
+                        Jump();
+                        if (frameCounter >= Constants.WaddleDoo.JUMPING_FRAMES)
+                        {
+                            stateMachine.ChangePose(EnemyPose.Walking);
+                            frameCounter = 0;
+                            UpdateTexture();
+                        }
+                        break;
                 }
 
                 //update waddle doo
@@ -102,6 +121,11 @@ namespace MasterGame
                 }
             }
             UpdateTexture();
+        }
+
+        private void Jump()
+        {
+            position.Y -= Constants.WaddleDoo.JUMP_HEIGHT;
         }
 
         public override void Attack()

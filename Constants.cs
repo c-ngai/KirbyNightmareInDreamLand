@@ -111,6 +111,10 @@ namespace MasterGame
             public const float MOVE_SPEED = 0.5f;
             public const float WAVE_AMPLITUDE = 10f; // height of wave
             public const float WAVE_FREQUENCY = 0.05f; // wave speed
+            public const int HURT_FRAMES = 50;
+            public const int SLOW_FLY_FRAMES = 50;
+            public const int FAST_FLY_FRAMES = 50;
+            public const int STANDING_FRAMES = 50;
         }
 
         public class Hothead
@@ -120,6 +124,7 @@ namespace MasterGame
             public const int STOP_FRAMES = 60;
             public const int ATTACK_FRAMES = 100;
             public const int SHOOT_FRAMES = 100;
+            public const int HURT_FRAMES = 50;
         }
 
         public class PoppyBrosJr
@@ -127,6 +132,8 @@ namespace MasterGame
             public const float MOVE_SPEED = 0.5f;
             public const int HOP_FREQUENCY = 60; // frames between hops
             public const float HOP_HEIGHT = 1f; //height of hops
+            public const int HOP_FRAMES = 180;
+            public const int HURT_FRAMES = 50;
 
         }
 
@@ -139,11 +146,14 @@ namespace MasterGame
 
             public const int PAUSE_TIME = 30;
             public const int ATTACK_TIME = 120;
+            public const int HURT_FRAMES = 50;
         }
 
         public class WaddleDee
         {
             public const float MOVE_SPEED = 0.5f;
+            public const int WALK_FRAMES = 180;
+            public const int HURT_FRAMES = 50;
         }
 
         public class WaddleDoo
@@ -152,6 +162,9 @@ namespace MasterGame
             public const int WALK_FRAMES = 180;
             public const int STOP_FRAMES = 60;
             public const int ATTACK_FRAMES = 33;
+            public const int HURT_FRAMES = 50;
+            public const int JUMPING_FRAMES = 50;
+            public const float JUMP_HEIGHT = 50f;
         }
     }
 }

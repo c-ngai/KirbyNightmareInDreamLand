@@ -6,6 +6,9 @@ namespace MasterGame
 {
     public class BrontoBurt : Enemy
     {
+        //Keep track of current frame
+        private int frameCounter = 0;
+
         private float initialY; // initial height
         private float timeCounter = 0f; // wave time counter
 
@@ -23,15 +26,54 @@ namespace MasterGame
 
         public override void Update(GameTime gameTime)
         {
-            //Moves forward flying slow if not dead
             if (!isDead)
             {
-                if (stateMachine.GetPose() == EnemyPose.FlyingSlow)
-                {
-                    Move();
-                }
+                frameCounter++;
 
+                //TO-DO: Change switch case into state pattern design
+                switch (stateMachine.GetPose())
+                {
+                    case EnemyPose.FlyingSlow:
+                        Move();
+                        // Transition to Hurt state after hopFrames
+                        if (frameCounter >= Constants.BrontoBurt.SLOW_FLY_FRAMES)
+                        {
+                            stateMachine.ChangePose(EnemyPose.FlyingFast);
+                            frameCounter = 0; // Reset frame counter
+                            UpdateTexture();  // Update texture for the new pose
+                        }
+                        break;
+                    case EnemyPose.FlyingFast:
+                        Move();
+                        // Transition back to walking after hurtFrames
+                        if (frameCounter >= Constants.BrontoBurt.FAST_FLY_FRAMES)
+                        {
+                            stateMachine.ChangePose(EnemyPose.Hurt);
+                            frameCounter = 0;
+                            UpdateTexture();
+                        }
+                        break;
+                    case EnemyPose.Hurt:
+                        // Transition back to walking after hurtFrames
+                        if (frameCounter >= Constants.BrontoBurt.HURT_FRAMES)
+                        {
+                            stateMachine.ChangePose(EnemyPose.Standing);
+                            frameCounter = 0;
+                            UpdateTexture();
+                        }
+                        break;
+                    case EnemyPose.Standing:
+                        // Transition back to walking after hurtFrames
+                        if (frameCounter >= Constants.BrontoBurt.STANDING_FRAMES)
+                        {
+                            stateMachine.ChangePose(EnemyPose.FlyingSlow);
+                            frameCounter = 0;
+                            UpdateTexture();
+                        }
+                        break;
+                }
                 UpdateTexture();
+                // Update the enemy sprite
                 enemySprite.Update();
             }
         }

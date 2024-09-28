@@ -74,6 +74,15 @@ namespace MasterGame
                         if (stateCounter >= Constants.Sparky.ATTACK_TIME) // Attack
                         {
                             stateCounter = 0;
+                            currentState = "Hurt"; // back to hop
+                            stateMachine.ChangePose(EnemyPose.Hurt);
+                        }
+                        break;
+                        case "Hurt":
+                        // Transition back to Hopping after hurtFrames
+                        if (stateCounter >= Constants.Sparky.HURT_FRAMES)
+                        {
+                            stateCounter = 0;
                             currentState = "HoppingForward"; // back to hop
                             stateMachine.ChangePose(EnemyPose.Walking);
                         }

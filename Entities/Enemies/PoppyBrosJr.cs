@@ -6,12 +6,16 @@ namespace MasterGame
 {
     public class PoppyBrosJr : Enemy
     {
+
+        //Keep track of current frame
+        private int frameCounter = 0;
+
         private int hopCounter = 0; //number of hops
 
         public PoppyBrosJr(Vector2 startPosition) : base(startPosition, EnemyType.PoppyBrosJr)
         {
             //initialize first sprite
-            stateMachine.ChangePose(EnemyPose.Walking);
+            stateMachine.ChangePose(EnemyPose.Hopping);
         }
 
         public override void Attack()
@@ -21,18 +25,38 @@ namespace MasterGame
 
         public override void Update(GameTime gameTime)
         {
-            //Enemy hops left and right on screen and updates
             if (!isDead)
             {
-                // Walking left/right
-                if (stateMachine.GetPose() == EnemyPose.Walking)
-                {
-                    Move();
-                    Hop();
-                }
+                frameCounter++;
 
-                // Update texture and enemy sprite
+                // Switch case to handle enemy states
+                switch (stateMachine.GetPose())
+                {
+                    case EnemyPose.Hopping:
+                        Move();
+                        Hop();
+
+                        // Transition to Hurt state after hopFrames
+                        if (frameCounter >= Constants.PoppyBrosJr.HOP_FRAMES)
+                        {
+                            stateMachine.ChangePose(EnemyPose.Hurt);
+                            frameCounter = 0; // Reset frame counter
+                            UpdateTexture();  // Update texture for the new pose
+                        }
+                        break;
+
+                    case EnemyPose.Hurt:
+                        // Transition back to Hopping after hurtFrames
+                        if (frameCounter >= Constants.PoppyBrosJr.HURT_FRAMES)
+                        {
+                            stateMachine.ChangePose(EnemyPose.Hopping);
+                            frameCounter = 0;
+                            UpdateTexture();
+                        }
+                        break;
+                }
                 UpdateTexture();
+                // Update the enemy sprite
                 enemySprite.Update();
             }
         }

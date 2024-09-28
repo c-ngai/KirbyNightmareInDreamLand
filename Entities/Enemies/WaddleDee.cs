@@ -5,6 +5,9 @@ namespace MasterGame
 {
     public class WaddleDee : Enemy
     {
+        //Keep track of current frame
+        private int frameCounter = 0;
+
         public WaddleDee(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDee)
         {
             //Set pose and sprite
@@ -14,16 +17,36 @@ namespace MasterGame
 
         public override void Update(GameTime gameTime)
         {
-            //Walk forward if alive
             if (!isDead)
             {
-                if (stateMachine.GetPose() == EnemyPose.Walking)
-                {
-                    Move();
-                }
+                frameCounter++;
 
-                // Update sprite based on state
+                //TO-DO: Change switch case into state pattern design
+                switch (stateMachine.GetPose())
+                {
+                    case EnemyPose.Walking:
+                        Move();
+                        // Transition to Hurt state after hopFrames
+                        if (frameCounter >= Constants.WaddleDee.WALK_FRAMES)
+                        {
+                            stateMachine.ChangePose(EnemyPose.Hurt);
+                            frameCounter = 0; // Reset frame counter
+                            UpdateTexture();  // Update texture for the new pose
+                        }
+                        break;
+
+                    case EnemyPose.Hurt:
+                        // Transition back to walking after hurtFrames
+                        if (frameCounter >= Constants.WaddleDee.HURT_FRAMES)
+                        {
+                            stateMachine.ChangePose(EnemyPose.Walking);
+                            frameCounter = 0;
+                            UpdateTexture();
+                        }
+                        break;
+                }
                 UpdateTexture();
+                // Update the enemy sprite
                 enemySprite.Update();
             }
         }
