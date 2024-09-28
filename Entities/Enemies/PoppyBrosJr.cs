@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using static MasterGame.Constants.PoppyBrosJrConst;
 
-namespace MasterGame
+namespace MasterGame.Entities.Enemies
 {
     public class PoppyBrosJr : Enemy
     {
@@ -37,7 +38,7 @@ namespace MasterGame
                         Hop();
 
                         // Transition to Hurt state after hopFrames
-                        if (frameCounter >= Constants.PoppyBrosJr.HOP_FRAMES)
+                        if (frameCounter >= HOP_FRAMES)
                         {
                             stateMachine.ChangePose(EnemyPose.Hurt);
                             frameCounter = 0; // Reset frame counter
@@ -47,7 +48,7 @@ namespace MasterGame
 
                     case EnemyPose.Hurt:
                         // Transition back to Hopping after hurtFrames
-                        if (frameCounter >= Constants.PoppyBrosJr.HURT_FRAMES)
+                        if (frameCounter >= HURT_FRAMES)
                         {
                             stateMachine.ChangePose(EnemyPose.Hop);
                             frameCounter = 0;
@@ -66,7 +67,7 @@ namespace MasterGame
             // Handles x movement. Walking back and forth until left/right boundary
             if (stateMachine.IsLeft())
             {
-                position.X -= Constants.PoppyBrosJr.MOVE_SPEED;
+                position.X -= MOVE_SPEED;
                 if (position.X <= leftBoundary.X)
                 {
                     ChangeDirection();
@@ -74,7 +75,7 @@ namespace MasterGame
             }
             else
             {
-                position.X += Constants.PoppyBrosJr.MOVE_SPEED;
+                position.X += MOVE_SPEED;
                 if (position.X >= rightBoundary.X)
                 {
                     ChangeDirection();
@@ -86,13 +87,13 @@ namespace MasterGame
         {
             //Handles Y movement and calculates oscillation of hops.
             hopCounter++;
-            float t = (float)hopCounter / Constants.PoppyBrosJr.HOP_FREQUENCY;
+            float t = (float)hopCounter / HOP_FREQUENCY;
 
             // Smooth hopping math
-            position.Y -= (float)(Math.Sin(t * Math.PI * 2) * Constants.PoppyBrosJr.HOP_HEIGHT / 2);
+            position.Y -= (float)(Math.Sin(t * Math.PI * 2) * HOP_HEIGHT / 2);
 
             // Reset hop counter for cycle
-            if (hopCounter >= Constants.PoppyBrosJr.HOP_FREQUENCY)
+            if (hopCounter >= HOP_FREQUENCY)
             {
                 hopCounter = 0;
                 enemySprite.ResetAnimation(); // Mark addition: since hop is a non-looping animation that we want to repeat but we already have that sprite, just call ResetAnimation on it.

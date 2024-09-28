@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using static MasterGame.Constants.WaddleDooConst;
 
-namespace MasterGame
+namespace MasterGame.Entities.Enemies
 {
     public class WaddleDoo : Enemy
     {
@@ -36,7 +37,7 @@ namespace MasterGame
                     //Move if walking for specfic number of frames. Transition to charging.
                     case EnemyPose.Walking:
                         Move();
-                        if (frameCounter >= Constants.WaddleDoo.WALK_FRAMES)
+                        if (frameCounter >= WALK_FRAMES)
                         {
                             stateMachine.ChangePose(EnemyPose.Charging);
                             frameCounter = 0;
@@ -45,7 +46,7 @@ namespace MasterGame
                         break;
                     //Charge attack. Transitions to attack
                     case EnemyPose.Charging:
-                        if (frameCounter >= Constants.WaddleDoo.STOP_FRAMES)
+                        if (frameCounter >= STOP_FRAMES)
                         {
                             stateMachine.ChangePose(EnemyPose.Attacking);
                             frameCounter = 0;
@@ -55,7 +56,7 @@ namespace MasterGame
                     //Use beam attack, spawning beam projectile. Transitions back to walking.
                     case EnemyPose.Attacking:
                         Attack();
-                        if (frameCounter >= Constants.WaddleDoo.ATTACK_FRAMES)
+                        if (frameCounter >= ATTACK_FRAMES)
                         {
                             stateMachine.ChangePose(EnemyPose.Hurt);
                             frameCounter = 0;
@@ -64,7 +65,7 @@ namespace MasterGame
                         break;
                     case EnemyPose.Hurt:
                         // Transition back to walking after hurtFrames
-                        if (frameCounter >= Constants.WaddleDoo.HURT_FRAMES)
+                        if (frameCounter >= HURT_FRAMES)
                         {
                             stateMachine.ChangePose(EnemyPose.Jumping);
                             frameCounter = 0;
@@ -105,7 +106,7 @@ namespace MasterGame
             //X moevement left and right. Turns around at left/right boundary
             if (stateMachine.IsLeft())
             {
-                position.X -= Constants.WaddleDoo.MOVE_SPEED;
+                position.X -= MOVE_SPEED;
                 if (position.X <= leftBoundary.X)
                 {
                     ChangeDirection();
@@ -113,7 +114,7 @@ namespace MasterGame
             }
             else
             {
-                position.X += Constants.WaddleDoo.MOVE_SPEED;
+                position.X += MOVE_SPEED;
                 if (position.X >= rightBoundary.X)
                 {
                     ChangeDirection();
@@ -129,21 +130,21 @@ namespace MasterGame
                 // Start jumping and store initial y
                 isJumping = true;
                 originalY = position.Y;
-                jumpVelocity = -Constants.WaddleDoo.JUMP_HEIGHT; 
+                jumpVelocity = -JUMP_HEIGHT; 
             }
 
             // Apply gravity and update Y position
             position.Y += jumpVelocity;
-            jumpVelocity += Constants.WaddleDoo.GRAVITY;
+            jumpVelocity += GRAVITY;
 
             //Move right or left on x axis in jump
             if (stateMachine.IsLeft())
             {
-                position.X -= Constants.WaddleDoo.FORWARD_MOVEMENT; 
+                position.X -= FORWARD_MOVEMENT; 
             }
             else
             {
-                position.X += Constants.WaddleDoo.FORWARD_MOVEMENT; 
+                position.X += FORWARD_MOVEMENT; 
             }
 
             // Check if the character has landed and stop walking

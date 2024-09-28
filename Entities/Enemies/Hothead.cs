@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using static MasterGame.Constants.HotheadConst;
 
-namespace MasterGame
+namespace MasterGame.Entities.Enemies
 {
     public class Hothead : Enemy
     {
@@ -37,7 +38,7 @@ namespace MasterGame
                     //Walk for certain number of frames, then transition to spitting projectile
                     case EnemyPose.Walking:
                         Move();
-                        if (frameCounter >= Constants.Hothead.WALK_FRAMES)
+                        if (frameCounter >= WALK_FRAMES)
                         {
                             stateMachine.ChangePose(EnemyPose.Charging);
                             frameCounter = 0;
@@ -52,7 +53,7 @@ namespace MasterGame
                             Attack();
                         }
 
-                        if (frameCounter >= Constants.Hothead.SHOOT_FRAMES)
+                        if (frameCounter >= SHOOT_FRAMES)
                         {
                             stateMachine.ChangePose(EnemyPose.Attacking);
                             frameCounter = 0;
@@ -66,7 +67,7 @@ namespace MasterGame
                             Flamethrower(gameTime);
                         }
 
-                        if (frameCounter >= Constants.Hothead.ATTACK_FRAMES)
+                        if (frameCounter >= ATTACK_FRAMES)
                         {
                             isFlamethrowerActive = false; // Deactivate flamethrower after attack
                             flamethrower.ClearSegments(); // Clear fire
@@ -77,7 +78,7 @@ namespace MasterGame
                         break;
                     case EnemyPose.Hurt:
                         // Transition back to walking after hurtFrames
-                        if (frameCounter >= Constants.Hothead.HURT_FRAMES)
+                        if (frameCounter >= HURT_FRAMES)
                         {
                             stateMachine.ChangePose(EnemyPose.Walking);
                             frameCounter = 0;
@@ -115,7 +116,7 @@ namespace MasterGame
             // Walking back and forth in X axis 
             if (stateMachine.IsLeft())
             {
-                position.X -= Constants.Hothead.MOVE_SPEED;
+                position.X -= MOVE_SPEED;
                 if (position.X <= leftBoundary.X)
                 {
                     ChangeDirection();
@@ -124,7 +125,7 @@ namespace MasterGame
             }
             else
             {
-                position.X += Constants.Hothead.MOVE_SPEED;
+                position.X += MOVE_SPEED;
                 if (position.X >= rightBoundary.X)
                 {
                     ChangeDirection();

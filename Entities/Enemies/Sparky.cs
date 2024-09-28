@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using static MasterGame.Constants.SparkyConst;
 
-namespace MasterGame
+namespace MasterGame.Entities.Enemies
 {
     public class Sparky : Enemy
     {
@@ -35,7 +36,7 @@ namespace MasterGame
                     //Short Hop forward. Transition to Pause for "slime" jumping effect
                     case "HoppingForward":
                         Move();
-                        if (stateCounter >= Constants.Sparky.HOP_FREQUENCY) //short hop
+                        if (stateCounter >= HOP_FREQUENCY) //short hop
                         {
                             stateCounter = 0;
                             currentState = "Pausing";
@@ -44,7 +45,7 @@ namespace MasterGame
 
                     //Pause/standing still for moment before next jump (taller jump)
                     case "Pausing":
-                        if (stateCounter >= Constants.Sparky.PAUSE_TIME) // pause
+                        if (stateCounter >= PAUSE_TIME) // pause
                         {
                             stateCounter = 0;
                             currentState = "HoppingTall";
@@ -55,7 +56,7 @@ namespace MasterGame
                         //Taller jump. Transitons to pause
                     case "HoppingTall":
                         Move();
-                        if (stateCounter >= Constants.Sparky.HOP_FREQUENCY) //tall hop
+                        if (stateCounter >= HOP_FREQUENCY) //tall hop
                         {
                             stateCounter = 0;
                             currentState = "PausingAgain";
@@ -63,7 +64,7 @@ namespace MasterGame
                         break;
                         //Pauses for slime ffect, Transitions to attack
                     case "PausingAgain":
-                        if (stateCounter >= Constants.Sparky.PAUSE_TIME) // Pause 
+                        if (stateCounter >= PAUSE_TIME) // Pause 
                         {
                             stateCounter = 0;
                             currentState = "Attacking";
@@ -72,7 +73,7 @@ namespace MasterGame
                         //Attacks for a few seconds while standing still. Transitions to hopping
                     case "Attacking":
                         Attack();
-                        if (stateCounter >= Constants.Sparky.ATTACK_TIME) // Attack
+                        if (stateCounter >= ATTACK_TIME) // Attack
                         {
                             stateCounter = 0;
                             currentState = "Hurt"; // back to hop
@@ -81,7 +82,7 @@ namespace MasterGame
                         break;
                         case "Hurt":
                         // Transition back to Hopping after hurtFrames
-                        if (stateCounter >= Constants.Sparky.HURT_FRAMES)
+                        if (stateCounter >= HURT_FRAMES)
                         {
                             stateCounter = 0;
                             currentState = "HoppingForward"; // back to hop
@@ -101,8 +102,8 @@ namespace MasterGame
             hopCounter++;
 
             //Calculates how tall jump should be depending if jumping state
-            float height = (currentState == "HoppingForward") ? Constants.Sparky.SHORT_HOP_HEIGHT : Constants.Sparky.TALL_HOP_HEIGHT; // Choose height based on state
-            float t = (float)hopCounter / Constants.Sparky.HOP_FREQUENCY;
+            float height = (currentState == "HoppingForward") ? SHORT_HOP_HEIGHT : TALL_HOP_HEIGHT; // Choose height based on state
+            float t = (float)hopCounter / HOP_FREQUENCY;
 
             //Y movement calculations for smooth hops
             position.Y -= (float)(Math.Sin(t * Math.PI * 2) * height / 2);
@@ -110,7 +111,7 @@ namespace MasterGame
             // X movement. Check direction for boundaries 
             if (!stateMachine.IsLeft())
             {
-                position.X += Constants.Sparky.HOP_SPEED;
+                position.X += HOP_SPEED;
                 if (position.X >= rightBoundary.X)
                 {
                     ChangeDirection();
@@ -118,7 +119,7 @@ namespace MasterGame
             }
             else
             {
-                position.X -= Constants.Sparky.HOP_SPEED;
+                position.X -= HOP_SPEED;
                 if (position.X <= leftBoundary.X)
                 {
                     ChangeDirection();
@@ -126,7 +127,7 @@ namespace MasterGame
             }
 
             // Reset and repeat hops
-            if (hopCounter >= Constants.Sparky.HOP_FREQUENCY)
+            if (hopCounter >= HOP_FREQUENCY)
             {
                 hopCounter = 0;
             }

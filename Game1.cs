@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using static MasterGame.Constants;
+using MasterGame.Entities.Enemies;
 
 namespace MasterGame
 {

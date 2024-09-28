@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using static MasterGame.Constants.WaddleDeeConst;
 
-namespace MasterGame
+namespace MasterGame.Entities.Enemies
 {
     public class WaddleDee : Enemy
     {
@@ -27,7 +28,7 @@ namespace MasterGame
                     case EnemyPose.Walking:
                         Move();
                         // Transition to Hurt state after hopFrames
-                        if (frameCounter >= Constants.WaddleDee.WALK_FRAMES)
+                        if (frameCounter >= WALK_FRAMES)
                         {
                             stateMachine.ChangePose(EnemyPose.Hurt);
                             frameCounter = 0; // Reset frame counter
@@ -37,7 +38,7 @@ namespace MasterGame
 
                     case EnemyPose.Hurt:
                         // Transition back to walking after hurtFrames
-                        if (frameCounter >= Constants.WaddleDee.HURT_FRAMES)
+                        if (frameCounter >= HURT_FRAMES)
                         {
                             stateMachine.ChangePose(EnemyPose.Walking);
                             frameCounter = 0;
@@ -56,7 +57,7 @@ namespace MasterGame
             //X movement logic. Moves until boundaries
             if (stateMachine.IsLeft())
             {
-                position.X -= Constants.WaddleDee.MOVE_SPEED;
+                position.X -= MOVE_SPEED;
                 if (position.X <= leftBoundary.X)
                 {
                     ChangeDirection(); // Change direction if hitting left boundary
@@ -64,7 +65,7 @@ namespace MasterGame
             }
             else
             {
-                position.X += Constants.WaddleDee.MOVE_SPEED;
+                position.X += MOVE_SPEED;
                 if (position.X >= rightBoundary.X)
                 {
                     ChangeDirection(); // Change direction if hitting right boundary
