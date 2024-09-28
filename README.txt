@@ -85,7 +85,6 @@ refactored after Sprint2.
 
 ###############################################################################
 
-
 Known bugs:
 
 In our Sprint2, there are currently bugs regarding Kirby's multi-key/combo movement
@@ -95,7 +94,6 @@ Physics and keyboard implementation, we will leave this for next Sprint.
       and does not stop after a designated time when pressed down. 
     - When letting go of float on the ground, Kirby does not attack/exhale.
     - Pressing x while floating does not make Kirby float up.
-
 
 ###############################################################################
 
