@@ -50,7 +50,13 @@ Kirby. To be done by Sprint3.
 
 Backlogged Tasks:
 
-Kirby movement animation sprites for power-up modes.
+Kirby movement animation sprites for power-up modes and swimming animation: As mentioned
+above, there are significantly more animations in Kirby than there are in the other two
+games (at least hundreds of more frames), so getting all of the animations for every single 
+Kirby copy ability was unrealistic in the timeframe of this Sprint. After talking to Professor
+Kirby, we had permission to only implement as many animations as the other games would have,
+however we ended up doing much more than that. Some of the copy ability animations and the
+swimming animations needed to be backlogged for this reason.
     note: if you press 2/3 and z the attacks for Beam and Fire kirby show up since
     these are projectiles (kiry itself appears as invalid since they were backlogged). 
     Spark kirby's attack is not a projectile so it is not 
@@ -58,7 +64,12 @@ Kirby movement animation sprites for power-up modes.
     interaction is not being implemented his throwing up an enemy is not implemented.
     The star it self however, is done in this sprint.
 
-Particle implementation. 
+Particle implementation: There is a considerable amount of particle animations that 
+supplement the animations for the entities and projectiles. The particles are purely
+visual, with no collision or physocs. It is part of the animation, however, due to 
+Kirby having overwhelmingly more animations than Zelda and Mario, we needed to 
+prioritize getting in the entitiy and projectile animations that were required for 
+this sprint.
 
 Item class, Kirby: Nightmare in Dreamland only has one item, maxim tomato, so we
 chose to keep the drawing and loading code for this sprite just in our Game1.cs
