@@ -3,37 +3,37 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using System.Transactions;
 
 namespace MasterGame
 {
     public class Player : IPlayer
     {
+        //this class will be refactored in next sprint to make another class: State management
+        // and movement management so it is not doing this much
         // TODO: Is it possible to make this a public property so commands can access it?
         private PlayerStateMachine state;
         private PlayerMovement movement;
-        private SpriteFactory factory;
         private Sprite playerSprite ;
 
-        //health stuffs
+        private PlayerAttack attack;
+
+        //health stuffs -- will be taken to another class connected to kirby in next sprint
         private int health = Constants.Kirby.MAX_HEALTH;
         private int lives = Constants.Kirby.MAX_LIVES;
+        private bool invincible = false;
+        private double timer = 0;
 
-
-        //private Vector2 position;
+        //others
         private string oldState;
+        private bool attackIsActive = false;
 
-
-        //todo:
-        //projectiles should be its own objs (obv)
         //constructor
         public Player(Vector2 pos)
         {
             state = new PlayerStateMachine();
             movement = new NormalPlayerMovement(pos);
-            //grab the factory whenever you need it -- take it out of here
-            //if factory gets rebuilt youre fucked
-            //ask in office hours
-            factory = SpriteFactory.Instance;
             oldState = state.GetStateString();
         }
         public Sprite PlayerSprite
@@ -41,23 +41,26 @@ namespace MasterGame
             set{playerSprite = value;}
         }
 
+        //changes kiry's texture if he is in a different state than before
+        //only called by Draw
         public void UpdateTexture()
         {
             if(!state.GetStateString().Equals(oldState)){
-                playerSprite = factory.createSprite(state.GetSpriteParameters());
+                playerSprite = SpriteFactory.Instance.createSprite(state.GetSpriteParameters());
                 oldState = state.GetStateString();
-                System.Console.WriteLine(state.GetStateString());
             } 
         }
-        //have draw ask if it has the right sprite and call update texture from there
-        //draw if sprite is not good -- fix it and everyone else is freed from that job
-        //have parent class check if the sprite is right
+
+        #region KirbyState
         public void ChangePose(KirbyPose pose)
         {
             state.ChangePose(pose);
-            UpdateTexture();
         }
-        public string GetPose()
+        public void ChangeMovement()
+        {
+            movement = new NormalPlayerMovement(movement.GetPosition());
+        }
+        public string GetKirbyPose()
         {
             return state.GetPose().ToString();
         }
@@ -65,13 +68,28 @@ namespace MasterGame
         {
             return state.GetKirbyType().ToString();
         }
-        public void ChangeMovement()
-        {
-            movement = new NormalPlayerMovement(movement.GetPosition());
-        }
         public bool IsLeft(){
             return state.IsLeft();
         }
+        public bool IsFloating()
+        {
+            return movement.floating;
+        }
+        public bool NotAttacking() //checks if kirby is not attacking
+        {
+            return !GetKirbyPose().Equals("Attack") && !GetKirbyPose().Equals("Inhaling");
+        }
+        public void ChangeAttackBool(bool activate)
+        {
+            attackIsActive = activate;
+            
+            
+        }
+        public Vector2 GetKirbyPosition()
+        {
+            return movement.GetPosition();
+        }
+        #endregion
 
         #region Power-Up
         public void ChangeToNormal()
@@ -80,6 +98,7 @@ namespace MasterGame
         }
         public void ChangeToBeam()
         {
+            //attackSprite = new KirbyBeam(movement.GetPosition(), IsLeft());
             state.ChangeType(KirbyType.Beam);
         }
         public void ChangeToFire()
@@ -94,16 +113,21 @@ namespace MasterGame
         #region direction
         public void SetDirectionLeft()
         {
-            state.SetDirectionLeft();
+            if(NotAttacking()){
+                state.SetDirectionLeft();
+            }
         }
         public void SetDirectionRight()
         {
-            state.SetDirectionRight();
+            if(NotAttacking()){
+                state.SetDirectionRight();
+            }
         }
         #endregion
 
-        #region health
-        public void Death()
+        #region health 
+        //health will be moved to another class
+        public void Death() //does nothing this sprint
         {
             //state.ChangeType(KirbyType.Dead);
         }
@@ -121,15 +145,32 @@ namespace MasterGame
             }
         }
         //calls method to drecease health & changes kirby pose
-        public void TakeDamage()
+        public async void TakeDamageAnimation()
         {
             ChangePose(KirbyPose.Hurt);
+            await Task.Delay(Constants.Physics.DELAY);
+        }
+        public void TakeDamage()
+        {
+            TakeDamageAnimation();
             movement.ReceiveDamage(state.IsLeft());
+            invincible = true;
             //DecreaseHealth();
         }
-        //calls state machine to attack
+        public void EndInvinciblility(GameTime gameTime)
+        {
+            if(invincible){
+                timer += gameTime.ElapsedGameTime.TotalSeconds; 
+                if(timer > 5){
+                    invincible = false;
+                    timer = 0;
+                }
+            }
+        }
         public void Attack()
         {
+            ChangeAttackBool(true);
+            attack = new PlayerAttack(this);
             movement.Attack(this);
         }
         #endregion
@@ -139,7 +180,8 @@ namespace MasterGame
         {   
             SetDirectionLeft();
             movement.Walk(state.IsLeft());
-            if(!movement.jumping && !movement.crouching&& !movement.floating){
+            //walk connot override walking, jumping, floating, crouching, and attack
+            if(!movement.jumping && !movement.crouching&& !movement.floating && NotAttacking()){
                 ChangePose(KirbyPose.Walking);
             }
         }
@@ -148,12 +190,12 @@ namespace MasterGame
         {
             SetDirectionRight();
             movement.Walk(state.IsLeft());
-            if(!movement.jumping&& !movement.crouching && !movement.floating){
+            //walk connot override walking, jumping, floating, crouching, and attack
+            if(!movement.jumping&& !movement.crouching && !movement.floating && NotAttacking()){
                 ChangePose(KirbyPose.Walking);
             }
         }
-
-        public void StopMoving()
+        public void StopMoving() 
         {
             movement.StopMovement();
             if(!movement.jumping && !movement.floating)
@@ -161,17 +203,12 @@ namespace MasterGame
                 ChangePose(KirbyPose.Standing);
             }
         }
-        public void DontMove()
-        {
-            movement.StopMovement();
-        }
-
         #region running
         public void RunLeft()
         {
             SetDirectionLeft();
             movement.Run(state.IsLeft());
-           if(!movement.jumping&& !movement.crouching && !movement.floating){
+           if(!movement.jumping&& !movement.crouching && !movement.floating && NotAttacking()){
                 ChangePose(KirbyPose.Running);
             }
         }
@@ -179,38 +216,24 @@ namespace MasterGame
         {
             SetDirectionRight();
             movement.Run(state.IsLeft());
-            if(!movement.jumping&& !movement.crouching && !movement.floating){
+            if(!movement.jumping&& !movement.crouching && !movement.floating && NotAttacking()){
                 ChangePose(KirbyPose.Running);
             }
         }
         #endregion
 
         #region jumping
-        // public void JumpFloat()
-        // {
-        //     if(movement.jumping)
-        //     {
-        //         movement = new FloatingMovement(movement.GetPosition());
-        //         ChangePose(KirbyPose.Floating);
-        //     }
-        // }
-        public void JumpFall()
-        {
-            ChangePose(KirbyPose.JumpFalling);
-        }
         public void Jump()
         {
             if(!movement.crouching && !movement.floating && !movement.jumping){ //not floating, not jumping
                 movement = new JumpMovement(movement.GetPosition());
-                //movement.Jump(state.IsLeft());
                 ChangePose(KirbyPose.JumpRising);
             }else if (movement.jumping && !movement.floating){ //if jumping and x is pressed again
                 //Float();
                 movement.Jump(state.IsLeft());
-            } else if (movement.jumping){ // floating and jump is pressed
-                //movement = new FloatingMovement(movement.GetPosition());
-                //ChangePose(KirbyPose.Floating);
-                //movement.Jump(state.IsLeft());
+            } else {
+                //does nothing: sprint 3 will have a controller refactor 
+                //that will allow for a use of this spot
             }
         }
         #endregion
@@ -222,7 +245,7 @@ namespace MasterGame
                 movement = new FloatingMovement(movement.GetPosition());
                 ChangePose(KirbyPose.FloatingRising);
             } 
-            if(!movement.crouching){
+            if(!movement.crouching){ //if float is up arrow is pressed again it goes up
                 ChangePose(KirbyPose.FloatingRising);
                 movement.Jump(state.IsLeft()); //change this to flowting geenral movement
             }
@@ -231,7 +254,7 @@ namespace MasterGame
         #region crouch
         public void Crouch()
         {
-            if(!movement.jumping && !movement.floating){
+            if(!movement.jumping && !movement.floating){ //crouch does not overwrite jump and floating
                 ChangePose(KirbyPose.Crouching);
                 movement = new CrouchingMovement(movement.GetPosition());
             }
@@ -245,29 +268,41 @@ namespace MasterGame
         }
         #endregion
         
-        public void Slide()
+        public async void Slide()
         {
-            ChangePose(KirbyPose.Sliding);
-            movement.Slide(state.IsLeft());
-        }
-        public void Inhale()
-        {
-            ChangePose(KirbyPose.Inhaling);
-            movement.StopMovement();
+            if(movement.crouching){
+                ChangePose(KirbyPose.Sliding);
+                movement.Slide(state.IsLeft());
+                await Task.Delay(Constants.Physics.DELAY);
+            }
         }
         #endregion //movement region
+
 
         // makes state changes by calling other player methods, calls state.Update(), and finally calls Draw last?
         public void Update(GameTime gameTime)
         {
             movement.MovePlayer(this, gameTime);
+            EndInvinciblility(gameTime);
             playerSprite.Update();
+            if(attackIsActive){
+                attack.Update(gameTime, this);
+            }
         }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             UpdateTexture();
-            playerSprite.Draw(movement.GetPosition(), spriteBatch);
+            if(invincible){
+                playerSprite.DamageDraw(movement.GetPosition(), spriteBatch);
+            } else {
+                playerSprite.Draw(movement.GetPosition(), spriteBatch);
+            }
+            if(attackIsActive){
+                attack.Draw(spriteBatch, this);
+            }
         }   
     }
+
 }
 

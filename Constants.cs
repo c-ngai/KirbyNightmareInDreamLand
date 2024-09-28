@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
-using System.Numerics;
-
+//using System.Numerics;
 namespace MasterGame
 {
     public static class Constants
@@ -12,17 +11,38 @@ namespace MasterGame
 
             public const bool IS_FULL_SCREEN = false;
             public const int FLOOR = 128;
+            public const bool DEBUG_SPRITE_MODE = false;
         } 
 
         public static class Physics
         {
-            public const float GRAVITY = -10;
+            public const float FRAME_RATE = 0.03125f;
+            public const float GRAVITY = 10f;
+            public const float FLOAT_GRAVITY = 0.02f; //its 2f as the gravity times 0.01 as a "time elapsed" so float kirby falls at a constan rate
+            public const float FLOAT_GRAVITY2 = 0.16f; //the other gravity rate but the float where this is used does not have game time acess
+            public const float JUMP_VEL = -2f;
+            public const float FLOAT_VEL = 0.5F;
+            public const float WALKING_VELOCITY = 0.4f;
+            public const float RUNNING_VELOCITY = 0.9f;
+            public const float DAMAGE_VELOCITY =2f;
+            public const float JUMP_CEILING = 38.4f;
+
+            public const int DELAY = 400;
+            public const int DELAY2 = 10;
         }
 
         public class Kirby
         {
             public const int MAX_HEALTH = 6;
             public const int MAX_LIVES = 3;
+            public const int FLAME_ATTACK_FRAMES = 200;
+            public const int BEAM_ATTACK_FRAMES = 50;
+            public const int PUFF_ATTACK_FRAMES = 30;
+            public static Vector2 BEAM_ATTACK_OFFSET = new Vector2(13, 0);
+            public static Vector2 PUFF_ATTACK_OFFSET = new Vector2(10, 0);
+            public static Vector2 FLAME_ATTACK_OFFSET_RIGHT = new Vector2(25, -10);
+            public static Vector2 FLAME_ATTACK_OFFSET_LEFT = new Vector2(-25, -10);
+
         }
 
         public class Controller
