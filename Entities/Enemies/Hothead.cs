@@ -109,7 +109,7 @@ namespace MasterGame
         private Vector2 ProjectilePosition()
         {
             // Adjust flamethrower position based on Hothead's facing direction
-            return stateMachine.IsLeft() ? new Vector2(position.X - 18, position.Y) : new Vector2(position.X + 18, position.Y); // TODO: I think these values need to be changed to be accurate. Check how far the position for hothead is from the edges of the sprite.
+            return stateMachine.IsLeft() ? new Vector2(position.X - 18, position.Y - 7 ) : new Vector2(position.X + 18, position.Y - 7);
         }
 
         protected override void Move()
