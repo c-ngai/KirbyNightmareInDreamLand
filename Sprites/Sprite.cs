@@ -3,17 +3,11 @@ using Microsoft.Xna.Framework;
 
 namespace MasterGame
 {
-    public interface ISprite
-    {
-        public void Update();
-        public void Draw(Vector2 position, SpriteBatch spriteBatch);
-        public void ResetAnimation();
-    }
 
     public class Sprite : ISprite
     {
-        // To store a reference to the global spritebatch.
-        private SpriteBatch spriteBatch;
+        // To store a reference to the current game.
+        private Game1 game;
         // The game's INTERNAL resolution. For placement on screen relative to the scale. Not to be confused with window resolution.
         private int gameWidth;
         private int gameHeight;
@@ -25,10 +19,11 @@ namespace MasterGame
         private int currentFrame;
         // The current number of game ticks since last frame advance.
         private int tickCounter;
+        private int counter = 0;
 
         /* Creates a new animation object from an animation file. Imports animation
          * data from a .csv file into the Animation object. */
-        public Sprite(SpriteAnimation spriteAnimation)
+        public Sprite(SpriteAnimation spriteAnimation, Game1 game)
         {
             gameWidth = Constants.Graphics.GAME_WIDTH;
             gameHeight = Constants.Graphics.GAME_HEIGHT;
@@ -37,6 +32,7 @@ namespace MasterGame
 
             currentFrame = 0;
             tickCounter = 0;
+            this.game = game;
         }
 
 
@@ -46,14 +42,14 @@ namespace MasterGame
         {
             // Advance the tick counter. If it's reached the frame time of the current frame, advance the frame and reset the tick counter.
             tickCounter++;
-            if (tickCounter == _spriteAnimation.frameTimes[currentFrame])
+            if (tickCounter == _spriteAnimation.FrameTimes[currentFrame])
             {
                 tickCounter = 0;
                 currentFrame++;
                 // If the current frame has hit the end, cycle back to the loop point.
-                if (currentFrame == _spriteAnimation.frameCount)
+                if (currentFrame == _spriteAnimation.FrameCount)
                 {
-                    currentFrame = _spriteAnimation.loopPoint;
+                    currentFrame = _spriteAnimation.LoopPoint;
                 }
             }
         }
@@ -62,29 +58,29 @@ namespace MasterGame
         public void Draw(Vector2 position, SpriteBatch spriteBatch, Color color)
         {
             // Get window width and height from Game1 for scaling.
-            int windowWidth = Constants.Graphics.WINDOW_WIDTH;
-            int windowHeight = Constants.Graphics.WINDOW_HEIGHT;
+            int windowWidth = game.WINDOW_WIDTH;
+            int windowHeight = game.WINDOW_HEIGHT;
             // Scale by height
-            float scale = windowHeight / gameHeight;
+            float scale = (float)windowHeight / gameHeight;
 
             // Scale the position
             position.Floor();
             position *= scale;
             // Pull the frame center and source rectangle from data.
-            Vector2 frameCenter = _spriteAnimation.frameCenters[currentFrame];
-            Rectangle sourceRectangle = _spriteAnimation.frameSourceRectangles[currentFrame];
+            Vector2 frameCenter = _spriteAnimation.FrameCenters[currentFrame];
+            Rectangle sourceRectangle = _spriteAnimation.FrameSourceRectangles[currentFrame];
 
-            if (_spriteAnimation.spriteEffects.Equals(SpriteEffects.FlipHorizontally))
+            if (_spriteAnimation.SpriteEffects.Equals(SpriteEffects.FlipHorizontally))
             {
                 frameCenter.X = sourceRectangle.Width - frameCenter.X;
             }
 
             // Draw the sprite to the spriteBatch.
-            spriteBatch.Draw(_spriteAnimation.texture, position, sourceRectangle, color, 0, frameCenter, scale, _spriteAnimation.spriteEffects, 0);
+            spriteBatch.Draw(_spriteAnimation.Texture, position, sourceRectangle, color, 0, frameCenter, scale, _spriteAnimation.SpriteEffects, 0);
 
 
             // DEBUG VISUALS, TIDY UP LATER
-            if (Constants.Graphics.DEBUG_SPRITE_MODE == true)
+            if (game.DEBUG_SPRITE_MODE == true)
             {
                 SpriteDebug.Instance.Draw(spriteBatch, position, frameCenter, sourceRectangle, scale);
             }
@@ -95,6 +91,18 @@ namespace MasterGame
         public void Draw(Vector2 position, SpriteBatch spriteBatch)
         {
             Draw(position, spriteBatch, Color.White);
+        }
+
+        public void DamageDraw(Vector2 position, SpriteBatch spriteBatch)
+        {
+            counter ++;
+            if (counter < 10)
+            {
+                Draw(position, spriteBatch, Color.White);
+            } else{
+                if(counter == 20)
+                    counter = 0;
+            }
         }
 
         // Resets the animation to the start. Should be desirable to call any time an entity's sprite is switched.

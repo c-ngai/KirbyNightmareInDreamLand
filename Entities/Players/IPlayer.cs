@@ -1,14 +1,17 @@
 using Microsoft.Xna.Framework;
 namespace MasterGame
 {
-    public interface IPlayer:IEntity
+    public interface IPlayer : IEntity
     {
         Sprite PlayerSprite { set; }
         void Crouch();
         void EndCrouch();
+        Vector2 GetKirbyPosition();
+        string GetKirbyType();
+        bool IsLeft();
+        bool IsFloating();
         void Slide();
         void Float();
-        void Inhale();
         void Jump();
         void MoveRight();
         void MoveLeft();

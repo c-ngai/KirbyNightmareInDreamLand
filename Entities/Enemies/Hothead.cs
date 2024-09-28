@@ -1,234 +1,177 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 
 namespace MasterGame
 {
-    public class Hothead : IEnemy
+    public class Hothead : Enemy
     {
-        private Vector2 position;
-        private int health;
-        private bool isDead;
-        private Sprite enemySprite;
-        private EnemyStateMachine stateMachine;
-        private Vector2 leftBoundary = new Vector2(100, 100);
-        private Vector2 rightBoundary = new Vector2(230, 100);
-        private string oldState;
-
-        //frame tracker
+        // Frame tracker
         private int frameCounter = 0;
-        private int walkFrames = 180; 
-        private int stopFrames = 60;
-        private int attackFrames = 100;
-        private int shootFrames = 100;
 
-        // all fireballs
+        // All fireballs and flamethrower
         private List<IProjectile> fireballs;
-        //will swap for enemy flamethrower
-        private KirbyFlamethrower flamethrower;
+        private EnemyFlamethrower flamethrower;
+
+        //Checks if flamethrower attack is active
         private bool isFlamethrowerActive;
+        private bool canUseFlamethrower;
 
-        public Hothead(Vector2 startPosition)
+        public Hothead(Vector2 startPosition) : base(startPosition, EnemyType.Hothead)
         {
-            position = startPosition;
-            health = 100;
-            isDead = false;
-            stateMachine = new EnemyStateMachine(EnemyType.WaddleDoo);
-            //stateMachine = new EnemyStateMachine(EnemyType.Hothead);
-            stateMachine.ChangePose(EnemyPose.Walking);
+            //Initializes attacks and pose for enemy
             fireballs = new List<IProjectile>();
-            flamethrower = new KirbyFlamethrower();
+            flamethrower = new EnemyFlamethrower();
             isFlamethrowerActive = false;
+            canUseFlamethrower = true;
+            stateMachine.ChangePose(EnemyPose.Walking);
         }
 
-        public Vector2 Position
-        {
-            get { return position; }
-            set { position = value; }
-        }
-
-        public Sprite EnemySprite
-        {
-            set { enemySprite = value; }
-        }
-
-        public void TakeDamage()
-        {
-            stateMachine.ChangePose(EnemyPose.Hurt);
-            health -= 10;
-            if (health <= 0)
-            {
-                health = 0;
-                Die();
-            }
-        }
-
-        private void Die()
-        {
-            isDead = true;
-            stateMachine.ChangePose(EnemyPose.Hurt);
-            UpdateTexture();
-        }
-
-        public void Attack()
-        {
-            stateMachine.ChangePose(EnemyPose.Attacking);
-            UpdateTexture();
-        }
-
-        public void Flamethrower(GameTime gametime)
-        {
-            stateMachine.ChangePose(EnemyPose.Attacking);
-            UpdateTexture();
-
-            isFlamethrowerActive = true;
-
-            //blow fire/flamethrower left or right
-            Vector2 flameDirection;
-            if (stateMachine.IsLeft())
-            {
-                flameDirection = new Vector2(-1, 0);
-            }
-            else
-            {
-                flameDirection = new Vector2(1, 0);
-            }
-
-            //note: don't have the gameTime within the hothead class
-            flamethrower.Update(gametime, new Vector2(60, Constants.Graphics.FLOOR - 10), new Vector2(1, 0));
-        }
-
-        public void UpdateTexture()
-        {
-            if (!stateMachine.GetStateString().Equals(oldState))
-            {
-                enemySprite = SpriteFactory.Instance.createSprite(stateMachine.GetSpriteParameters());
-                oldState = stateMachine.GetStateString();
-            }
-        }
-
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             if (!isDead)
-                if (!isDead)
+            {
+                frameCounter++;
+
+                //TO-DO: Change switch case into state pattern design.
+                switch (stateMachine.GetPose())
                 {
-                    frameCounter++;
+                    //Walk for certain number of frames, then transition to spitting projectile
+                    case EnemyPose.Walking:
+                        Move();
+                        if (frameCounter >= Constants.Hothead.WALK_FRAMES)
+                        {
+                            stateMachine.ChangePose(EnemyPose.Charging);
+                            frameCounter = 0;
+                            UpdateTexture();
+                        }
+                        break;
 
-                    switch (stateMachine.GetPose())
-                    {
-                        case EnemyPose.Walking:
-                            Move();
-                            if (frameCounter >= walkFrames)
-                            {
-                                stateMachine.ChangePose(EnemyPose.Charging);
-                                frameCounter = 0;
-                                UpdateTexture();
-                            }
-                            break;
+                    //Spit projectile then transition to flamethrower
+                    case EnemyPose.Charging:
+                        if (frameCounter == 1) // Fireball projectile on frame 1
+                        {
+                            Attack();
+                        }
 
-                        case EnemyPose.Charging:
-                            if (frameCounter == 1) // fireball projectile
-                            {
-                                ShootProjectile();
-                            }
+                        if (frameCounter >= Constants.Hothead.SHOOT_FRAMES)
+                        {
+                            stateMachine.ChangePose(EnemyPose.Attacking);
+                            frameCounter = 0;
+                            UpdateTexture();
+                        }
+                        break;
+                    //Flamethrower attack then transition to walking
+                    case EnemyPose.Attacking:
+                        if (frameCounter == 1) // Start flamethrower attack on frame 1
+                        {
+                            Flamethrower(gameTime);
+                        }
 
-                            if (frameCounter >= shootFrames)
-                            {
-                                stateMachine.ChangePose(EnemyPose.Attacking); // attacks (blows fire) after shooting
-                                frameCounter = 0;
-                                UpdateTexture();
-                            }
-                            break;
-
-                        case EnemyPose.Attacking:
-                            if (frameCounter == 1) // blowing fire projectile
-                            {
-                                Flamethrower(gameTime);
-                            }
-
-                            if (frameCounter >= attackFrames)
-                            {
-                                isFlamethrowerActive = false;
-                                stateMachine.ChangePose(EnemyPose.Walking); // after attack, walk
-                                frameCounter = 0;
-                                UpdateTexture();
-                            }
-                            break;
-                    }
-
-                    UpdateTexture();
-                    enemySprite.Update();
-
-                    //update fireballs
-                    UpdateFireballs();
-
-                    //if attacking, update flamethrower
-                    if (stateMachine.GetPose() == EnemyPose.Attacking && isFlamethrowerActive)
-                    {
-                        flamethrower.Update(gameTime, position, stateMachine.IsLeft() ? new Vector2(-1, 0) : new Vector2(1, 0));
-                    }
+                        if (frameCounter >= Constants.Hothead.ATTACK_FRAMES)
+                        {
+                            isFlamethrowerActive = false; // Deactivate flamethrower after attack
+                            flamethrower.ClearSegments(); // Clear fire
+                            stateMachine.ChangePose(EnemyPose.Walking); // After attack, walk
+                            frameCounter = 0;
+                            UpdateTexture();
+                        }
+                        break;
+                    case EnemyPose.Hurt:
+                        // Transition back to walking after hurtFrames
+                        if (frameCounter >= Constants.Hothead.HURT_FRAMES)
+                        {
+                            stateMachine.ChangePose(EnemyPose.Walking);
+                            frameCounter = 0;
+                            UpdateTexture();
+                        }
+                        break;
                 }
-        }
-    
 
-    private void Move()
+                //Update all sprites
+                UpdateTexture();
+                enemySprite.Update();
+                UpdateFireballs();
+
+                // Update flamethrower if active
+                if (isFlamethrowerActive)
+                {
+                    flamethrower.Update(gameTime, ProjectilePosition(), stateMachine.IsLeft() ? new Vector2(-1, 0) : new Vector2(1, 0));
+                }
+                else
+                {
+                    flamethrower.ClearSegments(); // Clear segments when not active
+                    //NOTE: Need to find some way to remove off-screen fireballs
+                }
+            }
+        }
+
+        private Vector2 ProjectilePosition()
         {
-            //walking back and forth
+            // Adjust flamethrower position based on Hothead's facing direction
+            return stateMachine.IsLeft() ? new Vector2(position.X - 18, position.Y) : new Vector2(position.X + 18, position.Y); // TODO: I think these values need to be changed to be accurate. Check how far the position for hothead is from the edges of the sprite.
+        }
+
+        protected override void Move()
+        {
+            // Walking back and forth in X axis 
             if (stateMachine.IsLeft())
             {
-                position.X -= 0.5f;
+                position.X -= Constants.Hothead.MOVE_SPEED;
                 if (position.X <= leftBoundary.X)
                 {
-                    stateMachine.ChangeDirection();
+                    ChangeDirection();
                     UpdateTexture();
                 }
             }
             else
             {
-                position.X += 0.5f;
+                position.X += Constants.Hothead.MOVE_SPEED;
                 if (position.X >= rightBoundary.X)
                 {
-                    stateMachine.ChangeDirection();
+                    ChangeDirection();
                     UpdateTexture();
                 }
             }
         }
 
-        private void ShootProjectile()
+        private void Flamethrower(GameTime gameTime)
         {
-
-            Vector2 projectileDirection;
-
-            if (stateMachine.IsLeft())
+            //Shoots flamethrower if called while inactive
+            if (!isFlamethrowerActive)
             {
-                projectileDirection = new Vector2(-1, -0.5f); // aim left
-            }
-            else
-            {
-                projectileDirection = new Vector2(1, -0.5f); // aim right
-            }
+                isFlamethrowerActive = true;
 
-            IProjectile newFireball = new EnemyFireball(position, projectileDirection);
+                // Set the start position for the flamethrower
+                Vector2 flameDirection = stateMachine.IsLeft() ? new Vector2(-1, 0) : new Vector2(1, 0);
+                flamethrower.Update(gameTime, ProjectilePosition(), flameDirection);
+
+                canUseFlamethrower = false; // Prevent re-activation
+            }
+        }
+
+        public override void Attack()
+        {
+            //Shoots fireball projectile attack
+            Vector2 projectileDirection = stateMachine.IsLeft() ? new Vector2(-1, -0.5f) : new Vector2(1, -0.5f);
+            IProjectile newFireball = new EnemyFireball(ProjectilePosition(), projectileDirection);
             fireballs.Add(newFireball);
         }
 
         private void UpdateFireballs()
         {
+            //Updates all fireballs on list
             foreach (var fireball in fireballs)
             {
                 fireball.Update();
             }
-
-            //should prob eventually remove fireballs from list after off screen
         }
 
-
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
+            //Draw enemy, flamethrower, and projectile depending if alive or active
             if (!isDead)
             {
-
                 if (isFlamethrowerActive)
                 {
                     flamethrower.Draw(spriteBatch);
@@ -240,13 +183,7 @@ namespace MasterGame
                 {
                     fireball.Draw(spriteBatch);
                 }
-   
             }
-        }
-
-        public void ChangeDirection()
-        {
-            stateMachine.ChangeDirection();
         }
     }
 }

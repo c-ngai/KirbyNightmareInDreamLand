@@ -1,0 +1,56 @@
+﻿Vivian Ferrigni
+Sprint 2 Reflection
+9/28/2024
+
+###############################################################################
+
+1. Team Dynamics
+
+At the beginning of the Sprint, we met several times to help everyone get on the
+same page. Lina and Carman were great resources in helping everyone get comfortable
+using git and helping me get my Mac set up.
+
+All of our meetings took place over Zoom. While this made it easy to see others
+code, I would prefer to meet in person in the future and make use of the pair
+programming process.
+
+Unfortunately, due to my intense coursework outside of 3902, I could not
+dedicate as much time to this project as I had hoped. Additionally, my project
+tasks were much less time-consuming than others. In future sprints, I would like
+to take on a bigger coding role and contribute more in that way.
+
+2. Sprite Bottleneck
+
+A repeated issue that our group faced throughout Sprint 2 was the inability to
+test or implement code due to a lack of animations. This is in no way Mark's fault,
+we should have sooner redistributed that workload. I anticipate that this is a
+challenge we will continue to face going into future sprints as all the Kirby
+power-up mode animation sprites got backlogged. Going into Sprint 3 we need to
+reevaluate how time-consuming that task is and distribute it more evenly among
+team members.
+
+3. Adherence To Deadlines
+
+I am writing this 11 hours before this sprint is due. We originally intended to
+have a fully functional sprint by the end of week 2, after not meeting that deadline
+we should have reassessed to get a better understanding of what was taking more
+time than we anticipated, rather than just repeatedly pushing back the deadline.
+
+Because our code wasn't fully functional until the end of week 3, our code
+reviews were not done until then either; making it hard to implement and refactor
+given the critiques.
+
+This also made the process of cleaning, refactoring, and completing documentation
+at the end of the Sprint much more stressful than needed.
+
+4. Plans for Next Sprint
+
+    *  Split up Kirby power-up sprite animation entry evenly. That way not just
+       one person is stuck entering 300+ data points.
+    *  Assign a person to be in charge of documentation. README as well as the
+       project planning documents (for us these were mostly Zoom meeting notes)
+       should be clean and submitable.
+    *  Distribute coding responsibilities more evenly.
+    *  Have regular in-person meetings to work on the project.
+
+

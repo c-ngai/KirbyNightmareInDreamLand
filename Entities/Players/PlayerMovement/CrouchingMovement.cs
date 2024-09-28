@@ -9,12 +9,12 @@ namespace MasterGame
         }
 
         public override void Walk(bool isLeft)
-        {   
+        {
             //does nothing
         }
 
         public override void Run(bool isLeft)
-        {   
+        {
             //does nothing
         }
 

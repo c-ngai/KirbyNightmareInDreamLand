@@ -1,0 +1,43 @@
+﻿Sprint 2 Readabilty Code Review     9/26/2024
+
+Author of Code Review: Payton Murphy
+Name of .cs file being reviewed: WaddleDoo.cs
+Author of .cs file being reivewed: Gwyneth Barnholtz
+
+Time taken to complete review: 55 minutes
+
+################################################################################
+
+10 Code Smells:
+
+1. SwitchStatementsSmell ***
+2. SameNameDifferentMeaning
+3. TooManyParameters
+4. InappropriateIntimacy
+5. VagueIdentifiers
+6. Middleman
+7. VariableNameSameAsType
+8. WhileNotDoneLoop
+9. DataClumps ***
+10. InstanceofInConditionals
+
+################################################################################
+
+Comments on code smells:
+
+There is a switch statement in the Update() method based on stateMachine.GetPose(). It may be useful to refactor using subclasses. Additionally, the 
+usage of leftBoundary and rightBoundary could possibly be classified as a data clump since they are used together and since it wouldn't make sense for them 
+to be used without each other. As a refactoring opportunity, these could potentially be extracted into their own class or structure. Other than that, 
+none of the other code smells listed above were detected.
+
+
+Readability comments:
+
+The readability of the code is generally strong, with a clear and logical structure. Each method has a well-defined responsibility, adhering to the 
+single-responsibility rule. Identifiers and variable names are unique and specific. However, the code could use a little more commenting to improve 
+the readability and make it easier and quicker for humans to understand the purpose of the code. Overall, the code is easy to follow and maintain. 
+Despite the minimal comments, this code is very understandable due to the descriptive names and structure. After adding a little more commenting, 
+the code will have an even stronger level of readability. Nice work!
+
+
+

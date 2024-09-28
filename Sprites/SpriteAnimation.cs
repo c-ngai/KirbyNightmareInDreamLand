@@ -12,26 +12,26 @@ namespace MasterGame
     public class SpriteAnimation : ISpriteAnimation
     {
         // The spritesheet used.
-        public Texture2D texture { get; set; }
+        public Texture2D Texture { get; set; }
         // The frame number to loop back to after reaching the end.
-        public int loopPoint { get; set; }
+        public int LoopPoint { get; set; }
         // The sprite effects. Simply holds a flag of whether or not to horizontally flip the texture.
-        public SpriteEffects spriteEffects { get; set; }
+        public SpriteEffects SpriteEffects { get; set; }
         // List of frame source rectangles. Composed of positions imported from animation spreadsheet file.
-        public List<Rectangle> frameSourceRectangles { get; set; }
+        public List<Rectangle> FrameSourceRectangles { get; set; }
         // List of frame centers, as Vectors.
-        public List<Vector2> frameCenters { get; set; }
+        public List<Vector2> FrameCenters { get; set; }
         // List of frame durations, in game cycles.
-        public List<int> frameTimes { get; set; }
+        public List<int> FrameTimes { get; set; }
         // The number of frames in the animation.
-        public int frameCount { get; set; }
+        public int FrameCount { get; set; }
 
         /* Creates a new sprite animation object from a sprite animation file. */
         public SpriteAnimation(SpriteJsonData spriteJsonData, Dictionary<string, Texture2D> textures)
         {
-            frameSourceRectangles = new List<Rectangle>();
-            frameCenters = new List<Vector2>();
-            frameTimes = new List<int>();
+            FrameSourceRectangles = new List<Rectangle>();
+            FrameCenters = new List<Vector2>();
+            FrameTimes = new List<int>();
 
             ImportAnimation(spriteJsonData, textures);
         }
@@ -39,25 +39,25 @@ namespace MasterGame
         // Imports animation data from a .csv file into the proper fields of this object.
         private void ImportAnimation(SpriteJsonData spriteJsonData, Dictionary<string, Texture2D> textures)
         {
-            texture = textures[spriteJsonData.texture];
-            loopPoint = spriteJsonData.loopPoint;
+            Texture = textures[spriteJsonData.texture];
+            LoopPoint = spriteJsonData.loopPoint;
             if (spriteJsonData.flip == true)
-                spriteEffects = SpriteEffects.FlipHorizontally;
+                SpriteEffects = SpriteEffects.FlipHorizontally;
             else
-                spriteEffects = SpriteEffects.None;
+                SpriteEffects = SpriteEffects.None;
             // Set the total frame count.
-            frameCount = spriteJsonData.frames.Count;
+            FrameCount = spriteJsonData.frames.Count;
 
             // For each row in the table, separate it into columns by commas
-            for (int i = 0; i < frameCount; i++)
+            for (int i = 0; i < FrameCount; i++)
             {
                 Frame frame = spriteJsonData.frames[i];
                 // Use the x, y, width, and height values to create a source rectangle for the current frame, and add it to its list.
-                frameSourceRectangles.Add(new Rectangle(frame.X, frame.Y, frame.Width, frame.Height));
+                FrameSourceRectangles.Add(new Rectangle(frame.X, frame.Y, frame.Width, frame.Height));
                 // Use the center x and y values to create a vector for the frame's center, and add it to its list.
-                frameCenters.Add(new Vector2(frame.CenterX, frame.CenterY));
+                FrameCenters.Add(new Vector2(frame.CenterX, frame.CenterY));
                 // Add the frame time to its list.
-                frameTimes.Add(frame.Time);
+                FrameTimes.Add(frame.Time);
             }
         }
     }

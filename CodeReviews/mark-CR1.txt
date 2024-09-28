@@ -1,0 +1,57 @@
+Sprint 2 Readabilty Code Review     9/28/2024
+
+Author of Code Review: Mark DeLeo
+Name of .cs file being reviewed: BlockList.cs
+Author of .cs file being reviewed: Vivian Ferrigni
+
+Number of minutes to complete review: 20 minutes
+
+################################################################################ 
+
+10 Code Smells
+
+ 1. SameNameDifferentMeaning
+ 2. YouDontNeedItAnymore
+ 3. DataClumps
+ 4. InappropriateIntimacy
+ 5. FeatureEnvy
+ 6. DuplicatedCode
+ 7. VariableSameNameAsType
+ 8. TooManyParameters
+ 9. LongMethod
+10. LawOfDemeter
+
+################################################################################
+
+
+Comments on Code Smells:
+Didn't notice any of the particular code smells I had been searching for. Good job!
+
+
+Comments on Code Readability:
+Overall pretty readable! A few notes though:
+
+ - Immediately I wish there were comments for some of the fields at the top. Most
+ of the fields at the top were pretty immediately understandable as to what their
+ intended purpose probably was, but oldBlock and lastBlock isn't so obvious at a
+ first glance.
+
+ - Are firstBlock and lastBlock even necessary to store? It's just the index of the
+ first and last entries in the list of blocks right? The first will always be 0,
+ and the last is just as easy to pull from the list itself as it was to calculate
+ lastBlock and store that value. It's subjective, but I would probably do away with
+ them.
+
+ - I appreicate the use of curly braces even for control statements with a single
+ line inside! It's good practice and makes it a little easier to look at than
+ otherwise.
+
+ - Not sure that check in Draw() is entirely necessary, since that condition
+ shouldn't ever be false. If it's a failsafe in case something ELSE goes wrong,
+ then I suppose there's a case for it to stay.
+
+ - I appreciate the comments above all the methods! Only one missing one is
+ Update(), which, simple as it is, could probably have one as well just to
+ give a super quick explanation as to what it actually does. Maybe like
+ "Updates the current sprite only when the current selected block has changed,
+ and then call update on the sprite." (Maybe that's even too wordy)
