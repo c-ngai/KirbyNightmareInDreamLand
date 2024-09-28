@@ -1,8 +1,8 @@
-﻿namespace Sprint0
+﻿namespace MasterGame.Commands
 {
     public interface ICommand
     {
-        void SetState();
         void Execute();
+        void Undo();
     }
 }

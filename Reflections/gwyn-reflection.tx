@@ -1,0 +1,46 @@
+Gwyn Barnholtz
+Sprint 2 Reflection
+9/28/2024
+
+###############################################################################
+
+1. Team Dynamics
+
+    I think our group did a great job communicating via text to answer questions
+    and work together. We met frequenly over Zoom to discuss progress and ask
+    questions. We had a bunch of really great leaders that would check in on 
+    progress to hold everyone acccountable.
+
+    We never met in person really, unless it was quickly after class where not
+    everyone could show up. I think we couldv'e benefited from that, but
+    overall we did a pretty good job taking on such a large project.
+
+    The work distribution was a bit unfair, not that it didn't work out. I
+    think Payton and Vivian had been under-utilized due to an initial
+    "newness" to Git. Mark took on a LOT of Sprites. It seemed Carman and
+    Lina worked really well together on the Kirby movement and such, so that
+    seemed pretty fair. I was pretty isolated on enemies, only working with
+    sprites and projectiles.
+
+2. Sprite Bottleneck
+
+    For me, it was sprites. I didn't have all my enemy sprites until Saturday
+    at about 1:30am. Since I need to know the naming conventions and types
+    of movement to include in my Update method, this was a bit stressful.
+
+3. Adherence To Deadlines
+
+    We tried to set early deadlines for functionality, but a lot of us got
+    slammed by other responsibilites. For me personally, I didn't get to 
+    code reviews until much later than I would've liked. Additionally, my
+    enemies were't completely finished until Friday into Saturday.
+    
+    For most of the others, their work was done much earlier in the Sprint, which I 
+    really give them credit for. 
+
+4. Plans for Next Sprint
+
+    Next Sprint, I hope to work on functionality ASAP so I have more time to 
+    refactor and get help in office hours. 
+
+    I plan to attack switch cases and replace with state pattern design.

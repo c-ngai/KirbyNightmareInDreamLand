@@ -1,0 +1,43 @@
+Author of Review: Lina Ordonez Aguiar
+Date: 9.26.24
+Sprint #2
+Reviewing: Flame throwe & flame segment
+Author of file: Payton
+Time: 30 minutes
+
+Chosen code smells:
+    1.Long Functions **
+    2.same name different meaning
+    3.long parameters 
+    4.god Objects
+    5. Duplicate code
+    6. Feature Envy *
+    7.Data clumps
+    8. Comments
+    9. Temporary Field
+    10. Large Class
+
+Quality:
+    - well commented to understand thought process
+    - Velocity can also possibly be hard coded.
+    - The constructor should not have that much happening in it.
+    - It seems unecessary to use a Vector to get the direction of the sprite.
+    - the magic numbers in delay should be taken out.
+    -The vectors of position and velocity should not be public and no outside class 
+        should be able to use set (ask to change it dont demand)
+    -Speed is onyl really used to determine velocity and never used again.
+
+    - most of the instance fiels in FlameThrower can become constants in the Constants.cs file
+    - Unclear why direction is a Vector if its interacted as (1,0) or (-1,0)
+        Potential solution: get bool position (as that is how the players obtain it) and
+        have that translate into the Tranform vector. Thats not the hardest inmplementation.
+    -Start position and flame direction do not change once the flamethrower is activated
+        it is potentially not the best practice to have Update have parameters that do not even change.
+
+Specific Comments:
+    - Speed and delay can be hard coded since that 
+        would never come from user input.
+    -Intizialization of Flame segment is too long, 
+        does nto have a single funtion. 
+        Potential solution: dont have if staments or calculations in the constructor
+    - Code is very readable and understandable. Comments are helpful.
