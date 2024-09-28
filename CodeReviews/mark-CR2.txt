@@ -1,0 +1,55 @@
+Sprint 2 Quality Code Review     9/28/2024
+
+Author of Code Review: Mark DeLeo
+Name of .cs file being reviewed: Player.cs
+Author of .cs file being reviewed: Lina Ordonez Aguiar
+
+Number of minutes to complete review: 20
+
+################################################################################ 
+
+10 Code Smells
+
+ 1. SameNameDifferentMeaning
+ 2. YouDontNeedItAnymore
+ 3. DataClumps
+ 4. InappropriateIntimacy
+ 5. FeatureEnvy
+ 6. DuplicatedCode
+ 7. VariableSameNameAsType
+ 8. TooManyParameters
+ 9. LongMethod
+10. LawOfDemeter
+
+################################################################################
+
+Comments on Code Smells:
+Not one of the ones I listed as looking for, but there were a few potential "middle man"
+instances, I talk about it below. Other than that, pretty solid! I didn't notice any
+major code smells from the list I was looking for.
+
+
+Comments on Code Quality:
+Looks pretty good overall! A few notes though:
+
+- The methods in the KirbyState region confuse me... I may be misunderstanding
+them, but they seem largely redundant? Their main purpose seems to just be to
+get data from some other object and return it. Nothing much is really DONE to
+the data, so this seems like kind of a "middle man" set of methods, that could
+probably just be cut out in favor of calling those getters directly from wherever
+you need the data, if those methods aren't really doing much other than passing
+the data along.
+
+- Might be more concise to combine all the ChangeTo[type]() methods into one
+method that just takes the type as a parameter. This would retain looser coupling
+as opposed to just getting rid of all of those methods, but might be more concise.
+
+- Not a super specific comment, but I would make sure to be very careful when using
+async. It can be useful but also things like that can kind of sweep other problems
+under the rug for later. Might be better to consider the timing of Kirby's damage
+animation more directly. (Sorry, I know that's a bit of a vague comment)
+
+- I didn't look super thoroughly through the other classes, mainly just Player.cs,
+but I like the composition going on! Splitting up the different player movements
+is nice, that'll probably make it much easier to handle later on.
+	
