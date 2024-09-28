@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace MasterGame
+namespace MasterGame.Time
 {
     public class TimeCalculator : ITimeCalculator
     {

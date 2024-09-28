@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-
-namespace MasterGame
+﻿namespace MasterGame.Commands
 {
     public class ToggleFullscreenCommand : ICommand
     {
@@ -8,6 +6,7 @@ namespace MasterGame
 
         public void Execute()
         {
+            /* TODO: Implementing later */ 
             //Game1.self.graphics.ToggleFullScreen();
 
             //Game1.self.IsFullscreen = !Game1.self.IsFullscreen;

@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using MasterGame.StateMachines;
 
-namespace MasterGame
+namespace MasterGame.Entities.Enemies
 {
     public class PoppyBrosJr : Enemy
     {

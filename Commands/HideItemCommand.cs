@@ -1,10 +1,8 @@
-﻿using MasterGame.Block;
-
-namespace MasterGame
+﻿namespace MasterGame.Commands
 {
     public class HideItemCommand : ICommand
     {
-        Game1 game;
+        private Game1 game;
         public HideItemCommand(Game1 currentGame)
         {
             game = currentGame;

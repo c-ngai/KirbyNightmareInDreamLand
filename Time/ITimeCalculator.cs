@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-namespace MasterGame
+namespace MasterGame.Time
 {
     public interface ITimeCalculator
     {

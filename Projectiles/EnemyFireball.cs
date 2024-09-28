@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MasterGame.Sprites;
 
-namespace MasterGame
+namespace MasterGame.Projectiles
 {
     public class EnemyFireball : IProjectile
     {
@@ -33,7 +34,7 @@ namespace MasterGame
             
             Velocity = fireballDirection * Constants.EnemyFire.SPEED;
 
-            projectileSprite = SpriteFactory.Instance.createSprite("projectile_hothead_fireball");
+            projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_hothead_fireball");
         }
 
         public void Update()

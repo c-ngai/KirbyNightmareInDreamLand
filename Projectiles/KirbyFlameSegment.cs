@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using MasterGame.Sprites;
 
-namespace MasterGame
+namespace MasterGame.Projectiles
 {
     public class KirbyFlameSegment : IProjectile
     {
@@ -29,11 +30,11 @@ namespace MasterGame
             set => velocity = value;
         }
 
-        public KirbyFlameSegment(Vector2 startPosition, Vector2 flameDirection, float speed, float delay)
+        public KirbyFlameSegment(Vector2 startPosition, Vector2 flameDirection, float currentSpeed, float currentDelay)
         {
             Position = startPosition;
-            this.speed = speed;
-            this.delay = delay;
+            speed = currentSpeed;
+            delay = currentDelay;
             IsActive = false;
             frameCount = 0;
 
@@ -53,11 +54,11 @@ namespace MasterGame
                 // Right-facing direction
                 if (useSecondSprite)
                 {
-                    projectileSprite = SpriteFactory.Instance.createSprite("projectile_kirby_fire2_right");
+                    projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_fire2_right");
                 }
                 else
                 {
-                    projectileSprite = SpriteFactory.Instance.createSprite("projectile_kirby_fire1_right");
+                    projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_fire1_right");
                 }
             }
             else
@@ -65,11 +66,11 @@ namespace MasterGame
                 // Left-facing direction
                 if (useSecondSprite)
                 {
-                    projectileSprite = SpriteFactory.Instance.createSprite("projectile_kirby_fire2_left");
+                    projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_fire2_left");
                 }
                 else
                 {
-                    projectileSprite = SpriteFactory.Instance.createSprite("projectile_kirby_fire1_left");
+                    projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_fire1_left");
                 }
             }
         }

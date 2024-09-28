@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MasterGame.StateMachines;
 
-namespace MasterGame
+namespace MasterGame.Entities.Enemies
 {
     public class WaddleDee : Enemy
     {

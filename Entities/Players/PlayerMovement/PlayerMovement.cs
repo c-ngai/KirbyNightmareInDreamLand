@@ -1,8 +1,9 @@
 using Microsoft.Xna.Framework;
-using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using MasterGame.Time;
+using MasterGame.StateMachines;
 
-namespace MasterGame
+namespace MasterGame.Entities.Players
 {
     public abstract class PlayerMovement
     {

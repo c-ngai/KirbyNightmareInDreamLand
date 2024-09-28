@@ -1,5 +1,7 @@
 using Microsoft.Xna.Framework;
-namespace MasterGame
+using MasterGame.StateMachines;
+
+namespace MasterGame.Entities.Players
 {
     public class JumpMovement : PlayerMovement
     {

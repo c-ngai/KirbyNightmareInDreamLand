@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework.Input;
+using MasterGame.Time;
+using MasterGame.Entities.Players;
+using MasterGame.Controllers;
 
-namespace MasterGame
+namespace MasterGame.Commands
 {
     public class KirbyMoveLeftCommand : ICommand
     {
@@ -29,8 +32,7 @@ namespace MasterGame
 
         public void Execute()
         {
-            // Backlog: If it switches from moving left to moving right it needs a skid animation
-            // if it stopped being pressed and is now re executed check if the elapsed time is less than 0.5 second
+            // If it stopped being pressed and is now re-executed check if the elapsed time is less than 0.5 second
             if (timeSinceMoveStopped != 0)
             {
                 double currentTime = timer.GetCurrentTimeInMS(game.time);
@@ -52,7 +54,7 @@ namespace MasterGame
 
         public void Undo()
         {
-            // if it just stopped being pressed set stop time
+            // If it just stopped being pressed set stop time
             if (keyboard.oldKeyStates[key])
             {
                 timeSinceMoveStopped = timer.GetCurrentTimeInMS(game.time);

@@ -1,7 +1,10 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using System.Linq;
+using MasterGame.Time;
+using MasterGame.Entities.Players;
+using MasterGame.Controllers;
 
-namespace MasterGame
+namespace MasterGame.Commands
 {
     public class KirbyMoveCrouchedCommand : ICommand
     {
@@ -27,6 +30,7 @@ namespace MasterGame
         }
         public void Execute()
         {
+            // Determines if a timer needs to be set to keep track of slide time when the attack key is also pressed and if the timer needs to be reset
             if (keyboard.currentState.Contains(attackKey) && startingTime == 0)
             {
                 startingTime = timer.GetCurrentTimeInMS(game.time);
