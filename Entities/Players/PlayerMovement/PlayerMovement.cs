@@ -14,7 +14,7 @@ namespace MasterGame
         protected float xVel = 0;
         protected float walkingVel = Constants.Physics.WALKING_VELOCITY;
         protected float runningVel = Constants.Physics.RUNNING_VELOCITY;
-        protected float gravity = Constants.Physics.GRAVITY;  // Gravity in pixels per second^2
+        protected float gravity = Constants.Physics.GRAVITY; 
         protected float damageVel = Constants.Physics.DAMAGE_VELOCITY;
 
         //only kirby has access to this to check the cuttent state of kirby

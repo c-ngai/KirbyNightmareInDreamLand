@@ -268,10 +268,13 @@ namespace MasterGame
         }
         #endregion
         
-        public void Slide()
+        public async void Slide()
         {
-            ChangePose(KirbyPose.Sliding);
-            movement.Slide(state.IsLeft());
+            if(movement.crouching){
+                ChangePose(KirbyPose.Sliding);
+                movement.Slide(state.IsLeft());
+                await Task.Delay(Constants.Physics.DELAY);
+            }
         }
         #endregion //movement region
 

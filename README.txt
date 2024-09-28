@@ -51,6 +51,12 @@ Kirby. To be done by Sprint3.
 Backlogged Tasks:
 
 Kirby movement animation sprites for power-up modes.
+    note: if you press 2/3 and z the attacks for Beam and Fire kirby show up since
+    these are projectiles (kiry itself appears as invalid since they were backlogged). 
+    Spark kirby's attack is not a projectile so it is not 
+    implemented in this sprint. Normal kirby can inhale, however, since object
+    interaction is not being implemented his throwing up an enemy is not implemented.
+    The star it self however, is done in this sprint.
 
 Particle implementation. 
 
@@ -65,7 +71,11 @@ Known bugs:
 
 In our Sprint2, there are currently bugs regarding Kirby's multi-key movement
 commands. Given a lot of the code around these commands depend on our future
-Physics implementation, we will leave this for next Sprint. 
+Physics and keyboard implementation, we will leave this for next Sprint. 
+    - For example the combo of crouch + z (slide) has a small frame interference
+      we hope to work this out with the control refactor as well.
+
+When letting go of float on the ground, 
 
 
 ###############################################################################

@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 namespace MasterGame
 {
-    public interface IPlayer:IEntity
+    public interface IPlayer : IEntity
     {
         Sprite PlayerSprite { set; }
         void Crouch();
