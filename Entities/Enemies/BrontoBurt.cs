@@ -9,7 +9,7 @@ namespace MasterGame
         //Keep track of current frame
         private int frameCounter = 0;
 
-        private float initialY; // initial height
+        private readonly float initialY; // initial height
         private float timeCounter = 0f; // wave time counter
 
         public BrontoBurt(Vector2 startPosition) : base(startPosition, EnemyType.BrontoBurt)

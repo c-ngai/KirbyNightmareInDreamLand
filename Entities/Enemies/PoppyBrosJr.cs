@@ -89,7 +89,7 @@ namespace MasterGame
             float t = (float)hopCounter / Constants.PoppyBrosJr.HOP_FREQUENCY;
 
             // Smooth hopping math
-            position.Y = position.Y - (float)(Math.Sin(t * Math.PI * 2) * Constants.PoppyBrosJr.HOP_HEIGHT / 2);
+            position.Y -= (float)(Math.Sin(t * Math.PI * 2) * Constants.PoppyBrosJr.HOP_HEIGHT / 2);
 
             // Reset hop counter for cycle
             if (hopCounter >= Constants.PoppyBrosJr.HOP_FREQUENCY)
