@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterGame.Commands
+namespace KirbyNightmareInDreamLand.Commands
 {
     public class NextEnemyCommand : ICommand
     {

@@ -1,5 +1,5 @@
-﻿using MasterGame.Entities.Players;
-namespace MasterGame.Commands
+﻿using KirbyNightmareInDreamLand.Entities.Players;
+namespace KirbyNightmareInDreamLand.Commands
 {
     public class KirbyFaceLeftCommand : ICommand
     {

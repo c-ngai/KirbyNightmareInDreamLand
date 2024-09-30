@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
-namespace MasterGame.Sprites
+namespace KirbyNightmareInDreamLand.Sprites
 {
     public interface ISpriteAnimation
     {

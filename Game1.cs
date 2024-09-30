@@ -1,15 +1,15 @@
-﻿using MasterGame.Block;
-using MasterGame.Commands;
+﻿using KirbyNightmareInDreamLand.Block;
+using KirbyNightmareInDreamLand.Commands;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
-using MasterGame.Sprites;
-using MasterGame.Entities.Players;
-using MasterGame.Entities.Enemies;
-using MasterGame.Controllers;
+using KirbyNightmareInDreamLand.Sprites;
+using KirbyNightmareInDreamLand.Entities.Players;
+using KirbyNightmareInDreamLand.Entities.Enemies;
+using KirbyNightmareInDreamLand.Controllers;
 
-namespace MasterGame
+namespace KirbyNightmareInDreamLand
 {
     public class Game1 : Game
     {

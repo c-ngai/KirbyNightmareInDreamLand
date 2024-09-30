@@ -1,10 +1,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Threading.Tasks;
-using MasterGame.Sprites;
-using MasterGame.StateMachines;
+using KirbyNightmareInDreamLand.Sprites;
+using KirbyNightmareInDreamLand.StateMachines;
 
-namespace MasterGame.Entities.Players
+namespace KirbyNightmareInDreamLand.Entities.Players
 {
     public class Player : IPlayer
     {

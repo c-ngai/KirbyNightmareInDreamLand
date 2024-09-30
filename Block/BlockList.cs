@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MasterGame.Sprites;
+using KirbyNightmareInDreamLand.Sprites;
 
-namespace MasterGame.Block
+namespace KirbyNightmareInDreamLand.Block
 {
     public class BlockList
     {

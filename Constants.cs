@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 //using System.Numerics;
-namespace MasterGame
+namespace KirbyNightmareInDreamLand
 {
     public static class Constants
     {

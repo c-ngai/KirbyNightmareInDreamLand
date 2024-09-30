@@ -1,4 +1,4 @@
-﻿namespace MasterGame.Commands
+﻿namespace KirbyNightmareInDreamLand.Commands
 {
     public class ResetCommand : ICommand
     {

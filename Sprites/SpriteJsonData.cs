@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace MasterGame.Sprites
+namespace KirbyNightmareInDreamLand.Sprites
 {
     // Class for deserializing each sprite animation data in the .json file.
     public class SpriteJsonData

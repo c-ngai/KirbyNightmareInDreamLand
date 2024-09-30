@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework;
-namespace MasterGame.Entities.Players
+namespace KirbyNightmareInDreamLand.Entities.Players
 {
     public class CrouchingMovement : PlayerMovement
     {
