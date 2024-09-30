@@ -1,10 +1,10 @@
-﻿using MasterGame;
+﻿using KirbyNightmareInDreamLand;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System;
 
-namespace MasterGame.Projectiles
+namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class EnemyBeam
     {

@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using System.Threading.Tasks;
-using MasterGame.Time;
-using MasterGame.StateMachines;
+using KirbyNightmareInDreamLand.Time;
+using KirbyNightmareInDreamLand.StateMachines;
 
-namespace MasterGame.Entities.Players
+namespace KirbyNightmareInDreamLand.Entities.Players
 {
     public abstract class PlayerMovement
     {

@@ -1,4 +1,4 @@
-﻿namespace MasterGame.Controllers
+﻿namespace KirbyNightmareInDreamLand.Controllers
 {
     public interface IController
     {

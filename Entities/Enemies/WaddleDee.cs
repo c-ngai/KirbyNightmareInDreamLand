@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MasterGame.StateMachines;
+using KirbyNightmareInDreamLand.StateMachines;
 
-namespace MasterGame.Entities.Enemies
+namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
     public class WaddleDee : Enemy
     {

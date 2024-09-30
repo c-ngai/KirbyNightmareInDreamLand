@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework.Input;
-using MasterGame.Commands;
+using KirbyNightmareInDreamLand.Commands;
 
-namespace MasterGame.Controllers
+namespace KirbyNightmareInDreamLand.Controllers
 {
     public enum ExecutionType { Pressed, StartingPress, StoppingPress }
     public class KeyboardController : IController

@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
-using MasterGame.Sprites;
-namespace MasterGame.Entities.Players
+using KirbyNightmareInDreamLand.Sprites;
+namespace KirbyNightmareInDreamLand.Entities.Players
 {
     public interface IPlayer : IEntity
     {

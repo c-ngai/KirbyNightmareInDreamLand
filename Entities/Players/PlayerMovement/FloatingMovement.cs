@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using MasterGame.StateMachines;
+using KirbyNightmareInDreamLand.StateMachines;
 
-namespace MasterGame.Entities.Players
+namespace KirbyNightmareInDreamLand.Entities.Players
 {
     public class FloatingMovement : PlayerMovement
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace MasterGame.Sprites
+namespace KirbyNightmareInDreamLand.Sprites
 {
 
     public class Sprite : ISprite

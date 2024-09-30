@@ -1,6 +1,6 @@
-﻿using MasterGame.Block;
+﻿using KirbyNightmareInDreamLand.Block;
 
-namespace MasterGame.Commands
+namespace KirbyNightmareInDreamLand.Commands
 {
     public class PreviousBlockCommand : ICommand
     {

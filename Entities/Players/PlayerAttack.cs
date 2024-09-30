@@ -1,9 +1,9 @@
 //using System.Numerics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MasterGame.Projectiles;
+using KirbyNightmareInDreamLand.Projectiles;
 
-namespace MasterGame.Entities.Players
+namespace KirbyNightmareInDreamLand.Entities.Players
 {
     public class PlayerAttack
     {

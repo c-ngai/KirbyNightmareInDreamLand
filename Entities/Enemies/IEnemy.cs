@@ -1,5 +1,5 @@
-﻿using MasterGame.Sprites;
-namespace MasterGame.Entities.Enemies
+﻿using KirbyNightmareInDreamLand.Sprites;
+namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
     public interface IEnemy : IEntity
     {

@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using System.Linq;
-using MasterGame.Time;
-using MasterGame.Entities.Players;
-using MasterGame.Controllers;
+using KirbyNightmareInDreamLand.Time;
+using KirbyNightmareInDreamLand.Entities.Players;
+using KirbyNightmareInDreamLand.Controllers;
 
-namespace MasterGame.Commands
+namespace KirbyNightmareInDreamLand.Commands
 {
     public class KirbyMoveCrouchedCommand : ICommand
     {

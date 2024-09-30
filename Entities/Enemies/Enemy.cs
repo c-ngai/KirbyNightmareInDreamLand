@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MasterGame.Sprites;
-using MasterGame.StateMachines;
+using KirbyNightmareInDreamLand.Sprites;
+using KirbyNightmareInDreamLand.StateMachines;
 
-namespace MasterGame.Entities.Enemies
+namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
     public abstract class Enemy : IEnemy
     {

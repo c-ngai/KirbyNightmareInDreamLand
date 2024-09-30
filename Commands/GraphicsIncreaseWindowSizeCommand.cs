@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace MasterGame.Commands
+namespace KirbyNightmareInDreamLand.Commands
 {
     public class GraphicsIncreaseWindowSizeCommand : ICommand
     {

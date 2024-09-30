@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using MasterGame.Projectiles;
-using MasterGame.StateMachines;
+using KirbyNightmareInDreamLand.Projectiles;
+using KirbyNightmareInDreamLand.StateMachines;
 
-namespace MasterGame.Entities.Enemies
+namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
     public class Hothead : Enemy
     {

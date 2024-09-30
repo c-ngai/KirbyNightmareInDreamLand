@@ -5,7 +5,7 @@ using System.Text.Json;
 using System.IO;
 using System.Diagnostics;
 
-namespace MasterGame.Sprites
+namespace KirbyNightmareInDreamLand.Sprites
 {
     public class SpriteFactory
     {
