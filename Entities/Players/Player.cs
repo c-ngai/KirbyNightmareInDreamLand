@@ -299,7 +299,7 @@ namespace MasterGame.Entities.Players
             if(attackIsActive){
                 attack.Draw(spriteBatch, this);
             }
-        }   
+        }
     }
 
 }
