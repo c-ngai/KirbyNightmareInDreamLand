@@ -1,5 +1,4 @@
-﻿Vivian Ferrigni
-Sprint 2 Reflection
+﻿Sprint 2 Reflection
 9/28/2024
 
 ###############################################################################
@@ -8,22 +7,22 @@ Sprint 2 Reflection
 
 At the beginning of the Sprint, we met several times to help everyone get on the
 same page. Lina and Carman were great resources in helping everyone get comfortable
-using git and helping me get my Mac set up.
+using git and helping Mac set ups.
 
 All of our meetings took place over Zoom. While this made it easy to see others
-code, I would prefer to meet in person in the future and make use of the pair
+code, we would prefer to meet in person in the future and make use of the pair
 programming process.
 
-Unfortunately, due to my intense coursework outside of 3902, I could not
-dedicate as much time to this project as I had hoped. Additionally, my project
-tasks were much less time-consuming than others. In future sprints, I would like
-to take on a bigger coding role and contribute more in that way.
+Unfortunately, due to my intense coursework outside of 3902, some of us could not
+dedicate as much time to this project as we had hoped. Additionally, some project
+tasks were much less time-consuming than others. In future sprints, we would like
+to split the coding roles and have more equal coding contributions.
 
 2. Sprite Bottleneck
 
 A repeated issue that our group faced throughout Sprint 2 was the inability to
 test or implement code due to a lack of animations. This is in no way Mark's fault,
-we should have sooner redistributed that workload. I anticipate that this is a
+we should have sooner redistributed that workload.We  anticipate that this is a
 challenge we will continue to face going into future sprints as all the Kirby
 power-up mode animation sprites got backlogged. Going into Sprint 3 we need to
 reevaluate how time-consuming that task is and distribute it more evenly among
@@ -49,7 +48,7 @@ at the end of the Sprint much more stressful than needed.
        one person is stuck entering 300+ data points.
     *  Assign a person to be in charge of documentation. README as well as the
        project planning documents (for us these were mostly Zoom meeting notes)
-       should be clean and submitable.
+       should be clean and submittable.
     *  Distribute coding responsibilities more evenly.
     *  Have regular in-person meetings to work on the project.
 

@@ -1,22 +1,22 @@
-﻿namespace MasterGame
+﻿using MasterGame.Entities.Players;
+namespace MasterGame.Commands
 {
-    public class KirbyFaceLeftCommand : ICommand
+    public class KirbyFloatCommand : ICommand
     {
-            
         private IPlayer kirby;
-
-        public KirbyFaceLeftCommand(IPlayer player)
+        public KirbyFloatCommand(IPlayer player)
         {
             kirby = player;
         }
 
         public void Execute()
         {
-            kirby.SetDirectionLeft();
+            kirby.Float();
         }
 
         public void Undo()
         {
+
         }
     }
 }

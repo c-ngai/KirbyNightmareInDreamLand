@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
-namespace MasterGame
+using MasterGame.Sprites;
+namespace MasterGame.Entities.Players
 {
     public interface IPlayer : IEntity
     {

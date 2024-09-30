@@ -1,4 +1,5 @@
-﻿namespace MasterGame
+﻿using MasterGame.Sprites;
+namespace MasterGame.Entities.Enemies
 {
     public interface IEnemy : IEntity
     {

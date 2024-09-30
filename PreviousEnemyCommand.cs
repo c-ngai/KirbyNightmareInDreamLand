@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MasterGame.Commands
+﻿namespace MasterGame.Commands
 {
     public class PreviousEnemyCommand : ICommand
     {
@@ -31,6 +25,7 @@ namespace MasterGame.Commands
         // Move forward to the next enemy
         public void Undo()
         {
+
         }
     }
 

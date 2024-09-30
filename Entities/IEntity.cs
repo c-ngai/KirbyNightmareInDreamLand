@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MasterGame
+namespace MasterGame.Entities
 {
     public interface IEntity{
         void TakeDamage();

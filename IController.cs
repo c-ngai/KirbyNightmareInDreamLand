@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-
-namespace MasterGame
+﻿namespace MasterGame.Controllers
 {
     public interface IController
     {

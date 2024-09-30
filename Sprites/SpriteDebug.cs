@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace MasterGame
+namespace MasterGame.Sprites
 {
 
     public class SpriteDebug

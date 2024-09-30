@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using MasterGame.StateMachines;
 
-namespace MasterGame
+namespace MasterGame.Entities.Enemies
 {
     public class Sparky : Enemy
     {
@@ -105,7 +106,7 @@ namespace MasterGame
             float t = (float)hopCounter / Constants.Sparky.HOP_FREQUENCY;
 
             //Y movement calculations for smooth hops
-            position.Y = position.Y - (float)(Math.Sin(t * Math.PI * 2) * height / 2);
+            position.Y -= (float)(Math.Sin(t * Math.PI * 2) * height / 2);
 
             // X movement. Check direction for boundaries 
             if (!stateMachine.IsLeft())

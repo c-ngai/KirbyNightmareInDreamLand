@@ -1,6 +1,4 @@
-using Microsoft.Xna.Framework.Graphics;
-
-namespace MasterGame
+namespace MasterGame.StateMachines
 {
     public class PlayerStateMachine : IPlayerStateMachine
     {

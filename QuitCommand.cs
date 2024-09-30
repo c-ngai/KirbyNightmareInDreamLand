@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-
-namespace MasterGame
+﻿namespace MasterGame.Commands
 {
     public class QuitCommand : ICommand
     {

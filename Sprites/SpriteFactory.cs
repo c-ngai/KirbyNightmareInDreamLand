@@ -3,10 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.IO;
-using Microsoft.Xna.Framework;
 using System.Diagnostics;
 
-namespace MasterGame
+namespace MasterGame.Sprites
 {
     public class SpriteFactory
     {
@@ -14,7 +13,7 @@ namespace MasterGame
         private static Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
 
         // Dictionary from string to SpriteAnimation. For easily retrieving a sprite animation by name.
-        private static Dictionary<string, SpriteAnimation> spriteAnimations = new Dictionary<string, SpriteAnimation>();
+        private static Dictionary<string, SpriteAnimation> spriteAnimations;
 
         private static SpriteFactory instance = new SpriteFactory();
 
@@ -31,6 +30,7 @@ namespace MasterGame
 
         public SpriteFactory()
         {
+            spriteAnimations = new Dictionary<string, SpriteAnimation>();
         }
 
 
@@ -55,10 +55,9 @@ namespace MasterGame
 
         //level loader pulls this open and loads the fatory
         //factory only knows how to build sprites not what sprites it is building
-        //reference to grahics and dictionaries get build.
+        //reference to graphics and dictionaries get build.
         //data problem, take it to level loader !!
         //tear it out early
-        //what is the interface i need to shove all the data else where?
 
         // Loads all textures from the texture list file.
         public void LoadAllTextures(ContentManager content, Game1 game)
@@ -85,8 +84,7 @@ namespace MasterGame
         {
             // Open the sprite animation data file and deserialize it into a dictionary.
             string spriteFile = "Content/Images/SpriteAnimations.json";
-            Dictionary<string, SpriteJsonData> SpriteJsonDatas = new Dictionary<string, SpriteJsonData>();
-            SpriteJsonDatas = JsonSerializer.Deserialize<Dictionary<string, SpriteJsonData>>(File.ReadAllText(spriteFile), new JsonSerializerOptions());
+            Dictionary<string, SpriteJsonData> SpriteJsonDatas = JsonSerializer.Deserialize<Dictionary<string, SpriteJsonData>>(File.ReadAllText(spriteFile), new JsonSerializerOptions());
 
             // Run through the dictionary and load each sprite.
             foreach (KeyValuePair<string, SpriteJsonData> data in SpriteJsonDatas)
@@ -98,7 +96,7 @@ namespace MasterGame
 
 
         // Returns a new sprite object from a sprite animation's name.
-        public Sprite createSprite(string spriteAnimationName)
+        public Sprite CreateSprite(string spriteAnimationName)
         {
             if (spriteAnimations.ContainsKey(spriteAnimationName))
             {
@@ -118,7 +116,7 @@ namespace MasterGame
         //override method should be undone 
 
         // Returns a new sprite object from an array of state strings.
-        public Sprite createSprite(string[] states)
+        public Sprite CreateSprite(string[] states)
         {
             // Create a single string to combine all the strings of states into one, with underscores between.
             string spriteAnimationName = "";
@@ -131,7 +129,7 @@ namespace MasterGame
                 }
             }
             //System.Console.WriteLine(spriteAnimationName );
-            return createSprite(spriteAnimationName);
+            return CreateSprite(spriteAnimationName);
         }
     }
 }

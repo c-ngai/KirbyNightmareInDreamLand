@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MasterGame.Sprites;
 
-namespace MasterGame
+namespace MasterGame.Projectiles
 {
     public class KirbyBeamSegment : IProjectile
     {
@@ -30,8 +31,8 @@ namespace MasterGame
         {
             Position = startPosition;
             Velocity = beamVelocity;
-            sprite1 = SpriteFactory.Instance.createSprite("projectile_kirby_beam1");
-            sprite2 = SpriteFactory.Instance.createSprite("projectile_kirby_beam2");
+            sprite1 = SpriteFactory.Instance.CreateSprite("projectile_kirby_beam1");
+            sprite2 = SpriteFactory.Instance.CreateSprite("projectile_kirby_beam2");
 
         }
 

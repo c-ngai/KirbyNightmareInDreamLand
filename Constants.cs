@@ -38,7 +38,8 @@ namespace MasterGame
             public const int FLAME_ATTACK_FRAMES = 200;
             public const int BEAM_ATTACK_FRAMES = 50;
             public const int PUFF_ATTACK_FRAMES = 30;
-            public static Vector2 BEAM_ATTACK_OFFSET = new Vector2(13, 0);
+            public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(13, -7);
+            public static Vector2 BEAM_ATTACK_OFFSET_LEFT = new Vector2(-13, -7);
             public static Vector2 PUFF_ATTACK_OFFSET = new Vector2(10, 0);
             public static Vector2 FLAME_ATTACK_OFFSET_RIGHT = new Vector2(25, -10);
             public static Vector2 FLAME_ATTACK_OFFSET_LEFT = new Vector2(-25, -10);
@@ -132,9 +133,9 @@ namespace MasterGame
             public const float WAVE_AMPLITUDE = 10f; // height of wave
             public const float WAVE_FREQUENCY = 0.05f; // wave speed
             public const int HURT_FRAMES = 50;
-            public const int SLOW_FLY_FRAMES = 50;
-            public const int FAST_FLY_FRAMES = 50;
-            public const int STANDING_FRAMES = 50;
+            public const int SLOW_FLY_FRAMES = 100;
+            public const int FAST_FLY_FRAMES = 100;
+            public const int STANDING_FRAMES = 100;
         }
 
         public class Hothead
@@ -184,9 +185,9 @@ namespace MasterGame
             public const int ATTACK_FRAMES = 33;
             public const int HURT_FRAMES = 50;
             public const int JUMPING_FRAMES = 50;
-            public const float JUMP_HEIGHT = 5f;
-            public const float GRAVITY = 0.5f;
-            public const float FORWARD_MOVEMENT = 1f;
+            public const float JUMP_HEIGHT = 2f;
+            public const float GRAVITY = 0.1f;
+            public const float FORWARD_MOVEMENT = 0.5f;
         }
     }
 }

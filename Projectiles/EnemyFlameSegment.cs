@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using MasterGame.Sprites;
 
-namespace MasterGame
+namespace MasterGame.Projectiles
 {
     public class EnemyFlameSegment : IProjectile
     {
@@ -41,10 +42,7 @@ namespace MasterGame
 
             Velocity = flameDirection * speed;
 
-            // Randomly select either the first or second set of sprites based on direction
-            bool useSecondSprite = random.Next(2) == 0; // 50% chance to use the second sprite
-
-            projectileSprite = SpriteFactory.Instance.createSprite("projectile_hothead_fire");
+            projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_hothead_fire");
 
         }
 

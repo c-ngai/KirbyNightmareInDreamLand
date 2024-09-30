@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using System.Threading.Tasks.Dataflow;
+using MasterGame.StateMachines;
 
-namespace MasterGame
+namespace MasterGame.Entities.Players
 {
     public class FloatingMovement : PlayerMovement
     {

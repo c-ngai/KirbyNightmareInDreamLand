@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MasterGame.Sprites;
 
 namespace MasterGame.Block
 {
@@ -38,7 +39,7 @@ namespace MasterGame.Block
             currentBlock = firstBlock;
             oldBlock = currentBlock;
             lastBlock = myBlocks.Count - 1;
-            currentSprite = SpriteFactory.Instance.createSprite(blockList[currentBlock]);
+            currentSprite = SpriteFactory.Instance.CreateSprite(blockList[currentBlock]);
         }
 
         // if we aren't at the end of the list, increment. Otherwise, go to start. 
@@ -83,7 +84,7 @@ namespace MasterGame.Block
             // this if block allows waterfall tile to animate. 
             if (oldBlock != currentBlock)
             {
-                currentSprite = SpriteFactory.Instance.createSprite(blockList[currentBlock]);
+                currentSprite = SpriteFactory.Instance.CreateSprite(blockList[currentBlock]);
                 oldBlock = currentBlock;
             }
             // do nothing for most tile, animates waterfall tiles.

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
-namespace MasterGame
+namespace MasterGame.Projectiles
 {
     public class KirbyBeam
     {

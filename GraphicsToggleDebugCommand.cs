@@ -1,4 +1,4 @@
-﻿namespace MasterGame
+﻿namespace MasterGame.Commands
 {
     public class GraphicsToggleDebugCommand : ICommand
     {

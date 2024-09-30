@@ -1,7 +1,10 @@
 //using System.Numerics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-namespace MasterGame{
+using MasterGame.Projectiles;
+
+namespace MasterGame.Entities.Players
+{
     public class PlayerAttack
     {
         private KirbyBeam beam;
@@ -20,9 +23,9 @@ namespace MasterGame{
         {
             Vector2 position = kirby.GetKirbyPosition();
             if(kirby.IsLeft()){
-                position += Constants.Kirby.BEAM_ATTACK_OFFSET * new Vector2(-1, 0); //only need the x value to flip
+                position += Constants.Kirby.BEAM_ATTACK_OFFSET_LEFT;
             } else {
-                position += Constants.Kirby.BEAM_ATTACK_OFFSET;
+                position += Constants.Kirby.BEAM_ATTACK_OFFSET_RIGHT;
             }
             return position;
         }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace MasterGame
+namespace MasterGame.Sprites
 {
 
     public class Sprite : ISprite
@@ -9,7 +9,8 @@ namespace MasterGame
         // To store a reference to the current game.
         private Game1 game;
         // The game's INTERNAL resolution. For placement on screen relative to the scale. Not to be confused with window resolution.
-        private int gameWidth;
+        // NOTE: Currently does not need game width but will for future use
+        //private int gameWidth;
         private int gameHeight;
 
         // The SpriteAnimation used.
@@ -25,7 +26,8 @@ namespace MasterGame
          * data from a .csv file into the Animation object. */
         public Sprite(SpriteAnimation spriteAnimation, Game1 game)
         {
-            gameWidth = Constants.Graphics.GAME_WIDTH;
+            // NOTE: Currently does not need game width but will for future use
+            //gameWidth = Constants.Graphics.GAME_WIDTH;
             gameHeight = Constants.Graphics.GAME_HEIGHT;
 
             _spriteAnimation = spriteAnimation;
@@ -57,11 +59,8 @@ namespace MasterGame
         // Draws the sprite to the spriteBatch.
         public void Draw(Vector2 position, SpriteBatch spriteBatch, Color color)
         {
-            // Get window width and height from Game1 for scaling.
-            int windowWidth = game.WINDOW_WIDTH;
-            int windowHeight = game.WINDOW_HEIGHT;
             // Scale by height
-            float scale = (float)windowHeight / gameHeight;
+            float scale = (float)game.WINDOW_HEIGHT / gameHeight;
 
             // Scale the position
             position.Floor();

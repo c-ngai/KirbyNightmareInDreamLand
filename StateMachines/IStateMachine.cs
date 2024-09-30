@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MasterGame
+﻿namespace MasterGame.StateMachines
 {
     public interface IStateMachine
     {

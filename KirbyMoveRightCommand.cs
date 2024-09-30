@@ -1,8 +1,11 @@
 ﻿using Microsoft.Xna.Framework.Input;
+using MasterGame.Time;
+using MasterGame.Entities.Players;
+using MasterGame.Controllers;
 
-namespace MasterGame
+namespace MasterGame.Commands
 {
-    public class KirbyMoveLeftCommand : ICommand
+    public class KirbyMoveRightCommand : ICommand
     {
         private Game1 game;
         private KeyboardController keyboard;
@@ -14,7 +17,7 @@ namespace MasterGame
         private IPlayer kirby;
         private bool isRunning;
 
-        public KirbyMoveLeftCommand(IPlayer player, Keys keyMapped, KeyboardController currentKeyboard, Game1 currentGame)
+        public KirbyMoveRightCommand(IPlayer player, Keys keyMapped, KeyboardController currentKeyboard, Game1 currentGame)
         {
             game = currentGame;
             keyboard = currentKeyboard;
@@ -29,8 +32,9 @@ namespace MasterGame
 
         public void Execute()
         {
-            // Backlog: If it switches from moving left to moving right it needs a skid animation
-            // if it stopped being pressed and is now re executed check if the elapsed time is less than 0.5 second
+            // Backlog: if it switches from moving right to moving left it needs a skid animation
+
+            // if it stopped being pressed and is now re executed check if the elapsed time is a threshold value (currently 0.25s)
             if (timeSinceMoveStopped != 0)
             {
                 double currentTime = timer.GetCurrentTimeInMS(game.time);
@@ -42,11 +46,11 @@ namespace MasterGame
 
             if (isRunning)
             {
-                kirby.RunLeft();
+                kirby.RunRight();
             }
             else
             {
-                kirby.MoveLeft();
+                kirby.MoveRight();
             }
         }
 
@@ -57,7 +61,7 @@ namespace MasterGame
             {
                 timeSinceMoveStopped = timer.GetCurrentTimeInMS(game.time);
             }
-            
+            // if running switch to walking, if walking switch to stop moving
             kirby.StopMoving();
         }
     }

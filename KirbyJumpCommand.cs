@@ -1,10 +1,9 @@
-﻿using System.Threading.Tasks;
-namespace MasterGame
+﻿using MasterGame.Entities.Players;
+namespace MasterGame.Commands
 {
     public class KirbyJumpCommand : ICommand
     {
         private IPlayer kirby;
-
         public KirbyJumpCommand(IPlayer newPlayer)
         {
             kirby = newPlayer;
@@ -16,7 +15,7 @@ namespace MasterGame
         }
         public void Undo()
         {
-            //kirby.StopMoving();
+
         }
     }
 }

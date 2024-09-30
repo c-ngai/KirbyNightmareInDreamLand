@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using MasterGame.StateMachines;
 
-namespace MasterGame
+namespace MasterGame.Entities.Players
 {   
     public class NormalPlayerMovement : PlayerMovement
     {
