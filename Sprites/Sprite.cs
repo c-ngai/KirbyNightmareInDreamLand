@@ -65,6 +65,9 @@ namespace KirbyNightmareInDreamLand.Sprites
             // Scale the position
             position.Floor();
             position *= scale;
+            // Adjust position by window offset
+            position.X += game.WINDOW_XOFFSET;
+            position.Y += game.WINDOW_YOFFSET;
             // Pull the frame center and source rectangle from data.
             Vector2 frameCenter = _spriteAnimation.FrameCenters[currentFrame];
             Rectangle sourceRectangle = _spriteAnimation.FrameSourceRectangles[currentFrame];
@@ -86,7 +89,7 @@ namespace KirbyNightmareInDreamLand.Sprites
             
         }
 
-        // Draws the sprite to the spriteBatch. With unspecified color, uses white.
+        // Draws the sprite to the spriteBatch. With unspecified color mask, uses white (no change to source image).
         public void Draw(Vector2 position, SpriteBatch spriteBatch)
         {
             Draw(position, spriteBatch, Color.White);

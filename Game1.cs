@@ -19,6 +19,8 @@ namespace KirbyNightmareInDreamLand
         private SpriteFont font;
         private KeyboardController keyboard;
 
+        private Texture2D borders;
+
         // Single-player but can later be updated to an array of kirbys for multiplayer
         private IPlayer kirby;
 
@@ -44,9 +46,11 @@ namespace KirbyNightmareInDreamLand
 
         // Graphics settings modifiable at runtime
         public bool DEBUG_SPRITE_MODE { get; set; }
-        public int WINDOW_WIDTH;
-        public int WINDOW_HEIGHT;
-
+        public int WINDOW_WIDTH { get; set; }
+        public int WINDOW_HEIGHT { get; set; }
+        public int WINDOW_XOFFSET { get; set; }
+        public int WINDOW_YOFFSET { get; set; }
+        public int MAX_WINDOW_WIDTH { get; set; }
 
 
         //why is game time public?? take out set in the game time make anybody that is not that commmand not be anle to set it
@@ -63,12 +67,32 @@ namespace KirbyNightmareInDreamLand
             DEBUG_SPRITE_MODE = false;
             WINDOW_WIDTH = 720;
             WINDOW_HEIGHT = 480;
+            WINDOW_XOFFSET = 0;
+            WINDOW_YOFFSET = 0;
+
+            #region set max window width
+            int displayWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            int displayHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            float displayAspectRatio = (float)displayWidth / displayHeight;
+            float gameAspectRatio = (float)Constants.Graphics.GAME_WIDTH / Constants.Graphics.GAME_HEIGHT;
+            // Set max width such that the window can be increased to as large as it can fit in the display, but no further.
+            if (displayAspectRatio > gameAspectRatio) // If display aspect ratio is wider than game aspect ratio (3:2)
+            {
+                // Base max width on display height
+                MAX_WINDOW_WIDTH = (displayHeight / Constants.Graphics.GAME_HEIGHT * Constants.Graphics.GAME_HEIGHT * Constants.Graphics.GAME_WIDTH / Constants.Graphics.GAME_HEIGHT);
+            }
+            else
+            {
+                // Base max width on display width
+                MAX_WINDOW_WIDTH = displayWidth / Constants.Graphics.GAME_WIDTH * Constants.Graphics.GAME_WIDTH;
+            }
+            #endregion
 
             // true = exclusive fullscreen, false = borderless fullscreen
             graphics.HardwareModeSwitch = true;
-            graphics.IsFullScreen = Constants.Graphics.IS_FULL_SCREEN;
-            graphics.PreferredBackBufferWidth = this.WINDOW_WIDTH;
-            graphics.PreferredBackBufferHeight = this.WINDOW_HEIGHT;
+            graphics.IsFullScreen = false;
+            graphics.PreferredBackBufferWidth = WINDOW_WIDTH;
+            graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
             graphics.ApplyChanges();
             
 
@@ -115,9 +139,9 @@ namespace KirbyNightmareInDreamLand
             keyboard.RegisterCommand(Keys.R, new ResetCommand(this), ExecutionType.StartingPress);
 
             keyboard.RegisterCommand(Keys.LeftControl, new GraphicsToggleDebugCommand(this), ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.OemPlus, new GraphicsIncreaseWindowSizeCommand(this, graphics), ExecutionType.Pressed);
-            keyboard.RegisterCommand(Keys.OemMinus, new GraphicsDecreaseWindowSizeCommand(this, graphics), ExecutionType.Pressed);
-            //keyboard.RegisterCommand(Keys.F, new ToggleFullscreenCommand(), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.OemPlus, new GraphicsIncreaseWindowSizeCommand(this, graphics), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.OemMinus, new GraphicsDecreaseWindowSizeCommand(this, graphics), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.F, new GraphicsToggleFullscreenCommand(this, graphics), ExecutionType.StartingPress);
         }
 
         public void LoadItem()
@@ -181,6 +205,9 @@ namespace KirbyNightmareInDreamLand
 
             font = Content.Load<SpriteFont>("DefaultFont");
 
+            borders = new Texture2D(GraphicsDevice, 1, 1);
+            borders.SetData(new Color[] { Color.Black });
+
             // Load all sprite factory textures and sprites.
             SpriteFactory.Instance.LoadAllTextures(Content, this);
             SpriteFactory.Instance.LoadAllSpriteAnimations();
@@ -231,6 +258,19 @@ namespace KirbyNightmareInDreamLand
         //game object management takes care of the lists and iterates them
         //game then grabs it from them and does its job.
 
+        // Draws black borders on the edge of the screen. Should be only visible in fullscreen. Done to maintain aspect ratio and integer scaling regardless of display resolution.
+        private void DrawBorders()
+        {
+            // Left side
+            spriteBatch.Draw(borders, new Rectangle(0, 0, WINDOW_XOFFSET, WINDOW_HEIGHT + 2*WINDOW_YOFFSET), Color.White);
+            // Top side
+            spriteBatch.Draw(borders, new Rectangle(0, 0, WINDOW_WIDTH + 2 * WINDOW_XOFFSET, WINDOW_YOFFSET), Color.White);
+            // Right side
+            spriteBatch.Draw(borders, new Rectangle(WINDOW_XOFFSET + WINDOW_WIDTH, 0, WINDOW_XOFFSET, WINDOW_HEIGHT + 2 * WINDOW_YOFFSET), Color.White);
+            // Bottom side
+            spriteBatch.Draw(borders, new Rectangle(0, WINDOW_YOFFSET + WINDOW_HEIGHT, WINDOW_WIDTH + 2 * WINDOW_XOFFSET, WINDOW_YOFFSET), Color.White);
+        }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -240,10 +280,7 @@ namespace KirbyNightmareInDreamLand
             // Start spriteBatch
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
 
-            DrawText();
-
-            // What is this??
-            // float scale = Constants.Graphics.WINDOW_HEIGHT / Constants.Graphics.GAME_HEIGHT; 
+            //DrawText();
 
             // Draw only selected enemy
             enemyList[currentEnemyIndex].Draw(spriteBatch);
@@ -258,6 +295,7 @@ namespace KirbyNightmareInDreamLand
             }
 
             // End spriteBatch
+            DrawBorders();
             spriteBatch.End();
 
         }
