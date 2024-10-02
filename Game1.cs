@@ -46,6 +46,7 @@ namespace KirbyNightmareInDreamLand
 
         // Graphics settings modifiable at runtime
         public bool DEBUG_SPRITE_MODE { get; set; }
+        public bool IS_FULLSCREEN { get; set; }
         public int WINDOW_WIDTH { get; set; }
         public int WINDOW_HEIGHT { get; set; }
         public int WINDOW_XOFFSET { get; set; }
@@ -65,6 +66,7 @@ namespace KirbyNightmareInDreamLand
         protected override void Initialize()
         {
             DEBUG_SPRITE_MODE = false;
+            IS_FULLSCREEN = false;
             WINDOW_WIDTH = 720;
             WINDOW_HEIGHT = 480;
             WINDOW_XOFFSET = 0;
@@ -90,7 +92,7 @@ namespace KirbyNightmareInDreamLand
 
             // true = exclusive fullscreen, false = borderless fullscreen
             graphics.HardwareModeSwitch = true;
-            graphics.IsFullScreen = false;
+            graphics.IsFullScreen = IS_FULLSCREEN;
             graphics.PreferredBackBufferWidth = WINDOW_WIDTH;
             graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
             graphics.ApplyChanges();

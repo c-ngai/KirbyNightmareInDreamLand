@@ -14,7 +14,7 @@ namespace KirbyNightmareInDreamLand.Commands
 
         public void Execute()
         {
-            if (game.WINDOW_WIDTH < game.MAX_WINDOW_WIDTH) // If the window size isn't already maximum
+            if (!game.IS_FULLSCREEN && game.WINDOW_WIDTH < game.MAX_WINDOW_WIDTH) // If not fullscreen and the window size isn't already maximum
             {
                 // Increment window size by game size, keeping it at an integer scale.
                 game.WINDOW_WIDTH += Constants.Graphics.GAME_WIDTH;

@@ -8,8 +8,6 @@ namespace KirbyNightmareInDreamLand.Commands
         private Game1 game;
         private GraphicsDeviceManager graphics;
 
-        private bool IsFullscreen;
-
         private int MAX_WINDOW_HEIGHT;
 
         private int old_WINDOW_WIDTH;
@@ -26,7 +24,6 @@ namespace KirbyNightmareInDreamLand.Commands
             this.game = game;
             this.graphics = graphics;
 
-            IsFullscreen = false;
             MAX_WINDOW_HEIGHT = game.MAX_WINDOW_WIDTH * Constants.Graphics.GAME_HEIGHT / Constants.Graphics.GAME_WIDTH;
             old_WINDOW_WIDTH = game.WINDOW_WIDTH;
             old_WINDOW_HEIGHT = game.WINDOW_HEIGHT;
@@ -42,9 +39,9 @@ namespace KirbyNightmareInDreamLand.Commands
         {
             //graphics.ToggleFullScreen();
 
-            IsFullscreen = !IsFullscreen;
+            game.IS_FULLSCREEN = !game.IS_FULLSCREEN;
             
-            if (IsFullscreen) // Fullscreening
+            if (game.IS_FULLSCREEN) // Fullscreening
             {
                 // Save old window size so it can be returned to when unfullscreening
                 old_WINDOW_WIDTH = game.WINDOW_WIDTH;
@@ -72,7 +69,7 @@ namespace KirbyNightmareInDreamLand.Commands
                 game.WINDOW_YOFFSET = 0;
             }
             
-            graphics.IsFullScreen = IsFullscreen;
+            graphics.IsFullScreen = game.IS_FULLSCREEN;
             graphics.ApplyChanges();
         }
 

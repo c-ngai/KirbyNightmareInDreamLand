@@ -107,6 +107,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/Spritesheets/kirby_spark.png
 
+#begin Images/Spritesheets/kirby_underwater.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=0,130,0,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Spritesheets/kirby_underwater.png
+
 #begin Images/Spritesheets/projectiles.png
 /importer:TextureImporter
 /processor:TextureProcessor
