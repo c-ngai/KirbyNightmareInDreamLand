@@ -7,7 +7,8 @@ namespace KirbyNightmareInDreamLand.Sprites
     public class Sprite : ISprite
     {
         // To store a reference to the current game.
-        private Game1 game;
+        private Game1 _game;
+        private Camera _camera;
         // The game's INTERNAL resolution. For placement on screen relative to the scale. Not to be confused with window resolution.
         // NOTE: Currently does not need game width but will for future use
         //private int gameWidth;
@@ -34,7 +35,8 @@ namespace KirbyNightmareInDreamLand.Sprites
 
             currentFrame = 0;
             tickCounter = 0;
-            this.game = game;
+            _game = game;
+            _camera = game.camera;
         }
 
 
@@ -57,18 +59,19 @@ namespace KirbyNightmareInDreamLand.Sprites
         }
 
         // Draws the sprite to the spriteBatch.
-        public void Draw(Vector2 position, SpriteBatch spriteBatch, Color color)
+        public void ScreenDraw(Vector2 position, SpriteBatch spriteBatch, Color color)
         {
             // Scale by height
-            float scale = (float)game.WINDOW_HEIGHT / gameHeight;
+            float scale = (float)_game.WINDOW_HEIGHT / gameHeight;
 
             // Scale the position
             position.Floor();
             position *= scale;
             // Adjust position by window offset
-            position.X += game.WINDOW_XOFFSET;
-            position.Y += game.WINDOW_YOFFSET;
-            // Pull the frame center and source rectangle from data.
+            position.X += _game.WINDOW_XOFFSET;
+            position.Y += _game.WINDOW_YOFFSET;
+            // Pull the texture, frame center, and source rectangle from data.
+            Texture2D texture = _spriteAnimation.Texture;
             Vector2 frameCenter = _spriteAnimation.FrameCenters[currentFrame];
             Rectangle sourceRectangle = _spriteAnimation.FrameSourceRectangles[currentFrame];
 
@@ -78,11 +81,11 @@ namespace KirbyNightmareInDreamLand.Sprites
             }
 
             // Draw the sprite to the spriteBatch.
-            spriteBatch.Draw(_spriteAnimation.Texture, position, sourceRectangle, color, 0, frameCenter, scale, _spriteAnimation.SpriteEffects, 0);
+            spriteBatch.Draw(texture, position, sourceRectangle, color, 0, frameCenter, scale, _spriteAnimation.SpriteEffects, 0);
 
 
             // DEBUG VISUALS, TIDY UP LATER
-            if (game.DEBUG_SPRITE_MODE == true)
+            if (_game.DEBUG_SPRITE_MODE == true)
             {
                 SpriteDebug.Instance.Draw(spriteBatch, position, frameCenter, sourceRectangle, scale);
             }
@@ -90,9 +93,16 @@ namespace KirbyNightmareInDreamLand.Sprites
         }
 
         // Draws the sprite to the spriteBatch. With unspecified color mask, uses white (no change to source image).
-        public void Draw(Vector2 position, SpriteBatch spriteBatch)
+        public void ScreenDraw(Vector2 position, SpriteBatch spriteBatch)
         {
-            Draw(position, spriteBatch, Color.White);
+            ScreenDraw(position, spriteBatch, Color.White);
+        }
+
+        // Draws the sprite to the spriteBatch. With unspecified color mask, uses white (no change to source image).
+        public void LevelDraw(Vector2 position, SpriteBatch spriteBatch)
+        {
+            position -= _camera.GetPosition();
+            ScreenDraw(position, spriteBatch, Color.White);
         }
 
         public void DamageDraw(Vector2 position, SpriteBatch spriteBatch)
@@ -100,7 +110,7 @@ namespace KirbyNightmareInDreamLand.Sprites
             counter ++;
             if (counter < 10)
             {
-                Draw(position, spriteBatch, Color.White);
+                LevelDraw(position, spriteBatch);
             } else{
                 if(counter == 20)
                     counter = 0;

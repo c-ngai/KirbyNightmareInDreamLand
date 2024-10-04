@@ -7,7 +7,7 @@ namespace KirbyNightmareInDreamLand.Sprites
     public class SpriteJsonData
     {
         [JsonPropertyName("Source texture")]
-        public string Textures { get; set; }
+        public string Texture { get; set; }
 
         [JsonPropertyName("Loop point")]
         public int LoopPoint { get; set; }
@@ -16,11 +16,11 @@ namespace KirbyNightmareInDreamLand.Sprites
         public bool Flip { get; set; }
 
         [JsonPropertyName("Frames")]
-        public List<Frame> Frames { get; set; } = new List<Frame>();
+        public List<FrameJsonData> Frames { get; set; } = new List<FrameJsonData>();
     }
 
     // Class for deserializing each frame in SpriteJsonData.
-    public class Frame
+    public class FrameJsonData
     {
         public int X { get; set; }
         public int Y { get; set; }

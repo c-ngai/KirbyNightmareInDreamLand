@@ -92,7 +92,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //ensures sprite does not leave the window
         public override void Adjust(Player kirby)
         {
-            AdjustX(kirby);
+            //AdjustX(kirby);
             AdjustY(kirby);
             JumpCheck(kirby);
         }

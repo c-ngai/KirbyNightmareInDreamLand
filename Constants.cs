@@ -22,13 +22,18 @@ namespace KirbyNightmareInDreamLand
             public const float FLOAT_GRAVITY2 = 0.16f; //the other gravity rate but the float where this is used does not have game time acess
             public const float JUMP_VEL = -2f;
             public const float FLOAT_VEL = 0.5F;
-            public const float WALKING_VELOCITY = 0.4f;
-            public const float RUNNING_VELOCITY = 0.9f;
+            public const float WALKING_VELOCITY = 1.3f;
+            public const float RUNNING_VELOCITY = 1.75f;
             public const float DAMAGE_VELOCITY =2f;
             public const float JUMP_CEILING = 38.4f;
 
             public const int DELAY = 400;
             public const int DELAY2 = 10;
+        }
+
+        public static class Level
+        {
+            public const int TILE_SIZE = 16;
         }
 
         public class Kirby

@@ -5,5 +5,6 @@ Images/Spritesheets/kirby_fire
 Images/Spritesheets/enemies
 Images/Spritesheets/items
 Images/Spritesheets/projectiles
-Images/Tiles/Sprint2Tileset
+Images/collisionTileset
+Images/backgrounds
 Images/invalidspritename

@@ -82,7 +82,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             if (isActive)
             {
-                projectileSprite.Draw(Position, spriteBatch);
+                projectileSprite.LevelDraw(Position, spriteBatch);
             }
         }
 

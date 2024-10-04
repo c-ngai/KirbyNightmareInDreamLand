@@ -12623,7 +12623,6 @@
         ]
     },
 
-
     "item_maximtomato": {
         "Source texture": "items",
         "Loop point": 0,
@@ -12686,274 +12685,196 @@
         ]
     },
 
-    "tile_grass": {
-        "Source texture": "Sprint2Tileset",
+    "tile_air": {
+        "Source texture": "collisionTileset",
         "Loop point": 0,
         "Flip horizontally?": false,
         "Frames": [
             {
                 "X": 0,
-                "Y": 16,
+                "Y": 0,
                 "Width": 16,
                 "Height": 16,
-                "CenterX": 8,
-                "CenterY": 8,
+                "CenterX": 0,
+                "CenterY": 0,
                 "Time": 1
             }
         ]
     },
-    "tile_dirt": {
-        "Source texture": "Sprint2Tileset",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 0,
-                "Y": 32,
-                "Width": 16,
-                "Height": 16,
-                "CenterX": 8,
-                "CenterY": 8,
-                "Time": 1
-            }
-        ]
-    },
-    "tile_rocksurface": {
-        "Source texture": "Sprint2Tileset",
+    "tile_block": {
+        "Source texture": "collisionTileset",
         "Loop point": 0,
         "Flip horizontally?": false,
         "Frames": [
             {
                 "X": 16,
-                "Y": 16,
+                "Y": 0,
                 "Width": 16,
                 "Height": 16,
-                "CenterX": 8,
-                "CenterY": 8,
-                "Time": 1
-            }
-        ]
-    },
-    "tile_rock": {
-        "Source texture": "Sprint2Tileset",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 16,
-                "Y": 32,
-                "Width": 16,
-                "Height": 16,
-                "CenterX": 8,
-                "CenterY": 8,
+                "CenterX": 0,
+                "CenterY": 0,
                 "Time": 1
             }
         ]
     },
     "tile_platform": {
-        "Source texture": "Sprint2Tileset",
+        "Source texture": "collisionTileset",
         "Loop point": 0,
         "Flip horizontally?": false,
         "Frames": [
             {
                 "X": 32,
-                "Y": 16,
+                "Y": 0,
                 "Width": 16,
                 "Height": 16,
-                "CenterX": 8,
-                "CenterY": 8,
+                "CenterX": 0,
+                "CenterY": 0,
                 "Time": 1
             }
         ]
     },
-    "tile_stoneblock": {
-        "Source texture": "Sprint2Tileset",
+    "tile_water": {
+        "Source texture": "collisionTileset",
         "Loop point": 0,
         "Flip horizontally?": false,
         "Frames": [
             {
                 "X": 48,
-                "Y": 16,
+                "Y": 0,
                 "Width": 16,
                 "Height": 16,
-                "CenterX": 8,
-                "CenterY": 8,
+                "CenterX": 0,
+                "CenterY": 0,
                 "Time": 1
             }
         ]
     },
     "tile_slope_steep_left": {
-        "Source texture": "Sprint2Tileset",
+        "Source texture": "collisionTileset",
         "Loop point": 0,
         "Flip horizontally?": false,
         "Frames": [
             {
-                "X": 16,
-                "Y": 48,
+                "X": 64,
+                "Y": 0,
                 "Width": 16,
                 "Height": 16,
-                "CenterX": 8,
-                "CenterY": 8,
+                "CenterX": 0,
+                "CenterY": 0,
                 "Time": 1
             }
         ]
     },
     "tile_slope_gentle1_left": {
-        "Source texture": "Sprint2Tileset",
+        "Source texture": "collisionTileset",
         "Loop point": 0,
         "Flip horizontally?": false,
         "Frames": [
             {
-                "X": 32,
-                "Y": 48,
+                "X": 80,
+                "Y": 0,
                 "Width": 16,
                 "Height": 16,
-                "CenterX": 8,
-                "CenterY": 8,
+                "CenterX": 0,
+                "CenterY": 0,
                 "Time": 1
             }
         ]
     },
     "tile_slope_gentle2_left": {
-        "Source texture": "Sprint2Tileset",
+        "Source texture": "collisionTileset",
         "Loop point": 0,
         "Flip horizontally?": false,
         "Frames": [
             {
-                "X": 48,
-                "Y": 48,
+                "X": 96,
+                "Y": 0,
                 "Width": 16,
                 "Height": 16,
-                "CenterX": 8,
-                "CenterY": 8,
+                "CenterX": 0,
+                "CenterY": 0,
                 "Time": 1
             }
         ]
     },
     "tile_slope_gentle2_right": {
-        "Source texture": "Sprint2Tileset",
+        "Source texture": "collisionTileset",
         "Loop point": 0,
         "Flip horizontally?": false,
         "Frames": [
             {
-                "X": 64,
-                "Y": 48,
+                "X": 112,
+                "Y": 0,
                 "Width": 16,
                 "Height": 16,
-                "CenterX": 8,
-                "CenterY": 8,
+                "CenterX": 0,
+                "CenterY": 0,
                 "Time": 1
             }
         ]
     },
     "tile_slope_gentle1_right": {
-        "Source texture": "Sprint2Tileset",
+        "Source texture": "collisionTileset",
         "Loop point": 0,
         "Flip horizontally?": false,
         "Frames": [
             {
-                "X": 80,
-                "Y": 48,
+                "X": 128,
+                "Y": 0,
                 "Width": 16,
                 "Height": 16,
-                "CenterX": 8,
-                "CenterY": 8,
+                "CenterX": 0,
+                "CenterY": 0,
                 "Time": 1
             }
         ]
     },
     "tile_slope_steep_right": {
-        "Source texture": "Sprint2Tileset",
+        "Source texture": "collisionTileset",
         "Loop point": 0,
         "Flip horizontally?": false,
         "Frames": [
             {
-                "X": 96,
-                "Y": 48,
+                "X": 144,
+                "Y": 0,
                 "Width": 16,
                 "Height": 16,
-                "CenterX": 8,
-                "CenterY": 8,
+                "CenterX": 0,
+                "CenterY": 0,
                 "Time": 1
             }
         ]
     },
-    "tile_waterfall": {
-        "Source texture": "Sprint2Tileset",
+
+    "background_lake": {
+        "Source texture": "backgrounds",
         "Loop point": 0,
         "Flip horizontally?": false,
         "Frames": [
             {
                 "X": 0,
-                "Y": 64,
-                "Width": 16,
-                "Height": 16,
-                "CenterX": 8,
-                "CenterY": 8,
-                "Time": 8
-            },
+                "Y": 0,
+                "Width": 360,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
+        ]
+    },
+    "background_mountains": {
+        "Source texture": "backgrounds",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
             {
-                "X": 16,
-                "Y": 64,
-                "Width": 16,
-                "Height": 16,
-                "CenterX": 8,
-                "CenterY": 8,
-                "Time": 8
-            },
-            {
-                "X": 32,
-                "Y": 64,
-                "Width": 16,
-                "Height": 16,
-                "CenterX": 8,
-                "CenterY": 8,
-                "Time": 8
-            },
-            {
-                "X": 48,
-                "Y": 64,
-                "Width": 16,
-                "Height": 16,
-                "CenterX": 8,
-                "CenterY": 8,
-                "Time": 8
-            },
-            {
-                "X": 64,
-                "Y": 64,
-                "Width": 16,
-                "Height": 16,
-                "CenterX": 8,
-                "CenterY": 8,
-                "Time": 8
-            },
-            {
-                "X": 80,
-                "Y": 64,
-                "Width": 16,
-                "Height": 16,
-                "CenterX": 8,
-                "CenterY": 8,
-                "Time": 8
-            },
-            {
-                "X": 96,
-                "Y": 64,
-                "Width": 16,
-                "Height": 16,
-                "CenterX": 8,
-                "CenterY": 8,
-                "Time": 8
-            },
-            {
-                "X": 112,
-                "Y": 64,
-                "Width": 16,
-                "Height": 16,
-                "CenterX": 8,
-                "CenterY": 8,
-                "Time": 8
+                "X": 0,
+                "Y": 160,
+                "Width": 360,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
             }
         ]
     },

@@ -175,7 +175,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                     flamethrower.Draw(spriteBatch);
                 }
 
-                enemySprite.Draw(position, spriteBatch);
+                enemySprite.LevelDraw(position, spriteBatch);
 
                 foreach (var fireball in fireballs)
                 {
