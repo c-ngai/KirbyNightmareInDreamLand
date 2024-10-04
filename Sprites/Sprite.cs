@@ -34,7 +34,7 @@ namespace KirbyNightmareInDreamLand.Sprites
             _spriteAnimation = spriteAnimation;
 
             currentFrame = 0;
-            tickCounter = 0;
+            tickCounter = -1;
             _game = game;
             _camera = game.camera;
         }
@@ -121,7 +121,7 @@ namespace KirbyNightmareInDreamLand.Sprites
         public void ResetAnimation()
         {
             currentFrame = 0;
-            tickCounter = 0;
+            tickCounter = -1;
         }
     }
 }
