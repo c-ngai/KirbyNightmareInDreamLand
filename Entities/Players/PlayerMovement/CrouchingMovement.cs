@@ -3,10 +3,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 {
     public class CrouchingMovement : PlayerMovement
     {
-        public CrouchingMovement(Vector2 pos) : base(pos)
-        {
-            crouching = true;
-        }
+        public CrouchingMovement(Vector2 pos) : base(pos){}
 
         public override void Walk(bool isLeft)
         {

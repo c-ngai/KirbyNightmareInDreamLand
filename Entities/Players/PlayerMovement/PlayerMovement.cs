@@ -17,12 +17,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         protected float runningVel = Constants.Physics.RUNNING_VELOCITY;
         protected float gravity = Constants.Physics.GRAVITY; 
         protected float damageVel = Constants.Physics.DAMAGE_VELOCITY;
-
-        //only kirby has access to this to check the cuttent state of kirby
-        public bool floating = false;
-        public bool crouching = false;
-        public bool jumping = false;
-        public bool normal = false;
         public ITimeCalculator timer;
 
         protected Vector2 position;

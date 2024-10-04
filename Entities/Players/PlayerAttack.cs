@@ -17,7 +17,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             beam = new KirbyBeam(GetBeamPosition(kirby), !kirby.IsLeft());
             flame = new KirbyFlamethrower();
             puff = new KirbyPuff(GetPuffPosition(kirby), new Vector2(kirby.IsLeft()? -1 : 1, 0));
-
         }
         public Vector2 GetBeamPosition(Player kirby)
         {
