@@ -9,10 +9,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         protected float jumpVel = Constants.Physics.JUMP_VEL;
         public new float yVel = -2f;
-        public JumpMovement(Vector2 pos) : base(pos)
-        {
-            jumping = true;
-        }
+        public JumpMovement(Vector2 pos) : base(pos){}
 
         public override void Walk(bool isLeft)
         {
@@ -28,14 +25,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #region Jumping
         public void FinishJump(Player kirby)
         {
-            if (jumping)
-            {
-                kirby.ChangePose(KirbyPose.Standing);
-                xVel = 0;
-                jumping = false;
-                kirby.ChangeMovement();
+            kirby.ChangePose(KirbyPose.Standing);
+            yVel = 0;
+            xVel = 0;
+            kirby.ChangeMovement();
 
-            }
         }
         //checks if kirby is going down to start the falling animation
         public void JumpCheck(Player kirby)
@@ -82,10 +76,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 yVel = 0;
                 position.Y = jumpCeiling;
-            }
-            if (!jumping)
-            {
-                yVel = 0;
             }
 
         }
