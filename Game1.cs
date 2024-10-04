@@ -1,5 +1,4 @@
-﻿using KirbyNightmareInDreamLand.Block;
-using KirbyNightmareInDreamLand.Commands;
+﻿using KirbyNightmareInDreamLand.Commands;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -15,11 +14,13 @@ namespace KirbyNightmareInDreamLand
     {
         private SpriteBatch spriteBatch;
         
-        private GraphicsDeviceManager graphics;
-        private SpriteFont font;
+        public GraphicsDeviceManager graphics { get; private set; }
         private KeyboardController keyboard;
 
-        private Texture2D borders;
+        // Camera instance for the game
+        public Camera camera { get; private set; }
+
+        public Level level { get; private set; }
 
         // Single-player but can later be updated to an array of kirbys for multiplayer
         private IPlayer kirby;
@@ -128,9 +129,6 @@ namespace KirbyNightmareInDreamLand
 
             keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby), ExecutionType.Pressed);
 
-            keyboard.RegisterCommand(Keys.T, new PreviousBlockCommand(), ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.Y, new NextBlockCommand(), ExecutionType.StartingPress);
-
             keyboard.RegisterCommand(Keys.U, new HideItemCommand(this), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.I, new ShowItemCommand(this), ExecutionType.StartingPress);
 
@@ -158,29 +156,6 @@ namespace KirbyNightmareInDreamLand
             kirby = new Player(new Vector2(30, Constants.Graphics.FLOOR));
             kirby.PlayerSprite = SpriteFactory.Instance.CreateSprite("kirby_normal_standing_right");
 
-            // Creates blocks
-            //make it its own function
-            //create them on demand??  performance vs code 
-            //for indestructoble terrain it could be a singleton that gets borrowed by other things
-            //so there is not a BUNCH loaded
-            List<string> blockList = new List<string>
-            {
-                "tile_dirt",
-                "tile_grass",
-                "tile_platform",
-                "tile_rock",
-                "tile_rocksurface",
-                "tile_slope_gentle1_left",
-                "tile_slope_gentle1_right",
-                "tile_slope_gentle2_left",
-                "tile_slope_steep_right",
-                "tile_slope_gentle2_right",
-                "tile_slope_steep_left",
-                "tile_stoneblock",
-                "tile_waterfall",
-            };
-            BlockList.Instance.SetBlockList(blockList);
-
             LoadItem();
 
             // Creates enemies
@@ -205,18 +180,21 @@ namespace KirbyNightmareInDreamLand
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            font = Content.Load<SpriteFont>("DefaultFont");
+            // Create camera and level instances
+            camera = new Camera(this);
 
-            borders = new Texture2D(GraphicsDevice, 1, 1);
-            borders.SetData(new Color[] { Color.Black });
+            SpriteFactory.Instance.LoadGame(this);
+            // Load all content through LevelLoader
+            LevelLoader.Instance.LoadAllContent(this, Content, GraphicsDevice);
 
-            // Load all sprite factory textures and sprites.
-            SpriteFactory.Instance.LoadAllTextures(Content, this);
-            SpriteFactory.Instance.LoadAllSpriteAnimations();
-            SpriteDebug.Instance.Load(GraphicsDevice);
+            level = new Level(this);
+            level.LoadRoom("testroom1");
 
-            // Load all objects 
+            // Load all objects
             LoadObjects();
+
+            // Target the camera on Kirby
+            camera.TargetPlayer(kirby);
         }
 
         protected override void UnloadContent()
@@ -238,7 +216,7 @@ namespace KirbyNightmareInDreamLand
             {
                 item.Update();
             }
-            BlockList.Instance.Update();
+            camera.Update();
         }
 
         // TODO: Decoupling: move text draw details out
@@ -246,13 +224,13 @@ namespace KirbyNightmareInDreamLand
         {
             string text;
             text = "GraphicsAdapter.DefaultAdapter.CurrentDisplayMode: (" + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width + ", " + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height + ")";
-            spriteBatch.DrawString(font, text, new Vector2(10, 10), Color.Black);
+            spriteBatch.DrawString(LevelLoader.Instance.font, text, new Vector2(10, 10), Color.Black);
             text = "graphics.PreferredBackBuffer______: (" + graphics.PreferredBackBufferWidth + ", " + graphics.PreferredBackBufferHeight + ")";
-            spriteBatch.DrawString(font, text, new Vector2(10, 30), Color.Black);
+            spriteBatch.DrawString(LevelLoader.Instance.font, text, new Vector2(10, 30), Color.Black);
             text = "GraphicsDevice.PresentationParameters: (" + GraphicsDevice.PresentationParameters.BackBufferWidth + ", " + GraphicsDevice.PresentationParameters.BackBufferHeight + ")";
-            spriteBatch.DrawString(font, text, new Vector2(10, 50), Color.Black);
+            spriteBatch.DrawString(LevelLoader.Instance.font, text, new Vector2(10, 50), Color.Black);
             text = "GraphicsDevice.Viewport: (" + GraphicsDevice.Viewport.Width + ", " + GraphicsDevice.Viewport.Height + ")";
-            spriteBatch.DrawString(font, text, new Vector2(10, 70), Color.Black);
+            spriteBatch.DrawString(LevelLoader.Instance.font, text, new Vector2(10, 70), Color.Black);
         }
 
         //take off draw text magic numbers
@@ -264,13 +242,13 @@ namespace KirbyNightmareInDreamLand
         private void DrawBorders()
         {
             // Left side
-            spriteBatch.Draw(borders, new Rectangle(0, 0, WINDOW_XOFFSET, WINDOW_HEIGHT + 2*WINDOW_YOFFSET), Color.White);
+            spriteBatch.Draw(LevelLoader.Instance.borders, new Rectangle(0, 0, WINDOW_XOFFSET, WINDOW_HEIGHT + 2*WINDOW_YOFFSET), Color.White);
             // Top side
-            spriteBatch.Draw(borders, new Rectangle(0, 0, WINDOW_WIDTH + 2 * WINDOW_XOFFSET, WINDOW_YOFFSET), Color.White);
+            spriteBatch.Draw(LevelLoader.Instance.borders, new Rectangle(0, 0, WINDOW_WIDTH + 2 * WINDOW_XOFFSET, WINDOW_YOFFSET), Color.White);
             // Right side
-            spriteBatch.Draw(borders, new Rectangle(WINDOW_XOFFSET + WINDOW_WIDTH, 0, WINDOW_XOFFSET, WINDOW_HEIGHT + 2 * WINDOW_YOFFSET), Color.White);
+            spriteBatch.Draw(LevelLoader.Instance.borders, new Rectangle(WINDOW_XOFFSET + WINDOW_WIDTH, 0, WINDOW_XOFFSET, WINDOW_HEIGHT + 2 * WINDOW_YOFFSET), Color.White);
             // Bottom side
-            spriteBatch.Draw(borders, new Rectangle(0, WINDOW_YOFFSET + WINDOW_HEIGHT, WINDOW_WIDTH + 2 * WINDOW_XOFFSET, WINDOW_YOFFSET), Color.White);
+            spriteBatch.Draw(LevelLoader.Instance.borders, new Rectangle(0, WINDOW_YOFFSET + WINDOW_HEIGHT, WINDOW_WIDTH + 2 * WINDOW_XOFFSET, WINDOW_YOFFSET), Color.White);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -283,17 +261,16 @@ namespace KirbyNightmareInDreamLand
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
 
             //DrawText();
+            level.Draw(spriteBatch);
 
             // Draw only selected enemy
             enemyList[currentEnemyIndex].Draw(spriteBatch);
 
             kirby.Draw(spriteBatch);
 
-            BlockList.Instance.Draw(new Vector2(100, 150), spriteBatch);
-
             if (item != null)
             {
-                item.Draw(new Vector2(200, 150), spriteBatch);
+                item.LevelDraw(new Vector2(200, 150), spriteBatch);
             }
 
             // End spriteBatch

@@ -138,7 +138,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             //draw enemy if alive
             if (!isDead)
             {
-                enemySprite.Draw(position, spriteBatch);
+                enemySprite.LevelDraw(position, spriteBatch);
             }
         }
     }

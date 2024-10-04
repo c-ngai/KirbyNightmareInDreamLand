@@ -46,7 +46,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            projectileSprite.Draw(Position, spriteBatch);
+            projectileSprite.LevelDraw(Position, spriteBatch);
         }
     }
 }

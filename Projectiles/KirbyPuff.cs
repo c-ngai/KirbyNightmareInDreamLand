@@ -87,7 +87,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
             // Only draw if the puff is active and the sprite exists
             if (isActive && projectileSprite != null)
             {
-                projectileSprite.Draw(Position, spriteBatch);
+                projectileSprite.LevelDraw(Position, spriteBatch);
             }
         }
     }

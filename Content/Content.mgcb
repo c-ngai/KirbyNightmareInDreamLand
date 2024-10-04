@@ -20,6 +20,30 @@
 /processorParam:TextureFormat=Compressed
 /build:DefaultFont.spritefont
 
+#begin Images/backgrounds.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/backgrounds.png
+
+#begin Images/collisionTileset.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/collisionTileset.png
+
 #begin Images/invalidspritename.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -134,15 +158,15 @@
 #begin Images/Textures.txt
 /copy:Images/Textures.txt
 
-#begin Images/Tiles/Sprint2Tileset.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/Tiles/Sprint2Tileset.png
+#begin Images/TileSprites.txt
+/copy:Images/TileSprites.txt
+
+#begin Rooms.json
+/copy:Rooms.json
+
+#begin Tilemaps.txt
+/copy:Tilemaps.txt
+
+#begin Tilemaps/testroom1.csv
+/copy:Tilemaps/testroom1.csv
 

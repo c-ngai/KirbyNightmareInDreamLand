@@ -157,7 +157,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //ensures sprite does not leave the window
         public virtual void Adjust(Player kirby)
         {
-            AdjustX(kirby);
+            //AdjustX(kirby);  // Turning this off temporarily  -Mark
             AdjustY(kirby);
         }
         //updates position and adjusts frame. 
