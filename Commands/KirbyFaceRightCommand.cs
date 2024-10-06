@@ -14,9 +14,5 @@ namespace KirbyNightmareInDreamLand.Commands
         {
             kirby.SetDirectionRight();
         }
-
-        public void Undo()
-        {
-        }
     }
 }

@@ -13,10 +13,5 @@ namespace KirbyNightmareInDreamLand.Commands
         {
             kirby.ChangeToSpark();
         }
-
-        public void Undo()
-        {
-
-        }
     }
 }

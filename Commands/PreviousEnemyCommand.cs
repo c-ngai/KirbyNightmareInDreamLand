@@ -21,12 +21,6 @@
                 game.currentEnemyIndex--;
             }
         }
-
-        // Move forward to the next enemy
-        public void Undo()
-        {
-
-        }
     }
 
 }
