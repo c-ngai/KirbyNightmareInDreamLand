@@ -13,10 +13,5 @@
         {
             game.LoadObjects();
         }
-        public void Undo()
-        {
-
-        }
-
     }
 }

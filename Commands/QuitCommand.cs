@@ -12,10 +12,5 @@
         {
             myGame.Exit();
         }
-
-        public void Undo()
-        {
-            
-        }
     }
 }

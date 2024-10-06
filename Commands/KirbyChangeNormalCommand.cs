@@ -13,10 +13,5 @@ namespace KirbyNightmareInDreamLand.Commands
         {
             kirby.ChangeToNormal();
         }
-
-        public void Undo()
-        {
-
-        }
     }
 }
