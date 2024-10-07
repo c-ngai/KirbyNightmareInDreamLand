@@ -45,6 +45,8 @@ namespace KirbyNightmareInDreamLand
         // Note this is program time and not game time 
         public GameTime time { get; set; }
 
+        public static GameTime GameTime { get; private set; }
+
         // Graphics settings modifiable at runtime
         public bool DEBUG_SPRITE_MODE { get; set; }
         public bool IS_FULLSCREEN { get; set; }
@@ -207,6 +209,8 @@ namespace KirbyNightmareInDreamLand
             time = gameTime;
 
             keyboard.Update();
+
+            GameTime = gameTime;
 
             kirby.Update(time);
             enemyList[currentEnemyIndex].Update(time);

@@ -1,3 +1,4 @@
+
 //using System.Numerics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,10 +15,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         private int counter = 0;
         public PlayerAttack(Player kirby)
         {
-            beam = new KirbyBeam(GetBeamPosition(kirby), !kirby.IsLeft());
-            flame = new KirbyFlamethrower();
-            puff = new KirbyPuff(GetPuffPosition(kirby), new Vector2(kirby.IsLeft()? -1 : 1, 0));
+            beam = new KirbyBeam(kirby.GetKirbyPosition(), !kirby.IsLeft());
+            flame = new KirbyFlamethrower(kirby.GetKirbyPosition(), !kirby.IsLeft());
+            puff = new KirbyPuff(kirby.GetKirbyPosition(), !kirby.IsLeft());
         }
+
+        /*
         public Vector2 GetBeamPosition(Player kirby)
         {
             Vector2 position = kirby.GetKirbyPosition();
@@ -28,6 +31,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
             return position;
         }
+        */
+
+   
+        /*
         public Vector2 GetFlamePosition(Player kirby)
         {
             Vector2 position = kirby.GetKirbyPosition();
@@ -39,7 +46,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
             return position;
         }
+        */
 
+        /*
         public Vector2 GetPuffPosition(Player kirby)
         {
             Vector2 position = kirby.GetKirbyPosition();
@@ -51,6 +60,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
             return position;
         }
+        */
 
         public void Update(GameTime gameTime, Player kirby)
         {
@@ -59,7 +69,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             } else if (kirby.GetKirbyType().Equals("Beam")){
                 beam.Update();
             } else if (kirby.GetKirbyType().Equals("Fire")){
-                flame.Update(gameTime, GetFlamePosition(kirby), new Vector2(kirby.IsLeft()? -1 : 1, 0));
+                flame.Update();
             } else {
                 //electric is not being implemented and dead does not have an attack
             }

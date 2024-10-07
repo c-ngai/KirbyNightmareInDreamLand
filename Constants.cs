@@ -93,6 +93,7 @@ namespace KirbyNightmareInDreamLand
         public class KirbyFire
         {
             // For flamethrower
+            public const float FIRE_RATE = 0.35f; // Time between each segment spawn
             public const float MIN_SPEED = 1f;
             public const float MAX_SPEED = 4f;
             public const float MIN_DELAY = 0f;

@@ -8,8 +8,9 @@ namespace KirbyNightmareInDreamLand.Projectiles
     {
         private Sprite projectileSprite;
         private Vector2 position;
-        private Vector2 velocity; 
-        private int frameCount = 0; 
+        private Vector2 velocity;
+        private bool isFacingRight;
+        private int frameCount = 0;
         public bool isActive = true;
 
         public Vector2 Position
@@ -24,26 +25,24 @@ namespace KirbyNightmareInDreamLand.Projectiles
             set => velocity = value;    // Set the velocity of the puff to the given value
         }
 
-        public KirbyPuff(Vector2 startPosition, Vector2 puffDirection)
+        public KirbyPuff(Vector2 kirbyPosition, bool isFacingRight)
         {
 
-            // Normalize the direction vector and multiply by the initial speed
-            if (puffDirection != Vector2.Zero)
-            {
-                puffDirection.Normalize(); // Ensures the vector has a length of 1
-            }
+            this.isFacingRight = isFacingRight;
+            Vector2 offset = isFacingRight ? Constants.Kirby.PUFF_ATTACK_OFFSET : -Constants.Kirby.PUFF_ATTACK_OFFSET;
 
-            Velocity = puffDirection * Constants.Puff.INITIAL_SPEED; // Set the initial velocity
 
-            // Check the direction and assign the appropriate sprite
-            if (puffDirection.X >= 0)
-            {
-                projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_right");
-            }
-            else if (puffDirection.X < 0)
-            {
-                projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_left");
-            }
+            Position = kirbyPosition + offset;
+
+            // Set initial velocity based on direction
+            Velocity = isFacingRight
+                ? new Vector2(Constants.Puff.INITIAL_SPEED, 0)
+                : new Vector2(-Constants.Puff.INITIAL_SPEED, 0);
+
+            // Assign the appropriate sprite based on direction
+            projectileSprite = isFacingRight
+                ? SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_right")
+                : SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_left");
         }
 
         public void Update()
