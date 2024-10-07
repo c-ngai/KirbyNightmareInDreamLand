@@ -57,9 +57,24 @@ namespace KirbyNightmareInDreamLand
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            DrawDebug(spriteBatch);
+            if (_game.DEBUG_LEVEL_MODE)
+            {
+                DrawDebug(spriteBatch);
+            }
+            else
+            {
+                DrawLevel(spriteBatch);
+            }
+            
         }
 
+        // Draws the level normally, background and foreground.
+        public void DrawLevel(SpriteBatch spriteBatch)
+        {
+            // TODO: Vivian
+        }
+
+        // Debug mode (toggle F2), draws the usually-invisible collision tiles.
         public void DrawDebug(SpriteBatch spriteBatch)
         {
             // Temporarily disable sprite debug mode if it's on. Sprite debug with debug tiles makes the screen look very messy, it's not useful information. This feels like a sloppy solution but it works for now.

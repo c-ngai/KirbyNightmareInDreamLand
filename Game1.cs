@@ -47,6 +47,7 @@ namespace KirbyNightmareInDreamLand
 
         // Graphics settings modifiable at runtime
         public bool DEBUG_SPRITE_MODE { get; set; }
+        public bool DEBUG_LEVEL_MODE { get; set; }
         public bool IS_FULLSCREEN { get; set; }
         public int WINDOW_WIDTH { get; set; }
         public int WINDOW_HEIGHT { get; set; }
@@ -67,6 +68,7 @@ namespace KirbyNightmareInDreamLand
         protected override void Initialize()
         {
             DEBUG_SPRITE_MODE = false;
+            DEBUG_LEVEL_MODE = true; // TODO: Change to false by default later, currently no normal level draw behavior
             IS_FULLSCREEN = false;
             WINDOW_WIDTH = 720;
             WINDOW_HEIGHT = 480;
@@ -138,7 +140,8 @@ namespace KirbyNightmareInDreamLand
             keyboard.RegisterCommand(Keys.Q, new QuitCommand(this), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.R, new ResetCommand(this), ExecutionType.StartingPress);
 
-            keyboard.RegisterCommand(Keys.LeftControl, new GraphicsToggleDebugCommand(this), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.F1, new GraphicsToggleDebugSpriteCommand(this), ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.F2, new GraphicsToggleDebugLevelCommand(this), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.OemPlus, new GraphicsIncreaseWindowSizeCommand(this, graphics), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.OemMinus, new GraphicsDecreaseWindowSizeCommand(this, graphics), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.F, new GraphicsToggleFullscreenCommand(this, graphics), ExecutionType.StartingPress);
