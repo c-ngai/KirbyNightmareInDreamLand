@@ -26,7 +26,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
         public KirbyPuff(Vector2 startPosition, Vector2 puffDirection)
         {
-            Position = startPosition;
 
             // Normalize the direction vector and multiply by the initial speed
             if (puffDirection != Vector2.Zero)

@@ -8,8 +8,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
     public class KirbyFlamethrower
     {
         private List<KirbyFlameSegment> flameSegments;
-        private Vector2 startPosition; 
-        private float fireRate = 0.35f; // Time between each segment spawn
         private float elapsedTime; 
         private Vector2 flameDirection;
 

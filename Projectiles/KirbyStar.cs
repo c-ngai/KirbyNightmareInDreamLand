@@ -48,7 +48,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public void Update()
         {
             Position += Velocity;
-
             projectileSprite.Update();
         }
 

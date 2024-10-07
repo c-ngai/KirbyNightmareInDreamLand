@@ -19,13 +19,11 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private const int UnitsPerFrame = Constants.KirbyBeam.UNITS_PER_FRAME;
         private const int fourthFrameInPattern = Constants.KirbyBeam.FRAME_FOUR;
         private const int fifthFrameInPattern = Constants.KirbyBeam.FRAME_FIVE;
-        private bool isFacingRight;
 
         public KirbyBeam(Vector2 startPosition, bool isFacingRight)
         {
             this.startPosition = startPosition;
             beamSegments = new List<KirbyBeamSegment>();
-            this.isFacingRight = isFacingRight;
             frameCounter = 0;
             segmentsFired = 0;
         }
@@ -44,11 +42,8 @@ namespace KirbyNightmareInDreamLand.Projectiles
             return rotation;
         }
 
-        // Beam segments fire in 5 frame rounds. 3 segments followed up 2 empty frames. 
         public void Update()
         {
-            // if we in the segment list and we are not on the 4th or 5th frame,
-            // add a segment to the segment list with the correct velocity. 
             if (segmentsFired < totalSegments && (frameCounter % fourthFrameInPattern != 0 || frameCounter % fifthFrameInPattern != 0))
             {
                 Vector2 velocity = new Vector2((float)Math.Cos(GetRotation()), (float)Math.Sin(GetRotation())) * UnitsPerFrame;
@@ -66,7 +61,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
             }
         }
 
-        // Draw each segment. 
         public void Draw(SpriteBatch spriteBatch)
         {
             foreach (KirbyBeamSegment segment in beamSegments)
