@@ -20,11 +20,5 @@ namespace KirbyNightmareInDreamLand.Commands
         {
             game.currentEnemyIndex = (game.currentEnemyIndex + 1) % game.enemyList.Length;
         }
-
-        // Move back to the previous enemy
-        public void Undo()
-        {
-
-        }
     }
 }

@@ -6,7 +6,7 @@ using KirbyNightmareInDreamLand.Controllers;
 
 namespace KirbyNightmareInDreamLand.Commands
 {
-    public class KirbyMoveCrouchedCommand : ICommand
+    public class KirbyCrouchAndSlideCommand : ICommand
     {
         private Game1 game;
         private IPlayer kirby;
@@ -18,7 +18,7 @@ namespace KirbyNightmareInDreamLand.Commands
         private ITimeCalculator timer;
         private double startingTime;
 
-        public KirbyMoveCrouchedCommand(IPlayer player, Keys keyMapped, KeyboardController currentKeyboard, Game1 currentGame)
+        public KirbyCrouchAndSlideCommand(IPlayer player, Keys keyMapped, KeyboardController currentKeyboard, Game1 currentGame)
         {
             kirby = player;
             attackKey = keyMapped;
@@ -34,6 +34,7 @@ namespace KirbyNightmareInDreamLand.Commands
             if (keyboard.currentState.Contains(attackKey) && startingTime == 0)
             {
                 startingTime = timer.GetCurrentTimeInMS(game.time);
+                isSliding = false;
             }
             else if (startingTime != 0 && timer.GetCurrentTimeInMS(game.time) - startingTime < Constants.Controller.SLIDE_TIME)
             {

@@ -12,10 +12,5 @@
         {
             game.DEBUG_SPRITE_MODE = !game.DEBUG_SPRITE_MODE;
         }
-
-        public void Undo()
-        {
-
-        }
     }
 }

@@ -8,6 +8,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 {
     public class Player : IPlayer
     {
+        //no axis aligned collison?? 
+        //BSP trees for collision optimization
+        
         //this class will be refactored in next sprint to make another class: State management
         // and movement management so it is not doing this much
         // TODO: Is it possible to make this a public property so commands can access it?
@@ -71,17 +74,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public bool IsFloating()
         {
-            return movement.floating;
+            return state.IsFloating();
         }
-        public bool NotAttacking() //checks if kirby is not attacking
-        {
-            return !GetKirbyPose().Equals("Attack") && !GetKirbyPose().Equals("Inhaling");
-        }
+
         public void ChangeAttackBool(bool activate)
         {
             attackIsActive = activate;
-            
-            
         }
         public Vector2 GetKirbyPosition()
         {
@@ -111,13 +109,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #region direction
         public void SetDirectionLeft()
         {
-            if(NotAttacking()){
+            if(!state.IsAttacking()){
                 state.SetDirectionLeft();
             }
         }
         public void SetDirectionRight()
         {
-            if(NotAttacking()){
+            if(!state.IsAttacking()){
                 state.SetDirectionRight();
             }
         }
@@ -131,7 +129,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void DecreaseHealth()
         {
-            health --;
+            if(timer == 0)
+            {
+                health --;
+            }
             if(health == 0)
             {
                 health = Constants.Kirby.MAX_HEALTH;
@@ -148,13 +149,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             ChangePose(KirbyPose.Hurt);
             await Task.Delay(Constants.Physics.DELAY);
         }
-        public void TakeDamage()
-        {
-            TakeDamageAnimation();
-            movement.ReceiveDamage(state.IsLeft());
-            invincible = true;
-            //DecreaseHealth();
-        }
         public void EndInvinciblility(GameTime gameTime)
         {
             if(invincible){
@@ -165,11 +159,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 }
             }
         }
-        public void Attack()
+        public void TakeDamage()
         {
-            ChangeAttackBool(true);
-            attack = new PlayerAttack(this);
-            movement.Attack(this);
+            invincible = true;
+            DecreaseHealth();
+            TakeDamageAnimation();
+            movement.ReceiveDamage(state.IsLeft());
         }
         #endregion
 
@@ -178,8 +173,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {   
             SetDirectionLeft();
             movement.Walk(state.IsLeft());
-            //walk connot override walking, jumping, floating, crouching, and attack
-            if(!movement.jumping && !movement.crouching&& !movement.floating && NotAttacking()){
+            //check if kirby should change pose
+            if(state.CanMove()){
                 ChangePose(KirbyPose.Walking);
             }
         }
@@ -189,14 +184,14 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             SetDirectionRight();
             movement.Walk(state.IsLeft());
             //walk connot override walking, jumping, floating, crouching, and attack
-            if(!movement.jumping&& !movement.crouching && !movement.floating && NotAttacking()){
+            if(state.CanMove()){
                 ChangePose(KirbyPose.Walking);
             }
         }
         public void StopMoving() 
         {
             movement.StopMovement();
-            if(!movement.jumping && !movement.floating)
+            if(state.CanStand())
             {
                 ChangePose(KirbyPose.Standing);
             }
@@ -206,7 +201,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             SetDirectionLeft();
             movement.Run(state.IsLeft());
-           if(!movement.jumping&& !movement.crouching && !movement.floating && NotAttacking()){
+           if(state.CanMove()){
                 ChangePose(KirbyPose.Running);
             }
         }
@@ -214,7 +209,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             SetDirectionRight();
             movement.Run(state.IsLeft());
-            if(!movement.jumping&& !movement.crouching && !movement.floating && NotAttacking()){
+            if(state.CanMove()){
                 ChangePose(KirbyPose.Running);
             }
         }
@@ -223,10 +218,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #region jumping
         public void Jump()
         {
-            if(!movement.crouching && !movement.floating && !movement.jumping){ //not floating, not jumping
+            if(state.CanJump()){ //not floating, not jumping, not crouching
                 movement = new JumpMovement(movement.GetPosition());
                 ChangePose(KirbyPose.JumpRising);
-            }else if (movement.jumping && !movement.floating){ //if jumping and x is pressed again
+            }else if (state.IsJumping() && !state.IsFloating()){ //if jumping and x is pressed again
                 //Float();
                 movement.Jump(state.IsLeft());
             } else {
@@ -238,12 +233,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void Float()
         {
             //crouching and sliding cannot be overwritten by float 
-            if(!movement.crouching && !movement.floating){
+            if(state.CanFloat()){
                 movement.StartFloating(this);
                 movement = new FloatingMovement(movement.GetPosition());
                 ChangePose(KirbyPose.FloatingRising);
             } 
-            if(!movement.crouching){ //if float is up arrow is pressed again it goes up
+            if(!state.IsCrouching()){ //if float is up arrow is pressed again it goes up
                 ChangePose(KirbyPose.FloatingRising);
                 movement.Jump(state.IsLeft()); //change this to flowting geenral movement
             }
@@ -252,14 +247,14 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #region crouch
         public void Crouch()
         {
-            if(!movement.jumping && !movement.floating){ //crouch does not overwrite jump and floating
+            if(state.CanCrouch()){ //crouch does not overwrite jump and floating
                 ChangePose(KirbyPose.Crouching);
                 movement = new CrouchingMovement(movement.GetPosition());
             }
         }
         public void EndCrouch()
         {
-            if(!movement.jumping && !movement.floating){
+            if(state.CanCrouch()){
                 StopMoving();
                 ChangeMovement();
             }
@@ -268,7 +263,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         
         public async void Slide()
         {
-            if(movement.crouching){
+            if(state.IsCrouching()){
                 ChangePose(KirbyPose.Sliding);
                 movement.Slide(state.IsLeft());
                 await Task.Delay(Constants.Physics.DELAY);
@@ -276,6 +271,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         #endregion //movement region
 
+        public void Attack()
+        {
+            ChangeAttackBool(true);
+            attack = new PlayerAttack(this);
+            movement.Attack(this);
+        }
 
         // makes state changes by calling other player methods, calls state.Update(), and finally calls Draw last?
         public void Update(GameTime gameTime)

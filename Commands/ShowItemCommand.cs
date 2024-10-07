@@ -12,9 +12,5 @@
         {
             game.LoadItem();
         }
-
-        public void Undo()
-        {
-        }
     }
 }

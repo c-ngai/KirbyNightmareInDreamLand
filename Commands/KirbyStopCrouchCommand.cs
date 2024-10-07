@@ -1,17 +1,18 @@
 ﻿using KirbyNightmareInDreamLand.Entities.Players;
+
 namespace KirbyNightmareInDreamLand.Commands
 {
-    public class KirbyChangeBeamCommand : ICommand
+    public class KirbyStopCrouchCommand : ICommand
     {
         private IPlayer kirby;
-        public KirbyChangeBeamCommand(IPlayer player)
+
+        public KirbyStopCrouchCommand(IPlayer player)
         {
             kirby = player;
         }
-
         public void Execute()
         {
-            kirby.ChangeToBeam();
+            kirby.EndCrouch();
         }
     }
 }
