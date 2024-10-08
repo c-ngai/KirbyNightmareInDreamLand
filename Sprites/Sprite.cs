@@ -68,9 +68,20 @@ namespace KirbyNightmareInDreamLand.Sprites
                 frameCenter.X = sourceRectangle.Width - frameCenter.X;
             }
 
-            // Draw the sprite if it is within the camera rectangle or if culling is disabled.
-            Rectangle destinationRectangle = new Rectangle((position - frameCenter).ToPoint(), sourceRectangle.Size);
-            if (!_game.CULLING_ENABLED || _camera.GetBounds().Intersects(destinationRectangle))
+
+            // Cull the sprite if it is not within the camera rectangle and if culling is enabled.
+            bool cull = false;
+            if (_game.CULLING_ENABLED)
+            {
+                Rectangle destinationRectangle = new Rectangle((position - frameCenter).ToPoint(), sourceRectangle.Size);
+                if (!_camera.GetBounds().Intersects(destinationRectangle))
+                {
+                    cull = true;
+                }
+            }
+
+            // Draw the sprite if it has not been culled.
+            if (!cull)
             {
                 // Draw the sprite to the spriteBatch.
                 spriteBatch.Draw(texture, position, sourceRectangle, color, 0, frameCenter, 1, _spriteAnimation.SpriteEffects, 0);

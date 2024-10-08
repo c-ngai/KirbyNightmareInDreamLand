@@ -74,7 +74,6 @@ namespace KirbyNightmareInDreamLand
             bool old_DEBUG_SPRITE_MODE = _game.DEBUG_SPRITE_MODE;
             _game.DEBUG_SPRITE_MODE = false;
 
-
             // Set bounds on the TileMap to iterate from
             int TopY, BottomY, LeftX, RightX;
             if (_game.CULLING_ENABLED)
@@ -91,7 +90,10 @@ namespace KirbyNightmareInDreamLand
                 LeftX = 0;
                 RightX = room.TileMap[0].Length;
             }
-            
+
+            // Temporarily disable sprite culling if it's on, because this function has its own culling that relies on the regularity of tiles that is much more efficient than the rectangle intersection-detecting method of the Sprite class.
+            bool old_CULLING_ENABLED = _game.CULLING_ENABLED;
+            _game.CULLING_ENABLED = false;
 
             // Iterate across all the rows of the TileMap visible within the frame of the camera
             for (int y = TopY; y < BottomY; y++)
@@ -105,6 +107,7 @@ namespace KirbyNightmareInDreamLand
 
             // Restore old sprite debug mode state.
             _game.DEBUG_SPRITE_MODE = old_DEBUG_SPRITE_MODE;
+            _game.CULLING_ENABLED = old_CULLING_ENABLED;
         }
 
         private void DrawTile(SpriteBatch spriteBatch, int tileID, Vector2 position)

@@ -10,6 +10,7 @@ using KirbyNightmareInDreamLand.Controllers;
 using System.Linq;
 using static System.Net.Mime.MediaTypeNames;
 using System;
+using System.Diagnostics;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -83,6 +84,10 @@ namespace KirbyNightmareInDreamLand
             WINDOW_HEIGHT = 480;
             WINDOW_XOFFSET = 0;
             WINDOW_YOFFSET = 0;
+
+            //TargetElapsedTime = TimeSpan.FromMilliseconds(1000d / 30);
+
+
 
             #region set max window width
             int displayWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
@@ -215,10 +220,14 @@ namespace KirbyNightmareInDreamLand
 
         }
 
+        List<IEnemy> enemyList2 = new List<IEnemy>(); // FOR PERFORMANCE TESTING
         protected override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
             time = gameTime;
+
+            // Reset timer for calculating max fps
+            TickStopwatch.Restart();
 
             keyboard.Update();
 
@@ -228,29 +237,43 @@ namespace KirbyNightmareInDreamLand
             enemyList[currentEnemyIndex].Update(time);
             item.Update();
 
+            //enemyList2.Add(new Hothead(new Vector2(170, 100))); // FOR PERFORMANCE TESTING
+            foreach (IEnemy enemy in enemyList2) enemy.Update(time); // FOR PERFORMANCE TESTING
+
             camera.Update();
-            
         }
 
 
-        // TODO: Tidy up, this is really messy (although it is only for debug) 
-        List<float> fpsLog = new List<float>();
+        // TODO: Tidy up, this is really messy (although it is only for debug)
+        private Stopwatch TickStopwatch = new Stopwatch();
+        List<double> fpsLog = new List<double>();
+        List<double> maxfpsLog = new List<double>();
         public void DrawDebugText()
         {
-            // Record framerate history for the past 60 updates
-            float frameRate = 1 / (float)time.ElapsedGameTime.TotalSeconds;
+            double frameRate = 1 / time.ElapsedGameTime.TotalSeconds;
             fpsLog.Add(frameRate);
             if (fpsLog.Count > 60)
             {
                 fpsLog.RemoveAt(0);
             }
 
+            double maxFrameRate = 1 / TickStopwatch.Elapsed.TotalSeconds;
+            maxfpsLog.Add(maxFrameRate);
+            if (maxfpsLog.Count > 60)
+            {
+                maxfpsLog.RemoveAt(0);
+            }
+
             // Add debug text to list of lines
             List<string> texts = new List<string>();
             texts.Add("GraphicsAdapter.DefaultAdapter.CurrentDisplayMode: (" + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width + ", " + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height + ")");
             texts.Add("GraphicsDevice.Viewport: (" + GraphicsDevice.Viewport.Width + ", " + GraphicsDevice.Viewport.Height + ")");
-            texts.Add("Current FPS: " + frameRate);
+            texts.Add("Current FPS: " + Math.Round(frameRate));
             texts.Add("Average FPS: " + Math.Round(fpsLog.Average()));
+            texts.Add("Current Max FPS: " + Math.Round(maxFrameRate));
+            texts.Add("Average Max FPS: " + Math.Round(maxfpsLog.Average()));
+            //texts.Add("Total updates: " + totalUpdates);
+            //texts.Add("Total draws: " + totalDraws);
             texts.Add("");
             texts.Add("+/- : Resize window");
             texts.Add("F : Toggle fullscreen");
@@ -303,6 +326,7 @@ namespace KirbyNightmareInDreamLand
             level.Draw(spriteBatch);
             // Draw only selected enemy
             enemyList[currentEnemyIndex].Draw(spriteBatch);
+            foreach (IEnemy enemy in enemyList2) enemy.Draw(spriteBatch); // FOR PERFORMANCE TESTING
             // Draw kirby
             kirby.Draw(spriteBatch);
             // Draw item
@@ -313,6 +337,9 @@ namespace KirbyNightmareInDreamLand
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, camera.ScreenMatrix);
             spriteBatch.End();
 
+            // Stop timer for calculating max fps
+            TickStopwatch.Stop();
+            
             // Draw Debug Text
             if (DEBUG_TEXT_ENABLED)
             {
@@ -320,6 +347,7 @@ namespace KirbyNightmareInDreamLand
             }
             // Draw borders (should only be visible in fullscreen for letterboxing)
             DrawBorders();
+            
         }
     }
 }
