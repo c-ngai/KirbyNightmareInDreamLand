@@ -75,15 +75,27 @@ namespace KirbyNightmareInDreamLand
             _game.DEBUG_SPRITE_MODE = false;
 
 
-            // Set vertical bounds on the TileMap to iterate from
-            int TopY = Math.Max(_camera.TopY / Constants.Level.TILE_SIZE, 0);
-            int BottomY = Math.Min(_camera.BottomY / Constants.Level.TILE_SIZE + 1, room.TileMap.Length);
+            // Set bounds on the TileMap to iterate from
+            int TopY, BottomY, LeftX, RightX;
+            if (_game.CULLING_ENABLED)
+            {
+                TopY = Math.Max(_camera.GetBounds().Top / Constants.Level.TILE_SIZE, 0);
+                BottomY = Math.Min(_camera.GetBounds().Bottom / Constants.Level.TILE_SIZE + 1, room.TileMap.Length);
+                LeftX = Math.Max(_camera.GetBounds().Left / Constants.Level.TILE_SIZE, 0);
+                RightX = Math.Min(_camera.GetBounds().Right / Constants.Level.TILE_SIZE + 1, room.TileMap[0].Length);
+            }
+            else
+            {
+                TopY = 0;
+                BottomY = room.TileMap.Length;
+                LeftX = 0;
+                RightX = room.TileMap[0].Length;
+            }
+            
+
             // Iterate across all the rows of the TileMap visible within the frame of the camera
             for (int y = TopY; y < BottomY; y++)
             {
-                // Set horizontal bounds on the TileMap to iterate from
-                int LeftX = Math.Max(_camera.LeftX / Constants.Level.TILE_SIZE, 0);
-                int RightX = Math.Min(_camera.RightX / Constants.Level.TILE_SIZE + 1, room.TileMap[y].Length);
                 // Iterate across all the columns of the TileMap visible within the frame of the camera
                 for (int x = LeftX; x < RightX; x++)
                 {
@@ -97,7 +109,7 @@ namespace KirbyNightmareInDreamLand
 
         private void DrawTile(SpriteBatch spriteBatch, int tileID, Vector2 position)
         {
-            TileSprites[tileID].LevelDraw(position, spriteBatch);
+            TileSprites[tileID].Draw(position, spriteBatch);
         }
 
     }

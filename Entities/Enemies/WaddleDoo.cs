@@ -176,7 +176,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                     beam.Draw(spriteBatch);
                 }
                 //draw enemy
-                enemySprite.LevelDraw(position, spriteBatch);
+                enemySprite.Draw(position, spriteBatch);
             }
         }
     }
