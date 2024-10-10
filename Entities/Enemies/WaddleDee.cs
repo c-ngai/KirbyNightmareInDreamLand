@@ -8,12 +8,13 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
     {
         //Keep track of current frame
         private int frameCounter = 0;
-
+        private ICollidable collidable;
         public WaddleDee(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDee)
         {
             //Set pose and sprite
             stateMachine.ChangePose(EnemyPose.Walking);
             UpdateTexture();
+            collidable = new WaddleDeeCollisionHandler((int)startPosition.X, (int)startPosition.Y, this);
         }
 
         public override void Update(GameTime gameTime)
@@ -50,6 +51,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 // Update the enemy sprite
                 enemySprite.Update();
             }
+            collidable.UpdateBoundingBox(position);
         }
 
         protected override void Move()

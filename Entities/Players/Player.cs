@@ -17,6 +17,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         private PlayerStateMachine state;
         private PlayerMovement movement;
         private Sprite playerSprite ;
+        private ICollidable collidable;
 
         private PlayerAttack attack;
 
@@ -36,6 +37,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             state = new PlayerStateMachine();
             movement = new NormalPlayerMovement(pos);
             oldState = state.GetStateString();
+            collidable = new PlayerCollisionHandler((int) pos.X, (int) pos.Y, this);
         }
         public Sprite PlayerSprite
         {
@@ -148,6 +150,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             ChangePose(KirbyPose.Hurt);
             await Task.Delay(Constants.Physics.DELAY);
+            StopMoving();
         }
         public void EndInvinciblility(GameTime gameTime)
         {
@@ -284,6 +287,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             movement.MovePlayer(this, gameTime);
             EndInvinciblility(gameTime);
             playerSprite.Update();
+            collidable.UpdateBoundingBox(movement.GetPosition());
             if(attackIsActive){
                 attack.Update(gameTime, this);
             }

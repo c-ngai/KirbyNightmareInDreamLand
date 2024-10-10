@@ -18,6 +18,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         // Beam ability
         private EnemyBeam beam;
         private bool isBeamActive = false;
+        private ICollidable collidable;
 
         public WaddleDoo(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDoo)
         {
@@ -93,6 +94,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                     }
                 }
             }
+
         }
 
         private Vector2 ProjectilePosition()

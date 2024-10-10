@@ -177,7 +177,7 @@ namespace KirbyNightmareInDreamLand
             LoadItem();
 
             // Creates enemies
-            waddledeeTest = new WaddleDee(new Vector2(170, 100));
+            waddledeeTest = new WaddleDee(new Vector2(80, Constants.Graphics.FLOOR));
             waddledooTest = new WaddleDoo(new Vector2(170, 100));
             brontoburtTest = new BrontoBurt(new Vector2(170, 100));
             hotheadTest = new Hothead(new Vector2(170, 100));
@@ -239,6 +239,8 @@ namespace KirbyNightmareInDreamLand
 
             //enemyList2.Add(new Hothead(new Vector2(170, 100))); // FOR PERFORMANCE TESTING
             foreach (IEnemy enemy in enemyList2) enemy.Update(time); // FOR PERFORMANCE TESTING
+
+            CollisionManager.Instance.CheckCollisions();
 
             camera.Update();
         }

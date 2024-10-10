@@ -81,6 +81,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             } else {
                 counter = 0;
                 kirby.ChangeAttackBool(false);
+                kirby.StopMoving();
             }
         }
         public void DrawBeam(SpriteBatch spriteBatch, Player kirby)
@@ -90,6 +91,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             } else {
                 counter = 0;
                 kirby.ChangeAttackBool(false);
+                kirby.StopMoving();
             }
         }
         public void DrawFire(SpriteBatch spriteBatch, Player kirby)
@@ -99,6 +101,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             } else {
                 counter = 0;
                 kirby.ChangeAttackBool(false);
+                kirby.StopMoving();
             }
         }
         //this is specific for this sprint, sprint 3 is going to have all the 

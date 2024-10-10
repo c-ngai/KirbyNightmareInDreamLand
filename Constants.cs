@@ -35,6 +35,16 @@ namespace KirbyNightmareInDreamLand
         {
             public const int TILE_SIZE = 16;
         }
+        public static class HitBoxes
+        {
+            public const int ENTITY_WIDTH = 12;
+            public const int ENTITY_HEIGHT = 12;
+            public const int TILE_WIDTH = 16;
+            public const int TILE_HEIGHT = 16;
+            //public const int ENTITY_WIDTH = 12;
+            //public const int ENTITY_HEIGHT = 12;
+            
+        }
 
         public class Kirby
         {
