@@ -1,16 +1,16 @@
 ﻿namespace KirbyNightmareInDreamLand.Commands
 {
-    public class GraphicsToggleDebugCommand : ICommand
+    public class GraphicsToggleCullingCommand : ICommand
     {
         Game1 game;
-        public GraphicsToggleDebugCommand(Game1 game)
+        public GraphicsToggleCullingCommand(Game1 game)
         {
             this.game = game;
         }
 
         public void Execute()
         {
-            game.DEBUG_SPRITE_MODE = !game.DEBUG_SPRITE_MODE;
+            game.CULLING_ENABLED = !game.CULLING_ENABLED;
         }
 
         public void Undo()

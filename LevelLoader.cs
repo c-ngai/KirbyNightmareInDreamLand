@@ -52,7 +52,7 @@ namespace KirbyNightmareInDreamLand
             LoadAllSpriteAnimations();
             SpriteDebug.Instance.Load(graphics);
 
-            LoadAllTileMaps();
+            LoadAllTilemaps();
             LoadAllRooms();
 
             font = content.Load<SpriteFont>("DefaultFont");
@@ -111,28 +111,28 @@ namespace KirbyNightmareInDreamLand
         
 
         // Loads a tilemap given its name and filepath.
-        private void LoadTileMap(string TilemapName, string TilemapFilepath)
+        private void LoadTilemap(string TilemapName, string TilemapFilepath)
         {
-            int[][] TileMap;
+            int[][] Tilemap;
 
             // Read the .csv spreadsheet values into a 2D int array
             List<string> lines = new(File.ReadLines(TilemapFilepath));
-            TileMap = new int[lines.Count][];
+            Tilemap = new int[lines.Count][];
             for (int y = 0; y < lines.Count; y++)
             {
                 string[] values = lines[y].Split(',');
-                TileMap[y] = new int[values.Length];
+                Tilemap[y] = new int[values.Length];
                 for (int x = 0; x < values.Length; x++)
                 {
-                    TileMap[y][x] = Int32.Parse(values[x]);
+                    Tilemap[y][x] = Int32.Parse(values[x]);
                 }
             }
 
-            Tilemaps.Add(TilemapName, TileMap);
+            Tilemaps.Add(TilemapName, Tilemap);
         }
 
         // Loads all tilemaps from the tilemap list file.
-        public void LoadAllTileMaps()
+        public void LoadAllTilemaps()
         {
             // Open the texture list data file and read its lines into a string array.
             string TilemapList = "Content/Tilemaps.txt";
@@ -142,7 +142,7 @@ namespace KirbyNightmareInDreamLand
             foreach (string TilemapFilepath in TilemapFilepaths)
             {
                 string TileMapName = Path.GetFileNameWithoutExtension(TilemapFilepath);
-                LoadTileMap(TileMapName, TilemapFilepath);
+                LoadTilemap(TileMapName, TilemapFilepath);
             }
         }
 

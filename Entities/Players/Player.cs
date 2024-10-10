@@ -295,7 +295,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if(invincible){
                 playerSprite.DamageDraw(movement.GetPosition(), spriteBatch);
             } else {
-                playerSprite.LevelDraw(movement.GetPosition(), spriteBatch);
+                playerSprite.Draw(movement.GetPosition(), spriteBatch);
             }
             if(attackIsActive){
                 attack.Draw(spriteBatch, this);
