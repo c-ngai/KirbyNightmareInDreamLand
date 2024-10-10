@@ -10,10 +10,7 @@ namespace KirbyNightmareInDreamLand.Controllers
     public enum ExecutionType { Pressed, StartingPress, StoppingPress }
     public class KeyboardController : IController
     {
-        private Dictionary<Keys, ICommand> controllerMappings;
-        private Dictionary<Keys, ICommand> pressedKeys;
-        private Dictionary<Keys, ICommand> startKeys;
-        public Dictionary<Keys, ICommand> stopKeys { get; set; }
+        private Dictionary<Keys, (ICommand, ExecutionType)> controllerMappings;
 
         public Dictionary<Keys, bool> oldKeyStates { get; set; }
 
@@ -21,33 +18,18 @@ namespace KirbyNightmareInDreamLand.Controllers
 
         public KeyboardController()
         {
-            controllerMappings = new Dictionary<Keys, ICommand>();
-            pressedKeys = new Dictionary<Keys, ICommand>();
-            startKeys = new Dictionary<Keys, ICommand>();
-            stopKeys = new Dictionary<Keys, ICommand>();
+            controllerMappings = new Dictionary<Keys, (ICommand, ExecutionType)>();
             oldKeyStates = new Dictionary<Keys, bool>();
         }
 
-        public void RegisterCommand(Keys key, ICommand command, ICommand stop, ExecutionType type)
+        public void RegisterCommand(Keys key, ICommand command, ExecutionType type)
         {
-            if (type == ExecutionType.Pressed)
-            {
-                pressedKeys.Add(key, command);
-                if (stop != null) stopKeys.Add(key, stop);
-            }
-            else if (type == ExecutionType.StartingPress)
-            {
-                startKeys.Add(key, command);
-            }
-            else
-            {
-                stopKeys.Add(key, command);
-            }
-
-            controllerMappings.Add(key, command);
+            (ICommand, ExecutionType) commandMapping = (command, type);
+            controllerMappings.Add(key, commandMapping);
             oldKeyStates.Add(key, false);
         }
 
+        // This will all be refactored after Sprint2
         public void Update()
         {
             currentState = Keyboard.GetState().GetPressedKeys();
@@ -70,14 +52,27 @@ namespace KirbyNightmareInDreamLand.Controllers
                 // Checks it is a relevant keybind 
                 if (controllerMappings.ContainsKey(key))
                 {
-                    // Execute pressed keys if it is currently being pressed
-                    if (pressedKeys.ContainsKey(key) && currentState.Contains(key)) pressedKeys[key].Execute();
+                    (ICommand, ExecutionType) commandMapping = (controllerMappings[key]);
+                    ICommand command = commandMapping.Item1;
+                    ExecutionType type = commandMapping.Item2;
 
-                    // Execute start keys if is is now pressed and was not pressed last update
-                    if (startKeys.ContainsKey(key) && currentState.Contains(key) && !oldKeyStates[key]) startKeys[key].Execute();
+                    /* A little less efficient to move all of these out of the if-else conditions but done so for readability */
+                    // Pressed execution type: executes the command when pressed
+                    bool isPressedCommand = currentState.Contains(key) && type == ExecutionType.Pressed;
+                    // Starting press execution type: executes the command when it shifts from not being pressed to pressed
+                    bool isStartingPressComamnd = currentState.Contains(key) && !oldKeyStates[key] && type == ExecutionType.StartingPress;
+                    // Pressed execution type: undos the command if it is no longer pressed 
+                    bool isNoLongerPressed = oldKeyStates[key] && type == ExecutionType.Pressed;
 
-                    // Execute stop keys if it is no longer pressed and was pressed last update
-                    if (stopKeys.ContainsKey(key) && !currentState.Contains(key) && oldKeyStates[key]) stopKeys[key].Execute();
+                    if (isPressedCommand || isStartingPressComamnd)
+                    {
+                        command.Execute();
+                    }
+                    else if (isNoLongerPressed)
+                    {
+                        command.Undo();
+                    }
+
                 }
                 // If the temporary dictionary does not have the key already then it has not been pressed
                 if (!tempDict.ContainsKey(key)) tempDict.Add(key, false);

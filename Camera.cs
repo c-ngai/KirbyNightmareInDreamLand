@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,20 +15,24 @@ namespace KirbyNightmareInDreamLand
         private Game1 _game;
         private IPlayer _targetPlayer;
 
-        private Vector3 position;
+        private Vector2 position;
         private Rectangle bounds;
-        public Matrix LevelMatrix { get; set; }
-        public Matrix ScreenMatrix { get; set; }
+
+        public int LeftX { get; private set; }
+        public int RightX { get; private set; }
+        public int TopY { get; private set; }
+        public int BottomY { get; private set; }
 
         public Camera(Game1 game)
         {
             _game = game;
 
-            position = new Vector3(0,0,0);
+            position = new Vector2(0,0);
             bounds = new Rectangle((int)position.X, (int)position.Y, Constants.Graphics.GAME_WIDTH, Constants.Graphics.GAME_HEIGHT);
-
-            LevelMatrix = new Matrix();
-            ScreenMatrix = new Matrix();
+            LeftX = (int)position.X;
+            RightX = (int)position.X + Constants.Graphics.GAME_WIDTH;
+            TopY = (int)position.Y;
+            BottomY = (int)position.Y + Constants.Graphics.GAME_HEIGHT;
         }
 
         public void Update()
@@ -51,16 +54,17 @@ namespace KirbyNightmareInDreamLand
             {
                 position.Y = _targetPlayer.GetKirbyPosition().Y - Constants.Graphics.GAME_HEIGHT / 2;
             }
-            position.Floor();
+            
 
             // Adjust the X and Y of the bounds Rectangle
             bounds.X = (int)position.X;
             bounds.Y = (int)position.Y;
 
-            // Update matrices
-            float scale = _game.WINDOW_HEIGHT / Constants.Graphics.GAME_HEIGHT;
-            LevelMatrix = Matrix.CreateTranslation(-position) * Matrix.CreateScale(scale) * Matrix.CreateTranslation(_game.WINDOW_XOFFSET, _game.WINDOW_YOFFSET, 0);
-            ScreenMatrix = Matrix.CreateScale(scale) * Matrix.CreateTranslation(_game.WINDOW_XOFFSET, _game.WINDOW_YOFFSET, 0);
+            // Adjust the side coordinates
+            LeftX = (int)position.X;
+            RightX = (int)position.X + Constants.Graphics.GAME_WIDTH;
+            TopY = (int)position.Y;
+            BottomY = (int)position.Y + Constants.Graphics.GAME_HEIGHT;
         }
 
         public void TargetPlayer(IPlayer targetPlayer)
@@ -68,7 +72,7 @@ namespace KirbyNightmareInDreamLand
             _targetPlayer = targetPlayer;
         }
 
-        public Vector3 GetPosition()
+        public Vector2 GetPosition()
         {
             return position;
         }

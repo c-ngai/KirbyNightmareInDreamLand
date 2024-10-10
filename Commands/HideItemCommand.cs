@@ -12,5 +12,9 @@
         {
             game.item = null;
         }
+
+        public void Undo()
+        {
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;
-
+        
         public Vector2 Position
         {
             get => position;            // Return position of star
@@ -22,30 +22,39 @@ namespace KirbyNightmareInDreamLand.Projectiles
             set => velocity = value;    // Set the velocity of the star to the given value
         }
 
-        public KirbyStar(Vector2 kirbyPosition, bool isFacingRight)
+        public KirbyStar(Vector2 startPosition, Vector2 starDirection)
         {
-            Position = kirbyPosition;
+            Position = startPosition;
 
-            // Set the initial velocity based on the direction Kirby is facing
-            Velocity = isFacingRight
-                ? new Vector2(Constants.Star.SPEED, 0)
-                : new Vector2(-Constants.Star.SPEED, 0);
+            // Normalize the direction vector and multiply by the constant speed
+            if (starDirection != Vector2.Zero)
+            {
+                starDirection.Normalize(); // Ensures the vector has a length of 1
+            }
 
-            // Assign the appropriate sprite based on the direction
-            projectileSprite = isFacingRight
-                ? SpriteFactory.Instance.CreateSprite("projectile_kirby_star_right")
-                : SpriteFactory.Instance.CreateSprite("projectile_kirby_star_left");
+            Velocity = starDirection * Constants.Star.SPEED; // Apply the constant speed
+
+            // Check the direction and assign the appropriate sprite
+            if (starDirection.X >= 0)
+            {
+                projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_star_right");
+            }
+            else if (starDirection.X < 0)
+            {
+                projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_star_left");
+            }
         }
 
         public void Update()
         {
             Position += Velocity;
+
             projectileSprite.Update();
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            projectileSprite.Draw(Position, spriteBatch);
+            projectileSprite.LevelDraw(Position, spriteBatch);
         }
     }
 }

@@ -13,5 +13,10 @@ namespace KirbyNightmareInDreamLand.Commands
         {
             kirby.Attack();
         }
+
+        public void Undo()
+        {
+            kirby.StopMoving();
+        }
     }
 }

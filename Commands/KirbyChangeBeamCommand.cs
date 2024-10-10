@@ -13,5 +13,10 @@ namespace KirbyNightmareInDreamLand.Commands
         {
             kirby.ChangeToBeam();
         }
+
+        public void Undo()
+        {
+
+        }
     }
 }

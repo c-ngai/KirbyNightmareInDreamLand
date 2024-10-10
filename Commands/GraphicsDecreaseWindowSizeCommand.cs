@@ -25,5 +25,10 @@ namespace KirbyNightmareInDreamLand.Commands
                 graphics.ApplyChanges();
             }
         }
+
+        public void Undo()
+        {
+
+        }
     }
 }

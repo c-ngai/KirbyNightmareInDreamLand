@@ -5,14 +5,13 @@ using System.Collections.Generic;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class KirbyBeam : IProjectile
+    public class KirbyBeam
     {
-        private Vector2 position;
-        private Vector2 velocity;
         private int segmentsFired;
         private int frameCounter;
         private List<KirbyBeamSegment> beamSegments;
-        private bool isFacingRight;
+        private Vector2 startPosition;
+        private float rotation;
         private const int totalSegments = Constants.KirbyBeam.TOTAL_SEGMENTS;
         private const float rotationStep = Constants.KirbyBeam.ROTATION_STEP;
         private const float initialRotationRight = Constants.KirbyBeam.INIT_POSITION_RIGHT;
@@ -20,57 +19,57 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private const int UnitsPerFrame = Constants.KirbyBeam.UNITS_PER_FRAME;
         private const int fourthFrameInPattern = Constants.KirbyBeam.FRAME_FOUR;
         private const int fifthFrameInPattern = Constants.KirbyBeam.FRAME_FIVE;
+        private bool isFacingRight;
 
-        public Vector2 Position
+        public KirbyBeam(Vector2 startPosition, bool isFacingRight)
         {
-            get => position;
-            set => position = value;
-        }
-
-        public Vector2 Velocity
-        {
-            get => velocity;
-            set => velocity = value;
-        }
-
-        public KirbyBeam(Vector2 kirbyPosition, bool isFacingRight)
-        {
-            // Calculate the position based on Kirby's position and the offset
-            this.isFacingRight = isFacingRight;
-            Vector2 offset = isFacingRight ? Constants.Kirby.BEAM_ATTACK_OFFSET_RIGHT : Constants.Kirby.BEAM_ATTACK_OFFSET_LEFT;
-            this.position = kirbyPosition + offset;
-
+            this.startPosition = startPosition;
             beamSegments = new List<KirbyBeamSegment>();
+            this.isFacingRight = isFacingRight;
             frameCounter = 0;
             segmentsFired = 0;
         }
 
         private float GetRotation()
         {
-            float rotation = isFacingRight ? initialRotationRight : initialRotationLeft;
-            rotation += segmentsFired * (isFacingRight ? rotationStep : -rotationStep);
+            if (isFacingRight)
+            {
+                rotation = segmentsFired == 0 ? initialRotationRight : initialRotationRight + (segmentsFired * rotationStep);
+            }
+            else
+            {
+                rotation = segmentsFired == 0 ? initialRotationLeft : initialRotationLeft + (segmentsFired * -rotationStep);
+            }
+
             return rotation;
         }
 
+        // Beam segments fire in 5 frame rounds. 3 segments followed up 2 empty frames. 
         public void Update()
         {
+            // if we in the segment list and we are not on the 4th or 5th frame,
+            // add a segment to the segment list with the correct velocity. 
             if (segmentsFired < totalSegments && (frameCounter % fourthFrameInPattern != 0 || frameCounter % fifthFrameInPattern != 0))
             {
                 Vector2 velocity = new Vector2((float)Math.Cos(GetRotation()), (float)Math.Sin(GetRotation())) * UnitsPerFrame;
-                beamSegments.Add(new KirbyBeamSegment(position, velocity));
+
+                beamSegments.Add(new KirbyBeamSegment(startPosition, velocity));
                 segmentsFired++;
             }
 
             frameCounter++;
-            foreach (var segment in beamSegments)
+
+            // Update all existing beam segments
+            for (int i = 0; i < beamSegments.Count; i++)
             {
-                segment.Update();
+                beamSegments[i].Update();
             }
         }
 
+        // Draw each segment. 
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (var segment in beamSegments)
+            foreach (KirbyBeamSegment segment in beamSegments)
             {
                 segment.Draw(spriteBatch);
             }

@@ -10,21 +10,6 @@ using System.Threading.Tasks;
 
 namespace KirbyNightmareInDreamLand
 {
-
-    public enum CollisionTile
-    {
-        Air = 0,
-        Block = 1,
-        Platform = 2,
-        Water = 3,
-        SlopeSteepLeft = 4,
-        SlopeGentle1Left = 5,
-        SlopeGentle2Left = 6,
-        SlopeGentle2Right = 7,
-        SlopeGentle1Right = 8,
-        SlopeSteepRight = 9
-    }
-
     public struct Door
     {
         Vector2 TilePosition;

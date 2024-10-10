@@ -54,5 +54,9 @@ namespace KirbyNightmareInDreamLand.Commands
                 kirby.Crouch();
             }
         }
+        public void Undo()
+        {
+            kirby.EndCrouch();
+        }
     }
 }
