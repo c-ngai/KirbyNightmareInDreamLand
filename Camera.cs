@@ -41,7 +41,7 @@ namespace KirbyNightmareInDreamLand
             }
             else
             {
-                position.X = _targetPlayer.GetKirbyPosition().X - Constants.Graphics.GAME_WIDTH / 2;
+                position.X = _targetPlayer?.GetKirbyPosition().X - Constants.Graphics.GAME_WIDTH / 2 ?? position.X;
             }
             if (_game.level.room.CameraYLock)
             {
@@ -49,7 +49,7 @@ namespace KirbyNightmareInDreamLand
             }
             else
             {
-                position.Y = _targetPlayer.GetKirbyPosition().Y - Constants.Graphics.GAME_HEIGHT / 2;
+                position.Y = _targetPlayer?.GetKirbyPosition().Y - Constants.Graphics.GAME_HEIGHT / 2 ?? position.Y;
             }
             position.Floor();
 

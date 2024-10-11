@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace KirbyNightmareInDreamLand.Sprites
 {
@@ -69,15 +70,14 @@ namespace KirbyNightmareInDreamLand.Sprites
             }
 
 
+
+            Rectangle destinationRectangle = new Rectangle((position - frameCenter).ToPoint(), sourceRectangle.Size);
+
             // Cull the sprite if it is not within the camera rectangle and if culling is enabled.
             bool cull = false;
-            if (_game.CULLING_ENABLED)
+            if (_game.CULLING_ENABLED && !_camera.GetBounds().Intersects(destinationRectangle))
             {
-                Rectangle destinationRectangle = new Rectangle((position - frameCenter).ToPoint(), sourceRectangle.Size);
-                if (!_camera.GetBounds().Intersects(destinationRectangle))
-                {
-                    cull = true;
-                }
+                cull = true;
             }
 
             // Draw the sprite if it has not been culled.
@@ -88,7 +88,17 @@ namespace KirbyNightmareInDreamLand.Sprites
                 // DEBUG VISUALS, TIDY UP LATER
                 if (_game.DEBUG_SPRITE_MODE == true)
                 {
-                    SpriteDebug.Instance.Draw(spriteBatch, position, frameCenter, sourceRectangle);
+                    Debug.Instance.DrawRectangle(spriteBatch, destinationRectangle, Color.Blue);
+                    Debug.Instance.DrawPoint(spriteBatch, position, Color.Red);
+
+                    // Draws purple borders around all tiles intersecting with the sprite boundaries
+                    /*
+                    List<Tile> tiles = _game.level.IntersectingTiles(spriteBatch, destinationRectangle);
+                    foreach (Tile tile in tiles)
+                    {
+                        Debug.Instance.DrawRectangle(spriteBatch, tile.rectangle, Color.Purple);
+                    }
+                    */
                 }
             }
 
