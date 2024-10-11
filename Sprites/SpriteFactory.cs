@@ -58,7 +58,7 @@ namespace KirbyNightmareInDreamLand.Sprites
             }
             else
             {
-                Debug.WriteLine("INVALID SPRITE NAME: " + spriteAnimationName); //debug line
+                System.Diagnostics.Debug.WriteLine("INVALID SPRITE NAME: " + spriteAnimationName); //debug line
                 return new Sprite(spriteAnimations["invalidspritename"], _game);
             }
         }

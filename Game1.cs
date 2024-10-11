@@ -51,11 +51,14 @@ namespace KirbyNightmareInDreamLand
 
         public static GameTime GameTime { get; private set; }
 
+        public Stopwatch TickStopwatch { get; private set; } = new Stopwatch();
+
         // Graphics settings modifiable at runtime
         public bool DEBUG_TEXT_ENABLED { get; set; }
         public bool DEBUG_SPRITE_MODE { get; set; }
         public bool DEBUG_LEVEL_MODE { get; set; }
         public bool CULLING_ENABLED { get; set; }
+        public bool DEBUG_COLLISION_MODE { get; set; }
         public bool IS_FULLSCREEN { get; set; }
         public int WINDOW_WIDTH { get; set; }
         public int WINDOW_HEIGHT { get; set; }
@@ -73,12 +76,15 @@ namespace KirbyNightmareInDreamLand
             IsMouseVisible = true;
         }
 
+
+
         protected override void Initialize()
         {
             DEBUG_TEXT_ENABLED = true;
             DEBUG_SPRITE_MODE = false;
             DEBUG_LEVEL_MODE = true; // TODO: Change to false by default later, currently no normal level draw behavior
             CULLING_ENABLED = true;
+            DEBUG_COLLISION_MODE = false;
             IS_FULLSCREEN = false;
             WINDOW_WIDTH = 720;
             WINDOW_HEIGHT = 480;
@@ -120,6 +126,8 @@ namespace KirbyNightmareInDreamLand
             base.Initialize();
         }
 
+
+
         // Everything in this region will move into eventual loader file
         #region LoaderDetails
         // Will later be changed to read in keyboard control input 
@@ -144,8 +152,8 @@ namespace KirbyNightmareInDreamLand
 
             keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby), new KirbyStopMovingCommand(kirby), ExecutionType.Pressed);
 
-            keyboard.RegisterCommand(Keys.U, new HideItemCommand(this), null, ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.I, new ShowItemCommand(this), null, ExecutionType.StartingPress);
+            //keyboard.RegisterCommand(Keys.U, new HideItemCommand(this), null, ExecutionType.StartingPress);
+            //keyboard.RegisterCommand(Keys.I, new ShowItemCommand(this), null, ExecutionType.StartingPress);
 
             keyboard.RegisterCommand(Keys.O, new PreviousEnemyCommand(this), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.P, new NextEnemyCommand(this), null, ExecutionType.StartingPress);
@@ -157,6 +165,7 @@ namespace KirbyNightmareInDreamLand
             keyboard.RegisterCommand(Keys.F2, new GraphicsToggleDebugSpriteCommand(this), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.F3, new GraphicsToggleDebugLevelCommand(this), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.F4, new GraphicsToggleCullingCommand(this), null, ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.F5, new GraphicsToggleDebugCollisionCommand(this), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.OemPlus, new GraphicsIncreaseWindowSizeCommand(this, graphics), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.OemMinus, new GraphicsDecreaseWindowSizeCommand(this, graphics), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.F, new GraphicsToggleFullscreenCommand(this, graphics), null, ExecutionType.StartingPress);
@@ -215,10 +224,14 @@ namespace KirbyNightmareInDreamLand
             camera.TargetPlayer(kirby);
         }
 
+
+
         protected override void UnloadContent()
         {
 
         }
+
+
 
         List<IEnemy> enemyList2 = new List<IEnemy>(); // FOR PERFORMANCE TESTING
         protected override void Update(GameTime gameTime)
@@ -246,76 +259,6 @@ namespace KirbyNightmareInDreamLand
         }
 
 
-        // TODO: Tidy up, this is really messy (although it is only for debug)
-        private Stopwatch TickStopwatch = new Stopwatch();
-        List<double> fpsLog = new List<double>();
-        List<double> maxfpsLog = new List<double>();
-        public void DrawDebugText()
-        {
-            double frameRate = 1 / time.ElapsedGameTime.TotalSeconds;
-            fpsLog.Add(frameRate);
-            if (fpsLog.Count > 60)
-            {
-                fpsLog.RemoveAt(0);
-            }
-
-            double maxFrameRate = 1 / TickStopwatch.Elapsed.TotalSeconds;
-            maxfpsLog.Add(maxFrameRate);
-            if (maxfpsLog.Count > 60)
-            {
-                maxfpsLog.RemoveAt(0);
-            }
-
-            // Add debug text to list of lines
-            List<string> texts = new List<string>();
-            texts.Add("GraphicsAdapter.DefaultAdapter.CurrentDisplayMode: (" + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width + ", " + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height + ")");
-            texts.Add("GraphicsDevice.Viewport: (" + GraphicsDevice.Viewport.Width + ", " + GraphicsDevice.Viewport.Height + ")");
-            texts.Add("Current FPS: " + Math.Round(frameRate));
-            texts.Add("Average FPS: " + Math.Round(fpsLog.Average()));
-            texts.Add("Current Max FPS: " + Math.Round(maxFrameRate));
-            texts.Add("Average Max FPS: " + Math.Round(maxfpsLog.Average()));
-            //texts.Add("Total updates: " + totalUpdates);
-            //texts.Add("Total draws: " + totalDraws);
-            texts.Add("");
-            texts.Add("+/- : Resize window");
-            texts.Add("F : Toggle fullscreen");
-            texts.Add("");
-            texts.Add("F1 : Toggle debug text");
-            texts.Add("F2 : Toggle sprite debug mode");
-            texts.Add("F3 : Toggle level debug mode");
-            texts.Add("F4 : Toggle sprite culling");
-
-            // Draw lines to screen
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
-            for (int i = 0; i < texts.Count; i++)
-            {
-                Vector2 position = new Vector2(WINDOW_XOFFSET + 10, WINDOW_YOFFSET + 10 + 16*i);
-                spriteBatch.DrawString(LevelLoader.Instance.font, texts[i], position, Color.Black);
-            }
-            spriteBatch.End();
-        }
-
-        //take off draw text magic numbers
-        //eventually take these off and make game only deal with high level objects 
-        //game object management takes care of the lists and iterates them
-        //game then grabs it from them and does its job.
-
-        // Draws black letterbox borders on the edge of the screen. Should be only visible in fullscreen. Done to maintain aspect ratio and integer scaling regardless of display resolution.
-        private void DrawBorders()
-        {
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
-            
-            // Left side
-            spriteBatch.Draw(LevelLoader.Instance.borders, new Rectangle(0, WINDOW_YOFFSET, WINDOW_XOFFSET, WINDOW_HEIGHT), Color.White);
-            // Top side
-            spriteBatch.Draw(LevelLoader.Instance.borders, new Rectangle(0, 0, WINDOW_WIDTH + 2 * WINDOW_XOFFSET, WINDOW_YOFFSET), Color.White);
-            // Right side
-            spriteBatch.Draw(LevelLoader.Instance.borders, new Rectangle(WINDOW_XOFFSET + WINDOW_WIDTH, WINDOW_YOFFSET, WINDOW_XOFFSET, WINDOW_HEIGHT), Color.White);
-            // Bottom side
-            spriteBatch.Draw(LevelLoader.Instance.borders, new Rectangle(0, WINDOW_YOFFSET + WINDOW_HEIGHT, WINDOW_WIDTH + 2 * WINDOW_XOFFSET, WINDOW_YOFFSET), Color.White);
-            
-            spriteBatch.End();
-        }
 
         protected override void Draw(GameTime gameTime)
         {
@@ -345,11 +288,11 @@ namespace KirbyNightmareInDreamLand
             // Draw Debug Text
             if (DEBUG_TEXT_ENABLED)
             {
-                DrawDebugText();
+                Debug.Instance.DrawDebugText(spriteBatch);
             }
             // Draw borders (should only be visible in fullscreen for letterboxing)
-            DrawBorders();
-            
+            Debug.Instance.DrawBorders(spriteBatch);
         }
+
     }
 }
