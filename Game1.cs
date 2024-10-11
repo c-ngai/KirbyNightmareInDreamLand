@@ -135,7 +135,7 @@ namespace KirbyNightmareInDreamLand
 
             keyboard.RegisterCommand(Keys.D, new KirbyFaceRightCommand(kirby), null, ExecutionType.StartingPress);
 
-            keyboard.RegisterCommand(Keys.Z, new KirbyAttackCommand(kirby), new KirbyStopMovingCommand(kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.Z, new KirbyAttackCommand(kirby),null, ExecutionType.StartingPress);
 
             keyboard.RegisterCommand(Keys.D1, new KirbyChangeNormalCommand(kirby), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.D2, new KirbyChangeBeamCommand(kirby), null, ExecutionType.StartingPress);
@@ -177,7 +177,7 @@ namespace KirbyNightmareInDreamLand
             LoadItem();
 
             // Creates enemies
-            waddledeeTest = new WaddleDee(new Vector2(170, 100));
+            waddledeeTest = new WaddleDee(new Vector2(80, Constants.Graphics.FLOOR));
             waddledooTest = new WaddleDoo(new Vector2(170, 100));
             brontoburtTest = new BrontoBurt(new Vector2(170, 100));
             hotheadTest = new Hothead(new Vector2(170, 100));
@@ -239,6 +239,8 @@ namespace KirbyNightmareInDreamLand
 
             //enemyList2.Add(new Hothead(new Vector2(170, 100))); // FOR PERFORMANCE TESTING
             foreach (IEnemy enemy in enemyList2) enemy.Update(time); // FOR PERFORMANCE TESTING
+
+            CollisionManager.Instance.CheckCollisions();
 
             camera.Update();
         }

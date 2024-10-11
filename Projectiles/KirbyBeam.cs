@@ -21,6 +21,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private const int fourthFrameInPattern = Constants.KirbyBeam.FRAME_FOUR;
         private const int fifthFrameInPattern = Constants.KirbyBeam.FRAME_FIVE;
 
+
         public Vector2 Position
         {
             get => position;

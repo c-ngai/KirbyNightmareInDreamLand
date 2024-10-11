@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
+using System.Collections.Generic;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
@@ -13,7 +14,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private int maxFrames = 6; // Segment disappears after 6 frames
         private ISprite sprite1;
         private ISprite sprite2;
-
+        private ICollidable collidable; 
 
         public Vector2 Position
         {
@@ -33,6 +34,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
             Velocity = beamVelocity;
             sprite1 = SpriteFactory.Instance.CreateSprite("projectile_kirby_beam1");
             sprite2 = SpriteFactory.Instance.CreateSprite("projectile_kirby_beam2");
+            collidable = new ProjectileCollisionHandler((int)startPosition.X, (int)startPosition.Y);
 
         }
 
@@ -61,8 +63,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
             if (frameCount >= maxFrames)
             {
                 IsActive = false; // Mark the segment as inactive
+                collidable.DestroyHitBox();
 
             }
+            collidable.UpdateBoundingBox(position);
         }
 
         public void Draw(SpriteBatch spriteBatch)

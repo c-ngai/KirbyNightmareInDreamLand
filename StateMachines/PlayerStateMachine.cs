@@ -73,7 +73,7 @@ namespace KirbyNightmareInDreamLand.StateMachines
         }
         public bool IsAttacking() //checks if kirby is not attacking
         {
-            return (GetPose() == KirbyPose.Attacking) || (GetPose() == KirbyPose.Inhaling);
+            return (GetPose() == KirbyPose.Attacking) || (GetPose() == KirbyPose.Inhaling)|| (GetPose() == KirbyPose.Sliding);
         }
 
         public bool CanMove()

@@ -17,8 +17,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         private PlayerStateMachine state;
         private PlayerMovement movement;
         private Sprite playerSprite ;
-
+        private ICollidable collidable;
         private PlayerAttack attack;
+
 
         //health stuffs -- will be taken to another class connected to kirby in next sprint
         private int health = Constants.Kirby.MAX_HEALTH;
@@ -36,6 +37,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             state = new PlayerStateMachine();
             movement = new NormalPlayerMovement(pos);
             oldState = state.GetStateString();
+            collidable = new PlayerCollisionHandler((int) pos.X, (int) pos.Y, this);
         }
         public Sprite PlayerSprite
         {
@@ -148,6 +150,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             ChangePose(KirbyPose.Hurt);
             await Task.Delay(Constants.Physics.DELAY);
+            StopMoving();
         }
         public void EndInvinciblility(GameTime gameTime)
         {
@@ -273,9 +276,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public void Attack()
         {
+            if(!attackIsActive){
+                attack = new PlayerAttack(this);
+                movement.Attack(this);
+            }
             ChangeAttackBool(true);
-            attack = new PlayerAttack(this);
-            movement.Attack(this);
         }
 
         // makes state changes by calling other player methods, calls state.Update(), and finally calls Draw last?
@@ -284,6 +289,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             movement.MovePlayer(this, gameTime);
             EndInvinciblility(gameTime);
             playerSprite.Update();
+            collidable.UpdateBoundingBox(movement.GetPosition());
             if(attackIsActive){
                 attack.Update(gameTime, this);
             }

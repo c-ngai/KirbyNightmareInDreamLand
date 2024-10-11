@@ -51,6 +51,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 health = 0;
                 isDead = true;
             }
+            position =  new Vector2(0,0);
         }
 
         public void UpdateTexture()
