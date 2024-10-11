@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace KirbyNightmareInDreamLand.Sprites
 {
@@ -89,6 +90,15 @@ namespace KirbyNightmareInDreamLand.Sprites
                 {
                     Debug.Instance.DrawRectangle(spriteBatch, destinationRectangle, Color.Blue);
                     Debug.Instance.DrawPoint(spriteBatch, position, Color.Red);
+
+                    // Draws purple borders around all tiles intersecting with the sprite boundaries
+                    /*
+                    List<Tile> tiles = _game.level.IntersectingTiles(spriteBatch, destinationRectangle);
+                    foreach (Tile tile in tiles)
+                    {
+                        Debug.Instance.DrawRectangle(spriteBatch, tile.rectangle, Color.Purple);
+                    }
+                    */
                 }
             }
 
