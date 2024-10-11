@@ -93,8 +93,6 @@ namespace KirbyNightmareInDreamLand
 
             //TargetElapsedTime = TimeSpan.FromMilliseconds(1000d / 30);
 
-
-
             #region set max window width
             int displayWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             int displayHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
@@ -182,6 +180,9 @@ namespace KirbyNightmareInDreamLand
             //make it a list from the get go to make it multiplayer asap
             kirby = new Player(new Vector2(30, Constants.Graphics.FLOOR));
             kirby.PlayerSprite = SpriteFactory.Instance.CreateSprite("kirby_normal_standing_right");
+            // Target the camera on Kirby
+            camera.TargetPlayer(kirby);
+
 
             LoadItem();
 
@@ -220,8 +221,6 @@ namespace KirbyNightmareInDreamLand
             // Load all objects
             LoadObjects();
 
-            // Target the camera on Kirby
-            camera.TargetPlayer(kirby);
         }
 
 
