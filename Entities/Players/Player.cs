@@ -18,8 +18,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         private PlayerMovement movement;
         private Sprite playerSprite ;
         private ICollidable collidable;
-
         private PlayerAttack attack;
+
 
         //health stuffs -- will be taken to another class connected to kirby in next sprint
         private int health = Constants.Kirby.MAX_HEALTH;
@@ -276,9 +276,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public void Attack()
         {
+            if(!attackIsActive){
+                attack = new PlayerAttack(this);
+                movement.Attack(this);
+            }
             ChangeAttackBool(true);
-            attack = new PlayerAttack(this);
-            movement.Attack(this);
         }
 
         // makes state changes by calling other player methods, calls state.Update(), and finally calls Draw last?

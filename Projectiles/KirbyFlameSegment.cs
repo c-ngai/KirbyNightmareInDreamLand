@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using KirbyNightmareInDreamLand.Sprites;
@@ -15,6 +15,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private bool isActive;
         private static Random random = new Random(); // Random instance for sprite selection
         private int frameCount;
+        private ICollidable collidable; 
 
         public bool IsActive { get; private set; } // Expose IsActive for external checks
 
@@ -73,6 +74,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
                     projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_fire1_left");
                 }
             }
+            collidable = new ProjectileCollisionHandler((int)startPosition.X, (int)startPosition.Y);
         }
 
         public void Update()
@@ -98,6 +100,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 if (frameCount >= Constants.KirbyFire.MAX_FRAMES)
                 {
                     IsActive = false;
+                    collidable.DestroyHitBox();
                     projectileSprite = null; // Set sprite to null to avoid further drawing
                 }
                 else
@@ -105,6 +108,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
                     projectileSprite?.Update();
                 }
             }
+            collidable.UpdateBoundingBox(position);
         }
 
         public void Draw(SpriteBatch spriteBatch)

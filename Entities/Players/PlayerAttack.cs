@@ -3,21 +3,28 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Projectiles;
+using System.Collections.Generic;
+using KirbyNightmareInDreamLand;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
     public class PlayerAttack
     {
-        private KirbyBeam beam;
-        private KirbyFlamethrower flame;
+        private IProjectile beam;
+        private IProjectile flame;
         private IProjectile puff;
+        private IProjectile star;
+        private ICollidable attack;
 
         private int counter = 0;
+
+        private List<IProjectile> attacks;
         public PlayerAttack(Player kirby)
         {
             beam = new KirbyBeam(kirby.GetKirbyPosition(), !kirby.IsLeft());
             flame = new KirbyFlamethrower(kirby.GetKirbyPosition(), !kirby.IsLeft());
             puff = new KirbyPuff(kirby.GetKirbyPosition(), !kirby.IsLeft());
+            star = new KirbyStar(kirby.GetKirbyPosition(), !kirby.IsLeft());
         }
 
         /*
@@ -64,7 +71,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public void Update(GameTime gameTime, Player kirby)
         {
-            if(kirby.GetKirbyPose().Equals("JumpFalling") && kirby.IsFloating()){
+            if(kirby.IsFloating()){
                 puff.Update();
             } else if (kirby.GetKirbyType().Equals("Beam")){
                 beam.Update();
@@ -120,9 +127,5 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 //electric is not being implemented and dead does not have an attack
             }
         }
-
-        
-
-
     }
 }

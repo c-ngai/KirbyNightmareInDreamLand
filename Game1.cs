@@ -135,7 +135,7 @@ namespace KirbyNightmareInDreamLand
 
             keyboard.RegisterCommand(Keys.D, new KirbyFaceRightCommand(kirby), null, ExecutionType.StartingPress);
 
-            keyboard.RegisterCommand(Keys.Z, new KirbyAttackCommand(kirby), new KirbyStopMovingCommand(kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.Z, new KirbyAttackCommand(kirby),null, ExecutionType.StartingPress);
 
             keyboard.RegisterCommand(Keys.D1, new KirbyChangeNormalCommand(kirby), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.D2, new KirbyChangeBeamCommand(kirby), null, ExecutionType.StartingPress);

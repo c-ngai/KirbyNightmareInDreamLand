@@ -41,8 +41,8 @@ namespace KirbyNightmareInDreamLand
             public const int ENTITY_HEIGHT = 12;
             public const int TILE_WIDTH = 16;
             public const int TILE_HEIGHT = 16;
-            //public const int ENTITY_WIDTH = 12;
-            //public const int ENTITY_HEIGHT = 12;
+            public const int NULL_WIDTH = 0;
+            public const int NULL_HEIGHT = 0;
             
         }
 

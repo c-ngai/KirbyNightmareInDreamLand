@@ -6,7 +6,7 @@ namespace KirbyNightmareInDreamLand
     {
         public Rectangle BoundingBox { get; private set; }
         public bool IsDynamic { get; private set; } = true;
-        private bool isCollidableWithDynamic = true;
+        public bool IsActive { get; private set; } = true;
         private IPlayer Player;
 
         public PlayerCollisionHandler(int x, int y, Player player)
@@ -14,6 +14,14 @@ namespace KirbyNightmareInDreamLand
             BoundingBox = new Rectangle(x, y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
             CollisionManager.Instance.RegisterDynamicObject(this);
             Player = player;
+        }
+        public void DestroyHitBox()
+        {
+            IsActive = false;  // Mark enemy as inactive
+        }
+        public void EnableHitBox()
+        {
+            IsActive = true;  // Mark enemy as inactive
         }
         // Update the bounding box based on the player's current position and size
         public void UpdateBoundingBox(Vector2 pos)
@@ -23,11 +31,11 @@ namespace KirbyNightmareInDreamLand
         // Method to toggle colliding with dynamic objects (invincibility against dynamic objects)
         public void SetCollidableWithDynamic(bool collidable)
         {
-            isCollidableWithDynamic = collidable;
+            IsActive = collidable;
         }
         public bool CanCollide(ICollidable other)
         {
-            if (!isCollidableWithDynamic && other.IsDynamic)
+            if (!IsActive && other.IsDynamic)
             {
                 // If the player is invincible and the other object is dynamic, ignore collision
                 return false;
@@ -40,7 +48,6 @@ namespace KirbyNightmareInDreamLand
             if (!CanCollide(other)) return;
             if (other.IsDynamic)
             {
-                
                 Player.TakeDamage();
             }
         }
