@@ -101,10 +101,10 @@ namespace KirbyNightmareInDreamLand
             texts.Add("F : Toggle fullscreen");
             texts.Add("");
             texts.Add("F1 : Toggle debug text");
-            texts.Add("G : Toggle sprite debug mode");
+            texts.Add("F2 : Toggle sprite debug mode");
             texts.Add("F3 : Toggle level debug mode");
             texts.Add("F4 : Toggle sprite culling");
-            texts.Add("H : Toggle collision debug mode");
+            texts.Add("F5 : Toggle collision debug mode");
 
             // Draw lines to screen
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
