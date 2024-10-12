@@ -68,6 +68,27 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 segment.Update();
             }
         }
+        public void EndAttack()
+        {
+            foreach(var segment in beamSegments)
+            {
+                if(!segment.IsActive)
+                {
+                    segment.EndAttack();
+                }
+            }
+        }
+        public bool IsDone()
+        {
+            foreach (var segment in beamSegments)
+            {
+                if(segment.IsActive)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
 
         public void Draw(SpriteBatch spriteBatch)
         {

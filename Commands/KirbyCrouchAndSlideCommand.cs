@@ -31,29 +31,29 @@ namespace KirbyNightmareInDreamLand.Commands
         public void Execute()
         {
             // Determines if a timer needs to be set to keep track of slide time when the attack key is also pressed and if the timer needs to be reset
-            if (keyboard.currentState.Contains(attackKey) && startingTime == 0)
-            {
-                startingTime = timer.GetCurrentTimeInMS(game.time);
-                isSliding = false;
-            }
-            else if (startingTime != 0 && timer.GetCurrentTimeInMS(game.time) - startingTime < Constants.Controller.SLIDE_TIME)
-            {
-                isSliding = true;
-            }
-            else
-            {
-                startingTime = 0;
-                isSliding = false;
-            }
+            // if (keyboard.currentState.Contains(attackKey) && startingTime == 0)
+            // {
+            //     startingTime = timer.GetCurrentTimeInMS(game.time);
+            //     isSliding = false;
+            // }
+            // else if (startingTime != 0 && timer.GetCurrentTimeInMS(game.time) - startingTime < Constants.Controller.SLIDE_TIME)
+            // {
+            //     isSliding = true;
+            // }
+            // else
+            // {
+            //     startingTime = 0;
+            //     isSliding = false;
+            // }
 
-            if (isSliding)
-            {
-                kirby.Slide();
-            }
-            else
-            {
+            // if (isSliding)
+            // {
+            //     kirby.Slide();
+            // }
+            // else
+            // {
                 kirby.Crouch();
-            }
+            //}
         }
     }
 }

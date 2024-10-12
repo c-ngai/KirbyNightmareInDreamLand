@@ -43,6 +43,8 @@ namespace KirbyNightmareInDreamLand
             public const int TILE_HEIGHT = 16;
             public const int NULL_WIDTH = 0;
             public const int NULL_HEIGHT = 0;
+            //specifically for inhale and electric which are not projectiles
+            public const int ATTACK_SIZE = 36; 
             
         }
 
@@ -55,8 +57,8 @@ namespace KirbyNightmareInDreamLand
             public const int PUFF_ATTACK_FRAMES = 30;
             public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(13, -7);
             public static Vector2 BEAM_ATTACK_OFFSET_LEFT = new Vector2(-13, -7);
-            public static Vector2 PUFF_ATTACK_OFFSET = new Vector2(10, 0);
-            public static Vector2 FLAME_ATTACK_OFFSET_RIGHT = new Vector2(25, -10);
+            public static Vector2 PUFF_ATTACK_OFFSET = new Vector2(15, 0);
+            public static Vector2 FLAME_ATTACK_OFFSET_RIGHT = new Vector2(30, -10);
             public static Vector2 FLAME_ATTACK_OFFSET_LEFT = new Vector2(-25, -10);
 
         }

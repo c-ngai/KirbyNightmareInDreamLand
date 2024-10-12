@@ -53,6 +53,7 @@ namespace KirbyNightmareInDreamLand
 
         public Stopwatch TickStopwatch { get; private set; } = new Stopwatch();
 
+
         // Graphics settings modifiable at runtime
         public bool DEBUG_TEXT_ENABLED { get; set; }
         public bool DEBUG_SPRITE_MODE { get; set; }
@@ -143,14 +144,15 @@ namespace KirbyNightmareInDreamLand
 
             keyboard.RegisterCommand(Keys.D, new KirbyFaceRightCommand(kirby), null, ExecutionType.StartingPress);
 
-            keyboard.RegisterCommand(Keys.Z, new KirbyAttackCommand(kirby),null, ExecutionType.StartingPress);
+            //keyboard.RegisterCommand(Keys.A, new KirbyAttackCommand(kirby),null, ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.Z, new KirbyAttackPressedCommand(kirby), new KirbyStopAttackingCommand(kirby), ExecutionType.Pressed);
 
             keyboard.RegisterCommand(Keys.D1, new KirbyChangeNormalCommand(kirby), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.D2, new KirbyChangeBeamCommand(kirby), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.D3, new KirbyChangeFireCommand(kirby), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.D4, new KirbyChangeSparkCommand(kirby), null, ExecutionType.StartingPress);
 
-            keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby), new KirbyStopMovingCommand(kirby), ExecutionType.Pressed);
+            //keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby), new KirbyStopMovingCommand(kirby), ExecutionType.Pressed);
 
             //keyboard.RegisterCommand(Keys.U, new HideItemCommand(this), null, ExecutionType.StartingPress);
             //keyboard.RegisterCommand(Keys.I, new ShowItemCommand(this), null, ExecutionType.StartingPress);
@@ -180,6 +182,7 @@ namespace KirbyNightmareInDreamLand
 
         public void LoadObjects()
         {
+            CollisionManager.Instance.ResetDynamicCollisionBoxes();
             // Creates kirby object
             //make it a list from the get go to make it multiplayer asap
             kirby = new Player(new Vector2(30, Constants.Graphics.FLOOR));
@@ -279,6 +282,10 @@ namespace KirbyNightmareInDreamLand
             kirby.Draw(spriteBatch);
             // Draw item
             item.Draw(new Vector2(200, 150), spriteBatch);
+            if (DEBUG_COLLISION_MODE)
+            {
+                CollisionManager.Instance.DebugDraw(spriteBatch);
+            }
             spriteBatch.End();
 
             // Static spritebatch

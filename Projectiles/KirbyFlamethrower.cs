@@ -34,7 +34,17 @@ namespace KirbyNightmareInDreamLand.Projectiles
             flameSegments = new List<KirbyFlameSegment>();
             elapsedTime = 0f;
         }
-
+        public void EndAttack()
+        {
+            foreach (var segment in flameSegments)
+            {
+                segment.EndAttack();
+            }
+        }
+        public bool IsDone()
+        {
+            return true;
+        }
         public void Update()
         {
             // Use a static reference to Game1 to access the game time.

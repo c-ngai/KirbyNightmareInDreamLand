@@ -47,5 +47,14 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             projectileSprite.Draw(Position, spriteBatch);
         }
+        public void EndAttack()
+        {
+            //
+        }
+        public bool IsDone()
+        {
+            return true;
+        }
+    
     }
 }
