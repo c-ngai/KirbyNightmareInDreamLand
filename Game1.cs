@@ -65,6 +65,7 @@ namespace KirbyNightmareInDreamLand
         public int WINDOW_XOFFSET { get; set; }
         public int WINDOW_YOFFSET { get; set; }
         public int MAX_WINDOW_WIDTH { get; set; }
+        public int TARGET_FRAMERATE { get; set; }
 
 
         //why is game time public?? take out set in the game time make anybody that is not that commmand not be anle to set it
@@ -90,8 +91,9 @@ namespace KirbyNightmareInDreamLand
             WINDOW_HEIGHT = 480;
             WINDOW_XOFFSET = 0;
             WINDOW_YOFFSET = 0;
+            TARGET_FRAMERATE = 60;
 
-            //TargetElapsedTime = TimeSpan.FromMilliseconds(1000d / 30);
+            TargetElapsedTime = TimeSpan.FromMilliseconds(1000f / TARGET_FRAMERATE);
 
             #region set max window width
             int displayWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
@@ -164,9 +166,11 @@ namespace KirbyNightmareInDreamLand
             keyboard.RegisterCommand(Keys.F3, new GraphicsToggleDebugLevelCommand(this), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.F4, new GraphicsToggleCullingCommand(this), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.F5, new GraphicsToggleDebugCollisionCommand(this), null, ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.F, new GraphicsToggleFullscreenCommand(this, graphics), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.OemPlus, new GraphicsIncreaseWindowSizeCommand(this, graphics), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.OemMinus, new GraphicsDecreaseWindowSizeCommand(this, graphics), null, ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.F, new GraphicsToggleFullscreenCommand(this, graphics), null, ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.OemCloseBrackets, new GraphicsIncreaseTargetFramerateCommand(this, graphics), null, ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.OemOpenBrackets, new GraphicsDecreaseTargetFramerateCommand(this, graphics), null, ExecutionType.StartingPress);
         }
 
         public void LoadItem()
@@ -287,10 +291,10 @@ namespace KirbyNightmareInDreamLand
             // Draw Debug Text
             if (DEBUG_TEXT_ENABLED)
             {
-                Debug.Instance.DrawDebugText(spriteBatch);
+                GameDebug.Instance.DrawDebugText(spriteBatch);
             }
             // Draw borders (should only be visible in fullscreen for letterboxing)
-            Debug.Instance.DrawBorders(spriteBatch);
+            GameDebug.Instance.DrawBorders(spriteBatch);
         }
 
     }

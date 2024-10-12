@@ -50,7 +50,7 @@ namespace KirbyNightmareInDreamLand
 
             LoadAllTextures(content, game);
             LoadAllSpriteAnimations();
-            Debug.Instance.Load(game, graphics);
+            GameDebug.Instance.Load(game, graphics);
 
             LoadAllTilemaps();
             LoadAllRooms();
