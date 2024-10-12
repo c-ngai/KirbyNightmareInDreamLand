@@ -186,7 +186,7 @@ namespace KirbyNightmareInDreamLand
             // Creates kirby object
             //make it a list from the get go to make it multiplayer asap
             kirby = new Player(new Vector2(30, Constants.Graphics.FLOOR));
-            kirby.PlayerSprite = SpriteFactory.Instance.CreateSprite("kirby_normal_standing_right");
+            kirby.PlayerSprite = SpriteFactory.Instance.CreateSprite("kirby_spark_freefallfar_right");
             // Target the camera on Kirby
             camera.TargetPlayer(kirby);
 
