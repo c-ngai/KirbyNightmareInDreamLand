@@ -12,6 +12,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private bool isFacingRight;
         private int frameCount = 0;
         public bool isActive = true;
+        private ICollidable collidable; 
 
         public Vector2 Position
         {
@@ -24,7 +25,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
             get => velocity;            // Return the current velocity of the puff
             set => velocity = value;    // Set the velocity of the puff to the given value
         }
-
         public KirbyPuff(Vector2 kirbyPosition, bool isFacingRight)
         {
 
@@ -43,8 +43,19 @@ namespace KirbyNightmareInDreamLand.Projectiles
             projectileSprite = isFacingRight
                 ? SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_right")
                 : SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_left");
-        }
 
+            collidable = new ProjectileCollisionHandler((int)kirbyPosition.X, (int)kirbyPosition.Y);
+            
+        }
+        
+        public void EndAttack()
+        {
+            collidable.DestroyHitBox();
+        }
+        public bool IsDone()
+        {
+            return isActive;
+        }
         public void Update()
         {
             if (isActive)
@@ -69,6 +80,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 if (frameCount >= Constants.Puff.MAX_FRAMES || Velocity == Vector2.Zero)
                 {
                     isActive = false;
+                    collidable.DestroyHitBox();
                     projectileSprite = null; // Remove the sprite to avoid memory leaks
                 }
 
@@ -78,6 +90,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
                     projectileSprite?.Update();
                 }
             }
+            collidable.UpdateBoundingBox(position);
         }
 
         public void Draw(SpriteBatch spriteBatch)

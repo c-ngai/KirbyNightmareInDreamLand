@@ -10,7 +10,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private Vector2 position;
         private Vector2 velocity;
         private int frameCount = 0;
-        private bool IsActive = true;
+        public bool IsActive {get; private set;}= true;
         private int maxFrames = 6; // Segment disappears after 6 frames
         private ISprite sprite1;
         private ISprite sprite2;
@@ -44,8 +44,8 @@ namespace KirbyNightmareInDreamLand.Projectiles
             {
                 // Update position based on velocity
                 Position += Velocity;
-
-            }
+            } 
+            
 
             // Update animation Chandled internally by sprite)
             if (frameCount % 2 == 0)
@@ -63,12 +63,19 @@ namespace KirbyNightmareInDreamLand.Projectiles
             if (frameCount >= maxFrames)
             {
                 IsActive = false; // Mark the segment as inactive
-                collidable.DestroyHitBox();
+                EndAttack();
 
             }
             collidable.UpdateBoundingBox(position);
         }
-
+        public void EndAttack()
+        {
+            collidable.DestroyHitBox();
+        }
+        public bool IsDone()
+        {
+            return !IsActive;
+        }
         public void Draw(SpriteBatch spriteBatch)
         {
             if (frameCount % 2 == 0 && IsActive)

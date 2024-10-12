@@ -1,16 +1,19 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace KirbyNightmareInDreamLand
 {
     public class CollisionManager
     {
+        private Game1 Game;
         //dynamic objects: enemies, projectiles, player
         private List<ICollidable> DynamicObjects;
         //static: tiles
         private List<ICollidable> StaticObjects;
         private static CollisionManager instance = new CollisionManager();
+        private bool CollisionOn = false; // for debug purposes
         public static CollisionManager Instance
         {
             get
@@ -22,6 +25,14 @@ namespace KirbyNightmareInDreamLand
         {
             DynamicObjects = new List<ICollidable>();
             StaticObjects  = new List<ICollidable>();
+        }
+        public void ResetDynamicCollisionBoxes()
+        {
+            foreach(var dynamObject in DynamicObjects)
+            {
+                dynamObject.DestroyHitBox();
+            }
+            DynamicObjects.RemoveAll(obj => !obj.IsActive);
         }
 
         // Register dynamic objects like Player, Enemy, etc.
@@ -66,15 +77,12 @@ namespace KirbyNightmareInDreamLand
         }
 
         // Method to handle collision detection
-        public void CheckCollisions()
+        public void StaticCollisionCheck()
         {
-            DynamicObjects.RemoveAll(obj => !obj.IsActive);
-            // Check dynamic objects against static objects
             foreach (var dynamicObj in DynamicObjects)
             {
                 foreach (var staticObj in StaticObjects)
                 {
-                    if (!dynamicObj.IsActive) continue;
                     if (dynamicObj.BoundingBox.Intersects(staticObj.BoundingBox))
                     {
                         dynamicObj.OnCollision(staticObj);
@@ -82,15 +90,17 @@ namespace KirbyNightmareInDreamLand
                     }
                 }
             }
-
-            // Check dynamic objects against each other, avoiding duplicate tests
-            //add check for enemies not colliding with each other?? probably within their ouwn class
+        }
+        public void DynamicCollisionCheck()
+        {
             for (int i = 0; i < DynamicObjects.Count; i++)
             {
                 for (int j = i + 1; j < DynamicObjects.Count; j++)
                 {
                     if (DynamicObjects[i].IsActive && DynamicObjects[j].IsActive) 
                     {
+                        if (!DynamicObjects[i].IsActive || !DynamicObjects[i].IsActive) continue;
+                        //make function to get type to check if its enemies
                         if (DynamicObjects[i].BoundingBox.Intersects(DynamicObjects[j].BoundingBox))
                         {
                             DynamicObjects[i].OnCollision(DynamicObjects[j]);
@@ -101,7 +111,37 @@ namespace KirbyNightmareInDreamLand
                 }
             }
         }
+        public void CheckCollisions()
+        {
+            if(CollisionOn)
+            {
+                //DynamicObjects.RemoveAll(obj => !obj.IsActive);
+                // Check dynamic objects against static objects
+                
+                StaticCollisionCheck();
+                // Check dynamic objects against each other, avoiding duplicate tests
+                //add check for enemies not colliding with each other?? probably within their ouwn class
+                DynamicCollisionCheck();
+            }
+            
 
-    }               
+        }
+        public void DebugDraw(SpriteBatch spriteBatch)
+        {
+            foreach (var dynamicObj in DynamicObjects)
+            {
+                if(dynamicObj.IsActive){
+                    Debug.Instance.DrawRectangle(spriteBatch, dynamicObj.BoundingBox, Color.Red);
+                }
+            }
+            foreach (var staticObj in StaticObjects)
+            {
+                if(staticObj.IsActive){
+                    Debug.Instance.DrawRectangle(spriteBatch, staticObj.BoundingBox, Color.Red);
+                }
+            }
+        } 
+
+    }              
 
 }

@@ -43,7 +43,7 @@ namespace KirbyNightmareInDreamLand.Controllers
             {
                 stopKeys.Add(key, command);
             }
-
+            
             controllerMappings.Add(key, command);
             oldKeyStates.Add(key, false);
         }

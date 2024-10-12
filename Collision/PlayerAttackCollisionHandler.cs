@@ -1,17 +1,18 @@
-using KirbyNightmareInDreamLand.Entities.Players;
 using Microsoft.Xna.Framework;
+
 namespace KirbyNightmareInDreamLand
 {
-    public class ProjectileCollisionHandler : ICollidable
+    public class PlayerAttackCollisionHandler : ICollidable
     {
         public Rectangle BoundingBox { get; private set; }
 
         public bool IsDynamic { get; private set; } = true;
         public bool IsActive { get; private set; } = true;
-        public ProjectileCollisionHandler(int x, int y)
+        public PlayerAttackCollisionHandler(int x, int y)
         {
-            BoundingBox = new Rectangle(x, y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
+            BoundingBox = new Rectangle(x, y, Constants.HitBoxes.ATTACK_SIZE, Constants.HitBoxes.ATTACK_SIZE);
             CollisionManager.Instance.RegisterDynamicObject(this);
+            //System.Console.WriteLine(y);
         }
         public void DestroyHitBox()
         {
@@ -28,7 +29,7 @@ namespace KirbyNightmareInDreamLand
         }  
         public void UpdateBoundingBox(Vector2 pos)
         {
-            BoundingBox = new Rectangle((int)pos.X, (int)pos.Y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
+            BoundingBox = new Rectangle((int)pos.X, (int)pos.Y, Constants.HitBoxes.ATTACK_SIZE, Constants.HitBoxes.ATTACK_SIZE);
         }
     }
 }

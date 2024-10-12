@@ -23,10 +23,18 @@ namespace KirbyNightmareInDreamLand
         {
             IsActive = true;  // Mark enemy as inactive
         }
+        public Vector2 CalculateRectanglePoint(Vector2 pos)
+        {
+            float x = pos.X - Constants.HitBoxes.ENTITY_WIDTH/2;
+            float y = pos.Y - Constants.HitBoxes.ENTITY_HEIGHT;
+            Vector2 rectPoint = new Vector2(x, y);
+            return rectPoint; 
+        }
         // Update the bounding box based on the player's current position and size
         public void UpdateBoundingBox(Vector2 pos)
         {
-            BoundingBox = new Rectangle((int)pos.X, (int)pos.Y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
+            Vector2 rectPoint = CalculateRectanglePoint(pos);
+            BoundingBox = new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
         }
         // Method to toggle colliding with dynamic objects (invincibility against dynamic objects)
         public void SetCollidableWithDynamic(bool collidable)
@@ -45,7 +53,7 @@ namespace KirbyNightmareInDreamLand
 
         public void OnCollision(ICollidable other)
         {
-            if (!CanCollide(other)) return;
+            if (!IsActive) return;
             if (other.IsDynamic)
             {
                 Player.TakeDamage();
