@@ -61,10 +61,34 @@ namespace KirbyNightmareInDreamLand
             
         }
 
-        // Draws the level normally, background and foreground.
+
+        private void DrawBackground(SpriteBatch spriteBatch)
+        {
+            if (room.BackgroundSprite != null)
+            {
+                room.BackgroundSprite.Draw(Vector2.Zero, spriteBatch); // Draw at origin or wherever it should be
+            }
+        }
+
+        private void DrawForeground(SpriteBatch spriteBatch)
+        {
+            if (room.ForegroundSprite != null)
+            {
+                room.ForegroundSprite.Draw(new Vector2(100,100), spriteBatch); // Draw at origin or wherever it should be
+            }
+        }
+
+        // Draws the level normally; background and foreground.
         public void DrawLevel(SpriteBatch spriteBatch)
         {
-            // TODO: Vivian
+
+            // Draw background 
+            // DrawBackground(spriteBatch);
+
+            // Draw the room's foreground
+            DrawForeground(spriteBatch);
+
+
         }
 
         // Debug mode (toggle F2), draws the usually-invisible collision tiles.
