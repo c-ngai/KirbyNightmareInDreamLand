@@ -191,6 +191,9 @@
 #begin Tilemaps.txt
 /copy:Tilemaps.txt
 
+#begin Tilemaps/room1.csv
+/copy:Tilemaps/room1.csv
+
 #begin Tilemaps/testroom1.csv
 /copy:Tilemaps/testroom1.csv
 

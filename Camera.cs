@@ -22,8 +22,9 @@ namespace KirbyNightmareInDreamLand
         // Parallax factor for the background (1.0 = same speed as foreground)
         public float BackgroundParallaxFactor { get; set; } = 0.5f;
 
-        float levelWidth = Constants.Graphics.LEVEL_WIDTH;
+        // Matrix for the level, everything drawn here is in world space.
         public Matrix LevelMatrix { get; set; }
+        // Matrix for the screen, everything drawn here is directly in screen space. For HUD, etc. Things not part of the actual "game world".
         public Matrix ScreenMatrix { get; set; }
         public Matrix backgroundMatrix { get; set; }
 
@@ -47,45 +48,46 @@ namespace KirbyNightmareInDreamLand
 
         public void UpdateCameraPosition()
         {
-            float targetX = _targetPlayer?.GetKirbyPosition().X ?? position.X;
-            float newCameraX = targetX - Constants.Graphics.GAME_WIDTH / 2;
-
-            // Check if Kirby is at the edge of the terrain
-            if (newCameraX < 0)
+            // Set the camera's X
+            if (_game.level.room.CameraXLock)
             {
-                newCameraX = 0; // Prevent moving left off the screen
+                position.X = _game.level.room.LockedCameraX;
             }
-            else if (newCameraX > levelWidth - Constants.Graphics.GAME_WIDTH)
+            else
             {
-                newCameraX = levelWidth - Constants.Graphics.GAME_WIDTH; // Prevent moving right off the terrain
+                position.X = _targetPlayer?.GetKirbyPosition().X - Constants.Graphics.GAME_WIDTH / 2 ?? position.X;
+                // Bound camera X by room width
+                if (position.X < 0)
+                {
+                    position.X = 0;
+                }
+                else if (position.X > _game.level.room.Width - Constants.Graphics.GAME_WIDTH)
+                {
+                    position.X = _game.level.room.Width - Constants.Graphics.GAME_WIDTH;
+                }
             }
 
-            // Update the camera's position
-            position.X = newCameraX;
+            // Set the camera's Y
+            if (_game.level.room.CameraYLock)
+            {
+                position.Y = _game.level.room.LockedCameraY;
+            }
+            else
+            {
+                position.Y = _targetPlayer?.GetKirbyPosition().Y - Constants.Graphics.GAME_HEIGHT / 2 ?? position.Y;
+                // Bound camera Y by room height
+                if (position.Y < 0)
+                {
+                    position.Y = 0;
+                }
+                else if (position.Y > _game.level.room.Height - Constants.Graphics.GAME_HEIGHT)
+                {
+                    position.Y = _game.level.room.Height - Constants.Graphics.GAME_HEIGHT;
+                }
+            }
 
-
-            // ATROCIOUS COUPLING, I KNOW- i just wanted to get it working, i'll fix it later T______T
-            //if (_game.level.room.CameraXLock)
-            //{
-            //    position.X = _game.level.room.LockedCameraX;
-            //}
-            //else
-            //{
-            //    position.X = _targetPlayer?.GetKirbyPosition().X - Constants.Graphics.GAME_WIDTH / 2 ?? position.X;
-            //}
-            //if (_game.level.room.CameraYLock)
-            //{
-            //    position.Y = _game.level.room.LockedCameraY;
-            //}
-            //else
-            //{
-            //    position.Y = _targetPlayer?.GetKirbyPosition().Y - Constants.Graphics.GAME_HEIGHT / 2 ?? position.Y;
-            //}
-            //position.Floor();
-
-            position.X = (float)Math.Floor(position.X);
-            position.Y = (float)Math.Floor(position.Y);
-
+            // Floor the camera's position to round it down to the nearest pixel, alignment can be weird otherwise
+            position.Floor();
         }
 
         public void UpdateBounds()
@@ -105,14 +107,17 @@ namespace KirbyNightmareInDreamLand
                 position.Z
             );
 
-            // Update the LevelMatrix for the foreground
-            LevelMatrix = Matrix.CreateTranslation(-position.X, -position.Y, 0) * Matrix.CreateScale(scale);
+            
+            LevelMatrix = Matrix.CreateTranslation(-position) * Matrix.CreateScale(scale) * Matrix.CreateTranslation(_game.WINDOW_XOFFSET, _game.WINDOW_YOFFSET, 0);
+            ScreenMatrix = Matrix.CreateScale(scale) * Matrix.CreateTranslation(_game.WINDOW_XOFFSET, _game.WINDOW_YOFFSET, 0);
 
             // Update the background matrix for the background
             backgroundMatrix = Matrix.CreateTranslation(-backgroundPosition.X, -backgroundPosition.Y, 0) * Matrix.CreateScale(scale);
+
+            
         }
 
-            public void TargetPlayer(IPlayer targetPlayer)
+        public void TargetPlayer(IPlayer targetPlayer)
         {
             _targetPlayer = targetPlayer;
         }
