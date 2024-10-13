@@ -18,8 +18,14 @@ namespace KirbyNightmareInDreamLand
 
         private Vector3 position;
         private Rectangle bounds;
+
+        // Parallax factor for the background (1.0 = same speed as foreground)
+        public float BackgroundParallaxFactor { get; set; } = 0.5f;
+
+        float levelWidth = Constants.Graphics.LEVEL_WIDTH;
         public Matrix LevelMatrix { get; set; }
         public Matrix ScreenMatrix { get; set; }
+        public Matrix backgroundMatrix { get; set; }
 
         public Camera(Game1 game)
         {
@@ -34,36 +40,79 @@ namespace KirbyNightmareInDreamLand
 
         public void Update()
         {
-            // ATROCIOUS COUPLING, I KNOW- i just wanted to get it working, i'll fix it later T______T
-            if (_game.level.room.CameraXLock)
-            {
-                position.X = _game.level.room.LockedCameraX;
-            }
-            else
-            {
-                position.X = _targetPlayer?.GetKirbyPosition().X - Constants.Graphics.GAME_WIDTH / 2 ?? position.X;
-            }
-            if (_game.level.room.CameraYLock)
-            {
-                position.Y = _game.level.room.LockedCameraY;
-            }
-            else
-            {
-                position.Y = _targetPlayer?.GetKirbyPosition().Y - Constants.Graphics.GAME_HEIGHT / 2 ?? position.Y;
-            }
-            position.Floor();
-
-            // Adjust the X and Y of the bounds Rectangle
-            bounds.X = (int)position.X;
-            bounds.Y = (int)position.Y;
-
-            // Update matrices
-            float scale = _game.WINDOW_HEIGHT / Constants.Graphics.GAME_HEIGHT;
-            LevelMatrix = Matrix.CreateTranslation(-position) * Matrix.CreateScale(scale) * Matrix.CreateTranslation(_game.WINDOW_XOFFSET, _game.WINDOW_YOFFSET, 0);
-            ScreenMatrix = Matrix.CreateScale(scale) * Matrix.CreateTranslation(_game.WINDOW_XOFFSET, _game.WINDOW_YOFFSET, 0);
+            UpdateCameraPosition();
+            UpdateBounds();
+            UpdateMatrices();
         }
 
-        public void TargetPlayer(IPlayer targetPlayer)
+        public void UpdateCameraPosition()
+        {
+            float targetX = _targetPlayer?.GetKirbyPosition().X ?? position.X;
+            float newCameraX = targetX - Constants.Graphics.GAME_WIDTH / 2;
+
+            // Check if Kirby is at the edge of the terrain
+            if (newCameraX < 0)
+            {
+                newCameraX = 0; // Prevent moving left off the screen
+            }
+            else if (newCameraX > levelWidth - Constants.Graphics.GAME_WIDTH)
+            {
+                newCameraX = levelWidth - Constants.Graphics.GAME_WIDTH; // Prevent moving right off the terrain
+            }
+
+            // Update the camera's position
+            position.X = newCameraX;
+
+
+            // ATROCIOUS COUPLING, I KNOW- i just wanted to get it working, i'll fix it later T______T
+            //if (_game.level.room.CameraXLock)
+            //{
+            //    position.X = _game.level.room.LockedCameraX;
+            //}
+            //else
+            //{
+            //    position.X = _targetPlayer?.GetKirbyPosition().X - Constants.Graphics.GAME_WIDTH / 2 ?? position.X;
+            //}
+            //if (_game.level.room.CameraYLock)
+            //{
+            //    position.Y = _game.level.room.LockedCameraY;
+            //}
+            //else
+            //{
+            //    position.Y = _targetPlayer?.GetKirbyPosition().Y - Constants.Graphics.GAME_HEIGHT / 2 ?? position.Y;
+            //}
+            //position.Floor();
+
+            position.X = (float)Math.Floor(position.X);
+            position.Y = (float)Math.Floor(position.Y);
+
+        }
+
+        public void UpdateBounds()
+        {
+            bounds.X = (int)position.X;
+            bounds.Y = (int)position.Y;
+        }
+
+        public void UpdateMatrices()
+        {
+            float scale = _game.WINDOW_HEIGHT / Constants.Graphics.GAME_HEIGHT;
+
+            // Calculate background position for parallax effect
+            Vector3 backgroundPosition = new Vector3(
+                position.X * BackgroundParallaxFactor,
+                position.Y * BackgroundParallaxFactor,
+                position.Z
+            );
+
+            // Update the LevelMatrix for the foreground
+            LevelMatrix = Matrix.CreateTranslation(-position.X, -position.Y, 0) * Matrix.CreateScale(scale);
+
+            // Update the background matrix for the background
+            backgroundMatrix = Matrix.CreateTranslation(-backgroundPosition.X, -backgroundPosition.Y, 0) * Matrix.CreateScale(scale);
+        }
+
+            public void TargetPlayer(IPlayer targetPlayer)
         {
             _targetPlayer = targetPlayer;
         }
