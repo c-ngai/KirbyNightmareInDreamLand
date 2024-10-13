@@ -65,5 +65,39 @@
         "SpawnTileY": 50
       }
     ]
+  },
+
+  "room2": {
+    "Foreground sprite": "foreground_room2",
+    "Background sprite": "background_mountains",
+    "Tilemap": "testroom1",
+
+    "Spawn point X": 50,
+    "Spawn point Y": 50,
+
+    "Lock camera X?": false,
+    "Locked camera X": 0,
+    "Lock camera Y?": true,
+    "Locked camera Y": 8,
+
+    "Doors": [
+      {
+        "TileX": 2,
+        "TileY": 7,
+        "DestinationRoom": "testroom2"
+      }
+    ],
+    "Enemies": [
+      {
+        "EnemyType": "waddledee",
+        "SpawnTileX": 100,
+        "SpawnTileY": 50
+      },
+      {
+        "EnemyType": "waddledoo",
+        "SpawnTileX": 150,
+        "SpawnTileY": 50
+      }
+    ]
   }
-  }
+}

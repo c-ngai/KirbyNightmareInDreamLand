@@ -216,7 +216,7 @@ namespace KirbyNightmareInDreamLand
             LevelLoader.Instance.LoadAllContent(this, Content, GraphicsDevice);
 
             level = new Level(this);
-            level.LoadRoom("testroom1");
+            level.LoadRoom("room1");
 
             // Load all objects
             LoadObjects();

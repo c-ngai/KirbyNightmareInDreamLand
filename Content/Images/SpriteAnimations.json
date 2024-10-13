@@ -12887,8 +12887,8 @@
       {
         "X": 0,
         "Y": 0,
-        "Width": 1007,
-        "Height": 246,
+        "Width": 1024,
+        "Height": 176,
         "CenterX": 0,
         "CenterY": 0,
         "Time": 1
@@ -12904,8 +12904,8 @@
       {
         "X": 0,
         "Y": 0,
-        "Width": 1023,
-        "Height": 160,
+        "Width": 1024,
+        "Height": 176,
         "CenterX": 0,
         "CenterY": 0,
         "Time": 1
@@ -12913,62 +12913,62 @@
       {
         "X": 0,
         "Y": 160,
-        "Width": 1023,
-        "Height": 194,
+        "Width": 1024,
+        "Height": 176,
         "CenterX": 0,
         "CenterY": 0,
         "Time": 1
       },
       {
         "X": 0,
-        "Y": 355,
-        "Width": 1023,
-        "Height": 191,
+        "Y": 352,
+        "Width": 1024,
+        "Height": 176,
         "CenterX": 0,
         "CenterY": 0,
         "Time": 1
       },
       {
         "X": 0,
-        "Y": 548,
-        "Width": 1023,
-        "Height": 191,
+        "Y": 528,
+        "Width": 1024,
+        "Height": 176,
         "CenterX": 0,
         "CenterY": 0,
         "Time": 1
       },
       {
         "X": 0,
-        "Y": 738,
-        "Width": 1023,
-        "Height": 188,
+        "Y": 704,
+        "Width": 1024,
+        "Height": 176,
         "CenterX": 0,
         "CenterY": 0,
         "Time": 1
       },
       {
         "X": 0,
-        "Y": 927,
-        "Width": 1023,
-        "Height": 191,
+        "Y": 880,
+        "Width": 1024,
+        "Height": 176,
         "CenterX": 0,
         "CenterY": 0,
         "Time": 1
       },
       {
         "X": 0,
-        "Y": 1118,
-        "Width": 1023,
-        "Height": 192,
+        "Y": 1056,
+        "Width": 1024,
+        "Height": 176,
         "CenterX": 0,
         "CenterY": 0,
         "Time": 1
       },
       {
         "X": 0,
-        "Y": 1310,
-        "Width": 1023,
-        "Height": 191,
+        "Y": 1232,
+        "Width": 1024,
+        "Height": 176,
         "CenterX": 0,
         "CenterY": 0,
         "Time": 1
