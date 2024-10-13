@@ -36,9 +36,9 @@ namespace KirbyNightmareInDreamLand
 
     public class Room
     {
-        
-        public Sprite LevelSprite { get; private set; }
         public Sprite BackgroundSprite { get; private set; }
+        public Sprite ForegroundSprite { get; private set; }
+
         // 2D array of physics tile IDs for the room.
         public int[][] TileMap { get; private set; }
 
@@ -55,7 +55,7 @@ namespace KirbyNightmareInDreamLand
         // Creates a new room object from a room json data object.
         public Room(RoomJsonData roomJsonData)
         {
-            LevelSprite = SpriteFactory.Instance.CreateSprite(roomJsonData.LevelSpriteName);
+            ForegroundSprite = SpriteFactory.Instance.CreateSprite(roomJsonData.ForegroundSpriteName);
             BackgroundSprite = SpriteFactory.Instance.CreateSprite(roomJsonData.BackgroundSpriteName);
             TileMap = LevelLoader.Instance.Tilemaps[roomJsonData.TilemapName];
 

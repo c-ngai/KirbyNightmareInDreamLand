@@ -15965,53 +15965,150 @@
         ]
     },
 
-    "background_lake": {
-        "Source texture": "backgrounds",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 0,
-                "Y": 0,
-                "Width": 360,
-                "Height": 160,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-    "background_mountains": {
-        "Source texture": "backgrounds",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 0,
-                "Y": 160,
-                "Width": 360,
-                "Height": 160,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
+  "background_lake": {
+    "Source texture": "backgrounds",
+    "Loop point": 0,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 0,
+        "Y": 0,
+        "Width": 360,
+        "Height": 160,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      }
+    ]
+  },
+  "background_mountains": {
+    "Source texture": "backgrounds",
+    "Loop point": 0,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 0,
+        "Y": 160,
+        "Width": 360,
+        "Height": 160,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      }
+    ]
+  },
 
-    "invalidspritename": {
-        "Source texture": "invalidspritename",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 0,
-                "Y": 0,
-                "Width": 25,
-                "Height": 25,
-                "CenterX": 12,
-                "CenterY": 12,
-                "Time": 1
-            }
-        ]
-    }
+  "foreground_room1": {
+    "Source texture": "room1_level",
+    "Loop point": 0,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 0,
+        "Y": 0,
+        "Width": 1024,
+        "Height": 176,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      }
+    ]
+  },
+
+  "foreground_room2": {
+    "Source texture": "room2_level",
+    "Loop point": 0,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 0,
+        "Y": 0,
+        "Width": 1024,
+        "Height": 176,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      },
+      {
+        "X": 0,
+        "Y": 160,
+        "Width": 1024,
+        "Height": 176,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      },
+      {
+        "X": 0,
+        "Y": 352,
+        "Width": 1024,
+        "Height": 176,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      },
+      {
+        "X": 0,
+        "Y": 528,
+        "Width": 1024,
+        "Height": 176,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      },
+      {
+        "X": 0,
+        "Y": 704,
+        "Width": 1024,
+        "Height": 176,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      },
+      {
+        "X": 0,
+        "Y": 880,
+        "Width": 1024,
+        "Height": 176,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      },
+      {
+        "X": 0,
+        "Y": 1056,
+        "Width": 1024,
+        "Height": 176,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      },
+      {
+        "X": 0,
+        "Y": 1232,
+        "Width": 1024,
+        "Height": 176,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      }
+    ]
+  },
+
+  "invalidspritename": {
+    "Source texture": "invalidspritename",
+    "Loop point": 0,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 0,
+        "Y": 0,
+        "Width": 25,
+        "Height": 25,
+        "CenterX": 12,
+        "CenterY": 12,
+        "Time": 1
+      }
+    ]
+  }
 }
