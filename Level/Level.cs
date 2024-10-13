@@ -12,6 +12,9 @@ namespace KirbyNightmareInDreamLand
 
         private Game1 _game;
         private Camera _camera;
+
+        public float BackgroundParallaxFactor { get; set; } = 0.85f;
+
         // Make private later probably, coupling issues
         public Room room;
 
@@ -61,10 +64,43 @@ namespace KirbyNightmareInDreamLand
             
         }
 
-        // Draws the level normally, background and foreground.
+
+        private void DrawBackground(SpriteBatch spriteBatch)
+        {
+            if (room.BackgroundSprite != null)
+            {
+                Vector2 backgroundPosition = new Vector2(
+                    _camera.GetPosition().X * BackgroundParallaxFactor,
+                    _camera.GetPosition().Y * BackgroundParallaxFactor
+                );
+
+                room.BackgroundSprite.Draw(backgroundPosition, spriteBatch); // Draw at origin or wherever it should be
+            }
+        }
+
+        private void DrawForeground(SpriteBatch spriteBatch)
+        {
+            if (room.ForegroundSprite != null)
+            {
+                room.ForegroundSprite.Draw(Vector2.Zero, spriteBatch); // Draw at origin or wherever it should be
+            }
+        }
+
+        // Draws the level normally; background and foreground.
         public void DrawLevel(SpriteBatch spriteBatch)
         {
-            // TODO: Vivian
+
+            // Draw background 
+            DrawBackground(spriteBatch);
+
+            // Draw the room's foreground
+            DrawForeground(spriteBatch);
+        }
+
+        public void UpdateLevel(SpriteBatch spriteBatch)
+        {
+            room.ForegroundSprite.Update();
+            
         }
 
         // Debug mode (toggle F2), draws the usually-invisible collision tiles.

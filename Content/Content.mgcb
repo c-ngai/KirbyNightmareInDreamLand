@@ -56,6 +56,30 @@
 /processorParam:TextureFormat=Color
 /build:Images/invalidspritename.png
 
+#begin Images/room1_level.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/room1_level.png
+
+#begin Images/room2_level.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/room2_level.png
+
 #begin Images/SpriteAnimations.json
 /copy:Images/SpriteAnimations.json
 
@@ -166,6 +190,9 @@
 
 #begin Tilemaps.txt
 /copy:Tilemaps.txt
+
+#begin Tilemaps/room1.csv
+/copy:Tilemaps/room1.csv
 
 #begin Tilemaps/testroom1.csv
 /copy:Tilemaps/testroom1.csv

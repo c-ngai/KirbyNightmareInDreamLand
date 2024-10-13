@@ -84,7 +84,7 @@ namespace KirbyNightmareInDreamLand
         {
             DEBUG_TEXT_ENABLED = true;
             DEBUG_SPRITE_MODE = false;
-            DEBUG_LEVEL_MODE = true; // TODO: Change to false by default later, currently no normal level draw behavior
+            DEBUG_LEVEL_MODE = false; // TODO: Change to false by default later, currently no normal level draw behavior
             CULLING_ENABLED = true;
             DEBUG_COLLISION_MODE = false;
             IS_FULLSCREEN = false;
@@ -223,7 +223,7 @@ namespace KirbyNightmareInDreamLand
             LevelLoader.Instance.LoadAllContent(this, Content, GraphicsDevice);
 
             level = new Level(this);
-            level.LoadRoom("testroom1");
+            level.LoadRoom("room1");
 
             // Load all objects
             LoadObjects();
@@ -268,7 +268,7 @@ namespace KirbyNightmareInDreamLand
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.White);
             base.Draw(gameTime);
 
             // Level spritebatch
