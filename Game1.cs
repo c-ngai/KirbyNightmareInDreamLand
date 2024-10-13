@@ -53,6 +53,7 @@ namespace KirbyNightmareInDreamLand
 
         public Stopwatch TickStopwatch { get; private set; } = new Stopwatch();
 
+
         // Graphics settings modifiable at runtime
         public bool DEBUG_TEXT_ENABLED { get; set; }
         public bool DEBUG_SPRITE_MODE { get; set; }
@@ -65,6 +66,7 @@ namespace KirbyNightmareInDreamLand
         public int WINDOW_XOFFSET { get; set; }
         public int WINDOW_YOFFSET { get; set; }
         public int MAX_WINDOW_WIDTH { get; set; }
+        public int TARGET_FRAMERATE { get; set; }
 
 
         //why is game time public?? take out set in the game time make anybody that is not that commmand not be anle to set it
@@ -90,8 +92,9 @@ namespace KirbyNightmareInDreamLand
             WINDOW_HEIGHT = 480;
             WINDOW_XOFFSET = 0;
             WINDOW_YOFFSET = 0;
+            TARGET_FRAMERATE = 60;
 
-            //TargetElapsedTime = TimeSpan.FromMilliseconds(1000d / 30);
+            TargetElapsedTime = TimeSpan.FromMilliseconds(1000f / TARGET_FRAMERATE);
 
             #region set max window width
             int displayWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
@@ -141,14 +144,15 @@ namespace KirbyNightmareInDreamLand
 
             keyboard.RegisterCommand(Keys.D, new KirbyFaceRightCommand(kirby), null, ExecutionType.StartingPress);
 
-            keyboard.RegisterCommand(Keys.Z, new KirbyAttackCommand(kirby),null, ExecutionType.StartingPress);
+            //keyboard.RegisterCommand(Keys.A, new KirbyAttackCommand(kirby),null, ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.Z, new KirbyAttackPressedCommand(kirby), new KirbyStopAttackingCommand(kirby), ExecutionType.Pressed);
 
             keyboard.RegisterCommand(Keys.D1, new KirbyChangeNormalCommand(kirby), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.D2, new KirbyChangeBeamCommand(kirby), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.D3, new KirbyChangeFireCommand(kirby), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.D4, new KirbyChangeSparkCommand(kirby), null, ExecutionType.StartingPress);
 
-            keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby), new KirbyStopMovingCommand(kirby), ExecutionType.Pressed);
+            //keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby), new KirbyStopMovingCommand(kirby), ExecutionType.Pressed);
 
             //keyboard.RegisterCommand(Keys.U, new HideItemCommand(this), null, ExecutionType.StartingPress);
             //keyboard.RegisterCommand(Keys.I, new ShowItemCommand(this), null, ExecutionType.StartingPress);
@@ -164,9 +168,11 @@ namespace KirbyNightmareInDreamLand
             keyboard.RegisterCommand(Keys.F3, new GraphicsToggleDebugLevelCommand(this), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.F4, new GraphicsToggleCullingCommand(this), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.F5, new GraphicsToggleDebugCollisionCommand(this), null, ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.F, new GraphicsToggleFullscreenCommand(this, graphics), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.OemPlus, new GraphicsIncreaseWindowSizeCommand(this, graphics), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.OemMinus, new GraphicsDecreaseWindowSizeCommand(this, graphics), null, ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.F, new GraphicsToggleFullscreenCommand(this, graphics), null, ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.OemCloseBrackets, new GraphicsIncreaseTargetFramerateCommand(this, graphics), null, ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.OemOpenBrackets, new GraphicsDecreaseTargetFramerateCommand(this, graphics), null, ExecutionType.StartingPress);
         }
 
         public void LoadItem()
@@ -176,6 +182,7 @@ namespace KirbyNightmareInDreamLand
 
         public void LoadObjects()
         {
+            CollisionManager.Instance.ResetDynamicCollisionBoxes();
             // Creates kirby object
             //make it a list from the get go to make it multiplayer asap
             kirby = new Player(new Vector2(30, Constants.Graphics.FLOOR));
@@ -275,6 +282,10 @@ namespace KirbyNightmareInDreamLand
             kirby.Draw(spriteBatch);
             // Draw item
             item.Draw(new Vector2(200, 150), spriteBatch);
+            if (DEBUG_COLLISION_MODE)
+            {
+                CollisionManager.Instance.DebugDraw(spriteBatch);
+            }
             spriteBatch.End();
 
             // Static spritebatch
@@ -287,10 +298,10 @@ namespace KirbyNightmareInDreamLand
             // Draw Debug Text
             if (DEBUG_TEXT_ENABLED)
             {
-                Debug.Instance.DrawDebugText(spriteBatch);
+                GameDebug.Instance.DrawDebugText(spriteBatch);
             }
             // Draw borders (should only be visible in fullscreen for letterboxing)
-            Debug.Instance.DrawBorders(spriteBatch);
+            GameDebug.Instance.DrawBorders(spriteBatch);
         }
 
     }

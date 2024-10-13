@@ -12,7 +12,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private Vector2 velocity;
         private float speed;
         private float delay; // Delay before this segment becomes active
-        private bool isActive;
         private static Random random = new Random(); // Random instance for sprite selection
         private int frameCount;
         private ICollidable collidable; 
@@ -80,14 +79,14 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public void Update()
         {
             // Reduce delay over time
-            if (delay > 0)
-            {
-                delay -= Constants.KirbyFire.SECONDS_PER_FRAME; // 60fps. 1/60 = ~0.016 seconds per frame
-            }
-            else
-            {
-                IsActive = true;
-            }
+            // if (delay > 0)
+            // {
+            //     delay -= Constants.KirbyFire.SECONDS_PER_FRAME; // 60fps. 1/60 = ~0.016 seconds per frame
+            // }
+            // else
+            // {
+            //     IsActive = true;
+            // }
 
             // Only update position if the flame segment is active
             if (IsActive)
@@ -96,21 +95,23 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
                 frameCount++;
 
-                // Mark the segment as inactive after a certain number of frames
-                if (frameCount >= Constants.KirbyFire.MAX_FRAMES)
-                {
-                    IsActive = false;
-                    collidable.DestroyHitBox();
-                    projectileSprite = null; // Set sprite to null to avoid further drawing
-                }
-                else
-                {
-                    projectileSprite?.Update();
-                }
+                projectileSprite.Update();
+             
+                collidable.UpdateBoundingBox(position);
             }
-            collidable.UpdateBoundingBox(position);
+            
         }
-
+        public void EndAttack()
+        {
+            IsActive = false;
+            collidable.DestroyHitBox();
+            projectileSprite = null;
+        }
+        public bool IsDone()
+        {
+            return !IsActive;
+        }
+        
         public void Draw(SpriteBatch spriteBatch)
         {
             if (IsActive && projectileSprite != null)

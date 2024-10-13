@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Threading.Tasks;
 using KirbyNightmareInDreamLand.Sprites;
 using KirbyNightmareInDreamLand.StateMachines;
+using System;
+using System.Runtime.CompilerServices;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -29,7 +31,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         //others
         private string oldState;
-        private bool attackIsActive = false;
+        public bool attackIsActive{get; private set; } = false;
 
         //constructor
         public Player(Vector2 pos)
@@ -49,6 +51,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void UpdateTexture()
         {
             if(!state.GetStateString().Equals(oldState)){
+                System.Console.WriteLine(GetKirbyPose());
                 playerSprite = SpriteFactory.Instance.CreateSprite(state.GetSpriteParameters());
                 oldState = state.GetStateString();
             } 
@@ -77,6 +80,20 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public bool IsFloating()
         {
             return state.IsFloating();
+        }
+        public bool IsFalling()
+        {
+            return GetKirbyPose().Equals(KirbyPose.JumpFalling);
+        }
+        public String AttackType()
+        {
+            if(IsFloating()){
+                return "Puff";
+            } else if (state.IsCrouching()){
+                return "Slide";
+            }else {
+                return GetKirbyType();
+            }
         }
 
         public void ChangeAttackBool(bool activate)
@@ -255,6 +272,23 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 movement = new CrouchingMovement(movement.GetPosition());
             }
         }
+        public async void Slide()
+        {
+            if(state.IsCrouching()){
+                ChangePose(KirbyPose.Sliding);
+                movement.Slide(state.IsLeft());
+                //await Task.Delay(Constants.Physics.DELAY);
+            }
+        }
+        public async void EndSlide()
+        {
+            if(state.IsCrouching()){
+                ChangePose(KirbyPose.Crouching);
+                movement.StopMovement();
+                StopAttacking();
+                //await Task.Delay(Constants.Physics.DELAY);
+            }
+        }
         public void EndCrouch()
         {
             if(state.CanCrouch()){
@@ -264,25 +298,40 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         #endregion
         
-        public async void Slide()
-        {
-            if(state.IsCrouching()){
-                ChangePose(KirbyPose.Sliding);
-                movement.Slide(state.IsLeft());
-                await Task.Delay(Constants.Physics.DELAY);
-            }
-        }
         #endregion //movement region
-
+        #region Attack
         public void Attack()
         {
             if(!attackIsActive){
-                attack = new PlayerAttack(this);
+                attack = new PlayerAttack(this, AttackType());
                 movement.Attack(this);
             }
             ChangeAttackBool(true);
         }
+        public void AttackPressed()
+        {
+            if(!attackIsActive){
+                attack = new PlayerAttack(this, AttackType());
+                movement.Attack(this);
+            }
+            //ChangeAttackBool(true);
 
+        }
+        public void StopAttacking()
+        {
+            // if(!IsFloating()){
+            //     StopMoving();
+            // }
+            if(attack.IsDone())
+            {
+                ChangeAttackBool(false);
+                attack.EndAttack(this);
+            }
+        }
+
+        #endregion
+
+        #region MoveKirby
         // makes state changes by calling other player methods, calls state.Update(), and finally calls Draw last?
         public void Update(GameTime gameTime)
         {
@@ -307,6 +356,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 attack.Draw(spriteBatch, this);
             }
         }
+        #endregion
     }
 
 }

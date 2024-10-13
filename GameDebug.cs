@@ -8,7 +8,7 @@ using System.Linq;
 namespace KirbyNightmareInDreamLand
 {
 
-    public class Debug
+    public class GameDebug
     {
 
         private Game1 _game;
@@ -17,9 +17,9 @@ namespace KirbyNightmareInDreamLand
 
 
 
-        private static Debug instance = new();
+        private static GameDebug instance = new();
 
-        public static Debug Instance
+        public static GameDebug Instance
         {
             get
             {
@@ -27,7 +27,7 @@ namespace KirbyNightmareInDreamLand
             }
         }
 
-        public Debug()
+        public GameDebug()
         {
         }
 
@@ -91,6 +91,7 @@ namespace KirbyNightmareInDreamLand
             List<string> texts = new List<string>();
             texts.Add("GraphicsAdapter.DefaultAdapter.CurrentDisplayMode: (" + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width + ", " + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height + ")");
             texts.Add("GraphicsDevice.Viewport: (" + _graphicsDevice.Viewport.Width + ", " + _graphicsDevice.Viewport.Height + ")");
+            texts.Add("Target framerate: " + _game.TARGET_FRAMERATE);
             texts.Add("Current FPS: " + Math.Round(frameRate));
             texts.Add("Average FPS: " + Math.Round(fpsLog.Average()));
             texts.Add("Current Max FPS: " + Math.Round(maxFrameRate));

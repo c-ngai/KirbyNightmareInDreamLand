@@ -7,6 +7,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         Sprite PlayerSprite { set; }
         void Crouch();
         void EndCrouch();
+        void AttackPressed();
         Vector2 GetKirbyPosition();
         string GetKirbyType();
         bool IsLeft();
@@ -19,6 +20,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         void RunRight();
         void RunLeft();
         void StopMoving();
+        void StopAttacking();
         void SetDirectionLeft();
         void SetDirectionRight();
         void ChangeToNormal();

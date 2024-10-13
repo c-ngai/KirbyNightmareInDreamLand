@@ -64,6 +64,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             //overwritten by other methods
         }
+        public virtual void AttackPressed(Player kirby)
+        {
+            //overwritten by other methods
+        }
         public void ReceiveDamage(bool isLeft)
         {
             if(isLeft){
@@ -119,16 +123,16 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
 
         // checks palyer doesnt go out of frame (up and down)
-        public void AdjustX(Player kirby)
+        public virtual void AdjustX(Player kirby)
         {
-            if(position.X > Constants.Graphics.GAME_WIDTH)
-            {
-                position.X  = Constants.Graphics.GAME_WIDTH;  
-            }
-            if(position.X < 0)
-            {
-                position.X  = 0;  
-            }
+            // if(position.X > Constants.Graphics.GAME_WIDTH)
+            // {
+            //     position.X  = Constants.Graphics.GAME_WIDTH;  
+            // }
+            // if(position.X < 0)
+            // {
+            //     position.X  = 0;  
+            // }
         }
 
         public virtual void AdjustY(Player kirby)
