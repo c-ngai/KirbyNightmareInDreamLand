@@ -20,6 +20,7 @@ namespace KirbyNightmareInDreamLand
         
         public GraphicsDeviceManager graphics { get; private set; }
         private KeyboardController keyboard;
+        private MouseController mouseController;
 
         // Camera instance for the game
         public Camera camera { get; private set; }
@@ -123,6 +124,7 @@ namespace KirbyNightmareInDreamLand
             
 
             keyboard = new KeyboardController();
+            mouseController = new MouseController(this);
 
             base.Initialize();
         }
@@ -248,6 +250,7 @@ namespace KirbyNightmareInDreamLand
             TickStopwatch.Restart();
 
             keyboard.Update();
+            mouseController.Update();
 
             GameTime = gameTime;
 
