@@ -20,6 +20,7 @@ namespace KirbyNightmareInDreamLand
         
         public GraphicsDeviceManager graphics { get; private set; }
         private KeyboardController keyboard;
+        private MouseController mouseController;
 
         // Camera instance for the game
         public Camera camera { get; private set; }
@@ -123,6 +124,7 @@ namespace KirbyNightmareInDreamLand
             
 
             keyboard = new KeyboardController();
+            mouseController = new MouseController(this);
 
             base.Initialize();
         }
@@ -138,24 +140,21 @@ namespace KirbyNightmareInDreamLand
             keyboard.RegisterCommand(Keys.Left, new KirbyMoveLeftCommand(kirby, Keys.Left, keyboard), new KirbyRunningLeftCommand(this, keyboard, Keys.Left, kirby), ExecutionType.Pressed);
 
             // this is hard-coded bc it needs to know the keybind to attack to check if it needs to slide
-            keyboard.RegisterCommand(Keys.Down, new KirbyCrouchAndSlideCommand(kirby, Keys.Z, keyboard, this), new KirbyStopCrouchCommand(kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.Down, new KirbyMoveCrouchedCommand(kirby, Keys.Down, Keys.Z, keyboard), new KirbyCrouchAndSlideCommand(kirby, Keys.Down, Keys.Z, keyboard, this), ExecutionType.Pressed);
             keyboard.RegisterCommand(Keys.Up, new KirbyFloatCommand(kirby), null, ExecutionType.Pressed);
             keyboard.RegisterCommand(Keys.X, new KirbyJumpCommand(kirby), null, ExecutionType.Pressed);
 
             keyboard.RegisterCommand(Keys.D, new KirbyFaceRightCommand(kirby), null, ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.A, new KirbyFaceLeftCommand(kirby), null, ExecutionType.StartingPress);
 
-            //keyboard.RegisterCommand(Keys.A, new KirbyAttackCommand(kirby),null, ExecutionType.StartingPress);
+
+            keyboard.RegisterCommand(Keys.Z, new KirbyAttackCommand(kirby), new KirbyStopAttackingCommand(kirby), ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.Z, new KirbyAttackPressedCommand(kirby), new KirbyStopAttackingCommand(kirby), ExecutionType.Pressed);
 
             keyboard.RegisterCommand(Keys.D1, new KirbyChangeNormalCommand(kirby), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.D2, new KirbyChangeBeamCommand(kirby), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.D3, new KirbyChangeFireCommand(kirby), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.D4, new KirbyChangeSparkCommand(kirby), null, ExecutionType.StartingPress);
-
-            //keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby), new KirbyStopMovingCommand(kirby), ExecutionType.Pressed);
-
-            //keyboard.RegisterCommand(Keys.U, new HideItemCommand(this), null, ExecutionType.StartingPress);
-            //keyboard.RegisterCommand(Keys.I, new ShowItemCommand(this), null, ExecutionType.StartingPress);
 
             keyboard.RegisterCommand(Keys.O, new PreviousEnemyCommand(this), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.P, new NextEnemyCommand(this), null, ExecutionType.StartingPress);
@@ -175,6 +174,7 @@ namespace KirbyNightmareInDreamLand
             keyboard.RegisterCommand(Keys.OemOpenBrackets, new GraphicsDecreaseTargetFramerateCommand(this), null, ExecutionType.StartingPress);
         }
 
+        // Do we need this?
         public void LoadItem()
         {
             item = SpriteFactory.Instance.CreateSprite("item_maximtomato");
@@ -191,7 +191,8 @@ namespace KirbyNightmareInDreamLand
             camera.TargetPlayer(kirby);
 
 
-            LoadItem();
+            // Currently commented out since we don't need the item
+            //LoadItem();
 
             // Creates enemies
             waddledeeTest = new WaddleDee(new Vector2(80, Constants.Graphics.FLOOR));
@@ -249,12 +250,15 @@ namespace KirbyNightmareInDreamLand
             TickStopwatch.Restart();
 
             keyboard.Update();
+            mouseController.Update();
 
             GameTime = gameTime;
 
             kirby.Update(time);
             enemyList[currentEnemyIndex].Update(time);
-            item.Update();
+
+            // Commented out since we currently do not need item
+            //item.Update();
 
             //enemyList2.Add(new Hothead(new Vector2(170, 100))); // FOR PERFORMANCE TESTING
             foreach (IEnemy enemy in enemyList2) enemy.Update(time); // FOR PERFORMANCE TESTING
@@ -280,8 +284,9 @@ namespace KirbyNightmareInDreamLand
             foreach (IEnemy enemy in enemyList2) enemy.Draw(spriteBatch); // FOR PERFORMANCE TESTING
             // Draw kirby
             kirby.Draw(spriteBatch);
-            // Draw item
-            item.Draw(new Vector2(200, 150), spriteBatch);
+
+            // Not currently using item
+            //item.Draw(new Vector2(200, 150), spriteBatch);
             if (DEBUG_COLLISION_MODE)
             {
                 CollisionManager.Instance.DebugDraw(spriteBatch);

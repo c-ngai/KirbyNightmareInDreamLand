@@ -12,10 +12,5 @@
         {
             game.CULLING_ENABLED = !game.CULLING_ENABLED;
         }
-
-        public void Undo()
-        {
-
-        }
     }
 }

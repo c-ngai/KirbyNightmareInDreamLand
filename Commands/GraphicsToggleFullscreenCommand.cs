@@ -72,10 +72,5 @@ namespace KirbyNightmareInDreamLand.Commands
             graphics.IsFullScreen = game.IS_FULLSCREEN;
             graphics.ApplyChanges();
         }
-
-        public void Undo()
-        {
-
-        }
     }
 }
