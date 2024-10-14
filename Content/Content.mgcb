@@ -185,6 +185,9 @@
 #begin Images/TileSprites.txt
 /copy:Images/TileSprites.txt
 
+#begin Keymaps.json
+/copy:Keymaps.json
+
 #begin Rooms.json
 /copy:Rooms.json
 

@@ -168,11 +168,11 @@ namespace KirbyNightmareInDreamLand
             keyboard.RegisterCommand(Keys.F3, new GraphicsToggleDebugLevelCommand(this), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.F4, new GraphicsToggleCullingCommand(this), null, ExecutionType.StartingPress);
             keyboard.RegisterCommand(Keys.F5, new GraphicsToggleDebugCollisionCommand(this), null, ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.F, new GraphicsToggleFullscreenCommand(this, graphics), null, ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.OemPlus, new GraphicsIncreaseWindowSizeCommand(this, graphics), null, ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.OemMinus, new GraphicsDecreaseWindowSizeCommand(this, graphics), null, ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.OemCloseBrackets, new GraphicsIncreaseTargetFramerateCommand(this, graphics), null, ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.OemOpenBrackets, new GraphicsDecreaseTargetFramerateCommand(this, graphics), null, ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.F, new GraphicsToggleFullscreenCommand(this), null, ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.OemPlus, new GraphicsIncreaseWindowSizeCommand(this), null, ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.OemMinus, new GraphicsDecreaseWindowSizeCommand(this), null, ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.OemCloseBrackets, new GraphicsIncreaseTargetFramerateCommand(this), null, ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.OemOpenBrackets, new GraphicsDecreaseTargetFramerateCommand(this), null, ExecutionType.StartingPress);
         }
 
         public void LoadItem()
@@ -223,7 +223,7 @@ namespace KirbyNightmareInDreamLand
             LevelLoader.Instance.LoadAllContent(this, Content, GraphicsDevice);
 
             level = new Level(this);
-            level.LoadRoom("room1");
+            level.LoadRoom("testroom1");
 
             // Load all objects
             LoadObjects();

@@ -1,9 +1,11 @@
-﻿using KirbyNightmareInDreamLand.Sprites;
+﻿using KirbyNightmareInDreamLand.Controllers;
+using KirbyNightmareInDreamLand.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Mime;
@@ -24,6 +26,9 @@ namespace KirbyNightmareInDreamLand
         // Dictionary from string to Room. For easily retrieving a room by name.
         public Dictionary<string, Room> Rooms { get; private set; }
 
+        // Dictionary from string to Keymap. Keymap is a List of Keymappings.
+        public Dictionary<string, List<Keymapping>> Keymaps { get; private set; }
+
 
         public SpriteFont font { get; private set; }
         public Texture2D borders { get; private set; }
@@ -41,6 +46,7 @@ namespace KirbyNightmareInDreamLand
         {
             Tilemaps = new Dictionary<string, int[][]>();
             Rooms = new Dictionary<string, Room>();
+            Keymaps = new Dictionary<string, List<Keymapping>>();
         }
 
 
@@ -54,6 +60,8 @@ namespace KirbyNightmareInDreamLand
 
             LoadAllTilemaps();
             LoadAllRooms();
+
+            LoadAllKeymappings();
 
             font = content.Load<SpriteFont>("DefaultFont");
             borders = new Texture2D(graphics, 1, 1);
@@ -158,17 +166,59 @@ namespace KirbyNightmareInDreamLand
         // Loads all rooms from the .json file.
         public void LoadAllRooms()
         {
-            // Open the sprite animation data file and deserialize it into a dictionary.
+            // Open the room data file and deserialize it into a dictionary.
             string roomFile = "Content/Rooms.json";
             Dictionary<string, RoomJsonData> RoomJsonDatas = JsonSerializer.Deserialize<Dictionary<string, RoomJsonData>>(File.ReadAllText(roomFile), new JsonSerializerOptions());
 
-            // Run through the dictionary and load each sprite.
+            // Run through the dictionary and load each room.
             foreach (KeyValuePair<string, RoomJsonData> data in RoomJsonDatas)
             {
                 LoadRoom(data.Key, data.Value);
             }
         }
 
+
+        
+        // Loads a keymapping given its name and data.
+        private void LoadKeymapping(KeymappingJsonData keymappingJsonData, List<Keymapping> Keymap)
+        {
+            Debug.WriteLine("Key = " + keymappingJsonData.Key);
+            Debug.WriteLine("ExecutionType = " + keymappingJsonData.ExecutionType);
+            Debug.WriteLine("Command = " + keymappingJsonData.Command);
+            Debug.WriteLine("//////////////");
+
+            // Create a new Keymapping object
+            Keymapping keymapping = new Keymapping();
+
+            // Fill out its fields using the JSON data strings
+            keymapping.Key = 0; // TODO: implement actual behvaior
+            keymapping.ExecutionType = 0; // TODO: implement actual behvaior
+            keymapping.Command = null; // TODO: implement actual behvaior
+
+            // Add the new keymapping to its respective list.
+            Keymap.Add(keymapping);
+        }
+
+        // Loads all rooms from the .json file.
+        public void LoadAllKeymappings()
+        {
+            // Open the keymap data file and deserialize it into a dictionary.
+            string keymapFile = "Content/Keymaps.json";
+            Dictionary<string, List<KeymappingJsonData>> KeymapJsonDatas = JsonSerializer.Deserialize<Dictionary<string, List<KeymappingJsonData>>>(File.ReadAllText(keymapFile), new JsonSerializerOptions());
+
+            // Run through each keymap json data in the dictionary
+            foreach (KeyValuePair<string, List<KeymappingJsonData>> KeymapJsonData in KeymapJsonDatas)
+            {
+                // Add new empty Keymap to the Keymaps dictionary.
+                Keymaps.Add(KeymapJsonData.Key, new List<Keymapping>());
+                // Run through each keymapping json data in the keymap json data
+                foreach (KeymappingJsonData keymappingJsonData in KeymapJsonData.Value)
+                {
+                    // Load the keymapping. Passes in the individual keymapping json data and a reference to the actual keymap List<Keymapping> to add it to.
+                    LoadKeymapping(keymappingJsonData, Keymaps[KeymapJsonData.Key]);
+                }
+            }
+        }
         
 
     }
