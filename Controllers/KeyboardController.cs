@@ -10,7 +10,7 @@ namespace KirbyNightmareInDreamLand.Controllers
     public enum ExecutionType { Pressed, StartingPress, StoppingPress }
     public class KeyboardController : IController
     {
-        private Dictionary<Keys, ICommand> controllerMappings;
+        private List<Keys> controllerKeys;
         private Dictionary<Keys, ICommand> pressedKeys;
         private Dictionary<Keys, ICommand> startKeys;
         public Dictionary<Keys, ICommand> stopKeys { get; set; }
@@ -21,7 +21,7 @@ namespace KirbyNightmareInDreamLand.Controllers
 
         public KeyboardController()
         {
-            controllerMappings = new Dictionary<Keys, ICommand>();
+            controllerKeys = new List<Keys>();
             pressedKeys = new Dictionary<Keys, ICommand>();
             startKeys = new Dictionary<Keys, ICommand>();
             stopKeys = new Dictionary<Keys, ICommand>();
@@ -43,9 +43,8 @@ namespace KirbyNightmareInDreamLand.Controllers
             {
                 stopKeys.Add(key, command);
             }
-            
-            controllerMappings.Add(key, command);
-            oldKeyStates.Add(key, false);
+            if (!controllerKeys.Contains(key)) controllerKeys.Add(key);
+            if (!oldKeyStates.ContainsKey(key)) oldKeyStates.Add(key, false);
         }
 
         public void Update()
@@ -63,22 +62,17 @@ namespace KirbyNightmareInDreamLand.Controllers
             }
 
             // Iterates through all relevant keybinds
-            while (enumerator.MoveNext())
+            foreach (Keys key in controllerKeys)
             {
-                Keys key = (Keys)enumerator.Key;
+                // Execute pressed keys if it is currently being pressed
+                if (pressedKeys.ContainsKey(key) && currentState.Contains(key)) pressedKeys[key].Execute();
 
-                // Checks it is a relevant keybind 
-                if (controllerMappings.ContainsKey(key))
-                {
-                    // Execute pressed keys if it is currently being pressed
-                    if (pressedKeys.ContainsKey(key) && currentState.Contains(key)) pressedKeys[key].Execute();
+                // Execute start keys if is is now pressed and was not pressed last update
+                if (startKeys.ContainsKey(key) && currentState.Contains(key) && !oldKeyStates[key]) startKeys[key].Execute();
 
-                    // Execute start keys if is is now pressed and was not pressed last update
-                    if (startKeys.ContainsKey(key) && currentState.Contains(key) && !oldKeyStates[key]) startKeys[key].Execute();
+                // Execute stop keys if it is no longer pressed and was pressed last update
+                if (stopKeys.ContainsKey(key) && !currentState.Contains(key) && oldKeyStates[key]) stopKeys[key].Execute();
 
-                    // Execute stop keys if it is no longer pressed and was pressed last update
-                    if (stopKeys.ContainsKey(key) && !currentState.Contains(key) && oldKeyStates[key]) stopKeys[key].Execute();
-                }
                 // If the temporary dictionary does not have the key already then it has not been pressed
                 if (!tempDict.ContainsKey(key)) tempDict.Add(key, false);
             }

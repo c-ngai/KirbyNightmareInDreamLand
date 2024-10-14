@@ -14,14 +14,16 @@ namespace KirbyNightmareInDreamLand.Commands
 
         private KeyboardController keyboard;
         private Keys attackKey;
+        private Keys crouchKey;
 
         private ITimeCalculator timer;
         private double startingTime;
 
-        public KirbyCrouchAndSlideCommand(IPlayer player, Keys keyMapped, KeyboardController currentKeyboard, Game1 currentGame)
+        public KirbyCrouchAndSlideCommand(IPlayer player, Keys keyCrouch, Keys keyAttack, KeyboardController currentKeyboard, Game1 currentGame)
         {
             kirby = player;
-            attackKey = keyMapped;
+            crouchKey = keyCrouch;
+            attackKey = keyAttack;
             keyboard = currentKeyboard;
             timer = new TimeCalculator();
             game = currentGame;
@@ -30,30 +32,29 @@ namespace KirbyNightmareInDreamLand.Commands
         }
         public void Execute()
         {
-            // Determines if a timer needs to be set to keep track of slide time when the attack key is also pressed and if the timer needs to be reset
-            // if (keyboard.currentState.Contains(attackKey) && startingTime == 0)
-            // {
-            //     startingTime = timer.GetCurrentTimeInMS(game.time);
-            //     isSliding = false;
-            // }
-            // else if (startingTime != 0 && timer.GetCurrentTimeInMS(game.time) - startingTime < Constants.Controller.SLIDE_TIME)
-            // {
-            //     isSliding = true;
-            // }
-            // else
-            // {
-            //     startingTime = 0;
-            //     isSliding = false;
-            // }
+            //Determines if a timer needs to be set to keep track of slide time when the attack key is also pressed and if the timer needs to be reset
+            if (keyboard.currentState.Contains(attackKey) && startingTime == 0)
+            {
+                startingTime = timer.GetCurrentTimeInMS(game.time);
+            }
+            else if (keyboard.currentState.Contains(attackKey) && startingTime != 0 && (timer.GetCurrentTimeInMS(game.time) - startingTime < Constants.Controller.SLIDE_TIME))
+            {
+                isSliding = true;
+            }
+            else
+            {
+                startingTime = 0;
+                isSliding = false;
+            }
 
-            // if (isSliding)
-            // {
-            //     kirby.Slide();
-            // }
-            // else
-            // {
-                kirby.Crouch();
-            //}
+            if (isSliding)
+            {
+                kirby.Slide();
+            }
+            else if (!keyboard.currentState.Contains(crouchKey))
+            {
+                kirby.EndCrouch();
+            }
         }
     }
 }

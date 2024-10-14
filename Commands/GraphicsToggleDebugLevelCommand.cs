@@ -12,10 +12,5 @@
         {
             game.DEBUG_LEVEL_MODE = !game.DEBUG_LEVEL_MODE;
         }
-
-        public void Undo()
-        {
-
-        }
     }
 }
