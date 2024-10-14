@@ -12,10 +12,5 @@
         {
             game.DEBUG_COLLISION_MODE = !game.DEBUG_COLLISION_MODE;
         }
-
-        public void Undo()
-        {
-
-        }
     }
 }
