@@ -28,18 +28,17 @@ namespace KirbyNightmareInDreamLand.Controllers
             oldKeyStates = new Dictionary<Keys, bool>();
         }
 
-        public void RegisterCommand(Keys key, ICommand command, ICommand stop, ExecutionType type)
+        public void RegisterCommand(Keys key, ExecutionType type, ICommand command)
         {
             if (type == ExecutionType.Pressed)
             {
                 pressedKeys.Add(key, command);
-                if (stop != null) stopKeys.Add(key, stop);
             }
             else if (type == ExecutionType.StartingPress)
             {
                 startKeys.Add(key, command);
             }
-            else
+            else if (type == ExecutionType.StoppingPress)
             {
                 stopKeys.Add(key, command);
             }

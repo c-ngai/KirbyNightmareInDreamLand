@@ -72,8 +72,17 @@ namespace KirbyNightmareInDreamLand
 
         //why is game time public?? take out set in the game time make anybody that is not that commmand not be anle to set it
         //
+        private static Game1 instance;
+        public static Game1 Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
         public Game1()
         {
+            instance = this;
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -136,42 +145,46 @@ namespace KirbyNightmareInDreamLand
         // Will later be changed to read in keyboard control input 
         public void SetKeyboardControls(KeyboardController keyboard)
         {
-            keyboard.RegisterCommand(Keys.Right, new KirbyMoveRightCommand(kirby, Keys.Right, keyboard), new KirbyRunningRightCommand(this, keyboard, Keys.Right, kirby), ExecutionType.Pressed);
-            keyboard.RegisterCommand(Keys.Left, new KirbyMoveLeftCommand(kirby, Keys.Left, keyboard), new KirbyRunningLeftCommand(this, keyboard, Keys.Left, kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.Right, ExecutionType.Pressed, new KirbyMoveRightCommand(kirby, Keys.Right, keyboard));
+            keyboard.RegisterCommand(Keys.Right, ExecutionType.StoppingPress, new KirbyRunningRightCommand(this, keyboard, Keys.Right, kirby));
+            keyboard.RegisterCommand(Keys.Left, ExecutionType.Pressed, new KirbyMoveLeftCommand(kirby, Keys.Left, keyboard));
+            keyboard.RegisterCommand(Keys.Left, ExecutionType.StoppingPress, new KirbyRunningLeftCommand(this, keyboard, Keys.Left, kirby));
 
             // this is hard-coded bc it needs to know the keybind to attack to check if it needs to slide
-            keyboard.RegisterCommand(Keys.Down, new KirbyMoveCrouchedCommand(kirby, Keys.Down, Keys.Z, keyboard), new KirbyCrouchAndSlideCommand(kirby, Keys.Down, Keys.Z, keyboard, this), ExecutionType.Pressed);
-            keyboard.RegisterCommand(Keys.Up, new KirbyFloatCommand(kirby), null, ExecutionType.Pressed);
-            keyboard.RegisterCommand(Keys.X, new KirbyJumpCommand(kirby), null, ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.Down, ExecutionType.Pressed, new KirbyMoveCrouchedCommand(kirby, Keys.Down, Keys.Z, keyboard));
+            keyboard.RegisterCommand(Keys.Down, ExecutionType.StoppingPress, new KirbyCrouchAndSlideCommand(kirby, Keys.Down, Keys.Z, keyboard, this));
+            keyboard.RegisterCommand(Keys.Up, ExecutionType.Pressed, new KirbyFloatCommand(kirby));
+            keyboard.RegisterCommand(Keys.X, ExecutionType.Pressed, new KirbyJumpCommand(kirby));
 
-            keyboard.RegisterCommand(Keys.D, new KirbyFaceRightCommand(kirby), null, ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.A, new KirbyFaceLeftCommand(kirby), null, ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.D, ExecutionType.StartingPress, new KirbyFaceRightCommand(kirby));
+            keyboard.RegisterCommand(Keys.A, ExecutionType.StartingPress, new KirbyFaceLeftCommand(kirby));
 
 
-            keyboard.RegisterCommand(Keys.Z, new KirbyAttackCommand(kirby), new KirbyStopAttackingCommand(kirby), ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.Z, new KirbyAttackPressedCommand(kirby), new KirbyStopAttackingCommand(kirby), ExecutionType.Pressed);
+            keyboard.RegisterCommand(Keys.Z, ExecutionType.StartingPress, new KirbyAttackCommand(kirby));
+            keyboard.RegisterCommand(Keys.Z, ExecutionType.StoppingPress, new KirbyStopAttackingCommand(kirby));
+            keyboard.RegisterCommand(Keys.Z, ExecutionType.Pressed, new KirbyAttackPressedCommand(kirby));
 
-            keyboard.RegisterCommand(Keys.D1, new KirbyChangeNormalCommand(kirby), null, ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.D2, new KirbyChangeBeamCommand(kirby), null, ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.D3, new KirbyChangeFireCommand(kirby), null, ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.D4, new KirbyChangeSparkCommand(kirby), null, ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.D1, ExecutionType.StartingPress, new KirbyChangeNormalCommand(kirby));
+            keyboard.RegisterCommand(Keys.D2, ExecutionType.StartingPress, new KirbyChangeBeamCommand(kirby));
+            keyboard.RegisterCommand(Keys.D3, ExecutionType.StartingPress, new KirbyChangeFireCommand(kirby));
+            keyboard.RegisterCommand(Keys.D4, ExecutionType.StartingPress, new KirbyChangeSparkCommand(kirby));
 
-            keyboard.RegisterCommand(Keys.O, new PreviousEnemyCommand(this), null, ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.P, new NextEnemyCommand(this), null, ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.O, ExecutionType.StartingPress, new PreviousEnemyCommand(this));
+            keyboard.RegisterCommand(Keys.P, ExecutionType.StartingPress, new NextEnemyCommand(this));
 
-            keyboard.RegisterCommand(Keys.Q, new QuitCommand(this), null, ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.R, new ResetCommand(this), null, ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.Q, ExecutionType.StartingPress, new QuitCommand(this));
+            keyboard.RegisterCommand(Keys.R, ExecutionType.StartingPress, new ResetCommand(this));
 
-            keyboard.RegisterCommand(Keys.F1, new GraphicsToggleDebugTextCommand(this), null, ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.F2, new GraphicsToggleDebugSpriteCommand(this), null, ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.F3, new GraphicsToggleDebugLevelCommand(this), null, ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.F4, new GraphicsToggleCullingCommand(this), null, ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.F5, new GraphicsToggleDebugCollisionCommand(this), null, ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.F, new GraphicsToggleFullscreenCommand(this), null, ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.OemPlus, new GraphicsIncreaseWindowSizeCommand(this), null, ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.OemMinus, new GraphicsDecreaseWindowSizeCommand(this), null, ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.OemCloseBrackets, new GraphicsIncreaseTargetFramerateCommand(this), null, ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.OemOpenBrackets, new GraphicsDecreaseTargetFramerateCommand(this), null, ExecutionType.StartingPress);
+            keyboard.RegisterCommand(Keys.F1, ExecutionType.StartingPress, new GraphicsToggleDebugTextCommand(this));
+            keyboard.RegisterCommand(Keys.F2, ExecutionType.StartingPress, new GraphicsToggleDebugSpriteCommand(this));
+            keyboard.RegisterCommand(Keys.F3, ExecutionType.StartingPress, new GraphicsToggleDebugLevelCommand(this));
+            keyboard.RegisterCommand(Keys.F4, ExecutionType.StartingPress, new GraphicsToggleCullingCommand(this));
+            keyboard.RegisterCommand(Keys.F5, ExecutionType.StartingPress, new GraphicsToggleDebugCollisionCommand(this));
+            keyboard.RegisterCommand(Keys.F, ExecutionType.StartingPress, new GraphicsToggleFullscreenCommand(this));
+            keyboard.RegisterCommand(Keys.OemPlus, ExecutionType.StartingPress, new GraphicsIncreaseWindowSizeCommand(this));
+            keyboard.RegisterCommand(Keys.OemMinus, ExecutionType.StartingPress, new GraphicsDecreaseWindowSizeCommand(this));
+            keyboard.RegisterCommand(Keys.OemCloseBrackets, ExecutionType.StartingPress, new GraphicsIncreaseTargetFramerateCommand(this));
+            keyboard.RegisterCommand(Keys.OemOpenBrackets, ExecutionType.StartingPress, new GraphicsDecreaseTargetFramerateCommand(this));
         }
 
         // Do we need this?
