@@ -3,9 +3,9 @@
     public class QuitCommand : ICommand
     {
         private Game1 myGame;
-        public QuitCommand(Game1 game)
+        public QuitCommand()
         {
-            myGame = game;
+            myGame = Game1.Instance;
         }
 
         public void Execute()

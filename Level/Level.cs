@@ -20,10 +20,10 @@ namespace KirbyNightmareInDreamLand
 
         private List<Sprite> TileSprites;
 
-        public Level(Game1 game)
+        public Level()
         {
-            _game = game;
-            _camera = game.camera;
+            _game = Game1.Instance;
+            _camera = _game.camera;
 
             TileSprites = LoadTileSprites("Content/Images/TileSprites.txt");
         }

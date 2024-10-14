@@ -3,9 +3,9 @@
     public class GraphicsToggleDebugCollisionCommand : ICommand
     {
         Game1 game;
-        public GraphicsToggleDebugCollisionCommand(Game1 game)
+        public GraphicsToggleDebugCollisionCommand()
         {
-            this.game = game;
+            this.game = Game1.Instance;
         }
 
         public void Execute()

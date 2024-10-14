@@ -29,17 +29,18 @@ namespace KirbyNightmareInDreamLand
 
         public GameDebug()
         {
+            _game = Game1.Instance;
+            _graphicsDevice = _game.GraphicsDevice;
+            // TEMPORARY, FOR DEBUG SPRITE VISUALS
+            texture = new Texture2D(_graphicsDevice, 1, 1);
+            texture.SetData(new Color[] { new(255, 255, 255, 63) });
         }
 
 
         // Create textures for drawing boxes.
         public void Load(Game1 game, GraphicsDevice graphicsDevice)
         {
-            _game = game;
-            _graphicsDevice = graphicsDevice;
-            // TEMPORARY, FOR DEBUG SPRITE VISUALS
-            texture = new Texture2D(graphicsDevice, 1, 1);
-            texture.SetData(new Color[] { new(255, 255, 255, 63) });
+            
         }
 
 

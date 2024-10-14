@@ -98,8 +98,8 @@ namespace KirbyNightmareInDreamLand
             CULLING_ENABLED = true;
             DEBUG_COLLISION_MODE = false;
             IS_FULLSCREEN = false;
-            WINDOW_WIDTH = 720;
-            WINDOW_HEIGHT = 480;
+            WINDOW_WIDTH = Constants.Graphics.GAME_WIDTH * 3;
+            WINDOW_HEIGHT = Constants.Graphics.GAME_HEIGHT * 3;
             WINDOW_XOFFSET = 0;
             WINDOW_YOFFSET = 0;
             TARGET_FRAMERATE = 60;
@@ -133,7 +133,7 @@ namespace KirbyNightmareInDreamLand
             
 
             keyboard = new KeyboardController();
-            mouseController = new MouseController(this);
+            mouseController = new MouseController();
 
             base.Initialize();
         }
@@ -146,13 +146,13 @@ namespace KirbyNightmareInDreamLand
         public void SetKeyboardControls(KeyboardController keyboard)
         {
             keyboard.RegisterCommand(Keys.Right, ExecutionType.Pressed, new KirbyMoveRightCommand(kirby, Keys.Right, keyboard));
-            keyboard.RegisterCommand(Keys.Right, ExecutionType.StoppingPress, new KirbyRunningRightCommand(this, keyboard, Keys.Right, kirby));
+            keyboard.RegisterCommand(Keys.Right, ExecutionType.StoppingPress, new KirbyRunningRightCommand(keyboard, Keys.Right, kirby));
             keyboard.RegisterCommand(Keys.Left, ExecutionType.Pressed, new KirbyMoveLeftCommand(kirby, Keys.Left, keyboard));
-            keyboard.RegisterCommand(Keys.Left, ExecutionType.StoppingPress, new KirbyRunningLeftCommand(this, keyboard, Keys.Left, kirby));
+            keyboard.RegisterCommand(Keys.Left, ExecutionType.StoppingPress, new KirbyRunningLeftCommand(keyboard, Keys.Left, kirby));
 
             // this is hard-coded bc it needs to know the keybind to attack to check if it needs to slide
             keyboard.RegisterCommand(Keys.Down, ExecutionType.Pressed, new KirbyMoveCrouchedCommand(kirby, Keys.Down, Keys.Z, keyboard));
-            keyboard.RegisterCommand(Keys.Down, ExecutionType.StoppingPress, new KirbyCrouchAndSlideCommand(kirby, Keys.Down, Keys.Z, keyboard, this));
+            keyboard.RegisterCommand(Keys.Down, ExecutionType.StoppingPress, new KirbyCrouchAndSlideCommand(kirby, Keys.Down, Keys.Z, keyboard));
             keyboard.RegisterCommand(Keys.Up, ExecutionType.Pressed, new KirbyFloatCommand(kirby));
             keyboard.RegisterCommand(Keys.X, ExecutionType.Pressed, new KirbyJumpCommand(kirby));
 
@@ -169,25 +169,25 @@ namespace KirbyNightmareInDreamLand
             keyboard.RegisterCommand(Keys.D3, ExecutionType.StartingPress, new KirbyChangeFireCommand(kirby));
             keyboard.RegisterCommand(Keys.D4, ExecutionType.StartingPress, new KirbyChangeSparkCommand(kirby));
 
-            keyboard.RegisterCommand(Keys.O, ExecutionType.StartingPress, new PreviousEnemyCommand(this));
-            keyboard.RegisterCommand(Keys.P, ExecutionType.StartingPress, new NextEnemyCommand(this));
+            keyboard.RegisterCommand(Keys.O, ExecutionType.StartingPress, new PreviousEnemyCommand());
+            keyboard.RegisterCommand(Keys.P, ExecutionType.StartingPress, new NextEnemyCommand());
 
-            keyboard.RegisterCommand(Keys.Q, ExecutionType.StartingPress, new QuitCommand(this));
-            keyboard.RegisterCommand(Keys.R, ExecutionType.StartingPress, new ResetCommand(this));
+            keyboard.RegisterCommand(Keys.Q, ExecutionType.StartingPress, new QuitCommand());
+            keyboard.RegisterCommand(Keys.R, ExecutionType.StartingPress, new ResetCommand());
 
-            keyboard.RegisterCommand(Keys.F1, ExecutionType.StartingPress, new GraphicsToggleDebugTextCommand(this));
-            keyboard.RegisterCommand(Keys.F2, ExecutionType.StartingPress, new GraphicsToggleDebugSpriteCommand(this));
-            keyboard.RegisterCommand(Keys.F3, ExecutionType.StartingPress, new GraphicsToggleDebugLevelCommand(this));
-            keyboard.RegisterCommand(Keys.F4, ExecutionType.StartingPress, new GraphicsToggleCullingCommand(this));
-            keyboard.RegisterCommand(Keys.F5, ExecutionType.StartingPress, new GraphicsToggleDebugCollisionCommand(this));
-            keyboard.RegisterCommand(Keys.F, ExecutionType.StartingPress, new GraphicsToggleFullscreenCommand(this));
-            keyboard.RegisterCommand(Keys.OemPlus, ExecutionType.StartingPress, new GraphicsIncreaseWindowSizeCommand(this));
-            keyboard.RegisterCommand(Keys.OemMinus, ExecutionType.StartingPress, new GraphicsDecreaseWindowSizeCommand(this));
-            keyboard.RegisterCommand(Keys.OemCloseBrackets, ExecutionType.StartingPress, new GraphicsIncreaseTargetFramerateCommand(this));
-            keyboard.RegisterCommand(Keys.OemOpenBrackets, ExecutionType.StartingPress, new GraphicsDecreaseTargetFramerateCommand(this));
+            keyboard.RegisterCommand(Keys.F1, ExecutionType.StartingPress, new GraphicsToggleDebugTextCommand());
+            keyboard.RegisterCommand(Keys.F2, ExecutionType.StartingPress, new GraphicsToggleDebugSpriteCommand());
+            keyboard.RegisterCommand(Keys.F3, ExecutionType.StartingPress, new GraphicsToggleDebugLevelCommand());
+            keyboard.RegisterCommand(Keys.F4, ExecutionType.StartingPress, new GraphicsToggleCullingCommand());
+            keyboard.RegisterCommand(Keys.F5, ExecutionType.StartingPress, new GraphicsToggleDebugCollisionCommand());
+            keyboard.RegisterCommand(Keys.F, ExecutionType.StartingPress, new GraphicsToggleFullscreenCommand());
+            keyboard.RegisterCommand(Keys.OemPlus, ExecutionType.StartingPress, new GraphicsIncreaseWindowSizeCommand());
+            keyboard.RegisterCommand(Keys.OemMinus, ExecutionType.StartingPress, new GraphicsDecreaseWindowSizeCommand());
+            keyboard.RegisterCommand(Keys.OemCloseBrackets, ExecutionType.StartingPress, new GraphicsIncreaseTargetFramerateCommand());
+            keyboard.RegisterCommand(Keys.OemOpenBrackets, ExecutionType.StartingPress, new GraphicsDecreaseTargetFramerateCommand());
         }
 
-        // Do we need this?
+        // Do we need thisthis?
         public void LoadItem()
         {
             item = SpriteFactory.Instance.CreateSprite("item_maximtomato");
@@ -230,13 +230,12 @@ namespace KirbyNightmareInDreamLand
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Create camera and level instances
-            camera = new Camera(this);
+            camera = new Camera();
 
-            SpriteFactory.Instance.LoadGame(this);
             // Load all content through LevelLoader
-            LevelLoader.Instance.LoadAllContent(this, Content, GraphicsDevice);
+            LevelLoader.Instance.LoadAllContent();
 
-            level = new Level(this);
+            level = new Level();
             level.LoadRoom("testroom1");
 
             // Load all objects

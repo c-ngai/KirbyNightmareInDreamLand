@@ -10,9 +10,9 @@ namespace KirbyNightmareInDreamLand.Commands
     {
         private Game1 game;
 
-        public NextEnemyCommand(Game1 game)
+        public NextEnemyCommand()
         {
-            this.game = game;
+            this.game = Game1.Instance;
         }
 
         // Move to the next enemy in the list

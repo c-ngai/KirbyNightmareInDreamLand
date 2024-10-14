@@ -7,9 +7,9 @@ namespace KirbyNightmareInDreamLand.Commands
     {
         private Game1 game;
         private GraphicsDeviceManager graphics;
-        public GraphicsDecreaseTargetFramerateCommand(Game1 game)
+        public GraphicsDecreaseTargetFramerateCommand()
         {
-            this.game = game;
+            this.game = Game1.Instance;
             this.graphics = game.graphics;
         }
 

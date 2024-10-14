@@ -3,9 +3,9 @@
     public class GraphicsToggleDebugLevelCommand : ICommand
     {
         Game1 game;
-        public GraphicsToggleDebugLevelCommand(Game1 game)
+        public GraphicsToggleDebugLevelCommand()
         {
-            this.game = game;
+            this.game = Game1.Instance;
         }
 
         public void Execute()

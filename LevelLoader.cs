@@ -20,6 +20,10 @@ namespace KirbyNightmareInDreamLand
 {
     public class LevelLoader
     {
+        private Game1 _game;
+        private ContentManager _content;
+        private GraphicsDevice _graphics;
+
         // Dictionary from string to Room. For easily retrieving a room by name.
         public Dictionary<string, int[][]> Tilemaps { get; private set; }
 
@@ -44,6 +48,9 @@ namespace KirbyNightmareInDreamLand
         }
         public LevelLoader()
         {
+            _game = Game1.Instance;
+            _content = _game.Content;
+            _graphics = _game.GraphicsDevice;
             Tilemaps = new Dictionary<string, int[][]>();
             Rooms = new Dictionary<string, Room>();
             Keymaps = new Dictionary<string, List<Keymapping>>();
@@ -51,20 +58,19 @@ namespace KirbyNightmareInDreamLand
 
 
 
-        public void LoadAllContent(Game1 game, ContentManager content, GraphicsDevice graphics)
+        public void LoadAllContent()
         {
 
-            LoadAllTextures(content, game);
+            LoadAllTextures();
             LoadAllSpriteAnimations();
-            GameDebug.Instance.Load(game, graphics);
 
             LoadAllTilemaps();
             LoadAllRooms();
 
             LoadAllKeymappings();
 
-            font = content.Load<SpriteFont>("DefaultFont");
-            borders = new Texture2D(graphics, 1, 1);
+            font = _content.Load<SpriteFont>("DefaultFont");
+            borders = new Texture2D(_graphics, 1, 1);
             borders.SetData(new Color[] { new Color(0, 0, 0, 127) });
 
         }
@@ -72,14 +78,14 @@ namespace KirbyNightmareInDreamLand
 
 
         // Loads a texture image given its name and filepath.
-        private void LoadTexture(ContentManager content, string TextureName, string TextureFilepath)
+        private void LoadTexture(string TextureName, string TextureFilepath)
         {
-            Texture2D texture = content.Load<Texture2D>(TextureFilepath);
+            Texture2D texture = _content.Load<Texture2D>(TextureFilepath);
             SpriteFactory.Instance.Textures.Add(TextureName, texture);
         }
 
         // Loads all textures from the texture list file.
-        public void LoadAllTextures(ContentManager content, Game1 game)
+        public void LoadAllTextures()
         {
             // Open the texture list data file and read its lines into a string array.
             string textureList = "Content/Images/Textures.txt";
@@ -89,7 +95,7 @@ namespace KirbyNightmareInDreamLand
             foreach (string textureFilepath in textureFilepaths)
             {
                 string textureName = Path.GetFileNameWithoutExtension(textureFilepath);
-                LoadTexture(content, textureName, textureFilepath);
+                LoadTexture(textureName, textureFilepath);
             }
         }
 
