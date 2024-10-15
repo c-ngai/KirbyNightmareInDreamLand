@@ -2,21 +2,19 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using KirbyNightmareInDreamLand.StateMachines;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
     public class PoppyBrosJr : Enemy
     {
-
-        //Keep track of current frame
-        private int frameCounter = 0;
-
         private int hopCounter = 0; //number of hops
 
         public PoppyBrosJr(Vector2 startPosition) : base(startPosition, EnemyType.PoppyBrosJr)
         {
             //initialize first sprite
             stateMachine.ChangePose(EnemyPose.Hop);
+            ChangeState(new PoppyBrosJrHopState());
         }
 
         public override void Attack()
@@ -24,44 +22,18 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             //NOTE: Poppy Bros Jr does not have attack sprite
         }
 
-        
         public override void Update(GameTime gameTime)
         {
             if (!isDead)
             {
-                frameCounter++;
-
-                // Switch case to handle enemy states
-                switch (stateMachine.GetPose())
-                {
-                    case EnemyPose.Hop:
-                        Move();
-                        Hop();
-
-                        // Transition to Hurt state after hopFrames
-                        if (frameCounter >= Constants.PoppyBrosJr.HOP_FRAMES)
-                        {
-                            stateMachine.ChangePose(EnemyPose.Hurt);
-                            frameCounter = 0; // Reset frame counter
-                            UpdateTexture();  // Update texture for the new pose
-                        }
-                        break;
-
-                    case EnemyPose.Hurt:
-                        // Transition back to Hopping after hurtFrames
-                        if (frameCounter >= Constants.PoppyBrosJr.HURT_FRAMES)
-                        {
-                            stateMachine.ChangePose(EnemyPose.Hop);
-                            frameCounter = 0;
-                            UpdateTexture();
-                        }
-                        break;
-                }
+                IncrementFrameCounter();
+                // Delegate behavior to the current state
+                currentState.Update(this);
                 UpdateTexture();
                 // Update the enemy sprite
                 enemySprite.Update();
             }
-        } 
+        }
 
         public override void Move()
         {
@@ -82,6 +54,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                     ChangeDirection();
                 }
             }
+            Hop();
         }
 
         private void Hop()
