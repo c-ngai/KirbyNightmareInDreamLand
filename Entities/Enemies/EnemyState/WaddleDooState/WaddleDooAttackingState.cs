@@ -14,11 +14,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
         {
             enemy.StateMachine.ChangePose(EnemyPose.Attacking);
             enemy.ResetFrameCounter(); // Reset the frame counter upon entering the state
-            enemy.Attack(); // Attack immediately on entering the state    
         }
 
         public void Update(Enemy enemy)
         {
+            enemy.Attack(); // Attack immediately on entering the state    
+
             if (enemy.FrameCounter >= Constants.WaddleDoo.ATTACK_FRAMES)
             {
                 enemy.ChangeState(new WaddleDooHurtState());

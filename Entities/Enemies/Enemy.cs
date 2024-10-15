@@ -31,7 +31,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             leftBoundary = new Vector2(100, 100);
             rightBoundary = new Vector2(230, 100);
             oldState = string.Empty;
-            currentState = new WaddleDeeWalkingState(); // Set initial state
+            currentState = new WaddleDeeWalkingState();
             currentState.Enter(this); // Call enter method for the initial state
             frameCounter = 0; // Initialize frame counter
         }

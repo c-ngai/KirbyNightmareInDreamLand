@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Projectiles;
 using KirbyNightmareInDreamLand.StateMachines;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -24,6 +26,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             //Initialize pose
             stateMachine.ChangePose(EnemyPose.Walking);
+            currentState = new WaddleDooWalkingState();
         }
 
         /*
@@ -31,7 +34,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             if (!isDead)
             {
-                // frameCounter++; // Increment the frame counter
                 IncrementFrameCounter(); // Increment the inherited frame counter
                 currentState.Update(this); // Delegate to the current state
 
@@ -48,7 +50,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                     }
                 }
             }
-        }*/
+        } */
 
         
         public override void Update(GameTime gameTime)
@@ -120,8 +122,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                     }
                 }
             }
-            
-
         } 
 
         private Vector2 ProjectilePosition()
