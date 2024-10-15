@@ -14,8 +14,8 @@ namespace KirbyNightmareInDreamLand
 
     public struct Door
     {
-        Vector2 TilePosition;
-        string DestinationRoom;
+        public Vector2 TilePosition;
+        public string DestinationRoom;
 
         public Door(Vector2 tilePosition, string destinationRoom)
         {

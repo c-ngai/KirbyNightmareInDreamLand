@@ -111,9 +111,6 @@ namespace KirbyNightmareInDreamLand
             LevelMatrix = Matrix.CreateTranslation(-position) * Matrix.CreateScale(scale) * Matrix.CreateTranslation(_game.WINDOW_XOFFSET, _game.WINDOW_YOFFSET, 0);
             ScreenMatrix = Matrix.CreateScale(scale) * Matrix.CreateTranslation(_game.WINDOW_XOFFSET, _game.WINDOW_YOFFSET, 0);
 
-            // Update the background matrix for the background
-            backgroundMatrix = Matrix.CreateTranslation(-backgroundPosition.X, -backgroundPosition.Y, 0) * Matrix.CreateScale(scale);
-
             
         }
 

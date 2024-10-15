@@ -15,7 +15,6 @@ namespace KirbyNightmareInDreamLand.Sprites
         [JsonPropertyName("Tilemap")]
         public string TilemapName { get; set; }
 
-
         [JsonPropertyName("Spawn point X")]
         public int SpawnPointX { get; set; }
 

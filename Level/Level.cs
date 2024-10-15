@@ -13,7 +13,7 @@ namespace KirbyNightmareInDreamLand
         private Game1 _game;
         private Camera _camera;
 
-        public float BackgroundParallaxFactor { get; set; } = 0.85f;
+        public float BackgroundParallaxFactor { get; set; } = 0.85f; // fix magic number 
 
         // Make private later probably, coupling issues
         public Room room;
@@ -74,7 +74,7 @@ namespace KirbyNightmareInDreamLand
                     _camera.GetPosition().Y * BackgroundParallaxFactor
                 );
 
-                room.BackgroundSprite.Draw(backgroundPosition, spriteBatch); // Draw at origin or wherever it should be
+                room.BackgroundSprite.Draw(backgroundPosition, spriteBatch); 
             }
         }
 
@@ -82,26 +82,57 @@ namespace KirbyNightmareInDreamLand
         {
             if (room.ForegroundSprite != null)
             {
-                room.ForegroundSprite.Draw(Vector2.Zero, spriteBatch); // Draw at origin or wherever it should be
+                room.ForegroundSprite.Draw(Vector2.Zero, spriteBatch); 
             }
         }
 
         // Draws the level normally; background and foreground.
         public void DrawLevel(SpriteBatch spriteBatch)
         {
-
-            // Draw background 
             DrawBackground(spriteBatch);
-
-            // Draw the room's foreground
             DrawForeground(spriteBatch);
         }
+
+        // draws enemies and tomatoes
+        public void DrawLevelObjects()
+        {
+
+        }
+
+        // tells player if they are at a door or not 
+        public bool atDoor(Vector2 playerPosition)
+        {
+            bool result = false;
+            foreach(Door door in room.Doors)
+            {
+                Rectangle door_rec = new Rectangle(
+                    (int)door.TilePosition.X * Constants.Level.TILE_SIZE,
+                    (int)door.TilePosition.Y * Constants.Level.TILE_SIZE,
+                    Constants.Level.TILE_SIZE,
+                    Constants.Level.TILE_SIZE);
+                if(door_rec.Contains(playerPosition))
+                {
+                    result = true;
+                }
+            }
+
+            return result;
+        }
+
+        // go to the next room, called because a player wants to go through a door 
+        public void nextRoom()
+        {
+
+        }
+
 
         public void UpdateLevel(SpriteBatch spriteBatch)
         {
             room.ForegroundSprite.Update();
-            
+            // don't need to update background because it doesn't animate
         }
+
+        // Following methods authored by Mark 
 
         // Debug mode (toggle F2), draws the usually-invisible collision tiles.
         public void DrawDebug(SpriteBatch spriteBatch)
