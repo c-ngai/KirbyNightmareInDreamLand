@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using KirbyNightmareInDreamLand.Collision;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -7,7 +8,6 @@ namespace KirbyNightmareInDreamLand
 {
     public class CollisionManager
     {
-        private Game1 Game;
         //dynamic objects: enemies, projectiles, player
         private List<ICollidable> DynamicObjects;
         //static: tiles
@@ -26,6 +26,7 @@ namespace KirbyNightmareInDreamLand
             DynamicObjects = new List<ICollidable>();
             StaticObjects  = new List<ICollidable>();
         }
+
         public void ResetDynamicCollisionBoxes()
         {
             foreach(var dynamObject in DynamicObjects)
@@ -81,14 +82,17 @@ namespace KirbyNightmareInDreamLand
         {
             foreach (var dynamicObj in DynamicObjects)
             {
-                foreach (var staticObj in StaticObjects)
-                {
-                    if (dynamicObj.BoundingBox.Intersects(staticObj.BoundingBox))
-                    {
-                        dynamicObj.OnCollision(staticObj);
-                        staticObj.OnCollision(dynamicObj);
-                    }
-                }
+                //List<Tile> nearbyTiles = Game1.Instance.level.IntersectingTiles(dynamicObj.BoundingBox);
+                //foreach (Tile tile in nearbyTiles)
+                //{
+                //    if (dynamicObj.BoundingBox.Intersects(tile.rectangle))
+                //    {
+                //        // Created a method to check side of intersection
+
+                //        CollisionSide side = CollisionSide.Top;
+
+                //    }
+                //}
             }
         }
         public void DynamicCollisionCheck()
@@ -111,6 +115,7 @@ namespace KirbyNightmareInDreamLand
                 }
             }
         }
+
         public void CheckCollisions()
         {
             if(CollisionOn)
