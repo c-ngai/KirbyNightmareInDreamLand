@@ -28,9 +28,9 @@ namespace KirbyNightmareInDreamLand
         public Matrix ScreenMatrix { get; set; }
         public Matrix backgroundMatrix { get; set; }
 
-        public Camera(Game1 game)
+        public Camera()
         {
-            _game = game;
+            _game = Game1.Instance;
 
             position = new Vector3(0,0,0);
             bounds = new Rectangle((int)position.X, (int)position.Y, Constants.Graphics.GAME_WIDTH, Constants.Graphics.GAME_HEIGHT);

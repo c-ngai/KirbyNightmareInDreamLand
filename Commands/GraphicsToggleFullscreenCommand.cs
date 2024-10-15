@@ -19,9 +19,9 @@ namespace KirbyNightmareInDreamLand.Commands
         private int FULLSCREEN_XOFFSET;
         private int FULLSCREEN_YOFFSET;
 
-        public GraphicsToggleFullscreenCommand(Game1 game)
+        public GraphicsToggleFullscreenCommand()
         {
-            this.game = game;
+            this.game = Game1.Instance;
             this.graphics = game.graphics;
 
             MAX_WINDOW_HEIGHT = game.MAX_WINDOW_WIDTH * Constants.Graphics.GAME_HEIGHT / Constants.Graphics.GAME_WIDTH;

@@ -19,14 +19,14 @@ namespace KirbyNightmareInDreamLand.Commands
         private ITimeCalculator timer;
         private double startingTime;
 
-        public KirbyCrouchAndSlideCommand(IPlayer player, Keys keyCrouch, Keys keyAttack, KeyboardController currentKeyboard, Game1 currentGame)
+        public KirbyCrouchAndSlideCommand(IPlayer player, Keys keyCrouch, Keys keyAttack, KeyboardController currentKeyboard)
         {
             kirby = player;
             crouchKey = keyCrouch;
             attackKey = keyAttack;
             keyboard = currentKeyboard;
             timer = new TimeCalculator();
-            game = currentGame;
+            game = Game1.Instance;
             startingTime = 0;
             isSliding = false;
         }

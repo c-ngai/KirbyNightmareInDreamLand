@@ -3,9 +3,9 @@
     public class GraphicsToggleDebugTextCommand : ICommand
     {
         Game1 game;
-        public GraphicsToggleDebugTextCommand(Game1 game)
+        public GraphicsToggleDebugTextCommand()
         {
-            this.game = game;
+            this.game = Game1.Instance;
         }
 
         public void Execute()

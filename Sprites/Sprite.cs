@@ -23,14 +23,14 @@ namespace KirbyNightmareInDreamLand.Sprites
 
         /* Creates a new animation object from an animation file. Imports animation
          * data from a .csv file into the Animation object. */
-        public Sprite(SpriteAnimation spriteAnimation, Game1 game)
+        public Sprite(SpriteAnimation spriteAnimation)
         {
             _spriteAnimation = spriteAnimation;
 
             currentFrame = 0;
             tickCounter = -1;
-            _game = game;
-            _camera = game.camera;
+            _game = Game1.Instance;
+            _camera = _game.camera;
         }
 
 
