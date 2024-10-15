@@ -28,13 +28,13 @@ namespace KirbyNightmareInDreamLand.Projectiles
             set => velocity = value;
         }
 
-        public KirbyBeamSegment(Vector2 startPosition, Vector2 beamVelocity)
+        public KirbyBeamSegment(Vector2 startPosition, Vector2 beamVelocity, bool isLeft)
         {
             Position = startPosition;
             Velocity = beamVelocity;
             sprite1 = SpriteFactory.Instance.CreateSprite("projectile_kirby_beam1");
             sprite2 = SpriteFactory.Instance.CreateSprite("projectile_kirby_beam2");
-            collidable = new ProjectileCollisionHandler((int)startPosition.X, (int)startPosition.Y);
+            collidable = new PlayerAttackCollisionHandler(startPosition, "Beam", isLeft);
 
         }
 

@@ -11,7 +11,7 @@ namespace KirbyNightmareInDreamLand
         public ProjectileCollisionHandler(int x, int y)
         {
             BoundingBox = new Rectangle(x, y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
-            CollisionManager.Instance.RegisterDynamicObject(this);
+            CollisionDetection.Instance.RegisterDynamicObject(this);
         }
         public void DestroyHitBox()
         {

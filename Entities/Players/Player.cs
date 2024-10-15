@@ -51,7 +51,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void UpdateTexture()
         {
             if(!state.GetStateString().Equals(oldState)){
-                System.Console.WriteLine(GetKirbyPose());
                 playerSprite = SpriteFactory.Instance.CreateSprite(state.GetSpriteParameters());
                 oldState = state.GetStateString();
             } 
@@ -87,7 +86,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public String AttackType()
         {
-            if(IsFloating()){
+            if(IsFloating()&& !IsFalling()){
                 return "Puff";
             } else if (state.IsCrouching()){
                 return "Slide";
@@ -286,13 +285,15 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 ChangePose(KirbyPose.Crouching);
                 movement.StopMovement();
                 StopAttacking();
+                ChangeAttackBool(false);
                 //await Task.Delay(Constants.Physics.DELAY);
             }
         }
         public void EndCrouch()
         {
-            if(state.CanCrouch()){
+            if(state.IsCrouching()){
                 StopMoving();
+                ChangeAttackBool(false);
                 ChangeMovement();
             }
         }
@@ -313,6 +314,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if(!attackIsActive){
                 attack = new PlayerAttack(this, AttackType());
                 movement.Attack(this);
+                ChangeAttackBool(true);
             }
             //ChangeAttackBool(true);
 
@@ -324,6 +326,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             // }
             if(attack != null && attack.IsDone())
             {
+                StopMoving();
                 ChangeAttackBool(false);
                 attack.EndAttack(this);
             }

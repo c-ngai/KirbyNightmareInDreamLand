@@ -7,27 +7,33 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace KirbyNightmareInDreamLand
 {
-    public class CollisionManager
+    public class CollisionDetection
     {
         //dynamic objects: enemies, projectiles, player
         private List<ICollidable> DynamicObjects;
         //static: tiles
         private Dictionary<Tile, ICollidable> StaticObjects;
-        private static CollisionManager instance = new CollisionManager();
-        private bool CollisionOn = true; // for debug purposes
-        public static CollisionManager Instance
+        private static CollisionDetection instance = new CollisionDetection();
+        private bool CollisionOn = false; // for debug purposes
+        public static CollisionDetection Instance
         {
             get
             {
                 return instance;
             }
         }
-        public CollisionManager()
+
+        //what im thinking is:
+        //the repsonder calls each objects handler which has the method with parameters takend care of
+        //based on the dictionary
+        //yeah
+        //just make it work with the collision classes
+
+        public CollisionDetection()
         {
             DynamicObjects = new List<ICollidable>();
             StaticObjects = new Dictionary<Tile, ICollidable>();
         }
-
         public void ResetDynamicCollisionBoxes()
         {
             foreach (var dynamObject in DynamicObjects)
@@ -38,6 +44,7 @@ namespace KirbyNightmareInDreamLand
         }
 
         // Register dynamic objects like Player, Enemy, etc.
+        //
         public void RegisterDynamicObject(ICollidable dynamicObj)
         {
             DynamicObjects.Add(dynamicObj);
@@ -48,36 +55,17 @@ namespace KirbyNightmareInDreamLand
         {
             if(!StaticObjects.ContainsKey(tile)) StaticObjects.Add(tile, staticObj);
         }
-        // Broad-phase distance check using bounding circles
-        private float GetBoundingRadius(Rectangle boundingBox)
+        private bool IsCloseEnough(ICollidable obj1, ICollidable obj2)
         {
-            // Use Pythagoras theorem to get half the diagonal as the radius
-            float width = boundingBox.Width;
-            float height = boundingBox.Height;
-            return (float)Math.Sqrt(width * width + height * height) / 2;
+            int distance =  obj1.BoundingBox.X - obj2.BoundingBox.X;
+            int distance2 = obj1.BoundingBox.Y - obj2.BoundingBox.Y;
+            int close = 40;
+
+            // If the distance between the objects is less than the sum of their radii, they're close enough to check further
+            return distance<close && distance2<close;
         }
-        // Calculate the center of a bounding box
-        private Vector2 GetCenter(Rectangle boundingBox)
-        {
-            return new Vector2(boundingBox.X + boundingBox.Width / 2, boundingBox.Y + boundingBox.Height / 2);
-        }
-        //private bool IsCloseEnough(ICollidable obj1, ICollidable obj2)
-        //{
-        //    // Get the center points of the objects
-        //    Vector2 center1 = GetCenter(obj1.BoundingBox);
-        //    Vector2 center2 = GetCenter(obj2.BoundingBox);
 
-        //    // Calculate the distance between the two objects' centers
-        //    float distance = Vector2.Distance(center1, center2);
-
-        //    // Define a rough collision radius (half the diagonal length of the bounding box)
-        //    float radius1 = GetBoundingRadius(obj1.BoundingBox);
-        //    float radius2 = GetBoundingRadius(obj2.BoundingBox);
-
-        //    // If the distance between the objects is less than the sum of their radii, they're close enough to check further
-        //    return distance < (radius1 + radius2);
-        //}
-
+        // Method to handle collision detection
         public CollisionSide CheckSide(Rectangle intersection, ICollidable object1)
         {
             // Determine positions for all corners of the intersection
@@ -160,6 +148,7 @@ namespace KirbyNightmareInDreamLand
                     {
                         if (!DynamicObjects[i].IsActive || !DynamicObjects[j].IsActive) continue;
                         //make function to get type to check if its enemies
+                        if(!IsCloseEnough(DynamicObjects[i],DynamicObjects[j])) continue;
                         if (DynamicObjects[i].BoundingBox.Intersects(DynamicObjects[j].BoundingBox))
                         {
                             DynamicObjects[i].OnCollision(DynamicObjects[j]);
@@ -184,9 +173,9 @@ namespace KirbyNightmareInDreamLand
                 //add check for enemies not colliding with each other?? probably within their ouwn class
                 DynamicCollisionCheck();
             }
-
-
         }
+        // i dont think he wants that many command classes
+        //otherwise he would have mentioned it
         public void DebugDraw(SpriteBatch spriteBatch)
         {
             foreach (var dynamicObj in DynamicObjects)
@@ -209,5 +198,7 @@ namespace KirbyNightmareInDreamLand
         }
 
     }
+    //im thinking of adding a remove box method to take it off the list, instead of working thpugh
+    //is active should that be in detection2          
 
 }

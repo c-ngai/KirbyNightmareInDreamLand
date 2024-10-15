@@ -8,11 +8,13 @@ namespace KirbyNightmareInDreamLand
         public bool IsDynamic { get; private set; } = true;
         public bool IsActive { get; private set; } = true;
         private IPlayer Player;
-
+        //im changing collision manager to collision detection
+        //then change handler to response --on your side
+        //
         public PlayerCollisionHandler(int x, int y, Player player)
         {
             BoundingBox = new Rectangle(x, y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
-            CollisionManager.Instance.RegisterDynamicObject(this);
+            CollisionDetection.Instance.RegisterDynamicObject(this);
             Player = player;
         }
         public void DestroyHitBox()
@@ -59,6 +61,12 @@ namespace KirbyNightmareInDreamLand
                 Player.TakeDamage();
             }
         }
+        public void TakeDamage()
+        {
+            if (!IsActive) return;
+            Player.TakeDamage();
+        }
+
     }
 
 }

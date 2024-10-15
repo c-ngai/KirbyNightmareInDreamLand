@@ -44,8 +44,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 ? SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_right")
                 : SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_left");
 
-            collidable = new ProjectileCollisionHandler((int)kirbyPosition.X, (int)kirbyPosition.Y);
-            
+            collidable = new PlayerAttackCollisionHandler(Position, "Puff", !isFacingRight);
         }
         
         public void EndAttack()
@@ -90,7 +89,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
                     projectileSprite?.Update();
                 }
             }
-            collidable.UpdateBoundingBox(position);
+            collidable.UpdateBoundingBox(Position);
         }
 
         public void Draw(SpriteBatch spriteBatch)

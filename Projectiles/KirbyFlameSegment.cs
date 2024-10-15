@@ -30,7 +30,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
             set => velocity = value;
         }
 
-        public KirbyFlameSegment(Vector2 startPosition, Vector2 flameDirection, float currentSpeed, float currentDelay)
+        public KirbyFlameSegment(Vector2 startPosition, Vector2 flameDirection, float currentSpeed, float currentDelay, bool isLeft)
         {
             Position = startPosition;
             speed = currentSpeed;
@@ -73,20 +73,20 @@ namespace KirbyNightmareInDreamLand.Projectiles
                     projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_fire1_left");
                 }
             }
-            collidable = new ProjectileCollisionHandler((int)startPosition.X, (int)startPosition.Y);
+            collidable = new PlayerAttackCollisionHandler(startPosition, "Fire", isLeft);
         }
 
         public void Update()
         {
-            // Reduce delay over time
-            // if (delay > 0)
-            // {
-            //     delay -= Constants.KirbyFire.SECONDS_PER_FRAME; // 60fps. 1/60 = ~0.016 seconds per frame
-            // }
-            // else
-            // {
-            //     IsActive = true;
-            // }
+            //Reduce delay over time
+            if (delay > 0)
+            {
+                delay -= Constants.KirbyFire.SECONDS_PER_FRAME; // 60fps. 1/60 = ~0.016 seconds per frame
+            }
+            else
+            {
+                IsActive = true;
+            }
 
             // Only update position if the flame segment is active
             if (IsActive)
@@ -95,21 +95,29 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
                 frameCount++;
 
-                projectileSprite.Update();
-             
-                collidable.UpdateBoundingBox(position);
+                // Mark the segment as inactive after a certain number of frames
+                if (frameCount >= Constants.KirbyFire.MAX_FRAMES)
+                {
+                    IsDone();
+                }
+                else
+                {
+                    projectileSprite?.Update();
+                }
             }
+            collidable.UpdateBoundingBox(position);
             
         }
         public void EndAttack()
         {
-            IsActive = false;
             collidable.DestroyHitBox();
-            projectileSprite = null;
         }
         public bool IsDone()
         {
-            return !IsActive;
+            IsActive = false;
+            projectileSprite = null;
+            EndAttack();
+            return IsActive;
         }
         
         public void Draw(SpriteBatch spriteBatch)

@@ -13,16 +13,14 @@ namespace KirbyNightmareInDreamLand.Entities.Players
     {
         private IProjectile currentAttack;
 
-        private int counter = 0;
         private Dictionary<string, Func<Player, IProjectile>> attackFactories;
-        private List<IProjectile> attacks;
         public PlayerAttack(Player kirby, String attackType)
         {
-            InitializeDictionary();
+            InitializeAttackDictionary();
             // Set the attack based on the string
             currentAttack = attackFactories[attackType](kirby);
         }
-        public void InitializeDictionary()
+        public void InitializeAttackDictionary()
         {
             attackFactories  = new Dictionary<string, Func<Player, IProjectile>>
             {
@@ -36,9 +34,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void EndAttack(Player kirby)
         {
-            currentAttack?.EndAttack();
-            kirby.ChangeAttackBool(false);
-            kirby.StopMoving();
+            currentAttack.EndAttack();
         }
         public bool IsDone()
         {
@@ -46,17 +42,17 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void Update(GameTime gameTime, Player kirby)
         {
-            if(!IsDone())
+            if(currentAttack is Slide attack)
             {
-                currentAttack?.Update();
+                attack.Update(kirby);
             } else {
-                EndAttack(kirby);
+                currentAttack.Update();
             }
             
         }
         public void Draw(SpriteBatch spriteBatch, Player kirby)
         {
-           currentAttack?.Draw(spriteBatch);
+           currentAttack.Draw(spriteBatch);
         }
     }
 }
