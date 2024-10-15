@@ -6,10 +6,10 @@ namespace KirbyNightmareInDreamLand.Commands
     {
         private Game1 game;
         private GraphicsDeviceManager graphics;
-        public GraphicsIncreaseWindowSizeCommand(Game1 game, GraphicsDeviceManager graphics)
+        public GraphicsIncreaseWindowSizeCommand()
         {
-            this.game = game;
-            this.graphics = graphics;
+            this.game = Game1.Instance;
+            this.graphics = game.graphics;
         }
 
         public void Execute()

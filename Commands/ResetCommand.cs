@@ -3,9 +3,9 @@
     public class ResetCommand : ICommand
     {
         private Game1 game;
-        public ResetCommand(Game1 currentGame)
+        public ResetCommand()
         {
-            game = currentGame;
+            game = Game1.Instance;
         }
 
         // is there a better way to do this beyond resetting every single game object?

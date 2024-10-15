@@ -1,4 +1,5 @@
-﻿using KirbyNightmareInDreamLand.Sprites;
+﻿using KirbyNightmareInDreamLand.Controllers;
+using KirbyNightmareInDreamLand.Sprites;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;

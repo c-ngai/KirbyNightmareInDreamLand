@@ -4,9 +4,9 @@
     {
         private Game1 game;
 
-        public PreviousEnemyCommand(Game1 game)
+        public PreviousEnemyCommand()
         {
-            this.game = game;
+            this.game = Game1.Instance;
         }
 
         // Move to the previous enemy in the list

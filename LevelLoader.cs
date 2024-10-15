@@ -1,9 +1,11 @@
-﻿using KirbyNightmareInDreamLand.Sprites;
+﻿using KirbyNightmareInDreamLand.Controllers;
+using KirbyNightmareInDreamLand.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Mime;
@@ -18,11 +20,18 @@ namespace KirbyNightmareInDreamLand
 {
     public class LevelLoader
     {
+        private Game1 _game;
+        private ContentManager _content;
+        private GraphicsDevice _graphics;
+
         // Dictionary from string to Room. For easily retrieving a room by name.
         public Dictionary<string, int[][]> Tilemaps { get; private set; }
 
         // Dictionary from string to Room. For easily retrieving a room by name.
         public Dictionary<string, Room> Rooms { get; private set; }
+
+        // Dictionary from string to Keymap. Keymap is a List of Keymappings.
+        public Dictionary<string, List<Keymapping>> Keymaps { get; private set; }
 
 
         public SpriteFont font { get; private set; }
@@ -39,24 +48,29 @@ namespace KirbyNightmareInDreamLand
         }
         public LevelLoader()
         {
+            _game = Game1.Instance;
+            _content = _game.Content;
+            _graphics = _game.GraphicsDevice;
             Tilemaps = new Dictionary<string, int[][]>();
             Rooms = new Dictionary<string, Room>();
+            Keymaps = new Dictionary<string, List<Keymapping>>();
         }
 
 
 
-        public void LoadAllContent(Game1 game, ContentManager content, GraphicsDevice graphics)
+        public void LoadAllContent()
         {
 
-            LoadAllTextures(content, game);
+            LoadAllTextures();
             LoadAllSpriteAnimations();
-            GameDebug.Instance.Load(game, graphics);
 
             LoadAllTilemaps();
             LoadAllRooms();
 
-            font = content.Load<SpriteFont>("DefaultFont");
-            borders = new Texture2D(graphics, 1, 1);
+            LoadAllKeymappings();
+
+            font = _content.Load<SpriteFont>("DefaultFont");
+            borders = new Texture2D(_graphics, 1, 1);
             borders.SetData(new Color[] { new Color(0, 0, 0, 127) });
 
         }
@@ -64,14 +78,14 @@ namespace KirbyNightmareInDreamLand
 
 
         // Loads a texture image given its name and filepath.
-        private void LoadTexture(ContentManager content, string TextureName, string TextureFilepath)
+        private void LoadTexture(string TextureName, string TextureFilepath)
         {
-            Texture2D texture = content.Load<Texture2D>(TextureFilepath);
+            Texture2D texture = _content.Load<Texture2D>(TextureFilepath);
             SpriteFactory.Instance.Textures.Add(TextureName, texture);
         }
 
         // Loads all textures from the texture list file.
-        public void LoadAllTextures(ContentManager content, Game1 game)
+        public void LoadAllTextures()
         {
             // Open the texture list data file and read its lines into a string array.
             string textureList = "Content/Images/Textures.txt";
@@ -81,7 +95,7 @@ namespace KirbyNightmareInDreamLand
             foreach (string textureFilepath in textureFilepaths)
             {
                 string textureName = Path.GetFileNameWithoutExtension(textureFilepath);
-                LoadTexture(content, textureName, textureFilepath);
+                LoadTexture(textureName, textureFilepath);
             }
         }
 
@@ -158,17 +172,59 @@ namespace KirbyNightmareInDreamLand
         // Loads all rooms from the .json file.
         public void LoadAllRooms()
         {
-            // Open the sprite animation data file and deserialize it into a dictionary.
+            // Open the room data file and deserialize it into a dictionary.
             string roomFile = "Content/Rooms.json";
             Dictionary<string, RoomJsonData> RoomJsonDatas = JsonSerializer.Deserialize<Dictionary<string, RoomJsonData>>(File.ReadAllText(roomFile), new JsonSerializerOptions());
 
-            // Run through the dictionary and load each sprite.
+            // Run through the dictionary and load each room.
             foreach (KeyValuePair<string, RoomJsonData> data in RoomJsonDatas)
             {
                 LoadRoom(data.Key, data.Value);
             }
         }
 
+
+        
+        // Loads a keymapping given its name and data.
+        private void LoadKeymapping(KeymappingJsonData keymappingJsonData, List<Keymapping> Keymap)
+        {
+            Debug.WriteLine("Key = " + keymappingJsonData.Key);
+            Debug.WriteLine("ExecutionType = " + keymappingJsonData.ExecutionType);
+            Debug.WriteLine("Command = " + keymappingJsonData.Command);
+            Debug.WriteLine("//////////////");
+
+            // Create a new Keymapping object
+            Keymapping keymapping = new Keymapping();
+
+            // Fill out its fields using the JSON data strings
+            keymapping.Key = 0; // TODO: implement actual behvaior
+            keymapping.ExecutionType = 0; // TODO: implement actual behvaior
+            keymapping.Command = null; // TODO: implement actual behvaior
+
+            // Add the new keymapping to its respective list.
+            Keymap.Add(keymapping);
+        }
+
+        // Loads all rooms from the .json file.
+        public void LoadAllKeymappings()
+        {
+            // Open the keymap data file and deserialize it into a dictionary.
+            string keymapFile = "Content/Keymaps.json";
+            Dictionary<string, List<KeymappingJsonData>> KeymapJsonDatas = JsonSerializer.Deserialize<Dictionary<string, List<KeymappingJsonData>>>(File.ReadAllText(keymapFile), new JsonSerializerOptions());
+
+            // Run through each keymap json data in the dictionary
+            foreach (KeyValuePair<string, List<KeymappingJsonData>> KeymapJsonData in KeymapJsonDatas)
+            {
+                // Add new empty Keymap to the Keymaps dictionary.
+                Keymaps.Add(KeymapJsonData.Key, new List<Keymapping>());
+                // Run through each keymapping json data in the keymap json data
+                foreach (KeymappingJsonData keymappingJsonData in KeymapJsonData.Value)
+                {
+                    // Load the keymapping. Passes in the individual keymapping json data and a reference to the actual keymap List<Keymapping> to add it to.
+                    LoadKeymapping(keymappingJsonData, Keymaps[KeymapJsonData.Key]);
+                }
+            }
+        }
         
 
     }

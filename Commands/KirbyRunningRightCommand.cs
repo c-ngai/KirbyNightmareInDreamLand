@@ -15,9 +15,9 @@ namespace KirbyNightmareInDreamLand.Commands
         private double timeSinceMoveStopped;
         private IPlayer kirby;
         private bool isRunning;
-        public KirbyRunningRightCommand(Game1 newGame, KeyboardController newKeyboard, Keys newKey, IPlayer player)
+        public KirbyRunningRightCommand(KeyboardController newKeyboard, Keys newKey, IPlayer player)
         {
-            game = newGame;
+            game = Game1.Instance;
             keyboard = newKeyboard;
             key = newKey;
             kirby = player;

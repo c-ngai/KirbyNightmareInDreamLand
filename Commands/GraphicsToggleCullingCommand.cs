@@ -3,9 +3,9 @@
     public class GraphicsToggleCullingCommand : ICommand
     {
         Game1 game;
-        public GraphicsToggleCullingCommand(Game1 game)
+        public GraphicsToggleCullingCommand()
         {
-            this.game = game;
+            this.game = Game1.Instance;
         }
 
         public void Execute()

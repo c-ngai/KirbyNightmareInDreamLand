@@ -18,9 +18,6 @@ namespace KirbyNightmareInDreamLand.Sprites
 
         private static SpriteFactory instance = new SpriteFactory();
 
-        // Storing a reference to the current game to pass into sprites for retrieving graphics info.
-        private Game1 _game;
-
         public static SpriteFactory Instance
         {
             get
@@ -36,14 +33,6 @@ namespace KirbyNightmareInDreamLand.Sprites
         }
 
 
-        /* TODO: This is probably bad. The SpriteFactory needs a reference to the current Game1 object
-         * to pass into sprites, so maybe SpriteFactory shouldn't be a singleton then? Either that or
-         * the reference to the current Game1 should be passed in through the one calling createSprite,
-         * which would require everyone calling it to have that in the first place. Idk. */
-        public void LoadGame(Game1 game)
-        {
-            _game = game;
-        }
 
         // Returns a new sprite object from a sprite animation's name.
         public Sprite CreateSprite(string spriteAnimationName)
@@ -54,12 +43,12 @@ namespace KirbyNightmareInDreamLand.Sprites
             if (spriteAnimations.ContainsKey(spriteAnimationName))
             {
                 //System.Console.WriteLine(spriteAnimationName );
-                return new Sprite(spriteAnimations[spriteAnimationName], _game);
+                return new Sprite(spriteAnimations[spriteAnimationName]);
             }
             else
             {
                 Debug.WriteLine("INVALID SPRITE NAME: " + spriteAnimationName); //debug line
-                return new Sprite(spriteAnimations["invalidspritename"], _game);
+                return new Sprite(spriteAnimations["invalidspritename"]);
             }
         }
 
