@@ -3,20 +3,20 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using KirbyNightmareInDreamLand.Projectiles;
 using KirbyNightmareInDreamLand.StateMachines;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
     public class Hothead : Enemy
     {
-        // Frame tracker
-        private int frameCounter = 0;
 
         // All fireballs and flamethrower
         private readonly List<IProjectile> fireballs;
         private readonly EnemyFlamethrower flamethrower;
 
         //Checks if flamethrower attack is active
-        private bool isFlamethrowerActive;
+         private bool isFlamethrowerActive;
+         private int flamethrowerFrameCounter;
 
         public Hothead(Vector2 startPosition) : base(startPosition, EnemyType.Hothead)
         {
@@ -24,73 +24,19 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             fireballs = new List<IProjectile>();
             flamethrower = new EnemyFlamethrower();
             isFlamethrowerActive = false;
+            flamethrowerFrameCounter = 0;
             stateMachine.ChangePose(EnemyPose.Walking);
+            currentState = new HotheadWalkingState();
         }
 
-        
         public override void Update(GameTime gameTime)
         {
             if (!isDead)
             {
-                frameCounter++;
-
-                //TO-DO: Change switch case into state pattern design.
-                switch (stateMachine.GetPose())
-                {
-                    //Walk for certain number of frames, then transition to spitting projectile
-                    case EnemyPose.Walking:
-                        Move();
-                        if (frameCounter >= Constants.Hothead.WALK_FRAMES)
-                        {
-                            stateMachine.ChangePose(EnemyPose.Charging);
-                            frameCounter = 0;
-                            UpdateTexture();
-                        }
-                        break;
-
-                    //Spit projectile then transition to flamethrower
-                    case EnemyPose.Charging:
-                        if (frameCounter == 1) // Fireball projectile on frame 1
-                        {
-                            Attack();
-                        }
-
-                        if (frameCounter >= Constants.Hothead.SHOOT_FRAMES)
-                        {
-                            stateMachine.ChangePose(EnemyPose.Attacking);
-                            frameCounter = 0;
-                            UpdateTexture();
-                        }
-                        break;
-                    //Flamethrower attack then transition to walking
-                    case EnemyPose.Attacking:
-                        if (frameCounter == 1) // Start flamethrower attack on frame 1
-                        {
-                            Flamethrower(gameTime);
-                        }
-
-                        if (frameCounter >= Constants.Hothead.ATTACK_FRAMES)
-                        {
-                            isFlamethrowerActive = false; // Deactivate flamethrower after attack
-                            flamethrower.ClearSegments(); // Clear fire
-                            stateMachine.ChangePose(EnemyPose.Hurt); // After attack, walk
-                            frameCounter = 0;
-                            UpdateTexture();
-                        }
-                        break;
-                    case EnemyPose.Hurt:
-                        // Transition back to walking after hurtFrames
-                        if (frameCounter >= Constants.Hothead.HURT_FRAMES)
-                        {
-                            stateMachine.ChangePose(EnemyPose.Walking);
-                            frameCounter = 0;
-                            UpdateTexture();
-                        }
-                        break;
-                }
-
-                //Update all sprites
+                IncrementFrameCounter();
+                currentState.Update(this);
                 UpdateTexture();
+                // Update the sprite and fireballs
                 enemySprite.Update();
                 UpdateFireballs();
 
@@ -98,11 +44,17 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 if (isFlamethrowerActive)
                 {
                     flamethrower.Update(gameTime, ProjectilePosition(), stateMachine.IsLeft() ? new Vector2(-1, 0) : new Vector2(1, 0));
+                    flamethrowerFrameCounter++;
+
+                    if (flamethrowerFrameCounter >= Constants.Hothead.ATTACK_FRAMES)
+                    {
+                        isFlamethrowerActive = false; // Deactivate flamethrower
+                        flamethrower.ClearSegments(); // Clear fire
+                    }
                 }
                 else
                 {
                     flamethrower.ClearSegments(); // Clear segments when not active
-                    //NOTE: Need to find some way to remove off-screen fireballs
                 }
             }
         }
@@ -136,7 +88,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             }
         }
 
-        private void Flamethrower(GameTime gameTime)
+        public void Flamethrower(/*GameTime gameTime*/)
         {
             //Shoots flamethrower if called while inactive
             if (!isFlamethrowerActive)
@@ -145,7 +97,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
                 // Set the start position for the flamethrower
                 Vector2 flameDirection = stateMachine.IsLeft() ? new Vector2(-1, 0) : new Vector2(1, 0);
-                flamethrower.Update(gameTime, ProjectilePosition(), flameDirection);
+                flamethrowerFrameCounter = 0; 
             }
         }
 
