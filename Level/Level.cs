@@ -12,15 +12,18 @@ namespace KirbyNightmareInDreamLand
 
         private Game1 _game;
         private Camera _camera;
+
+        public float BackgroundParallaxFactor { get; set; } = 0.85f;
+
         // Make private later probably, coupling issues
         public Room room;
 
         private List<Sprite> TileSprites;
 
-        public Level(Game1 game)
+        public Level()
         {
-            _game = game;
-            _camera = game.camera;
+            _game = Game1.Instance;
+            _camera = _game.camera;
 
             TileSprites = LoadTileSprites("Content/Images/TileSprites.txt");
         }
@@ -61,10 +64,43 @@ namespace KirbyNightmareInDreamLand
             
         }
 
-        // Draws the level normally, background and foreground.
+
+        private void DrawBackground(SpriteBatch spriteBatch)
+        {
+            if (room.BackgroundSprite != null)
+            {
+                Vector2 backgroundPosition = new Vector2(
+                    _camera.GetPosition().X * BackgroundParallaxFactor,
+                    _camera.GetPosition().Y * BackgroundParallaxFactor
+                );
+
+                room.BackgroundSprite.Draw(backgroundPosition, spriteBatch); // Draw at origin or wherever it should be
+            }
+        }
+
+        private void DrawForeground(SpriteBatch spriteBatch)
+        {
+            if (room.ForegroundSprite != null)
+            {
+                room.ForegroundSprite.Draw(Vector2.Zero, spriteBatch); // Draw at origin or wherever it should be
+            }
+        }
+
+        // Draws the level normally; background and foreground.
         public void DrawLevel(SpriteBatch spriteBatch)
         {
-            // TODO: Vivian
+
+            // Draw background 
+            DrawBackground(spriteBatch);
+
+            // Draw the room's foreground
+            DrawForeground(spriteBatch);
+        }
+
+        public void UpdateLevel(SpriteBatch spriteBatch)
+        {
+            room.ForegroundSprite.Update();
+            
         }
 
         // Debug mode (toggle F2), draws the usually-invisible collision tiles.
@@ -116,22 +152,15 @@ namespace KirbyNightmareInDreamLand
         }
 
         // Given a rectangle in the world, returns a List of all Tiles in the level that intersect with that given rectangle.
-        public List<Tile> IntersectingTiles(SpriteBatch spriteBatch, Rectangle collisionRectangle)
+        public List<Tile> IntersectingTiles(Rectangle collisionRectangle)
         {
             List<Tile> tiles = new List<Tile>();
 
             // Set bounds on the TileMap to iterate from
             int TopY = Math.Max(collisionRectangle.Top / Constants.Level.TILE_SIZE, 0);
-            int BottomY = Math.Min(collisionRectangle.Bottom / Constants.Level.TILE_SIZE + 1, room.TileMap.Length);
+            int BottomY = Math.Min(collisionRectangle.Bottom / Constants.Level.TILE_SIZE + 1, room.TileHeight);
             int LeftX = Math.Max(collisionRectangle.Left / Constants.Level.TILE_SIZE, 0);
-            int RightX = Math.Min(collisionRectangle.Right / Constants.Level.TILE_SIZE + 1, room.TileMap[0].Length);
-
-            /* // Draw points at corners of bounds
-            Debug.Instance.DrawPoint(spriteBatch, new Vector2(LeftX * Constants.Level.TILE_SIZE, TopY * Constants.Level.TILE_SIZE), Color.Green);
-            Debug.Instance.DrawPoint(spriteBatch, new Vector2(LeftX * Constants.Level.TILE_SIZE, BottomY * Constants.Level.TILE_SIZE), Color.Green);
-            Debug.Instance.DrawPoint(spriteBatch, new Vector2(RightX * Constants.Level.TILE_SIZE, TopY * Constants.Level.TILE_SIZE), Color.Red);
-            Debug.Instance.DrawPoint(spriteBatch, new Vector2(RightX * Constants.Level.TILE_SIZE, BottomY * Constants.Level.TILE_SIZE), Color.Red);
-            */
+            int RightX = Math.Min(collisionRectangle.Right / Constants.Level.TILE_SIZE + 1, room.TileWidth);
 
             // Iterate across all the rows of the TileMap visible within the frame of the camera
             for (int y = TopY; y < BottomY; y++)

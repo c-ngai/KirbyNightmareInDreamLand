@@ -1,0 +1,56 @@
+{
+
+    "keymap1": [
+        {
+            "Key": "F1",
+            "ExecutionType": "StartingPress",
+            "Command": "GraphicsToggleDebugTextCommand"
+        },
+        {
+            "Key": "F2",
+            "ExecutionType": "StartingPress",
+            "Command": "GraphicsToggleDebugSpriteCommand"
+        },
+        {
+            "Key": "F3",
+            "ExecutionType": "StartingPress",
+            "Command": "GraphicsToggleDebugLevelCommand"
+        },
+        {
+            "Key": "F4",
+            "ExecutionType": "StartingPress",
+            "Command": "GraphicsToggleCullingCommand"
+        },
+        {
+            "Key": "F5",
+            "ExecutionType": "StartingPress",
+            "Command": "GraphicsToggleDebugCollisionCommand"
+        },
+        {
+            "Key": "F",
+            "ExecutionType": "StartingPress",
+            "Command": "GraphicsToggleFullscreenCommand"
+        },
+        {
+            "Key": "OemPlus",
+            "ExecutionType": "StartingPress",
+            "Command": "GraphicsIncreaseWindowSizeCommand"
+        },
+        {
+            "Key": "OemMinus",
+            "ExecutionType": "StartingPress",
+            "Command": "GraphicsDecreaseWindowSizeCommand"
+        },
+        {
+            "Key": "OemCloseBrackets",
+            "ExecutionType": "StartingPress",
+            "Command": "GraphicsIncreaseTargetFramerateCommand"
+        },
+        {
+            "Key": "OemOpenBrackets",
+            "ExecutionType": "StartingPress",
+            "Command": "GraphicsDecreaseTargetFramerateCommand"
+        }
+    ]
+
+}

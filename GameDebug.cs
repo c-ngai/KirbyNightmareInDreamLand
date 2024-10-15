@@ -8,7 +8,7 @@ using System.Linq;
 namespace KirbyNightmareInDreamLand
 {
 
-    public class Debug
+    public class GameDebug
     {
 
         private Game1 _game;
@@ -17,9 +17,9 @@ namespace KirbyNightmareInDreamLand
 
 
 
-        private static Debug instance = new();
+        private static GameDebug instance = new();
 
-        public static Debug Instance
+        public static GameDebug Instance
         {
             get
             {
@@ -27,19 +27,20 @@ namespace KirbyNightmareInDreamLand
             }
         }
 
-        public Debug()
+        public GameDebug()
         {
+            _game = Game1.Instance;
+            _graphicsDevice = _game.GraphicsDevice;
+            // TEMPORARY, FOR DEBUG SPRITE VISUALS
+            texture = new Texture2D(_graphicsDevice, 1, 1);
+            texture.SetData(new Color[] { new(255, 255, 255, 63) });
         }
 
 
         // Create textures for drawing boxes.
         public void Load(Game1 game, GraphicsDevice graphicsDevice)
         {
-            _game = game;
-            _graphicsDevice = graphicsDevice;
-            // TEMPORARY, FOR DEBUG SPRITE VISUALS
-            texture = new Texture2D(graphicsDevice, 1, 1);
-            texture.SetData(new Color[] { new(255, 255, 255, 63) });
+            
         }
 
 
@@ -91,6 +92,7 @@ namespace KirbyNightmareInDreamLand
             List<string> texts = new List<string>();
             texts.Add("GraphicsAdapter.DefaultAdapter.CurrentDisplayMode: (" + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width + ", " + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height + ")");
             texts.Add("GraphicsDevice.Viewport: (" + _graphicsDevice.Viewport.Width + ", " + _graphicsDevice.Viewport.Height + ")");
+            texts.Add("Target framerate: " + _game.TARGET_FRAMERATE);
             texts.Add("Current FPS: " + Math.Round(frameRate));
             texts.Add("Average FPS: " + Math.Round(fpsLog.Average()));
             texts.Add("Current Max FPS: " + Math.Round(maxFrameRate));
@@ -100,10 +102,10 @@ namespace KirbyNightmareInDreamLand
             texts.Add("F : Toggle fullscreen");
             texts.Add("");
             texts.Add("F1 : Toggle debug text");
-            texts.Add("G : Toggle sprite debug mode");
+            texts.Add("F2 : Toggle sprite debug mode");
             texts.Add("F3 : Toggle level debug mode");
             texts.Add("F4 : Toggle sprite culling");
-            texts.Add("H : Toggle collision debug mode");
+            texts.Add("F5 : Toggle collision debug mode");
 
             // Draw lines to screen
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);

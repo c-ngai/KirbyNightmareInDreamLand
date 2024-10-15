@@ -6,8 +6,8 @@ namespace KirbyNightmareInDreamLand.Sprites
     // Class for deserializing each room data in the .json file.
     public class RoomJsonData
     {
-        [JsonPropertyName("Level sprite")]
-        public string LevelSpriteName { get; set; }
+        [JsonPropertyName("Foreground sprite")]
+        public string ForegroundSpriteName { get; set; }
 
         [JsonPropertyName("Background sprite")]
         public string BackgroundSpriteName { get; set; }

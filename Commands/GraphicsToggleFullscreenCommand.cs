@@ -19,10 +19,10 @@ namespace KirbyNightmareInDreamLand.Commands
         private int FULLSCREEN_XOFFSET;
         private int FULLSCREEN_YOFFSET;
 
-        public GraphicsToggleFullscreenCommand(Game1 game, GraphicsDeviceManager graphics)
+        public GraphicsToggleFullscreenCommand()
         {
-            this.game = game;
-            this.graphics = graphics;
+            this.game = Game1.Instance;
+            this.graphics = game.graphics;
 
             MAX_WINDOW_HEIGHT = game.MAX_WINDOW_WIDTH * Constants.Graphics.GAME_HEIGHT / Constants.Graphics.GAME_WIDTH;
             old_WINDOW_WIDTH = game.WINDOW_WIDTH;
@@ -71,11 +71,6 @@ namespace KirbyNightmareInDreamLand.Commands
             
             graphics.IsFullScreen = game.IS_FULLSCREEN;
             graphics.ApplyChanges();
-        }
-
-        public void Undo()
-        {
-
         }
     }
 }

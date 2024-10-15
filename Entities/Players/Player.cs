@@ -322,7 +322,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             // if(!IsFloating()){
             //     StopMoving();
             // }
-            if(attack.IsDone())
+            if(attack != null && attack.IsDone())
             {
                 ChangeAttackBool(false);
                 attack.EndAttack(this);

@@ -131,13 +131,13 @@ namespace KirbyNightmareInDreamLand
             foreach (var dynamicObj in DynamicObjects)
             {
                 if(dynamicObj.IsActive){
-                    Debug.Instance.DrawRectangle(spriteBatch, dynamicObj.BoundingBox, Color.Red);
+                    GameDebug.Instance.DrawRectangle(spriteBatch, dynamicObj.BoundingBox, Color.Red);
                 }
             }
             foreach (var staticObj in StaticObjects)
             {
                 if(staticObj.IsActive){
-                    Debug.Instance.DrawRectangle(spriteBatch, staticObj.BoundingBox, Color.Red);
+                    GameDebug.Instance.DrawRectangle(spriteBatch, staticObj.BoundingBox, Color.Red);
                 }
             }
         } 

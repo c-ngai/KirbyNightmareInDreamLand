@@ -7,4 +7,6 @@ Images/Spritesheets/items
 Images/Spritesheets/projectiles
 Images/collisionTileset
 Images/backgrounds
+Images/room1_level
+Images/room2_level
 Images/invalidspritename
