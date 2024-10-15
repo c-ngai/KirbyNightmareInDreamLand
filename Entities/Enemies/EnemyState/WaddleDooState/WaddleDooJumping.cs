@@ -26,7 +26,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
            // if (!enemy.IsJumping) // Assuming IsJumping is a public property
            // {
                 enemy.ChangeState(new WaddleDooWalkingState());
-          //  }
+                 enemy.UpdateTexture();
+            //  }
         }
 
         public void Exit(Enemy enemy) { }

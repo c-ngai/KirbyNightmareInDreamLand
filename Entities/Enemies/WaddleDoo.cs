@@ -29,7 +29,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             currentState = new WaddleDooWalkingState();
         }
 
-        /*
+        
         public override void Update(GameTime gameTime)
         {
             if (!isDead)
@@ -44,78 +44,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 if (isBeamActive)
                 {
                     beam.Update();
-                    if (!beam.IsBeamActive())
-                    {
-                        isBeamActive = false;
-                    }
-                }
-            }
-        } */
-
-        
-        public override void Update(GameTime gameTime)
-        {
-            
-            if (!isDead)
-            {
-                frameCounter++;
-
-                //TO-DO: Change switch case into state pattern design
-                switch (stateMachine.GetPose())
-                {
-                    //Move if walking for specfic number of frames. Transition to charging.
-                    case EnemyPose.Walking:
-                        Move();
-                        if (frameCounter >= Constants.WaddleDoo.WALK_FRAMES)
-                        {
-                            stateMachine.ChangePose(EnemyPose.Charging);
-                            frameCounter = 0;
-                            UpdateTexture();
-                        }
-                        break;
-                    //Charge attack. Transitions to attack
-                    case EnemyPose.Charging:
-                        if (frameCounter >= Constants.WaddleDoo.STOP_FRAMES)
-                        {
-                            stateMachine.ChangePose(EnemyPose.Attacking);
-                            frameCounter = 0;
-                            UpdateTexture();
-                        }
-                        break;
-                    //Use beam attack, spawning beam projectile. Transitions back to walking.
-                    case EnemyPose.Attacking:
-                        Attack();
-                        if (frameCounter >= Constants.WaddleDoo.ATTACK_FRAMES)
-                        {
-                            stateMachine.ChangePose(EnemyPose.Hurt);
-                            frameCounter = 0;
-                            UpdateTexture();
-                        }
-                        break;
-                    case EnemyPose.Hurt:
-                        // Transition back to walking after hurtFrames
-                        if (frameCounter >= Constants.WaddleDoo.HURT_FRAMES)
-                        {
-                            stateMachine.ChangePose(EnemyPose.Jumping);
-                            frameCounter = 0;
-                            UpdateTexture();
-                        }
-                        break;
-
-                    case EnemyPose.Jumping:
-                        Jump();
-                        break;
-                }
-
-                //update waddle doo
-                enemySprite.Update();
-
-                // Update the beam if it's active
-                if (isBeamActive)
-                {
-                    beam.Update();
-
-                    // If the beam is no longer active, reset the state
                     if (!beam.IsBeamActive())
                     {
                         isBeamActive = false;

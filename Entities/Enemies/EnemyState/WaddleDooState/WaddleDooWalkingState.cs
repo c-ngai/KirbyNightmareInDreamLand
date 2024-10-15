@@ -24,6 +24,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
             if (enemy.FrameCounter >= Constants.WaddleDoo.WALK_FRAMES)
             {
                 enemy.ChangeState(new WaddleDooChargingState());
+                enemy.UpdateTexture();
             }
         }
 
