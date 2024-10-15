@@ -25,6 +25,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             //Note: Does not have attack pose
         }
 
+        
         public override void Update(GameTime gameTime)
         {
             if (!isDead)
@@ -77,9 +78,9 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 // Update the enemy sprite
                 enemySprite.Update();
             }
-        }
+        } 
 
-        protected override void Move()
+        public override void Move()
         {
             //Creats Y oscillation using sin. Smooth flying motion up and down
             timeCounter += Constants.BrontoBurt.WAVE_FREQUENCY;

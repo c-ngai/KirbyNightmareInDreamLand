@@ -27,6 +27,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             stateMachine.ChangePose(EnemyPose.Walking);
         }
 
+        
         public override void Update(GameTime gameTime)
         {
             if (!isDead)
@@ -112,7 +113,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             return stateMachine.IsLeft() ? new Vector2(position.X - 18, position.Y - 7 ) : new Vector2(position.X + 18, position.Y - 7);
         }
 
-        protected override void Move()
+        public override void Move()
         {
             // Walking back and forth in X axis 
             if (stateMachine.IsLeft())

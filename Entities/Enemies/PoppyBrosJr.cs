@@ -24,6 +24,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             //NOTE: Poppy Bros Jr does not have attack sprite
         }
 
+        
         public override void Update(GameTime gameTime)
         {
             if (!isDead)
@@ -60,9 +61,9 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 // Update the enemy sprite
                 enemySprite.Update();
             }
-        }
+        } 
 
-        protected override void Move()
+        public override void Move()
         {
             // Handles x movement. Walking back and forth until left/right boundary
             if (stateMachine.IsLeft())

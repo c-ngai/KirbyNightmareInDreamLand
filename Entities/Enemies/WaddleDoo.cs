@@ -8,7 +8,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
     public class WaddleDoo : Enemy
     {
         //Keep track of current frame
-        private int frameCounter = 0;
+       // private int frameCounter = 0;
 
         // Jump variables
         private bool isJumping = false;
@@ -26,8 +26,34 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             stateMachine.ChangePose(EnemyPose.Walking);
         }
 
+        /*
         public override void Update(GameTime gameTime)
         {
+            if (!isDead)
+            {
+                // frameCounter++; // Increment the frame counter
+                IncrementFrameCounter(); // Increment the inherited frame counter
+                currentState.Update(this); // Delegate to the current state
+
+                // Update the sprite
+                enemySprite.Update();
+
+                // Handle the beam if active
+                if (isBeamActive)
+                {
+                    beam.Update();
+                    if (!beam.IsBeamActive())
+                    {
+                        isBeamActive = false;
+                    }
+                }
+            }
+        }*/
+
+        
+        public override void Update(GameTime gameTime)
+        {
+            
             if (!isDead)
             {
                 frameCounter++;
@@ -94,8 +120,9 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                     }
                 }
             }
+            
 
-        }
+        } 
 
         private Vector2 ProjectilePosition()
         {
@@ -103,7 +130,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             return stateMachine.IsLeft() ? new Vector2(position.X - 17, position.Y - 7) : new Vector2(position.X + 17, position.Y - 7);
         }
 
-        protected override void Move()
+        public override void Move()
         {
             //X moevement left and right. Turns around at left/right boundary
             if (stateMachine.IsLeft())

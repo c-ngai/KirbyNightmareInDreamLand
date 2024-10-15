@@ -24,6 +24,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             UpdateTexture();
         }
 
+        
         public override void Update(GameTime gameTime)
         {
             if (!isDead)
@@ -96,7 +97,9 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 enemySprite.Update();
             }
         }
-        protected override void Move()
+        
+
+        public override void Move()
         {
             //Keeps track of number of hoops
             hopCounter++;
