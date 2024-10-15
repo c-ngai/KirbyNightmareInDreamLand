@@ -12,22 +12,22 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
         public void Enter(Enemy enemy)
         {
             enemy.StateMachine.ChangePose(EnemyPose.Jumping);
-            //  enemy.Jump(); // Start jumping
             enemy.ResetFrameCounter(); // Reset the frame counter upon entering the state
 
         }
 
         public void Update(Enemy enemy)
         {
+            if (enemy is IJumpable jumpableEnemy)
+            {
+                jumpableEnemy.Jump(); // Call the jump method if the enemy can jump
 
-           // enemy.Jump(); // Update jumping logic
-
-             //Check if the jump is finished to go back to walking
-           // if (!enemy.IsJumping) // Assuming IsJumping is a public property
-           // {
-                enemy.ChangeState(new WaddleDooWalkingState());
-                 enemy.UpdateTexture();
-            //  }
+                if (!jumpableEnemy.IsJumping) // Check if the jump is finished
+                {
+                    enemy.ChangeState(new WaddleDooWalkingState());
+                    enemy.UpdateTexture();
+                }
+            }
         }
 
         public void Exit(Enemy enemy) { }

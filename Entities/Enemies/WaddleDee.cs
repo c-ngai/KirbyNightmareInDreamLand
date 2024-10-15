@@ -58,7 +58,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             if (!isDead)
             {
-                currentState.Update(this); // Delegate update to current state
+                currentState.Update(this); //update state
                 UpdateTexture(); // Update the texture if the state has changed
                 enemySprite.Update(); // Update the enemy sprite
             }

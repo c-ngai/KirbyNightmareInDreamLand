@@ -7,11 +7,8 @@ using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
-    public class WaddleDoo : Enemy
+    public class WaddleDoo : Enemy, IJumpable
     {
-        //Keep track of current frame
-       // private int frameCounter = 0;
-
         // Jump variables
         private bool isJumping = false;
         private float originalY;
@@ -21,6 +18,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         private EnemyBeam beam;
         private bool isBeamActive = false;
         private ICollidable collidable;
+
+        public bool IsJumping => isJumping;
 
         public WaddleDoo(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDoo)
         {
@@ -34,8 +33,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             if (!isDead)
             {
-                IncrementFrameCounter(); // Increment the inherited frame counter
-                currentState.Update(this); // Delegate to the current state
+                IncrementFrameCounter(); 
+                currentState.Update(this);
 
                 // Update the sprite
                 enemySprite.Update();
@@ -80,7 +79,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             UpdateTexture();
         }
 
-        private void Jump()
+        public void Jump()
         {
             if (!isJumping)
             {
