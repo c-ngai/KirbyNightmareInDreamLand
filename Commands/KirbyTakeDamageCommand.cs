@@ -3,16 +3,11 @@ namespace KirbyNightmareInDreamLand.Commands
 {
     public class KirbyTakeDamageCommand : ICommand
     { 
-        private IPlayer kirby;
-
-        public KirbyTakeDamageCommand(IPlayer player)
-        {
-            kirby = player;
-        }
 
         public void Execute()
         {
-            kirby.TakeDamage();
+            Game1.Instance.players[0].TakeDamage();
+
         }
     }
 }

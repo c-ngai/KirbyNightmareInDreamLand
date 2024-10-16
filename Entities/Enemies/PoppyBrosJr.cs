@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -12,9 +13,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public PoppyBrosJr(Vector2 startPosition) : base(startPosition, EnemyType.PoppyBrosJr)
         {
-            //initialize first sprite
             stateMachine.ChangePose(EnemyPose.Hop);
-            ChangeState(new PoppyBrosJrHopState());
+            ChangeState(new PoppyBrosJrHopState(this));
         }
 
         public override void Attack()
@@ -27,10 +27,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             if (!isDead)
             {
                 IncrementFrameCounter();
-                // Delegate behavior to the current state
-                currentState.Update(this);
+                currentState.Update();
                 UpdateTexture();
-                // Update the enemy sprite
                 enemySprite.Update();
             }
         }

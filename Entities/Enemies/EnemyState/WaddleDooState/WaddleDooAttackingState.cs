@@ -1,32 +1,49 @@
-﻿using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
-using KirbyNightmareInDreamLand.StateMachines;
+﻿using KirbyNightmareInDreamLand.StateMachines;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
 {
     public class WaddleDooAttackingState : IEnemyState
     {
-        public void Enter(Enemy enemy)
+        private readonly Enemy _enemy;
+
+        public WaddleDooAttackingState(Enemy enemy)
         {
-            enemy.StateMachine.ChangePose(EnemyPose.Attacking);
-            enemy.ResetFrameCounter(); // Reset the frame counter upon entering the state
+            _enemy = enemy ?? throw new ArgumentNullException(nameof(enemy));
         }
 
-        public void Update(Enemy enemy)
+        public void Enter()
         {
-            enemy.Attack(); // Attack immediately on entering the state    
+            _enemy.ChangePose(EnemyPose.Attacking);
+            _enemy.ResetFrameCounter();
+            _enemy.Attack(); // Perform attack action immediately upon entering
+        }
 
-            if (enemy.FrameCounter >= Constants.WaddleDoo.ATTACK_FRAMES)
+        public void Update()
+        {
+            _enemy.IncrementFrameCounter();
+
+            if (_enemy.FrameCounter >= Constants.WaddleDoo.ATTACK_FRAMES)
             {
-                enemy.ChangeState(new WaddleDooHurtState());
-                enemy.UpdateTexture();
+                _enemy.ChangeState(new WaddleDooWalkingState(_enemy));
+                _enemy.UpdateTexture();
             }
         }
 
-        public void Exit(Enemy enemy) { }
+        public void Exit()
+        {
+            // Cleanup logic if necessary
+        }
+
+        public void TakeDamage()
+        {
+            _enemy.ChangeState(new WaddleDooHurtState(_enemy));
+            _enemy.UpdateTexture();
+        }
+
+        public void ChangeDirection()
+        {
+            _enemy.ToggleDirection();
+        }
     }
 }

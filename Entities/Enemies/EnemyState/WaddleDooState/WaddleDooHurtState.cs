@@ -1,30 +1,52 @@
-﻿using KirbyNightmareInDreamLand.StateMachines;
+﻿using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
+using KirbyNightmareInDreamLand.StateMachines;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
 {
     public class WaddleDooHurtState : IEnemyState
     {
-        public void Enter(Enemy enemy)
-        {
-            enemy.StateMachine.ChangePose(EnemyPose.Hurt);
-            enemy.ResetFrameCounter(); // Reset the frame counter upon entering the state
+        private readonly Enemy _enemy;
 
+        public WaddleDooHurtState(Enemy enemy)
+        {
+            _enemy = enemy ?? throw new ArgumentNullException(nameof(enemy));
         }
 
-        public void Update(Enemy enemy)
+        public void Enter()
         {
-            if (enemy.FrameCounter >= Constants.WaddleDoo.HURT_FRAMES)
+            _enemy.ChangePose(EnemyPose.Hurt);
+            _enemy.ResetFrameCounter();
+            _enemy.Health -= 1; 
+        }
+
+        public void Update()
+        {
+
+            _enemy.IncrementFrameCounter();
+
+            //TO-DO: CHANGE TO WHEN KIRBY + ENEMY COLLIDE
+            if (_enemy.FrameCounter >= Constants.WaddleDoo.HURT_FRAMES)
             {
-                enemy.ChangeState(new WaddleDooJumpingState());
-                enemy.UpdateTexture();
+                _enemy.ChangeState(new WaddleDooWalkingState(_enemy));
+                _enemy.UpdateTexture();
+
+                if (_enemy.Health <= 0)
+                {
+                    _enemy.IsDead = true;
+                }
             }
         }
 
-        public void Exit(Enemy enemy) { }
+        public void Exit() { }
+
+        public void TakeDamage()
+        {
+            //handled in update
+        }
+        public void ChangeDirection()
+        {
+            //won't change direction while hurt
+        }
     }
 }

@@ -4,6 +4,7 @@ using System;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -17,7 +18,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             //initialize to hop
             stateMachine.ChangePose(EnemyPose.Hop);
-            currentState = new SparkyPause1State();
+            ChangeState(new SparkyPause1State(this)); // Set initial state
         }
 
         public override void Attack()
@@ -32,9 +33,9 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             if (!isDead)
             {
                 IncrementFrameCounter();
-                currentState.Update(this); // Call the current state's update method
-                UpdateTexture(); // Update texture based on state
-                enemySprite.Update(); // Update the sprite
+                currentState.Update();
+                UpdateTexture(); 
+                enemySprite.Update(); 
             }
         }
 

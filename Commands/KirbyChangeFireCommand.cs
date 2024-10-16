@@ -3,15 +3,11 @@ namespace KirbyNightmareInDreamLand.Commands
 {
     public class KirbyChangeFireCommand : ICommand
     {
-        private IPlayer kirby;
-        public KirbyChangeFireCommand(IPlayer player)
-        {
-            kirby = player;
-        }
 
         public void Execute()
         {
-            kirby.ChangeToFire();
+            Game1.Instance.players[0].ChangeToFire();
+
         }
     }
 }

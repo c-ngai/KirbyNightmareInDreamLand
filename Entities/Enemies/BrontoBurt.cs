@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -17,7 +18,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             //Initialize starting Y position,
             initialY = startPosition.Y;
             stateMachine.ChangePose(EnemyPose.FlyingSlow);
-            ChangeState(new BrontoBurtFlyingSlowState()); // Set initial state
+            ChangeState(new BrontoBurtFlyingSlowState(this)); // Set initial state
         }
 
         public override void Attack()
@@ -27,10 +28,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public override void Update(GameTime gameTime)
         {
-            if (!isDead)
+            if (!IsDead)
             {
                 IncrementFrameCounter();
-                currentState.Update(this);
+                currentState.Update(); // No parameters needed here
                 UpdateTexture();
                 enemySprite.Update();
             }
@@ -69,5 +70,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 enemySprite.Draw(position, spriteBatch);
             }
         }
+
     }
 }

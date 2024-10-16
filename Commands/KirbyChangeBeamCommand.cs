@@ -3,15 +3,10 @@ namespace KirbyNightmareInDreamLand.Commands
 {
     public class KirbyChangeBeamCommand : ICommand
     {
-        private IPlayer kirby;
-        public KirbyChangeBeamCommand(IPlayer player)
-        {
-            kirby = player;
-        }
 
         public void Execute()
         {
-            kirby.ChangeToBeam();
+            Game1.Instance.players[0].ChangeToBeam();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using KirbyNightmareInDreamLand.StateMachines;
+﻿using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
+using KirbyNightmareInDreamLand.StateMachines;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,22 +10,49 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState
 {
     public class HotheadHurtState : IEnemyState
     {
-        public void Enter(Enemy enemy)
-        {
-            enemy.StateMachine.ChangePose(EnemyPose.Hurt);
-            enemy.ResetFrameCounter(); // Reset the frame counter upon entering the state
-            
+            private readonly Hothead _hothead;
+
+            public HotheadHurtState(Hothead hothead)
+            {
+                _hothead = hothead ?? throw new ArgumentNullException(nameof(hothead));
+            }
+
+            public void Enter()
+            {
+                _hothead.ChangePose(EnemyPose.Hurt);
+                _hothead.ResetFrameCounter();
+            _hothead.Health -= 1;
         }
 
-        public void Update(Enemy enemy)
+        public void Update()
         {
-            // Transition back to Walking after hurtFrames
-            if (enemy.FrameCounter >= Constants.Hothead.HURT_FRAMES)
+
+            _hothead.IncrementFrameCounter();
+
+            //TO-DO: CHANGE TO WHEN KIRBY + ENEMY COLLIDE
+            if (_hothead.FrameCounter >= Constants.Hothead.HURT_FRAMES)
             {
-                enemy.ChangeState(new HotheadWalkingState());
+                _hothead.ChangeState(new HotheadWalkingState(_hothead));
+                _hothead.UpdateTexture();
+
+                if (_hothead.Health <= 0)
+                {
+                    _hothead.IsDead = true;
+                }
             }
         }
 
-        public void Exit(Enemy enemy) { }
+        public void Exit() { }
+
+        public void TakeDamage()
+        {
+            //handled in update
+        }
+
+
+            public void ChangeDirection()
+            {
+                _hothead.ToggleDirection();
+            }
+        }
     }
-}
