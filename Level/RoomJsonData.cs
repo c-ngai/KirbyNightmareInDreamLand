@@ -40,10 +40,13 @@ namespace KirbyNightmareInDreamLand.Sprites
 
         [JsonPropertyName("Enemies")]
         public List<EnemyJsonData> Enemies { get; set; } = new List<EnemyJsonData>();
-    }
 
-    // Class for deserializing each door in RoomJsonData.
-    public class DoorJsonData
+        [JsonPropertyName("Tomatoes")]
+        public List<TomatoJsonData> Tomatoes { get; set; } = new List<TomatoJsonData>();
+
+    }
+        // Class for deserializing each door in RoomJsonData.
+        public class DoorJsonData
     {
         public int TileX { get; set; }
         public int TileY { get; set; }
@@ -55,6 +58,13 @@ namespace KirbyNightmareInDreamLand.Sprites
     {
         public int SpawnTileX { get; set; }
         public int SpawnTileY { get; set; }
-        public string DestinationRoom { get; set; }
+        public string EnemyType { get; set; }
+    }
+
+    // Class for deserializing each tomato in RoomJsonData.
+    public class TomatoJsonData
+    {
+        public int SpawnTileX { get; set; }
+        public int SpawnTileY { get; set; }
     }
 }

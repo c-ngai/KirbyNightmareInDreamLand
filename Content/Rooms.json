@@ -21,12 +21,12 @@
         ],
         "Enemies": [
             {
-                "EnemyType": "waddledee",
-                "SpawnTileX": 100,
-                "SpawnTileY": 50
+                "EnemyType": "WaddleDee",
+                "SpawnTileX": 8,
+                "SpawnTileY": 8
             },
             {
-                "EnemyType": "waddledoo",
+                "EnemyType": "WaddleDoo",
                 "SpawnTileX": 150,
                 "SpawnTileY": 50
             }
@@ -55,12 +55,12 @@
         ],
         "Enemies": [
             {
-                "EnemyType": "waddledee",
-                "SpawnTileX": 100,
-                "SpawnTileY": 50
+                "EnemyType": "WaddleDee",
+                "SpawnTileX": 19,
+                "SpawnTileY": 7
             },
             {
-                "EnemyType": "waddledoo",
+                "EnemyType": "WaddleDoo",
                 "SpawnTileX": 150,
                 "SpawnTileY": 50
             }

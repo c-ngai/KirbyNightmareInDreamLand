@@ -277,6 +277,8 @@ namespace KirbyNightmareInDreamLand
 
             CollisionManager.Instance.CheckCollisions();
 
+            level.UpdateLevel();
+
             camera.Update();
         }
 
@@ -292,7 +294,7 @@ namespace KirbyNightmareInDreamLand
             // Draw level
             level.Draw(spriteBatch);
             // Draw only selected enemy
-            enemyList[currentEnemyIndex].Draw(spriteBatch);
+            // enemyList[currentEnemyIndex].Draw(spriteBatch);
             foreach (IEnemy enemy in enemyList2) enemy.Draw(spriteBatch); // FOR PERFORMANCE TESTING
             // Draw kirby
             kirby.Draw(spriteBatch);
