@@ -8,7 +8,7 @@ using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
-    public class WaddleDoo : Enemy, IJumpable
+    public class WaddleDoo : Enemy
     {
         // Jump variables
         private bool isJumping = false;

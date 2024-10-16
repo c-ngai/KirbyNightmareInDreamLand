@@ -29,7 +29,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState
 
             if (_hothead.FrameCounter >= Constants.Hothead.ATTACK_FRAMES)
             {
-                _hothead.ChangeState(new HotheadHurtState(_hothead));
+                _hothead.ChangeState(new HotheadWalkingState(_hothead));
             }
         }
 

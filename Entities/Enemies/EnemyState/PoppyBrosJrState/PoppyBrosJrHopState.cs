@@ -24,13 +24,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState
         public void Update()
         {
             _enemy.Move();
-
-            // Transition to Hurt state after hop frames
-            if (_enemy.FrameCounter >= Constants.PoppyBrosJr.HOP_FRAMES)
-            {
-                _enemy.ChangeState(new PoppyBrosJrHurtState(_enemy));
-                _enemy.UpdateTexture();
-            }
+ 
         }
 
         public void Exit() { }

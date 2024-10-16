@@ -196,9 +196,9 @@ namespace KirbyNightmareInDreamLand
         public class WaddleDoo
         {
             public const float MOVE_SPEED = 0.5f;
-            public const int WALK_FRAMES = 180;
-            public const int STOP_FRAMES = 60;
-            public const int ATTACK_FRAMES = 33;
+            public const int WALK_FRAMES = 250;
+            public const int STOP_FRAMES = 120;
+            public const int ATTACK_FRAMES = 50;
             public const int HURT_FRAMES = 50;
             public const int JUMPING_FRAMES = 50;
             public const float JUMP_HEIGHT = 2f;

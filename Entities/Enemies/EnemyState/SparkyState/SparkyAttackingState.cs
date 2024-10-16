@@ -30,7 +30,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
             // Transition to hurt state after the attack frames
             if (_enemy.FrameCounter >= Constants.Sparky.ATTACK_TIME)
             {
-                _enemy.ChangeState(new SparkyHurtState(_enemy));
+                _enemy.ChangeState(new SparkyPause1State(_enemy));
                 _enemy.UpdateTexture();
             }
         }

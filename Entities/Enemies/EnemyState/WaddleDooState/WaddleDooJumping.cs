@@ -20,7 +20,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
 
         public void Update()
         {
-            if (_enemy is IJumpable jumpableEnemy)
+            if (_enemy is WaddleDoo jumpableEnemy)
             {
                 jumpableEnemy.Jump(); // Perform jump action
                 _enemy.IncrementFrameCounter();

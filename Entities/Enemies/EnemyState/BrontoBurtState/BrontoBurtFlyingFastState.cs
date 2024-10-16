@@ -25,7 +25,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState
             // Transition to Hurt state after fast fly frames
             if (_enemy.FrameCounter >= Constants.BrontoBurt.FAST_FLY_FRAMES)
             {
-                _enemy.ChangeState(new BrontoBurtHurtState(_enemy));
+                _enemy.ChangeState(new BrontoBurtFlyingSlowState(_enemy));
                 _enemy.UpdateTexture();
             }
         }

@@ -21,7 +21,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
         public void Update()
         {
             // Implement charging behavior, e.g., increased speed or special attacks
-            _enemy.Move(); // Assume Move() handles charging logic
             _enemy.IncrementFrameCounter();
 
             if (_enemy.FrameCounter >= Constants.WaddleDoo.STOP_FRAMES)
