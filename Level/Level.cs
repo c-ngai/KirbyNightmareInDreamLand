@@ -100,7 +100,7 @@ namespace KirbyNightmareInDreamLand
         public void LoadLevelObjects()
         {
             enemyList = new List<Enemy>();
-            foreach (EnemyStruct enemy in CurrentRoom.Enemies)
+            foreach (EnemyData enemy in CurrentRoom.Enemies)
             {
                 Vector2 enemySpawnPoint = convertTileToPixel(enemy.TileSpawnPoint);
                 Type type = Type.GetType("KirbyNightmareInDreamLand.Entities.Enemies." + enemy.EnemyType);
@@ -186,8 +186,42 @@ namespace KirbyNightmareInDreamLand
 
         // Following methods authored by Mark 
 
-        // Debug mode (toggle F2), draws the usually-invisible collision tiles.
-        public void DrawDebug(SpriteBatch spriteBatch)
+        // Debug mode (toggle F2), draws the usually-invisible collision tiles, doors, and enemy spawn locations.
+        private void DrawDebug(SpriteBatch spriteBatch)
+        {
+            DrawTiles(spriteBatch);
+            DrawDoors(spriteBatch);
+            //DrawEnemySpawns(spriteBatch);
+            DrawLevelObjects(spriteBatch);
+        }
+
+        // Draws a rectangle at every door with its destination room written above
+        private void DrawDoors(SpriteBatch spriteBatch)
+        {
+            foreach (Door door in CurrentRoom.Doors)
+            {
+                Vector2 doorPos = door.TilePosition * Constants.Level.TILE_SIZE;
+                Rectangle doorBounds = new Rectangle(doorPos.ToPoint(), new Point(16, 16));
+                Vector2 textSize = LevelLoader.Instance.font.MeasureString(door.DestinationRoom);
+                Vector2 textPos = doorPos - new Vector2(-9 + textSize.X / 2, -1 + textSize.Y);
+
+                GameDebug.Instance.DrawSolidRectangle(spriteBatch, doorBounds, Color.Red);
+                spriteBatch.DrawString(LevelLoader.Instance.font, door.DestinationRoom, textPos, Color.Red);
+            }
+        }
+
+        // 
+        private void DrawEnemySpawns(SpriteBatch spriteBatch)
+        {
+            foreach (EnemyData enemy in CurrentRoom.Enemies)
+            {
+                Vector2 doorPos = enemy.TileSpawnPoint * Constants.Level.TILE_SIZE;
+                Rectangle doorBounds = new Rectangle(doorPos.ToPoint(), new Point(16, 16));
+                GameDebug.Instance.DrawSolidRectangle(spriteBatch, doorBounds, Color.Red);
+            }
+        }
+
+        private void DrawTiles(SpriteBatch spriteBatch)
         {
             // Temporarily disable sprite debug mode if it's on. Sprite debug with debug tiles makes the screen look very messy, it's not useful information. This feels like a sloppy solution but it works for now.
             bool old_DEBUG_SPRITE_MODE = _game.DEBUG_SPRITE_MODE;
@@ -198,16 +232,16 @@ namespace KirbyNightmareInDreamLand
             if (_game.CULLING_ENABLED)
             {
                 TopY = Math.Max(_camera.GetBounds().Top / Constants.Level.TILE_SIZE, 0);
-                BottomY = Math.Min(_camera.GetBounds().Bottom / Constants.Level.TILE_SIZE + 1, CurrentRoom.TileMap.Length);
+                BottomY = Math.Min(_camera.GetBounds().Bottom / Constants.Level.TILE_SIZE + 1, CurrentRoom.TileHeight);
                 LeftX = Math.Max(_camera.GetBounds().Left / Constants.Level.TILE_SIZE, 0);
-                RightX = Math.Min(_camera.GetBounds().Right / Constants.Level.TILE_SIZE + 1, CurrentRoom.TileMap[0].Length);
+                RightX = Math.Min(_camera.GetBounds().Right / Constants.Level.TILE_SIZE + 1, CurrentRoom.TileWidth);
             }
             else
             {
                 TopY = 0;
-                BottomY = CurrentRoom.TileMap.Length;
+                BottomY = CurrentRoom.TileHeight;
                 LeftX = 0;
-                RightX = CurrentRoom.TileMap[0].Length;
+                RightX = CurrentRoom.TileWidth;
             }
 
             // Temporarily disable sprite culling if it's on, because this function has its own culling that relies on the regularity of tiles that is much more efficient than the rectangle intersection-detecting method of the Sprite class.

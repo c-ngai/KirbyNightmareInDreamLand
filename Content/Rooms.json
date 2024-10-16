@@ -68,8 +68,8 @@
 
         "Doors": [
             {
-                "TileX": 2,
-                "TileY": 7,
+                "TileX": 61,
+                "TileY": 6,
                 "DestinationRoom": "room2"
             }
         ],
