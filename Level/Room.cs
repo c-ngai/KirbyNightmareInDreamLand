@@ -58,7 +58,7 @@ namespace KirbyNightmareInDreamLand
         public int Width { get; private set; }
         public int Height { get; private set; }
 
-        public Vector2 SpawnPoint { get; private set; }
+        public Vector2 SpawnTile { get; private set; }
 
         public bool CameraXLock { get; private set; }
         public int LockedCameraX { get; private set; }
@@ -83,7 +83,7 @@ namespace KirbyNightmareInDreamLand
             Width = TileWidth * Constants.Level.TILE_SIZE;
             Height = TileHeight * Constants.Level.TILE_SIZE;
 
-            SpawnPoint = new Vector2(roomJsonData.SpawnPointX, roomJsonData.SpawnPointY);
+            SpawnTile = new Vector2(roomJsonData.SpawnTileX, roomJsonData.SpawnTileY);
 
             CameraXLock = roomJsonData.LockCameraX;
             LockedCameraX = roomJsonData.LockedCameraX;
