@@ -18,14 +18,13 @@ namespace KirbyNightmareInDreamLand.Commands
         private ITimeCalculator timer;
         private double startingTime;
 
-        // Constructor with no parameters
         public KirbyCrouchAndSlideCommand()
         {
-            // Accessing the player and keyboard controller through Game1.Instance
-            kirby = Game1.Instance.players[0]; // Assuming there is always at least one player
+
+            kirby = Game1.Instance.players[0]; // Assuming there is one player
             keyboard = Game1.Instance.KeyboardController;
-            crouchKey = Keys.Down; // Set the crouch key to down arrow
-            attackKey = Keys.Z;    // Set the attack key to 'Z'
+            crouchKey = Keys.Down; 
+            attackKey = Keys.Z; 
             timer = new TimeCalculator();
             startingTime = 0;
             isSliding = false;
@@ -33,7 +32,6 @@ namespace KirbyNightmareInDreamLand.Commands
 
         public void Execute()
         {
-            // Determines if a timer needs to be set to keep track of slide time when the attack key is also pressed and if the timer needs to be reset
             if (keyboard.currentState.Contains(attackKey) && startingTime == 0)
             {
                 startingTime = timer.GetCurrentTimeInMS(Game1.Instance.time);
