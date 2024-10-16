@@ -144,8 +144,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void Attack() { }
 
-        public abstract void Move();
-       
+        public virtual void Jump() { }
+
+        public virtual void Fall() { }
+
+        public abstract void Move();      
 
     }
 }
