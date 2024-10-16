@@ -34,6 +34,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             leftBoundary = new Vector2(100, 100);
             rightBoundary = new Vector2(230, 100);
             oldState = string.Empty;
+            currentState = new WaddleDooWalkingState(this); // Initialize with the walking state
             currentState.Enter();
             frameCounter = 0; 
         }
