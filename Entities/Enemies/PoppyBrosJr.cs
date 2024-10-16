@@ -17,22 +17,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             ChangeState(new PoppyBrosJrHopState(this));
         }
 
-        public override void Attack()
-        {
-            //NOTE: Poppy Bros Jr does not have attack sprite
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            if (!isDead)
-            {
-                IncrementFrameCounter();
-                currentState.Update();
-                UpdateTexture();
-                enemySprite.Update();
-            }
-        }
-
         public override void Move()
         {
             // Handles x movement. Walking back and forth until left/right boundary
@@ -69,15 +53,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             {
                 hopCounter = 0;
                 enemySprite.ResetAnimation(); // Mark addition: since hop is a non-looping animation that we want to repeat but we already have that sprite, just call ResetAnimation on it.
-            }
-        }
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            //Draws if enemy is alive
-            if (!isDead)
-            {
-                enemySprite.Draw(position, spriteBatch);
             }
         }
     }

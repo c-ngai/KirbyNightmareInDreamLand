@@ -21,24 +21,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             ChangeState(new SparkyPause1State(this)); // Set initial state
         }
 
-        public override void Attack()
-        {
-            //Change pose and texture for charge attack
-            stateMachine.ChangePose(EnemyPose.Attacking);
-            UpdateTexture();
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            if (!isDead)
-            {
-                IncrementFrameCounter();
-                currentState.Update();
-                UpdateTexture(); 
-                enemySprite.Update(); 
-            }
-        }
-
         public override void Move()
         {
             //Keeps track of number of hoops
@@ -79,13 +61,5 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             currentHopHeight = height; // Set the current hop height
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            //draw enemy if alive
-            if (!isDead)
-            {
-                enemySprite.Draw(position, spriteBatch);
-            }
-        }
     }
 }

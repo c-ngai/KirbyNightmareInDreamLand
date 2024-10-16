@@ -122,11 +122,33 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             return stateMachine.GetStateString();
         }
 
-        // Abstract methods to be implemented by subclasses, since they all differ between enemies.
-        public abstract void Update(GameTime gameTime);
-        public abstract void Move();
-        public abstract void Draw(SpriteBatch spritebatch);
-        public abstract void Attack();
+        public virtual void Update(GameTime gameTime) // Change to virtual
+        {
+            if (!IsDead)
+            {
+                IncrementFrameCounter();
+                currentState.Update(); // No parameters needed here
+                UpdateTexture();
+                enemySprite.Update();
+            }
+        }
+
+        public virtual void Draw(SpriteBatch spriteBatch)
+        {
+            //Draw if enemy is alive
+            if (!isDead)
+            {
+                enemySprite.Draw(position, spriteBatch);
+            }
+        }
+
+        public virtual void Attack() { }
+
+        public virtual void Jump() { }
+
+        public virtual void Fall() { }
+
+        public abstract void Move();      
 
     }
 }

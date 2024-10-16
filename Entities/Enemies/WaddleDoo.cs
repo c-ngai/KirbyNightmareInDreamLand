@@ -77,7 +77,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             UpdateTexture();
         }
 
-        public void Jump()
+        public override void Jump()
         {
             if (!isJumping)
             {
