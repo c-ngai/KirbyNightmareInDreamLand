@@ -16,10 +16,14 @@ namespace KirbyNightmareInDreamLand
         public TileCollisionHandler(Tile newTile)
         {
             BoundingBox = tile.rectangle;
-            CollisionManager.Instance.RegisterStaticObject(this);
+            CollisionManager.Instance.RegisterStaticObject(newTile, this);
             tile = newTile;
         }
 
+        public void AddToCollisionMapping()
+        {
+
+        }
        public void DestroyHitBox()
         {
 

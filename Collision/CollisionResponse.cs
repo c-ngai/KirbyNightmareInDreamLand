@@ -7,7 +7,7 @@ namespace KirbyNightmareInDreamLand.Collision
     public enum CollisionSide {Top, Left, Right, Bottom};
     public class CollisionResponse
     {
-        private Dictionary<Tuple<Object, Object, CollisionSide>, Tuple<ICommand, ICommand>> collisionMapping;
+        private Dictionary<Tuple<String, String, CollisionSide>, Tuple<Action, Action>> collisionMapping;
         private static CollisionResponse instance = new CollisionResponse();
         public static CollisionResponse Instance
         {
@@ -19,23 +19,27 @@ namespace KirbyNightmareInDreamLand.Collision
 
         public CollisionResponse()
         {
-            collisionMapping = new Dictionary<Tuple<Object, Object, CollisionSide>, Tuple<ICommand, ICommand>>();
+            collisionMapping = new Dictionary<Tuple<String, String, CollisionSide>, Tuple<Action, Action>>();
         }
 
-        // Do we want to consider making projectile entities: it does not meet our IEntity method needs
-        // Is it ok to keep parameters as objects and implement type checking before calling these?
-        public void RegisterCollision(Object object1, Object object2, CollisionSide side, ICommand object1Command, ICommand object2Command)
+        // Creates string mappings of object types and collision side to determine object reactions
+        public void RegisterCollision(String object1, String object2, CollisionSide side, Action object1Command, Action object2Command)
         {
-            Tuple<Object, Object, CollisionSide> objects = new Tuple<Object, Object, CollisionSide>(object1, object2, side);
-            Tuple<ICommand, ICommand> commands = new Tuple<ICommand, ICommand>(object1Command, object2Command);
+            Tuple<String, String, CollisionSide> objects = new Tuple<String, String, CollisionSide>(object1, object2, side);
+            Tuple<Action, Action> commands = new Tuple<Action, Action>(object1Command, object2Command);
             collisionMapping.Add(objects, commands);
         }
 
-        public void ExecuteCollision(Object object1, Object object2, CollisionSide side)
+        public void ExecuteCollision(ICollidable object1, ICollidable object2, CollisionSide side)
         {
-            Tuple<Object, Object, CollisionSide> objects = new Tuple<Object, Object, CollisionSide>(object1, object2, side);
-            collisionMapping[objects].Item1.Execute();
-            collisionMapping[objects].Item2.Execute();
+            // Determine object types to use as part of the key
+            String key1 = object1.GetType().ToString();
+            String key2 = object2.GetType().ToString();
+            Tuple<String, String, CollisionSide> objects = new Tuple<String, String, CollisionSide>(key1, key2, side);
+
+            // IS THERE A WAY I CAN CALL INSTANCE ACTIONS?
+            if (collisionMapping[objects] != null) collisionMapping[objects].Item1();
+            if (collisionMapping[objects] != null) collisionMapping[objects].Item2();
         }
     }
 }
