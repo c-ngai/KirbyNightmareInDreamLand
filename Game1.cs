@@ -20,7 +20,7 @@ namespace KirbyNightmareInDreamLand
         private SpriteBatch spriteBatch;
         
         public GraphicsDeviceManager graphics { get; private set; }
-        private KeyboardController keyboard;
+        public KeyboardController keyboard;
         private MouseController mouseController;
 
         // Camera instance for the game
@@ -30,7 +30,7 @@ namespace KirbyNightmareInDreamLand
 
         // Single-player but can later be updated to an array of kirbys for multiplayer
         public List<IPlayer> players;
-        public KeyboardController KeyboardController => keyboard;
+
 
         // Get enemies (currently one of each but can change to an array of each enemy type)
         private IEnemy waddledeeTest;
@@ -127,7 +127,6 @@ namespace KirbyNightmareInDreamLand
             graphics.PreferredBackBufferWidth = WINDOW_WIDTH;
             graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
             graphics.ApplyChanges();
-            
 
             keyboard = new KeyboardController();
             mouseController = new MouseController();
@@ -139,54 +138,7 @@ namespace KirbyNightmareInDreamLand
 
         // Everything in this region will move into eventual loader file
         #region LoaderDetails
-        // Will later be changed to read in keyboard control input 
-        public void SetKeyboardControls(KeyboardController keyboard)
-        {
-            keyboard.RegisterCommand(Keys.Right, ExecutionType.Pressed, new KirbyMoveRightCommand());
 
-            keyboard.RegisterCommand(Keys.Right, ExecutionType.StoppingPress, new KirbyRunningRightCommand());
-            keyboard.RegisterCommand(Keys.Left, ExecutionType.Pressed, new KirbyMoveLeftCommand());
-            keyboard.RegisterCommand(Keys.Left, ExecutionType.StoppingPress, new KirbyRunningLeftCommand());
-
-            // this is hard-coded bc it needs to know the keybind to attack to check if it needs to slide
-            keyboard.RegisterCommand(Keys.Down, ExecutionType.Pressed, new KirbyMoveCrouchedCommand());
-            keyboard.RegisterCommand(Keys.Down, ExecutionType.StoppingPress, new KirbyCrouchAndSlideCommand());
-            keyboard.RegisterCommand(Keys.Up, ExecutionType.Pressed, new KirbyFloatCommand());
-            keyboard.RegisterCommand(Keys.X, ExecutionType.Pressed, new KirbyJumpCommand());
-
-            keyboard.RegisterCommand(Keys.D, ExecutionType.StartingPress, new KirbyFaceRightCommand());
-            keyboard.RegisterCommand(Keys.A, ExecutionType.StartingPress, new KirbyFaceLeftCommand());
-
-
-            keyboard.RegisterCommand(Keys.Z, ExecutionType.StartingPress, new KirbyAttackCommand());
-            keyboard.RegisterCommand(Keys.Z, ExecutionType.StoppingPress, new KirbyStopAttackingCommand());
-            keyboard.RegisterCommand(Keys.Z, ExecutionType.Pressed, new KirbyAttackPressedCommand());
-
-            keyboard.RegisterCommand(Keys.D1, ExecutionType.StartingPress, new KirbyChangeNormalCommand());
-            keyboard.RegisterCommand(Keys.D2, ExecutionType.StartingPress, new KirbyChangeBeamCommand());
-            keyboard.RegisterCommand(Keys.D3, ExecutionType.StartingPress, new KirbyChangeFireCommand());
-            keyboard.RegisterCommand(Keys.D4, ExecutionType.StartingPress, new KirbyChangeSparkCommand());
-
-            keyboard.RegisterCommand(Keys.O, ExecutionType.StartingPress, new PreviousEnemyCommand());
-            keyboard.RegisterCommand(Keys.P, ExecutionType.StartingPress, new NextEnemyCommand());
-
-            keyboard.RegisterCommand(Keys.Q, ExecutionType.StartingPress, new QuitCommand());
-            keyboard.RegisterCommand(Keys.R, ExecutionType.StartingPress, new ResetCommand());
-
-            /*
-            keyboard.RegisterCommand(Keys.F1, ExecutionType.StartingPress, new GraphicsToggleDebugTextCommand());
-            keyboard.RegisterCommand(Keys.F2, ExecutionType.StartingPress, new GraphicsToggleDebugSpriteCommand());
-            keyboard.RegisterCommand(Keys.F3, ExecutionType.StartingPress, new GraphicsToggleDebugLevelCommand());
-            keyboard.RegisterCommand(Keys.F4, ExecutionType.StartingPress, new GraphicsToggleCullingCommand());
-            keyboard.RegisterCommand(Keys.F5, ExecutionType.StartingPress, new GraphicsToggleDebugCollisionCommand());
-            keyboard.RegisterCommand(Keys.F, ExecutionType.StartingPress, new GraphicsToggleFullscreenCommand());
-            keyboard.RegisterCommand(Keys.OemPlus, ExecutionType.StartingPress, new GraphicsIncreaseWindowSizeCommand());
-            keyboard.RegisterCommand(Keys.OemMinus, ExecutionType.StartingPress, new GraphicsDecreaseWindowSizeCommand());
-            keyboard.RegisterCommand(Keys.OemCloseBrackets, ExecutionType.StartingPress, new GraphicsIncreaseTargetFramerateCommand());
-            keyboard.RegisterCommand(Keys.OemOpenBrackets, ExecutionType.StartingPress, new GraphicsDecreaseTargetFramerateCommand());
-            */
-            
-        }
         public void SetCollisionResponses()
         {
             String key1 = "IPlayer";
@@ -238,9 +190,6 @@ namespace KirbyNightmareInDreamLand
             enemyList = new IEnemy[] { waddledeeTest, waddledooTest, brontoburtTest, hotheadTest, poppybrosjrTest, sparkyTest };
             currentEnemyIndex = 0;
             
-            // Remapping keyboard to new Kirby 
-            keyboard = new KeyboardController();
-            SetKeyboardControls(keyboard);
         }
         #endregion
 
@@ -249,21 +198,21 @@ namespace KirbyNightmareInDreamLand
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // Create camera and level instances
+            // Create camera instance
             camera = new Camera();
 
             // Load all content through LevelLoader
             LevelLoader.Instance.LoadAllContent();
 
-            LevelLoader.Instance.LoadKeymap("keymap1"); // switch out the desired keymap here
-
-
+            // Create level instance and load initial room
             level = new Level();
             level.LoadRoom("room1");
 
             // Load all objects
             LoadObjects();
 
+            // Load the desired keymap by name
+            LevelLoader.Instance.LoadKeymap("keymap1");
         }
 
 

@@ -62,6 +62,12 @@ namespace KirbyNightmareInDreamLand
         }
 
         // Draws a rectangle around the sprite bounds and a point at its center. Pretty messy, should probably tidy up, but also it's debug, so not a priority
+        public void DrawSolidRectangle(SpriteBatch spriteBatch, Rectangle rectangle, Color color)
+        {
+            spriteBatch.Draw(texture, rectangle, color);
+        }
+
+        // Draws a rectangle around the sprite bounds and a point at its center. Pretty messy, should probably tidy up, but also it's debug, so not a priority
         public void DrawPoint(SpriteBatch spriteBatch, Vector2 position, Color color)
         {
             spriteBatch.Draw(texture, new Rectangle((int)(position.X) - 1, (int)(position.Y) - 1, 2, 2), color);
@@ -97,6 +103,7 @@ namespace KirbyNightmareInDreamLand
             texts.Add("Average FPS: " + Math.Round(fpsLog.Average()));
             texts.Add("Current Max FPS: " + Math.Round(maxFrameRate));
             texts.Add("Average Max FPS: " + Math.Round(maxfpsLog.Average()));
+            texts.Add("Current room: " + _game.level.CurrentRoom.Name);
             texts.Add("");
             texts.Add("+/- : Resize window");
             texts.Add("F : Toggle fullscreen");

@@ -2,6 +2,111 @@
 
     "keymap1": [
         {
+            "Key": "Right",
+            "ExecutionType": "Pressed",
+            "Command": "KirbyMoveRightCommand"
+        },
+        {
+            "Key": "Right",
+            "ExecutionType": "StoppingPress",
+            "Command": "KirbyRunningRightCommand"
+        },
+        {
+            "Key": "Left",
+            "ExecutionType": "Pressed",
+            "Command": "KirbyMoveLeftCommand"
+        },
+        {
+            "Key": "Left",
+            "ExecutionType": "StoppingPress",
+            "Command": "KirbyRunningLeftCommand"
+        },
+        {
+            "Key": "Down",
+            "ExecutionType": "Pressed",
+            "Command": "KirbyMoveCrouchedCommand"
+        },
+        {
+            "Key": "Down",
+            "ExecutionType": "StoppingPress",
+            "Command": "KirbyCrouchAndSlideCommand"
+        },
+        {
+            "Key": "Up",
+            "ExecutionType": "Pressed",
+            "Command": "KirbyFloatCommand"
+        },
+        {
+            "Key": "X",
+            "ExecutionType": "Pressed",
+            "Command": "KirbyJumpCommand"
+        },
+        {
+            "Key": "D",
+            "ExecutionType": "StartingPress",
+            "Command": "KirbyFaceRightCommand"
+        },
+        {
+            "Key": "A",
+            "ExecutionType": "StartingPress",
+            "Command": "KirbyFaceLeftCommand"
+        },
+        {
+            "Key": "Z",
+            "ExecutionType": "StartingPress",
+            "Command": "KirbyAttackCommand"
+        },
+        {
+            "Key": "Z",
+            "ExecutionType": "StoppingPress",
+            "Command": "KirbyStopAttackingCommand"
+        },
+        {
+            "Key": "Z",
+            "ExecutionType": "Pressed",
+            "Command": "KirbyAttackPressedCommand"
+        },
+        {
+            "Key": "D1",
+            "ExecutionType": "StartingPress",
+            "Command": "KirbyChangeNormalCommand"
+        },
+        {
+            "Key": "D2",
+            "ExecutionType": "StartingPress",
+            "Command": "KirbyChangeBeamCommand"
+        },
+        {
+            "Key": "D3",
+            "ExecutionType": "StartingPress",
+            "Command": "KirbyChangeFireCommand"
+        },
+        {
+            "Key": "D4",
+            "ExecutionType": "StartingPress",
+            "Command": "KirbyChangeSparkCommand"
+        },
+        {
+            "Key": "O",
+            "ExecutionType": "StartingPress",
+            "Command": "PreviousEnemyCommand"
+        },
+        {
+            "Key": "P",
+            "ExecutionType": "StartingPress",
+            "Command": "NextEnemyCommand"
+        },
+        {
+            "Key": "Q",
+            "ExecutionType": "StartingPress",
+            "Command": "QuitCommand"
+        },
+        {
+            "Key": "R",
+            "ExecutionType": "StartingPress",
+            "Command": "ResetCommand"
+        },
+        {
             "Key": "F1",
             "ExecutionType": "StartingPress",
             "Command": "GraphicsToggleDebugTextCommand"
