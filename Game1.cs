@@ -213,7 +213,7 @@ namespace KirbyNightmareInDreamLand
 
         public void LoadObjects()
         {
-            CollisionManager.Instance.ResetDynamicCollisionBoxes();
+            CollisionDetection.Instance.ResetDynamicCollisionBoxes();
             // Creates kirby object
             //make it a list from the get go to make it multiplayer asap
             players = new List<IPlayer>();
@@ -229,11 +229,11 @@ namespace KirbyNightmareInDreamLand
 
             // Creates enemies
             waddledeeTest = new WaddleDee(new Vector2(80, Constants.Graphics.FLOOR));
-            waddledooTest = new WaddleDoo(new Vector2(170, 100));
-            brontoburtTest = new BrontoBurt(new Vector2(170, 100));
-            hotheadTest = new Hothead(new Vector2(170, 100));
-            poppybrosjrTest = new PoppyBrosJr(new Vector2(170, 100));
-            sparkyTest = new Sparky(new Vector2(170, 100));
+            waddledooTest = new WaddleDoo(new Vector2(80, Constants.Graphics.FLOOR));
+            brontoburtTest = new BrontoBurt(new Vector2(80, Constants.Graphics.FLOOR));
+            hotheadTest = new Hothead(new Vector2(80, Constants.Graphics.FLOOR));
+            poppybrosjrTest = new PoppyBrosJr(new Vector2(80, Constants.Graphics.FLOOR));
+            sparkyTest = new Sparky(new Vector2(80, Constants.Graphics.FLOOR));
 
             enemyList = new IEnemy[] { waddledeeTest, waddledooTest, brontoburtTest, hotheadTest, poppybrosjrTest, sparkyTest };
             currentEnemyIndex = 0;
@@ -291,10 +291,8 @@ namespace KirbyNightmareInDreamLand
 
             GameTime = gameTime;
 
-            foreach (IPlayer kirby in players)
-            {
-                kirby.Update(time);
-            }
+            foreach(IPlayer player in players) player.Update(time);
+            enemyList[currentEnemyIndex].Update(time);
 
             // Commented out since we currently do not need item
             //item.Update();
@@ -302,7 +300,7 @@ namespace KirbyNightmareInDreamLand
             //enemyList2.Add(new Hothead(new Vector2(170, 100))); // FOR PERFORMANCE TESTING
             foreach (IEnemy enemy in enemyList2) enemy.Update(time); // FOR PERFORMANCE TESTING
 
-            CollisionManager.Instance.CheckCollisions();
+            CollisionDetection.Instance.CheckCollisions();
 
             level.UpdateLevel();
 
@@ -324,16 +322,13 @@ namespace KirbyNightmareInDreamLand
             // enemyList[currentEnemyIndex].Draw(spriteBatch);
             foreach (IEnemy enemy in enemyList2) enemy.Draw(spriteBatch); // FOR PERFORMANCE TESTING
             // Draw kirby
-            foreach (IPlayer kirby in players)
-            {
-                kirby.Draw(spriteBatch);
-            }
+            foreach(IPlayer player in players) player.Draw(spriteBatch);
 
             // Not currently using item
             //item.Draw(new Vector2(200, 150), spriteBatch);
             if (DEBUG_COLLISION_MODE)
             {
-                CollisionManager.Instance.DebugDraw(spriteBatch);
+                CollisionDetection.Instance.DebugDraw(spriteBatch);
             }
             spriteBatch.End();
 

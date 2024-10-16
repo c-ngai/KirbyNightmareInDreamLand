@@ -24,7 +24,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 //all other states immediately attack
                 if(!kirby.GetKirbyType().Equals("Normal")){
                     kirby.ChangePose(KirbyPose.Attacking);
-                    kirby.ChangeAttackBool(true);
+                    //kirby.ChangeAttackBool(true);
                 } else {
                     kirby.ChangePose(KirbyPose.Inhaling);
                 }
@@ -44,9 +44,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             // {
             if(!kirby.GetKirbyType().Equals("Normal")){
                 kirby.ChangePose(KirbyPose.Attacking);
-                kirby.ChangeAttackBool(true);
+                //kirby.ChangeAttackBool(true);
             } else {
                 kirby.ChangePose(KirbyPose.Inhaling);
+                //kirby.ChangeAttackBool(true);
             }
             // } else {
             //     //all other states immediately attack

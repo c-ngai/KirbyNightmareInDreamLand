@@ -1,4 +1,5 @@
-﻿using KirbyNightmareInDreamLand.StateMachines;
+﻿using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
+using KirbyNightmareInDreamLand.StateMachines;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,23 +10,47 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
 {
     public class SparkyHurtState : IEnemyState
     {
-        public void Enter(Enemy enemy)
+        private readonly Enemy _enemy;
+
+        public SparkyHurtState(Enemy enemy)
         {
-            enemy.StateMachine.ChangePose(EnemyPose.Hurt);
-            enemy.ResetFrameCounter();
+            _enemy = enemy ?? throw new ArgumentNullException(nameof(enemy));
         }
 
-        public void Update(Enemy enemy)
+        public void Enter()
         {
-            // Logic for when Sparky is hurt
+            _enemy.ChangePose(EnemyPose.Hurt);
+            _enemy.ResetFrameCounter();
+            _enemy.Health -= 1;
+        }
 
-            if (enemy.FrameCounter >= Constants.Sparky.HURT_FRAMES)
+        public void Update()
+        {
+            _enemy.IncrementFrameCounter();
+
+            //TO-DO: CHANGE TO WHEN KIRBY + ENEMY COLLIDE
+            if (_enemy.FrameCounter >= Constants.Sparky.HURT_FRAMES)
             {
-                enemy.ChangeState(new SparkyShortJumpState());
-                enemy.UpdateTexture();
+                _enemy.ChangeState(new SparkyShortJumpState(_enemy));
+                _enemy.UpdateTexture();
+
+                if (_enemy.Health <= 0)
+                {
+                    _enemy.IsDead = true;
+                }
             }
         }
 
-        public void Exit(Enemy enemy) { }
+        public void Exit() { }
+
+        public void TakeDamage()
+        {
+            //handled in update
+        }
+
+        public void ChangeDirection()
+        {
+            _enemy.ToggleDirection();
+        }
     }
 }

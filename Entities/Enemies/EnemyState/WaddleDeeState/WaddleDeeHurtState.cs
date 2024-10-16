@@ -1,4 +1,6 @@
-﻿using KirbyNightmareInDreamLand.StateMachines;
+﻿using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
+using KirbyNightmareInDreamLand.StateMachines;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,28 +11,49 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState
 {
     public class WaddleDeeHurtState : IEnemyState
     {
+            private readonly Enemy _enemy;
 
-        public void Enter(Enemy enemy)
-        {
-            enemy.StateMachine.ChangePose(EnemyPose.Hurt);
-            enemy.UpdateTexture(); // Update sprite to hurt texture
-            enemy.ResetFrameCounter(); // Reset enemy's frame counter
+            public WaddleDeeHurtState(Enemy enemy)
+            {
+                _enemy = enemy ?? throw new ArgumentNullException(nameof(enemy));
+            }
+
+            public void Enter()
+            {
+                _enemy.ChangePose(EnemyPose.Hurt);
+                _enemy.ResetFrameCounter();
+
+                 _enemy.Health -= 1;
         }
 
-        public void Update(Enemy enemy)
-        {
-            enemy.IncrementFrameCounter(); // Increment the enemy's frame counter
-
-            // Transition back to walking after a certain number of frames
-            if (enemy.FrameCounter >= Constants.WaddleDee.HURT_FRAMES)
+            public void Update()
             {
-                enemy.ChangeState(new WaddleDeeWalkingState());
+
+            _enemy.IncrementFrameCounter();
+
+            //TO-DO: CHANGE TO WHEN KIRBY + ENEMY COLLIDE
+            if (_enemy.FrameCounter >= Constants.WaddleDee.HURT_FRAMES )
+            {
+                 _enemy.ChangeState(new WaddleDeeWalkingState(_enemy));
+                 _enemy.UpdateTexture();
+
+                if (_enemy.Health <= 0)
+                {
+                    _enemy.IsDead = true;
+                }
+            }  
+        }
+
+            public void Exit() { }
+
+            public void TakeDamage()
+            {
+                //handled in update
+            }
+
+            public void ChangeDirection()
+            {
+                //won't change direction while hurt
             }
         }
-
-        public void Exit(Enemy enemy)
-        {
-            // Any logic that needs to occur when exiting the hurt state
-        }
     }
-}

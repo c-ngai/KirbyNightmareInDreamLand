@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -9,14 +10,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
     {
         //Keep track of current frame
         //private int frameCounter = 0;
-        private ICollidable collidable;
         public WaddleDee(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDee)
         {
             //Set pose and sprite
             stateMachine.ChangePose(EnemyPose.Walking);
             UpdateTexture();
-            collidable = new WaddleDeeCollisionHandler((int)startPosition.X, (int)startPosition.Y, this);
-            currentState = new WaddleDeeWalkingState();
+            currentState = new WaddleDeeWalkingState(this);
         }
 
         public override void Move()
@@ -37,31 +36,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 {
                     ChangeDirection(); // Change direction if hitting right boundary
                 }
-            }
-        }
-
-        public override void Attack()
-        {
-            //WaddleDee has no attack sprite
-        }
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            //Draw if alive
-            if (!isDead)
-            {
-                enemySprite.Draw(position, spriteBatch);
-            }
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            if (!isDead)
-            {
-                currentState.Update(this); //update state
-                UpdateTexture(); // Update the texture if the state has changed
-                enemySprite.Update(); // Update the enemy sprite
-                collidable.UpdateBoundingBox(position);
             }
         }
     }

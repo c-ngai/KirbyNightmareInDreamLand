@@ -1,36 +1,49 @@
 ﻿using KirbyNightmareInDreamLand.StateMachines;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
 {
     public class WaddleDooWalkingState : IEnemyState
     {
-        public void Enter(Enemy enemy)
+        private readonly Enemy _enemy;
+
+        public WaddleDooWalkingState(Enemy enemy)
         {
-            enemy.StateMachine.ChangePose(EnemyPose.Walking);
-            enemy.ResetFrameCounter(); // Reset the frame counter upon entering the state
+            _enemy = enemy ?? throw new ArgumentNullException(nameof(enemy));
         }
 
-        public void Update(Enemy enemy)
+        public void Enter()
         {
-            // Movement logic for walking
-            enemy.Move();
+            _enemy.ChangePose(EnemyPose.Walking);
+            _enemy.ResetFrameCounter();
+        }
 
-            // Transition to charging if the frame count reaches the threshold
-            if (enemy.FrameCounter >= Constants.WaddleDoo.WALK_FRAMES)
+        public void Update()
+        {
+            _enemy.Move(); // Execute walking movement logic
+            _enemy.IncrementFrameCounter();
+
+            if (_enemy.FrameCounter >= Constants.WaddleDoo.WALK_FRAMES)
             {
-                enemy.ChangeState(new WaddleDooChargingState());
-                enemy.UpdateTexture();
+                _enemy.ChangeState(new WaddleDooChargingState(_enemy));
+                _enemy.UpdateTexture();
             }
         }
 
-        public void Exit(Enemy enemy)
+        public void Exit()
         {
-            // Cleanup if needed
+            // Cleanup logic if necessary
+        }
+
+        public void TakeDamage()
+        {
+            _enemy.ChangeState(new WaddleDooHurtState(_enemy));
+            _enemy.UpdateTexture();
+        }
+
+        public void ChangeDirection()
+        {
+            _enemy.ToggleDirection();
         }
     }
 }

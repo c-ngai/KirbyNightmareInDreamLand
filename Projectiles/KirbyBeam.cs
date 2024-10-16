@@ -58,7 +58,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
             if (segmentsFired < totalSegments && (frameCounter % fourthFrameInPattern != 0 || frameCounter % fifthFrameInPattern != 0))
             {
                 Vector2 velocity = new Vector2((float)Math.Cos(GetRotation()), (float)Math.Sin(GetRotation())) * UnitsPerFrame;
-                beamSegments.Add(new KirbyBeamSegment(position, velocity));
+                beamSegments.Add(new KirbyBeamSegment(position, velocity, !isFacingRight));
                 segmentsFired++;
             }
 
@@ -72,9 +72,9 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             foreach(var segment in beamSegments)
             {
-                if(!segment.IsActive)
+                if(segment.IsDone())
                 {
-                    segment.EndAttack();
+                    //segment.EndAttack(); //destroys the hit box if it is done
                 }
             }
         }
@@ -82,7 +82,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             foreach (var segment in beamSegments)
             {
-                if(segment.IsActive)
+                if(!segment.IsDone())
                 {
                     return false;
                 }

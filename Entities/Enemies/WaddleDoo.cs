@@ -4,10 +4,11 @@ using KirbyNightmareInDreamLand.Projectiles;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
-    public class WaddleDoo : Enemy, IJumpable
+    public class WaddleDoo : Enemy
     {
         // Jump variables
         private bool isJumping = false;
@@ -25,18 +26,15 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             //Initialize pose
             stateMachine.ChangePose(EnemyPose.Walking);
-            currentState = new WaddleDooWalkingState();
+            ChangeState(new WaddleDooWalkingState(this));
         }
-
         
         public override void Update(GameTime gameTime)
         {
             if (!isDead)
             {
                 IncrementFrameCounter(); 
-                currentState.Update(this);
-
-                // Update the sprite
+                currentState.Update();
                 enemySprite.Update();
 
                 // Handle the beam if active
@@ -79,7 +77,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             UpdateTexture();
         }
 
-        public void Jump()
+        public override void Jump()
         {
             if (!isJumping)
             {
