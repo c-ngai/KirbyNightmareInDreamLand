@@ -110,13 +110,16 @@ namespace KirbyNightmareInDreamLand
             DrawLevelObjects(spriteBatch);
         }
 
+        //level 
+        //instantiate in demand
         public void LoadLevelObjects()
         {
             enemyList = new List<Enemy>();
             foreach (EnemyData enemy in CurrentRoom.Enemies)
             {
                 Vector2 enemySpawnPoint = convertTileToPixel(enemy.TileSpawnPoint);
-                enemySpawnPoint += new Vector2(8, 16);
+                enemySpawnPoint += new Vector2(8, 16); //delete magic numbers
+                //magic string
                 Type type = Type.GetType("KirbyNightmareInDreamLand.Entities.Enemies." + enemy.EnemyType);
 
                 if (type != null)

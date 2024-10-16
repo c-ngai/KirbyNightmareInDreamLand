@@ -31,7 +31,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //others
         private string oldState;
         public bool attackIsActive{get; private set; } = false;
-        private bool CollisionActive = true;
+        public bool CollisionActive { get; private set;} = true;
 
         //collision stuffs
 
@@ -45,12 +45,14 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public Sprite PlayerSprite
         {
+            //change it so it cannot be changed by cgame aka delete this
+
             set{playerSprite = value;}
         }
 
         //changes kiry's texture if he is in a different state than before
         //only called by Draw
-        public void UpdateTexture()
+        private void UpdateTexture()
         {
             if(!state.GetStateString().Equals(oldState)){
                 playerSprite = SpriteFactory.Instance.CreateSprite(state.GetSpriteParameters());
@@ -309,10 +311,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #region Attack
         public void Attack()
         {
-            if(attack != null && !attackIsActive){
-                //attack.EndAttack(this);
-            }
-            if(!attackIsActive){
+            // if(attack != null && !attackIsActive){
+            //     attack.EndAttack(this);
+            //     StopAttacking();
+            //     attack = null;
+            // }
+            //start a new attack if another one isnt happening
+            if(attack == null){
                 attack = new PlayerAttack(this, AttackType());
                 movement.Attack(this);
             }
@@ -337,7 +342,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 StopMoving();
                 ChangeAttackBool(false);
-                //attack.EndAttack(this);
+                attack.EndAttack();
                 attack = null;
             }
         }

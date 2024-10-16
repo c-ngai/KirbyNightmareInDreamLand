@@ -60,8 +60,9 @@ namespace KirbyNightmareInDreamLand
         
         private bool IsCloseEnough(ICollidable obj1, ICollidable obj2)
         {
+            //check how many obejcts are taken out by these checks
             int distance =  obj1.GetHitBox().X - obj2.GetHitBox().X;
-            int distance2 = obj1.GetHitBox().Y - obj2.GetHitBox().Y;
+            int distance2 = obj1.GetHitBox().Y - obj2.GetHitBox().Y; //take off the Y 
             int close = 55;
 
             // If the distance between the objects is less than the sum of their radii, they're close enough to check further
@@ -145,10 +146,10 @@ namespace KirbyNightmareInDreamLand
         {
             for (int i = 0; i < DynamicObjects.Count; i++)
             {
-                //if(!DynamicObjects[i].CollisionActive)continue;
+                if(!DynamicObjects[i].CollisionActive)continue;
                 for (int j = i + 1; j < DynamicObjects.Count; j++)
                 {
-                    //if(!DynamicObjects[j].CollisionActive) continue;
+                    //run and time and comment out close enough to check if it improved performance
                     if(!IsCloseEnough(DynamicObjects[i],DynamicObjects[j])) continue;
                     if (DynamicObjects[i].GetHitBox().Intersects(DynamicObjects[j].GetHitBox()))
                     {
@@ -163,7 +164,7 @@ namespace KirbyNightmareInDreamLand
         {
             if (CollisionOn)
             {
-                //DynamicObjects.RemoveAll(obj => !obj.IsActive);
+                //DynamicObjects.RemoveAll(obj => !obj.CollisionActive);
                 // Check dynamic objects against static objects
 
                 StaticCollisionCheck();
@@ -178,9 +179,9 @@ namespace KirbyNightmareInDreamLand
         {
             foreach (var dynamicObj in DynamicObjects)
             {
-                //if(dynamicObj.CollisionActive){
+                if(dynamicObj.CollisionActive){
                     GameDebug.Instance.DrawRectangle(spriteBatch, dynamicObj.GetHitBox(), Color.Red);
-                //}
+                }
             }
 
             IDictionaryEnumerator enumerator = StaticObjects.GetEnumerator();

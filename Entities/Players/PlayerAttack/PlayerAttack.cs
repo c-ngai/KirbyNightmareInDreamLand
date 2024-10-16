@@ -32,7 +32,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 { "Slide", (k) => new Slide(k.GetKirbyPosition(), k.IsLeft()) }
             };
         }
-        public void EndAttack(Player kirby)
+        public void EndAttack()
         {
             currentAttack.EndAttack();
         }

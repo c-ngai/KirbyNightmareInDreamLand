@@ -9,18 +9,16 @@ namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class Slide : IProjectile, ICollidable
     {
-        private ICollidable collidable;
-        public Vector2 Position {get;}
+        public bool CollisionActive { get; private set;} = true;
+        public Vector2 Position {get; private set;}
         public Vector2 Velocity {get; private set;}
-
-        private Vector2 position;
         private float startingX;
         private static int slideDistance = 70;
         private bool IsLeft;
         public Slide(Vector2 pos, bool isLeft)
         {
             IsLeft= isLeft;
-            position =pos;
+            Position =pos;
             startingX = pos.X;
             CollisionDetection.Instance.RegisterDynamicObject(this);
         }
@@ -30,13 +28,14 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void EndAttack()
         {
-            CollisionDetection.Instance.RemoveDynamicObject(this);
+            CollisionActive = false;
         }
         public bool IsDone()
         {
             float distanceMoved = Math.Abs(Position.X - startingX);
             if(distanceMoved > slideDistance)
             {
+                EndAttack();
                 return true;
             }
             return false;
@@ -47,7 +46,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void Update(Player kirby)
         {
-            position = kirby.GetKirbyPosition();
+            Position = kirby.GetKirbyPosition();
             GetHitBox();
         }
 

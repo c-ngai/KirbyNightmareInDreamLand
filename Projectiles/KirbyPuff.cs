@@ -9,6 +9,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
     {
         private Sprite projectileSprite;
         private Vector2 position;
+        public bool CollisionActive { get; private set;} = true;
         private Vector2 velocity;
         private bool isFacingRight;
         private int frameCount = 0;
@@ -57,7 +58,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void EndAttack()
         {
-            CollisionDetection.Instance.RemoveDynamicObject(this);
+            CollisionActive = false;
         }
         public bool IsDone()
         {
