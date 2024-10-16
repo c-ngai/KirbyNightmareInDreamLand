@@ -4,6 +4,16 @@ namespace KirbyNightmareInDreamLand
 {
     public static class Constants
     {
+        public static class Filepaths
+        {
+            public const string TextureList = "Content/Images/Textures.txt";
+            public const string SpriteRegistry = "Content/Images/SpriteAnimations.json";
+            public const string TilemapList = "Content/Tilemaps.txt";
+            public const string RoomRegistry = "Content/Rooms.json";
+            public const string KeymapRegistry = "Content/Keymaps.json";
+            public const string TileSpriteList = "Content/Images/TileSprites.txt";
+        }
+
         public static class Graphics
         {
             public const int GAME_WIDTH = 240;
