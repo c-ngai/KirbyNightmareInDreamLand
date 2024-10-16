@@ -9,6 +9,9 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
 {
     public class WaddleDooWalkingState : IEnemyState
     {
+        private Enemy enemy;
+
+        //constructor for waddledoowalkingstate that takes in enemy. use IEnemy
         public void Enter(Enemy enemy)
         {
             enemy.StateMachine.ChangePose(EnemyPose.Walking);
