@@ -3,15 +3,9 @@ namespace KirbyNightmareInDreamLand.Commands
 {
     public class KirbyJumpCommand : ICommand
     {
-        private IPlayer kirby;
-        public KirbyJumpCommand(IPlayer newPlayer)
-        {
-            kirby = newPlayer;
-        }
-
         public void Execute()
         {
-            kirby.Jump();
+            Game1.Instance.players[0].Jump();
         }
     }
 }
