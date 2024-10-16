@@ -37,19 +37,44 @@
             "Command": "KirbyFloatCommand"
         },
         {
-            "Key": "X",
+            "Key": "D",
             "ExecutionType": "Pressed",
-            "Command": "KirbyJumpCommand"
+            "Command": "KirbyMoveRightCommand"
         },
         {
             "Key": "D",
-            "ExecutionType": "StartingPress",
-            "Command": "KirbyFaceRightCommand"
+            "ExecutionType": "StoppingPress",
+            "Command": "KirbyRunningRightCommand"
         },
         {
             "Key": "A",
-            "ExecutionType": "StartingPress",
-            "Command": "KirbyFaceLeftCommand"
+            "ExecutionType": "Pressed",
+            "Command": "KirbyMoveLeftCommand"
+        },
+        {
+            "Key": "A",
+            "ExecutionType": "StoppingPress",
+            "Command": "KirbyRunningLeftCommand"
+        },
+        {
+            "Key": "S",
+            "ExecutionType": "Pressed",
+            "Command": "KirbyMoveCrouchedCommand"
+        },
+        {
+            "Key": "S",
+            "ExecutionType": "StoppingPress",
+            "Command": "KirbyCrouchAndSlideCommand"
+        },
+        {
+            "Key": "W",
+            "ExecutionType": "Pressed",
+            "Command": "KirbyFloatCommand"
+        },
+        {
+            "Key": "X",
+            "ExecutionType": "Pressed",
+            "Command": "KirbyJumpCommand"
         },
         {
             "Key": "Z",
