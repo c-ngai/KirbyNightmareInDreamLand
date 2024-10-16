@@ -3,16 +3,9 @@ namespace KirbyNightmareInDreamLand.Commands
 {
     public class KirbyFaceLeftCommand : ICommand
     {
-        private IPlayer kirby;
-
-        public KirbyFaceLeftCommand(IPlayer player)
-        {
-            kirby = player;
-        }
-
         public void Execute()
         {
-            kirby.SetDirectionLeft();
+            Game1.Instance.players[0].SetDirectionLeft();
         }
     }
 }

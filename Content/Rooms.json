@@ -21,12 +21,12 @@
         ],
         "Enemies": [
             {
-                "EnemyType": "waddledee",
-                "SpawnTileX": 100,
-                "SpawnTileY": 50
+                "EnemyType": "WaddleDee",
+                "SpawnTileX": 8,
+                "SpawnTileY": 8
             },
             {
-                "EnemyType": "waddledoo",
+                "EnemyType": "WaddleDoo",
                 "SpawnTileX": 150,
                 "SpawnTileY": 50
             }
@@ -36,7 +36,7 @@
     "room1": {
         "Foreground sprite": "foreground_room1",
         "Background sprite": "background_lake",
-        "Tilemap": "room1",
+        "Tilemap": "room1_tileset",
 
         "Spawn point X": 50,
         "Spawn point Y": 50,
@@ -50,17 +50,17 @@
             {
                 "TileX": 2,
                 "TileY": 7,
-                "DestinationRoom": "testroom2"
+                "DestinationRoom": "room2"
             }
         ],
         "Enemies": [
             {
-                "EnemyType": "waddledee",
-                "SpawnTileX": 100,
-                "SpawnTileY": 50
+                "EnemyType": "WaddleDee",
+                "SpawnTileX": 19,
+                "SpawnTileY": 7
             },
             {
-                "EnemyType": "waddledoo",
+                "EnemyType": "WaddleDoo",
                 "SpawnTileX": 150,
                 "SpawnTileY": 50
             }

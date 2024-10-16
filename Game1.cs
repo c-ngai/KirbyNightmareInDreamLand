@@ -11,6 +11,7 @@ using System.Linq;
 using static System.Net.Mime.MediaTypeNames;
 using System;
 using System.Diagnostics;
+using KirbyNightmareInDreamLand.Collision;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -28,7 +29,8 @@ namespace KirbyNightmareInDreamLand
         public Level level { get; private set; }
 
         // Single-player but can later be updated to an array of kirbys for multiplayer
-        private IPlayer kirby;
+        public List<IPlayer> players;
+        public KeyboardController KeyboardController => keyboard;
 
         // Get enemies (currently one of each but can change to an array of each enemy type)
         private IEnemy waddledeeTest;
@@ -69,9 +71,6 @@ namespace KirbyNightmareInDreamLand
         public int MAX_WINDOW_WIDTH { get; set; }
         public int TARGET_FRAMERATE { get; set; }
 
-
-        //why is game time public?? take out set in the game time make anybody that is not that commmand not be anle to set it
-        //
         private static Game1 instance;
         public static Game1 Instance
         {
@@ -87,8 +86,6 @@ namespace KirbyNightmareInDreamLand
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
-
-
 
         protected override void Initialize()
         {
@@ -145,29 +142,30 @@ namespace KirbyNightmareInDreamLand
         // Will later be changed to read in keyboard control input 
         public void SetKeyboardControls(KeyboardController keyboard)
         {
-            keyboard.RegisterCommand(Keys.Right, ExecutionType.Pressed, new KirbyMoveRightCommand(kirby, Keys.Right, keyboard));
-            keyboard.RegisterCommand(Keys.Right, ExecutionType.StoppingPress, new KirbyRunningRightCommand(keyboard, Keys.Right, kirby));
-            keyboard.RegisterCommand(Keys.Left, ExecutionType.Pressed, new KirbyMoveLeftCommand(kirby, Keys.Left, keyboard));
-            keyboard.RegisterCommand(Keys.Left, ExecutionType.StoppingPress, new KirbyRunningLeftCommand(keyboard, Keys.Left, kirby));
+            keyboard.RegisterCommand(Keys.Right, ExecutionType.Pressed, new KirbyMoveRightCommand());
+
+            keyboard.RegisterCommand(Keys.Right, ExecutionType.StoppingPress, new KirbyRunningRightCommand());
+            keyboard.RegisterCommand(Keys.Left, ExecutionType.Pressed, new KirbyMoveLeftCommand());
+            keyboard.RegisterCommand(Keys.Left, ExecutionType.StoppingPress, new KirbyRunningLeftCommand());
 
             // this is hard-coded bc it needs to know the keybind to attack to check if it needs to slide
-            keyboard.RegisterCommand(Keys.Down, ExecutionType.Pressed, new KirbyMoveCrouchedCommand(kirby, Keys.Down, Keys.Z, keyboard));
-            keyboard.RegisterCommand(Keys.Down, ExecutionType.StoppingPress, new KirbyCrouchAndSlideCommand(kirby, Keys.Down, Keys.Z, keyboard));
-            keyboard.RegisterCommand(Keys.Up, ExecutionType.Pressed, new KirbyFloatCommand(kirby));
-            keyboard.RegisterCommand(Keys.X, ExecutionType.Pressed, new KirbyJumpCommand(kirby));
+            keyboard.RegisterCommand(Keys.Down, ExecutionType.Pressed, new KirbyMoveCrouchedCommand());
+            keyboard.RegisterCommand(Keys.Down, ExecutionType.StoppingPress, new KirbyCrouchAndSlideCommand());
+            keyboard.RegisterCommand(Keys.Up, ExecutionType.Pressed, new KirbyFloatCommand());
+            keyboard.RegisterCommand(Keys.X, ExecutionType.Pressed, new KirbyJumpCommand());
 
-            keyboard.RegisterCommand(Keys.D, ExecutionType.StartingPress, new KirbyFaceRightCommand(kirby));
-            keyboard.RegisterCommand(Keys.A, ExecutionType.StartingPress, new KirbyFaceLeftCommand(kirby));
+            keyboard.RegisterCommand(Keys.D, ExecutionType.StartingPress, new KirbyFaceRightCommand());
+            keyboard.RegisterCommand(Keys.A, ExecutionType.StartingPress, new KirbyFaceLeftCommand());
 
 
-            keyboard.RegisterCommand(Keys.Z, ExecutionType.StartingPress, new KirbyAttackCommand(kirby));
-            keyboard.RegisterCommand(Keys.Z, ExecutionType.StoppingPress, new KirbyStopAttackingCommand(kirby));
-            keyboard.RegisterCommand(Keys.Z, ExecutionType.Pressed, new KirbyAttackPressedCommand(kirby));
+            keyboard.RegisterCommand(Keys.Z, ExecutionType.StartingPress, new KirbyAttackCommand());
+            keyboard.RegisterCommand(Keys.Z, ExecutionType.StoppingPress, new KirbyStopAttackingCommand());
+            keyboard.RegisterCommand(Keys.Z, ExecutionType.Pressed, new KirbyAttackPressedCommand());
 
-            keyboard.RegisterCommand(Keys.D1, ExecutionType.StartingPress, new KirbyChangeNormalCommand(kirby));
-            keyboard.RegisterCommand(Keys.D2, ExecutionType.StartingPress, new KirbyChangeBeamCommand(kirby));
-            keyboard.RegisterCommand(Keys.D3, ExecutionType.StartingPress, new KirbyChangeFireCommand(kirby));
-            keyboard.RegisterCommand(Keys.D4, ExecutionType.StartingPress, new KirbyChangeSparkCommand(kirby));
+            keyboard.RegisterCommand(Keys.D1, ExecutionType.StartingPress, new KirbyChangeNormalCommand());
+            keyboard.RegisterCommand(Keys.D2, ExecutionType.StartingPress, new KirbyChangeBeamCommand());
+            keyboard.RegisterCommand(Keys.D3, ExecutionType.StartingPress, new KirbyChangeFireCommand());
+            keyboard.RegisterCommand(Keys.D4, ExecutionType.StartingPress, new KirbyChangeSparkCommand());
 
             keyboard.RegisterCommand(Keys.O, ExecutionType.StartingPress, new PreviousEnemyCommand());
             keyboard.RegisterCommand(Keys.P, ExecutionType.StartingPress, new NextEnemyCommand());
@@ -175,6 +173,7 @@ namespace KirbyNightmareInDreamLand
             keyboard.RegisterCommand(Keys.Q, ExecutionType.StartingPress, new QuitCommand());
             keyboard.RegisterCommand(Keys.R, ExecutionType.StartingPress, new ResetCommand());
 
+            /*
             keyboard.RegisterCommand(Keys.F1, ExecutionType.StartingPress, new GraphicsToggleDebugTextCommand());
             keyboard.RegisterCommand(Keys.F2, ExecutionType.StartingPress, new GraphicsToggleDebugSpriteCommand());
             keyboard.RegisterCommand(Keys.F3, ExecutionType.StartingPress, new GraphicsToggleDebugLevelCommand());
@@ -185,9 +184,28 @@ namespace KirbyNightmareInDreamLand
             keyboard.RegisterCommand(Keys.OemMinus, ExecutionType.StartingPress, new GraphicsDecreaseWindowSizeCommand());
             keyboard.RegisterCommand(Keys.OemCloseBrackets, ExecutionType.StartingPress, new GraphicsIncreaseTargetFramerateCommand());
             keyboard.RegisterCommand(Keys.OemOpenBrackets, ExecutionType.StartingPress, new GraphicsDecreaseTargetFramerateCommand());
+            */
+            
+        }
+        public void SetCollisionResponses()
+        {
+            String key1 = "IPlayer";
+            String key2 = "Air";
+            for (int i = 0; i < Constants.HitBoxes.SIDES; i++)
+            {
+                CollisionResponse.Instance.RegisterCollision(key1, key2, (CollisionSide) i, null, null);
+            }
+
+            key2 = "Water";
+            for (int i = 0; i < Constants.HitBoxes.SIDES; i++)
+            {
+                CollisionResponse.Instance.RegisterCollision(key1, key2, (CollisionSide)i, null, null);
+            }
+
+
+
         }
 
-        // Do we need thisthis?
         public void LoadItem()
         {
             item = SpriteFactory.Instance.CreateSprite("item_maximtomato");
@@ -198,10 +216,12 @@ namespace KirbyNightmareInDreamLand
             CollisionManager.Instance.ResetDynamicCollisionBoxes();
             // Creates kirby object
             //make it a list from the get go to make it multiplayer asap
-            kirby = new Player(new Vector2(30, Constants.Graphics.FLOOR));
+            players = new List<IPlayer>();
+            IPlayer kirby = new Player(new Vector2(30, Constants.Graphics.FLOOR));
             kirby.PlayerSprite = SpriteFactory.Instance.CreateSprite("kirby_normal_standing_right");
+            players.Add(kirby);
             // Target the camera on Kirby
-            camera.TargetPlayer(kirby);
+            camera.TargetPlayer(players[0]);
 
 
             // Currently commented out since we don't need the item
@@ -235,8 +255,11 @@ namespace KirbyNightmareInDreamLand
             // Load all content through LevelLoader
             LevelLoader.Instance.LoadAllContent();
 
+            LevelLoader.Instance.LoadKeymap("keymap1"); // switch out the desired keymap here
+
+
             level = new Level();
-            level.LoadRoom("testroom1");
+            level.LoadRoom("room1");
 
             // Load all objects
             LoadObjects();
@@ -266,8 +289,10 @@ namespace KirbyNightmareInDreamLand
 
             GameTime = gameTime;
 
-            kirby.Update(time);
-            enemyList[currentEnemyIndex].Update(time);
+            foreach (IPlayer kirby in players)
+            {
+                kirby.Update(time);
+            }
 
             // Commented out since we currently do not need item
             //item.Update();
@@ -276,6 +301,8 @@ namespace KirbyNightmareInDreamLand
             foreach (IEnemy enemy in enemyList2) enemy.Update(time); // FOR PERFORMANCE TESTING
 
             CollisionManager.Instance.CheckCollisions();
+
+            level.UpdateLevel();
 
             camera.Update();
         }
@@ -292,10 +319,13 @@ namespace KirbyNightmareInDreamLand
             // Draw level
             level.Draw(spriteBatch);
             // Draw only selected enemy
-            enemyList[currentEnemyIndex].Draw(spriteBatch);
+            // enemyList[currentEnemyIndex].Draw(spriteBatch);
             foreach (IEnemy enemy in enemyList2) enemy.Draw(spriteBatch); // FOR PERFORMANCE TESTING
             // Draw kirby
-            kirby.Draw(spriteBatch);
+            foreach (IPlayer kirby in players)
+            {
+                kirby.Draw(spriteBatch);
+            }
 
             // Not currently using item
             //item.Draw(new Vector2(200, 150), spriteBatch);

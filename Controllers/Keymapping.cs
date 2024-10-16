@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using System.Text.Json.Serialization;
+using KirbyNightmareInDreamLand.Commands;
 using Microsoft.Xna.Framework.Input;
 
 namespace KirbyNightmareInDreamLand.Controllers
@@ -13,7 +14,7 @@ namespace KirbyNightmareInDreamLand.Controllers
         // ExecutionType enum
         public ExecutionType ExecutionType { get; set; }
         // Constructor info for respective command
-        public ConstructorInfo Command { get; set; }
+        public ICommand Command { get; set; }
     }
 
 }

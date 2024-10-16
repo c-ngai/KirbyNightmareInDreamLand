@@ -61,6 +61,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 currentState.Update(this); //update state
                 UpdateTexture(); // Update the texture if the state has changed
                 enemySprite.Update(); // Update the enemy sprite
+                collidable.UpdateBoundingBox(position);
             }
         }
     }
