@@ -1,9 +1,14 @@
-﻿using KirbyNightmareInDreamLand.Sprites;
+﻿using KirbyNightmareInDreamLand.Entities.Enemies;
+using KirbyNightmareInDreamLand.Sprites;
+using KirbyNightmareInDreamLand.StateMachines;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
+using System.Reflection;
+using static KirbyNightmareInDreamLand.Constants;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -13,10 +18,12 @@ namespace KirbyNightmareInDreamLand
         private Game1 _game;
         private Camera _camera;
 
-        public float BackgroundParallaxFactor { get; set; } = 0.85f;
+        public float BackgroundParallaxFactor { get; set; } = 0.85f; // fix magic number 
 
         // Make private later probably, coupling issues
-        public Room room;
+        public Room CurrentRoom;
+
+        private List<Enemy> enemyList;
 
         private List<Sprite> TileSprites;
 
@@ -28,12 +35,11 @@ namespace KirbyNightmareInDreamLand
             TileSprites = LoadTileSprites("Content/Images/TileSprites.txt");
         }
 
-
         public void LoadRoom(string RoomName)
         {
-            room = LevelLoader.Instance.Rooms[RoomName];
+            CurrentRoom = LevelLoader.Instance.Rooms[RoomName];
+            LoadLevelObjects();
         }
-
 
         private List<Sprite> LoadTileSprites(string filepath)
         {
@@ -49,8 +55,6 @@ namespace KirbyNightmareInDreamLand
             return TileSprites;
         }
 
-
-
         public void Draw(SpriteBatch spriteBatch)
         {
             if (_game.DEBUG_LEVEL_MODE)
@@ -64,44 +68,123 @@ namespace KirbyNightmareInDreamLand
             
         }
 
-
         private void DrawBackground(SpriteBatch spriteBatch)
         {
-            if (room.BackgroundSprite != null)
+            if (CurrentRoom.BackgroundSprite != null)
             {
                 Vector2 backgroundPosition = new Vector2(
                     _camera.GetPosition().X * BackgroundParallaxFactor,
                     _camera.GetPosition().Y * BackgroundParallaxFactor
                 );
 
-                room.BackgroundSprite.Draw(backgroundPosition, spriteBatch); // Draw at origin or wherever it should be
+                CurrentRoom.BackgroundSprite.Draw(backgroundPosition, spriteBatch); 
             }
         }
 
         private void DrawForeground(SpriteBatch spriteBatch)
         {
-            if (room.ForegroundSprite != null)
+            if (CurrentRoom.ForegroundSprite != null)
             {
-                room.ForegroundSprite.Draw(Vector2.Zero, spriteBatch); // Draw at origin or wherever it should be
+                CurrentRoom.ForegroundSprite.Draw(Vector2.Zero, spriteBatch); 
             }
         }
 
         // Draws the level normally; background and foreground.
         public void DrawLevel(SpriteBatch spriteBatch)
         {
-
-            // Draw background 
             DrawBackground(spriteBatch);
-
-            // Draw the room's foreground
             DrawForeground(spriteBatch);
+            DrawLevelObjects(spriteBatch);
         }
 
-        public void UpdateLevel(SpriteBatch spriteBatch)
+        public void LoadLevelObjects()
         {
-            room.ForegroundSprite.Update();
-            
+            enemyList = new List<Enemy>();
+            foreach (EnemyStruct enemy in CurrentRoom.Enemies)
+            {
+                Vector2 enemySpawnPoint = convertTileToPixel(enemy.TileSpawnPoint);
+                Type type = Type.GetType("KirbyNightmareInDreamLand.Entities.Enemies." + enemy.EnemyType);
+
+                if (type != null)
+                {
+                    // Get the constructor that takes a Vector2 parameter
+                    var constructor = type.GetConstructor(new[] { typeof(Vector2) });
+
+                    if (constructor != null)
+                    {
+                        // Create an instance of the enemy
+                        Enemy enemyObject = (Enemy)constructor.Invoke(new object[] { enemySpawnPoint });
+                        enemyList.Add(enemyObject);
+                    }
+                }
+            }
         }
+
+        // draws enemies and tomatoes
+        public void DrawLevelObjects(SpriteBatch spriteBatch)
+        {
+            foreach(Enemy enemy in enemyList)
+            {
+                enemy.Draw(spriteBatch);
+            }
+
+        }
+
+        // tells player if they are at a door or not 
+        public bool atDoor(Vector2 playerPosition)
+        {
+            bool result = false;
+            foreach(Door door in CurrentRoom.Doors)
+            {
+                Vector2 doorPos = convertTileToPixel(door.TilePosition);
+                Rectangle door_rec = new Rectangle(
+                    (int)doorPos.X,
+                    (int)doorPos.Y,
+                    Constants.Level.TILE_SIZE,
+                    Constants.Level.TILE_SIZE);
+                if(door_rec.Contains(playerPosition))
+                {
+                    result = true;
+                }
+            }
+
+            return result;
+        }
+
+        // go to the next room, called because a player wants to go through a door 
+        public void nextRoom(Vector2 playerPos)
+        {
+            foreach(Door door in CurrentRoom.Doors)
+            {
+                Vector2 doorPos = convertTileToPixel(door.TilePosition);
+                Rectangle door_rec = new Rectangle(
+                    (int)doorPos.X,
+                    (int)doorPos.Y,
+                    Constants.Level.TILE_SIZE,
+                    Constants.Level.TILE_SIZE);
+
+                if (door_rec.Contains(playerPos))
+                {
+                    LoadRoom(door.DestinationRoom);
+                }
+            }
+        }
+
+        public Vector2 convertTileToPixel(Vector2 tilePosition)
+        {
+            return new Vector2(tilePosition.X * Constants.Level.TILE_SIZE, tilePosition.Y * Constants.Level.TILE_SIZE);
+        }
+
+        public void UpdateLevel()
+        {
+            CurrentRoom.ForegroundSprite.Update();
+            foreach(Enemy enemy in enemyList)
+            {
+                enemy.Update(_game.time);
+            }
+        }
+
+        // Following methods authored by Mark 
 
         // Debug mode (toggle F2), draws the usually-invisible collision tiles.
         public void DrawDebug(SpriteBatch spriteBatch)
@@ -115,16 +198,16 @@ namespace KirbyNightmareInDreamLand
             if (_game.CULLING_ENABLED)
             {
                 TopY = Math.Max(_camera.GetBounds().Top / Constants.Level.TILE_SIZE, 0);
-                BottomY = Math.Min(_camera.GetBounds().Bottom / Constants.Level.TILE_SIZE + 1, room.TileMap.Length);
+                BottomY = Math.Min(_camera.GetBounds().Bottom / Constants.Level.TILE_SIZE + 1, CurrentRoom.TileMap.Length);
                 LeftX = Math.Max(_camera.GetBounds().Left / Constants.Level.TILE_SIZE, 0);
-                RightX = Math.Min(_camera.GetBounds().Right / Constants.Level.TILE_SIZE + 1, room.TileMap[0].Length);
+                RightX = Math.Min(_camera.GetBounds().Right / Constants.Level.TILE_SIZE + 1, CurrentRoom.TileMap[0].Length);
             }
             else
             {
                 TopY = 0;
-                BottomY = room.TileMap.Length;
+                BottomY = CurrentRoom.TileMap.Length;
                 LeftX = 0;
-                RightX = room.TileMap[0].Length;
+                RightX = CurrentRoom.TileMap[0].Length;
             }
 
             // Temporarily disable sprite culling if it's on, because this function has its own culling that relies on the regularity of tiles that is much more efficient than the rectangle intersection-detecting method of the Sprite class.
@@ -137,7 +220,7 @@ namespace KirbyNightmareInDreamLand
                 // Iterate across all the columns of the TileMap visible within the frame of the camera
                 for (int x = LeftX; x < RightX; x++)
                 {
-                    DrawTile(spriteBatch, room.TileMap[y][x], new Vector2(x * Constants.Level.TILE_SIZE, y * Constants.Level.TILE_SIZE));
+                    DrawTile(spriteBatch, CurrentRoom.TileMap[y][x], new Vector2(x * Constants.Level.TILE_SIZE, y * Constants.Level.TILE_SIZE));
                 }
             }
 
@@ -158,9 +241,9 @@ namespace KirbyNightmareInDreamLand
 
             // Set bounds on the TileMap to iterate from
             int TopY = Math.Max(collisionRectangle.Top / Constants.Level.TILE_SIZE, 0);
-            int BottomY = Math.Min(collisionRectangle.Bottom / Constants.Level.TILE_SIZE + 1, room.TileHeight);
+            int BottomY = Math.Min(collisionRectangle.Bottom / Constants.Level.TILE_SIZE + 1, CurrentRoom.TileHeight);
             int LeftX = Math.Max(collisionRectangle.Left / Constants.Level.TILE_SIZE, 0);
-            int RightX = Math.Min(collisionRectangle.Right / Constants.Level.TILE_SIZE + 1, room.TileWidth);
+            int RightX = Math.Min(collisionRectangle.Right / Constants.Level.TILE_SIZE + 1, CurrentRoom.TileWidth);
 
             // Iterate across all the rows of the TileMap visible within the frame of the camera
             for (int y = TopY; y < BottomY; y++)
@@ -169,7 +252,7 @@ namespace KirbyNightmareInDreamLand
                 for (int x = LeftX; x < RightX; x++)
                 {
                     Tile tile = new Tile();
-                    tile.type = (TileCollisionType)room.TileMap[y][x];
+                    tile.type = (TileCollisionType)CurrentRoom.TileMap[y][x];
                     tile.rectangle = new Rectangle(x * Constants.Level.TILE_SIZE, y * Constants.Level.TILE_SIZE, Constants.Level.TILE_SIZE, Constants.Level.TILE_SIZE);
                     tiles.Add(tile);
 

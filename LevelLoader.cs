@@ -1,5 +1,6 @@
 ﻿using KirbyNightmareInDreamLand.Commands;
 using KirbyNightmareInDreamLand.Controllers;
+using KirbyNightmareInDreamLand.Entities.Enemies;
 using KirbyNightmareInDreamLand.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;

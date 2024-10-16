@@ -1,0 +1,44 @@
+﻿Sprint 3 Readabilty Code Review     10/15/2024
+
+Author of Code Review: Vivian Ferrigni
+Name of .cs file being reviewed: MouseController.cs
+Author of .cs file being reivewed: Payton Murphy
+
+Time taken to complete review: 20 minutes
+
+################################################################################
+
+10 Code Smells:
+
+1. God class 
+2. Duplicated code
+3. TooManyParameters
+4. WhileTrueLoop
+5. LongMethodSmell 
+6. ParallelInheritanceHierarchies
+7. SameNameDifferentMeaning
+8. SwitchCaseSmell
+9. VariableNameSameAsType
+10.DataClumps
+
+################################################################################
+
+Comments:
+
+This file is very readable, it does exactly what it says it does in a concise manner.
+
+My only comments would be to help with decoupling of MouseController and Game1
+you could pass Game1 and RoomList into the MouseController constructor as dependencies
+rather than directly accessing Game1 and hard coding the room list. This would likely
+make testing easier.
+
+Another design suggestion would be to make it so that the room list loops once you
+get to the end of the list. That way if there are many rooms you don't have to click
+back through them all to get to the first one. This would help with maintainability.
+
+One small bug I noticed, you never initialize previousMouseState, If there is a
+call to Update(), previousMouseState might hold a default value and give incorrect
+comparisons.
+
+Because of the clear-cut nature of this file, not a lot of comments were necessary
+and the ones provided are helpful and meaningful. Great job!
