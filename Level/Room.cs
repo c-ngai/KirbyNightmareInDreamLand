@@ -67,7 +67,6 @@ namespace KirbyNightmareInDreamLand
         public List<EnemyStruct> Enemies { get; private set; }
         public List<TomatoStruct> Tomatoes { get; private set; }
 
-
         // Creates a new room object from a room json data object.
         public Room(RoomJsonData roomJsonData)
         {

@@ -17,7 +17,6 @@ namespace KirbyNightmareInDreamLand
 
         private Game1 _game;
         private Camera _camera;
-        Type myType = typeof(Enemy);
 
         public float BackgroundParallaxFactor { get; set; } = 0.85f; // fix magic number 
 
