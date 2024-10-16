@@ -6,7 +6,7 @@ using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
-    public class WaddleDee : Enemy, ICollidable
+    public class WaddleDee : Enemy
     {
         //Keep track of current frame
         //private int frameCounter = 0;
@@ -16,7 +16,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             stateMachine.ChangePose(EnemyPose.Walking);
             UpdateTexture();
             currentState = new WaddleDeeWalkingState(this);
-            CollisionDetection.Instance.RegisterDynamicObject(this);
         }
 
         public override void Move()
