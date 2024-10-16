@@ -26,8 +26,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             //Initialize pose
             stateMachine.ChangePose(EnemyPose.Walking);
-            //currentState = new WaddleDooWalkingState();
-            ChangeState(new WaddleDooWalkingState(this)); // Set initial state
+            ChangeState(new WaddleDooWalkingState(this))
         }
         
         public override void Update(GameTime gameTime)
@@ -36,8 +35,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             {
                 IncrementFrameCounter(); 
                 currentState.Update();
-
-                // Update the sprite
                 enemySprite.Update();
 
                 // Handle the beam if active

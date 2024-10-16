@@ -8,8 +8,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
     public class WaddleDee : Enemy
     {
-        //Keep track of current frame
-        //private int frameCounter = 0;
         private ICollidable collidable;
         public WaddleDee(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDee)
         {
@@ -17,7 +15,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             stateMachine.ChangePose(EnemyPose.Walking);
             UpdateTexture();
             collidable = new WaddleDeeCollisionHandler((int)startPosition.X, (int)startPosition.Y, this);
-            //currentState = new WaddleDeeWalkingState();
             ChangeState(new WaddleDeeWalkingState(this)); // Set initial state
         }
 

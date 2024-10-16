@@ -18,7 +18,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             //initialize to hop
             stateMachine.ChangePose(EnemyPose.Hop);
-            //currentState = new SparkyPause1State();
             ChangeState(new SparkyPause1State(this)); // Set initial state
         }
 
@@ -34,9 +33,9 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             if (!isDead)
             {
                 IncrementFrameCounter();
-                currentState.Update(); // Call the current state's update method
-                UpdateTexture(); // Update texture based on state
-                enemySprite.Update(); // Update the sprite
+                currentState.Update();
+                UpdateTexture(); 
+                enemySprite.Update(); 
             }
         }
 

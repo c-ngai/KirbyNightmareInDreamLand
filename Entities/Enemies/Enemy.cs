@@ -34,12 +34,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             leftBoundary = new Vector2(100, 100);
             rightBoundary = new Vector2(230, 100);
             oldState = string.Empty;
-            /*
-            currentState = new WaddleDeeWalkingState();
-            currentState.Enter(this); // Call enter method for the initial state */
-            currentState = new WaddleDooWalkingState(this); // Initialize with the walking state
             currentState.Enter();
-            frameCounter = 0; // Initialize frame counter
+            frameCounter = 0; 
         }
 
         public Vector2 Position
@@ -54,12 +50,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             //Returns Sprite
             set { enemySprite = value; }
         }
-
-        /*
-        public EnemyStateMachine StateMachine
-        {
-            get { return stateMachine; }
-        } */
 
         public int Health
         {
@@ -78,11 +68,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             get { return frameCounter; }
         }
 
-
-
-        //or  public int FrameCounter => frameCounter;
-
-        // Method to increment the frame counter
         public void IncrementFrameCounter()
         {
             frameCounter++;
@@ -94,20 +79,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             frameCounter = 0;
         }
 
-        /*
-        public void TakeDamage()
-        {
-            //If damage is taken, the enemy's pose will change and flag isDead
-            stateMachine.ChangePose(EnemyPose.Hurt);
-            health -= 1;
-            if (health <= 0)
-            {
-                health = 0;
-                isDead = true;
-            }
-            position =  new Vector2(0,0);
-        } */
-
         public void UpdateTexture()
         {
             if (!stateMachine.GetStateString().Equals(oldState))
@@ -116,20 +87,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 oldState = stateMachine.GetStateString();
             }
         }
-
-        /*
-        public void ChangeState(IEnemyState newState)
-        {
-            currentState?.Exit(this); // Call exit on current state
-            currentState = newState; // Update current state
-            currentState.Enter(this); // Call enter on new state
-        }
-
-        public void ChangeDirection()
-        {
-            //Changes direction from right to left
-            stateMachine.ChangeDirection();
-        }*/
 
         public void ChangeState(IEnemyState newState)
         {
