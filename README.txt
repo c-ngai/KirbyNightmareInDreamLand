@@ -1,21 +1,21 @@
 ﻿
 Team Kirby Superstars
-Sprint2: 9/9/2024 - 9/28/2024
+Sprint2: 9/30/2024 - 10/18/2024
 
 Group Members:  Gwyneth Barnholtz, Mark DeLeo, Vivian Ferrigni, Payton Murphy,
                 Carman Ngai, Lina Ordonez Aguiar
 
-Project: Sprint2 - implementing Game Objects and Sprites of
+Project: Sprint3 - Level Loading/Segmentation and Collision Handling
          Kirby: Nightmare in Dreamland, Level 1 
 
 ###############################################################################
 
 Program Controls:
 
-Left and right arrows move Kirby.
+Left and right arrows and W and D keys move Kirby.
 
-Two consecutive left or right arrow presses (either hold then press or press
-press) makes Kirby run.
+Two consecutive left or right arrow presses or two consecutive W and D (either hold then press 
+or press press) makes Kirby run.
 
 'x' allows him to jump. Hold for long jump and press for short.
 
