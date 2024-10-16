@@ -8,10 +8,14 @@ namespace KirbyNightmareInDreamLand.Commands
     {
         public void Execute()
         {
-            kirby.MoveRight();
+            Game1.Instance.players[0].MoveRight();
 
-            // Calls corresponding stop key to deal with running/stopping mechanic
-            keyboard.stopKeys[key].Execute();
+            var keyboard = Game1.Instance.KeyboardController;
+
+            if (keyboard.stopKeys.ContainsKey(Keys.Right))
+            {
+                keyboard.stopKeys[Keys.Right].Execute();
+            }
         }
     }
 }
