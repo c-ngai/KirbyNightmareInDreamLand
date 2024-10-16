@@ -1,32 +1,49 @@
 ﻿using KirbyNightmareInDreamLand.StateMachines;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
 {
     public class WaddleDooChargingState : IEnemyState
     {
-        public void Enter(Enemy enemy)
-        {
-            enemy.StateMachine.ChangePose(EnemyPose.Charging);
-            enemy.ResetFrameCounter(); // Reset the frame counter upon entering the state
+        private readonly Enemy _enemy;
 
+        public WaddleDooChargingState(Enemy enemy)
+        {
+            _enemy = enemy ?? throw new ArgumentNullException(nameof(enemy));
         }
 
-        public void Update(Enemy enemy)
+        public void Enter()
         {
-            // Logic for charging (if needed)
+            _enemy.ChangePose(EnemyPose.Charging);
+            _enemy.ResetFrameCounter();
+        }
 
-            if (enemy.FrameCounter >= Constants.WaddleDoo.STOP_FRAMES)
+        public void Update()
+        {
+            // Implement charging behavior, e.g., increased speed or special attacks
+            _enemy.IncrementFrameCounter();
+
+            if (_enemy.FrameCounter >= Constants.WaddleDoo.STOP_FRAMES)
             {
-                enemy.ChangeState(new WaddleDooAttackingState());
-                enemy.UpdateTexture();
+                _enemy.ChangeState(new WaddleDooAttackingState(_enemy));
+                _enemy.UpdateTexture();
             }
         }
 
-        public void Exit(Enemy enemy) { }
+        public void Exit()
+        {
+            // Cleanup logic if necessary
+        }
+
+        public void TakeDamage()
+        {
+            _enemy.ChangeState(new WaddleDooHurtState(_enemy));
+            _enemy.UpdateTexture();
+        }
+
+        public void ChangeDirection()
+        {
+            _enemy.ToggleDirection();
+        }
     }
 }

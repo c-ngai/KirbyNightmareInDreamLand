@@ -1,4 +1,5 @@
-﻿using KirbyNightmareInDreamLand.StateMachines;
+﻿using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
+using KirbyNightmareInDreamLand.StateMachines;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,22 +10,42 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
 {
     public class SparkyPause2State : IEnemyState
     {
-        public void Enter(Enemy enemy)
-        {
-            enemy.StateMachine.ChangePose(EnemyPose.Standing);
-            enemy.ResetFrameCounter();
+            private readonly Enemy _enemy;
+
+            public SparkyPause2State(Enemy enemy)
+            {
+                _enemy = enemy ?? throw new ArgumentNullException(nameof(enemy));
+            }
+
+            public void Enter()
+            {
+                _enemy.ChangePose(EnemyPose.Standing);
+                _enemy.ResetFrameCounter();
+            }
+
+            public void Update()
+            {
+                // Wait for a defined period of time
+                _enemy.IncrementFrameCounter();
+
+                if (_enemy.FrameCounter >= Constants.Sparky.PAUSE_TIME)
+                {
+                    _enemy.ChangeState(new SparkyAttackingState(_enemy));
+                    _enemy.UpdateTexture();
+                }
+            }
+
+            public void Exit() { }
+
+            public void TakeDamage()
+            {
+            _enemy.ChangeState(new SparkyHurtState(_enemy));
+            _enemy.UpdateTexture();
         }
 
-        public void Update(Enemy enemy)
-        {
-            // Wait for a defined period of time
-            if (enemy.FrameCounter >= Constants.Sparky.PAUSE_TIME)
+            public void ChangeDirection()
             {
-                enemy.ChangeState(new SparkyAttackingState());
-                enemy.UpdateTexture();
+                _enemy.ToggleDirection();
             }
         }
-
-        public void Exit(Enemy enemy) { }
     }
-}

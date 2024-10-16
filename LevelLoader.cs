@@ -1,9 +1,11 @@
-﻿using KirbyNightmareInDreamLand.Controllers;
+﻿using KirbyNightmareInDreamLand.Commands;
+using KirbyNightmareInDreamLand.Controllers;
 using KirbyNightmareInDreamLand.Entities.Enemies;
 using KirbyNightmareInDreamLand.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -161,8 +163,6 @@ namespace KirbyNightmareInDreamLand
             }
         }
 
-
-
         // Loads a room given its name and data.
         private void LoadRoom(string roomName, RoomJsonData roomJsonData)
         {
@@ -184,7 +184,26 @@ namespace KirbyNightmareInDreamLand
             }
         }
 
-        
+        public void LoadKeymap(string keymapName)
+        {
+            if (Keymaps.ContainsKey(keymapName))
+            {
+                // Clear existing key mappings in the controller
+                _game.KeyboardController.ClearMappings();
+
+                // Register new key mappings
+                foreach (var mapping in Keymaps[keymapName])
+                {
+                    _game.KeyboardController.RegisterCommand(mapping.Key, mapping.ExecutionType, mapping.Command);
+                }
+            }
+            else
+            {
+                Debug.WriteLine($"Keymap '{keymapName}' not found.");
+            }
+        }
+
+
         // Loads a keymapping given its name and data.
         private void LoadKeymapping(KeymappingJsonData keymappingJsonData, List<Keymapping> Keymap)
         {
@@ -197,9 +216,9 @@ namespace KirbyNightmareInDreamLand
             Keymapping keymapping = new Keymapping();
 
             // Fill out its fields using the JSON data strings
-            keymapping.Key = 0; // TODO: implement actual behvaior
-            keymapping.ExecutionType = 0; // TODO: implement actual behvaior
-            keymapping.Command = null; // TODO: implement actual behvaior
+            keymapping.Key = (Keys)Enum.Parse(typeof(Keys), keymappingJsonData.Key); // TODO: implement actual behvaior
+            keymapping.ExecutionType = (ExecutionType)Enum.Parse(typeof(ExecutionType), keymappingJsonData.ExecutionType); // TODO: implement actual behvaior
+            keymapping.Command = CommandFactory.GetCommand(keymappingJsonData.Command); // TODO: implement actual behvaior
 
             // Add the new keymapping to its respective list.
             Keymap.Add(keymapping);

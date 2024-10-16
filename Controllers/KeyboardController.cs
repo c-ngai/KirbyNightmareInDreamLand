@@ -28,6 +28,15 @@ namespace KirbyNightmareInDreamLand.Controllers
             oldKeyStates = new Dictionary<Keys, bool>();
         }
 
+        public void ClearMappings()
+        {
+            pressedKeys.Clear();
+            startKeys.Clear();
+            stopKeys.Clear();
+            controllerKeys.Clear();
+            oldKeyStates.Clear();
+        }
+
         public void RegisterCommand(Keys key, ExecutionType type, ICommand command)
         {
             if (type == ExecutionType.Pressed)
