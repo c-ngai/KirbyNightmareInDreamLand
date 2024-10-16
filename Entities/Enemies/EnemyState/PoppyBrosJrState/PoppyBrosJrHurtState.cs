@@ -1,4 +1,5 @@
-﻿using KirbyNightmareInDreamLand.StateMachines;
+﻿using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
+using KirbyNightmareInDreamLand.StateMachines;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,19 +18,24 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState
         public void Enter()
         {
             _enemy.ChangePose(EnemyPose.Hop);
-            _enemy.ResetFrameCounter(); // Reset frame counter when entering the state
+            _enemy.ResetFrameCounter(); 
+            _enemy.Health -= 1;
         }
 
         public void Update()
         {
-            // Execute hopping logic
-            _enemy.Move();
+            _enemy.IncrementFrameCounter();
 
-            // Transition to Hurt state after hop frames
+            //TO-DO: CHANGE TO WHEN KIRBY + ENEMY COLLIDE
             if (_enemy.FrameCounter >= Constants.PoppyBrosJr.HURT_FRAMES)
             {
                 _enemy.ChangeState(new PoppyBrosJrHopState(_enemy));
                 _enemy.UpdateTexture();
+
+                if (_enemy.Health <= 0)
+                {
+                    _enemy.IsDead = true;
+                }
             }
         }
 
@@ -37,13 +43,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState
 
         public void TakeDamage()
         {
-            _enemy.Health -= 1; // Accessing Health property
-
-            if (_enemy.Health <= 0) // Accessing Health property
-            {
-                _enemy.IsDead = true; // Accessing IsDead property
-                // Optionally, transition to a dead state
-            }
+            //handled in update
         }
 
         public void ChangeDirection()

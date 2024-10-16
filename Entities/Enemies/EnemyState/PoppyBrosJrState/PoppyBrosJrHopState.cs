@@ -18,12 +18,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState
         public void Enter()
         {
             _enemy.ChangePose(EnemyPose.Hop);
-            _enemy.ResetFrameCounter(); // Reset frame counter when entering the state
+            _enemy.ResetFrameCounter(); 
         }
 
         public void Update()
         {
-            // Execute hopping logic
             _enemy.Move();
 
             // Transition to Hurt state after hop frames

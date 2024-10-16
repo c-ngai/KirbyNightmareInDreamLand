@@ -1,4 +1,5 @@
-﻿using KirbyNightmareInDreamLand.StateMachines;
+﻿using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
+using KirbyNightmareInDreamLand.StateMachines;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,15 +20,25 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState
         public void Enter()
         {
             _enemy.ChangePose(EnemyPose.Hurt);
-            _enemy.ResetFrameCounter(); // Reset frame counter when entering the state
+            _enemy.ResetFrameCounter(); 
+            _enemy.Health -= 1;
         }
+
 
         public void Update()
         {
+            _enemy.IncrementFrameCounter();
+
+            //TO-DO: CHANGE TO WHEN KIRBY + ENEMY COLLIDE
             if (_enemy.FrameCounter >= Constants.BrontoBurt.HURT_FRAMES)
             {
                 _enemy.ChangeState(new BrontoBurtStandingState(_enemy));
                 _enemy.UpdateTexture();
+
+                if (_enemy.Health <= 0)
+                {
+                    _enemy.IsDead = true;
+                }
             }
         }
 
@@ -35,13 +46,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState
 
         public void TakeDamage()
         {
-            _enemy.Health -= 1; // Accessing Health property
-
-            if (_enemy.Health <= 0) // Accessing Health property
-            {
-                _enemy.IsDead = true; // Accessing IsDead property
-                // Optionally, transition to a dead state
-            }
+            //handled in update
         }
 
         public void ChangeDirection()

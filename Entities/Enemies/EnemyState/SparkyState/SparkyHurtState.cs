@@ -1,4 +1,5 @@
-﻿using KirbyNightmareInDreamLand.StateMachines;
+﻿using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
+using KirbyNightmareInDreamLand.StateMachines;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,17 +21,23 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
         {
             _enemy.ChangePose(EnemyPose.Hurt);
             _enemy.ResetFrameCounter();
+            _enemy.Health -= 1;
         }
 
         public void Update()
         {
-            // Logic for when Sparky is hurt
             _enemy.IncrementFrameCounter();
 
+            //TO-DO: CHANGE TO WHEN KIRBY + ENEMY COLLIDE
             if (_enemy.FrameCounter >= Constants.Sparky.HURT_FRAMES)
             {
                 _enemy.ChangeState(new SparkyShortJumpState(_enemy));
                 _enemy.UpdateTexture();
+
+                if (_enemy.Health <= 0)
+                {
+                    _enemy.IsDead = true;
+                }
             }
         }
 
@@ -38,7 +45,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
 
         public void TakeDamage()
         {
-            // You might want to do nothing or handle something specific here
+            //handled in update
         }
 
         public void ChangeDirection()
