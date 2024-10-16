@@ -51,4 +51,13 @@ separating the similar logic and creating a helper method. This would reduce dup
 and increase readability.
 
 This file helps to mitigate the Data Clump Smell and Long Method Smell we were
-having last sprint by data driving all content loading. Great job! 
+having last sprint by data driving all content loading. Great job!
+
+Hypothetical Game Change:
+
+If we used entirely different art and level data, this file could completely withstand
+the change and have effective functionality. The file doesn't inherently care what
+it'qs loading however with changing that file data comes the possibility of errors
+which LevelLoader does not currently check for. Additionally, if the game got much bigger
+with more levels and larger sprites, the synchronous loading of data could dampen
+performance. 
