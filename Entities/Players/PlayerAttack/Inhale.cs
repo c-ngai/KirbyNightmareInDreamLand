@@ -1,34 +1,21 @@
 
+using System.Collections.Generic;
 using System.Net;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class Inhale : IProjectile
+    public class Inhale : IProjectile, ICollidable
     {
-        private ICollidable collidable;
         public Vector2 Position {get; private set;}
         public Vector2 Velocity {get; private set;}
-        private int size =  36;
+        private bool IsLeft;
         public Inhale(Vector2 pos, bool isLeft)
         {
-            collidable = new PlayerAttackCollisionHandler(GetXPos(pos, isLeft), GetYPos(pos));
-            Position = new Vector2 (GetXPos(pos, isLeft), GetYPos(pos));
-        }
-        public int GetYPos(Vector2 pos)
-        {
-            return (int)pos.Y - (Constants.HitBoxes.ENTITY_HEIGHT * 2); 
-            
-        }
-        public int GetXPos(Vector2 pos, bool isLeft)
-        {
-            if(isLeft)
-            {
-                return (int)pos.X - Constants.HitBoxes.ATTACK_SIZE - 7;
-            } else {
-                return (int)pos.X + 7;
-            }
+            Position = pos;
+            IsLeft = isLeft;
+            CollisionDetection.Instance.RegisterDynamicObject(this);
             
         }
         public void OnCollide()
@@ -37,7 +24,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void EndAttack()
         {
-            collidable.DestroyHitBox();
+            CollisionDetection.Instance.RemoveSpecificDynamicObjects(this);
         }
         public bool IsDone()
         {
@@ -45,7 +32,16 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void Update()
         {
-            collidable.UpdateBoundingBox(Position);
+            GetHitBox();
+        }
+        public Vector2 CalculateRectanglePoint(Vector2 pos)
+        {
+            return pos + (IsLeft ? Constants.HitBoxes.NORMA_OFFSET_LEFT: Constants.HitBoxes.NORMAL_OFFSET_RIGHT); 
+        }
+        public Rectangle GetHitBox()
+        {
+            Vector2 rectPoint = CalculateRectanglePoint(Position);
+            return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.NORMAL_SIZE, Constants.HitBoxes.NORMAL_SIZE);
         }
 
         public void Draw(SpriteBatch spriteBatch)

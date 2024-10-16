@@ -257,7 +257,7 @@ namespace KirbyNightmareInDreamLand
                     tiles.Add(tile);
 
                     // Registers each relevant tile into the collisionHandler
-                    TileCollisionHandler collisionHandler = new TileCollisionHandler(tile);
+                    tile.RegisterTile();
                 }
             }
 

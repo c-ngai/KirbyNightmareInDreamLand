@@ -1,35 +1,28 @@
 
+using System;
 using System.Net;
+using KirbyNightmareInDreamLand.Entities.Players;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class Slide : IProjectile
+    public class Slide : IProjectile, ICollidable
     {
         private ICollidable collidable;
-        public Vector2 Position {get; private set;}
+        public Vector2 Position {get;}
         public Vector2 Velocity {get; private set;}
-        private int size =  36;
+
+        private Vector2 position;
+        private float startingX;
+        private static int slideDistance = 70;
+        private bool IsLeft;
         public Slide(Vector2 pos, bool isLeft)
         {
-            collidable = new PlayerAttackCollisionHandler(GetXPos(pos, isLeft), GetYPos(pos));
-            Position = new Vector2 (GetXPos(pos, isLeft), GetYPos(pos));
-        }
-        public int GetYPos(Vector2 pos)
-        {
-            return (int)pos.Y - Constants.HitBoxes.ENTITY_HEIGHT; 
-            
-        }
-        public int GetXPos(Vector2 pos, bool isLeft)
-        {
-            if(isLeft)
-            {
-                return (int)pos.X - Constants.HitBoxes.ENTITY_WIDTH  - 6;
-            } else {
-                return (int)pos.X +Constants.HitBoxes.ENTITY_WIDTH/2 + 3;
-            }
-            
+            IsLeft= isLeft;
+            position =pos;
+            startingX = pos.X;
+            CollisionDetection.Instance.RegisterDynamicObject(this);
         }
         public void OnCollide()
         {
@@ -37,17 +30,36 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void EndAttack()
         {
-            collidable.DestroyHitBox();
+            CollisionDetection.Instance.RemoveDynamicObject(this);
         }
         public bool IsDone()
         {
-            return true;
+            float distanceMoved = Math.Abs(Position.X - startingX);
+            if(distanceMoved > slideDistance)
+            {
+                return true;
+            }
+            return false;
         }
         public void Update()
         {
-            collidable.UpdateBoundingBox(Position);
+            GetHitBox();
+        }
+        public void Update(Player kirby)
+        {
+            position = kirby.GetKirbyPosition();
+            GetHitBox();
         }
 
+        public Vector2 CalculateRectanglePoint(Vector2 pos)
+        {
+            return pos + (IsLeft ? Constants.HitBoxes.SLIDE_OFFSET_LEFT: Constants.HitBoxes.SLIDE_OFFSET_RIGHT); 
+        }
+        public Rectangle GetHitBox()
+        {
+            Vector2 rectPoint = CalculateRectanglePoint(Position);
+            return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.SLIDE_WIDTH, Constants.HitBoxes.SLIDE_HEIGHT);
+        }
         public void Draw(SpriteBatch spriteBatch)
         {
             //uneeded
