@@ -172,6 +172,9 @@ namespace KirbyNightmareInDreamLand
                     tile.type = (TileCollisionType)room.TileMap[y][x];
                     tile.rectangle = new Rectangle(x * Constants.Level.TILE_SIZE, y * Constants.Level.TILE_SIZE, Constants.Level.TILE_SIZE, Constants.Level.TILE_SIZE);
                     tiles.Add(tile);
+
+                    // Registers each relevant tile into the collisionHandler
+                    TileCollisionHandler collisionHandler = new TileCollisionHandler(tile);
                 }
             }
 
