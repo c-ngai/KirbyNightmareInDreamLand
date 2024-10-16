@@ -30,7 +30,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void EndAttack()
         {
-            CollisionDetection.Instance.RemoveSpecificDynamicObjects(this);
+            CollisionDetection.Instance.RemoveDynamicObject(this);
         }
         public bool IsDone()
         {

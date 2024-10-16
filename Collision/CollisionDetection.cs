@@ -10,16 +10,17 @@ namespace KirbyNightmareInDreamLand
     public class CollisionDetection
     {
         //add someobody in game to keep track of ALL the objects-- in game
+        //when player is created level loader creates player and 
+        //have object manager manage what gets added or deleted from collidable list
 
+        //List and dictionary to be moved to object manager
         //dynamic objects: enemies, projectiles, player
         private List<ICollidable> DynamicObjects;
-        //when player is created level loader creates player and 
-        //have object manager manage what get added or deleted from collidable list
-
         //static: tiles
         private Dictionary<Tile, ICollidable> StaticObjects;
         private static CollisionDetection instance = new CollisionDetection();
         private bool CollisionOn = false; // for debug purposes
+        //This will be changed once object manager is applied
         public static CollisionDetection Instance
         {
             get
@@ -32,41 +33,29 @@ namespace KirbyNightmareInDreamLand
             DynamicObjects = new List<ICollidable>();
             StaticObjects = new Dictionary<Tile, ICollidable>();
         }
+        //will be moved to object manager
         public void ResetDynamicCollisionBoxes()
         {
            DynamicObjects = new List<ICollidable>{};
         }
-        //have boolean in object with collidable
-        //
-        public void ResetStaticObjects()
-        {
-            foreach(var staticObject in StaticObjects)
-            {
-                //staticObject.DestroyHitBox();
-            }
-            //StaticObjects.RemoveAll(obj => !obj.IsActive);
-        }
 
         // Register dynamic objects like Player, Enemy, etc.
-        //
+         //will be moved to object manager
         public void RegisterDynamicObject(ICollidable dynamicObj)
         {
             DynamicObjects.Add(dynamicObj);
         }
 
         // Register static objects like Tiles.
+         //will be moved to object manager
         public void RegisterStaticObject(Tile tile, ICollidable staticObj)
         {
             if(!StaticObjects.ContainsKey(tile)) StaticObjects.Add(tile, staticObj);
         }
-
+         //will be moved to object manager
         public void RemoveDynamicObject(ICollidable dynamicObj)
         {
             DynamicObjects.Remove(dynamicObj);
-        }
-        public void RemoveSpecificDynamicObjects(ICollidable dynamicObj)
-        {
-            DynamicObjects.RemoveAll(item => item == dynamicObj);
         }
         
         private bool IsCloseEnough(ICollidable obj1, ICollidable obj2)

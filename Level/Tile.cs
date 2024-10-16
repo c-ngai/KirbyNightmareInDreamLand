@@ -25,11 +25,14 @@ namespace KirbyNightmareInDreamLand
         SlopeSteepRight = 9
     }
 
-    public struct Tile
+    public struct Tile :ICollidable
     {
         public TileCollisionType type;
         public Rectangle rectangle;
-        
+        public void RegisterTile()
+        {
+            CollisionDetection.Instance.RegisterStaticObject(this, this);
+        }
         public Rectangle GetHitBox()
         {
             return rectangle;
