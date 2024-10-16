@@ -39,29 +39,5 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             }
         }
 
-        public override void Attack()
-        {
-            //WaddleDee has no attack sprite
-        }
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            //Draw if alive
-            if (!isDead)
-            {
-                enemySprite.Draw(position, spriteBatch);
-            }
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            if (!isDead)
-            {
-                currentState.Update(); //update state
-                UpdateTexture(); // Update the texture if the state has changed
-                enemySprite.Update(); // Update the enemy sprite
-                collidable.UpdateBoundingBox(position);
-            }
-        }
     }
 }

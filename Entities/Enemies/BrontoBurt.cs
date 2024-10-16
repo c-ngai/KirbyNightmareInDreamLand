@@ -21,22 +21,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             ChangeState(new BrontoBurtFlyingSlowState(this)); // Set initial state
         }
 
-        public override void Attack()
-        {
-            //Note: Does not have attack pose
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            if (!IsDead)
-            {
-                IncrementFrameCounter();
-                currentState.Update(); // No parameters needed here
-                UpdateTexture();
-                enemySprite.Update();
-            }
-        }
-
         public override void Move()
         {
             //Creats Y oscillation using sin. Smooth flying motion up and down
@@ -59,15 +43,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 {
                     ChangeDirection();
                 }
-            }
-        }
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            //Draw if enemy is alive
-            if (!isDead)
-            {
-                enemySprite.Draw(position, spriteBatch);
             }
         }
 

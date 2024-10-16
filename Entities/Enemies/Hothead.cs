@@ -25,8 +25,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             flamethrower = new EnemyFlamethrower();
             isFlamethrowerActive = false;
             flamethrowerFrameCounter = 0;
-            //stateMachine.ChangePose(EnemyPose.Walking);
-            //currentState = new HotheadWalkingState();
             currentState = new HotheadWalkingState(this);
         }
 
