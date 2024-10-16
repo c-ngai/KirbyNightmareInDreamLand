@@ -19,18 +19,38 @@
                 "DestinationRoom": "testroom2"
             }
         ],
-        "Enemies": [
-            {
-                "EnemyType": "WaddleDee",
-                "SpawnTileX": 8,
-                "SpawnTileY": 8
-            },
-            {
-                "EnemyType": "WaddleDoo",
-                "SpawnTileX": 8,
-                "SpawnTileY": 6
-            }
-        ]
+      "Enemies": [
+        {
+          "EnemyType": "WaddleDee",
+          "SpawnTileX": 8,
+          "SpawnTileY": 8
+        },
+        {
+          "EnemyType": "Sparky",
+          "SpawnTileX": 5,
+          "SpawnTileY": 8
+        },
+        {
+          "EnemyType": "Hothead",
+          "SpawnTileX": 5,
+          "SpawnTileY": 8
+        },
+        {
+          "EnemyType": "PoppyBrosJr",
+          "SpawnTileX": 6,
+          "SpawnTileY": 8
+        },
+        {
+          "EnemyType": "WaddleDoo",
+          "SpawnTileX": 5,
+          "SpawnTileY": 8
+        },
+        {
+          "EnemyType": "BrontoBurt",
+          "SpawnTileX": 5,
+          "SpawnTileY": 3
+        }
+      ]
     },
 
     "room1": {
@@ -54,36 +74,16 @@
             }
         ],
         "Enemies": [
-            {
-                "EnemyType": "WaddleDee",
-                "SpawnTileX": 19,
-                "SpawnTileY": 8
-            },
           {
-            "EnemyType": "Sparky",
-            "SpawnTileX": 5,
-            "SpawnTileY": 8
-          },
-          {
-            "EnemyType": "Hothead",
-            "SpawnTileX": 5,
-            "SpawnTileY": 8
-          },
-          {
-            "EnemyType": "PoppyBrosJr",
-            "SpawnTileX": 6,
+            "EnemyType": "WaddleDee",
+            "SpawnTileX": 19,
             "SpawnTileY": 8
           },
           {
             "EnemyType": "WaddleDoo",
-            "SpawnTileX": 5,
+            "SpawnTileX": 30,
             "SpawnTileY": 8
-          },
-          {
-            "EnemyType": "BrontoBurt",
-            "SpawnTileX": 5,
-            "SpawnTileY": 3
-          }
+          }      
         ]
     },
 
