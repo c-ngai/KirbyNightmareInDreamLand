@@ -3,13 +3,9 @@ using KirbyNightmareInDreamLand.StateMachines;
 using Microsoft.Xna.Framework;
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
-    public class CrouchingMovement : PlayerMovement
+    public class MouthfulMovement : PlayerMovement
     {
-        public CrouchingMovement(Vector2 pos) : base(pos){}
-
-        private static int slideDistance = 70;
-        private float distanceMoved = 0;
-        private float startingX;
+        public MouthfulMovement(Vector2 pos) : base(pos){}
 
         public override void Walk(bool isLeft)
         {
@@ -23,14 +19,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //starts kirby is sliding
         public override void Attack(Player kirby)
         {
-            // kirby.ChangePose(KirbyPose.Sliding);
-            // //kirby.ChangeAttackBool(true);
-            // Slide(kirby.IsLeft());
-            kirby.Slide();
-            if(distanceMoved == 0){
-                startingX = position.X;
-                distanceMoved = 1;
-            }
         }
 
         public override void Jump(bool isLeft)
@@ -40,13 +28,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public void AdjustSlide(Player kirby)
         {
-            distanceMoved = Math.Abs(position.X - startingX);
-            if(distanceMoved > slideDistance)
-            {
-                StopMovement();
-                kirby.ChangeAttackBool(false);
-                kirby.EndSlide();
-            } 
         }
         public override void Adjust(Player kirby)
         {

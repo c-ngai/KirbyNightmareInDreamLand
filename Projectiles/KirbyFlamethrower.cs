@@ -38,11 +38,15 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             foreach (var segment in flameSegments)
             {
-                segment.EndAttack();
+                //segment.EndAttack();
             }
         }
         public bool IsDone()
         {
+            foreach (var segment in flameSegments)
+            {
+                segment.IsDone();
+            }
             return true;
         }
         public void Update()
@@ -88,7 +92,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 float randomSpeed = (float)(random.NextDouble() * (Constants.KirbyFire.MAX_SPEED - Constants.KirbyFire.MIN_SPEED) + Constants.KirbyFire.MIN_SPEED);
                 float randomDelay = (float)(random.NextDouble() * (Constants.KirbyFire.MAX_DELAY - Constants.KirbyFire.MIN_DELAY) + Constants.KirbyFire.MIN_DELAY);
 
-                KirbyFlameSegment newSegment = new KirbyFlameSegment(position, direction, randomSpeed, randomDelay);
+                KirbyFlameSegment newSegment = new KirbyFlameSegment(position, direction, randomSpeed, randomDelay, !isFacingRight);
                 flameSegments.Add(newSegment);
             }
         }

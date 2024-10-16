@@ -109,16 +109,19 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             // if(!kirby.attackIsActive)
             // {
-            kirby.ChangeAttackBool(true);
-            FloatingEndAnimation(kirby);
-            floatGravity = gravity;
-            endFloat = true;
-            yVel = floatVel;
-            FloatingFallingAnimation(kirby);
-            // } else {
-
-            // }
-            
+            //kirby.ChangeAttackBool(true);
+            if(!kirby.GetKirbyPose().Equals("FloatingGrounded")){
+                FloatingEndAnimation(kirby);
+                floatGravity = gravity;
+                endFloat = true;
+                yVel = floatVel;
+                FloatingFallingAnimation(kirby);
+            } else {
+                FloatingEndAnimation(kirby);
+                endFloat = true;
+                // kirby.ChangePose(KirbyPose.Standing);
+                // kirby.ChangeMovement();
+            }
         }
 
     }

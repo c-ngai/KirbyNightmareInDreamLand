@@ -34,8 +34,8 @@ namespace KirbyNightmareInDreamLand
         }
         public static class HitBoxes
         {
-            public const int ENTITY_WIDTH = 12;
-            public const int ENTITY_HEIGHT = 12;
+            public const int ENTITY_WIDTH = 13;
+            public const int ENTITY_HEIGHT = 15;
             public const int TILE_WIDTH = 16;
             public const int TILE_HEIGHT = 16;
             public const int NULL_WIDTH = 0;
@@ -44,15 +44,36 @@ namespace KirbyNightmareInDreamLand
             public const int ATTACK_SIZE = 36;
             public const int SIDES = 4;
             
+            public static int BEAM_SIZE = 18;
+            public static Vector2 BEAM_OFFSET = new Vector2(-9, -9);
+            public static Vector2 BEAM_OFFSET_LEFT = new Vector2(-13, -7);
+
+            public static int FIRE_SIZE = 20;
+            public static Vector2 FIRE_OFFSET_RIGHT = new Vector2(0, -5);
+            public static Vector2 FIRE_OFFSET_LEFT = new Vector2(-5, -5);
+
+            public static int PUFF_SIZE = 15;
+            public static Vector2 PUFF_OFFSET = new Vector2(-8, -9);
+            public static Vector2 PUFF_OFFSET_LEFT = new Vector2(-4, -5);
+
+            //Inhale
+            public static int NORMAL_SIZE = 36;
+            public static Vector2 NORMAL_OFFSET_RIGHT = new Vector2(7, -24);
+            public static Vector2 NORMA_OFFSET_LEFT = new Vector2(-41, -24);
+
+            public static int SPARK_SIZE = 55;
+            public static Vector2 SPARK_OFFSET = new Vector2(-27, -33);
+
+            public static int SLIDE_WIDTH = 12;
+            public static int SLIDE_HEIGHT = 30;
+            public static Vector2 SLIDE_OFFSET_RIGHT = new Vector2(7, -12);
+            public static Vector2 SLIDE_OFFSET_LEFT = new Vector2(-19, -12);
         }
 
         public class Kirby
         {
             public const int MAX_HEALTH = 6;
             public const int MAX_LIVES = 3;
-            public const int FLAME_ATTACK_FRAMES = 200;
-            public const int BEAM_ATTACK_FRAMES = 50;
-            public const int PUFF_ATTACK_FRAMES = 30;
             public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(13, -7);
             public static Vector2 BEAM_ATTACK_OFFSET_LEFT = new Vector2(-13, -7);
             public static Vector2 PUFF_ATTACK_OFFSET = new Vector2(15, 0);
