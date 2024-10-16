@@ -20,7 +20,7 @@ namespace KirbyNightmareInDreamLand
         private SpriteBatch spriteBatch;
         
         public GraphicsDeviceManager graphics { get; private set; }
-        private KeyboardController keyboard;
+        public KeyboardController keyboard {  get; private set; }
         private MouseController mouseController;
 
         // Camera instance for the game
@@ -30,7 +30,7 @@ namespace KirbyNightmareInDreamLand
 
         // Single-player but can later be updated to an array of kirbys for multiplayer
         public List<IPlayer> players;
-        public KeyboardController KeyboardController => keyboard;
+        //public KeyboardController KeyboardController => keyboard;
 
         // Get enemies (currently one of each but can change to an array of each enemy type)
         private IEnemy waddledeeTest;
@@ -255,7 +255,6 @@ namespace KirbyNightmareInDreamLand
             // Load all content through LevelLoader
             LevelLoader.Instance.LoadAllContent();
 
-            LevelLoader.Instance.LoadKeymap("keymap1"); // switch out the desired keymap here
 
 
             level = new Level();
@@ -263,6 +262,9 @@ namespace KirbyNightmareInDreamLand
 
             // Load all objects
             LoadObjects();
+
+            LevelLoader.Instance.LoadKeymap("keymap1"); // switch out the desired keymap here
+
 
         }
 

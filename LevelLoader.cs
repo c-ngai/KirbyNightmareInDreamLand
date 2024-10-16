@@ -189,12 +189,12 @@ namespace KirbyNightmareInDreamLand
             if (Keymaps.ContainsKey(keymapName))
             {
                 // Clear existing key mappings in the controller
-                _game.KeyboardController.ClearMappings();
+                _game.keyboard.ClearMappings();
 
                 // Register new key mappings
                 foreach (var mapping in Keymaps[keymapName])
                 {
-                    _game.KeyboardController.RegisterCommand(mapping.Key, mapping.ExecutionType, mapping.Command);
+                    _game.keyboard.RegisterCommand(mapping.Key, mapping.ExecutionType, mapping.Command);
                 }
             }
             else
