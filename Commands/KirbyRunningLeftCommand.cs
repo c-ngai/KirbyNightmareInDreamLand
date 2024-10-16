@@ -23,7 +23,7 @@ namespace KirbyNightmareInDreamLand.Commands
 
         public void Execute()
         {
-            KeyboardController keyboard = game.keyboard;
+            KeyboardController keyboard = game.KeyboardController;
             IPlayer kirby = game.players[0]; // Assuming single-player mode for now
             Keys key = Keys.Left;
 

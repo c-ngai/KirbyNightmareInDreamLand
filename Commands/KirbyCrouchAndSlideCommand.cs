@@ -22,7 +22,7 @@ namespace KirbyNightmareInDreamLand.Commands
         {
 
             kirby = Game1.Instance.players[0]; // Assuming there is one player
-            keyboard = Game1.Instance.keyboard;
+            keyboard = Game1.Instance.KeyboardController;
             crouchKey = Keys.Down; 
             attackKey = Keys.Z; 
             timer = new TimeCalculator();
