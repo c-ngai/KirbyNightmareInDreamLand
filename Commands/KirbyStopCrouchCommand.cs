@@ -4,15 +4,10 @@ namespace KirbyNightmareInDreamLand.Commands
 {
     public class KirbyStopCrouchCommand : ICommand
     {
-        private IPlayer kirby;
-
-        public KirbyStopCrouchCommand(IPlayer player)
-        {
-            kirby = player;
-        }
         public void Execute()
         {
-            kirby.EndCrouch();
+            Game1.Instance.players[0].EndCrouch();
+
         }
     }
 }

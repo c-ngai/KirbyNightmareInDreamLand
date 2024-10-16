@@ -6,23 +6,16 @@ namespace KirbyNightmareInDreamLand.Commands
 {
     public class KirbyMoveRightCommand : ICommand
     {
-        private KeyboardController keyboard;
-        private Keys key;
-        private IPlayer kirby;
-
-        public KirbyMoveRightCommand(IPlayer player, Keys keyMapped, KeyboardController currentKeyboard)
-        {
-            keyboard = currentKeyboard;
-            key = keyMapped;
-            kirby = player;
-        }
-
         public void Execute()
         {
-            kirby.MoveRight();
+            Game1.Instance.players[0].MoveRight();
 
-            // Calls corresponding stop key to deal with running/stopping mechanic
-            keyboard.stopKeys[key].Execute();
+            var keyboard = Game1.Instance.KeyboardController;
+
+            if (keyboard.stopKeys.ContainsKey(Keys.Right))
+            {
+                keyboard.stopKeys[Keys.Right].Execute();
+            }
         }
     }
 }

@@ -9,39 +9,37 @@ namespace KirbyNightmareInDreamLand.Commands
     public class KirbyRunningLeftCommand : ICommand
     {
         private Game1 game;
-        private KeyboardController keyboard;
-        private Keys key;
         private TimeCalculator timer;
         private double timeSinceMoveStopped;
-        private IPlayer kirby;
         private bool isRunning;
-        public KirbyRunningLeftCommand(KeyboardController newKeyboard, Keys newKey, IPlayer player)
+
+        public KirbyRunningLeftCommand()
         {
             game = Game1.Instance;
-            keyboard = newKeyboard;
-            key = newKey;
-            kirby = player;
             timer = new TimeCalculator();
             isRunning = false;
             timeSinceMoveStopped = 0;
         }
+
         public void Execute()
         {
-            // Walking command alerts us Kirby is moving and elapased time since stopping is 0
+            KeyboardController keyboard = game.KeyboardController;
+            IPlayer kirby = game.players[0]; // Assuming single-player mode for now
+            Keys key = Keys.Left;
+
             if (keyboard.currentState.Contains(key) && timeSinceMoveStopped != 0)
             {
                 double currentTime = timer.GetCurrentTimeInMS(game.time);
-                // Kirby should run if elapsed time is within predetermined response time
                 isRunning = currentTime - timeSinceMoveStopped < Constants.Controller.RESPONSE_TIME;
-                // reset timer
                 timeSinceMoveStopped = 0;
             }
-            // Called by the stop key mapping and needs to store stopped time
+
             if (!keyboard.currentState.Contains(key))
             {
                 timeSinceMoveStopped = timer.GetCurrentTimeInMS(game.time);
                 isRunning = false;
             }
+
             if (isRunning)
             {
                 kirby.RunLeft();

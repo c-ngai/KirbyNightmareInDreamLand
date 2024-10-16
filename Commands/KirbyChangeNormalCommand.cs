@@ -3,15 +3,9 @@ namespace KirbyNightmareInDreamLand.Commands
 {
     public class KirbyChangeNormalCommand : ICommand
     {
-        private IPlayer kirby;
-        public KirbyChangeNormalCommand(IPlayer player)
-        {
-            kirby = player;
-        }
-
         public void Execute()
         {
-            kirby.ChangeToNormal();
+            Game1.Instance.players[0].ChangeToNormal();
         }
     }
 }

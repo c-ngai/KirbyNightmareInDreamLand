@@ -8,22 +8,27 @@ namespace KirbyNightmareInDreamLand.Commands
     public class KirbyMoveCrouchedCommand : ICommand
     {
         private IPlayer kirby;
-
         private KeyboardController keyboard;
         private Keys crouchKey;
         private Keys attackKey;
 
-        public KirbyMoveCrouchedCommand(IPlayer player, Keys keyMapped, Keys currentAttackKey, KeyboardController currentKeyboard)
+        // Constructor with no parameters
+        public KirbyMoveCrouchedCommand()
         {
-            kirby = player;
-            crouchKey = keyMapped;
-            attackKey = currentAttackKey;
-            keyboard = currentKeyboard;
+            kirby = Game1.Instance.players[0];
+            keyboard = Game1.Instance.KeyboardController;
+            crouchKey = Keys.Down;
+            attackKey = Keys.Z;
         }
+
         public void Execute()
         {
             kirby.Crouch();
-            if (keyboard.currentState.Contains(attackKey)) keyboard.stopKeys[crouchKey].Execute();
+            if (keyboard.currentState.Contains(attackKey))
+            {
+                keyboard.stopKeys[crouchKey].Execute();
+            }
         }
+
     }
 }
