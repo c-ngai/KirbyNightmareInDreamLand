@@ -1,19 +1,22 @@
 
+using System.Collections.Generic;
 using System.Net;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class Inhale : IProjectile
+    public class Inhale : IProjectile, ICollidable
     {
-        private ICollidable collidable;
         public Vector2 Position {get; private set;}
         public Vector2 Velocity {get; private set;}
+        private bool IsLeft;
         public Inhale(Vector2 pos, bool isLeft)
         {
-            collidable = new PlayerAttackCollisionHandler(pos, "Normal", isLeft);
             Position = pos;
+            IsLeft = isLeft;
+            CollisionDetection.Instance.RegisterDynamicObject(this);
+            
         }
         public void OnCollide()
         {
@@ -21,7 +24,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void EndAttack()
         {
-            collidable.DestroyHitBox();
+            CollisionDetection.Instance.RemoveSpecificDynamicObjects(this);
         }
         public bool IsDone()
         {
@@ -29,7 +32,16 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void Update()
         {
-            collidable.UpdateBoundingBox(Position);
+            GetHitBox();
+        }
+        public Vector2 CalculateRectanglePoint(Vector2 pos)
+        {
+            return pos + (IsLeft ? Constants.HitBoxes.NORMA_OFFSET_LEFT: Constants.HitBoxes.NORMAL_OFFSET_RIGHT); 
+        }
+        public Rectangle GetHitBox()
+        {
+            Vector2 rectPoint = CalculateRectanglePoint(Position);
+            return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.NORMAL_SIZE, Constants.HitBoxes.NORMAL_SIZE);
         }
 
         public void Draw(SpriteBatch spriteBatch)

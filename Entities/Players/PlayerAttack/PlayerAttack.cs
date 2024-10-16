@@ -54,5 +54,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
            currentAttack.Draw(spriteBatch);
         }
+
+
     }
 }

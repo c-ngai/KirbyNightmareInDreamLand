@@ -9,8 +9,13 @@ namespace KirbyNightmareInDreamLand
 {
     public class CollisionDetection
     {
+        //add someobody in game to keep track of ALL the objects-- in game
+
         //dynamic objects: enemies, projectiles, player
         private List<ICollidable> DynamicObjects;
+        //when player is created level loader creates player and 
+        //have object manager manage what get added or deleted from collidable list
+
         //static: tiles
         private Dictionary<Tile, ICollidable> StaticObjects;
         private static CollisionDetection instance = new CollisionDetection();
@@ -22,13 +27,6 @@ namespace KirbyNightmareInDreamLand
                 return instance;
             }
         }
-
-        //what im thinking is:
-        //the repsonder calls each objects handler which has the method with parameters takend care of
-        //based on the dictionary
-        //yeah
-        //just make it work with the collision classes
-
         public CollisionDetection()
         {
             DynamicObjects = new List<ICollidable>();
@@ -36,11 +34,17 @@ namespace KirbyNightmareInDreamLand
         }
         public void ResetDynamicCollisionBoxes()
         {
-            foreach (var dynamObject in DynamicObjects)
+           DynamicObjects = new List<ICollidable>{};
+        }
+        //have boolean in object with collidable
+        //
+        public void ResetStaticObjects()
+        {
+            foreach(var staticObject in StaticObjects)
             {
-                dynamObject.DestroyHitBox();
+                //staticObject.DestroyHitBox();
             }
-            DynamicObjects.RemoveAll(obj => !obj.IsActive);
+            //StaticObjects.RemoveAll(obj => !obj.IsActive);
         }
 
         // Register dynamic objects like Player, Enemy, etc.
@@ -55,11 +59,21 @@ namespace KirbyNightmareInDreamLand
         {
             if(!StaticObjects.ContainsKey(tile)) StaticObjects.Add(tile, staticObj);
         }
+
+        public void RemoveDynamicObject(ICollidable dynamicObj)
+        {
+            DynamicObjects.Remove(dynamicObj);
+        }
+        public void RemoveSpecificDynamicObjects(ICollidable dynamicObj)
+        {
+            DynamicObjects.RemoveAll(item => item == dynamicObj);
+        }
+        
         private bool IsCloseEnough(ICollidable obj1, ICollidable obj2)
         {
-            int distance =  obj1.BoundingBox.X - obj2.BoundingBox.X;
-            int distance2 = obj1.BoundingBox.Y - obj2.BoundingBox.Y;
-            int close = 40;
+            int distance =  obj1.GetHitBox().X - obj2.GetHitBox().X;
+            int distance2 = obj1.GetHitBox().Y - obj2.GetHitBox().Y;
+            int close = 55;
 
             // If the distance between the objects is less than the sum of their radii, they're close enough to check further
             return distance<close && distance2<close;
@@ -75,7 +89,7 @@ namespace KirbyNightmareInDreamLand
             int intersectionBottomLeftAndRightCornerY = intersection.Y - intersection.Height;
 
             // Determine x-y positions for all corners of the object's hit box
-            Rectangle objectRectangle = object1.BoundingBox;
+            Rectangle objectRectangle = object1.GetHitBox();
             int objectTopAndBottomRightCornerX = objectRectangle.X + objectRectangle.Width;
             int objectTopRightCornerY = objectRectangle.Y;
             int objectBottomLeftCornerX = objectRectangle.X;
@@ -142,20 +156,15 @@ namespace KirbyNightmareInDreamLand
         {
             for (int i = 0; i < DynamicObjects.Count; i++)
             {
+                //if(!DynamicObjects[i].CollisionActive)continue;
                 for (int j = i + 1; j < DynamicObjects.Count; j++)
                 {
-                    if (DynamicObjects[i].IsActive && DynamicObjects[j].IsActive)
+                    //if(!DynamicObjects[j].CollisionActive) continue;
+                    if(!IsCloseEnough(DynamicObjects[i],DynamicObjects[j])) continue;
+                    if (DynamicObjects[i].GetHitBox().Intersects(DynamicObjects[j].GetHitBox()))
                     {
-                        if (!DynamicObjects[i].IsActive || !DynamicObjects[j].IsActive) continue;
-                        //make function to get type to check if its enemies
-                        if(!IsCloseEnough(DynamicObjects[i],DynamicObjects[j])) continue;
-                        if (DynamicObjects[i].BoundingBox.Intersects(DynamicObjects[j].BoundingBox))
-                        {
-                            DynamicObjects[i].OnCollision(DynamicObjects[j]);
-                            DynamicObjects[j].OnCollision(DynamicObjects[i]);
-                        }
+                        //go to collision response
                     }
-
                 }
             }
         }
@@ -180,20 +189,16 @@ namespace KirbyNightmareInDreamLand
         {
             foreach (var dynamicObj in DynamicObjects)
             {
-                if (dynamicObj.IsActive)
-                {
-                    GameDebug.Instance.DrawRectangle(spriteBatch, dynamicObj.BoundingBox, Color.Red);
-                }
+                //if(dynamicObj.CollisionActive){
+                    GameDebug.Instance.DrawRectangle(spriteBatch, dynamicObj.GetHitBox(), Color.Red);
+                //}
             }
 
             IDictionaryEnumerator enumerator = StaticObjects.GetEnumerator();
             while (enumerator.MoveNext())
             {
                 ICollidable staticObject = (ICollidable)enumerator.Value;
-                if (staticObject.IsActive)
-                {
-                    GameDebug.Instance.DrawRectangle(spriteBatch, staticObject.BoundingBox, Color.Red);
-                }
+                GameDebug.Instance.DrawRectangle(spriteBatch, staticObject.GetHitBox(), Color.Red);
             }
         }
 

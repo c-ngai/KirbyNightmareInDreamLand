@@ -29,6 +29,11 @@ namespace KirbyNightmareInDreamLand
     {
         public TileCollisionType type;
         public Rectangle rectangle;
+        
+        public Rectangle GetHitBox()
+        {
+            return rectangle;
+        }
     }
 
 }

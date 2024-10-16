@@ -1,0 +1,38 @@
+uthor of Review: Lina Ordonez Aguiar
+Date: 10.15.24
+Sprint #3
+Reviewing:Level.cs (vivian's part)
+Author of file: Vivian
+Time: 30 minutes
+
+Chosen code smells:
+    1. Long Functions
+    2. same name different meaning
+    3. long parameters
+    4. god Objects
+    5. Duplicate code
+    6. Long method
+    7. Data clumps
+    8. Comments *
+    9. Switch Case
+    10. Large Class
+
+Quality:
+- The comments make it easy to understand
+- There could be more debbugs incase something is loaded in incorrectly
+   from the .json
+- it doesnt seem very effective performance wise to load all room data in at once
+    (if there were a lot more rooms thats a lot of data)
+- the variable naming is inconsistent with _ or lower case or cammel case varying
+    hypothetical solution: homonogenize the varibale names by what they do so the formal 
+    is understandable cmpared to the rest of the code
+- having all the data loaded by the data loader helps take away the responsibility
+  from game, however some fo the data is still in game so make sure you get it all on there
+  so there is no double dipping
+- having level loader handle the rooms and tilemaps might noy be the best idea if 
+    we ever implement a game object manager
+Specific comments:
+- every method is short, hodls the one purpose, and to the point
+- There are quite a TODOs its unclear if taht is for this sprint
+- perfectly data driven code, everything serparated in ways that make sense
+- 

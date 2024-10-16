@@ -31,7 +31,6 @@ namespace KirbyNightmareInDreamLand
         // Single-player but can later be updated to an array of kirbys for multiplayer
         public List<IPlayer> players;
         public KeyboardController KeyboardController => keyboard;
-
         // Get enemies (currently one of each but can change to an array of each enemy type)
         private IEnemy waddledeeTest;
         private IEnemy waddledooTest;
@@ -289,10 +288,8 @@ namespace KirbyNightmareInDreamLand
 
             GameTime = gameTime;
 
-            foreach (IPlayer kirby in players)
-            {
-                kirby.Update(time);
-            }
+            foreach(IPlayer player in players) player.Update(time);
+            enemyList[currentEnemyIndex].Update(time);
 
             // Commented out since we currently do not need item
             //item.Update();
@@ -322,10 +319,7 @@ namespace KirbyNightmareInDreamLand
             // enemyList[currentEnemyIndex].Draw(spriteBatch);
             foreach (IEnemy enemy in enemyList2) enemy.Draw(spriteBatch); // FOR PERFORMANCE TESTING
             // Draw kirby
-            foreach (IPlayer kirby in players)
-            {
-                kirby.Draw(spriteBatch);
-            }
+            foreach(IPlayer player in players) player.Draw(spriteBatch);
 
             // Not currently using item
             //item.Draw(new Vector2(200, 150), spriteBatch);

@@ -34,8 +34,8 @@ namespace KirbyNightmareInDreamLand
         }
         public static class HitBoxes
         {
-            public const int ENTITY_WIDTH = 12;
-            public const int ENTITY_HEIGHT = 12;
+            public const int ENTITY_WIDTH = 13;
+            public const int ENTITY_HEIGHT = 15;
             public const int TILE_WIDTH = 16;
             public const int TILE_HEIGHT = 16;
             public const int NULL_WIDTH = 0;
@@ -61,8 +61,8 @@ namespace KirbyNightmareInDreamLand
             public static Vector2 NORMAL_OFFSET_RIGHT = new Vector2(7, -24);
             public static Vector2 NORMA_OFFSET_LEFT = new Vector2(-41, -24);
 
-            public static int SPARK_SIZE = 50;
-            public static Vector2 SPARK_OFFSET = new Vector2(-22, -30);
+            public static int SPARK_SIZE = 55;
+            public static Vector2 SPARK_OFFSET = new Vector2(-27, -33);
 
             public static int SLIDE_WIDTH = 12;
             public static int SLIDE_HEIGHT = 30;

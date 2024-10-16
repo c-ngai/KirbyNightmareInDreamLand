@@ -38,7 +38,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             foreach (var segment in flameSegments)
             {
-                segment.EndAttack();
+                //segment.EndAttack();
             }
         }
         public bool IsDone()

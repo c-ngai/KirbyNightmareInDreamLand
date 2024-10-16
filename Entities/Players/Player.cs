@@ -8,18 +8,17 @@ using System.Runtime.CompilerServices;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
-    public class Player : IPlayer
+    public class Player : IPlayer, ICollidable
     {
         //no axis aligned collison?? 
         //BSP trees for collision optimization
-        
+        //make a seperate class to hold all the objects --singleton
         //this class will be refactored in next sprint to make another class: State management
         // and movement management so it is not doing this much
         // TODO: Is it possible to make this a public property so commands can access it?
         private PlayerStateMachine state;
         private PlayerMovement movement;
         private Sprite playerSprite ;
-        private ICollidable collidable;
         private PlayerAttack attack;
 
 
@@ -32,6 +31,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //others
         private string oldState;
         public bool attackIsActive{get; private set; } = false;
+        private bool CollisionActive = true;
+
+        //collision stuffs
 
         //constructor
         public Player(Vector2 pos)
@@ -39,7 +41,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             state = new PlayerStateMachine();
             movement = new NormalPlayerMovement(pos);
             oldState = state.GetStateString();
-            collidable = new PlayerCollisionHandler((int) pos.X, (int) pos.Y, this);
+            CollisionDetection.Instance.RegisterDynamicObject(this);
         }
         public Sprite PlayerSprite
         {
@@ -122,6 +124,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void ChangeToSpark()
         {
             state.ChangeType(KirbyType.Spark);
+        }
+        public void ChangeToMouthful()
+        {
+            state.ChangeType(KirbyType.Mouthful);
         }
         #endregion
         #region direction
@@ -257,7 +263,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 movement = new FloatingMovement(movement.GetPosition());
                 ChangePose(KirbyPose.FloatingRising);
             } 
-            if(!state.IsCrouching()){ //if float is up arrow is pressed again it goes up
+            if(!state.IsCrouching() && state.CanFloat()){ //if float is up arrow is pressed again it goes up
                 ChangePose(KirbyPose.FloatingRising);
                 movement.Jump(state.IsLeft()); //change this to flowting geenral movement
             }
@@ -269,9 +275,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if(state.CanCrouch()){ //crouch does not overwrite jump and floating
                 ChangePose(KirbyPose.Crouching);
                 movement = new CrouchingMovement(movement.GetPosition());
-            }
+            } 
         }
-        public async void Slide()
+        public void Slide()
         {
             if(state.IsCrouching()){
                 ChangePose(KirbyPose.Sliding);
@@ -279,7 +285,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 //await Task.Delay(Constants.Physics.DELAY);
             }
         }
-        public async void EndSlide()
+        public void EndSlide()
         {
             if(state.IsCrouching()){
                 ChangePose(KirbyPose.Crouching);
@@ -303,6 +309,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #region Attack
         public void Attack()
         {
+            if(attack != null && !attackIsActive){
+                //attack.EndAttack(this);
+            }
             if(!attackIsActive){
                 attack = new PlayerAttack(this, AttackType());
                 movement.Attack(this);
@@ -328,10 +337,18 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 StopMoving();
                 ChangeAttackBool(false);
-                attack.EndAttack(this);
+                //attack.EndAttack(this);
+                attack = null;
             }
         }
 
+        #endregion
+
+        #region Mouthful
+        public void SwallowEnemy()
+        {
+            ChangeToMouthful();
+        }
         #endregion
 
         #region MoveKirby
@@ -341,7 +358,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             movement.MovePlayer(this, gameTime);
             EndInvinciblility(gameTime);
             playerSprite.Update();
-            collidable.UpdateBoundingBox(movement.GetPosition());
+            GetHitBox();
             if(attackIsActive){
                 attack.Update(gameTime, this);
             }
@@ -358,6 +375,18 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if(attackIsActive){
                 attack.Draw(spriteBatch, this);
             }
+        }
+        public Vector2 CalculateRectanglePoint(Vector2 pos)
+        {
+            float x = pos.X - Constants.HitBoxes.ENTITY_WIDTH/2;
+            float y = pos.Y - Constants.HitBoxes.ENTITY_HEIGHT;
+            Vector2 rectPoint = new Vector2(x, y);
+            return rectPoint; 
+        }
+        public Rectangle GetHitBox()
+        {
+            Vector2 rectPoint = CalculateRectanglePoint(GetKirbyPosition());
+            return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
         }
         #endregion
     }

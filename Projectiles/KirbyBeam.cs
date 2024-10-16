@@ -74,7 +74,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
             {
                 if(segment.IsDone())
                 {
-                    segment.EndAttack(); //destroys the hit box if it is done
+                    //segment.EndAttack(); //destroys the hit box if it is done
                 }
             }
         }
