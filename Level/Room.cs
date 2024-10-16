@@ -23,22 +23,22 @@ namespace KirbyNightmareInDreamLand
             DestinationRoom = destinationRoom;
         }
     }
-    public struct EnemyStruct
+    public struct EnemyData
     {
         public string EnemyType;
         public Vector2 TileSpawnPoint;
 
-        public EnemyStruct(string enemyType, Vector2 tileSpawnPoint)
+        public EnemyData(string enemyType, Vector2 tileSpawnPoint)
         {
             EnemyType = enemyType;
             TileSpawnPoint = tileSpawnPoint;
         }
     }
-    public struct TomatoStruct
+    public struct TomatoData
     {
         public Vector2 TileSpawnPoint;
 
-        public TomatoStruct(Vector2 tileSpawnPoint)
+        public TomatoData(Vector2 tileSpawnPoint)
         {
             TileSpawnPoint = tileSpawnPoint;
         }
@@ -46,6 +46,8 @@ namespace KirbyNightmareInDreamLand
 
     public class Room
     {
+        public string Name { get; private set; }
+        
         public Sprite BackgroundSprite { get; private set; }
         public Sprite ForegroundSprite { get; private set; }
 
@@ -64,12 +66,14 @@ namespace KirbyNightmareInDreamLand
         public int LockedCameraY { get; private set; }
 
         public List<Door> Doors { get; private set; }
-        public List<EnemyStruct> Enemies { get; private set; }
-        public List<TomatoStruct> Tomatoes { get; private set; }
+        public List<EnemyData> Enemies { get; private set; }
+        public List<TomatoData> Tomatoes { get; private set; }
 
         // Creates a new room object from a room json data object.
-        public Room(RoomJsonData roomJsonData)
+        public Room(string roomName, RoomJsonData roomJsonData)
         {
+            Name = roomName;
+            
             ForegroundSprite = SpriteFactory.Instance.CreateSprite(roomJsonData.ForegroundSpriteName);
             BackgroundSprite = SpriteFactory.Instance.CreateSprite(roomJsonData.BackgroundSpriteName);
             TileMap = LevelLoader.Instance.Tilemaps[roomJsonData.TilemapName];
@@ -94,20 +98,20 @@ namespace KirbyNightmareInDreamLand
                 Door door = new Door(TilePosition, DestinationRoom);
                 Doors.Add(door);
             }
-            Enemies = new List<EnemyStruct>();
+            Enemies = new List<EnemyData>();
             foreach (EnemyJsonData enemyJsonData in roomJsonData.Enemies)
             {
                 string EnemyType = enemyJsonData.EnemyType;
                 Vector2 TileSpawnPoint = new Vector2(enemyJsonData.SpawnTileX, enemyJsonData.SpawnTileY);
-                EnemyStruct enemy = new EnemyStruct(EnemyType, TileSpawnPoint);
+                EnemyData enemy = new EnemyData(EnemyType, TileSpawnPoint);
                 Enemies.Add(enemy);
             }
 
-            Tomatoes = new List<TomatoStruct>();
+            Tomatoes = new List<TomatoData>();
             foreach (TomatoJsonData tomatoJsonData in roomJsonData.Tomatoes)
             {
                 Vector2 TileSpawnPoint = new Vector2(tomatoJsonData.SpawnTileX, tomatoJsonData.SpawnTileY);
-                TomatoStruct tomato = new TomatoStruct(TileSpawnPoint);
+                TomatoData tomato = new TomatoData(TileSpawnPoint);
                 Tomatoes.Add(tomato);
             }
         }

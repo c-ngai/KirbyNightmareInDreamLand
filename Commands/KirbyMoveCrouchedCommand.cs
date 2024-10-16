@@ -16,7 +16,7 @@ namespace KirbyNightmareInDreamLand.Commands
         public KirbyMoveCrouchedCommand()
         {
             kirby = Game1.Instance.players[0];
-            keyboard = Game1.Instance.KeyboardController;
+            keyboard = Game1.Instance.keyboard;
             crouchKey = Keys.Down;
             attackKey = Keys.Z;
         }

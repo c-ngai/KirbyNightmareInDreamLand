@@ -27,7 +27,7 @@ namespace KirbyNightmareInDreamLand
         private ContentManager _content;
         private GraphicsDevice _graphics;
 
-        // Dictionary from string to Room. For easily retrieving a room by name.
+        // Dictionary from string to Tilemap. For easily retrieving a tilemap by name.
         public Dictionary<string, int[][]> Tilemaps { get; private set; }
 
         // Dictionary from string to Room. For easily retrieving a room by name.
@@ -65,10 +65,10 @@ namespace KirbyNightmareInDreamLand
         {
 
             LoadAllTextures();
-            LoadAllSpriteAnimations();
+            LoadAllSpriteAnimations(); // Dependent on textures already loaded
 
             LoadAllTilemaps();
-            LoadAllRooms();
+            LoadAllRooms(); // Dependent on sprite animations and tilemaps already loaded
 
             LoadAllKeymappings();
 
@@ -163,10 +163,12 @@ namespace KirbyNightmareInDreamLand
             }
         }
 
+
+
         // Loads a room given its name and data.
         private void LoadRoom(string roomName, RoomJsonData roomJsonData)
         {
-            Room room = new Room(roomJsonData);
+            Room room = new Room(roomName, roomJsonData);
             Rooms.Add(roomName, room);
         }
 
@@ -184,17 +186,20 @@ namespace KirbyNightmareInDreamLand
             }
         }
 
+
+        // Loads a keymap into the keyboard.
         public void LoadKeymap(string keymapName)
         {
             if (Keymaps.ContainsKey(keymapName))
             {
                 // Clear existing key mappings in the controller
-                _game.KeyboardController.ClearMappings();
+                _game.keyboard.ClearMappings();
 
-                // Register new key mappings
+                // Register each new key mapping
                 foreach (var mapping in Keymaps[keymapName])
                 {
-                    _game.KeyboardController.RegisterCommand(mapping.Key, mapping.ExecutionType, mapping.Command);
+                    ICommand command = (ICommand)mapping.CommandConstructorInfo.Invoke(null);
+                    _game.keyboard.RegisterCommand(mapping.Key, mapping.ExecutionType, command);
                 }
             }
             else
@@ -203,25 +208,26 @@ namespace KirbyNightmareInDreamLand
             }
         }
 
-
         // Loads a keymapping given its name and data.
         private void LoadKeymapping(KeymappingJsonData keymappingJsonData, List<Keymapping> Keymap)
         {
-            Debug.WriteLine("Key = " + keymappingJsonData.Key);
-            Debug.WriteLine("ExecutionType = " + keymappingJsonData.ExecutionType);
-            Debug.WriteLine("Command = " + keymappingJsonData.Command);
-            Debug.WriteLine("//////////////");
-
             // Create a new Keymapping object
             Keymapping keymapping = new Keymapping();
 
             // Fill out its fields using the JSON data strings
-            keymapping.Key = (Keys)Enum.Parse(typeof(Keys), keymappingJsonData.Key); // TODO: implement actual behvaior
-            keymapping.ExecutionType = (ExecutionType)Enum.Parse(typeof(ExecutionType), keymappingJsonData.ExecutionType); // TODO: implement actual behvaior
-            keymapping.Command = CommandFactory.GetCommand(keymappingJsonData.Command); // TODO: implement actual behvaior
+            keymapping.Key = (Keys)Enum.Parse(typeof(Keys), keymappingJsonData.Key);
+            keymapping.ExecutionType = (ExecutionType)Enum.Parse(typeof(ExecutionType), keymappingJsonData.ExecutionType);
+            keymapping.CommandConstructorInfo = Type.GetType("KirbyNightmareInDreamLand.Commands." + keymappingJsonData.Command)?.GetConstructor(Type.EmptyTypes);
 
             // Add the new keymapping to its respective list.
-            Keymap.Add(keymapping);
+            if (keymapping.CommandConstructorInfo != null)
+            {
+                Keymap.Add(keymapping);
+            }
+            else
+            {
+                Debug.WriteLine("LevelLoader.LoadKeymapping: ERROR: string \"" + keymappingJsonData.Command + "\" returns null from Type.GetType()");
+            }
         }
 
         // Loads all rooms from the .json file.

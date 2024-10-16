@@ -4,6 +4,11 @@ namespace KirbyNightmareInDreamLand
 {
     public static class Constants
     {
+        public static class Filepaths
+        {
+            public const string FILEPATH = "";
+        }
+
         public static class Graphics
         {
             public const int GAME_WIDTH = 240;
