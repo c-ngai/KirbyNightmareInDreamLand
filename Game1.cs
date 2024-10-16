@@ -173,6 +173,7 @@ namespace KirbyNightmareInDreamLand
             keyboard.RegisterCommand(Keys.Q, ExecutionType.StartingPress, new QuitCommand());
             keyboard.RegisterCommand(Keys.R, ExecutionType.StartingPress, new ResetCommand());
 
+            /*
             keyboard.RegisterCommand(Keys.F1, ExecutionType.StartingPress, new GraphicsToggleDebugTextCommand());
             keyboard.RegisterCommand(Keys.F2, ExecutionType.StartingPress, new GraphicsToggleDebugSpriteCommand());
             keyboard.RegisterCommand(Keys.F3, ExecutionType.StartingPress, new GraphicsToggleDebugLevelCommand());
@@ -183,6 +184,8 @@ namespace KirbyNightmareInDreamLand
             keyboard.RegisterCommand(Keys.OemMinus, ExecutionType.StartingPress, new GraphicsDecreaseWindowSizeCommand());
             keyboard.RegisterCommand(Keys.OemCloseBrackets, ExecutionType.StartingPress, new GraphicsIncreaseTargetFramerateCommand());
             keyboard.RegisterCommand(Keys.OemOpenBrackets, ExecutionType.StartingPress, new GraphicsDecreaseTargetFramerateCommand());
+            */
+            
         }
         public void SetCollisionResponses()
         {
@@ -251,6 +254,9 @@ namespace KirbyNightmareInDreamLand
 
             // Load all content through LevelLoader
             LevelLoader.Instance.LoadAllContent();
+
+            LevelLoader.Instance.LoadKeymap("keymap1"); // switch out the desired keymap here
+
 
             level = new Level();
             level.LoadRoom("room1");
