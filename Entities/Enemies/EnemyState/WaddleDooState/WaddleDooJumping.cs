@@ -1,35 +1,58 @@
 ﻿using KirbyNightmareInDreamLand.StateMachines;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
 {
     public class WaddleDooJumpingState : IEnemyState
     {
-        public void Enter(Enemy enemy)
-        {
-            enemy.StateMachine.ChangePose(EnemyPose.Jumping);
-            enemy.ResetFrameCounter(); // Reset the frame counter upon entering the state
+        private readonly Enemy _enemy;
 
+        public WaddleDooJumpingState(Enemy enemy)
+        {
+            _enemy = enemy ?? throw new ArgumentNullException(nameof(enemy));
         }
 
-        public void Update(Enemy enemy)
+        public void Enter()
         {
-            if (enemy is IJumpable jumpableEnemy)
-            {
-                jumpableEnemy.Jump(); // Call the jump method if the enemy can jump
+            _enemy.ChangePose(EnemyPose.Jumping);
+            _enemy.ResetFrameCounter();
+        }
 
-                if (!jumpableEnemy.IsJumping) // Check if the jump is finished
+        public void Update()
+        {
+            if (_enemy is IJumpable jumpableEnemy)
+            {
+                jumpableEnemy.Jump(); // Perform jump action
+                _enemy.IncrementFrameCounter();
+
+                if (!jumpableEnemy.IsJumping)
                 {
-                    enemy.ChangeState(new WaddleDooWalkingState());
-                    enemy.UpdateTexture();
+                    _enemy.ChangeState(new WaddleDooWalkingState(_enemy));
+                    _enemy.UpdateTexture();
                 }
+            }
+            else
+            {
+                // If the enemy cannot jump, transition back to walking
+                _enemy.ChangeState(new WaddleDooWalkingState(_enemy));
+                _enemy.UpdateTexture();
             }
         }
 
-        public void Exit(Enemy enemy) { }
+        public void Exit()
+        {
+            // Cleanup logic if necessary
+        }
+
+        public void TakeDamage()
+        {
+            _enemy.ChangeState(new WaddleDooHurtState(_enemy));
+            _enemy.UpdateTexture();
+        }
+
+        public void ChangeDirection()
+        {
+            _enemy.ToggleDirection();
+        }
     }
 }

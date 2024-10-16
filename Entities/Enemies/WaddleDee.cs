@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -16,7 +17,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             stateMachine.ChangePose(EnemyPose.Walking);
             UpdateTexture();
             collidable = new WaddleDeeCollisionHandler((int)startPosition.X, (int)startPosition.Y, this);
-            currentState = new WaddleDeeWalkingState();
+            //currentState = new WaddleDeeWalkingState();
+            ChangeState(new WaddleDeeWalkingState(this)); // Set initial state
         }
 
         public override void Move()
@@ -58,7 +60,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             if (!isDead)
             {
-                currentState.Update(this); //update state
+                currentState.Update(); //update state
                 UpdateTexture(); // Update the texture if the state has changed
                 enemySprite.Update(); // Update the enemy sprite
                 collidable.UpdateBoundingBox(position);

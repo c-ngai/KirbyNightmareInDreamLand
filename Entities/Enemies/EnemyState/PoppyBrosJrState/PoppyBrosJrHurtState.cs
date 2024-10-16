@@ -9,23 +9,45 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState
 {
     public class PoppyBrosJrHurtState : IEnemyState
     {
-        public void Enter(Enemy enemy)
+        private readonly Enemy _enemy;
+        public PoppyBrosJrHurtState(Enemy enemy)
         {
-            enemy.StateMachine.ChangePose(EnemyPose.Hurt);
-            enemy.ResetFrameCounter(); // Reset frame counter when entering the state
+            _enemy = enemy ?? throw new ArgumentNullException(nameof(enemy));
+        }
+        public void Enter()
+        {
+            _enemy.ChangePose(EnemyPose.Hop);
+            _enemy.ResetFrameCounter(); // Reset frame counter when entering the state
         }
 
-        public void Update(Enemy enemy)
+        public void Update()
         {
-            // Logic for when PoppyBrosJr is hurt
+            // Execute hopping logic
+            _enemy.Move();
 
-            if (enemy.FrameCounter >= Constants.PoppyBrosJr.HURT_FRAMES)
+            // Transition to Hurt state after hop frames
+            if (_enemy.FrameCounter >= Constants.PoppyBrosJr.HURT_FRAMES)
             {
-                enemy.ChangeState(new PoppyBrosJrHopState());
-                enemy.UpdateTexture();
+                _enemy.ChangeState(new PoppyBrosJrHopState(_enemy));
+                _enemy.UpdateTexture();
             }
         }
 
-        public void Exit(Enemy enemy) { }
+        public void Exit() { }
+
+        public void TakeDamage()
+        {
+            _enemy.Health -= 1; // Accessing Health property
+
+            if (_enemy.Health <= 0) // Accessing Health property
+            {
+                _enemy.IsDead = true; // Accessing IsDead property
+                // Optionally, transition to a dead state
+            }
+        }
+
+        public void ChangeDirection()
+        {
+        }
     }
 }

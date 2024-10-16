@@ -4,6 +4,7 @@ using KirbyNightmareInDreamLand.Projectiles;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -25,16 +26,16 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             //Initialize pose
             stateMachine.ChangePose(EnemyPose.Walking);
-            currentState = new WaddleDooWalkingState();
+            //currentState = new WaddleDooWalkingState();
+            ChangeState(new WaddleDooWalkingState(this)); // Set initial state
         }
-
         
         public override void Update(GameTime gameTime)
         {
             if (!isDead)
             {
                 IncrementFrameCounter(); 
-                currentState.Update(this);
+                currentState.Update();
 
                 // Update the sprite
                 enemySprite.Update();

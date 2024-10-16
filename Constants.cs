@@ -204,6 +204,7 @@ namespace KirbyNightmareInDreamLand
             public const float JUMP_HEIGHT = 2f;
             public const float GRAVITY = 0.1f;
             public const float FORWARD_MOVEMENT = 0.5f;
+            public const float DEAD_FRAMES = 20;
         }
     }
 }
