@@ -11,6 +11,7 @@ using System.Linq;
 using static System.Net.Mime.MediaTypeNames;
 using System;
 using System.Diagnostics;
+using KirbyNightmareInDreamLand.Collision;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -69,9 +70,6 @@ namespace KirbyNightmareInDreamLand
         public int MAX_WINDOW_WIDTH { get; set; }
         public int TARGET_FRAMERATE { get; set; }
 
-
-        //why is game time public?? take out set in the game time make anybody that is not that commmand not be anle to set it
-        //
         private static Game1 instance;
         public static Game1 Instance
         {
@@ -87,8 +85,6 @@ namespace KirbyNightmareInDreamLand
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
-
-
 
         protected override void Initialize()
         {
@@ -186,8 +182,25 @@ namespace KirbyNightmareInDreamLand
             keyboard.RegisterCommand(Keys.OemCloseBrackets, ExecutionType.StartingPress, new GraphicsIncreaseTargetFramerateCommand());
             keyboard.RegisterCommand(Keys.OemOpenBrackets, ExecutionType.StartingPress, new GraphicsDecreaseTargetFramerateCommand());
         }
+        public void SetCollisionResponses()
+        {
+            String key1 = "IPlayer";
+            String key2 = "Air";
+            for (int i = 0; i < Constants.HitBoxes.SIDES; i++)
+            {
+                CollisionResponse.Instance.RegisterCollision(key1, key2, (CollisionSide) i, null, null);
+            }
 
-        // Do we need thisthis?
+            key2 = "Water";
+            for (int i = 0; i < Constants.HitBoxes.SIDES; i++)
+            {
+                CollisionResponse.Instance.RegisterCollision(key1, key2, (CollisionSide)i, null, null);
+            }
+
+
+
+        }
+
         public void LoadItem()
         {
             item = SpriteFactory.Instance.CreateSprite("item_maximtomato");
@@ -236,7 +249,7 @@ namespace KirbyNightmareInDreamLand
             LevelLoader.Instance.LoadAllContent();
 
             level = new Level();
-            level.LoadRoom("testroom1");
+            level.LoadRoom("room1");
 
             // Load all objects
             LoadObjects();

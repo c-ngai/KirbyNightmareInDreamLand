@@ -41,7 +41,8 @@ namespace KirbyNightmareInDreamLand
             public const int NULL_WIDTH = 0;
             public const int NULL_HEIGHT = 0;
             //specifically for inhale and electric which are not projectiles
-            public const int ATTACK_SIZE = 36; 
+            public const int ATTACK_SIZE = 36;
+            public const int SIDES = 4;
             
         }
 
