@@ -14,8 +14,8 @@ namespace KirbyNightmareInDreamLand
 
     public struct Door
     {
-        Vector2 TilePosition;
-        string DestinationRoom;
+        public Vector2 TilePosition;
+        public string DestinationRoom;
 
         public Door(Vector2 tilePosition, string destinationRoom)
         {
@@ -23,14 +23,23 @@ namespace KirbyNightmareInDreamLand
             DestinationRoom = destinationRoom;
         }
     }
-    public struct Enemy
+    public struct EnemyStruct
     {
-        string EnemyType;
-        Vector2 TileSpawnPoint;
+        public string EnemyType;
+        public Vector2 TileSpawnPoint;
 
-        public Enemy(string enemyType, Vector2 tileSpawnPoint)
+        public EnemyStruct(string enemyType, Vector2 tileSpawnPoint)
         {
             EnemyType = enemyType;
+            TileSpawnPoint = tileSpawnPoint;
+        }
+    }
+    public struct TomatoStruct
+    {
+        public Vector2 TileSpawnPoint;
+
+        public TomatoStruct(Vector2 tileSpawnPoint)
+        {
             TileSpawnPoint = tileSpawnPoint;
         }
     }
@@ -55,7 +64,9 @@ namespace KirbyNightmareInDreamLand
         public int LockedCameraY { get; private set; }
 
         public List<Door> Doors { get; private set; }
-        public List<Enemy> Enemies { get; private set; }
+        public List<EnemyStruct> Enemies { get; private set; }
+        public List<TomatoStruct> Tomatoes { get; private set; }
+
 
         // Creates a new room object from a room json data object.
         public Room(RoomJsonData roomJsonData)
@@ -84,13 +95,21 @@ namespace KirbyNightmareInDreamLand
                 Door door = new Door(TilePosition, DestinationRoom);
                 Doors.Add(door);
             }
-            Enemies = new List<Enemy>();
+            Enemies = new List<EnemyStruct>();
             foreach (EnemyJsonData enemyJsonData in roomJsonData.Enemies)
             {
-                string EnemyType = enemyJsonData.DestinationRoom;
+                string EnemyType = enemyJsonData.EnemyType;
                 Vector2 TileSpawnPoint = new Vector2(enemyJsonData.SpawnTileX, enemyJsonData.SpawnTileY);
-                Enemy enemy = new Enemy(EnemyType, TileSpawnPoint);
+                EnemyStruct enemy = new EnemyStruct(EnemyType, TileSpawnPoint);
                 Enemies.Add(enemy);
+            }
+
+            Tomatoes = new List<TomatoStruct>();
+            foreach (TomatoJsonData tomatoJsonData in roomJsonData.Tomatoes)
+            {
+                Vector2 TileSpawnPoint = new Vector2(tomatoJsonData.SpawnTileX, tomatoJsonData.SpawnTileY);
+                TomatoStruct tomato = new TomatoStruct(TileSpawnPoint);
+                Tomatoes.Add(tomato);
             }
         }
 

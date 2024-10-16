@@ -1,4 +1,5 @@
 ﻿using KirbyNightmareInDreamLand.Controllers;
+using KirbyNightmareInDreamLand.Entities.Enemies;
 using KirbyNightmareInDreamLand.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -182,7 +183,6 @@ namespace KirbyNightmareInDreamLand
                 LoadRoom(data.Key, data.Value);
             }
         }
-
 
         
         // Loads a keymapping given its name and data.
