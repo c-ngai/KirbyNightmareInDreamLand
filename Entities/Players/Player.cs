@@ -86,7 +86,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public bool IsFalling()
         {
-            return GetKirbyPose().Equals(KirbyPose.JumpFalling);
+            return GetKirbyPose().Equals(KirbyPose.FreeFall);
         }
         public String AttackType()
         {
@@ -294,6 +294,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 movement.StopMovement();
                 StopAttacking();
                 ChangeAttackBool(false);
+                if(attack != null) attack.EndAttack();
                 //await Task.Delay(Constants.Physics.DELAY);
             }
         }

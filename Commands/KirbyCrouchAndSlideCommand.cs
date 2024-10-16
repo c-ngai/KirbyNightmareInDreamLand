@@ -6,7 +6,7 @@ using KirbyNightmareInDreamLand.Controllers;
 
 namespace KirbyNightmareInDreamLand.Commands
 {
-    public class KirbyCrouchAndSlideCommand : ICommand
+    public class KirbyEndCrouchCommand : ICommand
     {
         private IPlayer kirby;
         private bool isSliding;
@@ -18,8 +18,7 @@ namespace KirbyNightmareInDreamLand.Commands
         private ITimeCalculator timer;
         private double startingTime;
 
-        // Constructor with no parameters
-        public KirbyCrouchAndSlideCommand()
+        public KirbyEndCrouchCommand()
         {
             // Accessing the player and keyboard controller through Game1.Instance
             kirby = Game1.Instance.players[0]; // Assuming there is always at least one player
@@ -48,14 +47,15 @@ namespace KirbyNightmareInDreamLand.Commands
                 isSliding = false;
             }
 
-            if (isSliding)
-            {
-                kirby.Slide();
-            }
-            else if (!keyboard.currentState.Contains(crouchKey))
-            {
-                kirby.EndCrouch();
-            }
+            // if (isSliding)
+            // {
+            //     kirby.Slide();
+            // // }
+            // else if (!keyboard.currentState.Contains(crouchKey))
+            // {
+            //     kirby.EndCrouch();
+            // }
+            kirby.EndCrouch();
         }
     }
 }
