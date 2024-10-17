@@ -97,6 +97,8 @@ namespace KirbyNightmareInDreamLand
             DrawLevelObjects(spriteBatch);
         }
 
+
+        // this needs to move to level loader or object manager 
         public void LoadLevelObjects()
         {
             enemyList = new List<Enemy>();

@@ -197,6 +197,9 @@
 #begin Tilemaps/room1_tileset.csv
 /copy:Tilemaps/room1_tileset.csv
 
+#begin Tilemaps/room2_tileset.csv
+/copy:Tilemaps/room2_tileset.csv
+
 #begin Tilemaps/testroom1.csv
 /copy:Tilemaps/testroom1.csv
 
