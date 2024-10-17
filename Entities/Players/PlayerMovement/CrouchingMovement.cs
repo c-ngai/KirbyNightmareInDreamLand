@@ -44,7 +44,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if(distanceMoved > slideDistance)
             {
                 StopMovement();
-                kirby.ChangeAttackBool(false);
                 kirby.EndSlide();
             } 
         }

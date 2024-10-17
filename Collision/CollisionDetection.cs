@@ -19,7 +19,7 @@ namespace KirbyNightmareInDreamLand
         //static: tiles
         private Dictionary<Tile, ICollidable> StaticObjects;
         private static CollisionDetection instance = new CollisionDetection();
-        private bool CollisionOn = false; // for debug purposes
+        private bool CollisionOn = true; // for debug purposes
         //This will be changed once object manager is applied
         public static CollisionDetection Instance
         {

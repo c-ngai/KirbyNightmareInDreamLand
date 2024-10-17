@@ -135,7 +135,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             // }
         }
 
-        
+
         public virtual void AdjustY(Player kirby)
         {
             //dont go through the floor

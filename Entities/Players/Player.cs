@@ -259,22 +259,26 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #endregion
         public void Float()
         {
+            //1 start floating
+            //2 go up 
+            //3 float again if its fallign
             //crouching and sliding cannot be overwritten by float 
-            if(state.CanFloat()){
+            if (IsFloating() && !IsFalling()){
+                movement.Jump(state.IsLeft()); 
+                ChangePose(KirbyPose.FloatingRising);
+            } else if (state.CanFloat()){
                 movement.StartFloating(this);
                 movement = new FloatingMovement(movement.GetPosition());
                 ChangePose(KirbyPose.FloatingRising);
-            } 
-            if(!state.IsCrouching() && state.CanFloat()){ //if float is up arrow is pressed again it goes up
-                ChangePose(KirbyPose.FloatingRising);
-                movement.Jump(state.IsLeft()); //change this to flowting geenral movement
+                //change this to flowting geenral movement
+                return;
             }
         }
 
         #region crouch
         public void Crouch()
         {
-            if(state.CanCrouch()){ //crouch does not overwrite jump and floating
+            if(state.CanCrouch() && !state.IsCrouching()){ //crouch does not overwrite jump and floating
                 ChangePose(KirbyPose.Crouching);
                 movement = new CrouchingMovement(movement.GetPosition());
             } 
@@ -289,7 +293,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void EndSlide()
         {
-            if(state.IsCrouching()){
+            if(state.IsCrouching() && state.IsAttacking()){
                 ChangePose(KirbyPose.Crouching);
                 movement.StopMovement();
                 StopAttacking();
@@ -301,10 +305,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void EndCrouch()
         {
             if(state.IsCrouching()){
-                StopMoving();
+                if(attack != null) attack.EndAttack();
+                EndSlide();
                 ChangeAttackBool(false);
                 ChangeMovement();
-            }
+                StopMoving(); 
+            } 
         }
         #endregion
         
