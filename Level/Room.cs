@@ -1,4 +1,5 @@
 ﻿using KirbyNightmareInDreamLand.Controllers;
+using KirbyNightmareInDreamLand.Entities;
 using KirbyNightmareInDreamLand.Sprites;
 using Microsoft.Xna.Framework;
 using System;
@@ -34,13 +35,15 @@ namespace KirbyNightmareInDreamLand
             TileSpawnPoint = tileSpawnPoint;
         }
     }
-    public struct TomatoData
+    public struct PowerUpData
     {
+        public string PowerUpType;
         public Vector2 TileSpawnPoint;
 
-        public TomatoData(Vector2 tileSpawnPoint)
+        public PowerUpData(string powerUpType, Vector2 tileSpawnPoint)
         {
             TileSpawnPoint = tileSpawnPoint;
+            PowerUpType = powerUpType;
         }
     }
 
@@ -67,7 +70,7 @@ namespace KirbyNightmareInDreamLand
 
         public List<Door> Doors { get; private set; }
         public List<EnemyData> Enemies { get; private set; }
-        public List<TomatoData> Tomatoes { get; private set; }
+        public List<PowerUpData> PowerUps { get; private set; }
 
         // Creates a new room object from a room json data object.
         public Room(string roomName, RoomJsonData roomJsonData)
@@ -117,12 +120,13 @@ namespace KirbyNightmareInDreamLand
                 }
             }
 
-            Tomatoes = new List<TomatoData>();
-            foreach (TomatoJsonData tomatoJsonData in roomJsonData.Tomatoes)
+            PowerUps = new List<PowerUpData>();
+            foreach (PowerUpJsonData powerUpJsonData in roomJsonData.PowerUps)
             {
-                Vector2 TileSpawnPoint = new Vector2(tomatoJsonData.SpawnTileX, tomatoJsonData.SpawnTileY);
-                TomatoData tomato = new TomatoData(TileSpawnPoint);
-                Tomatoes.Add(tomato);
+                string PowerUpType = powerUpJsonData.PowerUpType;
+                Vector2 TileSpawnPoint = new Vector2(powerUpJsonData.SpawnTileX, powerUpJsonData.SpawnTileY);
+                PowerUpData powerUp = new PowerUpData(PowerUpType, TileSpawnPoint);
+                PowerUps.Add(powerUp);
             }
         }
 
