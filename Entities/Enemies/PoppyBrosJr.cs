@@ -15,6 +15,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             stateMachine.ChangePose(EnemyPose.Hop);
             ChangeState(new PoppyBrosJrHopState(this));
+            //TO-DO: spawn facing the direction kirby is in
         }
 
         public override void Move()
@@ -23,18 +24,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             if (stateMachine.IsLeft())
             {
                 position.X -= Constants.PoppyBrosJr.MOVE_SPEED;
-                if (position.X <= leftBoundary.X)
-                {
-                    ChangeDirection();
-                }
             }
             else
             {
                 position.X += Constants.PoppyBrosJr.MOVE_SPEED;
-                if (position.X >= rightBoundary.X)
-                {
-                    ChangeDirection();
-                }
             }
             Hop();
         }

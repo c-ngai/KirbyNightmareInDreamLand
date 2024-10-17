@@ -14,7 +14,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         protected Vector2 position; //Where enemy is drawn on screen
         protected int health; //Enemy health
         protected bool isDead;  //If enemy is dead
-        protected bool isActive;
         protected Sprite enemySprite;   
         protected EnemyStateMachine stateMachine;
         protected IEnemyState currentState; // Current state of the enemy
@@ -31,21 +30,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             health = 1;
             isDead = false;
             stateMachine = new EnemyStateMachine(type);
-            leftBoundary = new Vector2(100, 100);
-            rightBoundary = new Vector2(230, 100);
             oldState = string.Empty;
             currentState = new WaddleDooWalkingState(this); // Initialize with the walking state
+            CollisionDetection.Instance.RegisterDynamicObject(this);
             currentState.Enter();
             frameCounter = 0; 
         }
-
-        public Vector2 Position
-        {
-            //Returns position on screen
-            get { return position; }
-            set { position = value; }
-        }
- 
         public Sprite EnemySprite
         {
             //Returns Sprite
@@ -139,6 +129,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             if (!isDead)
             {
                 enemySprite.Draw(position, spriteBatch);
+            }
+            else
+            {
+                CollisionDetection.Instance.RemoveDynamicObject(this); // Deregister if dead
             }
         }
 

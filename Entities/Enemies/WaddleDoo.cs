@@ -27,6 +27,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             //Initialize pose
             stateMachine.ChangePose(EnemyPose.Walking);
             ChangeState(new WaddleDooWalkingState(this));
+            //TO-DO: spawn facing the direction kirby is in
+            stateMachine.ChangeDirection();
         }
         
         public override void Update(GameTime gameTime)
@@ -61,18 +63,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             if (stateMachine.IsLeft())
             {
                 position.X -= Constants.WaddleDoo.MOVE_SPEED;
-                if (position.X <= leftBoundary.X)
-                {
-                    ChangeDirection();
-                }
             }
             else
             {
                 position.X += Constants.WaddleDoo.MOVE_SPEED;
-                if (position.X >= rightBoundary.X)
-                {
-                    ChangeDirection();
-                }
             }
             UpdateTexture();
         }
