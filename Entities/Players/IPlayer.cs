@@ -27,6 +27,5 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         void ChangeToBeam();
         void ChangeToFire();
         void ChangeToSpark();
-        void UpdateTexture();
     }
 }

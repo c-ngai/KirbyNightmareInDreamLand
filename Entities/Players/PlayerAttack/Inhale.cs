@@ -10,6 +10,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
     {
         public Vector2 Position {get; private set;}
         public Vector2 Velocity {get; private set;}
+        public bool CollisionActive { get; private set;} = true;
         private bool IsLeft;
         public Inhale(Vector2 pos, bool isLeft)
         {
@@ -24,7 +25,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void EndAttack()
         {
-            CollisionDetection.Instance.RemoveDynamicObject(this);
+            CollisionActive = false;
         }
         public bool IsDone()
         {
