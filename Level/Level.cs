@@ -54,6 +54,7 @@ namespace KirbyNightmareInDreamLand
         // Loads a room into the level by name.
         public void LoadRoom(string RoomName)
         {
+            CollisionDetection.Instance.ResetDynamicCollisionBoxes();
             CurrentRoom = LevelLoader.Instance.Rooms[RoomName];
             LoadLevelObjects();
         }
