@@ -22,7 +22,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         protected string oldState; //Previous state
         protected int frameCounter; // Frame counter for tracking state duration
 
-        public bool CollisionActive { get; private set; } = true;
+        public bool CollisionActive { get; set; } = true;
 
         protected Enemy(Vector2 startPosition, EnemyType type)
         {
@@ -36,6 +36,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             CollisionDetection.Instance.RegisterDynamicObject(this);
             currentState.Enter();
             frameCounter = 0; 
+        }
+
+        public Vector2 Position
+        {
+            get => position; 
+            set => position = value;
         }
         public Sprite EnemySprite
         {
@@ -115,10 +121,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void Update(GameTime gameTime) // Change to virtual
         {
-            if (!IsDead)
+            if (CollisionActive && !IsDead)
             {
                 IncrementFrameCounter();
-                currentState.Update(); // No parameters needed here
+                currentState.Update();
                 UpdateTexture();
                 enemySprite.Update();
             }
@@ -127,7 +133,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             //Draw if enemy is alive
-            if (!isDead)
+            if (CollisionActive && !IsDead)
             {
                 enemySprite.Draw(position, spriteBatch);
             }
