@@ -6,7 +6,7 @@ using KirbyNightmareInDreamLand.Controllers;
 
 namespace KirbyNightmareInDreamLand.Commands
 {
-    public class KirbyCrouchAndSlideCommand : ICommand
+    public class KirbyEndCrouchCommand : ICommand
     {
         private IPlayer kirby;
         private bool isSliding;
@@ -18,8 +18,7 @@ namespace KirbyNightmareInDreamLand.Commands
         private ITimeCalculator timer;
         private double startingTime;
 
-        // Constructor with no parameters
-        public KirbyCrouchAndSlideCommand()
+        public KirbyEndCrouchCommand()
         {
             // Accessing the player and keyboard controller through Game1.Instance
             kirby = Game1.Instance.players[0]; // Assuming there is always at least one player
@@ -34,28 +33,29 @@ namespace KirbyNightmareInDreamLand.Commands
         public void Execute()
         {
             // Determines if a timer needs to be set to keep track of slide time when the attack key is also pressed and if the timer needs to be reset
-            if (keyboard.currentState.Contains(attackKey) && startingTime == 0)
-            {
-                startingTime = timer.GetCurrentTimeInMS(Game1.Instance.time);
-            }
-            else if (keyboard.currentState.Contains(attackKey) && startingTime != 0 && (timer.GetCurrentTimeInMS(Game1.Instance.time) - startingTime < Constants.Controller.SLIDE_TIME))
-            {
-                isSliding = true;
-            }
-            else
-            {
-                startingTime = 0;
-                isSliding = false;
-            }
+            // if (keyboard.currentState.Contains(attackKey) && startingTime == 0)
+            // {
+            //     startingTime = timer.GetCurrentTimeInMS(Game1.Instance.time);
+            // }
+            // else if (keyboard.currentState.Contains(attackKey) && startingTime != 0 && (timer.GetCurrentTimeInMS(Game1.Instance.time) - startingTime < Constants.Controller.SLIDE_TIME))
+            // {
+            //     isSliding = true;
+            // }
+            // else
+            // {
+            //     startingTime = 0;
+            //     isSliding = false;
+            // }
 
-            if (isSliding)
-            {
-                kirby.Slide();
-            }
-            else if (!keyboard.currentState.Contains(crouchKey))
-            {
-                kirby.EndCrouch();
-            }
+            // if (isSliding)
+            // {
+            //     kirby.Slide();
+            // // }
+            // else if (!keyboard.currentState.Contains(crouchKey))
+            // {
+            //     kirby.EndCrouch();
+            // }
+            kirby.EndCrouch();
         }
     }
 }

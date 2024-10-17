@@ -58,7 +58,7 @@ namespace KirbyNightmareInDreamLand
         public int Width { get; private set; }
         public int Height { get; private set; }
 
-        public Vector2 SpawnPoint { get; private set; }
+        public Vector2 SpawnTile { get; private set; }
 
         public bool CameraXLock { get; private set; }
         public int LockedCameraX { get; private set; }
@@ -83,7 +83,7 @@ namespace KirbyNightmareInDreamLand
             Width = TileWidth * Constants.Level.TILE_SIZE;
             Height = TileHeight * Constants.Level.TILE_SIZE;
 
-            SpawnPoint = new Vector2(roomJsonData.SpawnPointX, roomJsonData.SpawnPointY);
+            SpawnTile = new Vector2(roomJsonData.SpawnTileX, roomJsonData.SpawnTileY);
 
             CameraXLock = roomJsonData.LockCameraX;
             LockedCameraX = roomJsonData.LockedCameraX;
@@ -98,13 +98,23 @@ namespace KirbyNightmareInDreamLand
                 Door door = new Door(TilePosition, DestinationRoom);
                 Doors.Add(door);
             }
+
             Enemies = new List<EnemyData>();
             foreach (EnemyJsonData enemyJsonData in roomJsonData.Enemies)
             {
                 string EnemyType = enemyJsonData.EnemyType;
                 Vector2 TileSpawnPoint = new Vector2(enemyJsonData.SpawnTileX, enemyJsonData.SpawnTileY);
                 EnemyData enemy = new EnemyData(EnemyType, TileSpawnPoint);
-                Enemies.Add(enemy);
+
+                // Add enemy to list if it has a valid name
+                if (Constants.ValidEnemyNames.Contains(enemyJsonData.EnemyType))
+                {
+                    Enemies.Add(enemy);
+                }
+                else
+                {
+                    Debug.WriteLine("ERROR: In room \"" + Name + "\", \"" + enemyJsonData.EnemyType + "\" is not a valid enemy name. (check capitalization?)");
+                }
             }
 
             Tomatoes = new List<TomatoData>();
