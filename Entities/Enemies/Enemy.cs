@@ -22,6 +22,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         protected string oldState; //Previous state
         protected int frameCounter; // Frame counter for tracking state duration
 
+        public bool CollisionActive { get; private set; } = true;
 
         protected Enemy(Vector2 startPosition, EnemyType type)
         {
