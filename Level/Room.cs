@@ -101,13 +101,23 @@ namespace KirbyNightmareInDreamLand
                 Door door = new Door(TilePosition, DestinationRoom);
                 Doors.Add(door);
             }
+
             Enemies = new List<EnemyData>();
             foreach (EnemyJsonData enemyJsonData in roomJsonData.Enemies)
             {
                 string EnemyType = enemyJsonData.EnemyType;
                 Vector2 TileSpawnPoint = new Vector2(enemyJsonData.SpawnTileX, enemyJsonData.SpawnTileY);
                 EnemyData enemy = new EnemyData(EnemyType, TileSpawnPoint);
-                Enemies.Add(enemy);
+
+                // Add enemy to list if it has a valid name
+                if (Constants.ValidEnemyNames.Contains(enemyJsonData.EnemyType))
+                {
+                    Enemies.Add(enemy);
+                }
+                else
+                {
+                    Debug.WriteLine("ERROR: In room \"" + Name + "\", \"" + enemyJsonData.EnemyType + "\" is not a valid enemy name. (check capitalization?)");
+                }
             }
 
             PowerUps = new List<PowerUpData>();

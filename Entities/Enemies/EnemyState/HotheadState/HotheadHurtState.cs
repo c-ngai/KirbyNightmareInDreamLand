@@ -38,6 +38,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState
                 if (_hothead.Health <= 0)
                 {
                     _hothead.IsDead = true;
+                    _hothead.CollisionActive = false;
                 }
             }
         }

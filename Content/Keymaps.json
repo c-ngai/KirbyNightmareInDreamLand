@@ -29,7 +29,7 @@
         {
             "Key": "Down",
             "ExecutionType": "StoppingPress",
-            "Command": "KirbyCrouchAndSlideCommand"
+            "Command": "KirbyEndCrouchCommand"
         },
         {
             "Key": "Up",
@@ -64,7 +64,7 @@
         {
             "Key": "S",
             "ExecutionType": "StoppingPress",
-            "Command": "KirbyCrouchAndSlideCommand"
+            "Command": "KirbyEndCrouchCommand"
         },
         {
             "Key": "W",

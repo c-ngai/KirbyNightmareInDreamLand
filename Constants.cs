@@ -1,9 +1,12 @@
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 //using System.Numerics;
 namespace KirbyNightmareInDreamLand
 {
     public static class Constants
     {
+        public static readonly List<string> ValidEnemyNames = new List<string> { "WaddleDee", "WaddleDoo", "BrontoBurt", "PoppyBrosJr", "Sparky", "Hothead" };
+
         public static class Filepaths
         {
             public const string TextureList = "Content/Images/Textures.txt";

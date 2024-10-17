@@ -19,6 +19,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             initialY = startPosition.Y;
             stateMachine.ChangePose(EnemyPose.FlyingSlow);
             ChangeState(new BrontoBurtFlyingSlowState(this)); // Set initial state
+            //TO-DO: spawn facing the direction kirby is in
+           // stateMachine.ChangeDirection();
         }
 
         public override void Move()
@@ -31,18 +33,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             if (stateMachine.IsLeft())
             {
                 position.X -= Constants.BrontoBurt.MOVE_SPEED;
-                if (position.X <= leftBoundary.X)
-                {
-                    ChangeDirection();
-                }
             }
             else
             {
                 position.X += Constants.BrontoBurt.MOVE_SPEED;
-                if (position.X >= rightBoundary.X)
-                {
-                    ChangeDirection();
-                }
             }
         }
 

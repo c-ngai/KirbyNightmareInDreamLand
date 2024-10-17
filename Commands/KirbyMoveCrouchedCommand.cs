@@ -24,10 +24,10 @@ namespace KirbyNightmareInDreamLand.Commands
         public void Execute()
         {
             kirby.Crouch();
-            if (keyboard.currentState.Contains(attackKey))
-            {
-                keyboard.stopKeys[crouchKey].Execute();
-            }
+            // if (keyboard.currentState.Contains(attackKey))
+            // {
+            //     keyboard.stopKeys[crouchKey].Execute();
+            // }
         }
 
     }

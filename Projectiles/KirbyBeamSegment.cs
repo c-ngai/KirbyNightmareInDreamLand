@@ -14,7 +14,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private int maxFrames = 6; // Segment disappears after 6 frames
         private ISprite sprite1;
         private ISprite sprite2;
-
+        public bool CollisionActive { get; private set;} = true;
         public Vector2 Position
         {
             get => position;
@@ -60,6 +60,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
             frameCount++;
             if (frameCount >= maxFrames)
             {
+                CollisionActive = false;
                 IsActive = false; // Mark the segment as inactive
                 EndAttack();
 
@@ -77,7 +78,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void EndAttack()
         {
-            CollisionDetection.Instance.RemoveDynamicObject(this);
+            CollisionActive = false;
         }
         public bool IsDone()
         {

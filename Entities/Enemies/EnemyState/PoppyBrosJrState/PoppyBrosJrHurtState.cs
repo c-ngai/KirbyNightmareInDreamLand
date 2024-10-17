@@ -35,6 +35,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState
                 if (_enemy.Health <= 0)
                 {
                     _enemy.IsDead = true;
+                    _enemy.CollisionActive = false;
                 }
             }
         }

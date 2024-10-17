@@ -29,8 +29,10 @@ namespace KirbyNightmareInDreamLand
     {
         public TileCollisionType type;
         public Rectangle rectangle;
+        public bool CollisionActive { get; private set;}
         public void RegisterTile()
         {
+            CollisionActive = true;
             CollisionDetection.Instance.RegisterStaticObject(this, this);
         }
         public Rectangle GetHitBox()

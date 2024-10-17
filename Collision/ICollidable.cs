@@ -4,7 +4,7 @@ namespace KirbyNightmareInDreamLand
 {
     public interface ICollidable
     {
-        //bool CollisionActive {get;}
+        bool CollisionActive {get;}
         Rectangle GetHitBox();
 
     }
