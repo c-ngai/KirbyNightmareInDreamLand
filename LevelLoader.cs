@@ -27,7 +27,7 @@ namespace KirbyNightmareInDreamLand
         private ContentManager _content;
         private GraphicsDevice _graphics;
 
-        // Dictionary from string to Room. For easily retrieving a room by name.
+        // Dictionary from string to Tilemap. For easily retrieving a tilemap by name.
         public Dictionary<string, int[][]> Tilemaps { get; private set; }
 
         // Dictionary from string to Room. For easily retrieving a room by name.
@@ -65,10 +65,10 @@ namespace KirbyNightmareInDreamLand
         {
 
             LoadAllTextures();
-            LoadAllSpriteAnimations();
+            LoadAllSpriteAnimations(); // Dependent on textures already loaded
 
             LoadAllTilemaps();
-            LoadAllRooms();
+            LoadAllRooms(); // Dependent on sprite animations and tilemaps already loaded
 
             LoadAllKeymappings();
 
@@ -91,8 +91,7 @@ namespace KirbyNightmareInDreamLand
         public void LoadAllTextures()
         {
             // Open the texture list data file and read its lines into a string array.
-            string textureList = "Content/Images/Textures.txt";
-            string[] textureFilepaths = File.ReadAllLines(textureList);
+            string[] textureFilepaths = File.ReadAllLines(Constants.Filepaths.TextureList);
 
             // Run through the array and load each texture.
             foreach (string textureFilepath in textureFilepaths)
@@ -115,8 +114,7 @@ namespace KirbyNightmareInDreamLand
         public void LoadAllSpriteAnimations()
         {
             // Open the sprite animation data file and deserialize it into a dictionary.
-            string spriteFile = "Content/Images/SpriteAnimations.json";
-            Dictionary<string, SpriteJsonData> SpriteJsonDatas = JsonSerializer.Deserialize<Dictionary<string, SpriteJsonData>>(File.ReadAllText(spriteFile), new JsonSerializerOptions());
+            Dictionary<string, SpriteJsonData> SpriteJsonDatas = JsonSerializer.Deserialize<Dictionary<string, SpriteJsonData>>(File.ReadAllText(Constants.Filepaths.SpriteRegistry), new JsonSerializerOptions());
 
             // Run through the dictionary and load each sprite.
             foreach (KeyValuePair<string, SpriteJsonData> data in SpriteJsonDatas)
@@ -152,8 +150,7 @@ namespace KirbyNightmareInDreamLand
         public void LoadAllTilemaps()
         {
             // Open the texture list data file and read its lines into a string array.
-            string TilemapList = "Content/Tilemaps.txt";
-            string[] TilemapFilepaths = File.ReadAllLines(TilemapList);
+            string[] TilemapFilepaths = File.ReadAllLines(Constants.Filepaths.TilemapList);
 
             // Run through the array and load each texture.
             foreach (string TilemapFilepath in TilemapFilepaths)
@@ -163,10 +160,12 @@ namespace KirbyNightmareInDreamLand
             }
         }
 
+
+
         // Loads a room given its name and data.
         private void LoadRoom(string roomName, RoomJsonData roomJsonData)
         {
-            Room room = new Room(roomJsonData);
+            Room room = new Room(roomName, roomJsonData);
             Rooms.Add(roomName, room);
         }
 
@@ -174,8 +173,7 @@ namespace KirbyNightmareInDreamLand
         public void LoadAllRooms()
         {
             // Open the room data file and deserialize it into a dictionary.
-            string roomFile = "Content/Rooms.json";
-            Dictionary<string, RoomJsonData> RoomJsonDatas = JsonSerializer.Deserialize<Dictionary<string, RoomJsonData>>(File.ReadAllText(roomFile), new JsonSerializerOptions());
+            Dictionary<string, RoomJsonData> RoomJsonDatas = JsonSerializer.Deserialize<Dictionary<string, RoomJsonData>>(File.ReadAllText(Constants.Filepaths.RoomRegistry), new JsonSerializerOptions());
 
             // Run through the dictionary and load each room.
             foreach (KeyValuePair<string, RoomJsonData> data in RoomJsonDatas)
@@ -184,17 +182,20 @@ namespace KirbyNightmareInDreamLand
             }
         }
 
+
+        // Loads a keymap into the keyboard.
         public void LoadKeymap(string keymapName)
         {
             if (Keymaps.ContainsKey(keymapName))
             {
                 // Clear existing key mappings in the controller
-                _game.KeyboardController.ClearMappings();
+                _game.keyboard.ClearMappings();
 
-                // Register new key mappings
+                // Register each new key mapping
                 foreach (var mapping in Keymaps[keymapName])
                 {
-                    _game.KeyboardController.RegisterCommand(mapping.Key, mapping.ExecutionType, mapping.Command);
+                    ICommand command = (ICommand)mapping.CommandConstructorInfo.Invoke(null);
+                    _game.keyboard.RegisterCommand(mapping.Key, mapping.ExecutionType, command);
                 }
             }
             else
@@ -203,33 +204,33 @@ namespace KirbyNightmareInDreamLand
             }
         }
 
-
         // Loads a keymapping given its name and data.
         private void LoadKeymapping(KeymappingJsonData keymappingJsonData, List<Keymapping> Keymap)
         {
-            Debug.WriteLine("Key = " + keymappingJsonData.Key);
-            Debug.WriteLine("ExecutionType = " + keymappingJsonData.ExecutionType);
-            Debug.WriteLine("Command = " + keymappingJsonData.Command);
-            Debug.WriteLine("//////////////");
-
             // Create a new Keymapping object
             Keymapping keymapping = new Keymapping();
 
             // Fill out its fields using the JSON data strings
-            keymapping.Key = (Keys)Enum.Parse(typeof(Keys), keymappingJsonData.Key); // TODO: implement actual behvaior
-            keymapping.ExecutionType = (ExecutionType)Enum.Parse(typeof(ExecutionType), keymappingJsonData.ExecutionType); // TODO: implement actual behvaior
-            keymapping.Command = CommandFactory.GetCommand(keymappingJsonData.Command); // TODO: implement actual behvaior
+            keymapping.Key = (Keys)Enum.Parse(typeof(Keys), keymappingJsonData.Key);
+            keymapping.ExecutionType = (ExecutionType)Enum.Parse(typeof(ExecutionType), keymappingJsonData.ExecutionType);
+            keymapping.CommandConstructorInfo = Type.GetType("KirbyNightmareInDreamLand.Commands." + keymappingJsonData.Command)?.GetConstructor(Type.EmptyTypes);
 
             // Add the new keymapping to its respective list.
-            Keymap.Add(keymapping);
+            if (keymapping.CommandConstructorInfo != null)
+            {
+                Keymap.Add(keymapping);
+            }
+            else
+            {
+                Debug.WriteLine("LevelLoader.LoadKeymapping: ERROR: string \"" + keymappingJsonData.Command + "\" returns null from Type.GetType()");
+            }
         }
 
         // Loads all rooms from the .json file.
         public void LoadAllKeymappings()
         {
             // Open the keymap data file and deserialize it into a dictionary.
-            string keymapFile = "Content/Keymaps.json";
-            Dictionary<string, List<KeymappingJsonData>> KeymapJsonDatas = JsonSerializer.Deserialize<Dictionary<string, List<KeymappingJsonData>>>(File.ReadAllText(keymapFile), new JsonSerializerOptions());
+            Dictionary<string, List<KeymappingJsonData>> KeymapJsonDatas = JsonSerializer.Deserialize<Dictionary<string, List<KeymappingJsonData>>>(File.ReadAllText(Constants.Filepaths.KeymapRegistry), new JsonSerializerOptions());
 
             // Run through each keymap json data in the dictionary
             foreach (KeyValuePair<string, List<KeymappingJsonData>> KeymapJsonData in KeymapJsonDatas)

@@ -14,7 +14,7 @@ namespace KirbyNightmareInDreamLand.Controllers
         // ExecutionType enum
         public ExecutionType ExecutionType { get; set; }
         // Constructor info for respective command
-        public ICommand Command { get; set; }
+        public ConstructorInfo CommandConstructorInfo { get; set; }
     }
 
 }

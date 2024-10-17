@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class KirbyBeamSegment : IProjectile
+    public class KirbyBeamSegment : IProjectile, ICollidable
     {
         private Vector2 position;
         private Vector2 velocity;
@@ -14,7 +14,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private int maxFrames = 6; // Segment disappears after 6 frames
         private ISprite sprite1;
         private ISprite sprite2;
-        private ICollidable collidable; 
 
         public Vector2 Position
         {
@@ -28,13 +27,12 @@ namespace KirbyNightmareInDreamLand.Projectiles
             set => velocity = value;
         }
 
-        public KirbyBeamSegment(Vector2 startPosition, Vector2 beamVelocity)
+        public KirbyBeamSegment(Vector2 startPosition, Vector2 beamVelocity, bool isLeft)
         {
             Position = startPosition;
             Velocity = beamVelocity;
             sprite1 = SpriteFactory.Instance.CreateSprite("projectile_kirby_beam1");
             sprite2 = SpriteFactory.Instance.CreateSprite("projectile_kirby_beam2");
-            collidable = new ProjectileCollisionHandler((int)startPosition.X, (int)startPosition.Y);
 
         }
 
@@ -66,11 +64,20 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 EndAttack();
 
             }
-            collidable.UpdateBoundingBox(position);
+            GetHitBox();
+        }
+        public Vector2 CalculateRectanglePoint(Vector2 pos)
+        {
+            return pos + Constants.HitBoxes.BEAM_OFFSET; 
+        }
+        public Rectangle GetHitBox()
+        {
+            Vector2 rectPoint = CalculateRectanglePoint(Position);
+            return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.BEAM_SIZE, Constants.HitBoxes.BEAM_SIZE);
         }
         public void EndAttack()
         {
-            collidable.DestroyHitBox();
+            CollisionDetection.Instance.RemoveDynamicObject(this);
         }
         public bool IsDone()
         {

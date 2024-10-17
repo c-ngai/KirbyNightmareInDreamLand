@@ -7,77 +7,68 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace KirbyNightmareInDreamLand
 {
-    public class CollisionManager
+    public class CollisionDetection
     {
+        //add someobody in game to keep track of ALL the objects-- in game
+        //when player is created level loader creates player and 
+        //have object manager manage what gets added or deleted from collidable list
+
+        //List and dictionary to be moved to object manager
         //dynamic objects: enemies, projectiles, player
         private List<ICollidable> DynamicObjects;
         //static: tiles
         private Dictionary<Tile, ICollidable> StaticObjects;
-        private static CollisionManager instance = new CollisionManager();
-        private bool CollisionOn = true; // for debug purposes
-        public static CollisionManager Instance
+        private static CollisionDetection instance = new CollisionDetection();
+        private bool CollisionOn = false; // for debug purposes
+        //This will be changed once object manager is applied
+        public static CollisionDetection Instance
         {
             get
             {
                 return instance;
             }
         }
-        public CollisionManager()
+        public CollisionDetection()
         {
             DynamicObjects = new List<ICollidable>();
             StaticObjects = new Dictionary<Tile, ICollidable>();
         }
-
+        //will be moved to object manager
         public void ResetDynamicCollisionBoxes()
         {
-            foreach (var dynamObject in DynamicObjects)
-            {
-                dynamObject.DestroyHitBox();
-            }
-            DynamicObjects.RemoveAll(obj => !obj.IsActive);
+           DynamicObjects = new List<ICollidable>{};
         }
 
         // Register dynamic objects like Player, Enemy, etc.
+         //will be moved to object manager
         public void RegisterDynamicObject(ICollidable dynamicObj)
         {
             DynamicObjects.Add(dynamicObj);
         }
 
         // Register static objects like Tiles.
+         //will be moved to object manager
         public void RegisterStaticObject(Tile tile, ICollidable staticObj)
         {
             if(!StaticObjects.ContainsKey(tile)) StaticObjects.Add(tile, staticObj);
         }
-        // Broad-phase distance check using bounding circles
-        private float GetBoundingRadius(Rectangle boundingBox)
+         //will be moved to object manager
+        public void RemoveDynamicObject(ICollidable dynamicObj)
         {
-            // Use Pythagoras theorem to get half the diagonal as the radius
-            float width = boundingBox.Width;
-            float height = boundingBox.Height;
-            return (float)Math.Sqrt(width * width + height * height) / 2;
+            DynamicObjects.Remove(dynamicObj);
         }
-        // Calculate the center of a bounding box
-        private Vector2 GetCenter(Rectangle boundingBox)
+        
+        private bool IsCloseEnough(ICollidable obj1, ICollidable obj2)
         {
-            return new Vector2(boundingBox.X + boundingBox.Width / 2, boundingBox.Y + boundingBox.Height / 2);
+            int distance =  obj1.GetHitBox().X - obj2.GetHitBox().X;
+            int distance2 = obj1.GetHitBox().Y - obj2.GetHitBox().Y;
+            int close = 55;
+
+            // If the distance between the objects is less than the sum of their radii, they're close enough to check further
+            return distance<close && distance2<close;
         }
-        //private bool IsCloseEnough(ICollidable obj1, ICollidable obj2)
-        //{
-        //    // Get the center points of the objects
-        //    Vector2 center1 = GetCenter(obj1.BoundingBox);
-        //    Vector2 center2 = GetCenter(obj2.BoundingBox);
 
-        //    // Calculate the distance between the two objects' centers
-        //    float distance = Vector2.Distance(center1, center2);
-
-        //    // Define a rough collision radius (half the diagonal length of the bounding box)
-        //    float radius1 = GetBoundingRadius(obj1.BoundingBox);
-        //    float radius2 = GetBoundingRadius(obj2.BoundingBox);
-
-        //    // If the distance between the objects is less than the sum of their radii, they're close enough to check further
-        //    return distance < (radius1 + radius2);
-        //}
-
+        // Method to handle collision detection
         public CollisionSide CheckSide(Rectangle intersection, ICollidable object1)
         {
             // Determine positions for all corners of the intersection
@@ -87,7 +78,7 @@ namespace KirbyNightmareInDreamLand
             int intersectionBottomLeftAndRightCornerY = intersection.Y - intersection.Height;
 
             // Determine x-y positions for all corners of the object's hit box
-            Rectangle objectRectangle = object1.BoundingBox;
+            Rectangle objectRectangle = object1.GetHitBox();
             int objectTopAndBottomRightCornerX = objectRectangle.X + objectRectangle.Width;
             int objectTopRightCornerY = objectRectangle.Y;
             int objectBottomLeftCornerX = objectRectangle.X;
@@ -154,19 +145,15 @@ namespace KirbyNightmareInDreamLand
         {
             for (int i = 0; i < DynamicObjects.Count; i++)
             {
+                //if(!DynamicObjects[i].CollisionActive)continue;
                 for (int j = i + 1; j < DynamicObjects.Count; j++)
                 {
-                    if (DynamicObjects[i].IsActive && DynamicObjects[j].IsActive)
+                    //if(!DynamicObjects[j].CollisionActive) continue;
+                    if(!IsCloseEnough(DynamicObjects[i],DynamicObjects[j])) continue;
+                    if (DynamicObjects[i].GetHitBox().Intersects(DynamicObjects[j].GetHitBox()))
                     {
-                        if (!DynamicObjects[i].IsActive || !DynamicObjects[j].IsActive) continue;
-                        //make function to get type to check if its enemies
-                        if (DynamicObjects[i].BoundingBox.Intersects(DynamicObjects[j].BoundingBox))
-                        {
-                            DynamicObjects[i].OnCollision(DynamicObjects[j]);
-                            DynamicObjects[j].OnCollision(DynamicObjects[i]);
-                        }
+                        //go to collision response
                     }
-
                 }
             }
         }
@@ -184,30 +171,28 @@ namespace KirbyNightmareInDreamLand
                 //add check for enemies not colliding with each other?? probably within their ouwn class
                 DynamicCollisionCheck();
             }
-
-
         }
+        // i dont think he wants that many command classes
+        //otherwise he would have mentioned it
         public void DebugDraw(SpriteBatch spriteBatch)
         {
             foreach (var dynamicObj in DynamicObjects)
             {
-                if (dynamicObj.IsActive)
-                {
-                    GameDebug.Instance.DrawRectangle(spriteBatch, dynamicObj.BoundingBox, Color.Red);
-                }
+                //if(dynamicObj.CollisionActive){
+                    GameDebug.Instance.DrawRectangle(spriteBatch, dynamicObj.GetHitBox(), Color.Red);
+                //}
             }
 
             IDictionaryEnumerator enumerator = StaticObjects.GetEnumerator();
             while (enumerator.MoveNext())
             {
                 ICollidable staticObject = (ICollidable)enumerator.Value;
-                if (staticObject.IsActive)
-                {
-                    GameDebug.Instance.DrawRectangle(spriteBatch, staticObject.BoundingBox, Color.Red);
-                }
+                GameDebug.Instance.DrawRectangle(spriteBatch, staticObject.GetHitBox(), Color.Red);
             }
         }
 
     }
+    //im thinking of adding a remove box method to take it off the list, instead of working thpugh
+    //is active should that be in detection2          
 
 }

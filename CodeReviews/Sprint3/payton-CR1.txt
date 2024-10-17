@@ -1,0 +1,46 @@
+﻿﻿Sprint 3 Readabilty Code Review     10/16/2024
+
+Author of Code Review: Payton Murphy
+Name of .cs file being reviewed: Level.cs
+Author of .cs file being reivewed: Vivian Ferrigni
+
+**NOTE** Only the code up until the "// Following methods authored by Mark" comment is being reviewed here
+
+
+Time taken to complete review: 25 minutes
+
+################################################################################
+
+10 Code Smells:
+
+1. SwitchStatementsSmell
+2. SameNameDifferentMeaning
+3. TooManyParameters
+4. InappropriateIntimacy ***
+5. VagueIdentifiers
+6. Middleman
+7. VariableNameSameAsType
+8. WhileNotDoneLoop
+9. DataClumps ***
+10. InstanceofInConditionals
+
+################################################################################
+
+Comments on code smells:
+
+InappropriateIntimacy: Level has intimate knowledge of the Game1 and Camera classes. Consider introducing higher-level abstractions or
+limiting direct acess to _game and _camera.
+
+DataClumps: In the atDoor and nextRoom methods, Rectangle door_rec is created from repeated components ((int)doorPos.X) and (int)doorPos.Y)). This
+pattern might benefit from being refactored into a helper method or encapsulated in a class.
+
+No other major code smells were detected. Nice!
+
+
+Readability comments:
+
+The code has a logical structure and clear methods, contributing to a strong readability. The names of methods are mostly clear, but the readability
+could be imporved with single-job comments for each one. Splitting large methods like LoadLevelObjects into smaller, more focused methods would further
+enhance readability. Another sidenote, magic numbers such as "0.85f" should be replaced with constants to improve readability, but I see that you have
+a comment and plan on doing that, so just don't forget about it! Overall, I didn't have a hard time understanding the code, so the readability is
+pretty good so far. Nice work!
