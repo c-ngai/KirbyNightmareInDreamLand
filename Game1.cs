@@ -12,6 +12,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System;
 using System.Diagnostics;
 using KirbyNightmareInDreamLand.Collision;
+using KirbyNightmareInDreamLand.Entities;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -177,7 +178,7 @@ namespace KirbyNightmareInDreamLand
 
 
             // Currently commented out since we don't need the item
-            //LoadItem();
+            LoadItem();
 
             // Creates enemies
             waddledeeTest = new WaddleDee(new Vector2(80, Constants.Graphics.FLOOR));
@@ -222,8 +223,6 @@ namespace KirbyNightmareInDreamLand
 
         }
 
-
-
         List<IEnemy> enemyList2 = new List<IEnemy>(); // FOR PERFORMANCE TESTING
         protected override void Update(GameTime gameTime)
         {
@@ -242,7 +241,7 @@ namespace KirbyNightmareInDreamLand
             enemyList[currentEnemyIndex].Update(time);
 
             // Commented out since we currently do not need item
-            //item.Update();
+            item.Update();
 
             //enemyList2.Add(new Hothead(new Vector2(170, 100))); // FOR PERFORMANCE TESTING
             foreach (IEnemy enemy in enemyList2) enemy.Update(time); // FOR PERFORMANCE TESTING
@@ -268,11 +267,12 @@ namespace KirbyNightmareInDreamLand
             // Draw only selected enemy
             // enemyList[currentEnemyIndex].Draw(spriteBatch);
             foreach (IEnemy enemy in enemyList2) enemy.Draw(spriteBatch); // FOR PERFORMANCE TESTING
+
             // Draw kirby
             foreach(IPlayer player in players) player.Draw(spriteBatch);
 
             // Not currently using item
-            //item.Draw(new Vector2(200, 150), spriteBatch);
+            // item.Draw(new Vector2(200, 150), spriteBatch);
             if (DEBUG_COLLISION_MODE)
             {
                 CollisionDetection.Instance.DebugDraw(spriteBatch);

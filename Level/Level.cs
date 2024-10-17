@@ -1,4 +1,6 @@
-﻿using KirbyNightmareInDreamLand.Entities.Enemies;
+﻿using KirbyNightmareInDreamLand.Entities;
+using KirbyNightmareInDreamLand.Entities.Enemies;
+using KirbyNightmareInDreamLand.Entities.PowerUps;
 using KirbyNightmareInDreamLand.Sprites;
 using KirbyNightmareInDreamLand.StateMachines;
 using Microsoft.Xna.Framework;
@@ -19,11 +21,13 @@ namespace KirbyNightmareInDreamLand
         private Game1 _game;
         private Camera _camera;
 
-        public float BackgroundParallaxFactor { get; set; } = 0.85f; // fix magic number 
+        public float BackgroundParallaxFactor { get; } = 0.85f; // fix magic number 
 
         public Room CurrentRoom { get; private set; }
 
         private List<Enemy> enemyList;
+
+        private List<PowerUp> powerUpList;
 
         private List<Sprite> TileSprites;
 
@@ -134,6 +138,31 @@ namespace KirbyNightmareInDreamLand
                     }
                 }
             }
+
+            powerUpList = new List<PowerUp>();
+            foreach (PowerUpData powerUp in CurrentRoom.PowerUps)
+            {
+
+                Vector2 powerUpSpawnPoint = convertTileToPixel(powerUp.TileSpawnPoint);
+                powerUpSpawnPoint += new Vector2(8, 16);
+                Type type = Type.GetType("KirbyNightmareInDreamLand.Entities.PowerUps" + powerUp.PowerUpType);
+
+                if (type != null)
+                {
+                    System.Diagnostics.Debug.Assert(false);
+
+                    // Get the constructor that takes a Vector2 parameter
+                    var constructor = type.GetConstructor(new[] { typeof(Vector2) });
+
+                    if (constructor != null)
+                    {
+                        // Create an instance of the enemy
+                        PowerUp powerUpObject = (PowerUp)constructor.Invoke(new object[] { powerUpSpawnPoint });
+                        powerUpList.Add(powerUpObject);
+                    }
+                }
+            }
+
         }
 
         // draws enemies and tomatoes
@@ -144,6 +173,11 @@ namespace KirbyNightmareInDreamLand
                 enemy.Draw(spriteBatch);
             }
 
+            foreach (PowerUp powerUp in powerUpList)
+            {
+                System.Diagnostics.Debug.Assert(false);
+                powerUp.Draw(spriteBatch);
+            }
         }
 
         // tells player if they are at a door or not 
@@ -153,11 +187,7 @@ namespace KirbyNightmareInDreamLand
             foreach(Door door in CurrentRoom.Doors)
             {
                 Vector2 doorPos = convertTileToPixel(door.TilePosition);
-                Rectangle door_rec = new Rectangle(
-                    (int)doorPos.X,
-                    (int)doorPos.Y,
-                    Constants.Level.TILE_SIZE,
-                    Constants.Level.TILE_SIZE);
+                Rectangle door_rec = getDoorRec(door);
                 if(door_rec.Contains(playerPosition))
                 {
                     result = true;
@@ -172,18 +202,22 @@ namespace KirbyNightmareInDreamLand
         {
             foreach(Door door in CurrentRoom.Doors)
             {
-                Vector2 doorPos = convertTileToPixel(door.TilePosition);
-                Rectangle door_rec = new Rectangle(
-                    (int)doorPos.X,
-                    (int)doorPos.Y,
-                    Constants.Level.TILE_SIZE,
-                    Constants.Level.TILE_SIZE);
+                Rectangle door_rec = getDoorRec(door);
 
                 if (door_rec.Contains(playerPos))
                 {
                     LoadRoom(door.DestinationRoom);
                 }
             }
+        }
+
+        public Rectangle getDoorRec(Door door)
+        {
+            return new Rectangle(
+                    (int)door.TilePosition.X,
+                    (int)door.TilePosition.Y,
+                    Constants.Level.TILE_SIZE,
+                    Constants.Level.TILE_SIZE);
         }
 
         public Vector2 convertTileToPixel(Vector2 tilePosition)
