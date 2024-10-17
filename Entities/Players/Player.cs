@@ -285,7 +285,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void Slide()
         {
-            if(state.IsCrouching()){
+            if(!state.IsSliding()){
                 ChangePose(KirbyPose.Sliding);
                 movement.Slide(state.IsLeft());
                 //await Task.Delay(Constants.Physics.DELAY);
@@ -293,7 +293,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void EndSlide()
         {
-            if(state.IsCrouching() && state.IsAttacking()){
+            if(state.IsSliding()){
                 ChangePose(KirbyPose.Crouching);
                 movement.StopMovement();
                 StopAttacking();

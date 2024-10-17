@@ -75,6 +75,10 @@ namespace KirbyNightmareInDreamLand.StateMachines
         {
             return (GetPose() == KirbyPose.Attacking) || (GetPose() == KirbyPose.Inhaling)|| (GetPose() == KirbyPose.Sliding);
         }
+        public bool IsSliding()
+        {
+            return GetPose() == KirbyPose.Sliding;
+        }
 
         public bool CanMove()
         {
