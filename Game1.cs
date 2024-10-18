@@ -13,6 +13,7 @@ using System;
 using System.Diagnostics;
 using KirbyNightmareInDreamLand.Collision;
 using KirbyNightmareInDreamLand.Entities;
+using KirbyNightmareInDreamLand.Actions;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -29,25 +30,6 @@ namespace KirbyNightmareInDreamLand
 
         public Level level { get; private set; }
 
-        // Single-player but can later be updated to an array of kirbys for multiplayer
-        public List<IPlayer> players;
-
-
-        // Get enemies (currently one of each but can change to an array of each enemy type)
-        private IEnemy waddledeeTest;
-        private IEnemy waddledooTest;
-        private IEnemy brontoburtTest;
-        private IEnemy hotheadTest;
-        private IEnemy poppybrosjrTest;
-        private IEnemy sparkyTest;
-
-        // List of all enemies
-        public IEnemy[] enemyList { get; set; }
-
-        public Sprite item { get; set; }
-
-        // TODO: Decoupling: move this out later
-        public int currentEnemyIndex { get; set; }
 
         // Sets up single reference for game time for things such as commands which cannot get current time elsewise
         // Note this is program time and not game time 
@@ -56,6 +38,8 @@ namespace KirbyNightmareInDreamLand
         public static GameTime GameTime { get; private set; }
 
         public Stopwatch TickStopwatch { get; private set; } = new Stopwatch();
+
+        public ObjectManager objectManager { get; private set; }
 
 
         // Graphics settings modifiable at runtime
@@ -132,67 +116,10 @@ namespace KirbyNightmareInDreamLand
             keyboard = new KeyboardController();
             mouseController = new MouseController();
 
+            objectManager = ObjectManager.Instance;
+
             base.Initialize();
         }
-
-
-
-        // Everything in this region will move into eventual loader file
-        #region LoaderDetails
-
-        public void SetCollisionResponses()
-        {
-            String key1 = "IPlayer";
-            String key2 = "Air";
-            for (int i = 0; i < Constants.HitBoxes.SIDES; i++)
-            {
-                CollisionResponse.Instance.RegisterCollision(key1, key2, (CollisionSide) i, null, null);
-            }
-
-            key2 = "Water";
-            for (int i = 0; i < Constants.HitBoxes.SIDES; i++)
-            {
-                CollisionResponse.Instance.RegisterCollision(key1, key2, (CollisionSide)i, null, null);
-            }
-
-
-
-        }
-
-        public void LoadItem()
-        {
-            item = SpriteFactory.Instance.CreateSprite("item_maximtomato");
-        }
-
-        public void LoadObjects()
-        {
-            CollisionDetection.Instance.ResetDynamicCollisionBoxes();
-            // Creates kirby object
-            //make it a list from the get go to make it multiplayer asap
-            players = new List<IPlayer>();
-            IPlayer kirby = new Player(new Vector2(30, Constants.Graphics.FLOOR));
-            kirby.PlayerSprite = SpriteFactory.Instance.CreateSprite("kirby_normal_standing_right");
-            players.Add(kirby);
-            // Target the camera on Kirby
-            camera.TargetPlayer(players[0]);
-
-
-            // Currently commented out since we don't need the item
-            // LoadItem();
-
-            // Creates enemies
-            waddledeeTest = new WaddleDee(new Vector2(80, Constants.Graphics.FLOOR));
-            waddledooTest = new WaddleDoo(new Vector2(80, Constants.Graphics.FLOOR));
-            brontoburtTest = new BrontoBurt(new Vector2(80, Constants.Graphics.FLOOR));
-            hotheadTest = new Hothead(new Vector2(80, Constants.Graphics.FLOOR));
-            poppybrosjrTest = new PoppyBrosJr(new Vector2(80, Constants.Graphics.FLOOR));
-            sparkyTest = new Sparky(new Vector2(80, Constants.Graphics.FLOOR));
-
-            enemyList = new IEnemy[] { waddledeeTest, waddledooTest, brontoburtTest, hotheadTest, poppybrosjrTest, sparkyTest };
-            currentEnemyIndex = 0;
-            
-        }
-        #endregion
 
         protected override void LoadContent()
         {
@@ -211,7 +138,7 @@ namespace KirbyNightmareInDreamLand
             LevelLoader.Instance.LoadAllContent();
 
             // Load all objects
-            LoadObjects();
+            ObjectManager.Instance.LoadObjects();
 
             // Create level instance and load initial room
             level = new Level();
@@ -244,8 +171,8 @@ namespace KirbyNightmareInDreamLand
 
             GameTime = gameTime;
 
-            foreach(IPlayer player in players) player.Update(time);
-            enemyList[currentEnemyIndex].Update(time);
+            foreach(IPlayer player in objectManager.players) player.Update(time);
+            objectManager.enemyList[objectManager.currentEnemyIndex].Update(time);
 
             // Commented out since we currently do not need item
             // item.Update();
@@ -276,7 +203,7 @@ namespace KirbyNightmareInDreamLand
             foreach (IEnemy enemy in enemyList2) enemy.Draw(spriteBatch); // FOR PERFORMANCE TESTING
 
             // Draw kirby
-            foreach(IPlayer player in players) player.Draw(spriteBatch);
+            foreach(IPlayer player in objectManager.players) player.Draw(spriteBatch);
 
             // Not currently using item
             // item.Draw(new Vector2(200, 150), spriteBatch);

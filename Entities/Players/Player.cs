@@ -41,13 +41,18 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             state = new PlayerStateMachine();
             movement = new NormalPlayerMovement(pos);
             oldState = state.GetStateString();
-            CollisionDetection.Instance.RegisterDynamicObject(this);
+            ObjectManager.Instance.RegisterDynamicObject(this);
         }
         public Sprite PlayerSprite
         {
             //change it so it cannot be changed by cgame aka delete this
 
             set{playerSprite = value;}
+        }
+
+        public string GetObjectType()
+        {
+            return "Player";
         }
 
         //changes kiry's texture if he is in a different state than before
@@ -411,7 +416,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #region Collisions
         public void BottomCollisionWithBlock(Tile tile)
         {
-            movement.AdjustFromBottomCollisionBlockOrPlatform(this, tile);
+            movement.AdjustFromBottomCollisionBlock(this, tile);
         }
         public void RightCollisionWithBlock(Tile tile)
         {
@@ -420,6 +425,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void LeftCollisionWithBlock(Tile tile)
         {
             movement.AdjustFromLeftCollisionBlock(this, tile);
+        }
+        public void BottomCollisionWithPlatform(Tile tile)
+        {
+            movement.AdjustFromBottomCollisionPlatform(this, tile);
         }
         #endregion
 

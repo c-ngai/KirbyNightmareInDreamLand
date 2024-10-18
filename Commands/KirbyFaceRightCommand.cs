@@ -5,7 +5,7 @@ namespace KirbyNightmareInDreamLand.Commands
     {
         public void Execute()
         {
-            Game1.Instance.players[0].SetDirectionRight();
+            ObjectManager.Instance.players[0].SetDirectionRight();
         }
     }
 }

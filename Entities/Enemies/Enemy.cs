@@ -33,7 +33,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             stateMachine = new EnemyStateMachine(type);
             oldState = string.Empty;
             currentState = new WaddleDooWalkingState(this); // Initialize with the walking state
-            CollisionDetection.Instance.RegisterDynamicObject(this);
+            ObjectManager.Instance.RegisterDynamicObject(this);
             currentState.Enter();
             frameCounter = 0; 
         }
@@ -64,6 +64,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public int FrameCounter
         {
             get { return frameCounter; }
+        }
+        public string GetObjectType()
+        {
+            return "Enemy";
         }
 
         public void IncrementFrameCounter()
@@ -139,7 +143,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             }
             else
             {
-                CollisionDetection.Instance.RemoveDynamicObject(this); // Deregister if dead
+                ObjectManager.Instance.RemoveDynamicObject(this); // Deregister if dead
             }
         }
 

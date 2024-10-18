@@ -25,10 +25,14 @@ namespace KirbyNightmareInDreamLand.Entities.PowerUps
             position = startPosition;
             powerUpType = type;
             powerUpSprite = SpriteFactory.Instance.CreateSprite(powerUpType);
-            CollisionDetection.Instance.RegisterDynamicObject(this);
+            ObjectManager.Instance.RegisterDynamicObject(this);
 
         }
 
+        public string GetObjectType()
+        {
+            return "PowerUp";
+        }
         public Vector2 CalculateRectanglePoint(Vector2 pos)
         {
             float x = pos.X - Constants.HitBoxes.TILE_WIDTH / 2;
@@ -58,7 +62,7 @@ namespace KirbyNightmareInDreamLand.Entities.PowerUps
             }
             else
             {
-                CollisionDetection.Instance.RemoveDynamicObject(this); // Deregister if item is used 
+                ObjectManager.Instance.RemoveStaticObject(this); // Deregister if item is used 
             }
         }
 

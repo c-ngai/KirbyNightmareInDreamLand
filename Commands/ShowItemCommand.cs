@@ -2,15 +2,15 @@
 {
     public class ShowItemCommand : ICommand
     {
-        Game1 game;
-        public ShowItemCommand(Game1 currentGame)
+        ObjectManager manager;
+        public ShowItemCommand()
         {
-            game = currentGame;
+            manager = ObjectManager.Instance;
         }
 
         public void Execute()
         {
-            game.LoadItem();
+            manager.LoadItem();
         }
     }
 }

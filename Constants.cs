@@ -52,6 +52,7 @@ namespace KirbyNightmareInDreamLand
         public static class Level
         {
             public const int TILE_SIZE = 16;
+            public const int NUMBER_OF_TILE_TYPES = 10;
             public static Vector2 MIDDLE_OF_TILE = new Vector2(8, 16);
         }
         public static class HitBoxes

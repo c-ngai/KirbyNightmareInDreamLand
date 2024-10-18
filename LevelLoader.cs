@@ -1,4 +1,6 @@
-﻿using KirbyNightmareInDreamLand.Commands;
+﻿using KirbyNightmareInDreamLand.Actions;
+using KirbyNightmareInDreamLand.Collision;
+using KirbyNightmareInDreamLand.Commands;
 using KirbyNightmareInDreamLand.Controllers;
 using KirbyNightmareInDreamLand.Entities.Enemies;
 using KirbyNightmareInDreamLand.Sprites;
@@ -26,6 +28,7 @@ namespace KirbyNightmareInDreamLand
         private Game1 _game;
         private ContentManager _content;
         private GraphicsDevice _graphics;
+        private CollisionResponse collisionResponse;
 
         // Dictionary from string to Tilemap. For easily retrieving a tilemap by name.
         public Dictionary<string, int[][]> Tilemaps { get; private set; }
@@ -57,6 +60,7 @@ namespace KirbyNightmareInDreamLand
             Tilemaps = new Dictionary<string, int[][]>();
             Rooms = new Dictionary<string, Room>();
             Keymaps = new Dictionary<string, List<Keymapping>>();
+            collisionResponse = CollisionResponse.Instance;
         }
 
 
@@ -224,6 +228,84 @@ namespace KirbyNightmareInDreamLand
             {
                 Debug.WriteLine("LevelLoader.LoadKeymapping: ERROR: string \"" + keymappingJsonData.Command + "\" returns null from Type.GetType()");
             }
+        }
+
+        public void SetCollisionResponses()
+        {
+            String key1 = "Player";
+            String key2 = "Air";
+            for (int i = 0; i < Constants.HitBoxes.SIDES; i++)
+            {
+                collisionResponse.RegisterCollision(key1, key2, (CollisionSide)i, null, null);
+            }
+
+            key2 = "Water";
+            for (int j = 0; j < Constants.HitBoxes.SIDES; j++)
+            {
+                collisionResponse.RegisterCollision(key1, key2, (CollisionSide)j, null, null);
+            }
+
+
+            key2 = "Platform";
+            Action<ICollidable> action = KirbyTileCollisionActions.KirbyBottomPlatformCollision;
+            for (int k = 0; k < Constants.HitBoxes.SIDES; k++)
+            {
+
+                if ((CollisionSide)k != CollisionSide.Bottom)
+                {
+                    collisionResponse.RegisterCollision(key1, key2, (CollisionSide)k, null, null);
+                }
+                else
+                {
+                    collisionResponse.RegisterCollision(key1, key2, (CollisionSide)k, action, null);
+                }
+            }
+
+            key2 = "Block";
+            action = KirbyTileCollisionActions.KirbyBottomBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action, null);
+            action = KirbyTileCollisionActions.KirbyRightBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action, null);
+            action = KirbyTileCollisionActions.KirbyLeftBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Top, null, null);
+
+            // TODO: add the correct commands for the slope handling;
+            key2 = "SlopeSteepLeft";
+            action = KirbyTileCollisionActions.KirbyBottomBlockCollision;
+            for (int i = 0; i < Constants.HitBoxes.SIDES; i++)
+            {
+                collisionResponse.RegisterCollision(key1, key2, (CollisionSide)i, action, null);
+            }
+
+            key2 = "SlopeGentle1Left";
+            for (int i = 0; i < Constants.HitBoxes.SIDES; i++)
+            {
+                collisionResponse.RegisterCollision(key1, key2, (CollisionSide)i, action, null);
+            }
+
+            key2 = "SlopeGentle2Left";
+            for (int i = 0; i < Constants.HitBoxes.SIDES; i++)
+            {
+                collisionResponse.RegisterCollision(key1, key2, (CollisionSide)i, action, null);
+            }
+
+            key2 = "SlopeGentle2Right";
+            for (int i = 0; i < Constants.HitBoxes.SIDES; i++)
+            {
+                collisionResponse.RegisterCollision(key1, key2, (CollisionSide)i, action, null);
+            }
+
+            key2 = "SlopeGentle1Right";
+            for (int i = 0; i < Constants.HitBoxes.SIDES; i++)
+            {
+                collisionResponse.RegisterCollision(key1, key2, (CollisionSide)i, action, null);
+            }
+
+
+
+
+
         }
 
         // Loads all rooms from the .json file.

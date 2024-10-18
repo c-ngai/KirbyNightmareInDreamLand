@@ -37,6 +37,7 @@ namespace KirbyNightmareInDreamLand
         private List<PowerUp> powerUpList;
 
         private List<Sprite> TileSprites;
+        private ObjectManager manager = ObjectManager.Instance;
 
         // Holds a sprite for kirby and each enemy type to draw at their spawn points in level debug mode.
         private Dictionary<string, Sprite> SpawnSprites = new Dictionary<string, Sprite>()
@@ -63,10 +64,10 @@ namespace KirbyNightmareInDreamLand
         {
             if (LevelLoader.Instance.Rooms.ContainsKey(RoomName))
             {
-                CollisionDetection.Instance.ResetDynamicCollisionBoxes();
+                manager.ResetDynamicCollisionBoxes();
                 CurrentRoom = LevelLoader.Instance.Rooms[RoomName];
                 LoadLevelObjects();
-                foreach (IPlayer player in _game.players)
+                foreach (IPlayer player in manager.players)
                 {
                     player.GoToRoomSpawn();
                 }

@@ -30,32 +30,7 @@ namespace KirbyNightmareInDreamLand
         }
         public CollisionDetection()
         {
-            DynamicObjects = new List<ICollidable>();
-            StaticObjects = new Dictionary<Tile, ICollidable>();
-        }
-        //will be moved to object manager
-        public void ResetDynamicCollisionBoxes()
-        {
-           DynamicObjects = new List<ICollidable>{};
-        }
 
-        // Register dynamic objects like Player, Enemy, etc.
-         //will be moved to object manager
-        public void RegisterDynamicObject(ICollidable dynamicObj)
-        {
-            DynamicObjects.Add(dynamicObj);
-        }
-
-        // Register static objects like Tiles.
-         //will be moved to object manager
-        public void RegisterStaticObject(Tile tile, ICollidable staticObj)
-        {
-            if(!StaticObjects.ContainsKey(tile)) StaticObjects.Add(tile, staticObj);
-        }
-         //will be moved to object manager
-        public void RemoveDynamicObject(ICollidable dynamicObj)
-        {
-            DynamicObjects.Remove(dynamicObj);
         }
         
         private bool IsCloseEnough(ICollidable obj1, ICollidable obj2)
@@ -104,37 +79,37 @@ namespace KirbyNightmareInDreamLand
 
         public void StaticCollisionCheck()
         {
-            foreach (var dynamicObj in DynamicObjects)
-            {
-                List<Tile> nearbyTiles = Game1.Instance.level.IntersectingTiles(dynamicObj.GetHitBox());
-                foreach (Tile tile in nearbyTiles)
-                {
-                    if (dynamicObj.GetHitBox().Intersects(tile.rectangle))
-                    {
-                        Rectangle intersection = Rectangle.Intersect(dynamicObj.GetHitBox(), tile.rectangle);
+            //foreach (var dynamicObj in DynamicObjects)
+            //{
+            //    List<Tile> nearbyTiles = Game1.Instance.level.IntersectingTiles(dynamicObj.GetHitBox());
+            //    foreach (Tile tile in nearbyTiles)
+            //    {
+            //        if (dynamicObj.GetHitBox().Intersects(tile.rectangle))
+            //        {
+            //            Rectangle intersection = Rectangle.Intersect(dynamicObj.GetHitBox(), tile.rectangle);
 
-                        CollisionSide side = DetectCollisionSide(dynamicObj.GetHitBox(), intersection);
+            //            CollisionSide side = DetectCollisionSide(dynamicObj.GetHitBox(), intersection);
 
-                        //CollisionResponse.Instance.ExecuteCollision(dynamicObj, StaticObjects[tile], side);
-                    }
-                }
-            }
+            //            CollisionResponse.Instance.ExecuteCollision(dynamicObj, StaticObjects[tile], side);
+            //        }
+            //    }
+            //}
         }
         public void DynamicCollisionCheck()
         {
-            for (int i = 0; i < DynamicObjects.Count; i++)
-            {
-                if(!DynamicObjects[i].CollisionActive)continue;
-                for (int j = i + 1; j < DynamicObjects.Count; j++)
-                {
-                    //run and time and comment out close enough to check if it improved performance
-                    if(!IsCloseEnough(DynamicObjects[i],DynamicObjects[j])) continue;
-                    if (DynamicObjects[i].GetHitBox().Intersects(DynamicObjects[j].GetHitBox()))
-                    {
-                        //go to collision response
-                    }
-                }
-            }
+            //for (int i = 0; i < DynamicObjects.Count; i++)
+            //{
+            //    if(!DynamicObjects[i].CollisionActive)continue;
+            //    for (int j = i + 1; j < DynamicObjects.Count; j++)
+            //    {
+            //        //run and time and comment out close enough to check if it improved performance
+            //        if(!IsCloseEnough(DynamicObjects[i],DynamicObjects[j])) continue;
+            //        if (DynamicObjects[i].GetHitBox().Intersects(DynamicObjects[j].GetHitBox()))
+            //        {
+            //            //go to collision response
+            //        }
+            //    }
+            //}
         }
 
         // Method to handle collision detection

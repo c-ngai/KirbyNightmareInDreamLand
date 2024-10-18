@@ -1,43 +1,43 @@
-﻿using KirbyNightmareInDreamLand.Sprites;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace KirbyNightmareInDreamLand
 {
 
     public enum TileCollisionType
     {
-        Air = 0,
-        Block = 1,
-        Platform = 2,
-        Water = 3,
-        SlopeSteepLeft = 4,
-        SlopeGentle1Left = 5,
-        SlopeGentle2Left = 6,
-        SlopeGentle2Right = 7,
-        SlopeGentle1Right = 8,
-        SlopeSteepRight = 9
+        Air, 
+        Block,
+        Platform,
+        Water,
+        SlopeSteepLeft,
+        SlopeGentle1Left,
+        SlopeGentle2Left,
+        SlopeGentle2Right,
+        SlopeGentle1Right,
+        SlopeSteepRight
     }
 
     public struct Tile :ICollidable
     {
         public TileCollisionType type;
         public Rectangle rectangle;
+ 
         public bool CollisionActive { get; private set;}
         public void RegisterTile()
         {
             CollisionActive = true;
-            CollisionDetection.Instance.RegisterStaticObject(this, this);
+            ObjectManager.Instance.RegisterStaticObject(this);
         }
         public Rectangle GetHitBox()
         {
             return rectangle;
+        }
+
+        public string GetObjectType()
+        {
+            return ObjectManager.Instance.tileTypes[(int)type];
         }
     }
 

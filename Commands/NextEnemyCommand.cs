@@ -8,17 +8,17 @@ namespace KirbyNightmareInDreamLand.Commands
 {
     public class NextEnemyCommand : ICommand
     {
-        private Game1 game;
+        ObjectManager objectManager;
 
         public NextEnemyCommand()
         {
-            this.game = Game1.Instance;
+            objectManager = ObjectManager.Instance;
         }
 
         // Move to the next enemy in the list
         public void Execute()
         {
-            game.currentEnemyIndex = (game.currentEnemyIndex + 1) % game.enemyList.Length;
+            objectManager.currentEnemyIndex = (objectManager.currentEnemyIndex + 1) % objectManager.enemyList.Length;
         }
     }
 }

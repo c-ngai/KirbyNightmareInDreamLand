@@ -21,7 +21,7 @@ namespace KirbyNightmareInDreamLand.Commands
         public KirbyEndCrouchCommand()
         {
             // Accessing the player and keyboard controller through Game1.Instance
-            kirby = Game1.Instance.players[0]; // Assuming there is always at least one player
+            kirby = ObjectManager.Instance.players[0]; // Assuming there is always at least one player
             keyboard = Game1.Instance.keyboard;
             crouchKey = Keys.Down; // Set the crouch key to down arrow
             attackKey = Keys.Z;    // Set the attack key to 'Z'

@@ -31,5 +31,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         void BottomCollisionWithBlock(Tile tile);
         void RightCollisionWithBlock(Tile tile);
         void LeftCollisionWithBlock(Tile tile);
+        void BottomCollisionWithPlatform(Tile tile);
     }
 }

@@ -10,7 +10,7 @@ namespace KirbyNightmareInDreamLand.Collision
         //level loader times register collision?
         //not  abad idea to and them the collision rectangle, most ocllision handlers will want to know overlap
         //or have it in constructors 
-        private Dictionary<Tuple<String, String, CollisionSide>, Tuple<Action<ICollidable>, Action<ICollidable>>> collisionMapping;
+        private Dictionary<Tuple<string, string, CollisionSide>, Tuple<Action<ICollidable>, Action<ICollidable>>> collisionMapping;
         private static CollisionResponse instance = new CollisionResponse();
         public static CollisionResponse Instance
         {
@@ -22,14 +22,14 @@ namespace KirbyNightmareInDreamLand.Collision
 
         public CollisionResponse()
         {
-            collisionMapping = new Dictionary<Tuple<String, String, CollisionSide>, Tuple<Action<ICollidable>, Action<ICollidable>>>();
+            collisionMapping = new Dictionary<Tuple<string, string, CollisionSide>, Tuple<Action<ICollidable>, Action<ICollidable>>>();
         }
 
         // Creates string mappings of object types and collision side to determine object reactions 
         // gets called by level loader
-        public void RegisterCollision(String object1, String object2, CollisionSide side, Action<ICollidable> object1Command, Action<ICollidable> object2Command)
+        public void RegisterCollision(string object1, string object2, CollisionSide side, Action<ICollidable> object1Command, Action<ICollidable> object2Command)
         {
-            Tuple<String, String, CollisionSide> objects = new Tuple<String, String, CollisionSide>(object1, object2, side);
+            Tuple<string, string, CollisionSide> objects = new Tuple<string, string, CollisionSide>(object1, object2, side);
             Tuple<Action<ICollidable>, Action<ICollidable>>commands = new Tuple<Action<ICollidable>, Action<ICollidable>>(object1Command, object2Command);
             collisionMapping.Add(objects, commands);
         }
@@ -42,15 +42,14 @@ namespace KirbyNightmareInDreamLand.Collision
             //feel free to let different objects have different collision types
             //i gues for tile we could have it? i feel like its easier to just make the tile hit box smaller
             //ans stop the intersection instead of allowing there to be one
-            String key1 = object1.GetType().ToString();
-            String key2 = object2.GetType().ToString();
+            string key1 = object1.GetObjectType();
+            string key2 = object2.GetObjectType();
             //hand side that is being collided
-            Tuple<String, String, CollisionSide> objects = new Tuple<String, String, CollisionSide>(key1, key2, side);
+            Tuple<string, string, CollisionSide> objects = new Tuple<string, string, CollisionSide>(key1, key2, side);
 
-            // IS THERE A WAY I CAN CALL INSTANCE ACTIONS? 
-            //pass in parameters! 
-            if (collisionMapping[objects] != null) collisionMapping[objects].Item1(object2);
-            if (collisionMapping[objects] != null) collisionMapping[objects].Item2(object1);
+
+            collisionMapping[objects]?.Item1(object2);
+            collisionMapping[objects]?.Item2(object1);
         }
     }
 }

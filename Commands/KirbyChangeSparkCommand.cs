@@ -6,7 +6,7 @@ namespace KirbyNightmareInDreamLand.Commands
 
         public void Execute()
         {
-            Game1.Instance.players[0].ChangeToSpark();
+            ObjectManager.Instance.players[0].ChangeToSpark();
 
         }
     }

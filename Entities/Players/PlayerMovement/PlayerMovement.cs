@@ -173,7 +173,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #endregion
 
         #region TileCollision
-        public void AdjustFromBottomCollisionBlockOrPlatform(Player kirby, Tile tile)
+        public void AdjustFromBottomCollisionBlock(Player kirby, Tile tile)
         {
             position.Y = tile.rectangle.Y;
             yVel = 0;
@@ -189,6 +189,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             position.X = tile.rectangle.X + (Constants.HitBoxes.TILE_WIDTH / 2);
             xVel = 0;
+        }
+
+        public void AdjustFromBottomCollisionPlatform(Player kirby, Tile tile)
+        {
+            // May need to adjust this based on platform height
+            position.Y = tile.rectangle.Y;
+            yVel = 0;
         }
 
         // TODO: Figure out slope collisions

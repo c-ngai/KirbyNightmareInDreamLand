@@ -74,7 +74,12 @@ namespace KirbyNightmareInDreamLand.Projectiles
                     projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_fire1_left");
                 }
             }
-            CollisionDetection.Instance.RegisterDynamicObject(this);
+            ObjectManager.Instance.RegisterDynamicObject(this);
+        }
+
+        public string GetObjectType()
+        {
+            return "Projectile";
         }
 
         public void Update()

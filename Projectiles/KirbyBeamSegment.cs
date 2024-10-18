@@ -33,9 +33,13 @@ namespace KirbyNightmareInDreamLand.Projectiles
             Velocity = beamVelocity;
             sprite1 = SpriteFactory.Instance.CreateSprite("projectile_kirby_beam1");
             sprite2 = SpriteFactory.Instance.CreateSprite("projectile_kirby_beam2");
+            ObjectManager.Instance.RegisterDynamicObject(this);
 
         }
-
+        public string GetObjectType()
+        {
+            return "Projectile";
+        }
         public void Update()
         {
             if (IsActive)

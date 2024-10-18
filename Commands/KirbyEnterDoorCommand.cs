@@ -8,7 +8,7 @@ namespace KirbyNightmareInDreamLand.Commands
 
         public KirbyEnterDoorCommand() {
             _game = Game1.Instance;
-            _player = _game.players[0];
+            _player = ObjectManager.Instance.players[0];
         }
 
 

@@ -2,16 +2,16 @@
 {
     public class ResetCommand : ICommand
     {
-        private Game1 game;
+        private ObjectManager manager;
         public ResetCommand()
         {
-            game = Game1.Instance;
+            manager = ObjectManager.Instance;
         }
 
         // is there a better way to do this beyond resetting every single game object?
         public void Execute()
         {
-            game.LoadObjects();
+            manager.LoadObjects();
         }
     }
 }
