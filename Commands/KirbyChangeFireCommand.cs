@@ -6,7 +6,7 @@ namespace KirbyNightmareInDreamLand.Commands
 
         public void Execute()
         {
-            Game1.Instance.players[0].ChangeToFire();
+            Game1.Instance.Players[0].ChangeToFire();
 
         }
     }

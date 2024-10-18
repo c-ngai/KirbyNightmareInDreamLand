@@ -8,9 +8,9 @@ namespace KirbyNightmareInDreamLand.Commands
     {
         public void Execute()
         {
-            Game1.Instance.players[0].MoveLeft();
+            Game1.Instance.Players[0].MoveLeft();
 
-            var keyboard = Game1.Instance.keyboard;
+            var keyboard = Game1.Instance.Keyboard;
 
             if (keyboard.stopKeys.ContainsKey(Keys.Left))
             {

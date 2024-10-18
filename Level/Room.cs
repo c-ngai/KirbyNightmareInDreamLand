@@ -38,11 +38,11 @@ namespace KirbyNightmareInDreamLand
     public struct PowerUpData
     {
         public string PowerUpType;
-        public Vector2 TileSpawnPoint;
+        public Vector2 SpawnPoint;
 
-        public PowerUpData(string powerUpType, Vector2 tileSpawnPoint)
+        public PowerUpData(string powerUpType, Vector2 spawnPoint)
         {
-            TileSpawnPoint = tileSpawnPoint;
+            SpawnPoint = spawnPoint;
             PowerUpType = powerUpType;
         }
     }
@@ -132,7 +132,8 @@ namespace KirbyNightmareInDreamLand
             {
                 string PowerUpType = powerUpJsonData.PowerUpType;
                 Vector2 TileSpawnPoint = new Vector2(powerUpJsonData.SpawnTileX, powerUpJsonData.SpawnTileY);
-                PowerUpData powerUp = new PowerUpData(PowerUpType, TileSpawnPoint);
+                Vector2 SpawnPoint = TileSpawnPoint * Constants.Level.TILE_SIZE + Constants.Level.BOTTOM_MIDDLE_OF_TILE;
+                PowerUpData powerUp = new PowerUpData(PowerUpType, SpawnPoint);
                 PowerUps.Add(powerUp);
             }
         }

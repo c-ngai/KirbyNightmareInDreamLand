@@ -1,0 +1,34 @@
+Sprint 2 Readabilty Code Review     10/18/2024
+
+Author of Code Review: Mark DeLeo
+Name of .cs file being reviewed: 
+Author of .cs file being reviewed: Carman Ngai
+
+Number of minutes to complete review: 
+
+################################################################################ 
+
+10 Code Smells
+
+ 1. SameNameDifferentMeaning
+ 2. YouDontNeedItAnymore
+ 3. DataClumps
+ 4. InappropriateIntimacy
+ 5. FeatureEnvy
+ 6. DuplicatedCode
+ 7. VariableSameNameAsType
+ 8. TooManyParameters
+ 9. LongMethod
+10. LawOfDemeter
+
+################################################################################
+
+
+Comments on Code Smells:
+Didn't notice any of the particular code smells I had been searching for. Good job!
+
+
+Comments on Code Readability:
+Overall pretty readable! A few notes though:
+
+ - 

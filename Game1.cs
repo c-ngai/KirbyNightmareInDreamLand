@@ -18,19 +18,19 @@ namespace KirbyNightmareInDreamLand
 {
     public class Game1 : Game
     {
-        private SpriteBatch spriteBatch;
+        private SpriteBatch _spriteBatch;
         
-        public GraphicsDeviceManager graphics { get; private set; }
-        public KeyboardController keyboard;
-        private MouseController mouseController;
+        public GraphicsDeviceManager Graphics { get; private set; }
+        public KeyboardController Keyboard { get; private set; }
+        public MouseController MouseController { get; private set; }
 
         // Camera instance for the game
-        public Camera camera { get; private set; }
+        public Camera Camera { get; private set; }
 
-        public Level level { get; private set; }
+        public Level Level { get; private set; }
 
         // Single-player but can later be updated to an array of kirbys for multiplayer
-        public List<IPlayer> players;
+        public List<IPlayer> Players;
 
 
         // Get enemies (currently one of each but can change to an array of each enemy type)
@@ -72,18 +72,18 @@ namespace KirbyNightmareInDreamLand
         public int MAX_WINDOW_WIDTH { get; set; }
         public int TARGET_FRAMERATE { get; set; }
 
-        private static Game1 instance;
+        private static Game1 _instance;
         public static Game1 Instance
         {
             get
             {
-                return instance;
+                return _instance;
             }
         }
         public Game1()
         {
-            instance = this;
-            graphics = new GraphicsDeviceManager(this);
+            _instance = this;
+            Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -123,14 +123,14 @@ namespace KirbyNightmareInDreamLand
             #endregion
 
             // true = exclusive fullscreen, false = borderless fullscreen
-            graphics.HardwareModeSwitch = true;
-            graphics.IsFullScreen = IS_FULLSCREEN;
-            graphics.PreferredBackBufferWidth = WINDOW_WIDTH;
-            graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
-            graphics.ApplyChanges();
+            Graphics.HardwareModeSwitch = true;
+            Graphics.IsFullScreen = IS_FULLSCREEN;
+            Graphics.PreferredBackBufferWidth = WINDOW_WIDTH;
+            Graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
+            Graphics.ApplyChanges();
 
-            keyboard = new KeyboardController();
-            mouseController = new MouseController();
+            Keyboard = new KeyboardController();
+            MouseController = new MouseController();
 
             base.Initialize();
         }
@@ -169,12 +169,12 @@ namespace KirbyNightmareInDreamLand
             CollisionDetection.Instance.ResetDynamicCollisionBoxes();
             // Creates kirby object
             //make it a list from the get go to make it multiplayer asap
-            players = new List<IPlayer>();
+            Players = new List<IPlayer>();
             IPlayer kirby = new Player(new Vector2(30, Constants.Graphics.FLOOR));
             kirby.PlayerSprite = SpriteFactory.Instance.CreateSprite("kirby_normal_standing_right");
-            players.Add(kirby);
+            Players.Add(kirby);
             // Target the camera on Kirby
-            camera.TargetPlayer(players[0]);
+            Camera.TargetPlayer(Players[0]);
 
 
             // Currently commented out since we don't need the item
@@ -202,10 +202,10 @@ namespace KirbyNightmareInDreamLand
 
 
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Create camera instance
-            camera = new Camera();
+            Camera = new Camera();
 
             // Load all content through LevelLoader
             LevelLoader.Instance.LoadAllContent();
@@ -214,8 +214,8 @@ namespace KirbyNightmareInDreamLand
             LoadObjects();
 
             // Create level instance and load initial room
-            level = new Level();
-            level.LoadRoom("room1");
+            Level = new Level();
+            Level.LoadRoom("room1");
 
             
 
@@ -239,12 +239,12 @@ namespace KirbyNightmareInDreamLand
             // Reset timer for calculating max fps
             TickStopwatch.Restart();
 
-            keyboard.Update();
-            mouseController.Update();
+            Keyboard.Update();
+            MouseController.Update();
 
             GameTime = gameTime;
 
-            foreach(IPlayer player in players) player.Update(time);
+            foreach(IPlayer player in Players) player.Update(time);
             enemyList[currentEnemyIndex].Update(time);
 
             // Commented out since we currently do not need item
@@ -255,9 +255,9 @@ namespace KirbyNightmareInDreamLand
 
             CollisionDetection.Instance.CheckCollisions();
 
-            level.UpdateLevel();
+            Level.UpdateLevel();
 
-            camera.Update();
+            Camera.Update();
         }
 
 
@@ -268,27 +268,27 @@ namespace KirbyNightmareInDreamLand
             base.Draw(gameTime);
 
             // Level spritebatch
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, camera.LevelMatrix);
+            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.LevelMatrix);
             // Draw level
-            level.Draw(spriteBatch);
+            Level.Draw(_spriteBatch);
             // Draw only selected enemy
             // enemyList[currentEnemyIndex].Draw(spriteBatch);
-            foreach (IEnemy enemy in enemyList2) enemy.Draw(spriteBatch); // FOR PERFORMANCE TESTING
+            foreach (IEnemy enemy in enemyList2) enemy.Draw(_spriteBatch); // FOR PERFORMANCE TESTING
 
             // Draw kirby
-            foreach(IPlayer player in players) player.Draw(spriteBatch);
+            foreach(IPlayer player in Players) player.Draw(_spriteBatch);
 
             // Not currently using item
             // item.Draw(new Vector2(200, 150), spriteBatch);
             if (DEBUG_COLLISION_MODE)
             {
-                CollisionDetection.Instance.DebugDraw(spriteBatch);
+                CollisionDetection.Instance.DebugDraw(_spriteBatch);
             }
-            spriteBatch.End();
+            _spriteBatch.End();
 
             // Static spritebatch
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, camera.ScreenMatrix);
-            spriteBatch.End();
+            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.ScreenMatrix);
+            _spriteBatch.End();
 
             // Stop timer for calculating max fps
             TickStopwatch.Stop();
@@ -296,10 +296,10 @@ namespace KirbyNightmareInDreamLand
             // Draw Debug Text
             if (DEBUG_TEXT_ENABLED)
             {
-                GameDebug.Instance.DrawDebugText(spriteBatch);
+                GameDebug.Instance.DrawDebugText(_spriteBatch);
             }
             // Draw borders (should only be visible in fullscreen for letterboxing)
-            GameDebug.Instance.DrawBorders(spriteBatch);
+            GameDebug.Instance.DrawBorders(_spriteBatch);
         }
 
     }

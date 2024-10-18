@@ -68,8 +68,8 @@
         "Background sprite": "background_lake",
         "Tilemap": "room1_tileset",
 
-        "Spawn tile X": 3,
-        "Spawn tile Y": 7,
+        "Spawn tile X": 2,
+        "Spawn tile Y": 4,
 
         "Lock camera X?": false,
         "Locked camera X": 0,
