@@ -1,2 +1,4 @@
 Content/Tilemaps/testroom1.csv
 Content/Tilemaps/room1_tileset.csv
+Content/Tilemaps/room2_tileset.csv
+Content/Tilemaps/room3_tileset.csv

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System.Diagnostics;
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
@@ -13,9 +14,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public WaddleDee(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDee)
         {
             //Set pose and sprite
-            stateMachine.ChangePose(EnemyPose.Walking);
+            Debug.WriteLine("Hello from Waddle Dee:" + startPosition);
+
             UpdateTexture();
             currentState = new WaddleDeeWalkingState(this);
+            //TO-DO: spawn facing the direction kirby is in
+            stateMachine.ChangeDirection();
         }
 
         public override void Move()
@@ -24,18 +28,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             if (stateMachine.IsLeft())
             {
                 position.X -= Constants.WaddleDee.MOVE_SPEED;
-                if (position.X <= leftBoundary.X)
-                {
-                    ChangeDirection(); // Change direction if hitting left boundary
-                }
+                //change direction only if collide with block left/right
             }
             else
             {
                 position.X += Constants.WaddleDee.MOVE_SPEED;
-                if (position.X >= rightBoundary.X)
-                {
-                    ChangeDirection(); // Change direction if hitting right boundary
-                }
+                
             }
         }
     }

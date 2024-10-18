@@ -1,4 +1,7 @@
-﻿using KirbyNightmareInDreamLand.Entities.Enemies;
+﻿using KirbyNightmareInDreamLand.Entities;
+using KirbyNightmareInDreamLand.Entities.Enemies;
+using KirbyNightmareInDreamLand.Entities.Players;
+using KirbyNightmareInDreamLand.Entities.PowerUps;
 using KirbyNightmareInDreamLand.Sprites;
 using KirbyNightmareInDreamLand.StateMachines;
 using Microsoft.Xna.Framework;
@@ -6,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Reflection;
@@ -19,11 +23,18 @@ namespace KirbyNightmareInDreamLand
         private Game1 _game;
         private Camera _camera;
 
-        public float BackgroundParallaxFactor { get; set; } = 0.85f; // fix magic number 
+        public float BackgroundParallaxFactor = Constants.Graphics.PARALLAX_FACTOR;
+
+        public Vector2 MiddleOfTile = Constants.Level.MIDDLE_OF_TILE;
+
+        public string EnemyNamespace = Constants.Namespaces.ENEMY_NAMESPACE;
+        public string PowerUpNamespace = Constants.Namespaces.POWERUP_NAMESPACE;
 
         public Room CurrentRoom { get; private set; }
 
         private List<Enemy> enemyList;
+
+        private List<PowerUp> powerUpList;
 
         private List<Sprite> TileSprites;
 
@@ -50,8 +61,20 @@ namespace KirbyNightmareInDreamLand
         // Loads a room into the level by name.
         public void LoadRoom(string RoomName)
         {
-            CurrentRoom = LevelLoader.Instance.Rooms[RoomName];
-            LoadLevelObjects();
+            if (LevelLoader.Instance.Rooms.ContainsKey(RoomName))
+            {
+                CollisionDetection.Instance.ResetDynamicCollisionBoxes();
+                CurrentRoom = LevelLoader.Instance.Rooms[RoomName];
+                LoadLevelObjects();
+                foreach (IPlayer player in _game.players)
+                {
+                    player.GoToRoomSpawn();
+                }
+            }
+            else
+            {
+                Debug.WriteLine("ERROR: \"" + RoomName + "\" is not a valid room name and cannot be loaded.");
+            }
         }
 
         private List<Sprite> LoadTileSprites(string filepath)
@@ -111,30 +134,54 @@ namespace KirbyNightmareInDreamLand
         }
 
         //level 
-        //instantiate in demand
+        //instantiate on demand
+        // this needs to move to level loader or object manager 
         public void LoadLevelObjects()
         {
             enemyList = new List<Enemy>();
             foreach (EnemyData enemy in CurrentRoom.Enemies)
             {
-                Vector2 enemySpawnPoint = convertTileToPixel(enemy.TileSpawnPoint);
-                enemySpawnPoint += new Vector2(8, 16); //delete magic numbers
-                //magic string
-                Type type = Type.GetType("KirbyNightmareInDreamLand.Entities.Enemies." + enemy.EnemyType);
+                Type type = Type.GetType(EnemyNamespace + enemy.EnemyType);
 
                 if (type != null)
                 {
+                    System.Diagnostics.Debug.WriteLine("This is the type name for the enemy: " + type);
+
                     // Get the constructor that takes a Vector2 parameter
-                    var constructor = type.GetConstructor(new[] { typeof(Vector2) });
+                    ConstructorInfo constructor = type.GetConstructor(new[] { typeof(Vector2) });
+                    System.Diagnostics.Debug.WriteLine("this is the enemy constructor" + constructor);
 
                     if (constructor != null)
                     {
                         // Create an instance of the enemy
-                        Enemy enemyObject = (Enemy)constructor.Invoke(new object[] { enemySpawnPoint });
+                        Enemy enemyObject = (Enemy)constructor.Invoke(new object[] { enemy.SpawnPoint });
                         enemyList.Add(enemyObject);
                     }
                 }
             }
+
+            // power ups currently do not require dynamic typing because they all use the same class. Will possibly need to chang ethis later on. 
+            powerUpList = new List<PowerUp>();
+            foreach(PowerUpData powerUp in CurrentRoom.PowerUps)
+            {
+                Vector2 powerUpSpawnPoint = convertTileToPixel(powerUp.TileSpawnPoint);
+                powerUpSpawnPoint += MiddleOfTile; // do this so that object gets spawned in the middle of the tile, not top left corner
+                Type type = Type.GetType(PowerUpNamespace);
+                PowerUp new_item = new PowerUp(powerUpSpawnPoint, powerUp.PowerUpType);
+                powerUpList.Add(new_item);
+            }
+        }
+
+        // gets called when player defeats an enemy so that it doesn't get drawn anymore
+        public void removeEnemyFromList(Enemy enemy)
+        {
+            enemyList.Remove(enemy);
+        }
+
+        // gets called when player uses a power up so it doesn't get drawn anymore
+        public void removePowerUpFromList(PowerUp powerUp)
+        {
+            powerUpList.Remove(powerUp);
         }
 
         // draws enemies and tomatoes
@@ -145,6 +192,10 @@ namespace KirbyNightmareInDreamLand
                 enemy.Draw(spriteBatch);
             }
 
+            foreach (PowerUp powerUp in powerUpList)
+            {
+                powerUp.Draw(spriteBatch);
+            }
         }
 
         // tells player if they are at a door or not 
@@ -153,13 +204,7 @@ namespace KirbyNightmareInDreamLand
             bool result = false;
             foreach(Door door in CurrentRoom.Doors)
             {
-                Vector2 doorPos = convertTileToPixel(door.TilePosition);
-                Rectangle door_rec = new Rectangle(
-                    (int)doorPos.X,
-                    (int)doorPos.Y,
-                    Constants.Level.TILE_SIZE,
-                    Constants.Level.TILE_SIZE);
-                if(door_rec.Contains(playerPosition))
+                if(door.Bounds.Contains(playerPosition))
                 {
                     result = true;
                 }
@@ -173,16 +218,10 @@ namespace KirbyNightmareInDreamLand
         {
             foreach(Door door in CurrentRoom.Doors)
             {
-                Vector2 doorPos = convertTileToPixel(door.TilePosition);
-                Rectangle door_rec = new Rectangle(
-                    (int)doorPos.X,
-                    (int)doorPos.Y,
-                    Constants.Level.TILE_SIZE,
-                    Constants.Level.TILE_SIZE);
-
-                if (door_rec.Contains(playerPos))
+                if (door.Bounds.Contains(playerPos))
                 {
                     LoadRoom(door.DestinationRoom);
+                    break;
                 }
             }
         }
@@ -198,6 +237,10 @@ namespace KirbyNightmareInDreamLand
             foreach(Enemy enemy in enemyList)
             {
                 enemy.Update(_game.time);
+            }
+            foreach(PowerUp powerUp in powerUpList)
+            {
+                powerUp.Update();
             }
         }
 
@@ -217,12 +260,11 @@ namespace KirbyNightmareInDreamLand
         {
             foreach (Door door in CurrentRoom.Doors)
             {
-                Vector2 doorPos = door.TilePosition * Constants.Level.TILE_SIZE;
-                Rectangle doorBounds = new Rectangle(doorPos.ToPoint(), new Point(16, 16));
+                Vector2 doorPos = door.Bounds.Location.ToVector2();
                 Vector2 textSize = LevelLoader.Instance.font.MeasureString(door.DestinationRoom);
                 Vector2 textPos = doorPos - new Vector2(-9 + textSize.X / 2, -1 + textSize.Y);
 
-                GameDebug.Instance.DrawSolidRectangle(spriteBatch, doorBounds, Color.Red);
+                GameDebug.Instance.DrawSolidRectangle(spriteBatch, door.Bounds, Color.Red);
                 spriteBatch.DrawString(LevelLoader.Instance.font, door.DestinationRoom, textPos, Color.Red);
             }
         }
@@ -234,13 +276,13 @@ namespace KirbyNightmareInDreamLand
             bool old_DEBUG_SPRITE_MODE = _game.DEBUG_SPRITE_MODE;
             _game.DEBUG_SPRITE_MODE = false;
 
-            Vector2 kirbyPos = CurrentRoom.SpawnTile * Constants.Level.TILE_SIZE + new Vector2(8, 16);
+            Vector2 kirbyPos = CurrentRoom.SpawnPoint;
             SpawnSprites["Kirby"].Draw(kirbyPos, spriteBatch, new Color(255, 255, 255, 127));
 
             // Draw each enemy spawn point
             foreach (EnemyData enemy in CurrentRoom.Enemies)
             {
-                Vector2 enemyPos = enemy.TileSpawnPoint * Constants.Level.TILE_SIZE + new Vector2(8, 16);
+                Vector2 enemyPos = enemy.SpawnPoint;
                 SpawnSprites[enemy.EnemyType].Draw(enemyPos, spriteBatch, new Color(255, 255, 255, 63));
             }
 

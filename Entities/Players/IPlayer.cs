@@ -10,6 +10,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         void AttackPressed();
         Vector2 GetKirbyPosition();
         string GetKirbyType();
+        void GoToRoomSpawn();
         bool IsLeft();
         bool IsFloating();
         void Slide();

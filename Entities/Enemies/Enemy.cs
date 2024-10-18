@@ -9,12 +9,11 @@ using System;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
-    public abstract class Enemy : IEnemy
+    public abstract class Enemy : IEnemy, ICollidable
     {
         protected Vector2 position; //Where enemy is drawn on screen
         protected int health; //Enemy health
         protected bool isDead;  //If enemy is dead
-        protected bool isActive;
         protected Sprite enemySprite;   
         protected EnemyStateMachine stateMachine;
         protected IEnemyState currentState; // Current state of the enemy
@@ -23,6 +22,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         protected string oldState; //Previous state
         protected int frameCounter; // Frame counter for tracking state duration
 
+        public bool CollisionActive { get; set; } = true;
 
         protected Enemy(Vector2 startPosition, EnemyType type)
         {
@@ -31,21 +31,18 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             health = 1;
             isDead = false;
             stateMachine = new EnemyStateMachine(type);
-            leftBoundary = new Vector2(100, 100);
-            rightBoundary = new Vector2(230, 100);
             oldState = string.Empty;
             currentState = new WaddleDooWalkingState(this); // Initialize with the walking state
+            CollisionDetection.Instance.RegisterDynamicObject(this);
             currentState.Enter();
             frameCounter = 0; 
         }
 
         public Vector2 Position
         {
-            //Returns position on screen
-            get { return position; }
-            set { position = value; }
+            get => position; 
+            set => position = value;
         }
- 
         public Sprite EnemySprite
         {
             //Returns Sprite
@@ -124,10 +121,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void Update(GameTime gameTime) // Change to virtual
         {
-            if (!IsDead)
+            if (CollisionActive && !IsDead)
             {
                 IncrementFrameCounter();
-                currentState.Update(); // No parameters needed here
+                currentState.Update();
                 UpdateTexture();
                 enemySprite.Update();
             }
@@ -136,9 +133,13 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             //Draw if enemy is alive
-            if (!isDead)
+            if (CollisionActive && !IsDead)
             {
                 enemySprite.Draw(position, spriteBatch);
+            }
+            else
+            {
+                CollisionDetection.Instance.RemoveDynamicObject(this); // Deregister if dead
             }
         }
 
@@ -148,7 +149,20 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void Fall() { }
 
-        public abstract void Move();      
+        public abstract void Move();
+
+        public virtual Vector2 CalculateRectanglePoint(Vector2 pos)
+        {
+            float x = pos.X - Constants.HitBoxes.ENTITY_WIDTH / 2;
+            float y = pos.Y - Constants.HitBoxes.ENTITY_HEIGHT;
+            Vector2 rectPoint = new Vector2(x, y);
+            return rectPoint;
+        }
+        public virtual Rectangle GetHitBox()
+        {
+            Vector2 rectPoint = CalculateRectanglePoint(position);
+            return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
+        }
 
     }
 }

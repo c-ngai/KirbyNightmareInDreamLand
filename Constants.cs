@@ -17,11 +17,19 @@ namespace KirbyNightmareInDreamLand
             public const string TileSpriteList = "Content/Images/TileSprites.txt";
         }
 
+        public static class Namespaces
+        {
+            public const string ENEMY_NAMESPACE = "KirbyNightmareInDreamLand.Entities.Enemies.";
+            public const string POWERUP_NAMESPACE = "KirbyNightmareInDreamLand.Entities.PowerUps.PowerUp";
+
+        }
+
         public static class Graphics
         {
             public const int GAME_WIDTH = 240;
             public const int GAME_HEIGHT = 160;
             public const int FLOOR = 128;
+            public const float PARALLAX_FACTOR = 0.85f;
         }
 
         public static class Physics
@@ -44,11 +52,17 @@ namespace KirbyNightmareInDreamLand
         public static class Level
         {
             public const int TILE_SIZE = 16;
+            public static Vector2 MIDDLE_OF_TILE = new Vector2(8, 16);
         }
         public static class HitBoxes
         {
             public const int ENTITY_WIDTH = 13;
             public const int ENTITY_HEIGHT = 15;
+            public const int ENEMY_WIDTH = 16;
+            public const int ENEMY_HEIGHT = 16;
+            public const int SPARKY_ATTACK_WIDTH = 40;
+            public const int SPARKY_ATTACK_HEIGHT = 40;
+            public const int SPARKY_ATTACK_OFFSET =11;
             public const int TILE_WIDTH = 16;
             public const int TILE_HEIGHT = 16;
             public const int NULL_WIDTH = 0;

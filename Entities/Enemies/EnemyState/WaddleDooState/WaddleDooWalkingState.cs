@@ -21,7 +21,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
         public void Update()
         {
             _enemy.Move(); // Execute walking movement logic
-            _enemy.IncrementFrameCounter();
 
             if (_enemy.FrameCounter >= Constants.WaddleDoo.WALK_FRAMES)
             {
