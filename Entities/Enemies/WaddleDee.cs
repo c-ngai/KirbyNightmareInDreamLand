@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System.Diagnostics;
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
@@ -13,6 +14,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public WaddleDee(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDee)
         {
             //Set pose and sprite
+            Debug.WriteLine("Hello from Waddle Dee:" + startPosition);
 
             UpdateTexture();
             currentState = new WaddleDeeWalkingState(this);

@@ -151,14 +151,14 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public abstract void Move();
 
-        public Vector2 CalculateRectanglePoint(Vector2 pos)
+        public virtual Vector2 CalculateRectanglePoint(Vector2 pos)
         {
             float x = pos.X - Constants.HitBoxes.ENTITY_WIDTH / 2;
             float y = pos.Y - Constants.HitBoxes.ENTITY_HEIGHT;
             Vector2 rectPoint = new Vector2(x, y);
             return rectPoint;
         }
-        public Rectangle GetHitBox()
+        public virtual Rectangle GetHitBox()
         {
             Vector2 rectPoint = CalculateRectanglePoint(position);
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
