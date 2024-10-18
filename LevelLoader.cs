@@ -235,9 +235,19 @@ namespace KirbyNightmareInDreamLand
         {
             String key1 = "Player";
             String key2 = "Air";
+            Action<ICollidable, ICollidable, Rectangle> action = TileCollisionActions.BottomAirCollision;
             for (int i = 0; i < Constants.HitBoxes.SIDES; i++)
             {
-                collisionResponse.RegisterCollision(key1, key2, (CollisionSide)i, null, null);
+                if ((CollisionSide) i != CollisionSide.Bottom)
+                {
+                    collisionResponse.RegisterCollision(key1, key2, (CollisionSide)i, null, null);
+                }
+                else
+                {
+                    collisionResponse.RegisterCollision(key1, key2, (CollisionSide)i, action, null);
+                }
+
+
             }
 
             key2 = "Water";
@@ -248,7 +258,7 @@ namespace KirbyNightmareInDreamLand
 
 
             key2 = "Platform";
-            Action<ICollidable> action = KirbyTileCollisionActions.KirbyBottomPlatformCollision;
+            action = TileCollisionActions.BottomPlatformCollision;
             for (int k = 0; k < Constants.HitBoxes.SIDES; k++)
             {
 
@@ -263,17 +273,17 @@ namespace KirbyNightmareInDreamLand
             }
 
             key2 = "Block";
-            action = KirbyTileCollisionActions.KirbyBottomBlockCollision;
+            action = TileCollisionActions.BottomBlockCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action, null);
-            action = KirbyTileCollisionActions.KirbyRightBlockCollision;
+            action = TileCollisionActions.RightBlockCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action, null);
-            action = KirbyTileCollisionActions.KirbyLeftBlockCollision;
+            action = TileCollisionActions.LeftBlockCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Top, null, null);
 
             // TODO: add the correct commands for the slope handling;
             key2 = "SlopeSteepLeft";
-            action = KirbyTileCollisionActions.KirbyBottomBlockCollision;
+            action = TileCollisionActions.BottomBlockCollision;
             for (int i = 0; i < Constants.HitBoxes.SIDES; i++)
             {
                 collisionResponse.RegisterCollision(key1, key2, (CollisionSide)i, action, null);

@@ -9,7 +9,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         protected float jumpVel = Constants.Physics.JUMP_VEL;
         public new float yVel = -2f;
-        public JumpMovement(Vector2 pos) : base(pos){}
+        public JumpMovement(Vector2 pos) : base(pos)
+        {
+            landed = false;
+        }
 
         public override void Walk(bool isLeft)
         {
@@ -65,10 +68,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public override void AdjustY(Player kirby)
         {
             //dont go through the floor
-            if (position.Y > Constants.Graphics.FLOOR)
+            if (landed)
             {
                 yVel = 0;
-                position.Y = Constants.Graphics.FLOOR;
                 FinishJump(kirby); //once he is back on the floor kirby is normal again
             }
             //dont go through the ceiling

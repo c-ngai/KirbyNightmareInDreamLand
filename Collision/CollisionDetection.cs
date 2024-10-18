@@ -12,10 +12,6 @@ namespace KirbyNightmareInDreamLand
 {
     public class CollisionDetection
     {
-        //add someobody in game to keep track of ALL the objects-- in game
-        //when player is created level loader creates player and 
-        //have object manager manage what gets added or deleted from collidable list
-
         private ObjectManager manager { get; }
         private CollisionResponse response { get; }
         private Game1 game { get; }

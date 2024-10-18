@@ -11,7 +11,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         protected new float gravity = Constants.Physics.FLOAT_GRAVITY2;
         private float floatFallingWindow = Constants.Graphics.FLOOR + 50;
         protected bool endFloat = false;
-        public FloatingMovement(Vector2 pos) : base(pos){}
+        public FloatingMovement(Vector2 pos) : base(pos)
+        {
+            landed = false;
+        }
         public override void Walk(bool isLeft)
         {
             if (isLeft)
@@ -39,20 +42,18 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void AdjustYPositionWhileFloating(Player kirby)
         {
             //dont go through the floor but float state as not been terminated
-            if (position.Y > Constants.Graphics.FLOOR)
+            if (landed)
             {
                 yVel = 0;
                 xVel = 0;
-                position.Y = Constants.Graphics.FLOOR;
                 kirby.ChangePose(KirbyPose.FloatingGrounded);
             }
         }
         public void AdjustYPositionWhileNotFloating(Player kirby)
         {
             //dont go through the floor but floating was ended
-            if (position.Y > Constants.Graphics.FLOOR)
+            if (landed)
             {
-                position.Y = Constants.Graphics.FLOOR;
                 kirby.ChangePose(KirbyPose.Standing);
                 kirby.ChangeMovement();
             }

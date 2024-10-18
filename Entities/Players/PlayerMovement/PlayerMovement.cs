@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using System.Threading.Tasks;
 using KirbyNightmareInDreamLand.Time;
 using KirbyNightmareInDreamLand.StateMachines;
+using System.Diagnostics;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -18,6 +19,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         protected float gravity = Constants.Physics.GRAVITY; 
         protected float damageVel = Constants.Physics.DAMAGE_VELOCITY;
         public ITimeCalculator timer;
+        protected bool landed = true;
 
         protected Vector2 position;
         //constructor
@@ -144,10 +146,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public virtual void AdjustY(Player kirby)
         {
             //dont go through the floor
-            if(position.Y > Constants.Graphics.FLOOR)
+            if(landed)
             {
                 yVel = 0;
-                position.Y = (float) Constants.Graphics.FLOOR;
             }
 
             //dont go through the ceiling
@@ -170,31 +171,39 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             UpdatePosition(gameTime);
             Adjust(kirby);
         }
+        public void Fall()
+        {
+            ////kirby.ChangePose(Kirby.FreeFall);
+            yVel = gravity;
+        }
+        public void ChangeKirbyLanded(bool land)
+        {
+            landed = land;
+        }
         #endregion
 
         #region TileCollision
-        public void AdjustFromBottomCollisionBlock(Player kirby, Tile tile)
+        public void AdjustFromBottomCollisionBlock(Rectangle intersection)
         {
-            position.Y = tile.rectangle.Y;
+            position.Y = intersection.Y;
             yVel = 0;
         }
 
-        public void AdjustFromRightCollisionBlock(Player kirby, Tile tile)
+        public void AdjustFromRightCollisionBlock(Rectangle intersection)
         {
-            position.X = tile.rectangle.X - (Constants.HitBoxes.ENTITY_WIDTH / 2);
+            position.X -= intersection.Width;
             xVel = 0;
         }
 
-        public void AdjustFromLeftCollisionBlock(Player kirby, Tile tile)
+        public void AdjustFromLeftCollisionBlock(Rectangle intersection)
         {
-            position.X = tile.rectangle.X + (Constants.HitBoxes.TILE_WIDTH / 2);
+            position.X += intersection.Width;
             xVel = 0;
         }
 
-        public void AdjustFromBottomCollisionPlatform(Player kirby, Tile tile)
+        public void AdjustFromBottomCollisionPlatform(Rectangle intersection)
         {
-            // May need to adjust this based on platform height
-            position.Y = tile.rectangle.Y;
+            position.Y = intersection.Y;
             yVel = 0;
         }
 

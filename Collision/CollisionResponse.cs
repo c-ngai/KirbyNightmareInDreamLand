@@ -1,7 +1,7 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Diagnostics;
-using KirbyNightmareInDreamLand.Commands;
 
 namespace KirbyNightmareInDreamLand.Collision
 {
@@ -11,7 +11,7 @@ namespace KirbyNightmareInDreamLand.Collision
         //level loader times register collision?
         //not  abad idea to and them the collision rectangle, most ocllision handlers will want to know overlap
         //or have it in constructors 
-        public Dictionary<Tuple<string, string, CollisionSide>, Tuple<Action<ICollidable>, Action<ICollidable>>> collisionMapping { get; private set; }
+        public Dictionary<Tuple<string, string, CollisionSide>, Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>>> collisionMapping { get; private set; }
         private static CollisionResponse instance = new CollisionResponse();
         public static CollisionResponse Instance
         {
@@ -23,15 +23,15 @@ namespace KirbyNightmareInDreamLand.Collision
 
         public CollisionResponse()
         {
-            collisionMapping = new Dictionary<Tuple<string, string, CollisionSide>, Tuple<Action<ICollidable>, Action<ICollidable>>>();
+            collisionMapping = new Dictionary<Tuple<string, string, CollisionSide>, Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>>>();
         }
 
         // Creates string mappings of object types and collision side to determine object reactions 
         // gets called by level loader
-        public void RegisterCollision(string object1, string object2, CollisionSide side, Action<ICollidable> object1Command, Action<ICollidable> object2Command)
+        public void RegisterCollision(string object1, string object2, CollisionSide side, Action<ICollidable, ICollidable, Rectangle> object1Command, Action<ICollidable, ICollidable, Rectangle> object2Command)
         {
             Tuple<string, string, CollisionSide> objects = new Tuple<string, string, CollisionSide>(object1, object2, side);
-            Tuple<Action<ICollidable>, Action<ICollidable>>commands = new Tuple<Action<ICollidable>, Action<ICollidable>>(object1Command, object2Command);
+            Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>> commands = new Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>>(object1Command, object2Command);
             collisionMapping.Add(objects, commands);
         }
 
@@ -48,15 +48,16 @@ namespace KirbyNightmareInDreamLand.Collision
             //hand side that is being collided
             Tuple<string, string, CollisionSide> objects = new Tuple<string, string, CollisionSide>(key1, key2, side);
 
-            Debug.WriteLine($"Current key for execution: {objects}");
-            Tuple<Action<ICollidable>, Action<ICollidable>> commands = collisionMapping[objects];
+            Rectangle intersection = Rectangle.Intersect(object1.GetHitBox(), object2.GetHitBox());
+            Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>> commands = collisionMapping[objects];
             if (commands.Item1 != null)
             {
-                commands.Item1(object2);
+                Debug.WriteLine("Collision response is being executed");
+                commands.Item1(object1, object2, intersection);
             }
             if (commands.Item2 != null)
             {
-                commands.Item2(object1);
+                commands.Item2(object1, object2, intersection);
             }
         }
     }

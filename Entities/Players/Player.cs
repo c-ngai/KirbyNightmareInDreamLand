@@ -416,22 +416,32 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #endregion
 
         #region Collisions
-        public void BottomCollisionWithBlock(Tile tile)
+        public void BottomCollisionWithBlock(Rectangle intersection)
         {
-            movement.AdjustFromBottomCollisionBlock(this, tile);
+            movement.ChangeKirbyLanded(true);
+            movement.AdjustFromBottomCollisionBlock(intersection);
         }
-        public void RightCollisionWithBlock(Tile tile)
+        public void RightCollisionWithBlock(Rectangle intersection)
         {
-            movement.AdjustFromRightCollisionBlock(this, tile);
+            movement.AdjustFromRightCollisionBlock(intersection);
         }
-        public void LeftCollisionWithBlock(Tile tile)
+        public void LeftCollisionWithBlock(Rectangle intersection)
         {
-            movement.AdjustFromLeftCollisionBlock(this, tile);
+            movement.AdjustFromLeftCollisionBlock(intersection);
         }
-        public void BottomCollisionWithPlatform(Tile tile)
+        public void BottomCollisionWithPlatform(Rectangle intersection)
         {
-            movement.AdjustFromBottomCollisionPlatform(this, tile);
+            movement.AdjustFromBottomCollisionPlatform(intersection);
         }
+        public void BottomCollisionWithAir(Rectangle intersection)
+        {
+            if(state.ShouldFallOffBlock())
+            {
+                movement.ChangeKirbyLanded(false);
+                movement.Fall();
+            }
+        }
+
         #endregion
 
     }
