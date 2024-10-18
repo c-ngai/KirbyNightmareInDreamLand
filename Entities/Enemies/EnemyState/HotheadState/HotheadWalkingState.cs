@@ -9,23 +9,45 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState
 {
     public class HotheadWalkingState : IEnemyState
     {
-        public void Enter(Enemy enemy)
+        private readonly Hothead _hothead;
+
+        public HotheadWalkingState(Hothead hothead)
         {
-            enemy.StateMachine.ChangePose(EnemyPose.Walking);
-            enemy.ResetFrameCounter(); // Reset the frame counter upon entering the state
+            _hothead = hothead ?? throw new ArgumentNullException(nameof(hothead));
         }
 
-        public void Update(Enemy enemy)
+        public void Enter()
         {
-            enemy.Move();
+            _hothead.ChangePose(EnemyPose.Walking);
+            _hothead.ResetFrameCounter();
+        }
 
-            // Transition to Charging state after specified frames
-            if (enemy.FrameCounter >= Constants.Hothead.WALK_FRAMES)
+        public void Update()
+        {
+            _hothead.Move(); // Execute walking movement logic
+            _hothead.IncrementFrameCounter();
+
+            if (_hothead.FrameCounter >= Constants.Hothead.WALK_FRAMES)
             {
-                enemy.ChangeState(new HotheadChargingState());
+                _hothead.ChangeState(new HotheadChargingState(_hothead));
+                _hothead.UpdateTexture();
             }
         }
 
-        public void Exit(Enemy enemy) { }
+        public void Exit()
+        {
+            // Cleanup logic if necessary
+        }
+
+        public void TakeDamage()
+        {
+            _hothead.ChangeState(new HotheadHurtState(_hothead));
+            _hothead.UpdateTexture();
+        }
+
+        public void ChangeDirection()
+        {
+            _hothead.ToggleDirection();
+        }
     }
 }

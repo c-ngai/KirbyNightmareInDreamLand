@@ -17,10 +17,7 @@ namespace KirbyNightmareInDreamLand
         private IPlayer _targetPlayer;
 
         private Vector3 position;
-        private Rectangle bounds;
-
-        // Parallax factor for the background (1.0 = same speed as foreground)
-        public float BackgroundParallaxFactor { get; set; } = 0.5f;
+        public Rectangle bounds;
 
         // Matrix for the level, everything drawn here is in world space.
         public Matrix LevelMatrix { get; set; }
@@ -49,9 +46,9 @@ namespace KirbyNightmareInDreamLand
         public void UpdateCameraPosition()
         {
             // Set the camera's X
-            if (_game.level.room.CameraXLock)
+            if (_game.level.CurrentRoom.CameraXLock)
             {
-                position.X = _game.level.room.LockedCameraX;
+                position.X = _game.level.CurrentRoom.LockedCameraX;
             }
             else
             {
@@ -61,16 +58,16 @@ namespace KirbyNightmareInDreamLand
                 {
                     position.X = 0;
                 }
-                else if (position.X > _game.level.room.Width - Constants.Graphics.GAME_WIDTH)
+                else if (position.X > _game.level.CurrentRoom.Width - Constants.Graphics.GAME_WIDTH)
                 {
-                    position.X = _game.level.room.Width - Constants.Graphics.GAME_WIDTH;
+                    position.X = _game.level.CurrentRoom.Width - Constants.Graphics.GAME_WIDTH;
                 }
             }
 
             // Set the camera's Y
-            if (_game.level.room.CameraYLock)
+            if (_game.level.CurrentRoom.CameraYLock)
             {
-                position.Y = _game.level.room.LockedCameraY;
+                position.Y = _game.level.CurrentRoom.LockedCameraY;
             }
             else
             {
@@ -80,9 +77,9 @@ namespace KirbyNightmareInDreamLand
                 {
                     position.Y = 0;
                 }
-                else if (position.Y > _game.level.room.Height - Constants.Graphics.GAME_HEIGHT)
+                else if (position.Y > _game.level.CurrentRoom.Height - Constants.Graphics.GAME_HEIGHT)
                 {
-                    position.Y = _game.level.room.Height - Constants.Graphics.GAME_HEIGHT;
+                    position.Y = _game.level.CurrentRoom.Height - Constants.Graphics.GAME_HEIGHT;
                 }
             }
 
@@ -98,21 +95,9 @@ namespace KirbyNightmareInDreamLand
 
         public void UpdateMatrices()
         {
-            float scale = _game.WINDOW_HEIGHT / Constants.Graphics.GAME_HEIGHT;
-
-            // Calculate background position for parallax effect
-            Vector3 backgroundPosition = new Vector3(
-                position.X * BackgroundParallaxFactor,
-                position.Y * BackgroundParallaxFactor,
-                position.Z
-            );
-
-            
+            float scale = _game.WINDOW_HEIGHT / Constants.Graphics.GAME_HEIGHT;            
             LevelMatrix = Matrix.CreateTranslation(-position) * Matrix.CreateScale(scale) * Matrix.CreateTranslation(_game.WINDOW_XOFFSET, _game.WINDOW_YOFFSET, 0);
             ScreenMatrix = Matrix.CreateScale(scale) * Matrix.CreateTranslation(_game.WINDOW_XOFFSET, _game.WINDOW_YOFFSET, 0);
-
-            // Update the background matrix for the background
-            backgroundMatrix = Matrix.CreateTranslation(-backgroundPosition.X, -backgroundPosition.Y, 0) * Matrix.CreateScale(scale);
 
             
         }

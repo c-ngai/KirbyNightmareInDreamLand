@@ -1,4 +1,5 @@
-﻿using KirbyNightmareInDreamLand.StateMachines;
+﻿using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
+using KirbyNightmareInDreamLand.StateMachines;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,25 +10,34 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState
 {
     public class PoppyBrosJrHopState : IEnemyState
     {
-        public void Enter(Enemy enemy)
+        private readonly Enemy _enemy;
+        public PoppyBrosJrHopState(Enemy enemy)
         {
-            enemy.StateMachine.ChangePose(EnemyPose.Hop);
-            enemy.ResetFrameCounter(); // Reset frame counter when entering the state
+            _enemy = enemy ?? throw new ArgumentNullException(nameof(enemy));
+        }
+        public void Enter()
+        {
+            _enemy.ChangePose(EnemyPose.Hop);
+            _enemy.ResetFrameCounter(); 
         }
 
-        public void Update(Enemy enemy)
+        public void Update()
         {
-            // Execute hopping logic
-            enemy.Move();
-
-            // Transition to Hurt state after hop frames
-            if (enemy.FrameCounter >= Constants.PoppyBrosJr.HOP_FRAMES)
-            {
-                enemy.ChangeState(new PoppyBrosJrHurtState());
-                enemy.UpdateTexture();
-            }
+            _enemy.Move();
+ 
         }
 
-        public void Exit(Enemy enemy) { }
+        public void Exit() { }
+
+        public void TakeDamage()
+        {
+            _enemy.ChangeState(new WaddleDooHurtState(_enemy));
+            _enemy.UpdateTexture();
+        }
+
+        public void ChangeDirection()
+        {
+            _enemy.ToggleDirection();
+        }
     }
 }

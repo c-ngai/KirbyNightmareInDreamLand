@@ -10,7 +10,7 @@ namespace KirbyNightmareInDreamLand.Commands
         {
             Game1.Instance.players[0].MoveRight();
 
-            var keyboard = Game1.Instance.KeyboardController;
+            var keyboard = Game1.Instance.keyboard;
 
             if (keyboard.stopKeys.ContainsKey(Keys.Right))
             {

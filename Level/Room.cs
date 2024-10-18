@@ -1,4 +1,5 @@
 ﻿using KirbyNightmareInDreamLand.Controllers;
+using KirbyNightmareInDreamLand.Entities;
 using KirbyNightmareInDreamLand.Sprites;
 using Microsoft.Xna.Framework;
 using System;
@@ -14,8 +15,8 @@ namespace KirbyNightmareInDreamLand
 
     public struct Door
     {
-        Vector2 TilePosition;
-        string DestinationRoom;
+        public Vector2 TilePosition;
+        public string DestinationRoom;
 
         public Door(Vector2 tilePosition, string destinationRoom)
         {
@@ -23,20 +24,33 @@ namespace KirbyNightmareInDreamLand
             DestinationRoom = destinationRoom;
         }
     }
-    public struct Enemy
+    public struct EnemyData
     {
-        string EnemyType;
-        Vector2 TileSpawnPoint;
+        public string EnemyType;
+        public Vector2 TileSpawnPoint;
 
-        public Enemy(string enemyType, Vector2 tileSpawnPoint)
+        public EnemyData(string enemyType, Vector2 tileSpawnPoint)
         {
             EnemyType = enemyType;
             TileSpawnPoint = tileSpawnPoint;
         }
     }
+    public struct PowerUpData
+    {
+        public string PowerUpType;
+        public Vector2 TileSpawnPoint;
+
+        public PowerUpData(string powerUpType, Vector2 tileSpawnPoint)
+        {
+            TileSpawnPoint = tileSpawnPoint;
+            PowerUpType = powerUpType;
+        }
+    }
 
     public class Room
     {
+        public string Name { get; private set; }
+        
         public Sprite BackgroundSprite { get; private set; }
         public Sprite ForegroundSprite { get; private set; }
 
@@ -47,7 +61,7 @@ namespace KirbyNightmareInDreamLand
         public int Width { get; private set; }
         public int Height { get; private set; }
 
-        public Vector2 SpawnPoint { get; private set; }
+        public Vector2 SpawnTile { get; private set; }
 
         public bool CameraXLock { get; private set; }
         public int LockedCameraX { get; private set; }
@@ -55,11 +69,14 @@ namespace KirbyNightmareInDreamLand
         public int LockedCameraY { get; private set; }
 
         public List<Door> Doors { get; private set; }
-        public List<Enemy> Enemies { get; private set; }
+        public List<EnemyData> Enemies { get; private set; }
+        public List<PowerUpData> PowerUps { get; private set; }
 
         // Creates a new room object from a room json data object.
-        public Room(RoomJsonData roomJsonData)
+        public Room(string roomName, RoomJsonData roomJsonData)
         {
+            Name = roomName;
+            
             ForegroundSprite = SpriteFactory.Instance.CreateSprite(roomJsonData.ForegroundSpriteName);
             BackgroundSprite = SpriteFactory.Instance.CreateSprite(roomJsonData.BackgroundSpriteName);
             TileMap = LevelLoader.Instance.Tilemaps[roomJsonData.TilemapName];
@@ -69,7 +86,7 @@ namespace KirbyNightmareInDreamLand
             Width = TileWidth * Constants.Level.TILE_SIZE;
             Height = TileHeight * Constants.Level.TILE_SIZE;
 
-            SpawnPoint = new Vector2(roomJsonData.SpawnPointX, roomJsonData.SpawnPointY);
+            SpawnTile = new Vector2(roomJsonData.SpawnTileX, roomJsonData.SpawnTileY);
 
             CameraXLock = roomJsonData.LockCameraX;
             LockedCameraX = roomJsonData.LockedCameraX;
@@ -84,13 +101,32 @@ namespace KirbyNightmareInDreamLand
                 Door door = new Door(TilePosition, DestinationRoom);
                 Doors.Add(door);
             }
-            Enemies = new List<Enemy>();
+
+            Enemies = new List<EnemyData>();
             foreach (EnemyJsonData enemyJsonData in roomJsonData.Enemies)
             {
-                string EnemyType = enemyJsonData.DestinationRoom;
+                string EnemyType = enemyJsonData.EnemyType;
                 Vector2 TileSpawnPoint = new Vector2(enemyJsonData.SpawnTileX, enemyJsonData.SpawnTileY);
-                Enemy enemy = new Enemy(EnemyType, TileSpawnPoint);
-                Enemies.Add(enemy);
+                EnemyData enemy = new EnemyData(EnemyType, TileSpawnPoint);
+
+                // Add enemy to list if it has a valid name
+                if (Constants.ValidEnemyNames.Contains(enemyJsonData.EnemyType))
+                {
+                    Enemies.Add(enemy);
+                }
+                else
+                {
+                    Debug.WriteLine("ERROR: In room \"" + Name + "\", \"" + enemyJsonData.EnemyType + "\" is not a valid enemy name. (check capitalization?)");
+                }
+            }
+
+            PowerUps = new List<PowerUpData>();
+            foreach (PowerUpJsonData powerUpJsonData in roomJsonData.PowerUps)
+            {
+                string PowerUpType = powerUpJsonData.PowerUpType;
+                Vector2 TileSpawnPoint = new Vector2(powerUpJsonData.SpawnTileX, powerUpJsonData.SpawnTileY);
+                PowerUpData powerUp = new PowerUpData(PowerUpType, TileSpawnPoint);
+                PowerUps.Add(powerUp);
             }
         }
 

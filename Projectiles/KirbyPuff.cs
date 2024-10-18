@@ -1,18 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
+using System.Net.NetworkInformation;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class KirbyPuff : IProjectile
+    public class KirbyPuff : IProjectile, ICollidable
     {
         private Sprite projectileSprite;
         private Vector2 position;
+        public bool CollisionActive { get; private set;} = true;
         private Vector2 velocity;
         private bool isFacingRight;
         private int frameCount = 0;
         public bool isActive = true;
-        private ICollidable collidable; 
 
         public Vector2 Position
         {
@@ -44,13 +45,20 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 ? SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_right")
                 : SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_left");
 
-            collidable = new ProjectileCollisionHandler((int)kirbyPosition.X, (int)kirbyPosition.Y);
-            
+            CollisionDetection.Instance.RegisterDynamicObject(this);
         }
-        
+         public Vector2 CalculateRectanglePoint(Vector2 pos)
+        {
+            return pos + Constants.HitBoxes.PUFF_OFFSET; 
+        }
+        public Rectangle GetHitBox()
+        {
+            Vector2 rectPoint = CalculateRectanglePoint(Position);
+            return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.PUFF_SIZE, Constants.HitBoxes.PUFF_SIZE);
+        }
         public void EndAttack()
         {
-            collidable.DestroyHitBox();
+            CollisionActive = false;
         }
         public bool IsDone()
         {
@@ -80,8 +88,8 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 if (frameCount >= Constants.Puff.MAX_FRAMES || Velocity == Vector2.Zero)
                 {
                     isActive = false;
-                    collidable.DestroyHitBox();
                     projectileSprite = null; // Remove the sprite to avoid memory leaks
+                    EndAttack();
                 }
 
                 // Update the puff's sprite animation only if it's still active
@@ -90,8 +98,9 @@ namespace KirbyNightmareInDreamLand.Projectiles
                     projectileSprite?.Update();
                 }
             }
-            collidable.UpdateBoundingBox(position);
+            GetHitBox();
         }
+        
 
         public void Draw(SpriteBatch spriteBatch)
         {

@@ -20,11 +20,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             //does nothing
         }
-
+        //starts kirby is sliding
         public override void Attack(Player kirby)
         {
-            kirby.ChangePose(KirbyPose.Sliding);
-            Slide(kirby.IsLeft());
+            // kirby.ChangePose(KirbyPose.Sliding);
+            // //kirby.ChangeAttackBool(true);
+            // Slide(kirby.IsLeft());
+            kirby.Slide();
             if(distanceMoved == 0){
                 startingX = position.X;
                 distanceMoved = 1;
@@ -43,7 +45,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 StopMovement();
                 kirby.EndSlide();
-            }
+            } 
         }
         public override void Adjust(Player kirby)
         {

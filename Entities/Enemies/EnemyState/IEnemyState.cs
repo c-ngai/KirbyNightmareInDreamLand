@@ -8,8 +8,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState
 {
     public interface IEnemyState
     {
-        void Update(Enemy enemy);
-        void Enter(Enemy enemy);
-        void Exit(Enemy enemy);
+        void Enter();         // State enters, sets up necessary values
+        void Update();        // Update logic for this state
+        void Exit();          // Cleanup on exit from this state
+        void TakeDamage();    // Handle taking damage in different states
+        void ChangeDirection();  // Handle changing direction
     }
+
 }

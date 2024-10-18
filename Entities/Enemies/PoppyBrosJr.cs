@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -12,27 +13,9 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public PoppyBrosJr(Vector2 startPosition) : base(startPosition, EnemyType.PoppyBrosJr)
         {
-            //initialize first sprite
             stateMachine.ChangePose(EnemyPose.Hop);
-            ChangeState(new PoppyBrosJrHopState());
-        }
-
-        public override void Attack()
-        {
-            //NOTE: Poppy Bros Jr does not have attack sprite
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            if (!isDead)
-            {
-                IncrementFrameCounter();
-                // Delegate behavior to the current state
-                currentState.Update(this);
-                UpdateTexture();
-                // Update the enemy sprite
-                enemySprite.Update();
-            }
+            ChangeState(new PoppyBrosJrHopState(this));
+            //TO-DO: spawn facing the direction kirby is in
         }
 
         public override void Move()
@@ -41,18 +24,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             if (stateMachine.IsLeft())
             {
                 position.X -= Constants.PoppyBrosJr.MOVE_SPEED;
-                if (position.X <= leftBoundary.X)
-                {
-                    ChangeDirection();
-                }
             }
             else
             {
                 position.X += Constants.PoppyBrosJr.MOVE_SPEED;
-                if (position.X >= rightBoundary.X)
-                {
-                    ChangeDirection();
-                }
             }
             Hop();
         }
@@ -71,15 +46,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             {
                 hopCounter = 0;
                 enemySprite.ResetAnimation(); // Mark addition: since hop is a non-looping animation that we want to repeat but we already have that sprite, just call ResetAnimation on it.
-            }
-        }
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            //Draws if enemy is alive
-            if (!isDead)
-            {
-                enemySprite.Draw(position, spriteBatch);
             }
         }
     }

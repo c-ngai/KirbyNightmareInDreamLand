@@ -1,0 +1,52 @@
+﻿Sprint 3 Readabilty Code Review     10/16/2024
+
+Author of Code Review: Payton Murphy
+Name of .cs file being reviewed: CollisionResponse.cs
+Author of .cs file being reivewed: Carman Ngai
+
+Time taken to complete review: 40 minutes
+
+################################################################################
+
+10 Code Smells:
+
+1. SwitchStatementsSmell
+2. SameNameDifferentMeaning
+3. TooManyParameters ***
+4. InappropriateIntimacy
+5. VagueIdentifiers
+6. Middleman ***
+7. VariableNameSameAsType
+8. WhileNotDoneLoop
+9. DataClumps ***
+10. InstanceofInConditionals
+
+################################################################################
+
+Comments on code smells:
+
+TooManyParameters: The RegisterCollision method has five parameters. Usually, flags are raised if a method has more than about 3 parameters. While not overly excessive, having
+five parameters in a single method could make it harder to manage and maintain, especially as object1 and object2 are of the same type. Consider refactoring this by grouping 
+related parameters into a dedicated class or structure to simpify method calls.
+
+MiddleMan: CollisionResponse could potentially be viewed as a middle man because it maps objects and commands and then delegates actual collision actions to these commands.
+However, I think this is acceptable since it is managing the collision logic. Maybe just keep an eye on the class to ensure that it doesn't become overly reliant on delegation.
+
+DataClumps: The Tuple<String, String, CollisionSide> and Tuple<Action, Action> are used multiple times and could potentially be grouped into meaningful classes to avoid data
+clumping.
+
+No other major code smells were detected.
+
+
+Quality/Maintainability comments:
+
+The CollisionResponse class is overall well-structured. The responsibilities of registering collisions and executing collision are clearly spearated, enchancing the maintainability
+of the code. The CollisionMapping dictionary is an effective way to register and manage collision responses. However, there are a couple areas for improvement, such as simplifying
+related data into an extracted class. Additionally, the dictionary structure requires close management, especially if more types or collision interactions are added in the future.
+The overall maintainability of the code is decent, but there are some improvements that could be made.
+
+As for a hypothetical change, consider if there was a feature request where different levels of collisions need to have different intensities based of varibales such as speed or
+force. This woule require the CollisionResponse class to handle additional data, like collision velocity or impact, when determining the approriate response. The current
+implementation could support this change, but not very easily. The RegisterCollision and ExecuteCollision methods are tightly coupled. Adding force or velocity parameters would
+require modifications to the way collisions are stored and accessed within CollisionMapping. Refactoring the current tuple-based approach into a more structured class that
+encapsulates all collision data could make the system more adaptable to changes like this.

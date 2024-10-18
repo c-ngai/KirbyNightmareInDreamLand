@@ -25,8 +25,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             flamethrower = new EnemyFlamethrower();
             isFlamethrowerActive = false;
             flamethrowerFrameCounter = 0;
-            stateMachine.ChangePose(EnemyPose.Walking);
-            currentState = new HotheadWalkingState();
+            currentState = new HotheadWalkingState(this);
+            //TO-DO: spawn facing the direction kirby is in
         }
 
         public override void Update(GameTime gameTime)
@@ -34,7 +34,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             if (!isDead)
             {
                 IncrementFrameCounter();
-                currentState.Update(this);
+                currentState.Update();
                 UpdateTexture();
                 // Update the sprite and fireballs
                 enemySprite.Update();
@@ -71,20 +71,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             if (stateMachine.IsLeft())
             {
                 position.X -= Constants.Hothead.MOVE_SPEED;
-                if (position.X <= leftBoundary.X)
-                {
-                    ChangeDirection();
-                    UpdateTexture();
-                }
             }
             else
             {
                 position.X += Constants.Hothead.MOVE_SPEED;
-                if (position.X >= rightBoundary.X)
-                {
-                    ChangeDirection();
-                    UpdateTexture();
-                }
             }
         }
 
@@ -136,5 +126,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 }
             }
         }
+
     }
 }

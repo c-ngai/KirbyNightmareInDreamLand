@@ -8,7 +8,6 @@ namespace KirbyNightmareInDreamLand.Commands
         public void Execute()
         {
             Game1.Instance.players[0].StopMoving();
-
         }
     }
 }

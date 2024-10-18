@@ -9,4 +9,5 @@ Images/collisionTileset
 Images/backgrounds
 Images/room1_level
 Images/room2_level
+Images/room3_level
 Images/invalidspritename

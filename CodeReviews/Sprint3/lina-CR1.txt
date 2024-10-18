@@ -1,0 +1,31 @@
+Author of Review: Lina Ordonez Aguiar
+Date: 10.15.24
+Sprint #3
+Reviewing: Various enemy state machines
+Author of file: Gwyn
+Time: 20 minutes
+
+Chosen code smells:
+    1. Long Functions ***
+    2. same name different meaning
+    3. long parameters
+    4. god Objects
+    5. Duplicate code
+    6. Long method
+    7. Data clumps
+    8. Comments *
+    9. Switch Case
+    10. Large Class
+
+Readability:
+    - comments make it very clear what is happening
+    - the state machines should have acces to what state the sprite
+    is changing to, not passing it through the enemy
+    - each class is direct and to the point
+
+Specific Comments:
+    - the code seems repetitive across every state machine
+    - very starightforward and to the point
+    - i only do not understand what exit is for, more explenation would be nice
+    - hypothetical change: make it so the state works under one class not various classes
+   

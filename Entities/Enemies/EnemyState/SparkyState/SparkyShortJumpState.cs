@@ -9,29 +9,48 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
 {
     public class SparkyShortJumpState : IEnemyState
     {
-        public void Enter(Enemy enemy)
-        {
-            enemy.StateMachine.ChangePose(EnemyPose.Hop);
-            enemy.ResetFrameCounter(); // Reset frame counter on entering the state
+        private readonly Enemy _enemy;
 
-            if (enemy is Sparky sparky)
+        public SparkyShortJumpState(Enemy enemy)
+        {
+            _enemy = enemy ?? throw new ArgumentNullException(nameof(enemy));
+        }
+
+        public void Enter()
+        {
+            _enemy.ChangePose(EnemyPose.Hop);
+            _enemy.ResetFrameCounter(); // Reset frame counter on entering the state
+
+            if (_enemy is Sparky sparky)
             {
                 sparky.SetHopHeight(Constants.Sparky.SHORT_HOP_HEIGHT); // Set the short hop height
             }
         }
 
-        public void Update(Enemy enemy)
+        public void Update()
         {
-            enemy.Move(); // Execute movement logic for a short jump
+            _enemy.Move(); // Execute movement logic for a short jump
+            _enemy.IncrementFrameCounter();
 
             // Transition to pausing after the jump
-            if (enemy.FrameCounter >= Constants.Sparky.HOP_FREQUENCY)
+            if (_enemy.FrameCounter >= Constants.Sparky.HOP_FREQUENCY)
             {
-                enemy.ChangeState(new SparkyPause1State());
-                enemy.UpdateTexture();
+                _enemy.ChangeState(new SparkyPause1State(_enemy));
+                _enemy.UpdateTexture();
             }
         }
 
-        public void Exit(Enemy enemy) { }
+        public void Exit() { }
+
+        public void TakeDamage()
+        {
+            _enemy.ChangeState(new SparkyHurtState(_enemy));
+            _enemy.UpdateTexture();
+        }
+
+        public void ChangeDirection()
+        {
+            _enemy.ToggleDirection();
+        }
     }
 }

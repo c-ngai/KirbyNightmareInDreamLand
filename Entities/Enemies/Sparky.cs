@@ -4,6 +4,7 @@ using System;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -17,25 +18,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             //initialize to hop
             stateMachine.ChangePose(EnemyPose.Hop);
-            currentState = new SparkyPause1State();
-        }
-
-        public override void Attack()
-        {
-            //Change pose and texture for charge attack
-            stateMachine.ChangePose(EnemyPose.Attacking);
-            UpdateTexture();
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            if (!isDead)
-            {
-                IncrementFrameCounter();
-                currentState.Update(this); // Call the current state's update method
-                UpdateTexture(); // Update texture based on state
-                enemySprite.Update(); // Update the sprite
-            }
+            ChangeState(new SparkyPause1State(this)); // Set initial state
+            //TO-DO: face Kirby and move towards
         }
 
         public override void Move()
@@ -52,18 +36,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             if (!stateMachine.IsLeft())
             {
                 position.X += Constants.Sparky.HOP_SPEED;
-                if (position.X >= rightBoundary.X)
-                {
-                    ChangeDirection();
-                }
             }
             else
             {
                 position.X -= Constants.Sparky.HOP_SPEED;
-                if (position.X <= leftBoundary.X)
-                {
-                    ChangeDirection();
-                }
             }
 
             // Reset and repeat hops
@@ -78,13 +54,5 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             currentHopHeight = height; // Set the current hop height
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            //draw enemy if alive
-            if (!isDead)
-            {
-                enemySprite.Draw(position, spriteBatch);
-            }
-        }
     }
 }

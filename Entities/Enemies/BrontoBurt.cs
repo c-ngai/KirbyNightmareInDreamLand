@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -17,23 +18,9 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             //Initialize starting Y position,
             initialY = startPosition.Y;
             stateMachine.ChangePose(EnemyPose.FlyingSlow);
-            ChangeState(new BrontoBurtFlyingSlowState()); // Set initial state
-        }
-
-        public override void Attack()
-        {
-            //Note: Does not have attack pose
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            if (!isDead)
-            {
-                IncrementFrameCounter();
-                currentState.Update(this);
-                UpdateTexture();
-                enemySprite.Update();
-            }
+            ChangeState(new BrontoBurtFlyingSlowState(this)); // Set initial state
+            //TO-DO: spawn facing the direction kirby is in
+           // stateMachine.ChangeDirection();
         }
 
         public override void Move()
@@ -46,28 +33,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             if (stateMachine.IsLeft())
             {
                 position.X -= Constants.BrontoBurt.MOVE_SPEED;
-                if (position.X <= leftBoundary.X)
-                {
-                    ChangeDirection();
-                }
             }
             else
             {
                 position.X += Constants.BrontoBurt.MOVE_SPEED;
-                if (position.X >= rightBoundary.X)
-                {
-                    ChangeDirection();
-                }
             }
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            //Draw if enemy is alive
-            if (!isDead)
-            {
-                enemySprite.Draw(position, spriteBatch);
-            }
-        }
     }
 }

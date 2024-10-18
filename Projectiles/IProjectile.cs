@@ -7,8 +7,8 @@ namespace KirbyNightmareInDreamLand.Projectiles
     {
         void Update(); // Update the position of the projectile
         void Draw(SpriteBatch spriteBatch);   // Render the projectile on the screen
-        void EndAttack();
         bool IsDone();
+        void EndAttack();
         Vector2 Position { get; } // Position of the projectile
         Vector2 Velocity { get;} // Velocity or direction of the projectile
     }

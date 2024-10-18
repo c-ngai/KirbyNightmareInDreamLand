@@ -9,30 +9,48 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
 {
     public class SparkyTallJumpState : IEnemyState
     {
-        public void Enter(Enemy enemy)
-        {
-            enemy.StateMachine.ChangePose(EnemyPose.Hop);
-            enemy.ResetFrameCounter(); // Reset frame counter on entering the state
+        private readonly Enemy _enemy;
 
-            // Cast to Sparky to access Sparky-specific methods
-            if (enemy is Sparky sparky)
+        public SparkyTallJumpState(Enemy enemy)
+        {
+            _enemy = enemy ?? throw new ArgumentNullException(nameof(enemy));
+        }
+
+        public void Enter()
+        {
+            _enemy.ChangePose(EnemyPose.Hop);
+            _enemy.ResetFrameCounter(); // Reset frame counter on entering the state
+
+            if (_enemy is Sparky sparky)
             {
                 sparky.SetHopHeight(Constants.Sparky.TALL_HOP_HEIGHT); // Set the tall hop height
             }
         }
 
-        public void Update(Enemy enemy)
+        public void Update()
         {
-            enemy.Move(); // Execute movement logic for a tall jump
+            _enemy.Move(); // Execute movement logic for a tall jump
+            _enemy.IncrementFrameCounter();
 
             // Transition to pausing after the jump
-            if (enemy.FrameCounter >= Constants.Sparky.HOP_FREQUENCY)
+            if (_enemy.FrameCounter >= Constants.Sparky.HOP_FREQUENCY)
             {
-                enemy.ChangeState(new SparkyPause2State());
-                enemy.UpdateTexture();
+                _enemy.ChangeState(new SparkyPause2State(_enemy));
+                _enemy.UpdateTexture();
             }
         }
 
-        public void Exit(Enemy enemy) { }
+        public void Exit() { }
+
+        public void TakeDamage()
+        {
+            _enemy.ChangeState(new SparkyHurtState(_enemy));
+            _enemy.UpdateTexture();
+        }
+
+        public void ChangeDirection()
+        {
+            _enemy.ToggleDirection();
+        }
     }
 }

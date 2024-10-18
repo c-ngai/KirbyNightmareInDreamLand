@@ -9,22 +9,42 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
 {
     public class SparkyPause1State : IEnemyState
     {
-        public void Enter(Enemy enemy)
+        private readonly Enemy _enemy;
+
+        public SparkyPause1State(Enemy enemy)
         {
-            enemy.StateMachine.ChangePose(EnemyPose.Standing);
-            enemy.ResetFrameCounter();
+            _enemy = enemy ?? throw new ArgumentNullException(nameof(enemy));
         }
 
-        public void Update(Enemy enemy)
+        public void Enter()
+        {
+            _enemy.ChangePose(EnemyPose.Standing);
+            _enemy.ResetFrameCounter();
+        }
+
+        public void Update()
         {
             // Wait for a defined period of time
-            if (enemy.FrameCounter >= Constants.Sparky.PAUSE_TIME)
+            _enemy.IncrementFrameCounter();
+
+            if (_enemy.FrameCounter >= Constants.Sparky.PAUSE_TIME)
             {
-                enemy.ChangeState(new SparkyTallJumpState());
-                enemy.UpdateTexture();
+                _enemy.ChangeState(new SparkyTallJumpState(_enemy));
+                _enemy.UpdateTexture();
             }
         }
 
-        public void Exit(Enemy enemy) { }
+        public void Exit() { }
+
+        public void TakeDamage()
+        {
+            _enemy.ChangeState(new SparkyHurtState(_enemy));
+            _enemy.UpdateTexture();
+        }
+
+        public void ChangeDirection()
+        {
+            _enemy.ToggleDirection();
+        }
     }
 }

@@ -93,13 +93,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             kirby.ChangePose(KirbyPose.FloatingEnd);
         }
 
-        public async void FloatingFallingAnimation(Player kirby)
+        public void FloatingFallingAnimation(Player kirby)
         {
             //floating doesnt go into the falling animation within a certain distance from floor
             if (position.Y < floatFallingWindow)
             {
-                await Task.Delay(Constants.Physics.DELAY2);
-                kirby.ChangePose(KirbyPose.JumpFalling);
+                kirby.ChangePose(KirbyPose.FreeFall);
 
             }
         }
@@ -109,16 +108,19 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             // if(!kirby.attackIsActive)
             // {
-            kirby.ChangeAttackBool(true);
-            FloatingEndAnimation(kirby);
-            floatGravity = gravity;
-            endFloat = true;
-            yVel = floatVel;
-            FloatingFallingAnimation(kirby);
-            // } else {
-
-            // }
-            
+            //kirby.ChangeAttackBool(true);
+            if(!kirby.GetKirbyPose().Equals("FloatingGrounded")){
+                FloatingEndAnimation(kirby);
+                floatGravity = gravity;
+                endFloat = true;
+                yVel = floatVel;
+                FloatingFallingAnimation(kirby);
+            } else {
+                FloatingEndAnimation(kirby);
+                endFloat = true;
+                // kirby.ChangePose(KirbyPose.Standing);
+                // kirby.ChangeMovement();
+            }
         }
 
     }
