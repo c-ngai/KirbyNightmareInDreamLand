@@ -1,24 +1,20 @@
 ﻿using KirbyNightmareInDreamLand.Entities.Players;
 namespace KirbyNightmareInDreamLand.Commands
 {
-    public class KirbyFloatCommand : ICommand
+    public class KirbyEnterDoorCommand : ICommand
     {
         Game1 _game;
         IPlayer _player;
 
-        public KirbyFloatCommand()
-        {
+        public KirbyEnterDoorCommand() {
             _game = Game1.Instance;
             _player = _game.players[0];
         }
 
+
         public void Execute()
         {
-            // If kirby is not in a door, float
-            if (!_game.level.atDoor(_player.GetKirbyPosition()))
-            {
-                _player.Float();
-            }
+            _game.level.nextRoom(_player.GetKirbyPosition());
         }
     }
 }

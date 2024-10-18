@@ -15,24 +15,24 @@ namespace KirbyNightmareInDreamLand
 
     public struct Door
     {
-        public Vector2 TilePosition;
+        public Rectangle Bounds;
         public string DestinationRoom;
 
-        public Door(Vector2 tilePosition, string destinationRoom)
+        public Door(Rectangle bounds, string destinationRoom)
         {
-            TilePosition = tilePosition;
+            Bounds = bounds;
             DestinationRoom = destinationRoom;
         }
     }
     public struct EnemyData
     {
         public string EnemyType;
-        public Vector2 TileSpawnPoint;
+        public Vector2 SpawnPoint;
 
-        public EnemyData(string enemyType, Vector2 tileSpawnPoint)
+        public EnemyData(string enemyType, Vector2 spawnPoint)
         {
             EnemyType = enemyType;
-            TileSpawnPoint = tileSpawnPoint;
+            SpawnPoint = spawnPoint;
         }
     }
     public struct PowerUpData
@@ -62,6 +62,7 @@ namespace KirbyNightmareInDreamLand
         public int Height { get; private set; }
 
         public Vector2 SpawnTile { get; private set; }
+        public Vector2 SpawnPoint { get; private set; }
 
         public bool CameraXLock { get; private set; }
         public int LockedCameraX { get; private set; }
@@ -87,6 +88,7 @@ namespace KirbyNightmareInDreamLand
             Height = TileHeight * Constants.Level.TILE_SIZE;
 
             SpawnTile = new Vector2(roomJsonData.SpawnTileX, roomJsonData.SpawnTileY);
+            SpawnPoint = SpawnTile * Constants.Level.TILE_SIZE + new Vector2(8, 16);
 
             CameraXLock = roomJsonData.LockCameraX;
             LockedCameraX = roomJsonData.LockedCameraX;
@@ -96,9 +98,13 @@ namespace KirbyNightmareInDreamLand
             Doors = new List<Door>();
             foreach (DoorJsonData doorJsonData in roomJsonData.Doors)
             {
-                Vector2 TilePosition = new Vector2(doorJsonData.TileX, doorJsonData.TileY);
+                Rectangle Bounds = new Rectangle(
+                    doorJsonData.TileX * Constants.Level.TILE_SIZE,
+                    doorJsonData.TileY * Constants.Level.TILE_SIZE,
+                    Constants.Level.TILE_SIZE,
+                    Constants.Level.TILE_SIZE + 1); // Plus one for now because when standing on the ground, kirby's position is right at the bottom edge of the door rectangle normally, which isn't counted as "inside" it. Door hitbox goes 1 pixel into the ground.
                 string DestinationRoom = doorJsonData.DestinationRoom;
-                Door door = new Door(TilePosition, DestinationRoom);
+                Door door = new Door(Bounds, DestinationRoom);
                 Doors.Add(door);
             }
 
@@ -107,7 +113,8 @@ namespace KirbyNightmareInDreamLand
             {
                 string EnemyType = enemyJsonData.EnemyType;
                 Vector2 TileSpawnPoint = new Vector2(enemyJsonData.SpawnTileX, enemyJsonData.SpawnTileY);
-                EnemyData enemy = new EnemyData(EnemyType, TileSpawnPoint);
+                Vector2 SpawnPoint = TileSpawnPoint * Constants.Level.TILE_SIZE + new Vector2(8, 16);
+                EnemyData enemy = new EnemyData(EnemyType, SpawnPoint);
 
                 // Add enemy to list if it has a valid name
                 if (Constants.ValidEnemyNames.Contains(enemyJsonData.EnemyType))

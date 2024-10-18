@@ -178,7 +178,7 @@ namespace KirbyNightmareInDreamLand
 
 
             // Currently commented out since we don't need the item
-            LoadItem();
+            // LoadItem();
 
             // Creates enemies
             waddledeeTest = new WaddleDee(new Vector2(80, Constants.Graphics.FLOOR));
@@ -196,6 +196,11 @@ namespace KirbyNightmareInDreamLand
 
         protected override void LoadContent()
         {
+            System.Diagnostics.Debug.WriteLine("Debug from content load");
+
+
+
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -205,12 +210,14 @@ namespace KirbyNightmareInDreamLand
             // Load all content through LevelLoader
             LevelLoader.Instance.LoadAllContent();
 
+            // Load all objects
+            LoadObjects();
+
             // Create level instance and load initial room
             level = new Level();
             level.LoadRoom("room1");
 
-            // Load all objects
-            LoadObjects();
+            
 
             // Load the desired keymap by name
             LevelLoader.Instance.LoadKeymap("keymap1");
@@ -241,7 +248,7 @@ namespace KirbyNightmareInDreamLand
             enemyList[currentEnemyIndex].Update(time);
 
             // Commented out since we currently do not need item
-            item.Update();
+            // item.Update();
 
             //enemyList2.Add(new Hothead(new Vector2(170, 100))); // FOR PERFORMANCE TESTING
             foreach (IEnemy enemy in enemyList2) enemy.Update(time); // FOR PERFORMANCE TESTING
