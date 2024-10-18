@@ -88,7 +88,7 @@ namespace KirbyNightmareInDreamLand
             Height = TileHeight * Constants.Level.TILE_SIZE;
 
             SpawnTile = new Vector2(roomJsonData.SpawnTileX, roomJsonData.SpawnTileY);
-            SpawnPoint = SpawnTile * Constants.Level.TILE_SIZE + new Vector2(8, 16);
+            SpawnPoint = SpawnTile * Constants.Level.TILE_SIZE + Constants.Level.BOTTOM_MIDDLE_OF_TILE;
 
             CameraXLock = roomJsonData.LockCameraX;
             LockedCameraX = roomJsonData.LockedCameraX;
@@ -113,7 +113,7 @@ namespace KirbyNightmareInDreamLand
             {
                 string EnemyType = enemyJsonData.EnemyType;
                 Vector2 TileSpawnPoint = new Vector2(enemyJsonData.SpawnTileX, enemyJsonData.SpawnTileY);
-                Vector2 SpawnPoint = TileSpawnPoint * Constants.Level.TILE_SIZE + new Vector2(8, 16);
+                Vector2 SpawnPoint = TileSpawnPoint * Constants.Level.TILE_SIZE + Constants.Level.BOTTOM_MIDDLE_OF_TILE;
                 EnemyData enemy = new EnemyData(EnemyType, SpawnPoint);
 
                 // Add enemy to list if it has a valid name
