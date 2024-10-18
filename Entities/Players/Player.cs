@@ -407,6 +407,22 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
         }
         #endregion
+
+        #region Collisions
+        public void BottomCollisionWithBlock(Tile tile)
+        {
+            movement.AdjustFromBottomCollisionBlockOrPlatform(this, tile);
+        }
+        public void RightCollisionWithBlock(Tile tile)
+        {
+            movement.AdjustFromRightCollisionBlock(this, tile);
+        }
+        public void LeftCollisionWithBlock(Tile tile)
+        {
+            movement.AdjustFromLeftCollisionBlock(this, tile);
+        }
+        #endregion
+
     }
 
 }

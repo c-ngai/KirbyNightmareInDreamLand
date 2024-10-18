@@ -69,78 +69,56 @@ namespace KirbyNightmareInDreamLand
             return distance<close && distance2<close;
         }
 
-        // Method to handle collision detection
-        public CollisionSide CheckSide(Rectangle intersection, ICollidable object1)
+        public CollisionSide DetectCollisionSide(Rectangle object1, Rectangle intersection)
         {
-            // Determine positions for all corners of the intersection
-            int intersectionTopAndBottomRightCornerX = intersection.X + intersection.Width;
-            int intersectionTopRightCornerY = intersection.Y;
-            int intersectionBottomLeftCornerX = intersection.X;
-            int intersectionBottomLeftAndRightCornerY = intersection.Y - intersection.Height;
+            CollisionSide side = CollisionSide.Right;
 
-            // Determine x-y positions for all corners of the object's hit box
-            Rectangle objectRectangle = object1.GetHitBox();
-            int objectTopAndBottomRightCornerX = objectRectangle.X + objectRectangle.Width;
-            int objectTopRightCornerY = objectRectangle.Y;
-            int objectBottomLeftCornerX = objectRectangle.X;
-            int objectBottomLeftandRightCornerY = objectRectangle.Y - objectRectangle.Height;
-
-            // Calculates the length of overlap on an edge when the intersection touches the edge
-            double topOverlap = 0, bottomOverlap = 0, rightOverlap = 0, leftOverlap = 0;
-            if (intersection.Y == objectRectangle.Y)
+            // More width determines collision must've occured either on the top or bottom
+            if (intersection.Width >= intersection.Height)
             {
-                topOverlap = intersection.Width;
-            }
-            if (intersectionBottomLeftAndRightCornerY == objectBottomLeftandRightCornerY)
-            {
-                bottomOverlap = intersection.Width;
-            }
-            if (intersection.X == objectRectangle.X)
-            {
-                leftOverlap = intersection.Height;
-            }
-            if (intersectionTopAndBottomRightCornerX == objectTopAndBottomRightCornerX)
-            {
-                rightOverlap = intersection.Height;
-            }
-
-            // TODO: create a constant for 4: the number of sides; Note this cannot be changed for this to work correctly
-            double[] percentageOfIntersection = new double[Constants.HitBoxes.SIDES];
-            percentageOfIntersection[(int)CollisionSide.Top] = topOverlap / objectRectangle.Width;
-            percentageOfIntersection[(int)CollisionSide.Bottom] = bottomOverlap / objectRectangle.Width;
-            percentageOfIntersection[(int)CollisionSide.Right] = rightOverlap / objectRectangle.Height;
-            percentageOfIntersection[(int)CollisionSide.Left] = leftOverlap / objectRectangle.Height;
-
-            // Finds the side that has the largest intersection percentage and returns it
-            double largestIntersection = 0;
-            int index = 0;
-            for (int i = 0; i < percentageOfIntersection.Length; i++)
-            {
-                if (largestIntersection < percentageOfIntersection[i])
+                // Left corner vertical alignment means it is a top collision
+                if (object1.Y == intersection.Y)
                 {
-                    largestIntersection = percentageOfIntersection[i];
-                    index = i;
+                    side = CollisionSide.Top;
+                }
+                else
+                {
+                    side = CollisionSide.Bottom;
                 }
             }
-            return (CollisionSide)index;
+            // More height determines collision must've occurred on the left or right
+            else
+            {
+                // Left corner horizontal alignment means it must a a left collision
+                if (object1.X == intersection.X)
+                {
+                    side = CollisionSide.Left;
+                }
+                else
+                {
+                    side = CollisionSide.Right;
+                }
+            }
+            return side;
         }
+
         public void StaticCollisionCheck()
         {
-            //foreach (var dynamicObj in DynamicObjects)
-            //{
-            //    List<Tile> nearbyTiles = Game1.Instance.level.IntersectingTiles(dynamicObj.BoundingBox);
-            //    foreach (Tile tile in nearbyTiles)
-            //    {
-            //        if (dynamicObj.BoundingBox.Intersects(tile.rectangle))
-            //        {
-            //            Rectangle intersection = Rectangle.Intersect(dynamicObj.BoundingBox, tile.rectangle);
+            foreach (var dynamicObj in DynamicObjects)
+            {
+                List<Tile> nearbyTiles = Game1.Instance.level.IntersectingTiles(dynamicObj.GetHitBox());
+                foreach (Tile tile in nearbyTiles)
+                {
+                    if (dynamicObj.GetHitBox().Intersects(tile.rectangle))
+                    {
+                        Rectangle intersection = Rectangle.Intersect(dynamicObj.GetHitBox(), tile.rectangle);
 
-            //            CollisionSide side = CheckSide(intersection, dynamicObj);
+                        CollisionSide side = DetectCollisionSide(dynamicObj.GetHitBox(), intersection);
 
-            //            CollisionResponse.Instance.ExecuteCollision(dynamicObj, StaticObjects[tile], side);
-            //        }
-            //    }
-            //}
+                        //CollisionResponse.Instance.ExecuteCollision(dynamicObj, StaticObjects[tile], side);
+                    }
+                }
+            }
         }
         public void DynamicCollisionCheck()
         {
