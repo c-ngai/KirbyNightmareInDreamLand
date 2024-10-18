@@ -61,7 +61,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             if (stateMachine.GetPose() == EnemyPose.Attacking)
             {
                 x = pos.X - Constants.HitBoxes.SPARKY_ATTACK_WIDTH / 2;
-                y = pos.Y - Constants.HitBoxes.SPARKY_ATTACK_HEIGHT;
+                y = pos.Y - Constants.HitBoxes.SPARKY_ATTACK_HEIGHT + Constants.HitBoxes.SPARKY_ATTACK_OFFSET;
             }
             else
             {
