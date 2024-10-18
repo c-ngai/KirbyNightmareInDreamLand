@@ -84,6 +84,8 @@ namespace KirbyNightmareInDreamLand
         {
             foreach (var dynamicObj in manager.DynamicObjects)
             {
+                // Registers all relevant tiles
+                Game1.Instance.level.IntersectingTiles(dynamicObj.GetHitBox());
                 foreach (var staticObj in manager.StaticObjects)
                 {
                     if (dynamicObj.GetHitBox().Intersects(staticObj.GetHitBox()))
@@ -96,7 +98,10 @@ namespace KirbyNightmareInDreamLand
                         
                         string type2 = staticObj.GetObjectType();
                         Tuple<string, string, CollisionSide> key = new Tuple<string, string, CollisionSide>(type1, type2, side);
-                        if (response.collisionMapping.ContainsKey(key)) response.ExecuteCollision(dynamicObj, staticObj, side);
+                        if (response.collisionMapping.ContainsKey(key))
+                        {
+                            response.ExecuteCollision(dynamicObj, staticObj, side);
+                        }
                     }
                 }
             }
@@ -156,8 +161,5 @@ namespace KirbyNightmareInDreamLand
             }
         }
 
-    }
-    //im thinking of adding a remove box method to take it off the list, instead of working thpugh
-    //is active should that be in detection2          
-
+    }    
 }

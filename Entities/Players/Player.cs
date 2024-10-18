@@ -3,8 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Threading.Tasks;
 using KirbyNightmareInDreamLand.Sprites;
 using KirbyNightmareInDreamLand.StateMachines;
+using System.Diagnostics;
 using System;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {

@@ -75,6 +75,7 @@ namespace KirbyNightmareInDreamLand
             LoadAllRooms(); // Dependent on sprite animations and tilemaps already loaded
 
             LoadAllKeymappings();
+            SetCollisionResponses();
 
             font = _content.Load<SpriteFont>("DefaultFont");
             borders = new Texture2D(_graphics, 1, 1);
@@ -302,7 +303,11 @@ namespace KirbyNightmareInDreamLand
                 collisionResponse.RegisterCollision(key1, key2, (CollisionSide)i, action, null);
             }
 
-
+            Debug.WriteLine("Dictionary after collisionMapping");
+            foreach (var collision in collisionResponse.collisionMapping)
+            {
+                Debug.WriteLine(collision);
+            }
 
 
 

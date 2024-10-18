@@ -4,6 +4,7 @@ using KirbyNightmareInDreamLand.Sprites;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -62,6 +63,12 @@ namespace KirbyNightmareInDreamLand
             IPlayer kirby = new Player(new Vector2(30, Constants.Graphics.FLOOR));
             kirby.PlayerSprite = SpriteFactory.Instance.CreateSprite("kirby_normal_standing_right");
             players.Add(kirby);
+
+            Debug.WriteLine("Created Kirby ");
+            foreach (var dynamicOb in DynamicObjects)
+            {
+                Debug.WriteLine($"dynamic object: {dynamicOb}\n");
+            }
             // Target the camera on Kirby
             Camera camera = Game1.Instance.camera;
             camera.TargetPlayer(players[0]);

@@ -70,6 +70,7 @@ namespace KirbyNightmareInDreamLand
                 foreach (IPlayer player in manager.players)
                 {
                     player.GoToRoomSpawn();
+                    manager.RegisterDynamicObject((Player) player);
                 }
             }
             else
@@ -341,9 +342,9 @@ namespace KirbyNightmareInDreamLand
         }
 
         // Given a rectangle in the world, returns a List of all Tiles in the level that intersect with that given rectangle.
-        public List<Tile> IntersectingTiles(Rectangle collisionRectangle)
+        public List<ICollidable> IntersectingTiles(Rectangle collisionRectangle)
         {
-            List<Tile> tiles = new List<Tile>();
+            List<ICollidable> tiles = new List<ICollidable>();
 
             // Set bounds on the TileMap to iterate from
             int TopY = Math.Max(collisionRectangle.Top / Constants.Level.TILE_SIZE, 0);

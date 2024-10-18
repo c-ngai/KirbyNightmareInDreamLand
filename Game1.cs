@@ -14,6 +14,7 @@ using System.Diagnostics;
 using KirbyNightmareInDreamLand.Collision;
 using KirbyNightmareInDreamLand.Entities;
 using KirbyNightmareInDreamLand.Actions;
+using System.Dynamic;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -125,9 +126,6 @@ namespace KirbyNightmareInDreamLand
         {
             System.Diagnostics.Debug.WriteLine("Debug from content load");
 
-
-
-
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -143,8 +141,6 @@ namespace KirbyNightmareInDreamLand
             // Create level instance and load initial room
             level = new Level();
             level.LoadRoom("room1");
-
-            
 
             // Load the desired keymap by name
             LevelLoader.Instance.LoadKeymap("keymap1");
@@ -173,8 +169,10 @@ namespace KirbyNightmareInDreamLand
 
             CollisionDetection.Instance.CheckCollisions();
 
+
             foreach (IPlayer player in objectManager.players) player.Update(time);
             objectManager.enemyList[objectManager.currentEnemyIndex].Update(time);
+
 
             // Commented out since we currently do not need item
             // item.Update();
@@ -209,6 +207,11 @@ namespace KirbyNightmareInDreamLand
             // item.Draw(new Vector2(200, 150), spriteBatch);
             if (DEBUG_COLLISION_MODE)
             {
+                //Debug.WriteLine("Static Object List entering debug mode");
+                //foreach (var dynamicOb in objectManager.StaticObjects)
+                //{
+                //    Debug.WriteLine($"dynamic object: {dynamicOb}\n");
+                //}
                 CollisionDetection.Instance.DebugDraw(spriteBatch);
             }
             spriteBatch.End();

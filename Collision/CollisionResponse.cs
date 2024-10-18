@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using KirbyNightmareInDreamLand.Commands;
 
 namespace KirbyNightmareInDreamLand.Collision
@@ -47,9 +48,16 @@ namespace KirbyNightmareInDreamLand.Collision
             //hand side that is being collided
             Tuple<string, string, CollisionSide> objects = new Tuple<string, string, CollisionSide>(key1, key2, side);
 
-
-            collisionMapping[objects]?.Item1(object2);
-            collisionMapping[objects]?.Item2(object1);
+            Debug.WriteLine($"Current key for execution: {objects}");
+            Tuple<Action<ICollidable>, Action<ICollidable>> commands = collisionMapping[objects];
+            if (commands.Item1 != null)
+            {
+                commands.Item1(object2);
+            }
+            if (commands.Item2 != null)
+            {
+                commands.Item2(object1);
+            }
         }
     }
 }
