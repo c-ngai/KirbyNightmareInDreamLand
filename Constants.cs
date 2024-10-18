@@ -58,6 +58,11 @@ namespace KirbyNightmareInDreamLand
         {
             public const int ENTITY_WIDTH = 13;
             public const int ENTITY_HEIGHT = 15;
+            public const int ENEMY_WIDTH = 16;
+            public const int ENEMY_HEIGHT = 16;
+            public const int SPARKY_ATTACK_WIDTH = 40;
+            public const int SPARKY_ATTACK_HEIGHT = 40;
+            public const int SPARKY_ATTACK_OFFSET =11;
             public const int TILE_WIDTH = 16;
             public const int TILE_HEIGHT = 16;
             public const int NULL_WIDTH = 0;

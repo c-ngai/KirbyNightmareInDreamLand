@@ -54,5 +54,40 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             currentHopHeight = height; // Set the current hop height
         }
 
+        public override Vector2 CalculateRectanglePoint(Vector2 pos)
+        {
+            float x;
+            float y;
+            if (stateMachine.GetPose() == EnemyPose.Attacking)
+            {
+                x = pos.X - Constants.HitBoxes.SPARKY_ATTACK_WIDTH / 2;
+                y = pos.Y - Constants.HitBoxes.SPARKY_ATTACK_HEIGHT + Constants.HitBoxes.SPARKY_ATTACK_OFFSET;
+            }
+            else
+            {
+                x = pos.X - Constants.HitBoxes.ENEMY_WIDTH / 2;
+                y = pos.Y - Constants.HitBoxes.ENEMY_HEIGHT;
+            }
+            Vector2 rectPoint = new Vector2(x, y);
+            return rectPoint;
+        }
+
+        public override Rectangle GetHitBox()
+        {
+            Vector2 rectPoint = CalculateRectanglePoint(position);
+
+            // Check if the enemy is in the attacking state
+            if (stateMachine.GetPose() == EnemyPose.Attacking)
+            {
+                // Return the larger hitbox when attacking
+                return new Rectangle((int)rectPoint.X,(int)rectPoint.Y,Constants.HitBoxes.SPARKY_ATTACK_WIDTH,Constants.HitBoxes.SPARKY_ATTACK_HEIGHT);
+            }
+            else
+            {
+                // Return the normal hitbox for other states
+                return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENEMY_WIDTH, Constants.HitBoxes.ENEMY_HEIGHT);
+            }
+        }
+
     }
 }
