@@ -109,17 +109,19 @@ namespace KirbyNightmareInDreamLand
                 for (int j = i + 1; j < manager.DynamicObjects.Count; j++)
                 {
                     //run and time and comment out close enough to check if it improved performance
-                    if (!IsCloseEnough(manager.DynamicObjects[i], manager.DynamicObjects[j])) continue;
-                    if (manager.DynamicObjects[i].GetHitBox().Intersects(manager.DynamicObjects[j].GetHitBox()))
+                    //add method to check if the types colliding are the same
+                    //enemy cant collide with enemy
+                    //projectiles dont ocllide
+                    //enemy projectiles dont collide with enemy
+                    if(!IsCloseEnough(DynamicObjects[i],DynamicObjects[j])) continue;
+                    if (DynamicObjects[i].GetHitBox().Intersects(DynamicObjects[j].GetHitBox()))
                     {
-                        Rectangle intersection = Rectangle.Intersect(manager.DynamicObjects[i].GetHitBox(), manager.DynamicObjects[j].GetHitBox());
+                        Rectangle intersection = Rectangle.Intersect(DynamicObjects[i].GetHitBox(), DynamicObjects[j].GetHitBox());
 
-                        CollisionSide side = DetectCollisionSide(manager.DynamicObjects[i].GetHitBox(), intersection);
-
-                        string type1 = manager.DynamicObjects[i].GetObjectType();
-                        string type2 = manager.DynamicObjects[j].GetObjectType();
-                        Tuple<string, string, CollisionSide> key = new Tuple<string, string, CollisionSide>(type1, type2, side);
-                        if (response.collisionMapping.ContainsKey(key)) response.ExecuteCollision(manager.DynamicObjects[i], manager.DynamicObjects[j], side);
+                        CollisionSide side1 = CheckSide(intersection, DynamicObjects[i]);
+                        //CollisionSide side2 = CheckSide(intersection, DynamicObjects[j]);
+                        CollisionResponse.Instance.ExecuteCollision(DynamicObjects[i], DynamicObjects[j], side1);
+                        //CollisionResponse.Instance.ExecuteCollision(DynamicObjects[j], DynamicObjects[i], side2);
                     }
                 }
             }

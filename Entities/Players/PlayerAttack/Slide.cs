@@ -44,6 +44,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
             }
             return false;
         }
+        public String GetCollisionType()
+        {
+            return "PlayerAttack";
+        }
         public void Update()
         {
             GetHitBox();

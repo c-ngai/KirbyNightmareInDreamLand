@@ -10,7 +10,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 {
     public class Player : IPlayer, ICollidable
     {
-        //no axis aligned collison?? 
         //BSP trees for collision optimization
         //make a seperate class to hold all the objects --singleton
         //this class will be refactored in next sprint to make another class: State management
@@ -111,6 +110,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             return movement.GetPosition();
         }
+        public String GetCollisionType()
+        {
+            return "Player";
+        }
         #endregion
 
         #region Power-Up
@@ -176,9 +179,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //calls method to drecease health & changes kirby pose
         public async void TakeDamageAnimation()
         {
-            ChangePose(KirbyPose.Hurt);
-            await Task.Delay(Constants.Physics.DELAY);
-            StopMoving();
+            if(!invincible){
+                ChangePose(KirbyPose.Hurt);
+                await Task.Delay(Constants.Physics.DELAY);
+                StopMoving();
+                invincible = true;
+            }
         }
         public void EndInvinciblility(GameTime gameTime)
         {
@@ -369,6 +375,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #region Mouthful
         public void SwallowEnemy()
         {
+            StopAttacking();
             ChangeToMouthful();
         }
         #endregion

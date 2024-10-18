@@ -63,7 +63,6 @@ namespace KirbyNightmareInDreamLand
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
-
         protected override void Initialize()
         {
             DEBUG_TEXT_ENABLED = true;
@@ -219,4 +218,5 @@ namespace KirbyNightmareInDreamLand
         }
 
     }
+
 }

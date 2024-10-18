@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
 using System.Collections.Generic;
+using System;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
@@ -101,6 +102,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
             {
                 sprite1.Draw(Position, spriteBatch);
             }
+        }
+        public String GetCollisionType()
+        {
+            return "PlayerAttack";
         }
     }
 }

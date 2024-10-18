@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using KirbyNightmareInDreamLand.Sprites;
+using System;
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
     public interface IPlayer : IEntity
@@ -32,5 +33,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         void RightCollisionWithBlock(Rectangle intersection);
         void LeftCollisionWithBlock(Rectangle intersection);
         void BottomCollisionWithPlatform(Rectangle intersection);
+        void SwallowEnemy();
+    
     }
 }

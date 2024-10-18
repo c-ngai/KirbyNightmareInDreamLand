@@ -19,7 +19,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         // Beam ability
         private EnemyBeam beam;
         private bool isBeamActive = false;
-        private ICollidable collidable;
 
         public bool IsJumping => isJumping;
 
@@ -39,6 +38,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 IncrementFrameCounter(); 
                 currentState.Update();
                 enemySprite.Update();
+                GetHitBox();
 
                 // Handle the beam if active
                 if (isBeamActive)

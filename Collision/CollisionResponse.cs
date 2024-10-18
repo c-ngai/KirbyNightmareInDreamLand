@@ -20,10 +20,18 @@ namespace KirbyNightmareInDreamLand.Collision
                 return instance;
             }
         }
-
+        public bool DictEmpty()
+        {
+            return collisionMapping.Count == 0;
+        }
         public CollisionResponse()
         {
             collisionMapping = new Dictionary<Tuple<string, string, CollisionSide>, Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>>>();
+        }
+
+        public void ResetCollisionDictionary()
+        {
+            collisionMapping = new Dictionary<Tuple<String, String, CollisionSide>, Tuple<Action, Action>>();
         }
 
         // Creates string mappings of object types and collision side to determine object reactions 
@@ -43,20 +51,23 @@ namespace KirbyNightmareInDreamLand.Collision
             //feel free to let different objects have different collision types
             //i gues for tile we could have it? i feel like its easier to just make the tile hit box smaller
             //ans stop the intersection instead of allowing there to be one
-            string key1 = object1.GetObjectType();
-            string key2 = object2.GetObjectType();
+            String key1 = object1.GetCollisionType();
+            String key2 = object2.GetCollisionType();
             //hand side that is being collided
             Tuple<string, string, CollisionSide> objects = new Tuple<string, string, CollisionSide>(key1, key2, side);
 
-            Rectangle intersection = Rectangle.Intersect(object1.GetHitBox(), object2.GetHitBox());
-            Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>> commands = collisionMapping[objects];
-            if (commands.Item1 != null)
+            // IS THERE A WAY I CAN CALL INSTANCE ACTIONS? 
+            //pass in parameters! 
+            
+            // Check if the key exists in the dictionary
+            if (collisionMapping.TryGetValue(objects, out Tuple<Action, Action> commands))
             {
-                commands.Item1(object1, object2, intersection);
-            }
-            if (commands.Item2 != null)
-            {
-                commands.Item2(object1, object2, intersection);
+                // Execute object1's collision action, if it's not null
+                commands.Item1?.Invoke();
+                
+                // Execute object2's collision action, if it's not null
+                commands.Item2?.Invoke();
+                System.Console.WriteLine();
             }
         }
     }
