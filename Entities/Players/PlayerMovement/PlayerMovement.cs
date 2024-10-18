@@ -36,6 +36,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             xVel = 0;
         }
 
+        public void GoToRoomSpawn()
+        {
+            position = Game1.Instance.level.CurrentRoom.SpawnPoint;
+        }
+
         #region Walking
         public virtual void Walk(bool isLeft)
         {   

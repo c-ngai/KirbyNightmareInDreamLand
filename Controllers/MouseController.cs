@@ -28,14 +28,18 @@ namespace KirbyNightmareInDreamLand.Controllers
         {
             MouseState currentMouseState = Mouse.GetState();
 
-            // Check for left click (previous room) or right click (next room)
-            if (currentMouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released)
+            // If mouse is inside game window
+            if (game.GraphicsDevice.Viewport.Bounds.Contains(currentMouseState.Position))
             {
-                GoToPreviousRoom();
-            }
-            else if (currentMouseState.RightButton == ButtonState.Pressed && previousMouseState.RightButton == ButtonState.Released)
-            {
-                GoToNextRoom();
+                // Check for left click (previous room) or right click (next room)
+                if (currentMouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released)
+                {
+                    GoToPreviousRoom();
+                }
+                else if (currentMouseState.RightButton == ButtonState.Pressed && previousMouseState.RightButton == ButtonState.Released)
+                {
+                    GoToNextRoom();
+                }
             }
 
             previousMouseState = currentMouseState;

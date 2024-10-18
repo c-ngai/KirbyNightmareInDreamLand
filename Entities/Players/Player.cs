@@ -196,6 +196,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #endregion
 
         #region Movement
+        public void GoToRoomSpawn()
+        {
+            movement.GoToRoomSpawn();
+        }
+        
+        
         public void MoveLeft()
         {   
             SetDirectionLeft();

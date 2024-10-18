@@ -205,12 +205,14 @@ namespace KirbyNightmareInDreamLand
             // Load all content through LevelLoader
             LevelLoader.Instance.LoadAllContent();
 
+            // Load all objects
+            LoadObjects();
+
             // Create level instance and load initial room
             level = new Level();
             level.LoadRoom("room1");
 
-            // Load all objects
-            LoadObjects();
+            
 
             // Load the desired keymap by name
             LevelLoader.Instance.LoadKeymap("keymap1");

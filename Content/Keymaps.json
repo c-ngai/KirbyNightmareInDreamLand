@@ -37,6 +37,11 @@
             "Command": "KirbyFloatCommand"
         },
         {
+            "Key": "Up",
+            "ExecutionType": "StartingPress",
+            "Command": "KirbyEnterDoorCommand"
+        },
+        {
             "Key": "D",
             "ExecutionType": "Pressed",
             "Command": "KirbyMoveRightCommand"
