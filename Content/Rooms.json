@@ -16,7 +16,7 @@
       {
         "TileX": 2,
         "TileY": 7,
-        "DestinationRoom": "testroom2"
+        "DestinationRoom": "testroom1"
       }
     ],
     "Enemies": [
@@ -77,20 +77,43 @@
       {
         "EnemyType": "WaddleDee",
         "SpawnTileX": 19,
-        "SpawnTileY": 7
+        "SpawnTileY": 6
       },
       {
         "EnemyType": "WaddleDoo",
         "SpawnTileX": 30,
         "SpawnTileY": 7
-      }
-    ],
-
-    "PowerUps": [
+      },
       {
-        "PowerUpType": "Tomato",
-        "SpawnTileX": 15,
+        "EnemyType": "BrontoBurt",
+        "SpawnTileX": 26,
+        "SpawnTileY": 3
+      },
+
+      {
+        "EnemyType": "BrontoBurt",
+        "SpawnTileX": 35,
+        "SpawnTileY": 5
+      },
+      {
+        "EnemyType": "WaddleDoo",
+        "SpawnTileX": 40,
         "SpawnTileY": 7
+      },
+      {
+        "EnemyType": "WaddleDee",
+        "SpawnTileX": 48,
+        "SpawnTileY": 6
+      },
+      {
+        "EnemyType": "Sparky",
+        "SpawnTileX": 37,
+        "SpawnTileY": 6
+      },
+      {
+        "EnemyType": "Hothead",
+        "SpawnTileX": 55,
+        "SpawnTileY": 6
       }
     ]
   },
@@ -112,31 +135,119 @@
       {
         "TileX": 2,
         "TileY": 7,
-        "DestinationRoom": "testroom2"
+        "DestinationRoom": "room3"
       }
     ],
     "Enemies": [
       {
         "EnemyType": "WaddleDee",
-        "SpawnTileX": 100,
-        "SpawnTileY": 50
+        "SpawnTileX": 15,
+        "SpawnTileY": 7
+      },
+      {
+        "EnemyType": "Sparky",
+        "SpawnTileX": 24,
+        "SpawnTileY": 3
+      },
+      {
+        "EnemyType": "BrontoBurt",
+        "SpawnTileX": 27,
+        "SpawnTileY": 9
+      },
+      {
+        "EnemyType": "WaddleDee",
+        "SpawnTileX": 31,
+        "SpawnTileY": 7
+      },
+      {
+        "EnemyType": "Hothead",
+        "SpawnTileX": 37,
+        "SpawnTileY": 7
+      },
+      {
+        "EnemyType": "BrontoBurt",
+        "SpawnTileX": 46,
+        "SpawnTileY": 4
+      },
+      {
+        "EnemyType": "Sparky",
+        "SpawnTileX": 50,
+        "SpawnTileY": 4
+      },
+      {
+        "EnemyType": "Sparky",
+        "SpawnTileX": 60,
+        "SpawnTileY": 9
+      }
+    ]
+  },
+  "room3": {
+    "Foreground sprite": "foreground_room3",
+    "Background sprite": "background_mountains",
+    "Tilemap": "room3_tileset",
+
+    "Spawn tile X": 3,
+    "Spawn tile Y": 7,
+
+    "Lock camera X?": false,
+    "Locked camera X": 0,
+    "Lock camera Y?": true,
+    "Locked camera Y": 8,
+
+    "Doors": [
+      {
+        "TileX": 2,
+        "TileY": 7,
+        "DestinationRoom": "room1"
+      }
+    ],
+    "Enemies": [
+      {
+        "EnemyType": "Hothead",
+        "SpawnTileX": 12,
+        "SpawnTileY": 3
+      },
+      {
+        "EnemyType": "WaddleDee",
+        "SpawnTileX": 20,
+        "SpawnTileY": 2
+      },
+      {
+        "EnemyType": "PoppyBrosJr",
+        "SpawnTileX": 18,
+        "SpawnTileY": 6
+      },
+      {
+        "EnemyType": "WaddleDee",
+        "SpawnTileX": 28,
+        "SpawnTileY": 4
+      },
+      {
+        "EnemyType": "BrontoBurt",
+        "SpawnTileX": 35,
+        "SpawnTileY": 2
       },
       {
         "EnemyType": "WaddleDoo",
-        "SpawnTileX": 150,
-        "SpawnTileY": 50
+        "SpawnTileX": 42,
+        "SpawnTileY": 5
+      },
+      {
+        "EnemyType": "PoppyBrosJr",
+        "SpawnTileX": 48,
+        "SpawnTileY": 2
+      },
+      {
+        "EnemyType": "BrontoBurt",
+        "SpawnTileX": 55,
+        "SpawnTileY": 7
       }
     ],
     "PowerUps": [
       {
-        "PowerUpType": "Tomato",
-        "SpawnTileX": 100,
-        "SpawnTileY": 50
-      },
-      {
-        "EnemyType": "WaddleDoo",
-        "SpawnTileX": 150,
-        "SpawnTileY": 50
+        "PowerUpType": "maximtomato",
+        "SpawnTileX": 32,
+        "SpawnTileY": 8
       }
     ]
   }

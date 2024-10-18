@@ -1,23 +1,23 @@
 ﻿using System;
-using System.Numerics;
 using KirbyNightmareInDreamLand.Entities.Enemies;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 using KirbyNightmareInDreamLand.Sprites;
 using KirbyNightmareInDreamLand.StateMachines;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
+
 
 namespace KirbyNightmareInDreamLand.Entities.PowerUps
 {
     public class PowerUp
 	{
-        public enum PowerUpType { Tomato }
 
         protected Vector2 position; //Where power up is drawn on screen
-		protected String powerUpType; //What kind of power up are you? Currently only have 1, but #maintainablity 
+		protected string powerUpType; //What kind of power up are you? Currently only have 1, but #maintainablity 
         protected Sprite powerUpSprite; 
         protected bool notUsed; // has the power up been used by a player yet? 
 
-        protected PowerUp(Vector2 startPosition, String type)
+        public PowerUp(Vector2 startPosition, string type)
         {
             //Initialize all variables
             position = startPosition;
