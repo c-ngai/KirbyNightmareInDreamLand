@@ -9,21 +9,37 @@ using Microsoft.Xna.Framework;
 
 namespace KirbyNightmareInDreamLand.Entities.PowerUps
 {
-    public class PowerUp
+    public class PowerUp : ICollidable
 	{
 
         protected Vector2 position; //Where power up is drawn on screen
 		protected string powerUpType; //What kind of power up are you? Currently only have 1, but #maintainablity 
         protected Sprite powerUpSprite; 
-        protected bool notUsed; // has the power up been used by a player yet? 
+
+        public bool CollisionActive { get; set; } = true;
+
 
         public PowerUp(Vector2 startPosition, string type)
         {
             //Initialize all variables
             position = startPosition;
-            notUsed = true;
             powerUpType = type;
             powerUpSprite = SpriteFactory.Instance.CreateSprite(powerUpType);
+            CollisionDetection.Instance.RegisterDynamicObject(this);
+
+        }
+
+        public Vector2 CalculateRectanglePoint(Vector2 pos)
+        {
+            float x = pos.X - Constants.HitBoxes.TILE_WIDTH / 2;
+            float y = pos.Y - Constants.HitBoxes.TILE_HEIGHT;
+            Vector2 rectPoint = new Vector2(x, y);
+            return rectPoint;
+        }
+        public Rectangle GetHitBox()
+        {
+            Vector2 rectPoint = CalculateRectanglePoint(position);
+            return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
         }
 
         public Vector2 Position
@@ -36,15 +52,19 @@ namespace KirbyNightmareInDreamLand.Entities.PowerUps
         public void Draw(SpriteBatch spriteBatch)
         {
             //Draw if power up hasn't been used yet
-            if (notUsed)
+            if (CollisionActive)
             {
                 powerUpSprite.Draw(position, spriteBatch);
+            }
+            else
+            {
+                CollisionDetection.Instance.RemoveDynamicObject(this); // Deregister if item is used 
             }
         }
 
         public void Update()
         {
-            if (notUsed)
+            if (CollisionActive)
             {
                 powerUpSprite.Update();
             }
@@ -52,7 +72,7 @@ namespace KirbyNightmareInDreamLand.Entities.PowerUps
 
         public void UsePowerUp()
         {
-            notUsed = false;
+            CollisionActive = false;
             // more power up affect logic here 
         }
     }
