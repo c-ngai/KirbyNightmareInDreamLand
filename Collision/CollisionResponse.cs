@@ -10,7 +10,7 @@ namespace KirbyNightmareInDreamLand.Collision
         //level loader times register collision?
         //not  abad idea to and them the collision rectangle, most ocllision handlers will want to know overlap
         //or have it in constructors 
-        private Dictionary<Tuple<string, string, CollisionSide>, Tuple<Action<ICollidable>, Action<ICollidable>>> collisionMapping;
+        public Dictionary<Tuple<string, string, CollisionSide>, Tuple<Action<ICollidable>, Action<ICollidable>>> collisionMapping { get; private set; }
         private static CollisionResponse instance = new CollisionResponse();
         public static CollisionResponse Instance
         {

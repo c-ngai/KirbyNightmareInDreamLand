@@ -171,7 +171,9 @@ namespace KirbyNightmareInDreamLand
 
             GameTime = gameTime;
 
-            foreach(IPlayer player in objectManager.players) player.Update(time);
+            CollisionDetection.Instance.CheckCollisions();
+
+            foreach (IPlayer player in objectManager.players) player.Update(time);
             objectManager.enemyList[objectManager.currentEnemyIndex].Update(time);
 
             // Commented out since we currently do not need item
@@ -179,8 +181,6 @@ namespace KirbyNightmareInDreamLand
 
             //enemyList2.Add(new Hothead(new Vector2(170, 100))); // FOR PERFORMANCE TESTING
             foreach (IEnemy enemy in enemyList2) enemy.Update(time); // FOR PERFORMANCE TESTING
-
-            CollisionDetection.Instance.CheckCollisions();
 
             level.UpdateLevel();
 

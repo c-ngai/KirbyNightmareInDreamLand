@@ -1,9 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using KirbyNightmareInDreamLand.Collision;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
+using Microsoft.Xna.Framework.Input;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -13,11 +16,9 @@ namespace KirbyNightmareInDreamLand
         //when player is created level loader creates player and 
         //have object manager manage what gets added or deleted from collidable list
 
-        //List and dictionary to be moved to object manager
-        //dynamic objects: enemies, projectiles, player
-        private List<ICollidable> DynamicObjects;
-        //static: tiles
-        private Dictionary<Tile, ICollidable> StaticObjects;
+        private ObjectManager manager { get; }
+        private CollisionResponse response { get; }
+        private Game1 game { get; }
         private static CollisionDetection instance = new CollisionDetection();
         private bool CollisionOn = true; // for debug purposes
         //This will be changed once object manager is applied
@@ -30,7 +31,9 @@ namespace KirbyNightmareInDreamLand
         }
         public CollisionDetection()
         {
-
+            manager = ObjectManager.Instance;
+            response = CollisionResponse.Instance;
+            game = Game1.Instance;
         }
         
         private bool IsCloseEnough(ICollidable obj1, ICollidable obj2)
@@ -79,37 +82,47 @@ namespace KirbyNightmareInDreamLand
 
         public void StaticCollisionCheck()
         {
-            //foreach (var dynamicObj in DynamicObjects)
-            //{
-            //    List<Tile> nearbyTiles = Game1.Instance.level.IntersectingTiles(dynamicObj.GetHitBox());
-            //    foreach (Tile tile in nearbyTiles)
-            //    {
-            //        if (dynamicObj.GetHitBox().Intersects(tile.rectangle))
-            //        {
-            //            Rectangle intersection = Rectangle.Intersect(dynamicObj.GetHitBox(), tile.rectangle);
+            foreach (var dynamicObj in manager.DynamicObjects)
+            {
+                foreach (var staticObj in manager.StaticObjects)
+                {
+                    if (dynamicObj.GetHitBox().Intersects(staticObj.GetHitBox()))
+                    {
+                        Rectangle intersection = Rectangle.Intersect(dynamicObj.GetHitBox(), staticObj.GetHitBox());
 
-            //            CollisionSide side = DetectCollisionSide(dynamicObj.GetHitBox(), intersection);
+                        CollisionSide side = DetectCollisionSide(dynamicObj.GetHitBox(), intersection);
 
-            //            CollisionResponse.Instance.ExecuteCollision(dynamicObj, StaticObjects[tile], side);
-            //        }
-            //    }
-            //}
+                        string type1 = dynamicObj.GetObjectType();
+                        
+                        string type2 = staticObj.GetObjectType();
+                        Tuple<string, string, CollisionSide> key = new Tuple<string, string, CollisionSide>(type1, type2, side);
+                        if (response.collisionMapping.ContainsKey(key)) response.ExecuteCollision(dynamicObj, staticObj, side);
+                    }
+                }
+            }
         }
         public void DynamicCollisionCheck()
         {
-            //for (int i = 0; i < DynamicObjects.Count; i++)
-            //{
-            //    if(!DynamicObjects[i].CollisionActive)continue;
-            //    for (int j = i + 1; j < DynamicObjects.Count; j++)
-            //    {
-            //        //run and time and comment out close enough to check if it improved performance
-            //        if(!IsCloseEnough(DynamicObjects[i],DynamicObjects[j])) continue;
-            //        if (DynamicObjects[i].GetHitBox().Intersects(DynamicObjects[j].GetHitBox()))
-            //        {
-            //            //go to collision response
-            //        }
-            //    }
-            //}
+            for (int i = 0; i < manager.DynamicObjects.Count; i++)
+            {
+                if (!manager.DynamicObjects[i].CollisionActive) continue;
+                for (int j = i + 1; j < manager.DynamicObjects.Count; j++)
+                {
+                    //run and time and comment out close enough to check if it improved performance
+                    if (!IsCloseEnough(manager.DynamicObjects[i], manager.DynamicObjects[j])) continue;
+                    if (manager.DynamicObjects[i].GetHitBox().Intersects(manager.DynamicObjects[j].GetHitBox()))
+                    {
+                        Rectangle intersection = Rectangle.Intersect(manager.DynamicObjects[i].GetHitBox(), manager.DynamicObjects[j].GetHitBox());
+
+                        CollisionSide side = DetectCollisionSide(manager.DynamicObjects[i].GetHitBox(), intersection);
+
+                        string type1 = manager.DynamicObjects[i].GetObjectType();
+                        string type2 = manager.DynamicObjects[j].GetObjectType();
+                        Tuple<string, string, CollisionSide> key = new Tuple<string, string, CollisionSide>(type1, type2, side);
+                        if (response.collisionMapping.ContainsKey(key)) response.ExecuteCollision(manager.DynamicObjects[i], manager.DynamicObjects[j], side);
+                    }
+                }
+            }
         }
 
         // Method to handle collision detection
@@ -130,18 +143,16 @@ namespace KirbyNightmareInDreamLand
         //otherwise he would have mentioned it
         public void DebugDraw(SpriteBatch spriteBatch)
         {
-            foreach (var dynamicObj in DynamicObjects)
+            foreach (var dynamicObj in manager.DynamicObjects)
             {
                 if(dynamicObj.CollisionActive){
                     GameDebug.Instance.DrawRectangle(spriteBatch, dynamicObj.GetHitBox(), Color.Red);
                 }
             }
 
-            IDictionaryEnumerator enumerator = StaticObjects.GetEnumerator();
-            while (enumerator.MoveNext())
+            foreach (var staticObj in manager.StaticObjects)
             {
-                ICollidable staticObject = (ICollidable)enumerator.Value;
-                GameDebug.Instance.DrawRectangle(spriteBatch, staticObject.GetHitBox(), Color.Red);
+                GameDebug.Instance.DrawRectangle(spriteBatch, staticObj.GetHitBox(), Color.Red);
             }
         }
 

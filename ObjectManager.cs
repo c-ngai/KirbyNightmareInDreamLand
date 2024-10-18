@@ -9,8 +9,10 @@ namespace KirbyNightmareInDreamLand
 {
     public class ObjectManager
     {
-        private List<ICollidable> DynamicObjects;
-        private List<ICollidable> StaticObjects;
+        public List<ICollidable> DynamicObjects { get; private set; }
+
+        // Need to be able to access specific objects without removing them
+        public List<ICollidable> StaticObjects { get; private set; }
 
         // Single-player but can later be updated to an array of kirbys for multiplayer
         public List<IPlayer> players { get; set; }
