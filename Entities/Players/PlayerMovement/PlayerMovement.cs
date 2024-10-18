@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using System.Threading.Tasks;
 using KirbyNightmareInDreamLand.Time;
 using KirbyNightmareInDreamLand.StateMachines;
+using KirbyNightmareInDreamLand.Collision;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -166,7 +167,34 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         #endregion
 
-    
+        #region TileCollision
+        public void AdjustFromBottomCollisionBlockOrPlatform(Player kirby, Tile tile)
+        {
+            position.Y = tile.rectangle.Y;
+            yVel = 0;
+        }
+
+        public void AdjustFromRightCollisionBlock(Player kirby, Tile tile)
+        {
+            position.X = tile.rectangle.X - ( Constants.HitBoxes.ENTITY_WIDTH / 2);
+            xVel = 0;
+        }
+
+        public void AdjustFromLeftCollisionBlock(Player kirby, Tile tile)
+        {
+            position.X = tile.rectangle.X + (Constants.HitBoxes.TILE_WIDTH / 2);
+            xVel = 0;
+        }
+
+        // TODO: Figure out slope collisions
+        //public void AdjustFromBottomCollisionSlope(Player kirby, Tile tile)
+        //{
+        //    Vector2 center = CollisionManager.Instance.GetCenter(tile.rectangle);
+        //    position.Y = center.X;
+        //    yVel = 0;
+
+        //}
+        #endregion
 
     }
 }

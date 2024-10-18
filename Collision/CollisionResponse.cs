@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using KirbyNightmareInDreamLand.Commands;
 
 namespace KirbyNightmareInDreamLand.Collision
 {
     public enum CollisionSide {Top, Left, Right, Bottom};
     public class CollisionResponse
     {
-        private Dictionary<Tuple<String, String, CollisionSide>, Tuple<Action, Action>> collisionMapping;
+        private Dictionary<Tuple<String, String, CollisionSide>, Tuple<Action<ICollidable>, Action<ICollidable>>> collisionMapping;
         private static CollisionResponse instance = new CollisionResponse();
         public static CollisionResponse Instance
         {
@@ -19,14 +18,14 @@ namespace KirbyNightmareInDreamLand.Collision
 
         public CollisionResponse()
         {
-            collisionMapping = new Dictionary<Tuple<String, String, CollisionSide>, Tuple<Action, Action>>();
+            collisionMapping = new Dictionary<Tuple<String, String, CollisionSide>, Tuple<Action<ICollidable>, Action<ICollidable>>> ();
         }
 
         // Creates string mappings of object types and collision side to determine object reactions
-        public void RegisterCollision(String object1, String object2, CollisionSide side, Action object1Command, Action object2Command)
+        public void RegisterCollision(String object1, String object2, CollisionSide side, Action<ICollidable> object1Command, Action<ICollidable> object2Command)
         {
             Tuple<String, String, CollisionSide> objects = new Tuple<String, String, CollisionSide>(object1, object2, side);
-            Tuple<Action, Action> commands = new Tuple<Action, Action>(object1Command, object2Command);
+            Tuple<Action<ICollidable>, Action<ICollidable>> commands = new Tuple<Action<ICollidable>, Action<ICollidable>>(object1Command, object2Command);
             collisionMapping.Add(objects, commands);
         }
 
@@ -37,9 +36,8 @@ namespace KirbyNightmareInDreamLand.Collision
             String key2 = object2.GetType().ToString();
             Tuple<String, String, CollisionSide> objects = new Tuple<String, String, CollisionSide>(key1, key2, side);
 
-            // IS THERE A WAY I CAN CALL INSTANCE ACTIONS?
-            if (collisionMapping[objects] != null) collisionMapping[objects].Item1();
-            if (collisionMapping[objects] != null) collisionMapping[objects].Item2();
+            if (collisionMapping.ContainsKey(objects) && collisionMapping[objects] != null) collisionMapping[objects].Item1(object2);
+            if (collisionMapping.ContainsKey(objects) && collisionMapping[objects] != null) collisionMapping[objects].Item2(object1);
         }
     }
 }

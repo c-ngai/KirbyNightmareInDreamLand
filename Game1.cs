@@ -7,11 +7,13 @@ using KirbyNightmareInDreamLand.Sprites;
 using KirbyNightmareInDreamLand.Entities.Players;
 using KirbyNightmareInDreamLand.Entities.Enemies;
 using KirbyNightmareInDreamLand.Controllers;
+using KirbyNightmareInDreamLand.Actions;
 using System.Linq;
 using static System.Net.Mime.MediaTypeNames;
 using System;
 using System.Diagnostics;
 using KirbyNightmareInDreamLand.Collision;
+using System.Xml.Linq;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -184,6 +186,8 @@ namespace KirbyNightmareInDreamLand
             keyboard.RegisterCommand(Keys.OemCloseBrackets, ExecutionType.StartingPress, new GraphicsIncreaseTargetFramerateCommand());
             keyboard.RegisterCommand(Keys.OemOpenBrackets, ExecutionType.StartingPress, new GraphicsDecreaseTargetFramerateCommand());
         }
+
+        // TODO: read this from a json maybe?
         public void SetCollisionResponses()
         {
             String key1 = "IPlayer";
@@ -194,9 +198,24 @@ namespace KirbyNightmareInDreamLand
             }
 
             key2 = "Water";
-            for (int i = 0; i < Constants.HitBoxes.SIDES; i++)
+            for (int j = 0; j < Constants.HitBoxes.SIDES; j++)
             {
-                CollisionResponse.Instance.RegisterCollision(key1, key2, (CollisionSide)i, null, null);
+                CollisionResponse.Instance.RegisterCollision(key1, key2, (CollisionSide)j, null, null);
+            }
+
+            key2 = "Block";
+            //CollisionResponse.Instance.RegisterCollision(key1, key2, CollisionSide.Top, null, null);
+            //Action<ICollidable> playerAction = KirbyTileCollisionActions.KirbyBottomBlockCollision;
+            //CollisionResponse.Instance.RegisterCollision(key1, key2, CollisionSide.Bottom, playerAction, null);
+            //playerAction = KirbyTileCollisionActions.KirbyRightBlockCollision;
+            //CollisionResponse.Instance.RegisterCollision(key1, key2, CollisionSide.Right, playerAction, null);
+            //playerAction = KirbyTileCollisionActions.KirbyLeftBlockCollision;
+            //CollisionResponse.Instance.RegisterCollision(key1, key2, CollisionSide.Left, playerAction, null);
+
+            key2 = "Platform";
+            for (int k = 0; k < Constants.HitBoxes.SIDES && CollisionSide.Bottom != (CollisionSide) k; k++)
+            {
+                CollisionResponse.Instance.RegisterCollision(key1, key2, (CollisionSide)k, null, null);
             }
 
 

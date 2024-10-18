@@ -1,4 +1,5 @@
-﻿using KirbyNightmareInDreamLand.Sprites;
+﻿using KirbyNightmareInDreamLand.Collision;
+using KirbyNightmareInDreamLand.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -151,7 +152,6 @@ namespace KirbyNightmareInDreamLand
             TileSprites[tileID].Draw(position, spriteBatch);
         }
 
-        // Given a rectangle in the world, returns a List of all Tiles in the level that intersect with that given rectangle.
         public List<Tile> IntersectingTiles(Rectangle collisionRectangle)
         {
             List<Tile> tiles = new List<Tile>();
