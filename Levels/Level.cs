@@ -335,36 +335,5 @@ namespace KirbyNightmareInDreamLand.Levels
         {
             TileSprites[tileID].Draw(position, spriteBatch);
         }
-
-        // Given a rectangle in the world, returns a List of all Tiles in the level that intersect with that given rectangle.
-        public List<Tile> IntersectingTiles(Rectangle collisionRectangle)
-        {
-            List<Tile> tiles = new List<Tile>();
-
-            // Set bounds on the TileMap to iterate from
-            int TopY = Math.Max(collisionRectangle.Top / Constants.Level.TILE_SIZE, 0);
-            int BottomY = Math.Min(collisionRectangle.Bottom / Constants.Level.TILE_SIZE + 1, CurrentRoom.TileHeight);
-            int LeftX = Math.Max(collisionRectangle.Left / Constants.Level.TILE_SIZE, 0);
-            int RightX = Math.Min(collisionRectangle.Right / Constants.Level.TILE_SIZE + 1, CurrentRoom.TileWidth);
-
-            // Iterate across all the rows of the TileMap visible within the frame of the camera
-            for (int y = TopY; y < BottomY; y++)
-            {
-                // Iterate across all the columns of the TileMap visible within the frame of the camera
-                for (int x = LeftX; x < RightX; x++)
-                {
-                    Tile tile = new Tile();
-                    tile.type = (TileCollisionType)CurrentRoom.TileMap[y][x];
-                    tile.rectangle = new Rectangle(x * Constants.Level.TILE_SIZE, y * Constants.Level.TILE_SIZE, Constants.Level.TILE_SIZE, Constants.Level.TILE_SIZE);
-                    tiles.Add(tile);
-
-                    // Registers each relevant tile into the collisionHandler
-                    tile.RegisterTile();
-                }
-            }
-
-            return tiles;
-        }
-
     }
 }

@@ -213,6 +213,9 @@ namespace KirbyNightmareInDreamLand
             }
             // Draw borders (should only be visible in fullscreen for letterboxing)
             GameDebug.Instance.DrawBorders(_spriteBatch);
+
+            // Removes all relevant tiles every update; needs to be here so Drawing Debug works
+            manager.ResetStaticObjects();
         }
 
     }
