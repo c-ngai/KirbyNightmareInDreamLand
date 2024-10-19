@@ -15,7 +15,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //make a seperate class to hold all the objects --singleton
         //this class will be refactored in next sprint to make another class: State management
         // and movement management so it is not doing this much
-        // TODO: Is it possible to make this a public property so commands can access it?
         private PlayerStateMachine state;
         private PlayerMovement movement;
         private Sprite playerSprite ;
