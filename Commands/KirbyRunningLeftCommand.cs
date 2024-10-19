@@ -24,7 +24,7 @@ namespace KirbyNightmareInDreamLand.Commands
         public void Execute()
         {
             KeyboardController keyboard = game.Keyboard;
-            IPlayer kirby = game.Players[0]; // Assuming single-player mode for now
+            IPlayer kirby = ObjectManager.Instance.Players[0]; // Assuming single-player mode for now
             Keys key = Keys.Left;
 
             if (keyboard.currentState.Contains(key) && timeSinceMoveStopped != 0)

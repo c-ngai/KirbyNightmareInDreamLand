@@ -2,23 +2,23 @@
 {
     public class PreviousEnemyCommand : ICommand
     {
-        private Game1 game;
+        private ObjectManager manager;
 
         public PreviousEnemyCommand()
         {
-            this.game = Game1.Instance;
+            manager = ObjectManager.Instance;
         }
 
         // Move to the previous enemy in the list
         public void Execute()
         {
-            if (game.currentEnemyIndex == 0)
+            if (manager.CurrentEnemyIndex == 0)
             {
-                game.currentEnemyIndex = game.enemyList.Length - 1;
+                manager.CurrentEnemyIndex = manager.EnemyList.Length - 1;
             }
             else
             {
-                game.currentEnemyIndex--;
+                manager.CurrentEnemyIndex--;
             }
         }
     }

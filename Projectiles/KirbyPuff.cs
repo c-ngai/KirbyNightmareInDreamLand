@@ -14,7 +14,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private bool isFacingRight;
         private int frameCount = 0;
         public bool isActive = true;
-
+        public string GetObjectType()
+        {
+            return "Projectile";
+        }
         public Vector2 Position
         {
             get => position;            // Return position of puff
@@ -45,7 +48,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 ? SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_right")
                 : SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_left");
 
-            CollisionDetection.Instance.RegisterDynamicObject(this);
+            ObjectManager.Instance.RegisterDynamicObject(this);
         }
          public Vector2 CalculateRectanglePoint(Vector2 pos)
         {

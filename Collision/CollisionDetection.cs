@@ -1,6 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Collision;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,18 +8,11 @@ namespace KirbyNightmareInDreamLand
 {
     public class CollisionDetection
     {
-        //add someobody in game to keep track of ALL the objects-- in game
-        //when player is created level loader creates player and 
-        //have object manager manage what gets added or deleted from collidable list
-
-        //List and dictionary to be moved to object manager
-        //dynamic objects: enemies, projectiles, player
-        private List<ICollidable> DynamicObjects;
-        //static: tiles
-        private Dictionary<Tile, ICollidable> StaticObjects;
+        private ObjectManager manager { get; }
+        private CollisionResponse response { get; }
+        private Game1 game { get; }
         private static CollisionDetection instance = new CollisionDetection();
         private bool CollisionOn = true; // for debug purposes
-        //This will be changed once object manager is applied
         public static CollisionDetection Instance
         {
             get
@@ -30,32 +22,9 @@ namespace KirbyNightmareInDreamLand
         }
         public CollisionDetection()
         {
-            DynamicObjects = new List<ICollidable>();
-            StaticObjects = new Dictionary<Tile, ICollidable>();
-        }
-        //will be moved to object manager
-        public void ResetDynamicCollisionBoxes()
-        {
-           DynamicObjects = new List<ICollidable>{};
-        }
-
-        // Register dynamic objects like Player, Enemy, etc.
-         //will be moved to object manager
-        public void RegisterDynamicObject(ICollidable dynamicObj)
-        {
-            DynamicObjects.Add(dynamicObj);
-        }
-
-        // Register static objects like Tiles.
-         //will be moved to object manager
-        public void RegisterStaticObject(Tile tile, ICollidable staticObj)
-        {
-            if(!StaticObjects.ContainsKey(tile)) StaticObjects.Add(tile, staticObj);
-        }
-         //will be moved to object manager
-        public void RemoveDynamicObject(ICollidable dynamicObj)
-        {
-            DynamicObjects.Remove(dynamicObj);
+            manager = ObjectManager.Instance;
+            response = CollisionResponse.Instance;
+            game = Game1.Instance;
         }
         
         private bool IsCloseEnough(ICollidable obj1, ICollidable obj2)
@@ -70,97 +39,91 @@ namespace KirbyNightmareInDreamLand
         }
 
         // Method to handle collision detection
-        public CollisionSide CheckSide(Rectangle intersection, ICollidable object1)
+        public CollisionSide DetectCollisionSide(Rectangle object1, Rectangle intersection)
         {
-            // Determine positions for all corners of the intersection
-            int intersectionTopAndBottomRightCornerX = intersection.X + intersection.Width;
-            int intersectionTopRightCornerY = intersection.Y;
-            int intersectionBottomLeftCornerX = intersection.X;
-            int intersectionBottomLeftAndRightCornerY = intersection.Y - intersection.Height;
+            CollisionSide side = CollisionSide.Right;
 
-            // Determine x-y positions for all corners of the object's hit box
-            Rectangle objectRectangle = object1.GetHitBox();
-            int objectTopAndBottomRightCornerX = objectRectangle.X + objectRectangle.Width;
-            int objectTopRightCornerY = objectRectangle.Y;
-            int objectBottomLeftCornerX = objectRectangle.X;
-            int objectBottomLeftandRightCornerY = objectRectangle.Y - objectRectangle.Height;
-
-            // Calculates the length of overlap on an edge when the intersection touches the edge
-            double topOverlap = 0, bottomOverlap = 0, rightOverlap = 0, leftOverlap = 0;
-            if (intersection.Y == objectRectangle.Y)
+            // More width determines collision must've occured either on the top or bottom
+            if (intersection.Width >= intersection.Height)
             {
-                topOverlap = intersection.Width;
-            }
-            if (intersectionBottomLeftAndRightCornerY == objectBottomLeftandRightCornerY)
-            {
-                bottomOverlap = intersection.Width;
-            }
-            if (intersection.X == objectRectangle.X)
-            {
-                leftOverlap = intersection.Height;
-            }
-            if (intersectionTopAndBottomRightCornerX == objectTopAndBottomRightCornerX)
-            {
-                rightOverlap = intersection.Height;
-            }
-
-            // TODO: create a constant for 4: the number of sides; Note this cannot be changed for this to work correctly
-            double[] percentageOfIntersection = new double[Constants.HitBoxes.SIDES];
-            percentageOfIntersection[(int)CollisionSide.Top] = topOverlap / objectRectangle.Width;
-            percentageOfIntersection[(int)CollisionSide.Bottom] = bottomOverlap / objectRectangle.Width;
-            percentageOfIntersection[(int)CollisionSide.Right] = rightOverlap / objectRectangle.Height;
-            percentageOfIntersection[(int)CollisionSide.Left] = leftOverlap / objectRectangle.Height;
-
-            // Finds the side that has the largest intersection percentage and returns it
-            double largestIntersection = 0;
-            int index = 0;
-            for (int i = 0; i < percentageOfIntersection.Length; i++)
-            {
-                if (largestIntersection < percentageOfIntersection[i])
+                // Left corner vertical alignment means it is a top collision
+                if (object1.Y == intersection.Y)
                 {
-                    largestIntersection = percentageOfIntersection[i];
-                    index = i;
+                    side = CollisionSide.Top;
+                }
+                else
+                {
+                    side = CollisionSide.Bottom;
                 }
             }
-            return (CollisionSide)index;
+            // More height determines collision must've occurred on the left or right
+            else
+            {
+                // Left corner horizontal alignment means it must a a left collision
+                if (object1.X == intersection.X)
+                {
+                    side = CollisionSide.Left;
+                }
+                else
+                {
+                    side = CollisionSide.Right;
+                }
+            }
+            return side;
         }
+
         public void StaticCollisionCheck()
         {
-            //foreach (var dynamicObj in DynamicObjects)
-            //{
-            //    List<Tile> nearbyTiles = Game1.Instance.level.IntersectingTiles(dynamicObj.BoundingBox);
-            //    foreach (Tile tile in nearbyTiles)
-            //    {
-            //        if (dynamicObj.BoundingBox.Intersects(tile.rectangle))
-            //        {
-            //            Rectangle intersection = Rectangle.Intersect(dynamicObj.BoundingBox, tile.rectangle);
+            foreach (var dynamicObj in manager.DynamicObjects)
+            {
+                // Registers all relevant tiles
+                Game1.Instance.Level.IntersectingTiles(dynamicObj.GetHitBox());
+                foreach (var staticObj in manager.StaticObjects)
+                {
+                    if (dynamicObj.GetHitBox().Intersects(staticObj.GetHitBox()))
+                    {
+                        Rectangle intersection = Rectangle.Intersect(dynamicObj.GetHitBox(), staticObj.GetHitBox());
 
-            //            CollisionSide side = CheckSide(intersection, dynamicObj);
+                        CollisionSide side = DetectCollisionSide(dynamicObj.GetHitBox(), intersection);
 
-            //            CollisionResponse.Instance.ExecuteCollision(dynamicObj, StaticObjects[tile], side);
-            //        }
-            //    }
-            //}
+                        string type1 = dynamicObj.GetObjectType();
+
+                        string type2 = staticObj.GetObjectType();
+                        Tuple<string, string, CollisionSide> key = new Tuple<string, string, CollisionSide>(type1, type2, side);
+                        if (response.collisionMapping.ContainsKey(key))
+                        {
+                            response.ExecuteCollision(dynamicObj, staticObj, side);
+                        }
+                    }
+                }
+            }
         }
         public void DynamicCollisionCheck()
         {
-            for (int i = 0; i < DynamicObjects.Count; i++)
+            for (int i = 0; i < manager.DynamicObjects.Count; i++)
             {
-                if(!DynamicObjects[i].CollisionActive)continue;
-                for (int j = i + 1; j < DynamicObjects.Count; j++)
+                if (!manager.DynamicObjects[i].CollisionActive) continue;
+                for (int j = i + 1; j < manager.DynamicObjects.Count; j++)
                 {
                     //run and time and comment out close enough to check if it improved performance
-                    if(!IsCloseEnough(DynamicObjects[i],DynamicObjects[j])) continue;
-                    if (DynamicObjects[i].GetHitBox().Intersects(DynamicObjects[j].GetHitBox()))
+                    if (!IsCloseEnough(manager.DynamicObjects[i], manager.DynamicObjects[j])) continue;
+                    if (manager.DynamicObjects[i].GetHitBox().Intersects(manager.DynamicObjects[j].GetHitBox()))
                     {
-                        //go to collision response
+                        Rectangle intersection = Rectangle.Intersect(manager.DynamicObjects[i].GetHitBox(), manager.DynamicObjects[j].GetHitBox());
+
+                        CollisionSide side = DetectCollisionSide(manager.DynamicObjects[i].GetHitBox(), intersection);
+
+                        string type1 = manager.DynamicObjects[i].GetObjectType();
+                        string type2 = manager.DynamicObjects[j].GetObjectType();
+                        Tuple<string, string, CollisionSide> key = new Tuple<string, string, CollisionSide>(type1, type2, side);
+                        if (response.collisionMapping.ContainsKey(key)) response.ExecuteCollision(manager.DynamicObjects[i], manager.DynamicObjects[j], side);
                     }
                 }
             }
         }
 
-        // Method to handle collision detection
-        public void CheckCollisions()
+            // Method to handle collision detection
+            public void CheckCollisions()
         {
             if (CollisionOn)
             {
@@ -173,27 +136,22 @@ namespace KirbyNightmareInDreamLand
                 DynamicCollisionCheck();
             }
         }
-        // i dont think he wants that many command classes
-        //otherwise he would have mentioned it
+
         public void DebugDraw(SpriteBatch spriteBatch)
         {
-            foreach (var dynamicObj in DynamicObjects)
+            foreach (var dynamicObj in manager.DynamicObjects)
             {
-                if(dynamicObj.CollisionActive){
+                if (dynamicObj.CollisionActive)
+                {
                     GameDebug.Instance.DrawRectangle(spriteBatch, dynamicObj.GetHitBox(), Color.Red);
                 }
             }
 
-            IDictionaryEnumerator enumerator = StaticObjects.GetEnumerator();
-            while (enumerator.MoveNext())
+            foreach (var staticObj in manager.StaticObjects)
             {
-                ICollidable staticObject = (ICollidable)enumerator.Value;
-                GameDebug.Instance.DrawRectangle(spriteBatch, staticObject.GetHitBox(), Color.Red);
+                GameDebug.Instance.DrawRectangle(spriteBatch, staticObj.GetHitBox(), Color.Red);
             }
         }
 
-    }
-    //im thinking of adding a remove box method to take it off the list, instead of working thpugh
-    //is active should that be in detection2          
-
+    }        
 }

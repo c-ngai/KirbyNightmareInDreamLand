@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KirbyNightmareInDreamLand
+namespace KirbyNightmareInDreamLand.Levels
 {
 
     public struct Door

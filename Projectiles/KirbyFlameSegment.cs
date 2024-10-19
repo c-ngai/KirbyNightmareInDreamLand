@@ -17,7 +17,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private bool IsLeft;
         public bool IsActive { get; private set; } // Expose IsActive for external checks
         public bool CollisionActive { get; private set;} = true;
-
+        public string GetObjectType()
+        {
+            return "Projectile";
+        }
         public Vector2 Position
         {
             get => position;
@@ -74,7 +77,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
                     projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_fire1_left");
                 }
             }
-            CollisionDetection.Instance.RegisterDynamicObject(this);
+            ObjectManager.Instance.RegisterDynamicObject(this);
         }
 
         public void Update()

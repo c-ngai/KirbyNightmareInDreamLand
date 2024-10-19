@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework.Input;
-using System.Linq;
 using KirbyNightmareInDreamLand.Entities.Players;
 using KirbyNightmareInDreamLand.Controllers;
 
@@ -15,7 +14,7 @@ namespace KirbyNightmareInDreamLand.Commands
         // Constructor with no parameters
         public KirbyMoveCrouchedCommand()
         {
-            kirby = Game1.Instance.Players[0];
+            kirby = ObjectManager.Instance.Players[0];
             keyboard = Game1.Instance.Keyboard;
             crouchKey = Keys.Down;
             attackKey = Keys.Z;

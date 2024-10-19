@@ -6,7 +6,7 @@ namespace KirbyNightmareInDreamLand.Commands
 
         public void Execute()
         {
-            Game1.Instance.Players[0].ChangeToBeam();
+            ObjectManager.Instance.Players[0].ChangeToBeam();
         }
     }
 }
