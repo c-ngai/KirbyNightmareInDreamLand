@@ -131,6 +131,7 @@ namespace KirbyNightmareInDreamLand.StateMachines
             bool checkThree = GetPose() == KirbyPose.FloatingEnd || GetPose() == KirbyPose.FreeFall;
             return checkOne || checkTwo || checkThree;
         }
+
         public bool ShouldFallOffBlock()
         {
             return !IsJumping() && !IsInAir();

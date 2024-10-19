@@ -1,13 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using KirbyNightmareInDreamLand.Entities.Players;
 using KirbyNightmareInDreamLand.Entities.Enemies;
+using KirbyNightmareInDreamLand.Collision;
 namespace KirbyNightmareInDreamLand.Actions
 {
     public class TileCollisionActions
     {
-        public static ObjectManager manager { get; private set; } = ObjectManager.Instance;
-
-        // I don't think I can refactor these because I'm using type casting?
         public static void BottomBlockCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
             string type = object1.GetObjectType();
@@ -63,7 +61,6 @@ namespace KirbyNightmareInDreamLand.Actions
 
         public static void BottomPlatformCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-
             Player player = (Player)object1;
             player.BottomCollisionWithPlatform(intersection);
         }

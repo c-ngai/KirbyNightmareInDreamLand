@@ -253,8 +253,8 @@ namespace KirbyNightmareInDreamLand
             #region Player-Tile Collisons
             String key1 = "Player";
             String key2 = "Air";
-            Action<ICollidable, ICollidable, Rectangle> action = TileCollisionActions.BottomAirCollision;
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action, null);
+            Action<ICollidable, ICollidable, Rectangle> action1 = TileCollisionActions.BottomAirCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
 
             // If we plan on implementing swimming this will need to be modified
             key2 = "Water";
@@ -265,78 +265,81 @@ namespace KirbyNightmareInDreamLand
 
 
             key2 = "Platform";
-            action = TileCollisionActions.BottomPlatformCollision;
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action, null);
+            action1 = TileCollisionActions.BottomPlatformCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
 
             key2 = "Block";
-            action = TileCollisionActions.BottomBlockCollision;
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action, null);
-            action = TileCollisionActions.RightBlockCollision;
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action, null);
-            action = TileCollisionActions.LeftBlockCollision;
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action, null);
+            action1 = TileCollisionActions.BottomBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            action1 = TileCollisionActions.RightBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+            action1 = TileCollisionActions.LeftBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
 
             // TODO: add the correct commands for the slope handling;
             key2 = "SlopeSteepLeft";
-            action = TileCollisionActions.BottomBlockCollision;
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action, null);
+            action1 = TileCollisionActions.BottomBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
 
             key2 = "SlopeGentle1Left";
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
 
             key2 = "SlopeGentle2Left";
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
 
             key2 = "SlopeGentle2Right";
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
 
             key2 = "SlopeGentle1Right";
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
             #endregion
 
             #region Enemy-Tile Collisions
             key1 = "Enemy";
             key2 = "Water";
-            action = TileCollisionActions.WaterCollision;
+            action1 = TileCollisionActions.WaterCollision;
             for (int j = 0; j < Constants.HitBoxes.SIDES; j++)
             {
-                collisionResponse.RegisterCollision(key1, key2, (CollisionSide)j, action, null);
+                collisionResponse.RegisterCollision(key1, key2, (CollisionSide)j, action1, null);
             }
 
             key2 = "Block";
-            action = TileCollisionActions.BottomBlockCollision;
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action, null);
-            action = TileCollisionActions.RightBlockCollision;
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action, null);
-            action = TileCollisionActions.LeftBlockCollision;
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action, null);
+            action1 = TileCollisionActions.BottomBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            action1 = TileCollisionActions.RightBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+            action1 = TileCollisionActions.LeftBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
 
             // TODO: add the correct commands for the slope handling;
             key2 = "SlopeSteepLeft";
-            action = TileCollisionActions.BottomBlockCollision;
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action, null);
+            action1 = TileCollisionActions.BottomBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
 
             key2 = "SlopeGentle1Left";
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
 
             key2 = "SlopeGentle2Left";
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
 
             key2 = "SlopeGentle2Right";
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
 
             key2 = "SlopeGentle1Right";
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+            #endregion
+
+            #region Player-Enemy Collisions
             #endregion
 
             Debug.WriteLine("Dictionary after collisionMapping");

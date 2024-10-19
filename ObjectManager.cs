@@ -139,6 +139,12 @@ namespace KirbyNightmareInDreamLand
         {
             StaticObjects.Remove(staticObj);
         }
+
+        public void UpdateObjectLists()
+        {
+            ResetStaticObjects();
+            DynamicObjects.RemoveAll(obj => !obj.CollisionActive);
+        }
         #endregion
     }
 }
