@@ -10,12 +10,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //light hard coded physics
         //seperate movement and state 
         //make these #define
-        
+
         protected float yVel = 0;
         protected float xVel = 0;
         protected float walkingVel = Constants.Physics.WALKING_VELOCITY;
         protected float runningVel = Constants.Physics.RUNNING_VELOCITY;
-        protected float gravity = Constants.Physics.GRAVITY; 
+        protected float gravity = Constants.Physics.GRAVITY;
         protected float damageVel = Constants.Physics.DAMAGE_VELOCITY;
         public ITimeCalculator timer;
         protected bool landed = true;
@@ -44,10 +44,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         #region Walking
         public virtual void Walk(bool isLeft)
-        {   
-            if(isLeft){
+        {
+            if (isLeft)
+            {
                 xVel = walkingVel * -1;
-            } else {
+            }
+            else
+            {
                 xVel = walkingVel;
             }
         }
@@ -56,9 +59,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #region Running
         public virtual void Run(bool isLeft)
         {
-            if(isLeft){
+            if (isLeft)
+            {
                 xVel = runningVel * -1;
-            } else {
+            }
+            else
+            {
                 xVel = runningVel;
             }
         }
@@ -76,15 +82,20 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void ReceiveDamage(bool isLeft)
         {
-            if(isLeft){
+            if (isLeft)
+            {
                 xVel = damageVel;
-            } else {
+            }
+            else
+            {
                 xVel = damageVel * -1;
             }
-            if(yVel > 0)
+            if (yVel > 0)
             {
                 yVel *= -1;
-            } else{
+            }
+            else
+            {
                 yVel *= -1;
             }
         }
@@ -94,13 +105,16 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void Slide(bool isLeft)
         {
             //slideStarting = kirby.PositionX;
-            if(isLeft){
-                xVel = runningVel *-1;
-            } else {
+            if (isLeft)
+            {
+                xVel = runningVel * -1;
+            }
+            else
+            {
                 xVel = runningVel;
             }
         }
-       
+
         #endregion
 
         #region Floating
@@ -122,10 +136,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             position.X += xVel;
             position.Y += yVel;
-            if(position.Y > 0){
-                yVel += gravity *  (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (position.Y > 0)
+            {
+                yVel += gravity * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
-            
+
         }
 
         // checks palyer doesnt go out of frame (up and down)
