@@ -63,6 +63,15 @@ namespace KirbyNightmareInDreamLand
             public const int SPARKY_ATTACK_WIDTH = 40;
             public const int SPARKY_ATTACK_HEIGHT = 40;
             public const int SPARKY_ATTACK_OFFSET =11;
+            public const int BEAM_HEIGHT = 10;
+            public const int BEAM_WIDTH = 10;
+            public const int BEAM_HEIGHT_OFFSET = 7;
+            public const int FIREBALL_HEIGHT = 15;
+            public const int FIREBALL_WIDTH = 15;
+            public const int FIREBALL_OFFSET = 7;
+            public const int FLAME_HEIGHT = 10;
+            public const int FLAME_WIDTH = 10;
+
             public const int TILE_WIDTH = 16;
             public const int TILE_HEIGHT = 16;
             public const int NULL_WIDTH = 0;
