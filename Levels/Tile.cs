@@ -29,6 +29,12 @@ namespace KirbyNightmareInDreamLand.Levels
             CollisionActive = true;
             ObjectManager.Instance.RegisterStaticObject(this);
         }
+
+        public void RemoveTile()
+        {
+            CollisionActive = false;
+            ObjectManager.Instance.RemoveStaticObject(this);
+        }
         public Rectangle GetHitBox()
         {
             return rectangle;

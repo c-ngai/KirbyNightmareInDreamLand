@@ -3,6 +3,7 @@ using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Collision;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -11,6 +12,7 @@ namespace KirbyNightmareInDreamLand
         private ObjectManager manager { get; }
         private CollisionResponse response { get; }
         private Game1 game { get; }
+        private Level level { get; }
         private static CollisionDetection instance = new CollisionDetection();
         private bool CollisionOn = true; // for debug purposes
         public static CollisionDetection Instance
@@ -25,6 +27,7 @@ namespace KirbyNightmareInDreamLand
             manager = ObjectManager.Instance;
             response = CollisionResponse.Instance;
             game = Game1.Instance;
+            level = game.Level;
         }
         
         private bool IsCloseEnough(ICollidable obj1, ICollidable obj2)
@@ -76,8 +79,8 @@ namespace KirbyNightmareInDreamLand
         {
             foreach (var dynamicObj in manager.DynamicObjects)
             {
-                // Registers all relevant tiles
-                Game1.Instance.Level.IntersectingTiles(dynamicObj.GetHitBox());
+                // Registers all relevant tiles and returns a list of them
+                IntersectingTiles(dynamicObj.GetHitBox());
                 foreach (var staticObj in manager.StaticObjects)
                 {
                     if (dynamicObj.GetHitBox().Intersects(staticObj.GetHitBox()))
@@ -135,6 +138,36 @@ namespace KirbyNightmareInDreamLand
                 //add check for enemies not colliding with each other?? probably within their ouwn class
                 DynamicCollisionCheck();
             }
+        }
+
+        // Given a rectangle in the world, returns a List of all Tiles in the level that intersect with that given rectangle.
+        public List<Tile> IntersectingTiles(Rectangle collisionRectangle)
+        {
+            List<Tile> tiles = new List<Tile>();
+
+            // Set bounds on the TileMap to iterate from
+            int TopY = Math.Max(collisionRectangle.Top / Constants.Level.TILE_SIZE, 0);
+            int BottomY = Math.Min(collisionRectangle.Bottom / Constants.Level.TILE_SIZE + 1, level.CurrentRoom.TileHeight);
+            int LeftX = Math.Max(collisionRectangle.Left / Constants.Level.TILE_SIZE, 0);
+            int RightX = Math.Min(collisionRectangle.Right / Constants.Level.TILE_SIZE + 1, level.CurrentRoom.TileWidth);
+
+            // Iterate across all the rows of the TileMap visible within the frame of the camera
+            for (int y = TopY; y < BottomY; y++)
+            {
+                // Iterate across all the columns of the TileMap visible within the frame of the camera
+                for (int x = LeftX; x < RightX; x++)
+                {
+                    int z = 0;
+                    Tile tile = new Tile();
+                    tile.type = (TileCollisionType)level.CurrentRoom.TileMap[y][x];
+                    tile.rectangle = new Rectangle(x * Constants.Level.TILE_SIZE, y * Constants.Level.TILE_SIZE, Constants.Level.TILE_SIZE, Constants.Level.TILE_SIZE);
+                    tiles.Add(tile);
+
+                    // Registers tile into the static objects list
+                    tile.RegisterTile();
+                }
+            }
+            return tiles;
         }
 
         public void DebugDraw(SpriteBatch spriteBatch)

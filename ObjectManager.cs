@@ -5,6 +5,7 @@ using KirbyNightmareInDreamLand.Sprites;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
+using System;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -17,6 +18,8 @@ namespace KirbyNightmareInDreamLand
 
         // Single-player but can later be updated to an array of kirbys for multiplayer
         public List<IPlayer> Players { get; set; }
+
+        public List<Tile> relevantTilesLastUpdate { get; private set; }
 
         public IEnemy[] EnemyList { get; set; }
 
@@ -106,7 +109,13 @@ namespace KirbyNightmareInDreamLand
         }
         public void ResetDynamicCollisionBoxes()
         {
-            DynamicObjects = new List<ICollidable> { };
+            DynamicObjects.Clear();
+        }
+
+        // Note this removes all static objects which will be an issue if there are other non-tile ones
+        public void ResetStaticObjects()
+        {
+            StaticObjects.Clear();
         }
 
         // Register dynamic objects like Player, Enemy, Projectiles, etc.
