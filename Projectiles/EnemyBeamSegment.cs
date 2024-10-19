@@ -4,7 +4,7 @@ using KirbyNightmareInDreamLand.Sprites;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class EnemyBeamSegment : IProjectile
+    public class EnemyBeamSegment : IProjectile, ICollidable
     {
         private Vector2 position; // acts as pivot point
         private Vector2 velocity;
@@ -29,6 +29,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
             Position = startPosition;
             Velocity = beamVelocity;
             projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_waddledoo_beam");
+            CollisionDetection.Instance.RegisterDynamicObject(this);
         }
 
         public void Update()
@@ -44,6 +45,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 if (frameCount >= Constants.WaddleDooBeam.MAX_FRAMES)
                 {
                     IsActive = false; // Mark the segment as inactive
+                    CollisionActive = false;
                 }
             }
         }
@@ -54,6 +56,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
             {
                 projectileSprite.Draw(Position, spriteBatch);
             }
+            else
+            {
+                CollisionDetection.Instance.RemoveDynamicObject(this); // Deregister if dead
+            }
         }
 
         public void EndAttack()
@@ -63,6 +69,21 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public bool IsDone()
         {
             return true;
+        }
+
+        public bool CollisionActive { get; set; } = true;
+
+        public virtual Vector2 CalculateRectanglePoint(Vector2 pos)
+        {
+            float x = pos.X - Constants.HitBoxes.BEAM_WIDTH / 2;
+            float y = pos.Y - Constants.HitBoxes.BEAM_HEIGHT + Constants.HitBoxes.BEAM_HEIGHT_OFFSET;
+            Vector2 rectPoint = new Vector2(x, y);
+            return rectPoint;
+        }
+        public virtual Rectangle GetHitBox()
+        {
+            Vector2 rectPoint = CalculateRectanglePoint(position);
+            return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.BEAM_WIDTH, Constants.HitBoxes.BEAM_HEIGHT);
         }
     }
 }

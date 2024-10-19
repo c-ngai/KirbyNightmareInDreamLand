@@ -10,7 +10,7 @@ namespace KirbyNightmareInDreamLand.Commands
         public GraphicsDecreaseTargetFramerateCommand()
         {
             this.game = Game1.Instance;
-            this.graphics = game.graphics;
+            this.graphics = game.Graphics;
         }
 
         public void Execute()

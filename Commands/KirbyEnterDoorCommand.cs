@@ -8,13 +8,13 @@ namespace KirbyNightmareInDreamLand.Commands
 
         public KirbyEnterDoorCommand() {
             _game = Game1.Instance;
-            _player = _game.players[0];
+            _player = _game.Players[0];
         }
 
 
         public void Execute()
         {
-            _game.level.nextRoom(_player.GetKirbyPosition());
+            _game.Level.nextRoom(_player.GetKirbyPosition());
         }
     }
 }

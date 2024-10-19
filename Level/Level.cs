@@ -20,12 +20,10 @@ namespace KirbyNightmareInDreamLand
     public class Level
     {
 
-        private Game1 _game;
-        private Camera _camera;
+        private readonly Game1 _game;
+        private readonly Camera _camera;
 
         public float BackgroundParallaxFactor = Constants.Graphics.PARALLAX_FACTOR;
-
-        public Vector2 MiddleOfTile = Constants.Level.MIDDLE_OF_TILE;
 
         public string EnemyNamespace = Constants.Namespaces.ENEMY_NAMESPACE;
         public string PowerUpNamespace = Constants.Namespaces.POWERUP_NAMESPACE;
@@ -53,7 +51,7 @@ namespace KirbyNightmareInDreamLand
         public Level()
         {
             _game = Game1.Instance;
-            _camera = _game.camera;
+            _camera = _game.Camera;
 
             TileSprites = LoadTileSprites(Constants.Filepaths.TileSpriteList);
         }
@@ -66,7 +64,7 @@ namespace KirbyNightmareInDreamLand
                 CollisionDetection.Instance.ResetDynamicCollisionBoxes();
                 CurrentRoom = LevelLoader.Instance.Rooms[RoomName];
                 LoadLevelObjects();
-                foreach (IPlayer player in _game.players)
+                foreach (IPlayer player in _game.Players)
                 {
                     player.GoToRoomSpawn();
                 }
@@ -164,10 +162,8 @@ namespace KirbyNightmareInDreamLand
             powerUpList = new List<PowerUp>();
             foreach(PowerUpData powerUp in CurrentRoom.PowerUps)
             {
-                Vector2 powerUpSpawnPoint = convertTileToPixel(powerUp.TileSpawnPoint);
-                powerUpSpawnPoint += MiddleOfTile; // do this so that object gets spawned in the middle of the tile, not top left corner
                 Type type = Type.GetType(PowerUpNamespace);
-                PowerUp new_item = new PowerUp(powerUpSpawnPoint, powerUp.PowerUpType);
+                PowerUp new_item = new PowerUp(powerUp.SpawnPoint, powerUp.PowerUpType);
                 powerUpList.Add(new_item);
             }
         }
@@ -261,11 +257,11 @@ namespace KirbyNightmareInDreamLand
             foreach (Door door in CurrentRoom.Doors)
             {
                 Vector2 doorPos = door.Bounds.Location.ToVector2();
-                Vector2 textSize = LevelLoader.Instance.font.MeasureString(door.DestinationRoom);
+                Vector2 textSize = LevelLoader.Instance.Font.MeasureString(door.DestinationRoom);
                 Vector2 textPos = doorPos - new Vector2(-9 + textSize.X / 2, -1 + textSize.Y);
 
                 GameDebug.Instance.DrawSolidRectangle(spriteBatch, door.Bounds, Color.Red);
-                spriteBatch.DrawString(LevelLoader.Instance.font, door.DestinationRoom, textPos, Color.Red);
+                spriteBatch.DrawString(LevelLoader.Instance.Font, door.DestinationRoom, textPos, Color.Red);
             }
         }
 

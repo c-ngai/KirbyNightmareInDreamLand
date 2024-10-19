@@ -5,7 +5,7 @@ using KirbyNightmareInDreamLand.Sprites;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class EnemyFlameSegment : IProjectile
+    public class EnemyFlameSegment : IProjectile, ICollidable
     {
         private Sprite projectileSprite;
         private Vector2 position;
@@ -43,6 +43,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
             Velocity = flameDirection * speed;
 
             projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_hothead_fire");
+            CollisionDetection.Instance.RegisterDynamicObject(this);
 
         }
 
@@ -70,6 +71,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 {
                     isActive = false;
                     projectileSprite = null; // Set sprite to null to avoid further drawing
+                    CollisionActive = false;
                 }
                 else
                 {
@@ -84,6 +86,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
             {
                 projectileSprite.Draw(Position, spriteBatch);
             }
+            else
+            {
+                CollisionDetection.Instance.RemoveDynamicObject(this); // Deregister if dead
+            }
         }
         public void EndAttack()
         {
@@ -92,6 +98,21 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public bool IsDone()
         {
             return true;
+        }
+
+        public bool CollisionActive { get; set; } = true;
+
+        public virtual Vector2 CalculateRectanglePoint(Vector2 pos)
+        {
+            float x = pos.X - Constants.HitBoxes.FLAME_WIDTH / 2;
+            float y = pos.Y - Constants.HitBoxes.FLAME_HEIGHT;
+            Vector2 rectPoint = new Vector2(x, y);
+            return rectPoint;
+        }
+        public virtual Rectangle GetHitBox()
+        {
+            Vector2 rectPoint = CalculateRectanglePoint(position);
+            return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.FLAME_WIDTH, Constants.HitBoxes.FLAME_HEIGHT);
         }
 
     }

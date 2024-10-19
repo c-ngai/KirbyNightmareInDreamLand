@@ -22,7 +22,7 @@ namespace KirbyNightmareInDreamLand.Commands
         public GraphicsToggleFullscreenCommand()
         {
             this.game = Game1.Instance;
-            this.graphics = game.graphics;
+            this.graphics = game.Graphics;
 
             MAX_WINDOW_HEIGHT = game.MAX_WINDOW_WIDTH * Constants.Graphics.GAME_HEIGHT / Constants.Graphics.GAME_WIDTH;
             old_WINDOW_WIDTH = game.WINDOW_WIDTH;

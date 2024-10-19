@@ -11,19 +11,19 @@ namespace KirbyNightmareInDreamLand
     public class GameDebug
     {
 
-        private Game1 _game;
-        private GraphicsDevice _graphicsDevice;
-        private Texture2D texture;
+        private readonly Game1 _game;
+        private readonly GraphicsDevice _graphicsDevice;
+        private readonly Texture2D texture;
 
 
 
-        private static GameDebug instance = new();
+        private static readonly GameDebug _instance = new();
 
         public static GameDebug Instance
         {
             get
             {
-                return instance;
+                return _instance;
             }
         }
 
@@ -37,15 +37,8 @@ namespace KirbyNightmareInDreamLand
         }
 
 
-        // Create textures for drawing boxes.
-        public void Load(Game1 game, GraphicsDevice graphicsDevice)
-        {
-            
-        }
 
-
-
-        // Draws a rectangle around the sprite bounds and a point at its center. Pretty messy, should probably tidy up, but also it's debug, so not a priority
+        // Draws an unfilled rectangle
         public void DrawRectangle(SpriteBatch spriteBatch, Rectangle rectangle, Color color)
         {
 
@@ -61,13 +54,17 @@ namespace KirbyNightmareInDreamLand
             
         }
 
-        // Draws a rectangle around the sprite bounds and a point at its center. Pretty messy, should probably tidy up, but also it's debug, so not a priority
+
+
+        // Draws a solid-filled rectangle
         public void DrawSolidRectangle(SpriteBatch spriteBatch, Rectangle rectangle, Color color)
         {
             spriteBatch.Draw(texture, rectangle, color);
         }
 
-        // Draws a rectangle around the sprite bounds and a point at its center. Pretty messy, should probably tidy up, but also it's debug, so not a priority
+
+
+        // Draws a 2x2 box centered at a point. (points refer to the top-left corner of their pixel, which is why this is 2x2 and not 1x1)
         public void DrawPoint(SpriteBatch spriteBatch, Vector2 position, Color color)
         {
             spriteBatch.Draw(texture, new Rectangle((int)(position.X) - 1, (int)(position.Y) - 1, 2, 2), color);
@@ -75,11 +72,12 @@ namespace KirbyNightmareInDreamLand
 
 
 
-        // TODO: Tidy up, this is really messy (although it is only for debug)
+        // Draws the debug text from the top-left of the screen
         List<double> fpsLog = new List<double>();
         List<double> maxfpsLog = new List<double>();
         public void DrawDebugText(SpriteBatch spriteBatch)
         {
+            // Log actual framerate (from time between last frame and this one)
             double frameRate = 1 / _game.time.ElapsedGameTime.TotalSeconds;
             fpsLog.Add(frameRate);
             if (fpsLog.Count > 60)
@@ -87,6 +85,7 @@ namespace KirbyNightmareInDreamLand
                 fpsLog.RemoveAt(0);
             }
 
+            // Log "max" framerate (from time it took this frame to update and draw, not factoring in waiting time)
             double maxFrameRate = 1 / _game.TickStopwatch.Elapsed.TotalSeconds;
             maxfpsLog.Add(maxFrameRate);
             if (maxfpsLog.Count > 60)
@@ -103,7 +102,7 @@ namespace KirbyNightmareInDreamLand
             texts.Add("Average FPS: " + Math.Round(fpsLog.Average()));
             texts.Add("Current Max FPS: " + Math.Round(maxFrameRate));
             texts.Add("Average Max FPS: " + Math.Round(maxfpsLog.Average()));
-            texts.Add("Current room: " + _game.level.CurrentRoom.Name);
+            texts.Add("Current room: " + _game.Level.CurrentRoom.Name);
             texts.Add("");
             texts.Add("+/- : Resize window");
             texts.Add("F : Toggle fullscreen");
@@ -119,15 +118,12 @@ namespace KirbyNightmareInDreamLand
             for (int i = 0; i < texts.Count; i++)
             {
                 Vector2 position = new Vector2(_game.WINDOW_XOFFSET + 10, _game.WINDOW_YOFFSET + 10 + 16 * i);
-                spriteBatch.DrawString(LevelLoader.Instance.font, texts[i], position, Color.Black);
+                spriteBatch.DrawString(LevelLoader.Instance.Font, texts[i], position, Color.Black);
             }
             spriteBatch.End();
         }
 
-        //take off draw text magic numbers
-        //eventually take these off and make game only deal with high level objects 
-        //game object management takes care of the lists and iterates them
-        //game then grabs it from them and does its job.
+
 
         // Draws black letterbox borders on the edge of the screen. Should be only visible in fullscreen. Done to maintain aspect ratio and integer scaling regardless of display resolution.
         public void DrawBorders(SpriteBatch spriteBatch)
@@ -135,13 +131,13 @@ namespace KirbyNightmareInDreamLand
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
 
             // Left side
-            spriteBatch.Draw(LevelLoader.Instance.borders, new Rectangle(0, _game.WINDOW_YOFFSET, _game.WINDOW_XOFFSET, _game.WINDOW_HEIGHT), Color.White);
+            spriteBatch.Draw(LevelLoader.Instance.Borders, new Rectangle(0, _game.WINDOW_YOFFSET, _game.WINDOW_XOFFSET, _game.WINDOW_HEIGHT), Color.White);
             // Top side
-            spriteBatch.Draw(LevelLoader.Instance.borders, new Rectangle(0, 0, _game.WINDOW_WIDTH + 2 * _game.WINDOW_XOFFSET, _game.WINDOW_YOFFSET), Color.White);
+            spriteBatch.Draw(LevelLoader.Instance.Borders, new Rectangle(0, 0, _game.WINDOW_WIDTH + 2 * _game.WINDOW_XOFFSET, _game.WINDOW_YOFFSET), Color.White);
             // Right side
-            spriteBatch.Draw(LevelLoader.Instance.borders, new Rectangle(_game.WINDOW_XOFFSET + _game.WINDOW_WIDTH, _game.WINDOW_YOFFSET, _game.WINDOW_XOFFSET, _game.WINDOW_HEIGHT), Color.White);
+            spriteBatch.Draw(LevelLoader.Instance.Borders, new Rectangle(_game.WINDOW_XOFFSET + _game.WINDOW_WIDTH, _game.WINDOW_YOFFSET, _game.WINDOW_XOFFSET, _game.WINDOW_HEIGHT), Color.White);
             // Bottom side
-            spriteBatch.Draw(LevelLoader.Instance.borders, new Rectangle(0, _game.WINDOW_YOFFSET + _game.WINDOW_HEIGHT, _game.WINDOW_WIDTH + 2 * _game.WINDOW_XOFFSET, _game.WINDOW_YOFFSET), Color.White);
+            spriteBatch.Draw(LevelLoader.Instance.Borders, new Rectangle(0, _game.WINDOW_YOFFSET + _game.WINDOW_HEIGHT, _game.WINDOW_WIDTH + 2 * _game.WINDOW_XOFFSET, _game.WINDOW_YOFFSET), Color.White);
 
             spriteBatch.End();
         }

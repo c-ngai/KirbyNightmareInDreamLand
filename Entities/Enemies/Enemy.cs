@@ -17,8 +17,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         protected Sprite enemySprite;   
         protected EnemyStateMachine stateMachine;
         protected IEnemyState currentState; // Current state of the enemy
-        protected Vector2 leftBoundary; //Boundaries for where enemy will turn around on screen
-        protected Vector2 rightBoundary;
+       // protected Vector2 leftBoundary; //Boundaries for where enemy will turn around on screen
+       // protected Vector2 rightBoundary;
         protected string oldState; //Previous state
         protected int frameCounter; // Frame counter for tracking state duration
 

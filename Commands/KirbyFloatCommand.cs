@@ -9,13 +9,13 @@ namespace KirbyNightmareInDreamLand.Commands
         public KirbyFloatCommand()
         {
             _game = Game1.Instance;
-            _player = _game.players[0];
+            _player = _game.Players[0];
         }
 
         public void Execute()
         {
             // If kirby is not in a door, float
-            if (!_game.level.atDoor(_player.GetKirbyPosition()))
+            if (!_game.Level.atDoor(_player.GetKirbyPosition()))
             {
                 _player.Float();
             }

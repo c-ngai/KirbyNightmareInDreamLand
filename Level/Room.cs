@@ -38,11 +38,11 @@ namespace KirbyNightmareInDreamLand
     public struct PowerUpData
     {
         public string PowerUpType;
-        public Vector2 TileSpawnPoint;
+        public Vector2 SpawnPoint;
 
-        public PowerUpData(string powerUpType, Vector2 tileSpawnPoint)
+        public PowerUpData(string powerUpType, Vector2 spawnPoint)
         {
-            TileSpawnPoint = tileSpawnPoint;
+            SpawnPoint = spawnPoint;
             PowerUpType = powerUpType;
         }
     }
@@ -88,7 +88,7 @@ namespace KirbyNightmareInDreamLand
             Height = TileHeight * Constants.Level.TILE_SIZE;
 
             SpawnTile = new Vector2(roomJsonData.SpawnTileX, roomJsonData.SpawnTileY);
-            SpawnPoint = SpawnTile * Constants.Level.TILE_SIZE + new Vector2(8, 16);
+            SpawnPoint = SpawnTile * Constants.Level.TILE_SIZE + Constants.Level.BOTTOM_MIDDLE_OF_TILE;
 
             CameraXLock = roomJsonData.LockCameraX;
             LockedCameraX = roomJsonData.LockedCameraX;
@@ -113,7 +113,7 @@ namespace KirbyNightmareInDreamLand
             {
                 string EnemyType = enemyJsonData.EnemyType;
                 Vector2 TileSpawnPoint = new Vector2(enemyJsonData.SpawnTileX, enemyJsonData.SpawnTileY);
-                Vector2 SpawnPoint = TileSpawnPoint * Constants.Level.TILE_SIZE + new Vector2(8, 16);
+                Vector2 SpawnPoint = TileSpawnPoint * Constants.Level.TILE_SIZE + Constants.Level.BOTTOM_MIDDLE_OF_TILE;
                 EnemyData enemy = new EnemyData(EnemyType, SpawnPoint);
 
                 // Add enemy to list if it has a valid name
@@ -132,7 +132,8 @@ namespace KirbyNightmareInDreamLand
             {
                 string PowerUpType = powerUpJsonData.PowerUpType;
                 Vector2 TileSpawnPoint = new Vector2(powerUpJsonData.SpawnTileX, powerUpJsonData.SpawnTileY);
-                PowerUpData powerUp = new PowerUpData(PowerUpType, TileSpawnPoint);
+                Vector2 SpawnPoint = TileSpawnPoint * Constants.Level.TILE_SIZE + Constants.Level.BOTTOM_MIDDLE_OF_TILE;
+                PowerUpData powerUp = new PowerUpData(PowerUpType, SpawnPoint);
                 PowerUps.Add(powerUp);
             }
         }

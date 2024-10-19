@@ -23,9 +23,9 @@ namespace KirbyNightmareInDreamLand
 {
     public class LevelLoader
     {
-        private Game1 _game;
-        private ContentManager _content;
-        private GraphicsDevice _graphics;
+        private readonly Game1 _game;
+        private readonly ContentManager _content;
+        private readonly GraphicsDevice _graphics;
 
         // Dictionary from string to Tilemap. For easily retrieving a tilemap by name.
         public Dictionary<string, int[][]> Tilemaps { get; private set; }
@@ -37,16 +37,16 @@ namespace KirbyNightmareInDreamLand
         public Dictionary<string, List<Keymapping>> Keymaps { get; private set; }
 
 
-        public SpriteFont font { get; private set; }
-        public Texture2D borders { get; private set; }
+        public SpriteFont Font { get; private set; }
+        public Texture2D Borders { get; private set; }
 
 
-        private static LevelLoader instance = new LevelLoader();
+        private static readonly LevelLoader _instance = new LevelLoader();
         public static LevelLoader Instance
         {
             get
             {
-                return instance;
+                return _instance;
             }
         }
         public LevelLoader()
@@ -70,21 +70,24 @@ namespace KirbyNightmareInDreamLand
             LoadAllTilemaps();
             LoadAllRooms(); // Dependent on sprite animations and tilemaps already loaded
 
-            LoadAllKeymappings();
+            LoadAllKeymaps();
 
-            font = _content.Load<SpriteFont>("DefaultFont");
-            borders = new Texture2D(_graphics, 1, 1);
-            borders.SetData(new Color[] { new Color(0, 0, 0, 127) });
+            // Spritefont only for debug functionality
+            Font = _content.Load<SpriteFont>("DefaultFont");
+
+            // Border for fullscreen letterboxing
+            Borders = new Texture2D(_graphics, 1, 1);
+            Borders.SetData(new Color[] { new Color(0, 0, 0, 127) });
 
         }
 
 
 
         // Loads a texture image given its name and filepath.
-        private void LoadTexture(string TextureName, string TextureFilepath)
+        private void LoadTexture(string textureName, string textureFilepath)
         {
-            Texture2D texture = _content.Load<Texture2D>(TextureFilepath);
-            SpriteFactory.Instance.Textures.Add(TextureName, texture);
+            Texture2D texture = _content.Load<Texture2D>(textureFilepath);
+            SpriteFactory.Instance.Textures.Add(textureName, texture);
         }
 
         // Loads all textures from the texture list file.
@@ -104,20 +107,20 @@ namespace KirbyNightmareInDreamLand
 
 
         // Loads a sprite animation given its name and data.
-        private void LoadSpriteAnimation(string SpriteAnimationName, SpriteJsonData spriteJsonData)
+        private void LoadSpriteAnimation(string spriteAnimationName, SpriteJsonData spriteJsonData)
         {
             SpriteAnimation spriteAnimation = new SpriteAnimation(spriteJsonData, SpriteFactory.Instance.Textures);
-            SpriteFactory.Instance.SpriteAnimations.Add(SpriteAnimationName, spriteAnimation);
+            SpriteFactory.Instance.SpriteAnimations.Add(spriteAnimationName, spriteAnimation);
         }
 
-        // Loads all sprite animations from the .json file.
+        // Loads all sprite animations from the .json registry.
         public void LoadAllSpriteAnimations()
         {
             // Open the sprite animation data file and deserialize it into a dictionary.
-            Dictionary<string, SpriteJsonData> SpriteJsonDatas = JsonSerializer.Deserialize<Dictionary<string, SpriteJsonData>>(File.ReadAllText(Constants.Filepaths.SpriteRegistry), new JsonSerializerOptions());
+            Dictionary<string, SpriteJsonData> spriteJsonDatas = JsonSerializer.Deserialize<Dictionary<string, SpriteJsonData>>(File.ReadAllText(Constants.Filepaths.SpriteRegistry), new JsonSerializerOptions());
 
             // Run through the dictionary and load each sprite.
-            foreach (KeyValuePair<string, SpriteJsonData> data in SpriteJsonDatas)
+            foreach (KeyValuePair<string, SpriteJsonData> data in spriteJsonDatas)
             {
                 LoadSpriteAnimation(data.Key, data.Value);
             }
@@ -126,37 +129,37 @@ namespace KirbyNightmareInDreamLand
         
 
         // Loads a tilemap given its name and filepath.
-        private void LoadTilemap(string TilemapName, string TilemapFilepath)
+        private void LoadTilemap(string tilemapName, string tilemapFilepath)
         {
-            int[][] Tilemap;
+            int[][] tilemap;
 
             // Read the .csv spreadsheet values into a 2D int array
-            List<string> lines = new(File.ReadLines(TilemapFilepath));
-            Tilemap = new int[lines.Count][];
+            List<string> lines = new(File.ReadLines(tilemapFilepath));
+            tilemap = new int[lines.Count][];
             for (int y = 0; y < lines.Count; y++)
             {
                 string[] values = lines[y].Split(',');
-                Tilemap[y] = new int[values.Length];
+                tilemap[y] = new int[values.Length];
                 for (int x = 0; x < values.Length; x++)
                 {
-                    Tilemap[y][x] = Int32.Parse(values[x]);
+                    tilemap[y][x] = Int32.Parse(values[x]);
                 }
             }
 
-            Tilemaps.Add(TilemapName, Tilemap);
+            Tilemaps.Add(tilemapName, tilemap);
         }
 
         // Loads all tilemaps from the tilemap list file.
         public void LoadAllTilemaps()
         {
             // Open the texture list data file and read its lines into a string array.
-            string[] TilemapFilepaths = File.ReadAllLines(Constants.Filepaths.TilemapList);
+            string[] tilemapFilepaths = File.ReadAllLines(Constants.Filepaths.TilemapList);
 
             // Run through the array and load each texture.
-            foreach (string TilemapFilepath in TilemapFilepaths)
+            foreach (string tilemapFilepath in tilemapFilepaths)
             {
-                string TileMapName = Path.GetFileNameWithoutExtension(TilemapFilepath);
-                LoadTilemap(TileMapName, TilemapFilepath);
+                string tileMapName = Path.GetFileNameWithoutExtension(tilemapFilepath);
+                LoadTilemap(tileMapName, tilemapFilepath);
             }
         }
 
@@ -169,18 +172,19 @@ namespace KirbyNightmareInDreamLand
             Rooms.Add(roomName, room);
         }
 
-        // Loads all rooms from the .json file.
+        // Loads all rooms from the .json registry.
         public void LoadAllRooms()
         {
             // Open the room data file and deserialize it into a dictionary.
-            Dictionary<string, RoomJsonData> RoomJsonDatas = JsonSerializer.Deserialize<Dictionary<string, RoomJsonData>>(File.ReadAllText(Constants.Filepaths.RoomRegistry), new JsonSerializerOptions());
+            Dictionary<string, RoomJsonData> roomJsonDatas = JsonSerializer.Deserialize<Dictionary<string, RoomJsonData>>(File.ReadAllText(Constants.Filepaths.RoomRegistry), new JsonSerializerOptions());
 
             // Run through the dictionary and load each room.
-            foreach (KeyValuePair<string, RoomJsonData> data in RoomJsonDatas)
+            foreach (KeyValuePair<string, RoomJsonData> data in roomJsonDatas)
             {
                 LoadRoom(data.Key, data.Value);
             }
         }
+
 
 
         // Loads a keymap into the keyboard.
@@ -189,13 +193,13 @@ namespace KirbyNightmareInDreamLand
             if (Keymaps.ContainsKey(keymapName))
             {
                 // Clear existing key mappings in the controller
-                _game.keyboard.ClearMappings();
+                _game.Keyboard.ClearMappings();
 
                 // Register each new key mapping
                 foreach (var mapping in Keymaps[keymapName])
                 {
                     ICommand command = (ICommand)mapping.CommandConstructorInfo.Invoke(null);
-                    _game.keyboard.RegisterCommand(mapping.Key, mapping.ExecutionType, command);
+                    _game.Keyboard.RegisterCommand(mapping.Key, mapping.ExecutionType, command);
                 }
             }
             else
@@ -205,7 +209,7 @@ namespace KirbyNightmareInDreamLand
         }
 
         // Loads a keymapping given its name and data.
-        private void LoadKeymapping(KeymappingJsonData keymappingJsonData, List<Keymapping> Keymap)
+        private void LoadKeymapping(KeymappingJsonData keymappingJsonData, List<Keymapping> keymap)
         {
             // Create a new Keymapping object
             Keymapping keymapping = new Keymapping();
@@ -218,7 +222,7 @@ namespace KirbyNightmareInDreamLand
             // Add the new keymapping to its respective list.
             if (keymapping.CommandConstructorInfo != null)
             {
-                Keymap.Add(keymapping);
+                keymap.Add(keymapping);
             }
             else
             {
@@ -226,8 +230,8 @@ namespace KirbyNightmareInDreamLand
             }
         }
 
-        // Loads all rooms from the .json file.
-        public void LoadAllKeymappings()
+        // Loads all keymaps from the .json registry.
+        public void LoadAllKeymaps()
         {
             // Open the keymap data file and deserialize it into a dictionary.
             Dictionary<string, List<KeymappingJsonData>> KeymapJsonDatas = JsonSerializer.Deserialize<Dictionary<string, List<KeymappingJsonData>>>(File.ReadAllText(Constants.Filepaths.KeymapRegistry), new JsonSerializerOptions());
@@ -246,6 +250,7 @@ namespace KirbyNightmareInDreamLand
             }
         }
         
+
 
     }
 }

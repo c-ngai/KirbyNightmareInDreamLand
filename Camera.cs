@@ -46,9 +46,9 @@ namespace KirbyNightmareInDreamLand
         public void UpdateCameraPosition()
         {
             // Set the camera's X
-            if (_game.level.CurrentRoom.CameraXLock)
+            if (_game.Level.CurrentRoom.CameraXLock)
             {
-                position.X = _game.level.CurrentRoom.LockedCameraX;
+                position.X = _game.Level.CurrentRoom.LockedCameraX;
             }
             else
             {
@@ -58,16 +58,16 @@ namespace KirbyNightmareInDreamLand
                 {
                     position.X = 0;
                 }
-                else if (position.X > _game.level.CurrentRoom.Width - Constants.Graphics.GAME_WIDTH)
+                else if (position.X > _game.Level.CurrentRoom.Width - Constants.Graphics.GAME_WIDTH)
                 {
-                    position.X = _game.level.CurrentRoom.Width - Constants.Graphics.GAME_WIDTH;
+                    position.X = _game.Level.CurrentRoom.Width - Constants.Graphics.GAME_WIDTH;
                 }
             }
 
             // Set the camera's Y
-            if (_game.level.CurrentRoom.CameraYLock)
+            if (_game.Level.CurrentRoom.CameraYLock)
             {
-                position.Y = _game.level.CurrentRoom.LockedCameraY;
+                position.Y = _game.Level.CurrentRoom.LockedCameraY;
             }
             else
             {
@@ -77,9 +77,9 @@ namespace KirbyNightmareInDreamLand
                 {
                     position.Y = 0;
                 }
-                else if (position.Y > _game.level.CurrentRoom.Height - Constants.Graphics.GAME_HEIGHT)
+                else if (position.Y > _game.Level.CurrentRoom.Height - Constants.Graphics.GAME_HEIGHT)
                 {
-                    position.Y = _game.level.CurrentRoom.Height - Constants.Graphics.GAME_HEIGHT;
+                    position.Y = _game.Level.CurrentRoom.Height - Constants.Graphics.GAME_HEIGHT;
                 }
             }
 
