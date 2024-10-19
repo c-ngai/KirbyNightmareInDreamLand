@@ -169,5 +169,9 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
         }
 
+        public void BottomCollisionWithBlock(Rectangle intersection)
+        {
+            position.Y = intersection.Y;
+        }
     }
 }
