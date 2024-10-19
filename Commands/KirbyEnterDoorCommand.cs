@@ -14,7 +14,7 @@ namespace KirbyNightmareInDreamLand.Commands
 
         public void Execute()
         {
-            _game.Level.nextRoom(_player.GetKirbyPosition());
+            _game.Level.EnterDoorAt(_player.GetKirbyPosition());
         }
     }
 }

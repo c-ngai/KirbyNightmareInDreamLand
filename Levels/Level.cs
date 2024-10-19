@@ -30,11 +30,16 @@ namespace KirbyNightmareInDreamLand.Levels
 
         public Room CurrentRoom { get; private set; }
 
+        public Vector2 SpawnPoint { get; private set; }
+
         private List<Enemy> enemyList;
 
         private List<PowerUp> powerUpList;
 
         private List<Sprite> TileSprites;
+
+        private Sprite _doorstarsSprite;
+
         private ObjectManager manager = ObjectManager.Instance;
 
         // Holds a sprite for kirby and each enemy type to draw at their spawn points in level debug mode.
@@ -55,16 +60,18 @@ namespace KirbyNightmareInDreamLand.Levels
             _camera = _game.Camera;
 
             TileSprites = LoadTileSprites(Constants.Filepaths.TileSpriteList);
+            _doorstarsSprite = SpriteFactory.Instance.CreateSprite("doorstars");
         }
 
-        // Loads a room into the level by name.
-        public void LoadRoom(string RoomName)
+        // Loads a room into the level by name, specifying a spawn point. (for entering from a door)
+        public void LoadRoom(string RoomName, Vector2? _spawnPoint)
         {
             if (LevelLoader.Instance.Rooms.ContainsKey(RoomName))
             {
                 manager.ResetDynamicCollisionBoxes();
                 CurrentRoom = LevelLoader.Instance.Rooms[RoomName];
                 LoadLevelObjects();
+                SpawnPoint = _spawnPoint ?? CurrentRoom.SpawnPoint;
                 foreach (IPlayer player in manager.Players)
                 {
                     player.GoToRoomSpawn();
@@ -76,6 +83,26 @@ namespace KirbyNightmareInDreamLand.Levels
                 Debug.WriteLine("ERROR: \"" + RoomName + "\" is not a valid room name and cannot be loaded.");
             }
         }
+
+        // Overflow method. If no spawn point is specified, the level will load the room's default. TODO: refactor this?? does this implementation suck?????
+        public void LoadRoom(string RoomName)
+        {
+            LoadRoom(RoomName, null);
+        }
+
+
+        //// Loads a room into the level by name. If spawn point is unspecified, it will use the room's default.
+        //public void LoadRoom(string RoomName)
+        //{
+        //    if (LevelLoader.Instance.Rooms.ContainsKey(RoomName))
+        //    {
+        //        LoadRoom(RoomName, )
+        //    }
+        //    else
+        //    {
+        //        Debug.WriteLine("ERROR: \"" + RoomName + "\" is not a valid room name and cannot be loaded.");
+        //    }
+        //}
 
         private List<Sprite> LoadTileSprites(string filepath)
         {
@@ -129,6 +156,7 @@ namespace KirbyNightmareInDreamLand.Levels
         {
             DrawBackground(spriteBatch);
             DrawForeground(spriteBatch);
+            DrawDoorStars(spriteBatch);
             DrawLevelObjects(spriteBatch);
         }
 
@@ -211,13 +239,13 @@ namespace KirbyNightmareInDreamLand.Levels
         }
 
         // go to the next room, called because a player wants to go through a door 
-        public void nextRoom(Vector2 playerPos)
+        public void EnterDoorAt(Vector2 playerPos)
         {
             foreach(Door door in CurrentRoom.Doors)
             {
                 if (door.Bounds.Contains(playerPos))
                 {
-                    LoadRoom(door.DestinationRoom);
+                    LoadRoom(door.DestinationRoom, door.DestinationPoint);
                     break;
                 }
             }
@@ -231,6 +259,7 @@ namespace KirbyNightmareInDreamLand.Levels
         public void UpdateLevel()
         {
             CurrentRoom.ForegroundSprite.Update();
+            _doorstarsSprite.Update();
             foreach(Enemy enemy in enemyList)
             {
                 enemy.Update(_game.time);
@@ -247,6 +276,7 @@ namespace KirbyNightmareInDreamLand.Levels
         private void DrawDebug(SpriteBatch spriteBatch)
         {
             DrawTiles(spriteBatch);
+            DrawDoorStars(spriteBatch);
             DrawDoors(spriteBatch);
             DrawSpawnPoints(spriteBatch);
             DrawLevelObjects(spriteBatch);
@@ -263,6 +293,16 @@ namespace KirbyNightmareInDreamLand.Levels
 
                 GameDebug.Instance.DrawSolidRectangle(spriteBatch, door.Bounds, Color.Red);
                 spriteBatch.DrawString(LevelLoader.Instance.Font, door.DestinationRoom, textPos, Color.Red);
+            }
+        }
+
+        // Draws the stars around each door
+        private void DrawDoorStars(SpriteBatch spriteBatch)
+        {
+            foreach (Door door in CurrentRoom.Doors)
+            {
+                Vector2 doorPos = door.Bounds.Location.ToVector2();
+                _doorstarsSprite.Draw(doorPos, spriteBatch);
             }
         }
 
