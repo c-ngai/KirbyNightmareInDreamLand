@@ -1,0 +1,36 @@
+Author of Code Review: Gwyn Barnholtz
+Date: 10/18
+Sprint 3
+Reviewing: CollisionDetection.cs
+Author of .cs file: Lina
+Number of minutes to complete review: 10
+################################################################################ 
+
+10 Code Smells
+
+Long Functions
+Large Class
+Long Parameters
+Duplicate Code
+Feature Envy
+Switch Statements
+Shotgun Surgery
+Same Name, Different Meaning
+Data Clumps
+Temporary Field
+
+################################################################################
+
+Comments on Code Smells:
+	CheckSide is a pretty long function, but has a LOT to do within it. Could be chopped 
+	into multiple methods/funcitons. The class is a good size though, no crazy params, 
+	or duplicate code. No switch statements, but a lot of if statements. Could maybe have 
+	used a Dictionary instead, not sure. Seems very hard coded right now, however, it works!
+
+Comments on Readability:
+	I appreciate the amount of comments. I appreciate the comments of what we’re doing 
+	in the future (ex: “will be moved to object manager”. Could start that with “TO-DO” 
+	to make it easier to spot in the future. The large commented out sections make me 
+	wonder what happened, so comments would help there.The comments also guide the user
+	of what to change or not, which shows your process as you worked. The process is 
+	super readable and the working methods are easy to follow. Great job!
