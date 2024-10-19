@@ -16,7 +16,11 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             IsLeft = isLeft;
             Position = pos;
-            CollisionDetection.Instance.RegisterDynamicObject(this);
+            ObjectManager.Instance.RegisterDynamicObject(this);
+        }
+        public string GetObjectType()
+        {
+            return "Projectile";
         }
         public bool IsDone()
         {

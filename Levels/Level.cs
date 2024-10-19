@@ -15,7 +15,7 @@ using System.Net;
 using System.Reflection;
 using static KirbyNightmareInDreamLand.Constants;
 
-namespace KirbyNightmareInDreamLand
+namespace KirbyNightmareInDreamLand.Levels
 {
     public class Level
     {
@@ -35,6 +35,7 @@ namespace KirbyNightmareInDreamLand
         private List<PowerUp> powerUpList;
 
         private List<Sprite> TileSprites;
+        private ObjectManager manager = ObjectManager.Instance;
 
         // Holds a sprite for kirby and each enemy type to draw at their spawn points in level debug mode.
         private Dictionary<string, Sprite> SpawnSprites = new Dictionary<string, Sprite>()
@@ -61,12 +62,13 @@ namespace KirbyNightmareInDreamLand
         {
             if (LevelLoader.Instance.Rooms.ContainsKey(RoomName))
             {
-                CollisionDetection.Instance.ResetDynamicCollisionBoxes();
+                manager.ResetDynamicCollisionBoxes();
                 CurrentRoom = LevelLoader.Instance.Rooms[RoomName];
                 LoadLevelObjects();
-                foreach (IPlayer player in _game.Players)
+                foreach (IPlayer player in manager.Players)
                 {
                     player.GoToRoomSpawn();
+                    manager.RegisterDynamicObject((Player)player);
                 }
             }
             else
@@ -99,7 +101,6 @@ namespace KirbyNightmareInDreamLand
             {
                 DrawLevel(spriteBatch);
             }
-            
         }
 
         private void DrawBackground(SpriteBatch spriteBatch)

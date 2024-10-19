@@ -36,7 +36,11 @@ namespace KirbyNightmareInDreamLand.Projectiles
             Velocity = fireballDirection * Constants.EnemyFire.SPEED;
 
             projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_hothead_fireball");
-            CollisionDetection.Instance.RegisterDynamicObject(this);
+            ObjectManager.Instance.RegisterDynamicObject(this);
+        }
+        public string GetObjectType()
+        {
+            return "Projectile";
         }
 
         public void Update()
@@ -58,7 +62,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
             }
             else
             {
-                CollisionDetection.Instance.RemoveDynamicObject(this); // Deregister if dead
+                ObjectManager.Instance.RemoveDynamicObject(this); // Deregister if dead
             }
         }
         public void EndAttack()

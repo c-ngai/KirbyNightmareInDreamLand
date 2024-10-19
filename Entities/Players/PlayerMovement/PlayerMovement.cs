@@ -18,6 +18,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         protected float gravity = Constants.Physics.GRAVITY; 
         protected float damageVel = Constants.Physics.DAMAGE_VELOCITY;
         public ITimeCalculator timer;
+        protected bool landed = true;
 
         protected Vector2 position;
         //constructor
@@ -144,19 +145,17 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public virtual void AdjustY(Player kirby)
         {
             //dont go through the floor
-            if(position.Y > Constants.Graphics.FLOOR)
+            if (landed)
             {
                 yVel = 0;
-                position.Y = (float) Constants.Graphics.FLOOR;
             }
 
             //dont go through the ceiling
-            if(position.Y < 10)
+            if (position.Y < 10)
             {
                 yVel = 0;
                 position.Y = 10;
             }
-
         }
         //ensures sprite does not leave the window
         public virtual void Adjust(Player kirby)
@@ -171,8 +170,49 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             Adjust(kirby);
         }
         #endregion
+        public void Fall()
+        {
+            ////kirby.ChangePose(Kirby.FreeFall);
+            yVel = gravity;
+        }
+        public void ChangeKirbyLanded(bool land)
+        {
+            landed = land;
+        }
 
-    
+        #region TileCollision
+        public void AdjustFromBottomCollisionBlock(Rectangle intersection)
+        {
+            position.Y = intersection.Y;
+            yVel = 0;
+        }
 
+        public void AdjustFromRightCollisionBlock(Rectangle intersection)
+        {
+            position.X -= intersection.Width;
+            xVel = 0;
+        }
+
+        public void AdjustFromLeftCollisionBlock(Rectangle intersection)
+        {
+            position.X += intersection.Width;
+            xVel = 0;
+        }
+
+        public void AdjustFromBottomCollisionPlatform(Rectangle intersection)
+        {
+            position.Y = intersection.Y;
+            yVel = 0;
+        }
+
+        // TODO: Figure out slope collisions
+        //public void AdjustFromBottomCollisionSlope(Player kirby, Tile tile)
+        //{
+        //    Vector2 center = CollisionManager.Instance.GetCenter(tile.rectangle);
+        //    position.Y = center.X;
+        //    yVel = 0;
+
+        //}
+        #endregion
     }
 }

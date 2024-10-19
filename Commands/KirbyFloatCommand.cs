@@ -9,7 +9,7 @@ namespace KirbyNightmareInDreamLand.Commands
         public KirbyFloatCommand()
         {
             _game = Game1.Instance;
-            _player = _game.Players[0];
+            _player = ObjectManager.Instance.Players[0];
         }
 
         public void Execute()
