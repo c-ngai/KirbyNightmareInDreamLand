@@ -87,8 +87,8 @@ namespace KirbyNightmareInDreamLand.Actions
         {
             Player player = (Player)object2;
             Enemy enemy = (Enemy)object1;
-            player.TakeDamage();
-            enemy.TakeDamage();
+            player.TakeDamage(intersection);
+            enemy.TakeDamage(intersection);
         }
     }
 }
