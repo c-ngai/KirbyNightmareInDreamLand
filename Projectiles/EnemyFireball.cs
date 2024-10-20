@@ -4,7 +4,7 @@ using KirbyNightmareInDreamLand.Sprites;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class EnemyFireball : IProjectile, ICollidable
+    public class EnemyFireball : IProjectile, ICollidable, IExplodable
     {
         private Sprite projectileSprite;
         private Vector2 position;

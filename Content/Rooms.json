@@ -135,11 +135,16 @@
                 "SpawnTileX": 37,
                 "SpawnTileY": 6
             },
-            {
-                "EnemyType": "Hothead",
-                "SpawnTileX": 55,
-                "SpawnTileY": 6
-            }
+          {
+            "EnemyType": "Hothead",
+            "SpawnTileX": 55,
+            "SpawnTileY": 6
+          },
+          {
+            "EnemyType": "Hothead",
+            "SpawnTileX": 19,
+            "SpawnTileY": 6
+          }
         ]
     },
 

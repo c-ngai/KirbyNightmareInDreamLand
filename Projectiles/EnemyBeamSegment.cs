@@ -5,7 +5,7 @@ using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class EnemyBeamSegment : IProjectile, ICollidable
+    public class EnemyBeamSegment : IProjectile, ICollidable, IExplodable
     {
         private Vector2 position; // acts as pivot point
         private Vector2 velocity;
