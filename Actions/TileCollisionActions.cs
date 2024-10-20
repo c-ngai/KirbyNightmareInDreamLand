@@ -76,5 +76,35 @@ namespace KirbyNightmareInDreamLand.Actions
             Enemy enemy = (Enemy)object1;
             enemy.TakeDamage();
         }
+
+        public static void GentleLeftSlopeCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
+        {
+
+        }
+
+        public static void GentleRightSlopeCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
+        {
+
+        }
+
+        public static void MediumLeftSlopeCollison(ICollidable object1, ICollidable object2, Rectangle intersection)
+        {
+
+        }
+
+        public static void MediumRightSlopeCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
+        {
+
+        }
+
+        public static void SteepLeftSlopeCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
+        {
+
+        }
+
+        public static void SteepRightSlopeCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
+        {
+
+        }
     }
 }
