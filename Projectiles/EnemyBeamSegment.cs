@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
@@ -89,6 +90,12 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             Vector2 rectPoint = CalculateRectanglePoint(position);
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.BEAM_WIDTH, Constants.HitBoxes.BEAM_HEIGHT);
+        }
+
+        public virtual void CollisionWithBlock(Rectangle intersection)
+        {
+            ObjectManager.Instance.RemoveDynamicObject(this);
+            IsActive = false;
         }
     }
 }
