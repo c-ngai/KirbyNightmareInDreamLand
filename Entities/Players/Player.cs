@@ -20,7 +20,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         private Sprite playerSprite ;
         public PlayerAttack attack {get; private set;}
 
-
         //health stuffs -- will be taken to another class connected to kirby in next sprint
         private int health = Constants.Kirby.MAX_HEALTH;
         private int lives = Constants.Kirby.MAX_LIVES;
@@ -42,6 +41,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             oldState = state.GetStateString();
             ObjectManager.Instance.RegisterDynamicObject(this);
             playerSprite = SpriteFactory.Instance.CreateSprite("kirby_normal_standing_right");
+            movement.ChangeKirbyLanded(false);
         }
 
         public string GetObjectType()
@@ -182,6 +182,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             if(invincible){
                 if(!IsWithEnemy())ChangeToNormal();
+                if(IsFloating()) movement = new NormalPlayerMovement(GetKirbyPosition());
                 ChangePose(KirbyPose.Hurt);
                 await Task.Delay(Constants.Physics.DELAY);
                 StopMoving();
@@ -494,11 +495,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void BottomCollisionWithAir(Rectangle intersection)
         {
-            if (state.ShouldFallThroughTile())
-            {
-                movement.ChangeKirbyLanded(false);
+            if (!state.IsInAir() || state.ShouldFallThroughAirTile())
+           {
                 movement.Fall();
-            }
+                movement.ChangeKirbyLanded(false);
+           }
         }
 
         #endregion

@@ -36,7 +36,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public override void Jump(bool isLeft)
         {
             endFloat = false;
+            landed = false;
             yVel = floatVel * -1; //go up
+            
         }
 
         public void AdjustYPositionWhileFloating(Player kirby)
@@ -44,8 +46,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             //dont go through the floor but float state as not been terminated
             if (landed)
             {
-                yVel = 0;
+                yVel =0;
                 xVel = 0;
+                
                 kirby.ChangePose(KirbyPose.FloatingGrounded);
             }
         }

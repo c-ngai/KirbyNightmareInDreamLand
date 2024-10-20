@@ -11,7 +11,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 {
     public class PlayerAttack
     {
-        private IProjectile currentAttack;
+        public IProjectile currentAttack {get; private set;}
 
         private Dictionary<string, Func<Player, IProjectile>> attackFactories;
         public PlayerAttack(Player kirby, String attackType)

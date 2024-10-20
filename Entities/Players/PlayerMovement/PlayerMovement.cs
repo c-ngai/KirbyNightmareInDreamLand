@@ -155,6 +155,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if (landed)
             {
                 yVel = 0;
+            } else {
+                yVel = gravity;
             }
 
             //dont go through the ceiling
@@ -190,7 +192,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #region TileCollision
         public void AdjustFromBottomCollisionBlock(Rectangle intersection)
         {
-            position.Y = intersection.Y;
+            position.Y = intersection.Y + 1;
             yVel = 0;
         }
 
@@ -208,7 +210,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public void AdjustFromBottomCollisionPlatform(Rectangle intersection)
         {
-            position.Y = intersection.Y;
+            position.Y = intersection.Y + 1;
             yVel = 0;
             ChangeKirbyLanded(true);
         }

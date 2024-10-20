@@ -97,6 +97,8 @@ namespace KirbyNightmareInDreamLand
                         if (response.collisionMapping.ContainsKey(key))
                         {
                             response.ExecuteCollision(dynamicObj, staticObj, side);
+                        } else {
+                            
                         }
                     }
                 }
@@ -121,11 +123,13 @@ namespace KirbyNightmareInDreamLand
 
                         string type1 = manager.DynamicObjects[i].GetObjectType();
                         string type2 = manager.DynamicObjects[j].GetObjectType();
+                        
                         Tuple<string, string, CollisionSide> key = new Tuple<string, string, CollisionSide>(type1, type2, side);
                         if (response.collisionMapping.ContainsKey(key))
                         {
                             response.ExecuteCollision(manager.DynamicObjects[i], manager.DynamicObjects[j], side);
-                        }
+                            
+                        } 
                     }
                 }
             }
