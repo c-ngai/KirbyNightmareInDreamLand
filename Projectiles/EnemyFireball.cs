@@ -4,7 +4,7 @@ using KirbyNightmareInDreamLand.Sprites;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class EnemyFireball : IProjectile, ICollidable
+    public class EnemyFireball : IProjectile, ICollidable, IExplodable
     {
         private Sprite projectileSprite;
         private Vector2 position;
@@ -87,6 +87,12 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             Vector2 rectPoint = CalculateRectanglePoint(position);
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.FIREBALL_WIDTH, Constants.HitBoxes.FIREBALL_HEIGHT);
+        }
+
+        public virtual void CollisionWithBlock(Rectangle intersection)
+        {
+            ObjectManager.Instance.RemoveDynamicObject(this);
+            IsActive = false;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         // Jump variables
         private bool isJumping = false;
         private float originalY;
-        private float jumpVelocity = 0;
+        //private float jumpVelocity = 0;
 
         // Beam ability
         private EnemyBeam beam;
@@ -30,13 +30,15 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             ChangeState(new WaddleDooWalkingState(this));
             //TO-DO: spawn facing the direction kirby is in
             stateMachine.ChangeDirection();
+            yVel = 0;
+            xVel = Constants.WaddleDoo.MOVE_SPEED;
         }
-        
+
         public override void Update(GameTime gameTime)
         {
             if (!isDead)
             {
-                IncrementFrameCounter(); 
+                IncrementFrameCounter();
                 currentState.Update();
                 enemySprite.Update();
 
@@ -50,7 +52,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                     }
                 }
             }
-        } 
+        }
 
         private Vector2 ProjectilePosition()
         {
@@ -63,11 +65,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             //X moevement left and right. Turns around at left/right boundary
             if (stateMachine.IsLeft())
             {
-                position.X -= Constants.WaddleDoo.MOVE_SPEED;
+                position.X -= xVel;
             }
             else
             {
-                position.X += Constants.WaddleDoo.MOVE_SPEED;
+                position.X += xVel;
             }
             UpdateTexture();
         }
@@ -79,29 +81,30 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 // Start jumping and store initial y
                 isJumping = true;
                 originalY = position.Y;
-                jumpVelocity = -Constants.WaddleDoo.JUMP_HEIGHT; 
+                yVel = -Constants.WaddleDoo.JUMP_HEIGHT;
             }
 
             // Apply gravity and update Y position
-            position.Y += jumpVelocity;
-            jumpVelocity += Constants.WaddleDoo.GRAVITY;
+            position.Y += yVel;
+            yVel += Constants.WaddleDoo.GRAVITY;
 
             //Move right or left on x axis in jump
             if (stateMachine.IsLeft())
             {
-                position.X -= Constants.WaddleDoo.FORWARD_MOVEMENT; 
+                position.X -= Constants.WaddleDoo.FORWARD_MOVEMENT;
             }
             else
             {
-                position.X += Constants.WaddleDoo.FORWARD_MOVEMENT; 
+                position.X += Constants.WaddleDoo.FORWARD_MOVEMENT;
             }
 
             // Check if the character has landed and stop walking
             if (position.Y >= originalY)
             {
-                position.Y = originalY; 
+                position.Y = originalY;
                 isJumping = false;
                 stateMachine.ChangePose(EnemyPose.Walking);
+                ChangeState(new WaddleDooWalkingState(this));
             }
         }
 
@@ -127,6 +130,14 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 //draw enemy
                 enemySprite.Draw(position, spriteBatch);
             }
+        }
+
+        public override void BottomCollisionWithBlock(Rectangle intersection)
+        {
+            isFalling = false;
+            position.Y = intersection.Y;
+            yVel = 0;
+            ChangeState(new WaddleDooWalkingState(this));
         }
     }
 }
