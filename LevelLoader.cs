@@ -345,7 +345,7 @@ namespace KirbyNightmareInDreamLand
 
             /*
             #region Projectile Collisions
-            key1 = "Projectile";
+            key1 = "EnemyAttack";
             key2 = "Block";
             action1 = TileCollisionActions.BottomBlockCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);

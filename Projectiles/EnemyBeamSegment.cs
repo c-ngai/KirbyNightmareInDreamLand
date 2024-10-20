@@ -91,8 +91,19 @@ namespace KirbyNightmareInDreamLand.Projectiles
             Vector2 rectPoint = CalculateRectanglePoint(position);
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.BEAM_WIDTH, Constants.HitBoxes.BEAM_HEIGHT);
         }
+        public virtual void BottomBlockCollision(Rectangle intersection)
+        {
+            ObjectManager.Instance.RemoveDynamicObject(this);
+            IsActive = false;
+        }
 
-        public virtual void CollisionWithBlock(Rectangle intersection)
+        public virtual void RightBlockCollision(Rectangle intersection)
+        {
+            ObjectManager.Instance.RemoveDynamicObject(this);
+            IsActive = false;
+        }
+
+        public virtual void LeftBlockCollision(Rectangle intersection)
         {
             ObjectManager.Instance.RemoveDynamicObject(this);
             IsActive = false;

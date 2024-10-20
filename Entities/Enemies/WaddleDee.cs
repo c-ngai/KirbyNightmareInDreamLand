@@ -25,8 +25,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public override void Move()
         {
-                // X movement logic. Moves until boundaries
-                if (stateMachine.IsLeft())
+
+            //Debug.WriteLine(position.X + ", " + position.Y);
+
+            // X movement logic. Moves until boundaries
+            if (stateMachine.IsLeft())
                 {
                     position.X -= xVel;
                 }

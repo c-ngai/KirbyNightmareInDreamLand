@@ -3,6 +3,7 @@ using KirbyNightmareInDreamLand.Entities.Players;
 using KirbyNightmareInDreamLand.Entities.Enemies;
 using KirbyNightmareInDreamLand.Projectiles;
 using KirbyNightmareInDreamLand.Collision;
+using System.Numerics;
 namespace KirbyNightmareInDreamLand.Actions
 {
     public class TileCollisionActions
@@ -19,12 +20,12 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 Enemy enemy = (Enemy)object1;
                 enemy.BottomCollisionWithBlock(intersection);
-            }
-            else
+            } /*
+            else if (type.Equals("EnemyAttack"))
             {
                 IExplodable projectile = (IExplodable)object1;
-                projectile.CollisionWithBlock(intersection);
-            }
+                projectile.BottomBlockCollision(intersection);
+            } */
         }
 
         public static void RightBlockCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
@@ -39,12 +40,12 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 Enemy enemy = (Enemy)object1;
                 enemy.ChangeDirection();
-            }
-            else
+            } /*
+            else if (type.Equals("EnemyAttack"))
             {
                 IExplodable projectile = (IExplodable)object1;
-                projectile.CollisionWithBlock(intersection);
-            }
+                projectile.RightBlockCollision(intersection);
+            } */
         }
 
         public static void LeftBlockCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
@@ -59,12 +60,12 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 Enemy enemy = (Enemy)object1;
                 enemy.ChangeDirection();
-            }
-            else
+            } /*
+            else if (type.Equals("EnemyAttack"))
             {
                 IExplodable projectile = (IExplodable)object1;
-                projectile.CollisionWithBlock(intersection);
-            }
+                projectile.LeftBlockCollision(intersection);
+            } */
         }
 
         public static void BottomPlatformCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
