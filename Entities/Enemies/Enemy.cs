@@ -23,7 +23,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         protected float xVel;
         protected float yVel;
         protected float gravity;
-        //protected Boolean isFalling;
+        protected Boolean isFalling;
 
         public bool CollisionActive { get; set; } = true;
 
@@ -42,6 +42,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             isDead = false;
             xVel = 0;
             yVel = 0;
+            isFalling = true;
             gravity = Constants.Physics.GRAVITY;
             stateMachine = new EnemyStateMachine(type);
             oldState = string.Empty;
@@ -149,6 +150,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 currentState.Update();
                 UpdateTexture();
                 enemySprite.Update();
+
+                if (isFalling)
+                {
+                    Fall();
+                }
+
                 GetHitBox(); // Ensure hitbox is updated
             } else {
                 CollisionActive = false;
@@ -197,11 +204,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             position.Y = intersection.Y;
             yVel = 0;
+            isFalling = false;
         }
         public void BottomCollisionWithAir(Rectangle intersection)
         {
-            //COLLISON WARNING: UNCOMMENT TO TEST
-            //Fall();
+            isFalling = true;
         }
     }
 }

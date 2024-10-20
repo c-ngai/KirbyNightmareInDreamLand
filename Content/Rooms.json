@@ -102,7 +102,7 @@
             {
                 "EnemyType": "WaddleDee",
                 "SpawnTileX": 15,
-                "SpawnTileY": 7
+                "SpawnTileY": 4
             },
             {
                 "EnemyType": "WaddleDoo",
