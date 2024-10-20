@@ -218,6 +218,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             position.Y = intersection.Y;
             yVel = 0;
+            ChangeKirbyLanded(true);
         }
 
         // TODO: Figure out slope collisions
