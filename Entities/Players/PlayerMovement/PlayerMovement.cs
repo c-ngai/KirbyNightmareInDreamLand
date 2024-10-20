@@ -2,6 +2,9 @@ using Microsoft.Xna.Framework;
 using System.Threading.Tasks;
 using KirbyNightmareInDreamLand.Time;
 using KirbyNightmareInDreamLand.StateMachines;
+using Microsoft.VisualBasic;
+using KirbyNightmareInDreamLand.Levels;
+using System.Diagnostics;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -213,14 +216,70 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             ChangeKirbyLanded(true);
         }
 
-        // TODO: Figure out slope collisions
-        //public void AdjustFromBottomCollisionSlope(Player kirby, Tile tile)
-        //{
-        //    Vector2 center = CollisionManager.Instance.GetCenter(tile.rectangle);
-        //    position.Y = center.X;
-        //    yVel = 0;
+        public void AdjustGentle1SlopeLeftCollision(Tile tile)
+        {
+            Rectangle intersection = tile.rectangle;
+            float offset = position.X - intersection.X;
+            //Debug.WriteLine($"Starting Y position: {position.Y}");
+            float slope = Constants.Collision.GENTLE1_SLOPE_LEFT_M;
+            float yIntercept = Constants.Collision.GENTLE1_SLOPE_LEFT_YINTERCEPT;
+            position.Y = (intersection.Y + 16) - (offset * slope) - yIntercept;
+            //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
+        }
+        public void AdjustGentle2SlopeLeftCollision(Tile tile)
+        {
+            Rectangle intersection = tile.rectangle;
+            float offset = position.X - intersection.X;
+            //Debug.WriteLine($"Starting Y position: {position.Y}");
+            float slope = Constants.Collision.GENTLE2_SLOPE_LEFT_M;
+            float yIntercept = Constants.Collision.GENTLE2_SLOPE_LEFT_YINTERCEPT;
+            position.Y = (intersection.Y + 16) - (offset * slope) - yIntercept;
+            //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
+        }
 
-        //}
+        public void AdjustSteepSlopeLeftCollision(Tile tile)
+        {
+            Rectangle intersection = tile.rectangle;
+            float offset = position.X - intersection.X;
+            //Debug.WriteLine($"Starting Y position: {position.Y}");
+            float slope = Constants.Collision.STEEP_SLOPE_LEFT_M;
+            float yIntercept = Constants.Collision.STEEP_SLOPE_LEFT_YINTERCEPT;
+            position.Y = (intersection.Y + 16) - (offset * slope) - yIntercept;
+            //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
+        }
+
+        public void AdjustGentle1SlopeRightCollision(Tile tile)
+        {
+            Rectangle intersection = tile.rectangle;
+            float offset = position.X - intersection.X;
+            Debug.WriteLine($"Starting Y position: {position.Y}");
+            float slope = Constants.Collision.GENTLE1_SLOPE_LEFT_M;
+            float yIntercept = Constants.Collision.GENTLE1_SLOPE_LEFT_YINTERCEPT;
+            position.Y = (intersection.Y + 16) - (offset * slope) - yIntercept;
+            //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
+        }
+
+        public void AdjustGentle2SlopeRightCollision(Tile tile)
+        {
+            Rectangle intersection = tile.rectangle;
+            float offset = position.X - intersection.X;
+            Debug.WriteLine($"Starting Y position: {position.Y}");
+            float slope = Constants.Collision.GENTLE2_SLOPE_RIGHT_M;
+            float yIntercept = Constants.Collision.GENTLE2_SLOPE_RIGHT_YINTERCEPT;
+            position.Y = (intersection.Y + 16) - (offset * slope) - yIntercept;
+            //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
+        }
+
+        public void AdjustSteepSlopeRightCollision(Tile tile)
+        {
+            Rectangle intersection = tile.rectangle;
+            float offset = position.X - intersection.X;
+            //Debug.WriteLine($"Starting Y position: {position.Y}");
+            float slope = Constants.Collision.STEEP_SLOPE_RIGHT_M;
+            float yIntercept = Constants.Collision.STEEP_SLOPE_RIGHT_YINTERCEPT;
+            position.Y = (intersection.Y + 16) - (offset * slope) - yIntercept;
+            Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
+        }
         #endregion
     }
 }

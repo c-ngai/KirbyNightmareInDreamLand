@@ -6,6 +6,7 @@ using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 using System;
+using KirbyNightmareInDreamLand.Levels;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -201,9 +202,13 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             //if (state.ShouldFallThroughTile())
             //{
-                //movement.ChangeKirbyLanded(false);
+            //movement.ChangeKirbyLanded(false);
                 Fall();
             //}
+        }
+        public void CollisionWithGentle1SlopeLeft(Tile tile)
+        {
+
         }
     }
 }

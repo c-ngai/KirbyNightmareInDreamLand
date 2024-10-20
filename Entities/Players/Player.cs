@@ -6,6 +6,7 @@ using KirbyNightmareInDreamLand.StateMachines;
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using KirbyNightmareInDreamLand.Levels;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -501,6 +502,35 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
         }
 
+        public void CollisionWithGentle1LeftSlope(Tile tile)
+        {
+            movement.AdjustGentle1SlopeLeftCollision(tile);
+        }
+
+        public void CollisionWithGentle2LeftSlope(Tile tile)
+        {
+            movement.AdjustGentle2SlopeLeftCollision(tile);
+        }
+
+        public void CollisionWithSteepLeftSlope(Tile tile)
+        {
+            movement.AdjustSteepSlopeLeftCollision(tile);
+        }
+
+        public void CollisionWithGentle1RightSlope(Tile tile)
+        {
+            movement.AdjustGentle1SlopeRightCollision(tile);
+        }
+
+        public void CollisionWithGentle2RightSlope(Tile tile)
+        {
+            movement.AdjustGentle2SlopeRightCollision(tile);
+        }
+
+        public void CollisionWithSteepRightSlope(Tile tile)
+        {
+            movement.AdjustSteepSlopeRightCollision(tile);
+        }
         #endregion
     }
 

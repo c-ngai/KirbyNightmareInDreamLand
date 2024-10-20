@@ -3,6 +3,7 @@ using KirbyNightmareInDreamLand.Entities.Players;
 using KirbyNightmareInDreamLand.Entities.Enemies;
 using KirbyNightmareInDreamLand.Projectiles;
 using KirbyNightmareInDreamLand.Collision;
+using KirbyNightmareInDreamLand.Levels;
 namespace KirbyNightmareInDreamLand.Actions
 {
     public class TileCollisionActions
@@ -87,32 +88,97 @@ namespace KirbyNightmareInDreamLand.Actions
 
         public static void GentleLeftSlopeCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-
+            string type = object1.GetObjectType();
+            Tile tile = (Tile)object2;
+            if (type.Equals("Player"))
+            {
+                Player player = (Player)object1;
+            
+                player.CollisionWithGentle1LeftSlope(tile);
+            }
+            else if (type.Equals("Enemy"))
+            {
+                Enemy enemy = (Enemy)object1;
+                enemy.CollisionWithGentle1SlopeLeft(tile);
+            }
         }
 
         public static void GentleRightSlopeCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
+            string type = object1.GetObjectType();
+            Tile tile = (Tile)object2;
+            if (type.Equals("Player"))
+            {
+                Player player = (Player)object1;
 
+                player.CollisionWithGentle1RightSlope(tile);
+            }
+            else if (type.Equals("Enemy"))
+            {
+
+            }
         }
 
         public static void MediumLeftSlopeCollison(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
+            string type = object1.GetObjectType();
+            Tile tile = (Tile)object2;
+            if (type.Equals("Player"))
+            {
+                Player player = (Player)object1;
 
+                player.CollisionWithGentle2LeftSlope(tile);
+            }
+            else if (type.Equals("Enemy"))
+            {
+            }
         }
 
         public static void MediumRightSlopeCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
+            string type = object1.GetObjectType();
+            Tile tile = (Tile)object2;
+            if (type.Equals("Player"))
+            {
+                Player player = (Player)object1;
 
+                player.CollisionWithGentle2RightSlope(tile);
+            }
+            else if (type.Equals("Enemy"))
+            {
+
+            }
         }
 
         public static void SteepLeftSlopeCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
+            string type = object1.GetObjectType();
+            Tile tile = (Tile)object2;
+            if (type.Equals("Player"))
+            {
+                Player player = (Player)object1;
 
+                player.CollisionWithSteepLeftSlope(tile);
+            }
+            else if (type.Equals("Enemy"))
+            {
+            }
         }
 
         public static void SteepRightSlopeCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
+            string type = object1.GetObjectType();
+            Tile tile = (Tile)object2;
+            if (type.Equals("Player"))
+            {
+                Player player = (Player)object1;
 
+                player.CollisionWithSteepRightSlope(tile);
+            }
+            else if (type.Equals("Enemy"))
+            {
+
+            }
         }
     }
 }
