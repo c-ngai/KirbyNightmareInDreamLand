@@ -32,7 +32,7 @@ namespace KirbyNightmareInDreamLand.Actions
         //kirby collides with an enemy attack 
         public static void KirbyEnemyAttackCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            Player player = (Player)object1;
+            Player player = (Player)object2;
             player.TakeDamage(intersection);
 
             if (object1 is IExplodable projectile)
