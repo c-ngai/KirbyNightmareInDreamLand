@@ -190,5 +190,13 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             position.Y = intersection.Y;
             yVel = 0;
         }
+        public void BottomCollisionWithAir(Rectangle intersection)
+        {
+            //if (state.ShouldFallThroughTile())
+            //{
+                //movement.ChangeKirbyLanded(false);
+                Fall();
+            //}
+        }
     }
 }
