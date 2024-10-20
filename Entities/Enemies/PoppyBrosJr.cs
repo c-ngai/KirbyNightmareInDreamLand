@@ -16,6 +16,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             stateMachine.ChangePose(EnemyPose.Hop);
             ChangeState(new PoppyBrosJrHopState(this));
             //TO-DO: spawn facing the direction kirby is in
+            yVel = 0;
+            xVel = Constants.PoppyBrosJr.MOVE_SPEED;
         }
 
         public override void Move()
@@ -23,11 +25,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             // Handles x movement. Walking back and forth until left/right boundary
             if (stateMachine.IsLeft())
             {
-                position.X -= Constants.PoppyBrosJr.MOVE_SPEED;
+                position.X -= xVel;
             }
             else
             {
-                position.X += Constants.PoppyBrosJr.MOVE_SPEED;
+                position.X += xVel;
             }
             Hop();
         }
@@ -39,7 +41,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             float t = (float)hopCounter / Constants.PoppyBrosJr.HOP_FREQUENCY;
 
             // Smooth hopping math
-            position.Y -= (float)(Math.Sin(t * Math.PI * 2) * Constants.PoppyBrosJr.HOP_HEIGHT / 2);
+            yVel = (float)(Math.Sin(t * Math.PI * 2) * Constants.PoppyBrosJr.HOP_HEIGHT / 2);
+            position.Y -= yVel;
 
             // Reset hop counter for cycle
             if (hopCounter >= Constants.PoppyBrosJr.HOP_FREQUENCY)

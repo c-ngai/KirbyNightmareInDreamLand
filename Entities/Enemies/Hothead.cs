@@ -27,6 +27,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             flamethrowerFrameCounter = 0;
             currentState = new HotheadWalkingState(this);
             //TO-DO: spawn facing the direction kirby is in
+            yVel = 0;
+            xVel = Constants.Hothead.MOVE_SPEED;
         }
 
         public override void Update(GameTime gameTime)
@@ -70,11 +72,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             // Walking back and forth in X axis 
             if (stateMachine.IsLeft())
             {
-                position.X -= Constants.Hothead.MOVE_SPEED;
+                position.X -= xVel;
             }
             else
             {
-                position.X += Constants.Hothead.MOVE_SPEED;
+                position.X += xVel;
             }
         }
 
