@@ -39,7 +39,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             isDead = false;
             xVel = 0;
             yVel = 0;
-            isFalling = false;
+            isFalling = true;
             gravity = Constants.Physics.GRAVITY;
             stateMachine = new EnemyStateMachine(type);
             oldState = string.Empty;
@@ -147,7 +147,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 currentState.Update();
                 UpdateTexture();
                 enemySprite.Update();
-                GetHitBox();
+                GetHitBox(); // Ensure hitbox is updated
+
             } else {
                 CollisionActive = false;
             }
@@ -172,8 +173,9 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void Fall()
         {
-            // isFalling = true;
-            yVel = gravity;
+            isFalling = true;
+            yVel += gravity;  // Increase vertical velocity by gravity
+            position.Y += yVel;  // Apply the updated velocity to the enemy's Y position
         }
 
         public abstract void Move();
@@ -199,11 +201,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         }
         public void BottomCollisionWithAir(Rectangle intersection)
         {
-            //if (state.ShouldFallThroughTile())
-            //{
-                //movement.ChangeKirbyLanded(false);
-                Fall();
-            //}
+            isFalling = true;
         }
     }
 }

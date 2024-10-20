@@ -20,23 +20,28 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             currentState = new WaddleDeeWalkingState(this);
             //TO-DO: spawn facing the direction kirby is in
             stateMachine.ChangeDirection();
-            yVel = 0;
             xVel = Constants.WaddleDee.MOVE_SPEED;
         }
 
         public override void Move()
         {
-            //X movement logic. Moves until boundaries
-            if (stateMachine.IsLeft())
+            if (IsFalling) // Prioritize falling if in the air
             {
-                position.X -= xVel;
-                //change direction only if collide with block left/right
+                Fall();
             }
             else
             {
-                position.X += xVel;
-
+                // X movement logic. Moves until boundaries
+                if (stateMachine.IsLeft())
+                {
+                    position.X -= xVel;
+                }
+                else
+                {
+                    position.X += xVel;
+                }
             }
+
         }
     }
 }

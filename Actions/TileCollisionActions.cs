@@ -75,8 +75,16 @@ namespace KirbyNightmareInDreamLand.Actions
 
         public static void BottomAirCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            Player currentPlayer = (Player)object1;
-            currentPlayer.BottomCollisionWithAir(intersection);
+            string type = object1.GetObjectType();
+            if (type.Equals("Player"))
+            {
+                Player currentPlayer = (Player)object1;
+                currentPlayer.BottomCollisionWithAir(intersection);
+            } else if (type.Equals("Enemy"))
+            {
+                Enemy enemy = (Enemy)object1;
+                enemy.BottomCollisionWithAir(intersection);
+            }
         }
 
         public static void WaterCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
