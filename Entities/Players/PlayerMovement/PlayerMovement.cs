@@ -20,6 +20,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public ITimeCalculator timer;
         protected bool landed = true;
 
+        private int levelBoundsLeft = 10;
+        private int levelBoundsRight = Game1.Instance.Level.CurrentRoom.Width -10;
+
         protected Vector2 position;
         //constructor
         public PlayerMovement(Vector2 pos)
@@ -133,6 +136,17 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
 
         }
+        public virtual void AdjustX(Player kirby)
+        {
+            if(position.X < levelBoundsLeft)
+            {
+                position.X = levelBoundsLeft;
+            }
+            if(position.X > levelBoundsRight)
+            {
+                position.X = levelBoundsRight;
+            }
+        }
         public virtual void AdjustY(Player kirby)
         {
             //dont go through the floor
@@ -151,6 +165,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //ensures sprite does not leave the window
         public virtual void Adjust(Player kirby)
         {
+            AdjustX(kirby);
             AdjustY(kirby);
         }
         //updates position and adjusts frame. 
