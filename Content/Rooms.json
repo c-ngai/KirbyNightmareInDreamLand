@@ -101,8 +101,8 @@
         "Enemies": [
             {
                 "EnemyType": "WaddleDee",
-                "SpawnTileX": 19,
-                "SpawnTileY": 6
+                "SpawnTileX": 15,
+                "SpawnTileY": 7
             },
             {
                 "EnemyType": "WaddleDoo",
@@ -135,11 +135,11 @@
                 "SpawnTileX": 37,
                 "SpawnTileY": 6
             },
-            {
-                "EnemyType": "Hothead",
-                "SpawnTileX": 55,
-                "SpawnTileY": 6
-            }
+          {
+            "EnemyType": "Hothead",
+            "SpawnTileX": 55,
+            "SpawnTileY": 6
+          }
         ]
     },
 

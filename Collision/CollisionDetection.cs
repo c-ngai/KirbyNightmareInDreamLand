@@ -4,6 +4,7 @@ using KirbyNightmareInDreamLand.Collision;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -121,7 +122,10 @@ namespace KirbyNightmareInDreamLand
                         string type1 = manager.DynamicObjects[i].GetObjectType();
                         string type2 = manager.DynamicObjects[j].GetObjectType();
                         Tuple<string, string, CollisionSide> key = new Tuple<string, string, CollisionSide>(type1, type2, side);
-                        if (response.collisionMapping.ContainsKey(key)) response.ExecuteCollision(manager.DynamicObjects[i], manager.DynamicObjects[j], side);
+                        if (response.collisionMapping.ContainsKey(key))
+                        {
+                            response.ExecuteCollision(manager.DynamicObjects[i], manager.DynamicObjects[j], side);
+                        }
                     }
                 }
             }
@@ -134,7 +138,6 @@ namespace KirbyNightmareInDreamLand
             {
                 //DynamicObjects.RemoveAll(obj => !obj.CollisionActive);
                 // Check dynamic objects against static objects
-
                 StaticCollisionCheck();
                 // Check dynamic objects against each other, avoiding duplicate tests
                 //add check for enemies not colliding with each other?? probably within their ouwn class

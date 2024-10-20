@@ -22,11 +22,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
         {
             _enemy.Move(); // Execute walking movement logic
 
-            if (_enemy.FrameCounter >= Constants.WaddleDoo.WALK_FRAMES)
-            {
-                _enemy.ChangeState(new WaddleDooChargingState(_enemy));
-                _enemy.UpdateTexture();
-            }
+                if (_enemy.FrameCounter >= Constants.WaddleDoo.WALK_FRAMES)
+                {
+                    _enemy.ChangeState(new WaddleDooChargingState(_enemy));
+                    _enemy.UpdateTexture();
+                }
         }
 
         public void Exit()

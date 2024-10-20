@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using KirbyNightmareInDreamLand.Collision;
 using KirbyNightmareInDreamLand.Entities.Enemies;
 using KirbyNightmareInDreamLand.Entities.Players;
 using System.Collections.Generic;
@@ -7,6 +6,7 @@ using System;
 using KirbyNightmareInDreamLand.Projectiles;
 using System.Runtime.Serialization;
 using KirbyNightmareInDreamLand.Entities.PowerUps;
+using System.Diagnostics;
 
 namespace KirbyNightmareInDreamLand.Actions
 {
@@ -82,5 +82,13 @@ namespace KirbyNightmareInDreamLand.Actions
                 star.EndAttack(); //change skirby to mouthful
             }
         }
-    }   
+     
+        public static void EntityCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
+        {
+            Player player = (Player)object2;
+            Enemy enemy = (Enemy)object1;
+            player.TakeDamage();
+            enemy.TakeDamage();
+        }
+    }
 }

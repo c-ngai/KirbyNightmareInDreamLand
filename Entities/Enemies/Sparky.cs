@@ -19,27 +19,31 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             //initialize to hop
             stateMachine.ChangePose(EnemyPose.Hop);
             ChangeState(new SparkyPause1State(this)); // Set initial state
-            //TO-DO: face Kirby and move towards
+            yVel = 0;
+            xVel = Constants.Sparky.HOP_SPEED;
         }
 
         public override void Move()
         {
             //Keeps track of number of hoops
             hopCounter++;
-  
+
             float t = (float)hopCounter / Constants.Sparky.HOP_FREQUENCY;
 
             //Y movement calculations for smooth hops
-            position.Y -= (float)(Math.Sin(t * Math.PI * 2) * currentHopHeight / 2);
+            yVel = (float)(Math.Sin(t * Math.PI * 2) * currentHopHeight / 2);
+            position.Y -= yVel;
 
             // X movement. Check direction for boundaries 
             if (!stateMachine.IsLeft())
             {
-                position.X += Constants.Sparky.HOP_SPEED;
+                //position.X += Constants.Sparky.HOP_SPEED;
+                position.X += xVel;
             }
             else
             {
-                position.X -= Constants.Sparky.HOP_SPEED;
+                //position.X -= Constants.Sparky.HOP_SPEED;
+                position.X -= xVel;
             }
 
             // Reset and repeat hops

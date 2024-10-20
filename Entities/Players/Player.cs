@@ -494,7 +494,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void BottomCollisionWithAir(Rectangle intersection)
         {
-            if (state.ShouldFallOffBlock())
+            if (state.ShouldFallThroughTile())
             {
                 movement.ChangeKirbyLanded(false);
                 movement.Fall();

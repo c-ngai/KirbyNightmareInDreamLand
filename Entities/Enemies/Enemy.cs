@@ -14,14 +14,22 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         protected Vector2 position; //Where enemy is drawn on screen
         protected int health; //Enemy health
         protected bool isDead;  //If enemy is dead
-        protected Sprite enemySprite;   
+        protected Sprite enemySprite;
         protected EnemyStateMachine stateMachine;
         protected IEnemyState currentState; // Current state of the enemy
-       // protected Vector2 leftBoundary; //Boundaries for where enemy will turn around on screen
-       // protected Vector2 rightBoundary;
         protected string oldState; //Previous state
         protected int frameCounter; // Frame counter for tracking state duration
-        public bool CollisionActive { get; set;} = true;
+        protected float xVel;
+        protected float yVel;
+        protected float gravity;
+        protected Boolean isFalling;
+
+        public bool CollisionActive { get; set; } = true;
+
+          public bool IsFalling
+          {
+              get => isFalling; 
+          }
 
         protected Enemy(Vector2 startPosition, EnemyType type)
         {
@@ -29,13 +37,16 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             position = startPosition;
             health = 1;
             isDead = false;
+            xVel = 0;
+            yVel = 0;
+            isFalling = false;
+            gravity = Constants.Physics.GRAVITY;
             stateMachine = new EnemyStateMachine(type);
             oldState = string.Empty;
             currentState = new WaddleDooWalkingState(this); // Initialize with the walking state
             ObjectManager.Instance.RegisterDynamicObject(this);
             currentState.Enter();
             frameCounter = 0; 
-            ObjectManager.Instance.RegisterDynamicObject(this);
         }
 
         public string GetObjectType()
@@ -45,7 +56,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public Vector2 Position
         {
-            get => position; 
+            get => position;
             set => position = value;
         }
         public Sprite EnemySprite
@@ -154,6 +165,19 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 ObjectManager.Instance.RemoveDynamicObject(this); // Deregister if dead
             }
         }
+
+        public virtual void Attack() { }
+
+        public virtual void Jump() { }
+
+        public virtual void Fall()
+        {
+            // isFalling = true;
+            yVel = gravity;
+        }
+
+        public abstract void Move();
+
         public virtual Vector2 CalculateRectanglePoint(Vector2 pos)
         {
             float x = pos.X - Constants.HitBoxes.ENTITY_WIDTH/2;
@@ -167,18 +191,19 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
         }
 
-        public virtual void Attack() { }
-
-        public virtual void Jump() { }
-
-        public virtual void Fall() { }
-
-        public abstract void Move();
-
-
-        public void BottomCollisionWithBlock(Rectangle intersection)
+        public virtual void BottomCollisionWithBlock(Rectangle intersection)
         {
+            isFalling = false;
             position.Y = intersection.Y;
+            yVel = 0;
+        }
+        public void BottomCollisionWithAir(Rectangle intersection)
+        {
+            //if (state.ShouldFallThroughTile())
+            //{
+                //movement.ChangeKirbyLanded(false);
+                Fall();
+            //}
         }
     }
 }

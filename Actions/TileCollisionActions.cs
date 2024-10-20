@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using KirbyNightmareInDreamLand.Entities.Players;
 using KirbyNightmareInDreamLand.Entities.Enemies;
+using KirbyNightmareInDreamLand.Projectiles;
 using KirbyNightmareInDreamLand.Collision;
 namespace KirbyNightmareInDreamLand.Actions
 {
@@ -21,7 +22,8 @@ namespace KirbyNightmareInDreamLand.Actions
             }
             else
             {
-
+                IExplodable projectile = (IExplodable)object1;
+                projectile.CollisionWithBlock(intersection);
             }
         }
 
@@ -37,6 +39,11 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 Enemy enemy = (Enemy)object1;
                 enemy.ChangeDirection();
+            }
+            else
+            {
+                IExplodable projectile = (IExplodable)object1;
+                projectile.CollisionWithBlock(intersection);
             }
         }
 
@@ -55,7 +62,8 @@ namespace KirbyNightmareInDreamLand.Actions
             }
             else
             {
-
+                IExplodable projectile = (IExplodable)object1;
+                projectile.CollisionWithBlock(intersection);
             }
         }
 

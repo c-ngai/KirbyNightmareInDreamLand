@@ -148,7 +148,7 @@ namespace KirbyNightmareInDreamLand.StateMachines
             return checkOne || checkTwo || checkThree;
         }
 
-        public bool ShouldFallOffBlock()
+        public bool ShouldFallThroughTile()
         {
             return !IsJumping() && !IsInAir();
         }
