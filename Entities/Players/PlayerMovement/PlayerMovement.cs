@@ -186,7 +186,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void ChangeKirbyLanded(bool land)
         {
-            System.Console.WriteLine(landed);
             landed = land;
         }
 
