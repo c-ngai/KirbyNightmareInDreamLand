@@ -340,6 +340,13 @@ namespace KirbyNightmareInDreamLand
             #endregion
 
             #region Player-Enemy Collisions
+            key1 = "Enemy";
+            key2 = "Player";
+            action1 = DynamicCollisionActions.EntityCollision;
+            for (int j = 0; j < Constants.HitBoxes.SIDES; j++)
+            {
+                collisionResponse.RegisterCollision(key1, key2, (CollisionSide)j, action1, null);
+            }
             #endregion
 
             Debug.WriteLine("Dictionary after collisionMapping");
