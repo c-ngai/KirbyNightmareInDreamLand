@@ -167,6 +167,7 @@ namespace KirbyNightmareInDreamLand
             manager.EnemyList[manager.CurrentEnemyIndex].Update(time);
 
             ObjectManager.Instance.OrganizeList();
+
             CollisionDetection.Instance.CheckCollisions();
 
             Level.UpdateLevel();

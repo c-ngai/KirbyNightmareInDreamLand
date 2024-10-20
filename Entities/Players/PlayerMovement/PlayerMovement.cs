@@ -21,7 +21,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         protected bool landed = true;
 
         private int levelBoundsLeft = 10;
-        private int levelBoundsRight = Game1.Instance.Level.CurrentRoom.Width -10;
+        private int levelBoundsRight = -10;
 
         protected Vector2 position;
         //constructor
@@ -138,13 +138,15 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public virtual void AdjustX(Player kirby)
         {
+            //checks kirby wont go through the level bounds 
+            //the +/- 10 is on sprite size
             if(position.X < levelBoundsLeft)
             {
                 position.X = levelBoundsLeft;
             }
-            if(position.X > levelBoundsRight)
+            if(position.X > Game1.Instance.Level.CurrentRoom.Width + levelBoundsRight)
             {
-                position.X = levelBoundsRight;
+                position.X = Game1.Instance.Level.CurrentRoom.Width + levelBoundsRight;
             }
         }
         public virtual void AdjustY(Player kirby)
