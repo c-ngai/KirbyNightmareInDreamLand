@@ -41,6 +41,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 // Update the sprite and fireballs
                 enemySprite.Update();
                 UpdateFireballs();
+                GetHitBox();
 
                 // Update flamethrower if active
                 if (isFlamethrowerActive)
@@ -64,6 +65,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         private Vector2 ProjectilePosition()
         {
             // Adjust flamethrower position based on Hothead's facing direction
+            //no magic numbers
             return stateMachine.IsLeft() ? new Vector2(position.X - 18, position.Y - 7 ) : new Vector2(position.X + 18, position.Y - 7);
         }
 

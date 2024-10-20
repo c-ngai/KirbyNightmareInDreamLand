@@ -20,6 +20,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public ITimeCalculator timer;
         protected bool landed = true;
 
+        private int levelBoundsLeft = 10;
+        private int levelBoundsRight = -10;
+
         protected Vector2 position;
         //constructor
         public PlayerMovement(Vector2 pos)
@@ -80,9 +83,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             //overwritten by other methods
         }
-        public void ReceiveDamage(bool isLeft)
+        public void ReceiveDamage(Rectangle intersection)
         {
-            if (isLeft)
+            if (intersection.X <= position.X) 
             {
                 xVel = damageVel;
             }
@@ -102,16 +105,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #endregion
 
         #region slide
-        public void Slide(bool isLeft)
+        public virtual void Slide(Player kirby)
         {
             //slideStarting = kirby.PositionX;
-            if (isLeft)
+            if(kirby.IsSliding())
             {
-                xVel = runningVel * -1;
-            }
-            else
-            {
-                xVel = runningVel;
+                xVel = kirby.IsLeft() ? runningVel * -1 :runningVel;
             }
         }
 
@@ -119,11 +118,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         #region Floating
         //starts floating pose animation
-        public async void StartFloating(Player kirby)
-        {
-            kirby.ChangePose(KirbyPose.FloatingStart);
-            await Task.Delay(Constants.Physics.DELAY);
-        }
         #endregion
 
         public virtual void Jump(bool isLeft)
@@ -142,21 +136,19 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
 
         }
-
-        // checks palyer doesnt go out of frame (up and down)
         public virtual void AdjustX(Player kirby)
         {
-            // if(position.X > Constants.Graphics.GAME_WIDTH)
-            // {
-            //     position.X  = Constants.Graphics.GAME_WIDTH;  
-            // }
-            // if(position.X < 0)
-            // {
-            //     position.X  = 0;  
-            // }
+            //checks kirby wont go through the level bounds 
+            //the +/- 10 is on sprite size
+            if(position.X < levelBoundsLeft)
+            {
+                position.X = levelBoundsLeft;
+            }
+            if(position.X > Game1.Instance.Level.CurrentRoom.Width + levelBoundsRight)
+            {
+                position.X = Game1.Instance.Level.CurrentRoom.Width + levelBoundsRight;
+            }
         }
-
-
         public virtual void AdjustY(Player kirby)
         {
             //dont go through the floor
@@ -175,7 +167,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //ensures sprite does not leave the window
         public virtual void Adjust(Player kirby)
         {
-            //AdjustX(kirby);  // Turning this off temporarily  -Mark
+            AdjustX(kirby);
             AdjustY(kirby);
         }
         //updates position and adjusts frame. 
@@ -202,13 +194,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             yVel = 0;
         }
 
-        public void AdjustFromRightCollisionBlock(Rectangle intersection)
+        public virtual void AdjustFromRightCollisionBlock(Rectangle intersection)
         {
             position.X -= intersection.Width;
             xVel = 0;
         }
 
-        public void AdjustFromLeftCollisionBlock(Rectangle intersection)
+        public virtual void AdjustFromLeftCollisionBlock(Rectangle intersection)
         {
             position.X += intersection.Width;
             xVel = 0;

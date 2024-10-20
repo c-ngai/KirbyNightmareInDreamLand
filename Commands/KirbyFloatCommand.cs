@@ -17,7 +17,7 @@ namespace KirbyNightmareInDreamLand.Commands
             // If kirby is not in a door, float
             if (!_game.Level.atDoor(_player.GetKirbyPosition()))
             {
-                _player.Float();
+                ObjectManager.Instance.Players[0].Float();
             }
         }
     }

@@ -46,7 +46,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             currentState = new WaddleDooWalkingState(this); // Initialize with the walking state
             ObjectManager.Instance.RegisterDynamicObject(this);
             currentState.Enter();
-            frameCounter = 0;
+            frameCounter = 0; 
         }
 
         public string GetObjectType()
@@ -81,7 +81,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             get { return frameCounter; }
         }
-
+        public String GetCollisionType()
+        {
+            return "Enemy";
+        }
         public void IncrementFrameCounter()
         {
             frameCounter++;
@@ -109,9 +112,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             currentState.Enter();
         }
 
-        public void TakeDamage()
+        public void TakeDamage(Rectangle intersection)
         {
             currentState.TakeDamage(); // Delegate to current state
+            CollisionActive = false;
         }
 
         public void ChangeDirection()
@@ -143,6 +147,9 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 currentState.Update();
                 UpdateTexture();
                 enemySprite.Update();
+                GetHitBox();
+            } else {
+                CollisionActive = false;
             }
         }
 
@@ -173,10 +180,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual Vector2 CalculateRectanglePoint(Vector2 pos)
         {
-            float x = pos.X - Constants.HitBoxes.ENTITY_WIDTH / 2;
+            float x = pos.X - Constants.HitBoxes.ENTITY_WIDTH/2;
             float y = pos.Y - Constants.HitBoxes.ENTITY_HEIGHT;
             Vector2 rectPoint = new Vector2(x, y);
-            return rectPoint;
+            return rectPoint; 
         }
         public virtual Rectangle GetHitBox()
         {

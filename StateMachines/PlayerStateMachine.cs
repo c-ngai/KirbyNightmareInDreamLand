@@ -75,9 +75,17 @@ namespace KirbyNightmareInDreamLand.StateMachines
         {
             return (GetPose() == KirbyPose.Attacking) || (GetPose() == KirbyPose.Inhaling)|| (GetPose() == KirbyPose.Sliding);
         }
+        public bool IsWithEnemy()
+        {
+            return GetKirbyType() == (KirbyType.Mouthful);
+        }
         public bool IsSliding()
         {
             return GetPose() == KirbyPose.Sliding;
+        }
+        public bool IsFalling()
+        {
+            return GetPose() == KirbyPose.FreeFall;
         }
 
         public bool CanMove()
@@ -95,17 +103,25 @@ namespace KirbyNightmareInDreamLand.StateMachines
 
         public bool CanFloat() //crouching and sliding cannot be overwritten by float 
         {
-            return !IsCrouching() && !IsAttacking(); //&& !IsFloating()
+            return !IsCrouching() && !IsAttacking() && !IsWithEnemy(); //&& !IsFloating()
         }
         public bool CanCrouch() //crouch does not overwrite jump and floating
         {
-            return !IsJumping() && !IsFloating() && !IsAttacking();
+            return !IsJumping() && !IsFloating() && !IsAttacking() && !IsWithEnemy();
         }
         public bool CanStand()
         {
             return !IsJumping() && !IsFloating();
         }
 
+        public bool LongAttack()
+        {
+            return (GetKirbyType() == KirbyType.Normal) || (GetKirbyType() == KirbyType.Fire) || (GetKirbyType() == KirbyType.Spark);
+        }
+        public bool ShortAttack()
+        {
+            return (GetKirbyType() == KirbyType.Beam) || (GetKirbyType() == KirbyType.Mouthful) || IsFloating() || IsCrouching(); //&& !IsFalling());
+        }
         public string[] GetSpriteParameters()
         {
             string[] spriteParameters = new string[4];

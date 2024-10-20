@@ -22,7 +22,7 @@ namespace KirbyNightmareInDreamLand.Commands
 
         public void Execute()
         {
-            kirby.Crouch();
+            ObjectManager.Instance.Players[0].Crouch();
             // if (keyboard.currentState.Contains(attackKey))
             // {
             //     keyboard.stopKeys[crouchKey].Execute();

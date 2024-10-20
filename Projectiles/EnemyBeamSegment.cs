@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
+using System;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 
 namespace KirbyNightmareInDreamLand.Projectiles
@@ -24,7 +25,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
             get => velocity;
             set => velocity = value;
         }
-
+        public string GetObjectType()
+        {
+            return "EnemyAttack";
+        }
         public EnemyBeamSegment(Vector2 startPosition, Vector2 beamVelocity)
         {
             Position = startPosition;
@@ -33,10 +37,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
             ObjectManager.Instance.RegisterDynamicObject(this);
         }
 
-        public string GetObjectType()
-        {
-            return "Projectile";
-        }
 
         public void Update()
         {

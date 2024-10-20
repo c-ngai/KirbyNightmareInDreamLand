@@ -19,7 +19,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public bool CollisionActive { get; private set;} = true;
         public string GetObjectType()
         {
-            return "Projectile";
+            return "PlayerAttack";
         }
         public Vector2 Position
         {
