@@ -14,7 +14,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public WaddleDee(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDee)
         {
             //Set pose and sprite
-            Debug.WriteLine("Hello from Waddle Dee:" + startPosition);
+            //Debug.WriteLine("Hello from Waddle Dee:" + startPosition);
 
             UpdateTexture();
             currentState = new WaddleDeeWalkingState(this);
@@ -25,12 +25,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public override void Move()
         {
-            if (IsFalling) // Prioritize falling if in the air
-            {
-                Fall();
-            }
-            else
-            {
                 // X movement logic. Moves until boundaries
                 if (stateMachine.IsLeft())
                 {
@@ -44,4 +38,3 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         }
     }
-}

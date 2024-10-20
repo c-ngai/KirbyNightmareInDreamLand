@@ -6,6 +6,7 @@ using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 using System;
+using System.Diagnostics;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -22,14 +23,16 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         protected float xVel;
         protected float yVel;
         protected float gravity;
-        protected Boolean isFalling;
+        //protected Boolean isFalling;
 
         public bool CollisionActive { get; set; } = true;
 
+        /*
           public bool IsFalling
           {
               get => isFalling; 
           }
+        */
 
         protected Enemy(Vector2 startPosition, EnemyType type)
         {
@@ -39,7 +42,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             isDead = false;
             xVel = 0;
             yVel = 0;
-            isFalling = true;
             gravity = Constants.Physics.GRAVITY;
             stateMachine = new EnemyStateMachine(type);
             oldState = string.Empty;
@@ -148,7 +150,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 UpdateTexture();
                 enemySprite.Update();
                 GetHitBox(); // Ensure hitbox is updated
-
             } else {
                 CollisionActive = false;
             }
@@ -173,7 +174,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void Fall()
         {
-            isFalling = true;
             yVel += gravity;  // Increase vertical velocity by gravity
             position.Y += yVel;  // Apply the updated velocity to the enemy's Y position
         }
@@ -195,13 +195,13 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void BottomCollisionWithBlock(Rectangle intersection)
         {
-            isFalling = false;
             position.Y = intersection.Y;
             yVel = 0;
         }
         public void BottomCollisionWithAir(Rectangle intersection)
         {
-            isFalling = true;
+            //COLLISON WARNING: UNCOMMENT TO TEST
+            //Fall();
         }
     }
 }
