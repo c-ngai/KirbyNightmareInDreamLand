@@ -4,6 +4,7 @@ using KirbyNightmareInDreamLand.Entities.Enemies;
 using KirbyNightmareInDreamLand.Projectiles;
 using KirbyNightmareInDreamLand.Collision;
 using KirbyNightmareInDreamLand.Levels;
+using System.Diagnostics;
 namespace KirbyNightmareInDreamLand.Actions
 {
     public class TileCollisionActions
@@ -76,8 +77,18 @@ namespace KirbyNightmareInDreamLand.Actions
 
         public static void BottomAirCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            Player currentPlayer = (Player)object1;
-            currentPlayer.BottomCollisionWithAir(intersection);
+            string type = object1.GetObjectType();
+            //Debug.WriteLine($"type: {type}");
+            if (type.Equals("Player"))
+            {
+                Player currentPlayer = (Player)object1;
+                currentPlayer.BottomCollisionWithAir(intersection);
+            }
+            else if (type.Equals("Enemy"))
+            {
+                Enemy enemy = (Enemy)object1;
+                enemy.BottomCollisionWithAir(intersection);
+            }
         }
 
         public static void WaterCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
@@ -99,7 +110,7 @@ namespace KirbyNightmareInDreamLand.Actions
             else if (type.Equals("Enemy"))
             {
                 Enemy enemy = (Enemy)object1;
-                enemy.CollisionWithGentle1SlopeLeft(tile);
+                enemy.AdjustGentle1SlopeLeftCollision(tile);
             }
         }
 
@@ -115,7 +126,8 @@ namespace KirbyNightmareInDreamLand.Actions
             }
             else if (type.Equals("Enemy"))
             {
-
+                Enemy enemy = (Enemy)object1;
+                enemy.AdjustGentle1SlopeRightCollision(tile);
             }
         }
 
@@ -131,6 +143,8 @@ namespace KirbyNightmareInDreamLand.Actions
             }
             else if (type.Equals("Enemy"))
             {
+                Enemy enemy = (Enemy)object1;
+                enemy.AdjustGentle2SlopeLeftCollision(tile);
             }
         }
 
@@ -146,7 +160,8 @@ namespace KirbyNightmareInDreamLand.Actions
             }
             else if (type.Equals("Enemy"))
             {
-
+                Enemy enemy = (Enemy)object1;
+                enemy.AdjustGentle2SlopeRightCollision(tile);
             }
         }
 
@@ -162,6 +177,8 @@ namespace KirbyNightmareInDreamLand.Actions
             }
             else if (type.Equals("Enemy"))
             {
+                Enemy enemy = (Enemy)object1;
+                enemy.AdjustSteepSlopeLeftCollision(tile);
             }
         }
 
@@ -177,7 +194,8 @@ namespace KirbyNightmareInDreamLand.Actions
             }
             else if (type.Equals("Enemy"))
             {
-
+                Enemy enemy = (Enemy)object1;
+                enemy.AdjustSteepSlopeRightCollision(tile);
             }
         }
     }

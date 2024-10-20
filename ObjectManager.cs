@@ -50,6 +50,7 @@ namespace KirbyNightmareInDreamLand
         {
             DynamicObjects = new List<ICollidable>();
             StaticObjects = new List<ICollidable>();
+            Players = new List<IPlayer>();
             InitializeTileTypes();
         }
 
@@ -66,12 +67,6 @@ namespace KirbyNightmareInDreamLand
             Players = new List<IPlayer>();
             IPlayer kirby = new Player(new Vector2(30, Constants.Graphics.FLOOR));
             Players.Add(kirby);
-
-            Debug.WriteLine("Created Kirby ");
-            foreach (var dynamicOb in DynamicObjects)
-            {
-                Debug.WriteLine($"dynamic object: {dynamicOb}\n");
-            }
             // Target the camera on Kirby
             Camera camera = Game1.Instance.Camera;
             camera.TargetPlayer(Players[0]);
