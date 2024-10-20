@@ -1,10 +1,10 @@
 Sprint 2 Quality Code Review     10/18/2024
 
 Author of Code Review: Mark DeLeo
-Name of .cs file being reviewed: 
+Name of .cs file being reviewed: Enemy.cs
 Author of .cs file being reviewed: Gwyn Barnholtz
 
-Number of minutes to complete review: 
+Number of minutes to complete review: 25 minutes
 
 ################################################################################ 
 
@@ -25,10 +25,21 @@ Number of minutes to complete review:
 
 
 Comments on Code Smells:
-Didn't notice any of the particular code smells I had been searching for. Good job!
+
+ - YouDontNeedItAnymore: LeftBoundary and RightBoundary are already commented out, so they can probably just go bye-bye unless there's a good reason to keep them around.
 
 
 Comments on Code Quality:
-Overall pretty good! A few notes though:
+Overall pretty good! A few notes though. Some of them are a bit nitpicky, but I just wrote anything that occurred to me.
 
- - 
+ - Does health need to be an int if every enemy dies in one hit? If health is only ever 1 or 0 it might as well be a bool. Especially if this is done, isDead might be better named as isLoaded or isUnloaded, since enemies won't only unload when killed, but also when you walk far enough away from them and stuff. So I may be misunderstanding the purpose of isDead, but if it essentially indicates whether an enemy is loaded or not, the name should probably reflect that.
+
+ - Does each state need to be its own class? I'm not sure why both StateMachine and individual states are each their own class, since I believe(?) player has things grouped together more. Although maybe since enemy movement is so much more limited than player movement, this is alright. Not necessarily criticizing this, just questioning the difference in implementation between Enemy and Player.
+
+ - Nice use of backing fields in properties, loose coupling.
+
+ - Nice use of composition in methods like TakeDamage, ChangePose.
+
+ - I see that each enemy is registered as a dynamic object on instantiation, and removed as one when collision is inactive. Won't we want them to be dynamic objects again if they respawn? My understanding was that respawning enemies would be the same instance as their old one. If so, that should probably be taken into account to avoid them respawning without any collision.
+
+ - More of a readability thing, but this class is lacking in comments. A lot of the methods/properties are so small and simple that I don't think they really need comments, but a few short comments briefly explaining the less obvious stuff here and there would be nice.

@@ -2,15 +2,15 @@
 {
     public class HideItemCommand : ICommand
     {
-        private Game1 game;
-        public HideItemCommand(Game1 currentGame)
+        private ObjectManager manager;
+        public HideItemCommand()
         {
-            game = currentGame;
+            manager = ObjectManager.Instance;
         }
 
         public void Execute()
         {
-            game.item = null;
+            manager.Item = null;
         }
     }
 }

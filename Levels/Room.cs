@@ -10,18 +10,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KirbyNightmareInDreamLand
+namespace KirbyNightmareInDreamLand.Levels
 {
 
     public struct Door
     {
         public Rectangle Bounds;
         public string DestinationRoom;
+        public Vector2 DestinationPoint;
 
-        public Door(Rectangle bounds, string destinationRoom)
+        public Door(Rectangle bounds, string destinationRoom, Vector2 destinationPoint)
         {
             Bounds = bounds;
             DestinationRoom = destinationRoom;
+            DestinationPoint = destinationPoint;
         }
     }
     public struct EnemyData
@@ -104,7 +106,11 @@ namespace KirbyNightmareInDreamLand
                     Constants.Level.TILE_SIZE,
                     Constants.Level.TILE_SIZE + 1); // Plus one for now because when standing on the ground, kirby's position is right at the bottom edge of the door rectangle normally, which isn't counted as "inside" it. Door hitbox goes 1 pixel into the ground.
                 string DestinationRoom = doorJsonData.DestinationRoom;
-                Door door = new Door(Bounds, DestinationRoom);
+                Vector2 DestinationPoint = new Vector2(
+                    doorJsonData.DestinationTileX, doorJsonData.DestinationTileY)
+                    * Constants.Level.TILE_SIZE
+                    + Constants.Level.BOTTOM_MIDDLE_OF_TILE;
+                Door door = new Door(Bounds, DestinationRoom, DestinationPoint);
                 Doors.Add(door);
             }
 

@@ -1,6 +1,8 @@
-﻿using KirbyNightmareInDreamLand.Commands;
+﻿using KirbyNightmareInDreamLand.Actions;
+using KirbyNightmareInDreamLand.Collision;
+using KirbyNightmareInDreamLand.Commands;
 using KirbyNightmareInDreamLand.Controllers;
-using KirbyNightmareInDreamLand.Entities.Enemies;
+using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -10,14 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Net.Mime;
-using System.Reflection.Metadata;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -26,6 +21,7 @@ namespace KirbyNightmareInDreamLand
         private readonly Game1 _game;
         private readonly ContentManager _content;
         private readonly GraphicsDevice _graphics;
+        private CollisionResponse collisionResponse;
 
         // Dictionary from string to Tilemap. For easily retrieving a tilemap by name.
         public Dictionary<string, int[][]> Tilemaps { get; private set; }
@@ -57,6 +53,7 @@ namespace KirbyNightmareInDreamLand
             Tilemaps = new Dictionary<string, int[][]>();
             Rooms = new Dictionary<string, Room>();
             Keymaps = new Dictionary<string, List<Keymapping>>();
+            collisionResponse = CollisionResponse.Instance;
         }
 
 
@@ -71,6 +68,7 @@ namespace KirbyNightmareInDreamLand
             LoadAllRooms(); // Dependent on sprite animations and tilemaps already loaded
 
             LoadAllKeymaps();
+            SetCollisionResponses();
 
             // Spritefont only for debug functionality
             Font = _content.Load<SpriteFont>("DefaultFont");
@@ -249,8 +247,106 @@ namespace KirbyNightmareInDreamLand
                 }
             }
         }
-        
+
+        public void SetCollisionResponses()
+        {
+            #region Player-Tile Collisons
+            String key1 = "Player";
+            String key2 = "Air";
+            Action<ICollidable, ICollidable, Rectangle> action1 = TileCollisionActions.BottomAirCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+
+            // If we plan on implementing swimming this will need to be modified
+            key2 = "Water";
+            for (int j = 0; j < Constants.HitBoxes.SIDES; j++)
+            {
+                collisionResponse.RegisterCollision(key1, key2, (CollisionSide)j, null, null);
+            }
 
 
+            key2 = "Platform";
+            action1 = TileCollisionActions.BottomPlatformCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+
+            key2 = "Block";
+            action1 = TileCollisionActions.BottomBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            action1 = TileCollisionActions.RightBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+            action1 = TileCollisionActions.LeftBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+
+            // TODO: add the correct commands for the slope handling;
+            key2 = "SlopeSteepLeft";
+            action1 = TileCollisionActions.BottomBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+
+            key2 = "SlopeGentle1Left";
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+
+            key2 = "SlopeGentle2Left";
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+
+            key2 = "SlopeGentle2Right";
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+
+            key2 = "SlopeGentle1Right";
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+            #endregion
+
+            #region Enemy-Tile Collisions
+            key1 = "Enemy";
+            key2 = "Water";
+            action1 = TileCollisionActions.WaterCollision;
+            for (int j = 0; j < Constants.HitBoxes.SIDES; j++)
+            {
+                collisionResponse.RegisterCollision(key1, key2, (CollisionSide)j, action1, null);
+            }
+
+            key2 = "Block";
+            action1 = TileCollisionActions.BottomBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            action1 = TileCollisionActions.RightBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+            action1 = TileCollisionActions.LeftBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+
+            // TODO: add the correct commands for the slope handling;
+            key2 = "SlopeSteepLeft";
+            action1 = TileCollisionActions.BottomBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+
+            key2 = "SlopeGentle1Left";
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+
+            key2 = "SlopeGentle2Left";
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+
+            key2 = "SlopeGentle2Right";
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+
+            key2 = "SlopeGentle1Right";
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+            #endregion
+
+            #region Player-Enemy Collisions
+            #endregion
+
+            Debug.WriteLine("Dictionary after collisionMapping");
+            foreach (var collision in collisionResponse.collisionMapping)
+            {
+                Debug.WriteLine(collision);
+            }
+        }
     }
 }

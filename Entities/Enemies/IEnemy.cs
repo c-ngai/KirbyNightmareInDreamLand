@@ -1,5 +1,6 @@
 ﻿using KirbyNightmareInDreamLand.Sprites;
 using KirbyNightmareInDreamLand.StateMachines;
+using Microsoft.VisualBasic;
 using Microsoft.Xna.Framework;
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -16,6 +17,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         void ResetFrameCounter();
         void UpdateTexture();
         string GetStateString();
-        public void ChangePose(EnemyPose pose);
+        void ChangePose(EnemyPose pose);
+        void BottomCollisionWithBlock(Rectangle intersection);
     }
 }

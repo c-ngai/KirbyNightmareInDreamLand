@@ -10,14 +10,15 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //light hard coded physics
         //seperate movement and state 
         //make these #define
-        
+
         protected float yVel = 0;
         protected float xVel = 0;
         protected float walkingVel = Constants.Physics.WALKING_VELOCITY;
         protected float runningVel = Constants.Physics.RUNNING_VELOCITY;
-        protected float gravity = Constants.Physics.GRAVITY; 
+        protected float gravity = Constants.Physics.GRAVITY;
         protected float damageVel = Constants.Physics.DAMAGE_VELOCITY;
         public ITimeCalculator timer;
+        protected bool landed = true;
 
         protected Vector2 position;
         //constructor
@@ -38,15 +39,18 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public void GoToRoomSpawn()
         {
-            position = Game1.Instance.Level.CurrentRoom.SpawnPoint;
+            position = Game1.Instance.Level.SpawnPoint;
         }
 
         #region Walking
         public virtual void Walk(bool isLeft)
-        {   
-            if(isLeft){
+        {
+            if (isLeft)
+            {
                 xVel = walkingVel * -1;
-            } else {
+            }
+            else
+            {
                 xVel = walkingVel;
             }
         }
@@ -55,9 +59,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #region Running
         public virtual void Run(bool isLeft)
         {
-            if(isLeft){
+            if (isLeft)
+            {
                 xVel = runningVel * -1;
-            } else {
+            }
+            else
+            {
                 xVel = runningVel;
             }
         }
@@ -75,15 +82,20 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void ReceiveDamage(bool isLeft)
         {
-            if(isLeft){
+            if (isLeft)
+            {
                 xVel = damageVel;
-            } else {
+            }
+            else
+            {
                 xVel = damageVel * -1;
             }
-            if(yVel > 0)
+            if (yVel > 0)
             {
                 yVel *= -1;
-            } else{
+            }
+            else
+            {
                 yVel *= -1;
             }
         }
@@ -93,13 +105,16 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void Slide(bool isLeft)
         {
             //slideStarting = kirby.PositionX;
-            if(isLeft){
-                xVel = runningVel *-1;
-            } else {
+            if (isLeft)
+            {
+                xVel = runningVel * -1;
+            }
+            else
+            {
                 xVel = runningVel;
             }
         }
-       
+
         #endregion
 
         #region Floating
@@ -121,10 +136,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             position.X += xVel;
             position.Y += yVel;
-            if(position.Y > 0){
-                yVel += gravity *  (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (position.Y > 0)
+            {
+                yVel += gravity * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
-            
+
         }
 
         // checks palyer doesnt go out of frame (up and down)
@@ -144,19 +160,17 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public virtual void AdjustY(Player kirby)
         {
             //dont go through the floor
-            if(position.Y > Constants.Graphics.FLOOR)
+            if (landed)
             {
                 yVel = 0;
-                position.Y = (float) Constants.Graphics.FLOOR;
             }
 
             //dont go through the ceiling
-            if(position.Y < 10)
+            if (position.Y < 10)
             {
                 yVel = 0;
                 position.Y = 10;
             }
-
         }
         //ensures sprite does not leave the window
         public virtual void Adjust(Player kirby)
@@ -171,8 +185,50 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             Adjust(kirby);
         }
         #endregion
+        public void Fall()
+        {
+            ////kirby.ChangePose(Kirby.FreeFall);
+            yVel = gravity;
+        }
+        public void ChangeKirbyLanded(bool land)
+        {
+            landed = land;
+        }
 
-    
+        #region TileCollision
+        public void AdjustFromBottomCollisionBlock(Rectangle intersection)
+        {
+            position.Y = intersection.Y;
+            yVel = 0;
+        }
 
+        public void AdjustFromRightCollisionBlock(Rectangle intersection)
+        {
+            position.X -= intersection.Width;
+            xVel = 0;
+        }
+
+        public void AdjustFromLeftCollisionBlock(Rectangle intersection)
+        {
+            position.X += intersection.Width;
+            xVel = 0;
+        }
+
+        public void AdjustFromBottomCollisionPlatform(Rectangle intersection)
+        {
+            position.Y = intersection.Y;
+            yVel = 0;
+            ChangeKirbyLanded(true);
+        }
+
+        // TODO: Figure out slope collisions
+        //public void AdjustFromBottomCollisionSlope(Player kirby, Tile tile)
+        //{
+        //    Vector2 center = CollisionManager.Instance.GetCenter(tile.rectangle);
+        //    position.Y = center.X;
+        //    yVel = 0;
+
+        //}
+        #endregion
     }
 }

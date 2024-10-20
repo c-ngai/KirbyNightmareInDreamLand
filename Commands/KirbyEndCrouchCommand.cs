@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework.Input;
-using System.Linq;
 using KirbyNightmareInDreamLand.Time;
 using KirbyNightmareInDreamLand.Entities.Players;
 using KirbyNightmareInDreamLand.Controllers;
@@ -21,7 +20,7 @@ namespace KirbyNightmareInDreamLand.Commands
         public KirbyEndCrouchCommand()
         {
             // Accessing the player and keyboard controller through Game1.Instance
-            kirby = Game1.Instance.Players[0]; // Assuming there is always at least one player
+            kirby = ObjectManager.Instance.Players[0]; // Assuming there is always at least one player
             keyboard = Game1.Instance.Keyboard;
             crouchKey = Keys.Down; // Set the crouch key to down arrow
             attackKey = Keys.Z;    // Set the attack key to 'Z'

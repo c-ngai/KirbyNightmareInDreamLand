@@ -123,5 +123,18 @@ namespace KirbyNightmareInDreamLand.StateMachines
             string facing = facingLeft ? "left" : "right";
             return "kirby_" + power + "_" + posing + "_" + facing;
         }
+
+        public bool IsInAir()
+        {
+            bool checkOne = GetPose() == KirbyPose.FloatingStart || GetPose() == KirbyPose.FloatingRising;
+            bool checkTwo = GetPose() == KirbyPose.FloatingFalling;
+            bool checkThree = GetPose() == KirbyPose.FloatingEnd || GetPose() == KirbyPose.FreeFall;
+            return checkOne || checkTwo || checkThree;
+        }
+
+        public bool ShouldFallOffBlock()
+        {
+            return !IsJumping() && !IsInAir();
+        }
     }
 }

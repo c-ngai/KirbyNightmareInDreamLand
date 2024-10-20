@@ -15,6 +15,12 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private ISprite sprite1;
         private ISprite sprite2;
         public bool CollisionActive { get; private set;} = true;
+
+        public string GetObjectType()
+        {
+            return "Projectile";
+        }
+
         public Vector2 Position
         {
             get => position;
@@ -33,7 +39,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
             Velocity = beamVelocity;
             sprite1 = SpriteFactory.Instance.CreateSprite("projectile_kirby_beam1");
             sprite2 = SpriteFactory.Instance.CreateSprite("projectile_kirby_beam2");
-
+            ObjectManager.Instance.RegisterDynamicObject(this);
         }
 
         public void Update()

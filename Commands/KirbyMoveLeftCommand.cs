@@ -8,7 +8,7 @@ namespace KirbyNightmareInDreamLand.Commands
     {
         public void Execute()
         {
-            Game1.Instance.Players[0].MoveLeft();
+            ObjectManager.Instance.Players[0].MoveLeft();
 
             var keyboard = Game1.Instance.Keyboard;
 

@@ -15,7 +15,7 @@ using System.Net;
 using System.Reflection;
 using static KirbyNightmareInDreamLand.Constants;
 
-namespace KirbyNightmareInDreamLand
+namespace KirbyNightmareInDreamLand.Levels
 {
     public class Level
     {
@@ -30,11 +30,17 @@ namespace KirbyNightmareInDreamLand
 
         public Room CurrentRoom { get; private set; }
 
+        public Vector2 SpawnPoint { get; private set; }
+
         private List<Enemy> enemyList;
 
         private List<PowerUp> powerUpList;
 
         private List<Sprite> TileSprites;
+
+        private Sprite _doorstarsSprite;
+
+        private ObjectManager manager = ObjectManager.Instance;
 
         // Holds a sprite for kirby and each enemy type to draw at their spawn points in level debug mode.
         private Dictionary<string, Sprite> SpawnSprites = new Dictionary<string, Sprite>()
@@ -54,19 +60,22 @@ namespace KirbyNightmareInDreamLand
             _camera = _game.Camera;
 
             TileSprites = LoadTileSprites(Constants.Filepaths.TileSpriteList);
+            _doorstarsSprite = SpriteFactory.Instance.CreateSprite("doorstars");
         }
 
-        // Loads a room into the level by name.
-        public void LoadRoom(string RoomName)
+        // Loads a room into the level by name, specifying a spawn point. (for entering from a door)
+        public void LoadRoom(string RoomName, Vector2? _spawnPoint)
         {
             if (LevelLoader.Instance.Rooms.ContainsKey(RoomName))
             {
-                CollisionDetection.Instance.ResetDynamicCollisionBoxes();
+                manager.ResetDynamicCollisionBoxes();
                 CurrentRoom = LevelLoader.Instance.Rooms[RoomName];
                 LoadLevelObjects();
-                foreach (IPlayer player in _game.Players)
+                SpawnPoint = _spawnPoint ?? CurrentRoom.SpawnPoint;
+                foreach (IPlayer player in manager.Players)
                 {
                     player.GoToRoomSpawn();
+                    manager.RegisterDynamicObject((Player)player);
                 }
             }
             else
@@ -74,6 +83,26 @@ namespace KirbyNightmareInDreamLand
                 Debug.WriteLine("ERROR: \"" + RoomName + "\" is not a valid room name and cannot be loaded.");
             }
         }
+
+        // Overflow method. If no spawn point is specified, the level will load the room's default. TODO: refactor this?? does this implementation suck?????
+        public void LoadRoom(string RoomName)
+        {
+            LoadRoom(RoomName, null);
+        }
+
+
+        //// Loads a room into the level by name. If spawn point is unspecified, it will use the room's default.
+        //public void LoadRoom(string RoomName)
+        //{
+        //    if (LevelLoader.Instance.Rooms.ContainsKey(RoomName))
+        //    {
+        //        LoadRoom(RoomName, )
+        //    }
+        //    else
+        //    {
+        //        Debug.WriteLine("ERROR: \"" + RoomName + "\" is not a valid room name and cannot be loaded.");
+        //    }
+        //}
 
         private List<Sprite> LoadTileSprites(string filepath)
         {
@@ -99,7 +128,6 @@ namespace KirbyNightmareInDreamLand
             {
                 DrawLevel(spriteBatch);
             }
-            
         }
 
         private void DrawBackground(SpriteBatch spriteBatch)
@@ -128,6 +156,7 @@ namespace KirbyNightmareInDreamLand
         {
             DrawBackground(spriteBatch);
             DrawForeground(spriteBatch);
+            DrawDoorStars(spriteBatch);
             DrawLevelObjects(spriteBatch);
         }
 
@@ -210,13 +239,13 @@ namespace KirbyNightmareInDreamLand
         }
 
         // go to the next room, called because a player wants to go through a door 
-        public void nextRoom(Vector2 playerPos)
+        public void EnterDoorAt(Vector2 playerPos)
         {
             foreach(Door door in CurrentRoom.Doors)
             {
                 if (door.Bounds.Contains(playerPos))
                 {
-                    LoadRoom(door.DestinationRoom);
+                    LoadRoom(door.DestinationRoom, door.DestinationPoint);
                     break;
                 }
             }
@@ -230,6 +259,7 @@ namespace KirbyNightmareInDreamLand
         public void UpdateLevel()
         {
             CurrentRoom.ForegroundSprite.Update();
+            _doorstarsSprite.Update();
             foreach(Enemy enemy in enemyList)
             {
                 enemy.Update(_game.time);
@@ -246,6 +276,7 @@ namespace KirbyNightmareInDreamLand
         private void DrawDebug(SpriteBatch spriteBatch)
         {
             DrawTiles(spriteBatch);
+            DrawDoorStars(spriteBatch);
             DrawDoors(spriteBatch);
             DrawSpawnPoints(spriteBatch);
             DrawLevelObjects(spriteBatch);
@@ -262,6 +293,16 @@ namespace KirbyNightmareInDreamLand
 
                 GameDebug.Instance.DrawSolidRectangle(spriteBatch, door.Bounds, Color.Red);
                 spriteBatch.DrawString(LevelLoader.Instance.Font, door.DestinationRoom, textPos, Color.Red);
+            }
+        }
+
+        // Draws the stars around each door
+        private void DrawDoorStars(SpriteBatch spriteBatch)
+        {
+            foreach (Door door in CurrentRoom.Doors)
+            {
+                Vector2 doorPos = door.Bounds.Location.ToVector2();
+                _doorstarsSprite.Draw(doorPos, spriteBatch);
             }
         }
 
@@ -334,36 +375,5 @@ namespace KirbyNightmareInDreamLand
         {
             TileSprites[tileID].Draw(position, spriteBatch);
         }
-
-        // Given a rectangle in the world, returns a List of all Tiles in the level that intersect with that given rectangle.
-        public List<Tile> IntersectingTiles(Rectangle collisionRectangle)
-        {
-            List<Tile> tiles = new List<Tile>();
-
-            // Set bounds on the TileMap to iterate from
-            int TopY = Math.Max(collisionRectangle.Top / Constants.Level.TILE_SIZE, 0);
-            int BottomY = Math.Min(collisionRectangle.Bottom / Constants.Level.TILE_SIZE + 1, CurrentRoom.TileHeight);
-            int LeftX = Math.Max(collisionRectangle.Left / Constants.Level.TILE_SIZE, 0);
-            int RightX = Math.Min(collisionRectangle.Right / Constants.Level.TILE_SIZE + 1, CurrentRoom.TileWidth);
-
-            // Iterate across all the rows of the TileMap visible within the frame of the camera
-            for (int y = TopY; y < BottomY; y++)
-            {
-                // Iterate across all the columns of the TileMap visible within the frame of the camera
-                for (int x = LeftX; x < RightX; x++)
-                {
-                    Tile tile = new Tile();
-                    tile.type = (TileCollisionType)CurrentRoom.TileMap[y][x];
-                    tile.rectangle = new Rectangle(x * Constants.Level.TILE_SIZE, y * Constants.Level.TILE_SIZE, Constants.Level.TILE_SIZE, Constants.Level.TILE_SIZE);
-                    tiles.Add(tile);
-
-                    // Registers each relevant tile into the collisionHandler
-                    tile.RegisterTile();
-                }
-            }
-
-            return tiles;
-        }
-
     }
 }

@@ -15,7 +15,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //make a seperate class to hold all the objects --singleton
         //this class will be refactored in next sprint to make another class: State management
         // and movement management so it is not doing this much
-        // TODO: Is it possible to make this a public property so commands can access it?
         private PlayerStateMachine state;
         private PlayerMovement movement;
         private Sprite playerSprite ;
@@ -41,13 +40,18 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             state = new PlayerStateMachine();
             movement = new NormalPlayerMovement(pos);
             oldState = state.GetStateString();
-            CollisionDetection.Instance.RegisterDynamicObject(this);
+            ObjectManager.Instance.RegisterDynamicObject(this);
         }
         public Sprite PlayerSprite
         {
             //change it so it cannot be changed by cgame aka delete this
 
             set{playerSprite = value;}
+        }
+
+        public string GetObjectType()
+        {
+            return "Player";
         }
 
         //changes kiry's texture if he is in a different state than before
@@ -406,6 +410,35 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             Vector2 rectPoint = CalculateRectanglePoint(GetKirbyPosition());
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
         }
+        #endregion
+
+        #region Collisions
+        public void BottomCollisionWithBlock(Rectangle intersection)
+        {
+            movement.ChangeKirbyLanded(true);
+            movement.AdjustFromBottomCollisionBlock(intersection);
+        }
+        public void RightCollisionWithBlock(Rectangle intersection)
+        {
+            movement.AdjustFromRightCollisionBlock(intersection);
+        }
+        public void LeftCollisionWithBlock(Rectangle intersection)
+        {
+            movement.AdjustFromLeftCollisionBlock(intersection);
+        }
+        public void BottomCollisionWithPlatform(Rectangle intersection)
+        {
+            movement.AdjustFromBottomCollisionPlatform(intersection);
+        }
+        public void BottomCollisionWithAir(Rectangle intersection)
+        {
+            if (state.ShouldFallOffBlock())
+            {
+                movement.ChangeKirbyLanded(false);
+                movement.Fall();
+            }
+        }
+
         #endregion
     }
 

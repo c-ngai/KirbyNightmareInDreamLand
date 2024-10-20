@@ -33,9 +33,14 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             stateMachine = new EnemyStateMachine(type);
             oldState = string.Empty;
             currentState = new WaddleDooWalkingState(this); // Initialize with the walking state
-            CollisionDetection.Instance.RegisterDynamicObject(this);
+            ObjectManager.Instance.RegisterDynamicObject(this);
             currentState.Enter();
             frameCounter = 0; 
+        }
+
+        public string GetObjectType()
+        {
+            return "Enemy";
         }
 
         public Vector2 Position
@@ -139,7 +144,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             }
             else
             {
-                CollisionDetection.Instance.RemoveDynamicObject(this); // Deregister if dead
+                ObjectManager.Instance.RemoveDynamicObject(this); // Deregister if dead
             }
         }
 
@@ -164,5 +169,9 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
         }
 
+        public void BottomCollisionWithBlock(Rectangle intersection)
+        {
+            position.Y = intersection.Y;
+        }
     }
 }

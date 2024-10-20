@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace KirbyNightmareInDreamLand.Sprites
+namespace KirbyNightmareInDreamLand.Levels
 {
     // Class for deserializing each room data in the .json file.
     public class RoomJsonData
@@ -51,6 +51,8 @@ namespace KirbyNightmareInDreamLand.Sprites
         public int TileX { get; set; }
         public int TileY { get; set; }
         public string DestinationRoom { get; set; }
+        public int DestinationTileX { get; set; }
+        public int DestinationTileY { get; set; }
     }
 
     // Class for deserializing each enemy in RoomJsonData.

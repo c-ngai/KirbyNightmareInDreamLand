@@ -16,17 +16,23 @@
             {
                 "TileX": 1,
                 "TileY": 7,
-                "DestinationRoom": "room1"
+                "DestinationRoom": "room1",
+                "DestinationTileX": 2,
+                "DestinationTileY": 7
             },
             {
                 "TileX": 3,
                 "TileY": 7,
-                "DestinationRoom": "room2"
+                "DestinationRoom": "room2",
+                "DestinationTileX": 2,
+                "DestinationTileY": 7
             },
             {
                 "TileX": 5,
                 "TileY": 7,
-                "DestinationRoom": "room3"
+                "DestinationRoom": "room3",
+                "DestinationTileX": 6,
+                "DestinationTileY": 7
             }
         ],
         "Enemies": [
@@ -80,12 +86,16 @@
             {
                 "TileX": 61,
                 "TileY": 6,
-                "DestinationRoom": "room2"
+                "DestinationRoom": "room2",
+                "DestinationTileX": 2,
+                "DestinationTileY": 7
             },
             {
                 "TileX": 2,
                 "TileY": 7,
-                "DestinationRoom": "testroom1"
+                "DestinationRoom": "testroom1",
+                "DestinationTileX": 1,
+                "DestinationTileY": 7
             }
         ],
         "Enemies": [
@@ -150,12 +160,16 @@
             {
                 "TileX": 61,
                 "TileY": 7,
-                "DestinationRoom": "room3"
+                "DestinationRoom": "room3",
+                "DestinationTileX": 2,
+                "DestinationTileY": 7
             },
             {
                 "TileX": 2,
                 "TileY": 7,
-                "DestinationRoom": "testroom1"
+                "DestinationRoom": "testroom1",
+                "DestinationTileX": 3,
+                "DestinationTileY": 7
             }
         ],
         "Enemies": [
@@ -218,12 +232,16 @@
             {
                 "TileX": 2,
                 "TileY": 7,
-                "DestinationRoom": "room2"
+                "DestinationRoom": "room2",
+                "DestinationTileX": 61,
+                "DestinationTileY": 7
             },
             {
                 "TileX": 6,
                 "TileY": 7,
-                "DestinationRoom": "testroom1"
+                "DestinationRoom": "testroom1",
+                "DestinationTileX": 5,
+                "DestinationTileY": 7
             }
         ],
         "Enemies": [

@@ -5,7 +5,7 @@ namespace KirbyNightmareInDreamLand.Commands
     {
         public void Execute()
         {
-            Game1.Instance.Players[0].ChangeToNormal();
+            ObjectManager.Instance.Players[0].ChangeToNormal();
         }
     }
 }
