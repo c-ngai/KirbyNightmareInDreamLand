@@ -89,7 +89,7 @@ We are planning to refactor this by the next sprint so that the mappings can be 
 
 
 Known bugs:
-
+ - if you are attacking and move the player, kirby doesnt move position, but the sprite changes, we are aware.
 TODO: Add bugs
 
 

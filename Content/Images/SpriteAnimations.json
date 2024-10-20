@@ -4915,7 +4915,7 @@
       }
     ]
   },
-  "kirby_normal_inhaling_right": {
+  "kirby_normal_attacking_right": {
     "Source texture": "kirby_normal",
     "Loop point": 3,
     "Flip horizontally?": false,
@@ -4967,7 +4967,7 @@
       }
     ]
   },
-  "kirby_normal_inhaling_left": {
+  "kirby_normal_attacking_left": { 
     "Source texture": "kirby_normal",
     "Loop point": 3,
     "Flip horizontally?": true,
@@ -5019,7 +5019,7 @@
       }
     ]
   },
-  "kirby_normal_inhalingend_right": {
+  "kirby_normal_attackingend_right": {
     "Source texture": "kirby_normal",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -5035,7 +5035,7 @@
       }
     ]
   },
-  "kirby_normal_inhalingend_left": {
+  "kirby_normal_attackingend_left": {
     "Source texture": "kirby_normal",
     "Loop point": 0,
     "Flip horizontally?": true,

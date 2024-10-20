@@ -27,7 +27,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
             get => velocity;
             set => velocity = value;
         }
-
+        public String GetCollisionType()
+        {
+            return "EnemyAttack";
+        }
         public EnemyFlameSegment(Vector2 startPosition, Vector2 flameDirection, float speed, float delay)
         {
             Position = startPosition;

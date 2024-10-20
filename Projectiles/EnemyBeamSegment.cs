@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
+using System;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
@@ -23,7 +24,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
             get => velocity;
             set => velocity = value;
         }
-
+        public String GetCollisionType()
+        {
+            return "EnemyAttack";
+        }
         public EnemyBeamSegment(Vector2 startPosition, Vector2 beamVelocity)
         {
             Position = startPosition;

@@ -83,6 +83,10 @@ namespace KirbyNightmareInDreamLand.StateMachines
         {
             return GetPose() == KirbyPose.Sliding;
         }
+        public bool IsFalling()
+        {
+            return GetPose() == KirbyPose.FreeFall;
+        }
 
         public bool CanMove()
         {
@@ -110,6 +114,14 @@ namespace KirbyNightmareInDreamLand.StateMachines
             return !IsJumping() && !IsFloating();
         }
 
+        public bool LongAttack()
+        {
+            return (GetKirbyType() == KirbyType.Normal) || (GetKirbyType() == KirbyType.Fire) || (GetKirbyType() == KirbyType.Spark);
+        }
+        public bool ShortAttack()
+        {
+            return (GetKirbyType() == KirbyType.Beam) || (GetKirbyType() == KirbyType.Mouthful) || IsFloating() || IsCrouching(); //&& !IsFalling());
+        }
         public string[] GetSpriteParameters()
         {
             string[] spriteParameters = new string[4];

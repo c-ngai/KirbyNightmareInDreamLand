@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
+using System;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
@@ -64,6 +65,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
             {
                 ObjectManager.Instance.RemoveDynamicObject(this); // Deregister if dead
             }
+        }
+        public String GetCollisionType()
+        {
+            return "EnemyAttack";
         }
         public void EndAttack()
         {

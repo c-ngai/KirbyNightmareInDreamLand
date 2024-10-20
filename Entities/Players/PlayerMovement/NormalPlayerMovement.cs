@@ -15,50 +15,23 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             //puff is one time
 
             //attacks are stationary
-            StopMovement();
-            //if kirby is in normal state he inhales first and attacks one he has an enemy
-            // if(kirby.GetKirbyType().Equals("Normal"))// && !kirby.GetPose().Equals("WithEnemy"))
-            // {
-            //     kirby.ChangePose(KirbyPose.Inhaling);
-            // } else {
-                //all other states immediately attack
-                if(!kirby.GetKirbyType().Equals("Normal")){
-                    kirby.ChangePose(KirbyPose.Attacking);
-                    //kirby.ChangeAttackBool(true);
-                } else {
-                    kirby.ChangePose(KirbyPose.Inhaling);
-                }
-                
-            //}
+             System.Console.WriteLine("here player movement");
+            if(!kirby.IsWithEnemy()) StopMovement();
         }
 
         public override void AttackPressed(Player kirby)
         {
             //electric is while z is pressed
             //fire is while z is pressed 
-            //inhaling is while z is pressed
+            //inhaling is while z is pressed normal_inhaling
 
             //attacks are stationary
             StopMovement();
-            //if kirby is in normal state he inhales first and attacks one he has an enemy
-            // if(kirby.GetKirbyType().Equals("Normal"))// && !kirby.GetPose().Equals("WithEnemy"))
-            // {
-            if(!kirby.GetKirbyType().Equals("Normal")){
-                kirby.ChangePose(KirbyPose.Attacking);
-                //kirby.ChangeAttackBool(true);
-            } else {
-                kirby.ChangePose(KirbyPose.Inhaling);
-                //kirby.ChangeAttackBool(true);
-            }
-            // } else {
-            //     //all other states immediately attack
-            //     kirby.ChangePose(KirbyPose.Attacking);
-            //     kirby.ChangeAttackBool(true);
-            // }
+            kirby.ChangePose(KirbyPose.Attacking);
         }
         public override void MovePlayer(Player kirby, GameTime gameTime)
         {
-            if(!kirby.attackIsActive)
+            if(!kirby.attackIsActive || kirby.IsWithEnemy()) // if he is attacking or is spweing an enemey
             {
                 UpdatePosition(gameTime);
             }

@@ -5,7 +5,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 {
     public interface IPlayer : IEntity
     {
-        Sprite PlayerSprite { set; }
         void Crouch();
         void EndCrouch();
         void AttackPressed();
