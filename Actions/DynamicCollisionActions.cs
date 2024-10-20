@@ -35,10 +35,9 @@ namespace KirbyNightmareInDreamLand.Actions
             Player player = (Player)object1;
             player.TakeDamage(intersection);
 
-            if(object2 is EnemyFireball)
+            if (object1 is IExplodable projectile)
             {
-                EnemyFireball fire = (EnemyFireball)object2;
-                fire.EndAttack();
+                projectile.EndAttack();
             }
         }
 

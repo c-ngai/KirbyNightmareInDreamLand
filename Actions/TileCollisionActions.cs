@@ -23,7 +23,7 @@ namespace KirbyNightmareInDreamLand.Actions
             }
             else if (object1 is IExplodable projectile)
             {
-                projectile.BottomBlockCollision(intersection);
+                projectile.EndAttack();
             }
         }
 
@@ -42,7 +42,7 @@ namespace KirbyNightmareInDreamLand.Actions
             }
             else if (object1 is IExplodable projectile)
             {
-                projectile.BottomBlockCollision(intersection);
+                projectile.EndAttack();
             }
         }
 
@@ -61,7 +61,7 @@ namespace KirbyNightmareInDreamLand.Actions
             }
             else if (object1 is IExplodable projectile)
             {
-                projectile.BottomBlockCollision(intersection);
+                projectile.EndAttack();
             }
         }
 
