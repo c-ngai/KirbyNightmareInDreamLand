@@ -28,12 +28,6 @@ namespace KirbyNightmareInDreamLand.Collision
         {
             collisionMapping = new Dictionary<Tuple<string, string, CollisionSide>, Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>>>();
         }
-
-        public void ResetCollisionDictionary()
-        {
-            collisionMapping = new Dictionary<Tuple<String, String, CollisionSide>, Tuple<Action, Action>>();
-        }
-
         // Creates string mappings of object types and collision side to determine object reactions 
         // gets called by level loader
         public void RegisterCollision(string object1, string object2, CollisionSide side, Action<ICollidable, ICollidable, Rectangle> object1Command, Action<ICollidable, ICollidable, Rectangle> object2Command)
@@ -42,7 +36,14 @@ namespace KirbyNightmareInDreamLand.Collision
             Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>> commands = new Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>>(object1Command, object2Command);
             collisionMapping.Add(objects, commands);
         }
-
+        private bool ShouldCollide(String obj1, String obj2)
+        {
+            if(obj2.Contains(obj1) || obj1.Contains(obj2) || obj1.Equals(obj2))
+            {
+                return false;
+            }
+            return true;
+        }
         public void ExecuteCollision(ICollidable object1, ICollidable object2, CollisionSide side)
         {
             // Determine object types to use as part of the key
@@ -51,24 +52,26 @@ namespace KirbyNightmareInDreamLand.Collision
             //feel free to let different objects have different collision types
             //i gues for tile we could have it? i feel like its easier to just make the tile hit box smaller
             //ans stop the intersection instead of allowing there to be one
-            String key1 = object1.GetCollisionType();
-            String key2 = object2.GetCollisionType();
-            //hand side that is being collided
-            Tuple<string, string, CollisionSide> objects = new Tuple<string, string, CollisionSide>(key1, key2, side);
+            String key1 = object1.GetObjectType();
+            String key2 = object2.GetObjectType();
 
-            // IS THERE A WAY I CAN CALL INSTANCE ACTIONS? 
-            //pass in parameters! 
-            
-            // Check if the key exists in the dictionary
-            if (collisionMapping.TryGetValue(objects, out Tuple<Action, Action> commands))
+            if(ShouldCollide(key1, key2))
             {
-                // Execute object1's collision action, if it's not null
-                commands.Item1?.Invoke();
-                
-                // Execute object2's collision action, if it's not null
-                commands.Item2?.Invoke();
-                System.Console.WriteLine();
+                //hand side that is being collided
+                Tuple<String, String, CollisionSide> objects = new Tuple<String, String, CollisionSide>(key1, key2, side);
+
+                Rectangle intersection = Rectangle.Intersect(object1.GetHitBox(), object2.GetHitBox());
+                Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>> commands = collisionMapping[objects];
+                if (commands.Item1 != null)
+                {
+                    commands.Item1(object1, object2, intersection);
+                }
+                if (commands.Item2 != null)
+                {
+                    commands.Item2(object1, object2, intersection);
+                }
             }
+            
         }
     }
 }

@@ -79,5 +79,10 @@ namespace KirbyNightmareInDreamLand.Entities.PowerUps
             CollisionActive = false;
             // more power up affect logic here 
         }
+
+        public string GetCollisionType()
+        {
+            return "PowerUp";
+        }
     }
 }

@@ -58,6 +58,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         private void UpdateTexture()
         {
             if(!state.GetStateString().Equals(oldState)){
+                System.Console.WriteLine(state.GetStateString());
                 playerSprite = SpriteFactory.Instance.CreateSprite(state.GetSpriteParameters());
                 oldState = state.GetStateString();
             } 
@@ -97,7 +98,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 return "Puff";
             } else if (state.IsCrouching()){
                 return "Slide";
-            }else {
+            }else if (state.IsWithEnemy()){
+                return "Star";
+            }else{
                 return GetKirbyType();
             }
         }
@@ -282,7 +285,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if (IsFloating() && !IsFalling()){
                 movement.Jump(state.IsLeft()); 
                 ChangePose(KirbyPose.FloatingRising);
-            } else if (state.CanFloat()){
+            } else if (state.CanFloat() && !state.IsWithEnemy()){
                 movement.StartFloating(this);
                 movement = new FloatingMovement(movement.GetPosition());
                 ChangePose(KirbyPose.FloatingRising);
@@ -294,10 +297,14 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #region crouch
         public void Crouch()
         {
-            if(state.CanCrouch() && !state.IsCrouching()){ //crouch does not overwrite jump and floating
+            if(state.CanCrouch() && !state.IsCrouching() && !state.IsWithEnemy()){ //crouch does not overwrite jump and floating
                 ChangePose(KirbyPose.Crouching);
                 movement = new CrouchingMovement(movement.GetPosition());
             } 
+            if(state.IsWithEnemy())
+            {
+                EndSwallow();
+            }
         }
         public void Slide()
         {
@@ -377,6 +384,17 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             StopAttacking();
             ChangeToMouthful();
+        }
+        private async void SwallowAnimation()
+        {
+            state.ChangePose(KirbyPose.Swallow);
+            await Task.Delay(1000);
+        }
+        private void EndSwallow()
+        {
+            SwallowAnimation();
+            state.ChangePose(KirbyPose.Standing);
+            ChangeToNormal();
         }
         #endregion
 

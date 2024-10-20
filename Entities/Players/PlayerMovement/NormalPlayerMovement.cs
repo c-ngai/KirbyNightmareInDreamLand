@@ -28,6 +28,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 } else {
                     kirby.ChangePose(KirbyPose.Inhaling);
                 }
+                
             //}
         }
 

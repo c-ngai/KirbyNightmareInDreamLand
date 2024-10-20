@@ -29,7 +29,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 { "Puff", (k) => new KirbyPuff(k.GetKirbyPosition(), !k.IsLeft()) },
                 { "Normal", (k) => new Inhale(k.GetKirbyPosition(), k.IsLeft()) },
                 { "Spark", (k) => new ElectricAttack(k.GetKirbyPosition(), k.IsLeft()) },
-                { "Slide", (k) => new Slide(k.GetKirbyPosition(), k.IsLeft()) }
+                { "Slide", (k) => new Slide(k.GetKirbyPosition(), k.IsLeft()) },
+                { "Star", (k) => new KirbyStar(k.GetKirbyPosition(), !k.IsLeft()) }
             };
         }
         public void EndAttack()

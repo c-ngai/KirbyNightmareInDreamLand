@@ -1,14 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
+using System;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class KirbyStar : IProjectile
+    public class KirbyStar : IProjectile, ICollidable
     {
         private Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;
+        public bool CollisionActive { get; private set;} = true;
 
         public Vector2 Position
         {
@@ -24,7 +26,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
         public KirbyStar(Vector2 kirbyPosition, bool isFacingRight)
         {
-            Position = kirbyPosition;
+            Position = kirbyPosition + (isFacingRight ? Constants.Kirby.STAR_ATTACK_OFFSET_RIGHT: Constants.Kirby.STAR_ATTACK_OFFSET_LEFT);
 
             // Set the initial velocity based on the direction Kirby is facing
             Velocity = isFacingRight
@@ -35,6 +37,12 @@ namespace KirbyNightmareInDreamLand.Projectiles
             projectileSprite = isFacingRight
                 ? SpriteFactory.Instance.CreateSprite("projectile_kirby_star_right")
                 : SpriteFactory.Instance.CreateSprite("projectile_kirby_star_left");
+            
+            CollisionDetection.Instance.RegisterDynamicObject(this);
+        }
+        public String GetCollisionType()
+        {
+            return "PlayerAttack";
         }
 
         public void Update()
@@ -42,18 +50,30 @@ namespace KirbyNightmareInDreamLand.Projectiles
             Position += Velocity;
             projectileSprite.Update();
         }
-
+        public Vector2 CalculateRectanglePoint(Vector2 pos)
+        {
+            return pos + Constants.HitBoxes.PUFF_OFFSET; 
+        }
+        public Rectangle GetHitBox()
+        {
+            Vector2 rectPoint = CalculateRectanglePoint(Position);
+            return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.PUFF_SIZE, Constants.HitBoxes.PUFF_SIZE);
+        }
         public void Draw(SpriteBatch spriteBatch)
         {
             projectileSprite.Draw(Position, spriteBatch);
         }
         public void EndAttack()
         {
-            //
+            CollisionActive = false;
         }
         public bool IsDone()
         {
-            return true;
+            if(!Game1.Instance.camera.bounds.Contains(position))
+            {
+                return true;
+            }
+            return false;
         }
     
     }

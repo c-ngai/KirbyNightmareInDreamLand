@@ -5,7 +5,7 @@
     {
         Standing, Crouching, Swimming, Attacking, ThrowEnemy,
         JumpRising, JumpFalling, Walking, FloatingStart, FloatingGrounded, FloatingRising,
-        FloatingFalling, FloatingEnd, Inhaling, Running, Hurt, Sliding, FreeFall
+        FloatingFalling, FloatingEnd, Inhaling, Running, Hurt, Sliding, FreeFall, Swallow
     };
     public interface IPlayerStateMachine : IStateMachine
     {

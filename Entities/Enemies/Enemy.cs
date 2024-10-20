@@ -21,7 +21,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
        // protected Vector2 rightBoundary;
         protected string oldState; //Previous state
         protected int frameCounter; // Frame counter for tracking state duration
-        public bool CollisionActive { get; private set;} = true;
+        public bool CollisionActive { get; set;} = true;
 
         protected Enemy(Vector2 startPosition, EnemyType type)
         {
@@ -153,14 +153,14 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 ObjectManager.Instance.RemoveDynamicObject(this); // Deregister if dead
             }
         }
-        public Vector2 CalculateRectanglePoint(Vector2 pos)
+        public virtual Vector2 CalculateRectanglePoint(Vector2 pos)
         {
             float x = pos.X - Constants.HitBoxes.ENTITY_WIDTH/2;
             float y = pos.Y - Constants.HitBoxes.ENTITY_HEIGHT;
             Vector2 rectPoint = new Vector2(x, y);
             return rectPoint; 
         }
-        public Rectangle GetHitBox()
+        public virtual Rectangle GetHitBox()
         {
             Vector2 rectPoint = CalculateRectanglePoint(position);
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
