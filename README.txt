@@ -87,7 +87,8 @@ We are planning to refactor this by the next sprint so that the mappings can be 
 
 Kirby Reabsorption: kirby can't reabsorb a star once it is spewed out, just the way it was coded 
 made it so only one "attack" would be active at a time and kirby couldnt start another attack
-while another one is active. Refactoring is not an option at this point.
+while another one is active. Refactoring is not an option at this point. This bocks him from
+inhaling or letting go of exhale wile the star is active. 
 
 ###############################################################################
 

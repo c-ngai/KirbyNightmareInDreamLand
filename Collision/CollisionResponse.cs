@@ -55,7 +55,11 @@ namespace KirbyNightmareInDreamLand.Collision
             String key1 = object1.GetObjectType();
             String key2 = object2.GetObjectType();
             if(ShouldCollide(key1, key2))
-            {
+            {   
+                // if((key2.Equals("Air") || key2.Equals("Block")) && key1.Equals("Player"))
+                // {
+                //     System.Console.WriteLine(key1 + " " + key2 + " "+ side);
+                // }
                 //hand side that is being collided
                 Tuple<String, String, CollisionSide> objects = new Tuple<String, String, CollisionSide>(key1, key2, side);
 
