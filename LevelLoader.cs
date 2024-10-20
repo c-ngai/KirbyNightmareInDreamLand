@@ -343,7 +343,7 @@ namespace KirbyNightmareInDreamLand
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
             #endregion
 
-            /*
+            
             #region Projectile Collisions
             key1 = "EnemyAttack";
             key2 = "Block";
@@ -354,7 +354,7 @@ namespace KirbyNightmareInDreamLand
             action1 = TileCollisionActions.LeftBlockCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
             #endregion
-            */
+            
 
             #region Player-Enemy Collisions
             key1 = "Enemy";

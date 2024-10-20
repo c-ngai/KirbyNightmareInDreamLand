@@ -20,12 +20,11 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 Enemy enemy = (Enemy)object1;
                 enemy.BottomCollisionWithBlock(intersection);
-            } /*
-            else if (type.Equals("EnemyAttack"))
+            }
+            else if (object1 is IExplodable projectile)
             {
-                IExplodable projectile = (IExplodable)object1;
                 projectile.BottomBlockCollision(intersection);
-            } */
+            }
         }
 
         public static void RightBlockCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
@@ -40,12 +39,11 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 Enemy enemy = (Enemy)object1;
                 enemy.ChangeDirection();
-            } /*
-            else if (type.Equals("EnemyAttack"))
+            }
+            else if (object1 is IExplodable projectile)
             {
-                IExplodable projectile = (IExplodable)object1;
-                projectile.RightBlockCollision(intersection);
-            } */
+                projectile.BottomBlockCollision(intersection);
+            }
         }
 
         public static void LeftBlockCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
@@ -60,12 +58,11 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 Enemy enemy = (Enemy)object1;
                 enemy.ChangeDirection();
-            } /*
-            else if (type.Equals("EnemyAttack"))
+            }
+            else if (object1 is IExplodable projectile)
             {
-                IExplodable projectile = (IExplodable)object1;
-                projectile.LeftBlockCollision(intersection);
-            } */
+                projectile.BottomBlockCollision(intersection);
+            }
         }
 
         public static void BottomPlatformCollision(ICollidable object1, ICollidable object2, Rectangle intersection)

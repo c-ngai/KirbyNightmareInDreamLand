@@ -93,19 +93,16 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
         public virtual void BottomBlockCollision(Rectangle intersection)
         {
-            ObjectManager.Instance.RemoveDynamicObject(this);
-            IsActive = false;
+           IsActive = false;
         }
 
         public virtual void RightBlockCollision(Rectangle intersection)
         {
-            ObjectManager.Instance.RemoveDynamicObject(this);
             IsActive = false;
         }
 
         public virtual void LeftBlockCollision(Rectangle intersection)
         {
-            ObjectManager.Instance.RemoveDynamicObject(this);
             IsActive = false;
         }
     }
