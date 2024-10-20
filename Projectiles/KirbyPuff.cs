@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
 using System.Net.NetworkInformation;
+using System;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
@@ -16,7 +17,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public bool isActive = true;
         public string GetObjectType()
         {
-            return "Projectile";
+            return "PlayerAttack";
         }
         public Vector2 Position
         {

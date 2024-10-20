@@ -11,6 +11,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         private float distanceMoved = 0;
         private float startingX;
 
+        private int timer = 0;
+
         public override void Walk(bool isLeft)
         {
             //does nothing
@@ -23,29 +25,32 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //starts kirby is sliding
         public override void Attack(Player kirby)
         {
-            // kirby.ChangePose(KirbyPose.Sliding);
-            // //kirby.ChangeAttackBool(true);
-            // Slide(kirby.IsLeft());
             kirby.Slide();
-            if(distanceMoved == 0){
-                startingX = position.X;
-                distanceMoved = 1;
+            if(kirby.IsSliding())
+            {   Slide(kirby);
+                if(distanceMoved == 0){
+                    startingX = position.X;
+                    distanceMoved = 1;
+                }
             }
         }
 
         public override void Jump(bool isLeft)
         {
-            Slide(isLeft);
+            //Slide(isLeft);
         }
 
         public void AdjustSlide(Player kirby)
         {
-            distanceMoved = Math.Abs(position.X - startingX);
-            if(distanceMoved > slideDistance)
+            if(kirby.IsSliding())
             {
-                StopMovement();
-                kirby.EndSlide();
-            } 
+                distanceMoved = Math.Abs(position.X - startingX);
+                if(distanceMoved > slideDistance )
+                {
+                    StopMovement();
+                    kirby.EndSlide();
+                } 
+            }
         }
         public override void Adjust(Player kirby)
         {
@@ -53,6 +58,19 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             //if kirby collides with a wall while crouching the slide ends
             //AdjustX(kirby);  // Turning this off temporarily  -Mark
             AdjustY(kirby);
+        }
+
+        public override void AdjustFromRightCollisionBlock(Rectangle intersection)
+        {
+            position.X -= intersection.Width;
+            xVel = 0;
+            
+        }
+
+        public override void AdjustFromLeftCollisionBlock(Rectangle intersection)
+        {
+            position.X += intersection.Width;
+            xVel = 0;
         }
 
     }

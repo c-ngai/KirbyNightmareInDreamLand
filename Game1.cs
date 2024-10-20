@@ -63,7 +63,6 @@ namespace KirbyNightmareInDreamLand
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
-
         protected override void Initialize()
         {
             DEBUG_TEXT_ENABLED = true;
@@ -167,6 +166,8 @@ namespace KirbyNightmareInDreamLand
             foreach (IEnemy enemy in enemyList2) enemy.Update(time); // FOR PERFORMANCE TESTING
             manager.EnemyList[manager.CurrentEnemyIndex].Update(time);
 
+            ObjectManager.Instance.OrganizeList();
+
             CollisionDetection.Instance.CheckCollisions();
 
             Level.UpdateLevel();
@@ -219,4 +220,5 @@ namespace KirbyNightmareInDreamLand
         }
 
     }
+
 }

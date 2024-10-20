@@ -76,12 +76,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 yVel = 0;
                 position.Y = 20;
             }
-            // if (yVel > 0)
-            // {
-            //     kirby.ChangePose(KirbyPose.FloatingFalling);
-            // } else {
-            //     kirby.ChangePose(KirbyPose.FloatingRising);
-            // }
         }
 
         public override void UpdatePosition(GameTime gameTime)
@@ -109,9 +103,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //attack (or pressing z) undoes float
         public override void Attack(Player kirby)
         {
-            // if(!kirby.attackIsActive)
-            // {
-            //kirby.ChangeAttackBool(true);
             if (!kirby.GetKirbyPose().Equals("FloatingGrounded"))
             {
                 FloatingEndAnimation(kirby);
@@ -124,8 +115,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 FloatingEndAnimation(kirby);
                 endFloat = true;
-                // kirby.ChangePose(KirbyPose.Standing);
-                // kirby.ChangeMovement();
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
+using System;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
@@ -40,7 +41,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public string GetObjectType()
         {
-            return "Projectile";
+            return "EnemyAttack";
         }
 
         public void Update()
@@ -67,7 +68,8 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void EndAttack()
         {
-            //
+            IsActive = false;
+            CollisionActive = false;
         }
         public bool IsDone()
         {

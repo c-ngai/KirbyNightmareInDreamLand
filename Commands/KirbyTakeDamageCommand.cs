@@ -6,7 +6,7 @@ namespace KirbyNightmareInDreamLand.Commands
 
         public void Execute()
         {
-            ObjectManager.Instance.Players[0].TakeDamage();
+           //ObjectManager.Instance.Players[0].TakeDamage();
 
         }
     }

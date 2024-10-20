@@ -85,11 +85,19 @@ this sprint.
 Refactoring Commands: The current implementation of the commands includes hardcoded key mappings.
 We are planning to refactor this by the next sprint so that the mappings can be swappable.
 
+Kirby Reabsorption: kirby can't reabsorb a star once it is spewed out, just the way it was coded 
+made it so only one "attack" would be active at a time and kirby couldnt start another attack
+while another one is active. Refactoring is not an option at this point.
+
 ###############################################################################
 
 
 Known bugs:
-
+ - if you are attacking and move the player, kirby doesnt move position, but the sprite changes, we are aware.
+ - slide sometimes happens without changing the pose into sliding
+ - sometimes movement just softlocks in position or onto float, it is unclear why 
+ - pressing z  repeadetly and up while kirby is floating sometimes softlocks it into postion
+ - restart is buggy on collision boxes
 TODO: Add bugs
 
 

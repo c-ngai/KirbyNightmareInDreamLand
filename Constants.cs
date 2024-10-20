@@ -105,6 +105,10 @@ namespace KirbyNightmareInDreamLand
             public static int SLIDE_HEIGHT = 30;
             public static Vector2 SLIDE_OFFSET_RIGHT = new Vector2(7, -12);
             public static Vector2 SLIDE_OFFSET_LEFT = new Vector2(-19, -12);
+
+            public static int STAR1_SIZE = 12;
+            public static Vector2 STAR_OFFSET_RIGHT = new Vector2(7, -12);
+            public static Vector2 STAR_OFFSET_LEFT = new Vector2(-19, -12);
         }
 
         public class Kirby
@@ -116,6 +120,8 @@ namespace KirbyNightmareInDreamLand
             public static Vector2 PUFF_ATTACK_OFFSET = new Vector2(15, 0);
             public static Vector2 FLAME_ATTACK_OFFSET_RIGHT = new Vector2(30, -10);
             public static Vector2 FLAME_ATTACK_OFFSET_LEFT = new Vector2(-25, -10);
+            public static Vector2 STAR_ATTACK_OFFSET_RIGHT= new Vector2(8, -10);
+            public static Vector2 STAR_ATTACK_OFFSET_LEFT= new Vector2(-8, -10);
 
         }
 

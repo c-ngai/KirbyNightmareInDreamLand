@@ -1,4 +1,5 @@
 
+using System;
 using System.Net;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,10 +18,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
             IsLeft = isLeft;
             Position = pos;
             ObjectManager.Instance.RegisterDynamicObject(this);
-        }
-        public string GetObjectType()
-        {
-            return "Projectile";
         }
         public bool IsDone()
         {
@@ -44,6 +41,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public void Draw(SpriteBatch spriteBatch)
         {
             //uneeded
+        }
+        public string GetObjectType()
+        {
+            return "PlayerAttack";
         }
 
         public void EndAttack()

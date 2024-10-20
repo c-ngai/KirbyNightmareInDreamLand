@@ -75,7 +75,7 @@ namespace KirbyNightmareInDreamLand
             }
             return side;
         }
-
+        //in charge of static (tile) collisions
         public void StaticCollisionCheck()
         {
             foreach (var dynamicObj in manager.DynamicObjects)
@@ -102,6 +102,7 @@ namespace KirbyNightmareInDreamLand
                 }
             }
         }
+         //in charge of dynamic (tile) collisions
         public void DynamicCollisionCheck()
         {
             for (int i = 0; i < manager.DynamicObjects.Count; i++)
@@ -110,7 +111,8 @@ namespace KirbyNightmareInDreamLand
                 for (int j = i + 1; j < manager.DynamicObjects.Count; j++)
                 {
                     //run and time and comment out close enough to check if it improved performance
-                    if (!IsCloseEnough(manager.DynamicObjects[i], manager.DynamicObjects[j])) continue;
+                    if(!IsCloseEnough(manager.DynamicObjects[i],manager.DynamicObjects[j])) continue;
+                    if(!manager.DynamicObjects[j].CollisionActive) continue;
                     if (manager.DynamicObjects[i].GetHitBox().Intersects(manager.DynamicObjects[j].GetHitBox()))
                     {
                         Rectangle intersection = Rectangle.Intersect(manager.DynamicObjects[i].GetHitBox(), manager.DynamicObjects[j].GetHitBox());
