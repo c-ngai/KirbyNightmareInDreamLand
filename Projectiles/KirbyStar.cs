@@ -38,9 +38,9 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 ? SpriteFactory.Instance.CreateSprite("projectile_kirby_star_right")
                 : SpriteFactory.Instance.CreateSprite("projectile_kirby_star_left");
             
-            CollisionDetection.Instance.RegisterDynamicObject(this);
+            ObjectManager.Instance.RegisterDynamicObject(this);
         }
-        public String GetCollisionType()
+        public string GetObjectType()
         {
             return "PlayerAttack";
         }
@@ -71,6 +71,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             if(!Game1.Instance.Camera.bounds.Contains(position))
             {
+                EndAttack();
                 return true;
             }
             return false;

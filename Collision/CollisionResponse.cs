@@ -54,7 +54,6 @@ namespace KirbyNightmareInDreamLand.Collision
             //ans stop the intersection instead of allowing there to be one
             String key1 = object1.GetObjectType();
             String key2 = object2.GetObjectType();
-
             if(ShouldCollide(key1, key2))
             {
                 //hand side that is being collided
@@ -62,15 +61,18 @@ namespace KirbyNightmareInDreamLand.Collision
 
                 Rectangle intersection = Rectangle.Intersect(object1.GetHitBox(), object2.GetHitBox());
                 Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>> commands = collisionMapping[objects];
-                if (commands.Item1 != null)
+                if (collisionMapping.ContainsKey(objects))
                 {
-                    commands.Item1(object1, object2, intersection);
+                    if (commands.Item1 != null)
+                    {
+                        commands.Item1(object1, object2, intersection);
+                    }
+                    if (commands.Item2 != null)
+                    {
+                        commands.Item2(object1, object2, intersection);
+                    }
                 }
-                if (commands.Item2 != null)
-                {
-                    commands.Item2(object1, object2, intersection);
-                }
-            }
+            } 
             
         }
     }

@@ -41,7 +41,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public string GetObjectType()
         {
-            return "Projectile";
+            return "EnemyAttack";
         }
 
         public void Update()
@@ -66,13 +66,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 ObjectManager.Instance.RemoveDynamicObject(this); // Deregister if dead
             }
         }
-        public String GetCollisionType()
-        {
-            return "EnemyAttack";
-        }
         public void EndAttack()
         {
-            //
+            IsActive = false;
+            CollisionActive = false;
         }
         public bool IsDone()
         {

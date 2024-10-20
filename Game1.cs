@@ -166,6 +166,7 @@ namespace KirbyNightmareInDreamLand
             foreach (IEnemy enemy in enemyList2) enemy.Update(time); // FOR PERFORMANCE TESTING
             manager.EnemyList[manager.CurrentEnemyIndex].Update(time);
 
+            ObjectManager.Instance.OrganizeList();
             CollisionDetection.Instance.CheckCollisions();
 
             Level.UpdateLevel();

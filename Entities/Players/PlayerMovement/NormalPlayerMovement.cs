@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using KirbyNightmareInDreamLand.StateMachines;
+using KirbyNightmareInDreamLand.Projectiles;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {   
@@ -15,23 +16,14 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             //puff is one time
 
             //attacks are stationary
-             System.Console.WriteLine("here player movement");
             if(!kirby.IsWithEnemy()) StopMovement();
         }
 
-        public override void AttackPressed(Player kirby)
-        {
-            //electric is while z is pressed
-            //fire is while z is pressed 
-            //inhaling is while z is pressed normal_inhaling
-
-            //attacks are stationary
-            StopMovement();
-            kirby.ChangePose(KirbyPose.Attacking);
-        }
         public override void MovePlayer(Player kirby, GameTime gameTime)
         {
-            if(!kirby.attackIsActive || kirby.IsWithEnemy()) // if he is attacking or is spweing an enemey
+            //if kirby is not attacking
+            //or in the case he is it doesnt apply for the star attack
+            if((kirby.attack == null) || (kirby.attack?.GetType() == typeof(KirbyStar))) // if he is not attacking or is spweing an enemey
             {
                 UpdatePosition(gameTime);
             }

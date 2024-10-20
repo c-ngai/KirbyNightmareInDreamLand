@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
 using System;
+using System.Linq;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -64,7 +65,6 @@ namespace KirbyNightmareInDreamLand
             //make it a list from the get go to make it multiplayer asap
             Players = new List<IPlayer>();
             IPlayer kirby = new Player(new Vector2(30, Constants.Graphics.FLOOR));
-            kirby.PlayerSprite = SpriteFactory.Instance.CreateSprite("kirby_normal_standing_right");
             Players.Add(kirby);
 
             Debug.WriteLine("Created Kirby ");
@@ -138,6 +138,10 @@ namespace KirbyNightmareInDreamLand
         public void RemoveStaticObject(ICollidable staticObj)
         {
             StaticObjects.Remove(staticObj);
+        }
+        public void OrganizeList()
+        {
+            DynamicObjects = DynamicObjects.OrderBy<ICollidable, String>(o => o.GetObjectType()).ToList();
         }
 
         public void UpdateObjectLists()

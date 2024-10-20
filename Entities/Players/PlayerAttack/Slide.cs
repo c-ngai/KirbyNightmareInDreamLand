@@ -22,14 +22,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
             startingX = pos.X;
             ObjectManager.Instance.RegisterDynamicObject(this);
         }
-        public string GetObjectType()
-        {
-            return "Projectile";
-        }
-        public void OnCollide()
-        {
-            //nothing
-        }
         public void EndAttack()
         {
             CollisionActive = false;
@@ -44,7 +36,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
             }
             return false;
         }
-        public String GetCollisionType()
+        public string GetObjectType()
         {
             return "PlayerAttack";
         }

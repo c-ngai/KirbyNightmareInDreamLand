@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using KirbyNightmareInDreamLand.Entities.Players;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -13,20 +14,18 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public Vector2 Velocity {get; private set;}
         public bool CollisionActive { get; private set;} = true;
         private bool IsLeft;
-        public Inhale(Vector2 pos, bool isLeft)
+        private Player player;
+        public Inhale(Vector2 pos, bool isLeft, Player kirby)
         {
             Position = pos;
             IsLeft = isLeft;
+            player = kirby;
             ObjectManager.Instance.RegisterDynamicObject(this);
             
         }
-        public string GetObjectType()
-        {
-            return "Projectile";
-        }
         public void OnCollide()
         {
-            //switch to mouthful kirby
+           player.SwallowEnemy();
         }
         public void EndAttack()
         {
@@ -44,9 +43,9 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             return pos + (IsLeft ? Constants.HitBoxes.NORMA_OFFSET_LEFT: Constants.HitBoxes.NORMAL_OFFSET_RIGHT); 
         }
-        public String GetCollisionType()
+        public string GetObjectType()
         {
-            return "PlayerInhale";
+            return "PlayerAttack";
         }
         public Rectangle GetHitBox()
         {

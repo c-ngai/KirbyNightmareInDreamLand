@@ -340,6 +340,38 @@ namespace KirbyNightmareInDreamLand
             #endregion
 
             #region Player-Enemy Collisions
+            key1 = "Enemy";
+            key2 = "Player";
+            action1 = DynamicCollisionActions.KirbyEnemyCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Top, action1, null);
+
+            key2 = "PlayerAttack";
+            action1 = DynamicCollisionActions.EnemyKirbyAttackCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Top, action1, null);
+
+            key1 = "Player";
+            key2 = "EnemyAttack";
+            action1 = DynamicCollisionActions.KirbyEnemyAttackCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Top, action1, null);
+
+            key2 = "PowerUp";
+            action1 = DynamicCollisionActions.KirbyItemCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, null, action1);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, null, action1);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, null, action1);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Top, null, action1);
+
+            
+
             #endregion
 
             Debug.WriteLine("Dictionary after collisionMapping");

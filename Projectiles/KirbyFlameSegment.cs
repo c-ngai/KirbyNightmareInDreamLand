@@ -19,7 +19,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public bool CollisionActive { get; private set;} = true;
         public string GetObjectType()
         {
-            return "Projectile";
+            return "PlayerAttack";
         }
         public Vector2 Position
         {
@@ -120,10 +120,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             Vector2 rectPoint = CalculateRectanglePoint(Position);
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.FIRE_SIZE, Constants.HitBoxes.FIRE_SIZE);
-        }
-         public String GetCollisionType()
-        {
-            return "PlayerAttack";
         }
         public bool IsDone()
         {

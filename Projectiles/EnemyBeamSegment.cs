@@ -24,7 +24,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
             get => velocity;
             set => velocity = value;
         }
-        public String GetCollisionType()
+        public string GetObjectType()
         {
             return "EnemyAttack";
         }
@@ -36,10 +36,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
             ObjectManager.Instance.RegisterDynamicObject(this);
         }
 
-        public string GetObjectType()
-        {
-            return "Projectile";
-        }
 
         public void Update()
         {

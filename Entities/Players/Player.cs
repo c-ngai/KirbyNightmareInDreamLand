@@ -18,7 +18,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         private PlayerStateMachine state;
         private PlayerMovement movement;
         private Sprite playerSprite ;
-        private PlayerAttack attack;
+        public PlayerAttack attack {get; private set;}
 
 
         //health stuffs -- will be taken to another class connected to kirby in next sprint
@@ -26,7 +26,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         private int lives = Constants.Kirby.MAX_LIVES;
         private bool invincible = false;
         private double timer = 0;
-        private double attackTimer = 0;
 
         //others
         private string oldState;
@@ -54,7 +53,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         private void UpdateTexture()
         {
             if(!state.GetStateString().Equals(oldState)){
-                System.Console.WriteLine(state.GetStateString());
                 playerSprite = SpriteFactory.Instance.CreateSprite(state.GetSpriteParameters());
                 oldState = state.GetStateString();
             } 
@@ -88,7 +86,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             return state.IsFalling();
         }
-        public String AttackType()
+        public bool IsSliding()
+        {
+            return state.IsSliding();
+        }
+        private String AttackType()
         {
             if(IsFloating()&& !IsFalling()){
                 return "Puff";
@@ -159,7 +161,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             //state.ChangeType(KirbyType.Dead);
         }
-        public void DecreaseHealth()
+        private void DecreaseHealth()
         {
             if(timer == 0)
             {
@@ -176,7 +178,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
         }
         //calls method to drecease health & changes kirby pose
-        public async void TakeDamageAnimation()
+        private async void TakeDamageAnimation()
         {
             if(invincible){
                 if(!IsWithEnemy())ChangeToNormal();
@@ -186,7 +188,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 invincible = true;
             }
         }
-        public void EndInvinciblility(GameTime gameTime)
+        private void EndInvinciblility(GameTime gameTime)
         {
             if(invincible){
                 timer += gameTime.ElapsedGameTime.TotalSeconds; 
@@ -196,12 +198,20 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 }
             }
         }
-        public void TakeDamage()
+        public void TakeDamage(Rectangle intersection)
         {
-            invincible = true;
-            TakeDamageAnimation();
-            DecreaseHealth();
-            movement.ReceiveDamage(state.IsLeft());
+            if(!invincible)
+            {
+                invincible = true;
+                TakeDamageAnimation();
+                DecreaseHealth();
+                movement.ReceiveDamage(intersection);
+            }
+            
+        }
+        public void FillHealth()
+        {
+            health = Constants.Kirby.MAX_HEALTH;
         }
         #endregion
 
@@ -210,7 +220,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             movement.GoToRoomSpawn();
         }
-        
         
         public void MoveLeft()
         {   
@@ -268,26 +277,31 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 //Float();
                 movement.Jump(state.IsLeft());
             } else {
-                //does nothing: sprint 3 will have a controller refactor 
-                //that will allow for a use of this spot
+                //does nothing
             }
         }
         #endregion
+        private async void StartFloating()
+        {
+            ChangePose(KirbyPose.FloatingStart);
+            await Task.Delay(Constants.Physics.DELAY*2);
+        }
         public void Float()
         {
             //1 start floating
             //2 go up 
             //3 float again if its fallign
             //crouching and sliding cannot be overwritten by float 
-            if (IsFloating() && !IsFalling()){
+            if (IsFloating() && !IsFalling()){ //covers 
                 movement.Jump(state.IsLeft()); 
                 ChangePose(KirbyPose.FloatingRising);
-            } else if (state.CanFloat() && !state.IsWithEnemy()){
-                movement.StartFloating(this);
-                movement = new FloatingMovement(movement.GetPosition());
+            } else if (state.CanFloat()){
+                if(!movement.GetType().Equals(new FloatingMovement(movement.GetPosition())))
+                {
+                    movement = new FloatingMovement(movement.GetPosition());
+                }
+                StartFloating();
                 ChangePose(KirbyPose.FloatingRising);
-                //change this to flowting geenral movement
-                return;
             }
         }
 
@@ -305,84 +319,89 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void Slide()
         {
-            if(!state.IsSliding()){
+            if(!IsSliding() && attack != null){
                 ChangePose(KirbyPose.Sliding);
-                movement.Slide(state.IsLeft());
                 //await Task.Delay(Constants.Physics.DELAY);
             }
         }
         public void EndSlide()
         {
             if(state.IsSliding()){
-                ChangePose(KirbyPose.Crouching);
-                movement.StopMovement();
-                StopAttacking();
-                ChangeAttackBool(false);
-                if(attack != null) attack.EndAttack();
-                //await Task.Delay(Constants.Physics.DELAY);
+                movement.StopMovement(); //set vel to 0
+                ChangePose(KirbyPose.Crouching); //set back to crouching
+                //ChangeAttackBool(false);  //stop attack mode
+                
+                if(attack != null)// && attack.IsDone())
+                {
+                    attack.EndAttack();
+                    attack = null;
+                }
             }
         }
         public void EndCrouch()
         {
             if(state.IsCrouching()){
-                if(attack != null) attack.EndAttack();
-                EndSlide();
-                ChangeAttackBool(false);
-                ChangeMovement();
-                StopMoving(); 
+                EndSlide(); //if sliding changes to standin
+                ChangeMovement(); //change to normal
+                StopMoving(); //set vel to 0 and standing
+                if(attack != null)// && attack.IsDone())
+                {
+                    attack.EndAttack();
+                    attack = null;
+                }
             } 
         }
         #endregion
         
         #endregion //movement region
         #region Attack
-        public async void AttackAnimation()
+
+        private async void AttackAnimation()
         {
+            //beam float exhale mouthful exhale
             ChangePose(KirbyPose.Attacking);
             if(GetKirbyType().Equals("Beam")){
-                await Task.Delay(1000);
-            } else {
+                await Task.Delay(500);
+                //ChangeAttackBool(false);
+                attack = null;
+            } else {  //float and mouthful exhale
                 await Task.Delay(200);
             }
             if(!state.IsFloating()) ChangePose(KirbyPose.Standing);
-            if(IsWithEnemy()) ChangeToNormal();
+            if(IsWithEnemy())ChangeToNormal();
         }
         public void Attack()
         {
-            //start a new attack if another one isnt happening
+            //slide beam float exhale mouthful exhale
             if(attack == null && state.ShortAttack()){
                 attack = new PlayerAttack(this, AttackType());
-                movement.Attack(this);
                 if(!state.IsCrouching())AttackAnimation();
-                ChangeAttackBool(true);
-                attackTimer++;
+                movement.Attack(this);
+                //ChangeAttackBool(true);
             }
         }
-        
         public void AttackPressed()
         {
+            //flame spark inhale
             if(attack == null && state.LongAttack()){
                 attack = new PlayerAttack(this, AttackType());
-                movement.AttackPressed(this);
-                ChangeAttackBool(true);
+                ChangePose(KirbyPose.Attacking);
+                movement.Attack(this);
+                //ChangeAttackBool(true);
             }
-        }
-        public async void EndAttackAnimation()
-        {
-            state.ChangePose(KirbyPose.AttackingEnd);
-            await Task.Delay(1000);
+
         }
         public void StopAttacking()
         {
             if(attack != null && attack.IsDone())
             {
-                EndAttackAnimation();
                 StopMoving();
-                ChangeAttackBool(false);
+                //ChangeAttackBool(false);
                 attack.EndAttack();
                 attack = null;
             }
         }
+       
 
         #endregion
 
@@ -391,7 +410,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             return state.IsWithEnemy();
         }
-        public async void SmallWait()
+        private async void SmallWait()
         {
             await Task.Delay(1000);
         }
@@ -422,14 +441,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             EndInvinciblility(gameTime);
             playerSprite.Update();
             GetHitBox();
-            if(attackIsActive){
+            if(attack != null){
                 attack.Update(gameTime, this);
             }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            
             UpdateTexture();
             
             if(invincible){
@@ -438,7 +456,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 playerSprite.Draw(movement.GetPosition(), spriteBatch);
             }
 
-            if(attackIsActive){
+            if(attack != null){
                 attack.Draw(spriteBatch, this);
             }
         }

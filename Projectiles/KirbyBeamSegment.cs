@@ -19,7 +19,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
         public string GetObjectType()
         {
-            return "Projectile";
+            return "PlayerAttack";
         }
 
         public Vector2 Position
@@ -102,10 +102,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
             {
                 sprite1.Draw(Position, spriteBatch);
             }
-        }
-        public String GetCollisionType()
-        {
-            return "PlayerAttack";
         }
     }
 }

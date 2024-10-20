@@ -35,7 +35,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             ObjectManager.Instance.RegisterDynamicObject(this);
             currentState.Enter();
             frameCounter = 0; 
-            CollisionDetection.Instance.RegisterDynamicObject(this);
+            ObjectManager.Instance.RegisterDynamicObject(this);
         }
 
         public string GetObjectType()
@@ -101,9 +101,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             currentState.Enter();
         }
 
-        public void TakeDamage()
+        public void TakeDamage(Rectangle intersection)
         {
             currentState.TakeDamage(); // Delegate to current state
+            CollisionActive = false;
         }
 
         public void ChangeDirection()
