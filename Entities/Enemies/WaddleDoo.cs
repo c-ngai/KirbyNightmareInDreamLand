@@ -85,7 +85,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
             //COLLISION WARNING: REMOVE THESE LINES WHEN IMPLEMENTING FALL
             position.Y += yVel;
-            yVel += Constants.WaddleDoo.GRAVITY;
+            yVel += Constants.Physics.GRAVITY / 100;
 
             //Move right or left on x axis in jump
             if (stateMachine.IsLeft())

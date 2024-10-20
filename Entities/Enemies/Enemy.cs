@@ -174,7 +174,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void Fall()
         {
-            yVel += gravity;  // Increase vertical velocity by gravity
+            yVel += gravity / 100;  // Increase vertical velocity by gravity
             position.Y += yVel;  // Apply the updated velocity to the enemy's Y position
         }
 
