@@ -39,6 +39,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 currentState.Update();
                 UpdateTexture();
                 // Update the sprite and fireballs
+                Fall();
+
                 enemySprite.Update();
                 UpdateFireballs();
                 GetHitBox();
