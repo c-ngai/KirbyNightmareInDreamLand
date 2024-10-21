@@ -2,6 +2,7 @@ using KirbyNightmareInDreamLand.Entities.Enemies;
 using KirbyNightmareInDreamLand.Entities.Players;
 using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Sprites;
+using KirbyNightmareInDreamLand.Projectiles;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
@@ -18,9 +19,7 @@ namespace KirbyNightmareInDreamLand
         public List<ICollidable> StaticObjects { get; private set; }
 
         // Single-player but can later be updated to an array of kirbys for multiplayer
-        public List<IPlayer> Players { get; set; }
-
-        public List<Tile> relevantTilesLastUpdate { get; private set; }
+        public List<IPlayer> Players { get; private set; }
 
         public IEnemy[] EnemyList { get; set; }
 

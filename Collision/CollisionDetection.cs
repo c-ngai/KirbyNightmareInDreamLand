@@ -96,7 +96,6 @@ namespace KirbyNightmareInDreamLand
                         Tuple<string, string, CollisionSide> key = new Tuple<string, string, CollisionSide>(type1, type2, side);
                         if (response.collisionMapping.ContainsKey(key))
                         {
-                            //Debug.WriteLine($"Key1: {dynamicObj.GetType().ToString()}, Key2: {type2}, side: {side}");
                             response.ExecuteCollision(dynamicObj, staticObj, side);
                         } 
                     }
