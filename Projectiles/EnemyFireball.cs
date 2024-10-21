@@ -66,11 +66,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 ObjectManager.Instance.RemoveDynamicObject(this); // Deregister if dead
             }
         }
-        public void EndAttack()
-        {
-            IsActive = false;
-            CollisionActive = false;
-        }
+    
         public bool IsDone()
         {
             return true;
@@ -91,10 +87,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.FIREBALL_WIDTH, Constants.HitBoxes.FIREBALL_HEIGHT);
         }
 
-        public virtual void CollisionWithBlock(Rectangle intersection)
+        public void EndAttack()
         {
-            ObjectManager.Instance.RemoveDynamicObject(this);
             IsActive = false;
+            CollisionActive = false;
         }
     }
 }

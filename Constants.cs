@@ -55,6 +55,27 @@ namespace KirbyNightmareInDreamLand
             public const int NUMBER_OF_TILE_TYPES = 10;
             public static Vector2 BOTTOM_MIDDLE_OF_TILE = new Vector2(TILE_SIZE / 2, TILE_SIZE);
         }
+
+        public static class Collision
+        {
+            public const float GENTLE1_SLOPE_LEFT_M = 0.25F;
+            public const int GENTLE1_SLOPE_LEFT_YINTERCEPT = -1;
+
+            public const float GENTLE2_SLOPE_LEFT_M = 0.4F;
+            public const float GENTLE2_SLOPE_LEFT_YINTERCEPT = 9.6F;
+
+            public const int STEEP_SLOPE_LEFT_M = 1;
+            public const int STEEP_SLOPE_LEFT_YINTERCEPT = -1;
+
+            public const float GENTLE1_SLOPE_RIGHT_M = -0.25F;
+            public const int GENTLE1_SLOPE_RIGHT_YINTERCEPT = 4;
+
+            public const float GENTLE2_SLOPE_RIGHT_M = -0.4F;
+            public const int GENTLE2_SLOPE_RIGHT_YINTERCEPT = 15;
+
+            public const int STEEP_SLOPE_RIGHT_M = -1;
+            public const int STEEP_SLOPE_RIGHT_YINTERCEPT = 15;
+        }
         public static class HitBoxes
         {
             public const int ENTITY_WIDTH = 13;
@@ -265,8 +286,7 @@ namespace KirbyNightmareInDreamLand
             public const int ATTACK_FRAMES = 50;
             public const int HURT_FRAMES = 50;
             public const int JUMPING_FRAMES = 50;
-            public const float JUMP_HEIGHT = 2f;
-            public const float GRAVITY = 0.1f;
+            public const float JUMP_VELOCITY = 2.5f;
             public const float FORWARD_MOVEMENT = 0.5f;
             public const float DEAD_FRAMES = 20;
         }

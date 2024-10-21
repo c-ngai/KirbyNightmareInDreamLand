@@ -11,6 +11,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
 {
     public interface IExplodable
     {
-        public void CollisionWithBlock(Rectangle intersection);
+        public void EndAttack();
+
     }
 }

@@ -58,6 +58,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
             {
                 beamSegments[i].Update();
                 // Remove the segment if it's no longer active
+
                 if (!beamSegments[i].IsActive)
                 {
                     beamSegments.RemoveAt(i);
