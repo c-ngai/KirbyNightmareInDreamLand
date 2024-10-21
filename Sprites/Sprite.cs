@@ -123,14 +123,18 @@ namespace KirbyNightmareInDreamLand.Sprites
 
         public void DamageDraw(Vector2 position, SpriteBatch spriteBatch)
         {
-            counter ++;
-            if (counter < 10)
+            if (counter < 4)
             {
                 Draw(position, spriteBatch);
-            } else{
-                if(counter == 20)
-                    counter = 0;
             }
+            else
+            {
+                Draw(position, spriteBatch, Color.Red);
+            }
+            // spriteBatch.DrawString(LevelLoader.Instance.Font, counter.ToString(), position, Color.Black); // DEBUG, draw counter
+            counter++;
+            if (counter == 8)
+                counter = 0;
         }
 
         // Resets the animation to the start. Should be desirable to call any time an entity's sprite is switched.
