@@ -152,10 +152,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 UpdateTexture();
                 enemySprite.Update();
 
-                if (isFalling)
-                {
+                //if (isFalling)
+                //{
                     Fall();
-                }
+                //}
 
                 GetHitBox(); // Ensure hitbox is updated
             } else {
@@ -203,7 +203,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void BottomCollisionWithBlock(Rectangle intersection)
         {
-            position.Y = intersection.Y;
+            position.Y = intersection.Y + 1; // TODO: fix jank, the +1 is a total bandaid
             yVel = 0;
             isFalling = false;
         }

@@ -104,7 +104,7 @@ namespace KirbyNightmareInDreamLand.Levels
                     doorJsonData.TileX * Constants.Level.TILE_SIZE,
                     doorJsonData.TileY * Constants.Level.TILE_SIZE,
                     Constants.Level.TILE_SIZE,
-                    Constants.Level.TILE_SIZE + 1); // Plus one for now because when standing on the ground, kirby's position is right at the bottom edge of the door rectangle normally, which isn't counted as "inside" it. Door hitbox goes 1 pixel into the ground.
+                    Constants.Level.TILE_SIZE + 3); // Plus one for now because when standing on the ground, kirby's position is right at the bottom edge of the door rectangle normally, which isn't counted as "inside" it. Door hitbox goes 1 pixel into the ground.
                 string DestinationRoom = doorJsonData.DestinationRoom;
                 Vector2 DestinationPoint = new Vector2(
                     doorJsonData.DestinationTileX, doorJsonData.DestinationTileY)

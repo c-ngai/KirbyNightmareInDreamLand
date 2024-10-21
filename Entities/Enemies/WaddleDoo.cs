@@ -42,10 +42,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 enemySprite.Update();
                 GetHitBox();
 
-                if (isFalling)
-                {
+                //if (isFalling)
+                //{
                     Fall();
-                }
+                //}
 
                 // Handle the beam if active
                 if (isBeamActive)
@@ -85,10 +85,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             {
                 // Start jumping and store initial y
                 isJumping = true;
-                yVel = -Constants.WaddleDoo.JUMP_HEIGHT;
+                yVel = -Constants.WaddleDoo.JUMP_VELOCITY;
             }
 
-            position.Y += yVel;
+            //position.Y += yVel;
 
             Move();
         }
@@ -114,6 +114,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 }
                 //draw enemy
                 enemySprite.Draw(position, spriteBatch);
+                spriteBatch.DrawString(LevelLoader.Instance.Font, isJumping.ToString(), position + new Vector2(-24, -30), Color.Black);
             }
         }
 
@@ -121,9 +122,15 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             isFalling = false;
             isJumping = false;
-            position.Y = intersection.Y;
+            position.Y = intersection.Y + 1; // TODO: fix jank, the +1 is a total bandaid
             yVel = 0;
-            ChangeState(new WaddleDooWalkingState(this));
+            // Note (Mark) THIS IS A BIT JANK
+            // Basically: if colliding with a block from above, change to walking state if jumping
+            if (currentState.GetType().Equals(typeof(WaddleDooJumpingState)))
+            {
+                ChangeState(new WaddleDooWalkingState(this));
+            }
+            
         }
     }
 }
