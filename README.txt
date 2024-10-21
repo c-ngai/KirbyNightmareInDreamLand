@@ -129,6 +129,7 @@ Collision:
     these include: 
         being stuck on a slope and/or walking across air (this combination is often triggered)
         entering into falling animation while on slope
+ - some of the enemies are having bugs with colliding into tiles because of the multiple response issue
 
 ###############################################################################
 
