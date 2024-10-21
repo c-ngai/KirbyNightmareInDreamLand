@@ -5,6 +5,7 @@ using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
+using KirbyNightmareInDreamLand.Projectiles;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -13,6 +14,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         private int hopCounter = 0; //number of hops
         private int stateCounter = 0;   //frames that have passed in 1 state
         private float currentHopHeight; // Store the current hop height
+        private SparkyPlasma sparkyPlasma;
+        private bool isPlasmaActive;
 
         public Sparky(Vector2 startPosition) : base(startPosition, EnemyType.Sparky)
         {
@@ -21,7 +24,9 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             ChangeState(new SparkyPause1State(this)); // Set initial state
             yVel = 0;
             xVel = Constants.Sparky.HOP_SPEED;
+           // isPlasmaActive = false;
         }
+
 
         public override void Move()
         {
@@ -60,18 +65,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public override Vector2 CalculateRectanglePoint(Vector2 pos)
         {
-            float x;
-            float y;
-            if (stateMachine.GetPose() == EnemyPose.Attacking)
-            {
-                x = pos.X - Constants.HitBoxes.SPARKY_ATTACK_WIDTH / 2;
-                y = pos.Y - Constants.HitBoxes.SPARKY_ATTACK_HEIGHT + Constants.HitBoxes.SPARKY_ATTACK_OFFSET;
-            }
-            else
-            {
-                x = pos.X - Constants.HitBoxes.ENEMY_WIDTH / 2;
-                y = pos.Y - Constants.HitBoxes.ENEMY_HEIGHT;
-            }
+            float x = pos.X - Constants.HitBoxes.ENEMY_WIDTH / 2;
+            float y = pos.Y - Constants.HitBoxes.ENEMY_HEIGHT;
             Vector2 rectPoint = new Vector2(x, y);
             return rectPoint;
         }
@@ -79,19 +74,48 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public override Rectangle GetHitBox()
         {
             Vector2 rectPoint = CalculateRectanglePoint(position);
-
-            // Check if the enemy is in the attacking state
-            if (stateMachine.GetPose() == EnemyPose.Attacking)
-            {
-                // Return the larger hitbox when attacking
-                return new Rectangle((int)rectPoint.X,(int)rectPoint.Y,Constants.HitBoxes.SPARKY_ATTACK_WIDTH,Constants.HitBoxes.SPARKY_ATTACK_HEIGHT);
-            }
-            else
-            {
-                // Return the normal hitbox for other states
-                return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENEMY_WIDTH, Constants.HitBoxes.ENEMY_HEIGHT);
-            }
+            return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENEMY_WIDTH, Constants.HitBoxes.ENEMY_HEIGHT);
         }
+
+
+        
+ public override void Update(GameTime gameTime)
+ {
+     if (!isDead)
+     {
+         IncrementFrameCounter();
+         currentState.Update();
+         UpdateTexture();
+         enemySprite.Update();
+
+         //if (isFalling)
+         //{
+         Fall();
+         //}
+         GetHitBox();
+
+         // Handle the beam if active
+         if (isPlasmaActive)
+         {
+             sparkyPlasma.Update();
+             if (sparkyPlasma.IsDone())
+             {
+                 isPlasmaActive = false;
+             }
+         } 
+     }
+ }
+
+         public override void Attack()
+ {
+     if (!isPlasmaActive)
+     {
+         sparkyPlasma = new SparkyPlasma(position);
+         isPlasmaActive = true;
+     }
+ }
+ 
+
 
     }
 }
