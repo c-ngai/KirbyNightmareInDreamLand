@@ -21,6 +21,16 @@ namespace KirbyNightmareInDreamLand.Sprites
         private int tickCounter;
         private int counter = 0;
 
+        public int Width
+        {
+            get => _spriteAnimation.FrameSourceRectangles[currentFrame].Width;
+        }
+
+        public int Height
+        {
+            get => _spriteAnimation.FrameSourceRectangles[currentFrame].Height;
+        }
+
         /* Creates a new animation object from an animation file. Imports animation
          * data from a .csv file into the Animation object. */
         public Sprite(SpriteAnimation spriteAnimation)

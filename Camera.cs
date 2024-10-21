@@ -54,7 +54,7 @@ namespace KirbyNightmareInDreamLand
             {
                 position.X = _targetPlayer?.GetKirbyPosition().X - Constants.Graphics.GAME_WIDTH / 2 ?? position.X;
                 // Bound camera X by room width
-                if (position.X < 0)
+                if (position.X < 0 || Constants.Graphics.GAME_WIDTH > _game.Level.CurrentRoom.Width)
                 {
                     position.X = 0;
                 }
@@ -73,7 +73,7 @@ namespace KirbyNightmareInDreamLand
             {
                 position.Y = _targetPlayer?.GetKirbyPosition().Y - Constants.Graphics.GAME_HEIGHT / 2 ?? position.Y;
                 // Bound camera Y by room height
-                if (position.Y < 0)
+                if (position.Y < 0 || Constants.Graphics.GAME_HEIGHT > _game.Level.CurrentRoom.Height)
                 {
                     position.Y = 0;
                 }

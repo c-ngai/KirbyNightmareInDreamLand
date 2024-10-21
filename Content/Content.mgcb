@@ -230,3 +230,6 @@
 #begin Tilemaps/testroom1.csv
 /copy:Tilemaps/testroom1.csv
 
+#begin Tilemaps/treasureroom.csv
+/copy:Tilemaps/treasureroom.csv
+

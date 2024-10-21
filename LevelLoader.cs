@@ -75,7 +75,7 @@ namespace KirbyNightmareInDreamLand
 
             // Border for fullscreen letterboxing
             Borders = new Texture2D(_graphics, 1, 1);
-            Borders.SetData(new Color[] { new Color(0, 0, 0, 127) });
+            Borders.SetData(new Color[] { Color.Black });
 
         }
 
