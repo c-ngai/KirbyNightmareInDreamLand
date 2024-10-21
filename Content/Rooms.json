@@ -99,14 +99,19 @@
             }
         ],
         "Enemies": [
+          {
+            "EnemyType": "WaddleDee",
+            "SpawnTileX": 30,
+            "SpawnTileY": 1
+          },
             {
-                "EnemyType": "WaddleDee",
+                "EnemyType": "WaddleDoo",
                 "SpawnTileX": 15,
-                "SpawnTileY": 1
+                "SpawnTileY": 7
             },
             {
                 "EnemyType": "WaddleDoo",
-                "SpawnTileX": 30,
+                "SpawnTileX": 25,
                 "SpawnTileY": 7
             },
             {
@@ -121,11 +126,6 @@
                 "SpawnTileY": 5
             },
             {
-                "EnemyType": "WaddleDoo",
-                "SpawnTileX": 40,
-                "SpawnTileY": 7
-            },
-            {
                 "EnemyType": "WaddleDee",
                 "SpawnTileX": 48,
                 "SpawnTileY": 6
@@ -134,12 +134,7 @@
                 "EnemyType": "Sparky",
                 "SpawnTileX": 37,
                 "SpawnTileY": 6
-            },
-          {
-            "EnemyType": "Hothead",
-            "SpawnTileX": 35,
-            "SpawnTileY": 6
-          }
+            }
         ]
     },
 
@@ -175,7 +170,7 @@
         "Enemies": [
             {
                 "EnemyType": "WaddleDee",
-                "SpawnTileX": 15,
+                "SpawnTileX": 18,
                 "SpawnTileY": 7
             },
             {
@@ -211,7 +206,7 @@
             {
                 "EnemyType": "Sparky",
                 "SpawnTileX": 60,
-                "SpawnTileY": 9
+                "SpawnTileY": 5
             }
         ]
     },
