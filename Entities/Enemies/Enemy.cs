@@ -28,10 +28,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public bool CollisionActive { get; set; } = true;
 
+        /*
           public bool IsFalling
           {
               get => isFalling; 
           }
+        */
 
         protected Enemy(Vector2 startPosition, EnemyType type)
         {
@@ -41,7 +43,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             isDead = false;
             xVel = 0;
             yVel = 0;
-            isFalling = false;
+            isFalling = true;
             gravity = Constants.Physics.GRAVITY;
             stateMachine = new EnemyStateMachine(type);
             oldState = string.Empty;
@@ -149,7 +151,13 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 currentState.Update();
                 UpdateTexture();
                 enemySprite.Update();
-                GetHitBox();
+
+                //if (isFalling)
+                //{
+                    Fall();
+                //}
+
+                GetHitBox(); // Ensure hitbox is updated
             } else {
                 CollisionActive = false;
             }
@@ -174,8 +182,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void Fall()
         {
-            // isFalling = true;
-            yVel = gravity;
+            yVel += gravity / 100;  // Increase vertical velocity by gravity
+            position.Y += yVel;  // Apply the updated velocity to the enemy's Y position
         }
 
         public abstract void Move();
@@ -195,12 +203,13 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void BottomCollisionWithBlock(Rectangle intersection)
         {
-            isFalling = false;
-            position.Y = intersection.Y;
+            position.Y = intersection.Y + 1; // TODO: fix jank, the +1 is a total bandaid
             yVel = 0;
+            isFalling = false;
         }
         public void BottomCollisionWithAir(Rectangle intersection)
         {
+            isFalling = true;
             Fall();
         }
         public void AdjustGentle1SlopeLeftCollision(Tile tile)
