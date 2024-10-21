@@ -1,15 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MasterGame.Sprites;
+using KirbyNightmareInDreamLand.Sprites;
+using System;
 
-namespace MasterGame.Projectiles
+namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class KirbyStar : IProjectile
+    public class KirbyStar : IProjectile, ICollidable
     {
         private Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;
-        
+        public bool CollisionActive { get; private set;} = true;
+
         public Vector2 Position
         {
             get => position;            // Return position of star
@@ -22,39 +24,58 @@ namespace MasterGame.Projectiles
             set => velocity = value;    // Set the velocity of the star to the given value
         }
 
-        public KirbyStar(Vector2 startPosition, Vector2 starDirection)
+        public KirbyStar(Vector2 kirbyPosition, bool isFacingRight)
         {
-            Position = startPosition;
+            Position = kirbyPosition + (isFacingRight ? Constants.Kirby.STAR_ATTACK_OFFSET_RIGHT: Constants.Kirby.STAR_ATTACK_OFFSET_LEFT);
 
-            // Normalize the direction vector and multiply by the constant speed
-            if (starDirection != Vector2.Zero)
-            {
-                starDirection.Normalize(); // Ensures the vector has a length of 1
-            }
+            // Set the initial velocity based on the direction Kirby is facing
+            Velocity = isFacingRight
+                ? new Vector2(Constants.Star.SPEED, 0)
+                : new Vector2(-Constants.Star.SPEED, 0);
 
-            Velocity = starDirection * Constants.Star.SPEED; // Apply the constant speed
-
-            // Check the direction and assign the appropriate sprite
-            if (starDirection.X >= 0)
-            {
-                projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_star_right");
-            }
-            else if (starDirection.X < 0)
-            {
-                projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_star_left");
-            }
+            // Assign the appropriate sprite based on the direction
+            projectileSprite = isFacingRight
+                ? SpriteFactory.Instance.CreateSprite("projectile_kirby_star_right")
+                : SpriteFactory.Instance.CreateSprite("projectile_kirby_star_left");
+            
+            ObjectManager.Instance.RegisterDynamicObject(this);
+        }
+        public string GetObjectType()
+        {
+            return "PlayerAttack";
         }
 
         public void Update()
         {
             Position += Velocity;
-
             projectileSprite.Update();
         }
-
+        public Vector2 CalculateRectanglePoint(Vector2 pos)
+        {
+            return pos + Constants.HitBoxes.PUFF_OFFSET; 
+        }
+        public Rectangle GetHitBox()
+        {
+            Vector2 rectPoint = CalculateRectanglePoint(Position);
+            return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.PUFF_SIZE, Constants.HitBoxes.PUFF_SIZE);
+        }
         public void Draw(SpriteBatch spriteBatch)
         {
             projectileSprite.Draw(Position, spriteBatch);
         }
+        public void EndAttack()
+        {
+            CollisionActive = false;
+        }
+        public bool IsDone()
+        {
+            if(!Game1.Instance.Camera.bounds.Contains(position))
+            {
+                EndAttack();
+                return true;
+            }
+            return false;
+        }
+    
     }
 }

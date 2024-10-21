@@ -1,4 +1,4 @@
-﻿namespace MasterGame.StateMachines
+﻿namespace KirbyNightmareInDreamLand.StateMachines
 {
     public interface IStateMachine
     {

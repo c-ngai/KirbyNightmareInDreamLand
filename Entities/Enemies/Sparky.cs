@@ -1,129 +1,54 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using MasterGame.StateMachines;
+using KirbyNightmareInDreamLand.StateMachines;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
+using KirbyNightmareInDreamLand.Projectiles;
 
-namespace MasterGame.Entities.Enemies
+namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
     public class Sparky : Enemy
     {
         private int hopCounter = 0; //number of hops
         private int stateCounter = 0;   //frames that have passed in 1 state
-        private string currentState = "HoppingForward"; // name of current state
+        private float currentHopHeight; // Store the current hop height
+        private SparkyPlasma sparkyPlasma;
+        private bool isPlasmaActive;
 
         public Sparky(Vector2 startPosition) : base(startPosition, EnemyType.Sparky)
         {
             //initialize to hop
             stateMachine.ChangePose(EnemyPose.Hop);
+            ChangeState(new SparkyPause1State(this)); // Set initial state
+            yVel = 0;
+            xVel = Constants.Sparky.HOP_SPEED;
+           // isPlasmaActive = false;
         }
 
-        public override void Attack()
-        {
-            //Change pose and texture for charge attack
-            stateMachine.ChangePose(EnemyPose.Attacking);
-            UpdateTexture();
-        }
 
-        public override void Update(GameTime gameTime)
-        {
-            if (!isDead)
-            {
-                stateCounter++;
-
-                //TO-DO: Change switch case into state pattern design
-                switch (currentState)
-                {
-                    //Short Hop forward. Transition to Pause for "slime" jumping effect
-                    case "HoppingForward":
-                        Move();
-                        if (stateCounter >= Constants.Sparky.HOP_FREQUENCY) //short hop
-                        {
-                            stateCounter = 0;
-                            currentState = "Pausing";
-                        }
-                        break;
-
-                    //Pause/standing still for moment before next jump (taller jump)
-                    case "Pausing":
-                        if (stateCounter >= Constants.Sparky.PAUSE_TIME) // pause
-                        {
-                            stateCounter = 0;
-                            currentState = "HoppingTall";
-                            enemySprite.ResetAnimation();  // Mark addition: since hop is a non-looping animation that we want to repeat but we already have that sprite, just call ResetAnimation on it.
-                        }
-                        break;
-
-                        //Taller jump. Transitons to pause
-                    case "HoppingTall":
-                        Move();
-                        if (stateCounter >= Constants.Sparky.HOP_FREQUENCY) //tall hop
-                        {
-                            stateCounter = 0;
-                            currentState = "PausingAgain";
-                        }
-                        break;
-                        //Pauses for slime ffect, Transitions to attack
-                    case "PausingAgain":
-                        if (stateCounter >= Constants.Sparky.PAUSE_TIME) // Pause 
-                        {
-                            stateCounter = 0;
-                            currentState = "Attacking";
-                        }
-                        break;
-                        //Attacks for a few seconds while standing still. Transitions to hopping
-                    case "Attacking":
-                        Attack();
-                        if (stateCounter >= Constants.Sparky.ATTACK_TIME) // Attack
-                        {
-                            stateCounter = 0;
-                            currentState = "Hurt"; // back to hop
-                            stateMachine.ChangePose(EnemyPose.Hurt);
-                        }
-                        break;
-                        case "Hurt":
-                        // Transition back to Hopping after hurtFrames
-                        if (stateCounter >= Constants.Sparky.HURT_FRAMES)
-                        {
-                            stateCounter = 0;
-                            currentState = "HoppingForward"; // back to hop
-                            stateMachine.ChangePose(EnemyPose.Hop);
-                        }
-                        break;
-                }
-
-                // Update texture and enemy sprite
-                UpdateTexture();
-                enemySprite.Update();
-            }
-        }
-        protected override void Move()
+        public override void Move()
         {
             //Keeps track of number of hoops
             hopCounter++;
 
-            //Calculates how tall jump should be depending if jumping state
-            float height = (currentState == "HoppingForward") ? Constants.Sparky.SHORT_HOP_HEIGHT : Constants.Sparky.TALL_HOP_HEIGHT; // Choose height based on state
             float t = (float)hopCounter / Constants.Sparky.HOP_FREQUENCY;
 
             //Y movement calculations for smooth hops
-            position.Y -= (float)(Math.Sin(t * Math.PI * 2) * height / 2);
+            yVel = (float)(Math.Sin(t * Math.PI * 2) * currentHopHeight / 2);
+            position.Y -= yVel;
 
             // X movement. Check direction for boundaries 
             if (!stateMachine.IsLeft())
             {
-                position.X += Constants.Sparky.HOP_SPEED;
-                if (position.X >= rightBoundary.X)
-                {
-                    ChangeDirection();
-                }
+                //position.X += Constants.Sparky.HOP_SPEED;
+                position.X += xVel;
             }
             else
             {
-                position.X -= Constants.Sparky.HOP_SPEED;
-                if (position.X <= leftBoundary.X)
-                {
-                    ChangeDirection();
-                }
+                //position.X -= Constants.Sparky.HOP_SPEED;
+                position.X -= xVel;
             }
 
             // Reset and repeat hops
@@ -133,13 +58,64 @@ namespace MasterGame.Entities.Enemies
             }
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public void SetHopHeight(float height)
         {
-            //draw enemy if alive
-            if (!isDead)
-            {
-                enemySprite.Draw(position, spriteBatch);
-            }
+            currentHopHeight = height; // Set the current hop height
         }
+
+        public override Vector2 CalculateRectanglePoint(Vector2 pos)
+        {
+            float x = pos.X - Constants.HitBoxes.ENEMY_WIDTH / 2;
+            float y = pos.Y - Constants.HitBoxes.ENEMY_HEIGHT;
+            Vector2 rectPoint = new Vector2(x, y);
+            return rectPoint;
+        }
+
+        public override Rectangle GetHitBox()
+        {
+            Vector2 rectPoint = CalculateRectanglePoint(position);
+            return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENEMY_WIDTH, Constants.HitBoxes.ENEMY_HEIGHT);
+        }
+
+
+        
+ public override void Update(GameTime gameTime)
+ {
+     if (!isDead)
+     {
+         IncrementFrameCounter();
+         currentState.Update();
+         UpdateTexture();
+         enemySprite.Update();
+
+         //if (isFalling)
+         //{
+         Fall();
+         //}
+         GetHitBox();
+
+         // Handle the beam if active
+         if (isPlasmaActive)
+         {
+             sparkyPlasma.Update();
+             if (sparkyPlasma.IsDone())
+             {
+                 isPlasmaActive = false;
+             }
+         } 
+     }
+ }
+
+         public override void Attack()
+ {
+     if (!isPlasmaActive)
+     {
+         sparkyPlasma = new SparkyPlasma(position);
+         isPlasmaActive = true;
+     }
+ }
+ 
+
+
     }
 }

@@ -20,6 +20,30 @@
 /processorParam:TextureFormat=Compressed
 /build:DefaultFont.spritefont
 
+#begin Images/backgrounds.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/backgrounds.png
+
+#begin Images/collisionTileset.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/collisionTileset.png
+
 #begin Images/invalidspritename.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -32,8 +56,56 @@
 /processorParam:TextureFormat=Color
 /build:Images/invalidspritename.png
 
+#begin Images/room1_level.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/room1_level.png
+
+#begin Images/room2_level.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/room2_level.png
+
+#begin Images/room3_level.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/room3_level.png
+
 #begin Images/SpriteAnimations.json
 /copy:Images/SpriteAnimations.json
+
+#begin Images/Spritesheets/doorstars.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Spritesheets/doorstars.png
 
 #begin Images/Spritesheets/enemies.png
 /importer:TextureImporter
@@ -107,6 +179,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/Spritesheets/kirby_spark.png
 
+#begin Images/Spritesheets/kirby_underwater.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=0,130,0,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Spritesheets/kirby_underwater.png
+
 #begin Images/Spritesheets/projectiles.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -122,15 +206,27 @@
 #begin Images/Textures.txt
 /copy:Images/Textures.txt
 
-#begin Images/Tiles/Sprint2Tileset.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/Tiles/Sprint2Tileset.png
+#begin Images/TileSprites.txt
+/copy:Images/TileSprites.txt
+
+#begin Keymaps.json
+/copy:Keymaps.json
+
+#begin Rooms.json
+/copy:Rooms.json
+
+#begin Tilemaps.txt
+/copy:Tilemaps.txt
+
+#begin Tilemaps/room1_tileset.csv
+/copy:Tilemaps/room1_tileset.csv
+
+#begin Tilemaps/room2_tileset.csv
+/copy:Tilemaps/room2_tileset.csv
+
+#begin Tilemaps/room3_tileset.csv
+/copy:Tilemaps/room3_tileset.csv
+
+#begin Tilemaps/testroom1.csv
+/copy:Tilemaps/testroom1.csv
 

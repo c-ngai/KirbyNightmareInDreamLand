@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace MasterGame.Time
+namespace KirbyNightmareInDreamLand.Time
 {
     public class TimeCalculator : ITimeCalculator
     {

@@ -1,14 +1,16 @@
 using Microsoft.Xna.Framework;
-using MasterGame.Sprites;
-namespace MasterGame.Entities.Players
+using KirbyNightmareInDreamLand.Sprites;
+using System;
+namespace KirbyNightmareInDreamLand.Entities.Players
 {
     public interface IPlayer : IEntity
     {
-        Sprite PlayerSprite { set; }
         void Crouch();
         void EndCrouch();
+        void AttackPressed();
         Vector2 GetKirbyPosition();
         string GetKirbyType();
+        void GoToRoomSpawn();
         bool IsLeft();
         bool IsFloating();
         void Slide();
@@ -19,12 +21,18 @@ namespace MasterGame.Entities.Players
         void RunRight();
         void RunLeft();
         void StopMoving();
+        void StopAttacking();
         void SetDirectionLeft();
         void SetDirectionRight();
         void ChangeToNormal();
         void ChangeToBeam();
         void ChangeToFire();
         void ChangeToSpark();
-        void UpdateTexture();
+        void BottomCollisionWithBlock(Rectangle intersection);
+        void RightCollisionWithBlock(Rectangle intersection);
+        void LeftCollisionWithBlock(Rectangle intersection);
+        void BottomCollisionWithPlatform(Rectangle intersection);
+        void SwallowEnemy();
+    
     }
 }

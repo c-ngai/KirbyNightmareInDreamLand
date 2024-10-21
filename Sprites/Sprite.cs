@@ -1,17 +1,16 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using System.Diagnostics;
+using System.Collections.Generic;
 
-namespace MasterGame.Sprites
+namespace KirbyNightmareInDreamLand.Sprites
 {
 
     public class Sprite : ISprite
     {
         // To store a reference to the current game.
-        private Game1 game;
-        // The game's INTERNAL resolution. For placement on screen relative to the scale. Not to be confused with window resolution.
-        // NOTE: Currently does not need game width but will for future use
-        //private int gameWidth;
-        private int gameHeight;
+        private Game1 _game;
+        private Camera _camera;
 
         // The SpriteAnimation used.
         private SpriteAnimation _spriteAnimation;
@@ -24,17 +23,14 @@ namespace MasterGame.Sprites
 
         /* Creates a new animation object from an animation file. Imports animation
          * data from a .csv file into the Animation object. */
-        public Sprite(SpriteAnimation spriteAnimation, Game1 game)
+        public Sprite(SpriteAnimation spriteAnimation)
         {
-            // NOTE: Currently does not need game width but will for future use
-            //gameWidth = Constants.Graphics.GAME_WIDTH;
-            gameHeight = Constants.Graphics.GAME_HEIGHT;
-
             _spriteAnimation = spriteAnimation;
 
             currentFrame = 0;
-            tickCounter = 0;
-            this.game = game;
+            tickCounter = -1;
+            _game = Game1.Instance;
+            _camera = _game.Camera;
         }
 
 
@@ -59,45 +55,68 @@ namespace MasterGame.Sprites
         // Draws the sprite to the spriteBatch.
         public void Draw(Vector2 position, SpriteBatch spriteBatch, Color color)
         {
-            // Scale by height
-            float scale = (float)game.WINDOW_HEIGHT / gameHeight;
-
-            // Scale the position
+            // Floor the position
             position.Floor();
-            position *= scale;
-            // Pull the frame center and source rectangle from data.
+
+            // Pull the texture, frame center, and source rectangle from data.
+            Texture2D texture = _spriteAnimation.Texture;
             Vector2 frameCenter = _spriteAnimation.FrameCenters[currentFrame];
             Rectangle sourceRectangle = _spriteAnimation.FrameSourceRectangles[currentFrame];
 
+            // Mirror the frame center's X position within the source rectangle if flipping the sprite horizontally. (Really not sure why it doesn't do this itself...)
             if (_spriteAnimation.SpriteEffects.Equals(SpriteEffects.FlipHorizontally))
             {
                 frameCenter.X = sourceRectangle.Width - frameCenter.X;
             }
 
-            // Draw the sprite to the spriteBatch.
-            spriteBatch.Draw(_spriteAnimation.Texture, position, sourceRectangle, color, 0, frameCenter, scale, _spriteAnimation.SpriteEffects, 0);
 
 
-            // DEBUG VISUALS, TIDY UP LATER
-            if (game.DEBUG_SPRITE_MODE == true)
+            Rectangle destinationRectangle = new Rectangle((position - frameCenter).ToPoint(), sourceRectangle.Size);
+
+            // Cull the sprite if it is not within the camera rectangle and if culling is enabled.
+            bool cull = false;
+            if (_game.CULLING_ENABLED && !_camera.GetBounds().Intersects(destinationRectangle))
             {
-                SpriteDebug.Instance.Draw(spriteBatch, position, frameCenter, sourceRectangle, scale);
+                cull = true;
             }
-            
+
+            // Draw the sprite if it has not been culled.
+            if (!cull)
+            {
+                // Draw the sprite to the spriteBatch.
+                spriteBatch.Draw(texture, position, sourceRectangle, color, 0, frameCenter, 1, _spriteAnimation.SpriteEffects, 0);
+                // DEBUG VISUALS, TIDY UP LATER
+                if (_game.DEBUG_SPRITE_MODE == true)
+                {
+                    GameDebug.Instance.DrawRectangle(spriteBatch, destinationRectangle, Color.Blue);
+                    GameDebug.Instance.DrawPoint(spriteBatch, position, Color.Red);
+
+                    // Draws purple borders around all tiles intersecting with the sprite boundaries
+                    /*
+                    List<Tile> tiles = _game.level.IntersectingTiles(spriteBatch, destinationRectangle);
+                    foreach (Tile tile in tiles)
+                    {
+                        Debug.Instance.DrawRectangle(spriteBatch, tile.rectangle, Color.Purple);
+                    }
+                    */
+                }
+            }
+
         }
 
-        // Draws the sprite to the spriteBatch. With unspecified color, uses white.
+        // Draws the sprite to the spriteBatch. With unspecified color mask, uses white (no change to source image).
         public void Draw(Vector2 position, SpriteBatch spriteBatch)
         {
             Draw(position, spriteBatch, Color.White);
         }
+
 
         public void DamageDraw(Vector2 position, SpriteBatch spriteBatch)
         {
             counter ++;
             if (counter < 10)
             {
-                Draw(position, spriteBatch, Color.White);
+                Draw(position, spriteBatch);
             } else{
                 if(counter == 20)
                     counter = 0;
@@ -108,7 +127,7 @@ namespace MasterGame.Sprites
         public void ResetAnimation()
         {
             currentFrame = 0;
-            tickCounter = 0;
+            tickCounter = -1;
         }
     }
 }

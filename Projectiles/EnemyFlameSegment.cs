@@ -1,11 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using MasterGame.Sprites;
+using KirbyNightmareInDreamLand.Sprites;
 
-namespace MasterGame.Projectiles
+namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class EnemyFlameSegment : IProjectile
+    public class EnemyFlameSegment : IProjectile, ICollidable
     {
         private Sprite projectileSprite;
         private Vector2 position;
@@ -27,7 +27,6 @@ namespace MasterGame.Projectiles
             get => velocity;
             set => velocity = value;
         }
-
         public EnemyFlameSegment(Vector2 startPosition, Vector2 flameDirection, float speed, float delay)
         {
             Position = startPosition;
@@ -43,7 +42,12 @@ namespace MasterGame.Projectiles
             Velocity = flameDirection * speed;
 
             projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_hothead_fire");
+            ObjectManager.Instance.RegisterDynamicObject(this);
 
+        }
+        public string GetObjectType()
+        {
+            return "EnemyAttack";
         }
 
         public void Update()
@@ -70,6 +74,7 @@ namespace MasterGame.Projectiles
                 {
                     isActive = false;
                     projectileSprite = null; // Set sprite to null to avoid further drawing
+                    CollisionActive = false;
                 }
                 else
                 {
@@ -84,6 +89,33 @@ namespace MasterGame.Projectiles
             {
                 projectileSprite.Draw(Position, spriteBatch);
             }
+            else
+            {
+                ObjectManager.Instance.RemoveDynamicObject(this); // Deregister if dead
+            }
+        }
+        public void EndAttack()
+        {
+            //
+        }
+        public bool IsDone()
+        {
+            return true;
+        }
+
+        public bool CollisionActive { get; set; } = true;
+
+        public virtual Vector2 CalculateRectanglePoint(Vector2 pos)
+        {
+            float x = pos.X - Constants.HitBoxes.FLAME_WIDTH / 2;
+            float y = pos.Y - Constants.HitBoxes.FLAME_HEIGHT;
+            Vector2 rectPoint = new Vector2(x, y);
+            return rectPoint;
+        }
+        public virtual Rectangle GetHitBox()
+        {
+            Vector2 rectPoint = CalculateRectanglePoint(position);
+            return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.FLAME_WIDTH, Constants.HitBoxes.FLAME_HEIGHT);
         }
 
     }

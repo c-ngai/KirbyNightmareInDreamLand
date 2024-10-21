@@ -1,14 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using MasterGame.StateMachines;
+using KirbyNightmareInDreamLand.StateMachines;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState;
 
-namespace MasterGame.Entities.Enemies
+namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
     public class BrontoBurt : Enemy
     {
-        //Keep track of current frame
-        private int frameCounter = 0;
 
         private readonly float initialY; // initial height
         private float timeCounter = 0f; // wave time counter
@@ -18,68 +18,16 @@ namespace MasterGame.Entities.Enemies
             //Initialize starting Y position,
             initialY = startPosition.Y;
             stateMachine.ChangePose(EnemyPose.FlyingSlow);
+            ChangeState(new BrontoBurtFlyingSlowState(this)); // Set initial state
+
+            //TO-DO: spawn facing the direction kirby is in
+           // stateMachine.ChangeDirection();
+
+           yVel = 0;
+           xVel = Constants.BrontoBurt.MOVE_SPEED;
         }
 
-        public override void Attack()
-        {
-            //Note: Does not have attack pose
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            if (!isDead)
-            {
-                frameCounter++;
-
-                //TO-DO: Change switch case into state pattern design
-                switch (stateMachine.GetPose())
-                {
-                    case EnemyPose.FlyingSlow:
-                        Move();
-                        // Transition to Hurt state after hopFrames
-                        if (frameCounter >= Constants.BrontoBurt.SLOW_FLY_FRAMES)
-                        {
-                            stateMachine.ChangePose(EnemyPose.FlyingFast);
-                            frameCounter = 0; // Reset frame counter
-                            UpdateTexture();  // Update texture for the new pose
-                        }
-                        break;
-                    case EnemyPose.FlyingFast:
-                        Move();
-                        // Transition back to walking after hurtFrames
-                        if (frameCounter >= Constants.BrontoBurt.FAST_FLY_FRAMES)
-                        {
-                            stateMachine.ChangePose(EnemyPose.Hurt);
-                            frameCounter = 0;
-                            UpdateTexture();
-                        }
-                        break;
-                    case EnemyPose.Hurt:
-                        // Transition back to walking after hurtFrames
-                        if (frameCounter >= Constants.BrontoBurt.HURT_FRAMES)
-                        {
-                            stateMachine.ChangePose(EnemyPose.Standing);
-                            frameCounter = 0;
-                            UpdateTexture();
-                        }
-                        break;
-                    case EnemyPose.Standing:
-                        // Transition back to walking after hurtFrames
-                        if (frameCounter >= Constants.BrontoBurt.STANDING_FRAMES)
-                        {
-                            stateMachine.ChangePose(EnemyPose.FlyingSlow);
-                            frameCounter = 0;
-                            UpdateTexture();
-                        }
-                        break;
-                }
-                UpdateTexture();
-                // Update the enemy sprite
-                enemySprite.Update();
-            }
-        }
-
-        protected override void Move()
+        public override void Move()
         {
             //Creats Y oscillation using sin. Smooth flying motion up and down
             timeCounter += Constants.BrontoBurt.WAVE_FREQUENCY;
@@ -88,29 +36,13 @@ namespace MasterGame.Entities.Enemies
             //Checks to change if X value is within left/right bounds
             if (stateMachine.IsLeft())
             {
-                position.X -= Constants.BrontoBurt.MOVE_SPEED;
-                if (position.X <= leftBoundary.X)
-                {
-                    ChangeDirection();
-                }
+                position.X -= xVel;
             }
             else
             {
-                position.X += Constants.BrontoBurt.MOVE_SPEED;
-                if (position.X >= rightBoundary.X)
-                {
-                    ChangeDirection();
-                }
+                position.X += xVel;
             }
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            //Draw if enemy is alive
-            if (!isDead)
-            {
-                enemySprite.Draw(position, spriteBatch);
-            }
-        }
     }
 }

@@ -1,193 +1,138 @@
-﻿using MasterGame.Block;
-using MasterGame.Commands;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
-using MasterGame.Sprites;
-using MasterGame.Entities.Players;
-using MasterGame.Entities.Enemies;
-using MasterGame.Controllers;
+using KirbyNightmareInDreamLand.Entities.Players;
+using KirbyNightmareInDreamLand.Entities.Enemies;
+using KirbyNightmareInDreamLand.Controllers;
+using KirbyNightmareInDreamLand.Levels;
+using KirbyNightmareInDreamLand.Collision;
+using System;
+using System.Diagnostics;
 
-namespace MasterGame
+namespace KirbyNightmareInDreamLand
 {
     public class Game1 : Game
     {
-        private SpriteBatch spriteBatch;
+        private SpriteBatch _spriteBatch;
+        private ObjectManager manager;
         
-        private GraphicsDeviceManager graphics;
-        private SpriteFont font;
-        private KeyboardController keyboard;
+        public GraphicsDeviceManager Graphics { get; private set; }
+        public KeyboardController Keyboard { get; private set; }
+        public MouseController MouseController { get; private set; }
 
-        // Single-player but can later be updated to an array of kirbys for multiplayer
-        private IPlayer kirby;
+        // Camera instance for the game
+        public Camera Camera { get; private set; }
 
-        // Get enemies (currently one of each but can change to an array of each enemy type)
-        private IEnemy waddledeeTest;
-        private IEnemy waddledooTest;
-        private IEnemy brontoburtTest;
-        private IEnemy hotheadTest;
-        private IEnemy poppybrosjrTest;
-        private IEnemy sparkyTest;
-
-        // List of all enemies
-        public IEnemy[] enemyList { get; set; }
-
-        public Sprite item { get; set; }
-
-        // TODO: Decoupling: move this out later
-        public int currentEnemyIndex { get; set; }
+        public Level Level { get; private set; }
 
         // Sets up single reference for game time for things such as commands which cannot get current time elsewise
         // Note this is program time and not game time 
         public GameTime time { get; set; }
 
+        public static GameTime GameTime { get; private set; }
+
+        public Stopwatch TickStopwatch { get; private set; } = new Stopwatch();
+
+
         // Graphics settings modifiable at runtime
+        public bool DEBUG_TEXT_ENABLED { get; set; }
         public bool DEBUG_SPRITE_MODE { get; set; }
-        public int WINDOW_WIDTH;
-        public int WINDOW_HEIGHT;
+        public bool DEBUG_LEVEL_MODE { get; set; }
+        public bool CULLING_ENABLED { get; set; }
+        public bool DEBUG_COLLISION_MODE { get; set; }
+        public bool IS_FULLSCREEN { get; set; }
+        public int WINDOW_WIDTH { get; set; }
+        public int WINDOW_HEIGHT { get; set; }
+        public int WINDOW_XOFFSET { get; set; }
+        public int WINDOW_YOFFSET { get; set; }
+        public int MAX_WINDOW_WIDTH { get; set; }
+        public int TARGET_FRAMERATE { get; set; }
 
-
-
-        //why is game time public?? take out set in the game time make anybody that is not that commmand not be anle to set it
-        //
+        private static Game1 _instance;
+        public static Game1 Instance
+        {
+            get
+            {
+                return _instance;
+            }
+        }
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
+            _instance = this;
+            Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
-
         protected override void Initialize()
         {
+            DEBUG_TEXT_ENABLED = true;
             DEBUG_SPRITE_MODE = false;
-            WINDOW_WIDTH = 720;
-            WINDOW_HEIGHT = 480;
+            DEBUG_LEVEL_MODE = false; // TODO: Change to false by default later, currently no normal level draw behavior
+            CULLING_ENABLED = true;
+            DEBUG_COLLISION_MODE = false;
+            IS_FULLSCREEN = false;
+            WINDOW_WIDTH = Constants.Graphics.GAME_WIDTH * 3;
+            WINDOW_HEIGHT = Constants.Graphics.GAME_HEIGHT * 3;
+            WINDOW_XOFFSET = 0;
+            WINDOW_YOFFSET = 0;
+            TARGET_FRAMERATE = 60;
+
+            TargetElapsedTime = TimeSpan.FromMilliseconds(1000f / TARGET_FRAMERATE);
+
+            #region set max window width
+            int displayWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            int displayHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            float displayAspectRatio = (float)displayWidth / displayHeight;
+            float gameAspectRatio = (float)Constants.Graphics.GAME_WIDTH / Constants.Graphics.GAME_HEIGHT;
+            // Set max width such that the window can be increased to as large as it can fit in the display, but no further.
+            if (displayAspectRatio > gameAspectRatio) // If display aspect ratio is wider than game aspect ratio (3:2)
+            {
+                // Base max width on display height
+                MAX_WINDOW_WIDTH = (displayHeight / Constants.Graphics.GAME_HEIGHT * Constants.Graphics.GAME_HEIGHT * Constants.Graphics.GAME_WIDTH / Constants.Graphics.GAME_HEIGHT);
+            }
+            else
+            {
+                // Base max width on display width
+                MAX_WINDOW_WIDTH = displayWidth / Constants.Graphics.GAME_WIDTH * Constants.Graphics.GAME_WIDTH;
+            }
+            #endregion
 
             // true = exclusive fullscreen, false = borderless fullscreen
-            graphics.HardwareModeSwitch = true;
-            graphics.IsFullScreen = Constants.Graphics.IS_FULL_SCREEN;
-            graphics.PreferredBackBufferWidth = this.WINDOW_WIDTH;
-            graphics.PreferredBackBufferHeight = this.WINDOW_HEIGHT;
-            graphics.ApplyChanges();
-            
+            Graphics.HardwareModeSwitch = true;
+            Graphics.IsFullScreen = IS_FULLSCREEN;
+            Graphics.PreferredBackBufferWidth = WINDOW_WIDTH;
+            Graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
+            Graphics.ApplyChanges();
 
-            keyboard = new KeyboardController();
+            Keyboard = new KeyboardController();
+            MouseController = new MouseController();
 
             base.Initialize();
         }
 
-        // Everything in this region will move into eventual loader file
-        #region LoaderDetails
-        // Will later be changed to read in keyboard control input 
-        public void SetKeyboardControls(KeyboardController keyboard)
-        {
-            keyboard.RegisterCommand(Keys.Right, new KirbyMoveRightCommand(kirby, Keys.Right, keyboard, this), ExecutionType.Pressed);
-            keyboard.RegisterCommand(Keys.Left, new KirbyMoveLeftCommand(kirby, Keys.Left, keyboard, this), ExecutionType.Pressed);
-
-            // this is hard-coded bc it needs to know the keybind to attack to check if it needs to slide
-            keyboard.RegisterCommand(Keys.Down, new KirbyMoveCrouchedCommand(kirby, Keys.Z, keyboard, this), ExecutionType.Pressed);
-            keyboard.RegisterCommand(Keys.Up, new KirbyFloatCommand(kirby), ExecutionType.Pressed);
-            keyboard.RegisterCommand(Keys.X, new KirbyJumpCommand(kirby), ExecutionType.Pressed);
-
-            keyboard.RegisterCommand(Keys.A, new KirbyFaceLeftCommand(kirby), ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.D, new KirbyFaceRightCommand(kirby), ExecutionType.StartingPress);
-
-            keyboard.RegisterCommand(Keys.Z, new KirbyAttackCommand(kirby), ExecutionType.Pressed);
-
-            keyboard.RegisterCommand(Keys.D1, new KirbyChangeNormalCommand(kirby), ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.D2, new KirbyChangeBeamCommand(kirby), ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.D3, new KirbyChangeFireCommand(kirby), ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.D4, new KirbyChangeSparkCommand(kirby), ExecutionType.StartingPress);
-
-            keyboard.RegisterCommand(Keys.E, new KirbyTakeDamageCommand(kirby), ExecutionType.Pressed);
-
-            keyboard.RegisterCommand(Keys.T, new PreviousBlockCommand(), ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.Y, new NextBlockCommand(), ExecutionType.StartingPress);
-
-            keyboard.RegisterCommand(Keys.U, new HideItemCommand(this), ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.I, new ShowItemCommand(this), ExecutionType.StartingPress);
-
-            keyboard.RegisterCommand(Keys.O, new PreviousEnemyCommand(this), ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.P, new NextEnemyCommand(this), ExecutionType.StartingPress);
-
-            keyboard.RegisterCommand(Keys.Q, new QuitCommand(this), ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.R, new ResetCommand(this), ExecutionType.StartingPress);
-
-            keyboard.RegisterCommand(Keys.LeftControl, new GraphicsToggleDebugCommand(this), ExecutionType.StartingPress);
-            keyboard.RegisterCommand(Keys.OemPlus, new GraphicsIncreaseWindowSizeCommand(this, graphics), ExecutionType.Pressed);
-            keyboard.RegisterCommand(Keys.OemMinus, new GraphicsDecreaseWindowSizeCommand(this, graphics), ExecutionType.Pressed);
-            //keyboard.RegisterCommand(Keys.F, new ToggleFullscreenCommand(), ExecutionType.StartingPress);
-        }
-
-        public void LoadItem()
-        {
-            item = SpriteFactory.Instance.CreateSprite("item_maximtomato");
-        }
-
-        public void LoadObjects()
-        {
-            // Creates kirby object
-            //make it a list from the get go to make it multiplayer asap
-            kirby = new Player(new Vector2(30, Constants.Graphics.FLOOR));
-            kirby.PlayerSprite = SpriteFactory.Instance.CreateSprite("kirby_normal_standing_right");
-
-            // Creates blocks
-            //make it its own function
-            //create them on demand??  performance vs code 
-            //for indestructoble terrain it could be a singleton that gets borrowed by other things
-            //so there is not a BUNCH loaded
-            List<string> blockList = new List<string>
-            {
-                "tile_dirt",
-                "tile_grass",
-                "tile_platform",
-                "tile_rock",
-                "tile_rocksurface",
-                "tile_slope_gentle1_left",
-                "tile_slope_gentle1_right",
-                "tile_slope_gentle2_left",
-                "tile_slope_steep_right",
-                "tile_slope_gentle2_right",
-                "tile_slope_steep_left",
-                "tile_stoneblock",
-                "tile_waterfall",
-            };
-            BlockList.Instance.SetBlockList(blockList);
-
-            LoadItem();
-
-            // Creates enemies
-            waddledeeTest = new WaddleDee(new Vector2(170, 100));
-            waddledooTest = new WaddleDoo(new Vector2(170, 100));
-            brontoburtTest = new BrontoBurt(new Vector2(170, 100));
-            hotheadTest = new Hothead(new Vector2(170, 100));
-            poppybrosjrTest = new PoppyBrosJr(new Vector2(170, 100));
-            sparkyTest = new Sparky(new Vector2(170, 100));
-
-            enemyList = new IEnemy[] { waddledeeTest, waddledooTest, brontoburtTest, hotheadTest, poppybrosjrTest, sparkyTest };
-            currentEnemyIndex = 0;
-            
-            // Remapping keyboard to new Kirby 
-            keyboard = new KeyboardController();
-            SetKeyboardControls(keyboard);
-        }
-        #endregion
-
         protected override void LoadContent()
         {
+            System.Diagnostics.Debug.WriteLine("Debug from content load");
+
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            font = Content.Load<SpriteFont>("DefaultFont");
+            manager = ObjectManager.Instance;
+            // Create camera instance
+            Camera = new Camera();
 
-            // Load all sprite factory textures and sprites.
-            SpriteFactory.Instance.LoadAllTextures(Content, this);
-            SpriteFactory.Instance.LoadAllSpriteAnimations();
-            SpriteDebug.Instance.Load(GraphicsDevice);
+            // Load all content through LevelLoader
+            LevelLoader.Instance.LoadAllContent();
 
-            // Load all objects 
-            LoadObjects();
+            // Load all objects
+            manager.LoadObjects();
+
+            // Create level instance and load initial room
+            Level = new Level();
+            Level.LoadRoom("room1");
+
+            // Load the desired keymap by name
+            LevelLoader.Instance.LoadKeymap("keymap1");
         }
 
         protected override void UnloadContent()
@@ -195,71 +140,80 @@ namespace MasterGame
 
         }
 
+        List<IEnemy> enemyList2 = new List<IEnemy>(); // FOR PERFORMANCE TESTING
         protected override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
             time = gameTime;
 
-            keyboard.Update();
+            // Reset timer for calculating max fps
+            TickStopwatch.Restart();
 
-            kirby.Update(time);
-            enemyList[currentEnemyIndex].Update(time);
-            
-            if (item != null)
-            {
-                item.Update();
-            }
-            BlockList.Instance.Update();
+            Keyboard.Update();
+            MouseController.Update();
+
+            GameTime = gameTime;
+
+            foreach(IPlayer player in manager.Players) player.Update(time);
+            manager.EnemyList[manager.CurrentEnemyIndex].Update(time);
+
+            //enemyList2.Add(new Hothead(new Vector2(170, 100))); // FOR PERFORMANCE TESTING
+            foreach (IEnemy enemy in enemyList2) enemy.Update(time); // FOR PERFORMANCE TESTING
+            manager.EnemyList[manager.CurrentEnemyIndex].Update(time);
+
+            ObjectManager.Instance.OrganizeList();
+
+            CollisionDetection.Instance.CheckCollisions();
+
+            Level.UpdateLevel();
+
+            Camera.Update();
         }
 
-        // TODO: Decoupling: move text draw details out
-        public void DrawText()
-        {
-            string text;
-            text = "GraphicsAdapter.DefaultAdapter.CurrentDisplayMode: (" + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width + ", " + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height + ")";
-            spriteBatch.DrawString(font, text, new Vector2(10, 10), Color.Black);
-            text = "graphics.PreferredBackBuffer______: (" + graphics.PreferredBackBufferWidth + ", " + graphics.PreferredBackBufferHeight + ")";
-            spriteBatch.DrawString(font, text, new Vector2(10, 30), Color.Black);
-            text = "GraphicsDevice.PresentationParameters: (" + GraphicsDevice.PresentationParameters.BackBufferWidth + ", " + GraphicsDevice.PresentationParameters.BackBufferHeight + ")";
-            spriteBatch.DrawString(font, text, new Vector2(10, 50), Color.Black);
-            text = "GraphicsDevice.Viewport: (" + GraphicsDevice.Viewport.Width + ", " + GraphicsDevice.Viewport.Height + ")";
-            spriteBatch.DrawString(font, text, new Vector2(10, 70), Color.Black);
-        }
 
-        //take off draw text magic numbers
-        //eventually take these off and make game only deal with high level objects 
-        //game object management takes care of the lists and iterates them
-        //game then grabs it from them and does its job.
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
+            GraphicsDevice.Clear(Color.White);
             base.Draw(gameTime);
 
-            // Start spriteBatch
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
-
-            DrawText();
-
-            // What is this??
-            // float scale = Constants.Graphics.WINDOW_HEIGHT / Constants.Graphics.GAME_HEIGHT; 
-
+            // Level spritebatch
+            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.LevelMatrix);
+            // Draw level
+            Level.Draw(_spriteBatch);
             // Draw only selected enemy
-            enemyList[currentEnemyIndex].Draw(spriteBatch);
+            // enemyList[currentEnemyIndex].Draw(spriteBatch);
+            foreach (IEnemy enemy in enemyList2) enemy.Draw(_spriteBatch); // FOR PERFORMANCE TESTING
 
-            kirby.Draw(spriteBatch);
+            // Draw kirby
+            foreach(IPlayer player in manager.Players) player.Draw(_spriteBatch);
 
-            BlockList.Instance.Draw(new Vector2(100, 150), spriteBatch);
-
-            if (item != null)
+            // Not currently using item
+            // item.Draw(new Vector2(200, 150), spriteBatch);
+            if (DEBUG_COLLISION_MODE)
             {
-                item.Draw(new Vector2(200, 150), spriteBatch);
+                CollisionDetection.Instance.DebugDraw(_spriteBatch);
             }
+            _spriteBatch.End();
 
-            // End spriteBatch
-            spriteBatch.End();
+            // Static spritebatch
+            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.ScreenMatrix);
+            _spriteBatch.End();
 
+            // Stop timer for calculating max fps
+            TickStopwatch.Stop();
+            
+            // Draw Debug Text
+            if (DEBUG_TEXT_ENABLED)
+            {
+                GameDebug.Instance.DrawDebugText(_spriteBatch);
+            }
+            // Draw borders (should only be visible in fullscreen for letterboxing)
+            GameDebug.Instance.DrawBorders(_spriteBatch);
+
+            manager.UpdateObjectLists();
         }
+
     }
+
 }

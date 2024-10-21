@@ -1,18 +1,36 @@
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 //using System.Numerics;
-namespace MasterGame
+namespace KirbyNightmareInDreamLand
 {
     public static class Constants
     {
+        public static readonly List<string> ValidEnemyNames = new List<string> { "WaddleDee", "WaddleDoo", "BrontoBurt", "PoppyBrosJr", "Sparky", "Hothead" };
+
+        public static class Filepaths
+        {
+            public const string TextureList = "Content/Images/Textures.txt";
+            public const string SpriteRegistry = "Content/Images/SpriteAnimations.json";
+            public const string TilemapList = "Content/Tilemaps.txt";
+            public const string RoomRegistry = "Content/Rooms.json";
+            public const string KeymapRegistry = "Content/Keymaps.json";
+            public const string TileSpriteList = "Content/Images/TileSprites.txt";
+        }
+
+        public static class Namespaces
+        {
+            public const string ENEMY_NAMESPACE = "KirbyNightmareInDreamLand.Entities.Enemies.";
+            public const string POWERUP_NAMESPACE = "KirbyNightmareInDreamLand.Entities.PowerUps.PowerUp";
+
+        }
+
         public static class Graphics
         {
             public const int GAME_WIDTH = 240;
             public const int GAME_HEIGHT = 160;
-
-            public const bool IS_FULL_SCREEN = false;
             public const int FLOOR = 128;
-            public const bool DEBUG_SPRITE_MODE = false;
-        } 
+            public const float PARALLAX_FACTOR = 0.85f;
+        }
 
         public static class Physics
         {
@@ -22,8 +40,8 @@ namespace MasterGame
             public const float FLOAT_GRAVITY2 = 0.16f; //the other gravity rate but the float where this is used does not have game time acess
             public const float JUMP_VEL = -2f;
             public const float FLOAT_VEL = 0.5F;
-            public const float WALKING_VELOCITY = 0.4f;
-            public const float RUNNING_VELOCITY = 0.9f;
+            public const float WALKING_VELOCITY = 1.3f;
+            public const float RUNNING_VELOCITY = 1.75f;
             public const float DAMAGE_VELOCITY =2f;
             public const float JUMP_CEILING = 38.4f;
 
@@ -31,18 +49,100 @@ namespace MasterGame
             public const int DELAY2 = 10;
         }
 
+        public static class Level
+        {
+            public const int TILE_SIZE = 16;
+            public const int NUMBER_OF_TILE_TYPES = 10;
+            public static Vector2 BOTTOM_MIDDLE_OF_TILE = new Vector2(TILE_SIZE / 2, TILE_SIZE);
+        }
+
+        public static class Collision
+        {
+            public const float GENTLE1_SLOPE_LEFT_M = 0.25F;
+            public const int GENTLE1_SLOPE_LEFT_YINTERCEPT = -1;
+
+            public const float GENTLE2_SLOPE_LEFT_M = 0.4F;
+            public const float GENTLE2_SLOPE_LEFT_YINTERCEPT = 9.6F;
+
+            public const int STEEP_SLOPE_LEFT_M = 1;
+            public const int STEEP_SLOPE_LEFT_YINTERCEPT = -1;
+
+            public const float GENTLE1_SLOPE_RIGHT_M = -0.25F;
+            public const int GENTLE1_SLOPE_RIGHT_YINTERCEPT = 4;
+
+            public const float GENTLE2_SLOPE_RIGHT_M = -0.4F;
+            public const int GENTLE2_SLOPE_RIGHT_YINTERCEPT = 15;
+
+            public const int STEEP_SLOPE_RIGHT_M = -1;
+            public const int STEEP_SLOPE_RIGHT_YINTERCEPT = 15;
+        }
+        public static class HitBoxes
+        {
+            public const int ENTITY_WIDTH = 13;
+            public const int ENTITY_HEIGHT = 15;
+            public const int ENEMY_WIDTH = 16;
+            public const int ENEMY_HEIGHT = 16;
+            public const int SPARKY_ATTACK_WIDTH = 40;
+            public const int SPARKY_ATTACK_HEIGHT = 40;
+            public const int SPARKY_ATTACK_OFFSET =11;
+            public const int BEAM_HEIGHT = 10;
+            public const int BEAM_WIDTH = 10;
+            public const int BEAM_HEIGHT_OFFSET = 7;
+            public const int FIREBALL_HEIGHT = 15;
+            public const int FIREBALL_WIDTH = 15;
+            public const int FIREBALL_OFFSET = 7;
+            public const int FLAME_HEIGHT = 10;
+            public const int FLAME_WIDTH = 10;
+
+            public const int TILE_WIDTH = 16;
+            public const int TILE_HEIGHT = 16;
+            public const int NULL_WIDTH = 0;
+            public const int NULL_HEIGHT = 0;
+            //specifically for inhale and electric which are not projectiles
+            public const int ATTACK_SIZE = 36;
+            public const int SIDES = 4;
+            
+            public static int BEAM_SIZE = 18;
+            public static Vector2 BEAM_OFFSET = new Vector2(-9, -9);
+            public static Vector2 BEAM_OFFSET_LEFT = new Vector2(-13, -7);
+
+            public static int FIRE_SIZE = 20;
+            public static Vector2 FIRE_OFFSET_RIGHT = new Vector2(0, -5);
+            public static Vector2 FIRE_OFFSET_LEFT = new Vector2(-5, -5);
+
+            public static int PUFF_SIZE = 15;
+            public static Vector2 PUFF_OFFSET = new Vector2(-8, -9);
+            public static Vector2 PUFF_OFFSET_LEFT = new Vector2(-4, -5);
+
+            //Inhale
+            public static int NORMAL_SIZE = 36;
+            public static Vector2 NORMAL_OFFSET_RIGHT = new Vector2(7, -24);
+            public static Vector2 NORMA_OFFSET_LEFT = new Vector2(-41, -24);
+
+            public static int SPARK_SIZE = 55;
+            public static Vector2 SPARK_OFFSET = new Vector2(-27, -33);
+
+            public static int SLIDE_WIDTH = 12;
+            public static int SLIDE_HEIGHT = 30;
+            public static Vector2 SLIDE_OFFSET_RIGHT = new Vector2(7, -12);
+            public static Vector2 SLIDE_OFFSET_LEFT = new Vector2(-19, -12);
+
+            public static int STAR1_SIZE = 12;
+            public static Vector2 STAR_OFFSET_RIGHT = new Vector2(7, -12);
+            public static Vector2 STAR_OFFSET_LEFT = new Vector2(-19, -12);
+        }
+
         public class Kirby
         {
             public const int MAX_HEALTH = 6;
             public const int MAX_LIVES = 3;
-            public const int FLAME_ATTACK_FRAMES = 200;
-            public const int BEAM_ATTACK_FRAMES = 50;
-            public const int PUFF_ATTACK_FRAMES = 30;
             public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(13, -7);
             public static Vector2 BEAM_ATTACK_OFFSET_LEFT = new Vector2(-13, -7);
-            public static Vector2 PUFF_ATTACK_OFFSET = new Vector2(10, 0);
-            public static Vector2 FLAME_ATTACK_OFFSET_RIGHT = new Vector2(25, -10);
+            public static Vector2 PUFF_ATTACK_OFFSET = new Vector2(15, 0);
+            public static Vector2 FLAME_ATTACK_OFFSET_RIGHT = new Vector2(30, -10);
             public static Vector2 FLAME_ATTACK_OFFSET_LEFT = new Vector2(-25, -10);
+            public static Vector2 STAR_ATTACK_OFFSET_RIGHT= new Vector2(8, -10);
+            public static Vector2 STAR_ATTACK_OFFSET_LEFT= new Vector2(-8, -10);
 
         }
 
@@ -88,6 +188,7 @@ namespace MasterGame
         public class KirbyFire
         {
             // For flamethrower
+            public const float FIRE_RATE = 0.35f; // Time between each segment spawn
             public const float MIN_SPEED = 1f;
             public const float MAX_SPEED = 4f;
             public const float MIN_DELAY = 0f;
@@ -180,14 +281,14 @@ namespace MasterGame
         public class WaddleDoo
         {
             public const float MOVE_SPEED = 0.5f;
-            public const int WALK_FRAMES = 180;
-            public const int STOP_FRAMES = 60;
-            public const int ATTACK_FRAMES = 33;
+            public const int WALK_FRAMES = 250;
+            public const int STOP_FRAMES = 120;
+            public const int ATTACK_FRAMES = 50;
             public const int HURT_FRAMES = 50;
             public const int JUMPING_FRAMES = 50;
-            public const float JUMP_HEIGHT = 2f;
-            public const float GRAVITY = 0.1f;
+            public const float JUMP_VELOCITY = 2.5f;
             public const float FORWARD_MOVEMENT = 0.5f;
+            public const float DEAD_FRAMES = 20;
         }
     }
 }

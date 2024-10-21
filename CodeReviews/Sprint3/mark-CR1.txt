@@ -1,0 +1,83 @@
+Sprint 2 Readabilty Code Review     10/18/2024
+
+Author of Code Review: Mark DeLeo
+Name of .cs file being reviewed: CollisionResponse.cs
+Author of .cs file being reviewed: Carman Ngai
+
+Number of minutes to complete review: 40 minutes
+
+################################################################################ 
+
+10 Code Smells
+
+ 1. SameNameDifferentMeaning
+ 2. YouDontNeedItAnymore
+ 3. DataClumps
+ 4. InappropriateIntimacy
+ 5. FeatureEnvy
+ 6. DuplicatedCode
+ 7. VariableSameNameAsType
+ 8. TooManyParameters
+ 9. LongMethod
+10. LawOfDemeter
+
+################################################################################
+
+
+Comments on Code Smells:
+
+ - DataClumps: SetCollisionResponses (in LevelLoader, but I felt it was still 
+ relevant enough to CollisionResponse to mention) is definitely a data clump. 
+ Even if we don't completely data-drive it, I think it could still be made neater. 
+ Also fits under DuplicatedCode and LongMethod.
+
+ - FeatureEnvy: RegisterCollision really wants to be in LevelLoader. LevelLoader 
+ can still add it to the dictionary in CollisionResponse since it's public.
+
+ - TooManyParameters: The collisionMapping Dictionary has way too many nested type 
+ parameters! I talk about this below.
+
+
+
+Comments on Code Readability:
+
+ - The reliance on tuples is at a pretty large detriment to the readability. The 
+ collisionMapping dictionary's structure is not very intuitive to me, even after 
+ looking it over a few times. Three layers of nested type parameters is a bit 
+ excessive (the full type is 145 characters long). Especially since there is more 
+ than one type of tuple, I think those would be better fit as classes or structs, 
+ whichever you feel is more appropriate. I don't really know how the Action type 
+ works, so I can't really speak for it. But if you replace both types of tuples 
+ with classes or structs, the Dictionary would go from looking like:
+    Dictionary<Tuple<string, string, CollisionSide>, Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>>>
+ To looking something like:
+    Dictionary<CollisionNames, CollisionActions>
+ (or, whatever you name the classes/structs)
+
+
+ - The concept behind the dictionary is solid though. The structure of having just 
+ RegisterCollision and ExecuteCollision feels very neat and concise. The outside 
+ interface isn't any more complex than it needs to be.
+
+
+ - Comments could help explain what's happening a little better, although I 
+ understand that collision is a major work-in-progress at the moment.
+
+
+ - I also took a little peek at SetCollisionResponses() in LevelLoader. I'm a 
+ little iffy on the way that enum values are iterated through.... Right now it's 
+ like this:
+    for (int j = 0; j < Constants.HitBoxes.SIDES; j++)
+    {
+        collisionResponse.RegisterCollision(key1, key2, (CollisionSide)j, null, null);
+    }
+ But I would personally recommend something more like this:
+    foreach (CollisionSide side in Enum.GetValues(typeof(CollisionSide)))
+    {
+        collisionResponse.RegisterCollision(key1, key2, side, null, null);
+    }
+ This way, you don't have to keep track of a constant for the number of sides or 
+ cast an int to an enum.
+
+
+In general, I think collision is shaping up nicely so far, despite the bumps in the road. Great work!

@@ -5,5 +5,10 @@ Images/Spritesheets/kirby_fire
 Images/Spritesheets/enemies
 Images/Spritesheets/items
 Images/Spritesheets/projectiles
-Images/Tiles/Sprint2Tileset
+Images/Spritesheets/doorstars
+Images/collisionTileset
+Images/backgrounds
+Images/room1_level
+Images/room2_level
+Images/room3_level
 Images/invalidspritename

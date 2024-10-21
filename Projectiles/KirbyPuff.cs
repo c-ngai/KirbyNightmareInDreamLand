@@ -1,17 +1,24 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MasterGame.Sprites;
+using KirbyNightmareInDreamLand.Sprites;
+using System.Net.NetworkInformation;
+using System;
 
-namespace MasterGame.Projectiles
+namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class KirbyPuff : IProjectile
+    public class KirbyPuff : IProjectile, ICollidable
     {
         private Sprite projectileSprite;
         private Vector2 position;
-        private Vector2 velocity; 
-        private int frameCount = 0; 
+        public bool CollisionActive { get; private set;} = true;
+        private Vector2 velocity;
+        private bool isFacingRight;
+        private int frameCount = 0;
         public bool isActive = true;
-
+        public string GetObjectType()
+        {
+            return "PlayerAttack";
+        }
         public Vector2 Position
         {
             get => position;            // Return position of puff
@@ -23,30 +30,44 @@ namespace MasterGame.Projectiles
             get => velocity;            // Return the current velocity of the puff
             set => velocity = value;    // Set the velocity of the puff to the given value
         }
-
-        public KirbyPuff(Vector2 startPosition, Vector2 puffDirection)
+        public KirbyPuff(Vector2 kirbyPosition, bool isFacingRight)
         {
-            Position = startPosition;
 
-            // Normalize the direction vector and multiply by the initial speed
-            if (puffDirection != Vector2.Zero)
-            {
-                puffDirection.Normalize(); // Ensures the vector has a length of 1
-            }
+            this.isFacingRight = isFacingRight;
+            Vector2 offset = isFacingRight ? Constants.Kirby.PUFF_ATTACK_OFFSET : -Constants.Kirby.PUFF_ATTACK_OFFSET;
 
-            Velocity = puffDirection * Constants.Puff.INITIAL_SPEED; // Set the initial velocity
 
-            // Check the direction and assign the appropriate sprite
-            if (puffDirection.X >= 0)
-            {
-                projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_right");
-            }
-            else if (puffDirection.X < 0)
-            {
-                projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_left");
-            }
+            Position = kirbyPosition + offset;
+
+            // Set initial velocity based on direction
+            Velocity = isFacingRight
+                ? new Vector2(Constants.Puff.INITIAL_SPEED, 0)
+                : new Vector2(-Constants.Puff.INITIAL_SPEED, 0);
+
+            // Assign the appropriate sprite based on direction
+            projectileSprite = isFacingRight
+                ? SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_right")
+                : SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_left");
+
+            ObjectManager.Instance.RegisterDynamicObject(this);
         }
-
+         public Vector2 CalculateRectanglePoint(Vector2 pos)
+        {
+            return pos + Constants.HitBoxes.PUFF_OFFSET; 
+        }
+        public Rectangle GetHitBox()
+        {
+            Vector2 rectPoint = CalculateRectanglePoint(Position);
+            return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.PUFF_SIZE, Constants.HitBoxes.PUFF_SIZE);
+        }
+        public void EndAttack()
+        {
+            CollisionActive = false;
+        }
+        public bool IsDone()
+        {
+            return isActive;
+        }
         public void Update()
         {
             if (isActive)
@@ -72,6 +93,7 @@ namespace MasterGame.Projectiles
                 {
                     isActive = false;
                     projectileSprite = null; // Remove the sprite to avoid memory leaks
+                    EndAttack();
                 }
 
                 // Update the puff's sprite animation only if it's still active
@@ -80,7 +102,9 @@ namespace MasterGame.Projectiles
                     projectileSprite?.Update();
                 }
             }
+            GetHitBox();
         }
+        
 
         public void Draw(SpriteBatch spriteBatch)
         {

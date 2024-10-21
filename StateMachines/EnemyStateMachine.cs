@@ -1,16 +1,18 @@
-﻿namespace MasterGame.StateMachines
+﻿namespace KirbyNightmareInDreamLand.StateMachines
 {
     public class EnemyStateMachine : IEnemyStateMachine
     {
         private bool facingLeft;
         private EnemyType type;
         private EnemyPose pose;
+
         public EnemyStateMachine(EnemyType newType)
         {
             facingLeft = false;
             type = newType;
             pose = EnemyPose.Walking;
         }
+
         #region Direction
         public void ChangeDirection()
         {
@@ -22,6 +24,7 @@
             return facingLeft;
         }
         #endregion Direction
+
         #region Pose
         public void ChangePose(EnemyPose newPose)
         {
@@ -33,6 +36,7 @@
             return pose;
         }
         #endregion Pose
+
         #region Type
         public void ChangeType(EnemyType newType)
         {
@@ -56,6 +60,5 @@
             string enemy = type.ToString().ToLower();
             return enemy + "_" + posing + "_" + facing;
         }
-
     }
 }

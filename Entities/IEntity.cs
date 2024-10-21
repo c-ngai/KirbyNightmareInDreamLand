@@ -1,12 +1,14 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MasterGame.Entities
+namespace KirbyNightmareInDreamLand.Entities
 {
     public interface IEntity{
-        void TakeDamage();
+        void TakeDamage(Rectangle intersection);
         void Attack();
         void Update(GameTime gametime);
+        String GetCollisionType();
         void Draw(SpriteBatch spriteBatch);
 
     }

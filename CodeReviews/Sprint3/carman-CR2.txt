@@ -1,0 +1,40 @@
+Sprint 3 Code Quality Code Review 10/16/24
+
+Author of Code Review: Carman
+Name of .cs file being reviewed: CollisionManager.cs
+Author of .cs file being reivewed: Lina
+
+Time taken to complete review: 15 minutes
+
+################################################################################
+
+10 Code Smells:
+
+1. Data Clumps
+2. SameNameDifferentMeaning
+3. TooMuchDocumentation
+4. Divergent Change
+5. Shotgun Surgery
+6. Middleman
+7. Lazy Class
+8. Inappropriate Intimacy
+9. Backpedaling
+10. YouDon'tNeedItAnymore
+
+################################################################################
+
+Code Quality:
+
+	There are methods currently residing in the class that are not being used such as GetBoundingRadius, GetCenter, and IsCloseEnough that should be removed if there are no 
+plans to do so (YouDon'tNeedItAnymore). I really like the DebugDraw method as it helps immensely being able to see collision boxes while trying to implement collision. The
+code meets the single purpose principle well. It also maintains high cohesion and low coupling which also helps to make the code very readable. I would recommend moving 
+the list of dynamic objects and dictionary of static objects out into object manager since collision detection shouldn't be concerned with those details. 
+
+Hypothetical Change Suggestion:
+
+	If we were to add new levels, this class would support that functionality well since all objects will simply be loaded into their respective list/dictionary to be registered
+for collision detection, which makes this class scalable to future development including new enemies, players, and terrain.
+
+Comments
+
+	Overall it was well-thought out and well done!

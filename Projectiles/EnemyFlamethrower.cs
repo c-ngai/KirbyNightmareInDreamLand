@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
-namespace MasterGame.Projectiles
+namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class EnemyFlamethrower
     {

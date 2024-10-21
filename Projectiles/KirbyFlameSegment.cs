@@ -1,23 +1,26 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using MasterGame.Sprites;
+using KirbyNightmareInDreamLand.Sprites;
 
-namespace MasterGame.Projectiles
+namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class KirbyFlameSegment : IProjectile
+    public class KirbyFlameSegment : IProjectile, ICollidable
     {
         private Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;
         private float speed;
         private float delay; // Delay before this segment becomes active
-        private bool isActive;
         private static Random random = new Random(); // Random instance for sprite selection
         private int frameCount;
-
+        private bool IsLeft;
         public bool IsActive { get; private set; } // Expose IsActive for external checks
-
+        public bool CollisionActive { get; private set;} = true;
+        public string GetObjectType()
+        {
+            return "PlayerAttack";
+        }
         public Vector2 Position
         {
             get => position;
@@ -30,13 +33,14 @@ namespace MasterGame.Projectiles
             set => velocity = value;
         }
 
-        public KirbyFlameSegment(Vector2 startPosition, Vector2 flameDirection, float currentSpeed, float currentDelay)
+        public KirbyFlameSegment(Vector2 startPosition, Vector2 flameDirection, float currentSpeed, float currentDelay, bool isLeft)
         {
             Position = startPosition;
             speed = currentSpeed;
             delay = currentDelay;
             IsActive = false;
             frameCount = 0;
+            IsLeft = isLeft;
 
             // Normalize the direction vector and multiply by the speed
             if (flameDirection != Vector2.Zero)
@@ -73,11 +77,12 @@ namespace MasterGame.Projectiles
                     projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_fire1_left");
                 }
             }
+            ObjectManager.Instance.RegisterDynamicObject(this);
         }
 
         public void Update()
         {
-            // Reduce delay over time
+            //Reduce delay over time
             if (delay > 0)
             {
                 delay -= Constants.KirbyFire.SECONDS_PER_FRAME; // 60fps. 1/60 = ~0.016 seconds per frame
@@ -97,16 +102,36 @@ namespace MasterGame.Projectiles
                 // Mark the segment as inactive after a certain number of frames
                 if (frameCount >= Constants.KirbyFire.MAX_FRAMES)
                 {
-                    IsActive = false;
-                    projectileSprite = null; // Set sprite to null to avoid further drawing
+                    IsDone();
+                    EndAttack();
                 }
                 else
                 {
                     projectileSprite?.Update();
                 }
             }
+            GetHitBox();
         }
-
+         public Vector2 CalculateRectanglePoint(Vector2 pos)
+        {
+            return pos + (IsLeft ? Constants.HitBoxes.FIRE_OFFSET_LEFT: Constants.HitBoxes.FIRE_OFFSET_RIGHT); 
+        }
+        public Rectangle GetHitBox()
+        {
+            Vector2 rectPoint = CalculateRectanglePoint(Position);
+            return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.FIRE_SIZE, Constants.HitBoxes.FIRE_SIZE);
+        }
+        public bool IsDone()
+        {
+            IsActive = false;
+            projectileSprite = null;
+            return IsActive;
+        }
+        public void EndAttack()
+        {
+            CollisionActive = false;
+        }
+        
         public void Draw(SpriteBatch spriteBatch)
         {
             if (IsActive && projectileSprite != null)

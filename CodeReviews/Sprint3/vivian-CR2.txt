@@ -1,0 +1,63 @@
+﻿Sprint 3 Readabilty Code Review     10/15/2024
+
+Author of Code Review: Vivian Ferrigni
+Name of .cs file being reviewed: LevelLoader.cs
+Author of .cs file being reivewed: Mark DeLeo
+
+Time taken to complete review: 25 minutes
+
+################################################################################
+
+10 Code Smells:
+
+1. God class 
+2. Duplicated code ***
+3. TooManyParameters
+4. WhileTrueLoop
+5. LongMethodSmell 
+6. ParallelInheritanceHierarchies
+7. SameNameDifferentMeaning
+8. SwitchCaseSmell
+9. VariableNameSameAsType ***
+10.DataClumps ***
+
+################################################################################
+
+Comments:
+
+Readability:
+
+The organization of the file makes it very readable. (LoadThing, LoadAllThings).
+This organization follows the single responsibility principle.
+
+There are lots of unused using directives and inconsistent naming conventions. Properties should
+use PascalCase and method parameters should use camelCase.
+
+Quality:
+
+I think this file could benefit from error handling/debug statements around incorrectly
+formatted files. It currently assumes that files will be formatted correctly and
+doesn't give a way to gracefully handle crashes.
+
+To help with decoupling of LevelLoader and Game1 you could pass  _game, _content,
+and _graphics into the LevelLoader constructor as dependencies rather than directly
+accessing Game1 and hard coding the content and graphics. This would likely make testing and
+maintainability easier.
+
+Duplicated code, all of the deserializing which takes the .json files and converts
+their data into dictionaries uses almost identical logic to create the dictionary
+and parse the file. Since the code doesn't care what it's parsing, I would suggest
+separating the similar logic and creating a helper method. This would reduce duplication
+and increase readability.
+
+This file helps to mitigate the Data Clump Smell and Long Method Smell we were
+having last sprint by data driving all content loading. Great job!
+
+Hypothetical Game Change:
+
+If we used entirely different art and level data, this file could completely withstand
+the change and have effective functionality. The file doesn't inherently care what
+it'qs loading however with changing that file data comes the possibility of errors
+which LevelLoader does not currently check for. Additionally, if the game got much bigger
+with more levels and larger sprites, the synchronous loading of data could dampen
+performance. 

@@ -1,11 +1,11 @@
-﻿namespace MasterGame.StateMachines
+﻿namespace KirbyNightmareInDreamLand.StateMachines
 {
-    public enum KirbyType { Normal, Dead, Beam, Spark, Fire };
+    public enum KirbyType { Normal, Dead, Beam, Spark, Fire, Mouthful };
     public enum KirbyPose
     {
-        Standing, Crouching, Swimming, Attacking, ThrowEnemy,
+        Standing, Crouching, Swimming, Attacking, ThrowEnemy, AttackingEnd,
         JumpRising, JumpFalling, Walking, FloatingStart, FloatingGrounded, FloatingRising,
-        FloatingFalling, FloatingEnd, Inhaling, Running, Hurt, Sliding
+        FloatingFalling, FloatingEnd, Inhaling, Running, Hurt, Sliding, FreeFall, Swallow
     };
     public interface IPlayerStateMachine : IStateMachine
     {

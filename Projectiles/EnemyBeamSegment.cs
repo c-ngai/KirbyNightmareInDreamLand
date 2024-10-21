@@ -1,10 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MasterGame.Sprites;
+using KirbyNightmareInDreamLand.Sprites;
+using System;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 
-namespace MasterGame.Projectiles
+namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class EnemyBeamSegment : IProjectile
+    public class EnemyBeamSegment : IProjectile, ICollidable, IExplodable
     {
         private Vector2 position; // acts as pivot point
         private Vector2 velocity;
@@ -23,13 +25,18 @@ namespace MasterGame.Projectiles
             get => velocity;
             set => velocity = value;
         }
-
+        public string GetObjectType()
+        {
+            return "EnemyAttack";
+        }
         public EnemyBeamSegment(Vector2 startPosition, Vector2 beamVelocity)
         {
             Position = startPosition;
             Velocity = beamVelocity;
             projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_waddledoo_beam");
+            ObjectManager.Instance.RegisterDynamicObject(this);
         }
+
 
         public void Update()
         {
@@ -44,6 +51,7 @@ namespace MasterGame.Projectiles
                 if (frameCount >= Constants.WaddleDooBeam.MAX_FRAMES)
                 {
                     IsActive = false; // Mark the segment as inactive
+                    CollisionActive = false;
                 }
             }
         }
@@ -54,6 +62,35 @@ namespace MasterGame.Projectiles
             {
                 projectileSprite.Draw(Position, spriteBatch);
             }
+            else
+            {
+                ObjectManager.Instance.RemoveDynamicObject(this); // Deregister if dead
+            }
+        }
+
+        public bool IsDone()
+        {
+            return true;
+        }
+
+        public bool CollisionActive { get; set; } = true;
+
+        public virtual Vector2 CalculateRectanglePoint(Vector2 pos)
+        {
+            float x = pos.X - Constants.HitBoxes.BEAM_WIDTH / 2;
+            float y = pos.Y - Constants.HitBoxes.BEAM_HEIGHT + Constants.HitBoxes.BEAM_HEIGHT_OFFSET;
+            Vector2 rectPoint = new Vector2(x, y);
+            return rectPoint;
+        }
+        public virtual Rectangle GetHitBox()
+        {
+            Vector2 rectPoint = CalculateRectanglePoint(position);
+            return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.BEAM_WIDTH, Constants.HitBoxes.BEAM_HEIGHT);
+        }
+        public void EndAttack()
+        {
+            IsActive = false;
+            CollisionActive = false;
         }
     }
 }

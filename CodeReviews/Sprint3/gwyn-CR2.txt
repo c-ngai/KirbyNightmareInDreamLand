@@ -1,0 +1,35 @@
+Author of Code Review: Gwyn Barnholtz
+Date: 10/18
+Sprint 3
+Reviewing: MouseController.cs
+Author of .cs file: Payton
+Number of minutes to complete review: 10
+################################################################################ 
+
+10 Code Smells
+
+Long Functions
+Large Class
+Long Parameters
+Duplicate Code
+Feature Envy
+Switch Statements
+Shotgun Surgery
+Same Name, Different Meaning
+Data Clumps
+Temporary Field
+
+################################################################################
+
+Comments on Code Smells:
+	Functions are very short and legible. The class is pretty small, no long params or duplicate code. 
+	No switch cases and changes seem like they would be pretty easy. Everything is legible and works 
+	exactly as designed. Only problem I see is the roomList is filled with strings instead of pulling 
+	from Rooms.json. If we added new rooms, we would have to remember to go add them. Data driving that 
+	would be a better approach. But for right now, looks great!
+
+Comments on Quality:
+	All functionality works great. Wish it looped, so if you kept clicking left or right button it 
+	would loop through all instead of requiring right or left clicks. However overall, code quality 
+	looks great! Nice job!
+

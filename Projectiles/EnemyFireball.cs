@@ -1,14 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MasterGame.Sprites;
+using KirbyNightmareInDreamLand.Sprites;
+using System;
 
-namespace MasterGame.Projectiles
+namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class EnemyFireball : IProjectile
+    public class EnemyFireball : IProjectile, ICollidable, IExplodable
     {
         private Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;
+        public bool IsActive = true;
 
         public Vector2 Position
         {
@@ -35,18 +37,60 @@ namespace MasterGame.Projectiles
             Velocity = fireballDirection * Constants.EnemyFire.SPEED;
 
             projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_hothead_fireball");
+            ObjectManager.Instance.RegisterDynamicObject(this);
+        }
+        public string GetObjectType()
+        {
+            return "EnemyAttack";
         }
 
         public void Update()
         {
-            Position += Velocity;
+            if (IsActive)
+            {
+                Position += Velocity;
 
-            projectileSprite.Update();
+                projectileSprite.Update();
+            }
+
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            projectileSprite.Draw(Position, spriteBatch);
+            if (IsActive)
+            {
+                projectileSprite.Draw(Position, spriteBatch);
+            }
+            else
+            {
+                ObjectManager.Instance.RemoveDynamicObject(this); // Deregister if dead
+            }
+        }
+    
+        public bool IsDone()
+        {
+            return true;
+        }
+
+        public bool CollisionActive { get; set; } = true;
+
+        public virtual Vector2 CalculateRectanglePoint(Vector2 pos)
+        {
+            float x = pos.X - Constants.HitBoxes.FIREBALL_WIDTH / 2;
+            float y = pos.Y - Constants.HitBoxes.FIREBALL_HEIGHT + Constants.HitBoxes.FIREBALL_OFFSET;
+            Vector2 rectPoint = new Vector2(x, y);
+            return rectPoint;
+        }
+        public virtual Rectangle GetHitBox()
+        {
+            Vector2 rectPoint = CalculateRectanglePoint(position);
+            return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.FIREBALL_WIDTH, Constants.HitBoxes.FIREBALL_HEIGHT);
+        }
+
+        public void EndAttack()
+        {
+            IsActive = false;
+            CollisionActive = false;
         }
     }
 }
