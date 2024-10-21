@@ -68,10 +68,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
             }
         }
 
-        public void EndAttack()
-        {
-            //
-        }
         public bool IsDone()
         {
             return true;
@@ -91,11 +87,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
             Vector2 rectPoint = CalculateRectanglePoint(position);
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.BEAM_WIDTH, Constants.HitBoxes.BEAM_HEIGHT);
         }
-
-        public virtual void CollisionWithBlock(Rectangle intersection)
+        public void EndAttack()
         {
-            ObjectManager.Instance.RemoveDynamicObject(this);
             IsActive = false;
+            CollisionActive = false;
         }
     }
 }

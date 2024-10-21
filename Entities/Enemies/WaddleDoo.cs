@@ -42,6 +42,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 enemySprite.Update();
                 GetHitBox();
 
+                if (isFalling)
+                {
+                    Fall();
+                }
+
                 // Handle the beam if active
                 if (isBeamActive)
                 {
@@ -80,32 +85,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             {
                 // Start jumping and store initial y
                 isJumping = true;
-                originalY = position.Y;
                 yVel = -Constants.WaddleDoo.JUMP_HEIGHT;
             }
 
-            // Apply gravity and update Y position
             position.Y += yVel;
-            yVel += Constants.WaddleDoo.GRAVITY;
 
-            //Move right or left on x axis in jump
-            if (stateMachine.IsLeft())
-            {
-                position.X -= Constants.WaddleDoo.FORWARD_MOVEMENT;
-            }
-            else
-            {
-                position.X += Constants.WaddleDoo.FORWARD_MOVEMENT;
-            }
-
-            // Check if the character has landed and stop walking
-            if (position.Y >= originalY)
-            {
-                position.Y = originalY;
-                isJumping = false;
-                stateMachine.ChangePose(EnemyPose.Walking);
-                ChangeState(new WaddleDooWalkingState(this));
-            }
+            Move();
         }
 
         public override void Attack()
@@ -135,6 +120,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public override void BottomCollisionWithBlock(Rectangle intersection)
         {
             isFalling = false;
+            isJumping = false;
             position.Y = intersection.Y;
             yVel = 0;
             ChangeState(new WaddleDooWalkingState(this));

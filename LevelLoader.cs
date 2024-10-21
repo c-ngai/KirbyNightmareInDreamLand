@@ -319,6 +319,10 @@ namespace KirbyNightmareInDreamLand
             {
                 collisionResponse.RegisterCollision(key1, key2, (CollisionSide)j, action1, null);
             }
+ 
+            key2 = "Air";
+            action1 = TileCollisionActions.BottomAirCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
 
             key2 = "Block";
             action1 = TileCollisionActions.BottomBlockCollision;
@@ -359,9 +363,9 @@ namespace KirbyNightmareInDreamLand
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
             #endregion
 
-            /*
+            
             #region Projectile Collisions
-            key1 = "Projectile";
+            key1 = "EnemyAttack";
             key2 = "Block";
             action1 = TileCollisionActions.BottomBlockCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
@@ -370,7 +374,7 @@ namespace KirbyNightmareInDreamLand
             action1 = TileCollisionActions.LeftBlockCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
             #endregion
-            */
+            
 
             #region Player-Enemy Collisions
             key1 = "Enemy";
@@ -388,8 +392,8 @@ namespace KirbyNightmareInDreamLand
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Top, action1, null);
 
-            key1 = "Player";
-            key2 = "EnemyAttack";
+            key1 = "EnemyAttack";
+            key2 = "Player";
             action1 = DynamicCollisionActions.KirbyEnemyAttackCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
