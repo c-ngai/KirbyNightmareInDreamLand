@@ -327,6 +327,11 @@ namespace KirbyNightmareInDreamLand
             }
         }
 
+        public Rectangle GetHitbox(string objectKey)
+        {
+            return GetHitbox(objectKey, "default");
+        }
+
 
 
         public void SetCollisionResponses()
