@@ -29,11 +29,11 @@
             }
         ],
         "Enemies": [
-          {
-            "EnemyType": "WaddleDee",
-            "SpawnTileX": 30,
-            "SpawnTileY": 1
-          },
+            {
+                "EnemyType": "WaddleDee",
+                "SpawnTileX": 30,
+                "SpawnTileY": 1
+            },
             {
                 "EnemyType": "WaddleDoo",
                 "SpawnTileX": 15,
@@ -230,8 +230,8 @@
         "Background sprite": "background_stars",
         "Tilemap": "treasureroom",
 
-        "Spawn tile X": 47,
-        "Spawn tile Y": 7,
+        "Spawn tile X": 48,
+        "Spawn tile Y": 5,
 
         "Lock camera X?": false,
         "Locked camera X": 0,
