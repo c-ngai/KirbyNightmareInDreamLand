@@ -97,9 +97,7 @@ namespace KirbyNightmareInDreamLand
                         if (response.collisionMapping.ContainsKey(key))
                         {
                             response.ExecuteCollision(dynamicObj, staticObj, side);
-                        } else {
-                            
-                        }
+                        } 
                     }
                 }
             }

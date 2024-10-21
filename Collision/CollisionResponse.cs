@@ -46,12 +46,6 @@ namespace KirbyNightmareInDreamLand.Collision
         }
         public void ExecuteCollision(ICollidable object1, ICollidable object2, CollisionSide side)
         {
-            // Determine object types to use as part of the key
-            //effective but not optimal, object.GetCollisionType()
-            //per concrete class
-            //feel free to let different objects have different collision types
-            //i gues for tile we could have it? i feel like its easier to just make the tile hit box smaller
-            //ans stop the intersection instead of allowing there to be one
             String key1 = object1.GetObjectType();
             String key2 = object2.GetObjectType();
             if(ShouldCollide(key1, key2))
