@@ -266,8 +266,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 Rectangle intersection = tile.rectangle;
                 float offset = position.X - intersection.X;
-                float slope = Constants.Collision.GENTLE1_SLOPE_LEFT_M;
-                float yIntercept = Constants.Collision.GENTLE1_SLOPE_LEFT_YINTERCEPT;
+                float slope = Constants.Collision.GENTLE1_SLOPE_RIGHT_M;
+                float yIntercept = Constants.Collision.GENTLE1_SLOPE_RIGHT_YINTERCEPT;
                 position.Y = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
                 //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
             }
