@@ -319,10 +319,6 @@ namespace KirbyNightmareInDreamLand
             {
                 collisionResponse.RegisterCollision(key1, key2, (CollisionSide)j, action1, null);
             }
- 
-            key2 = "Air";
-            action1 = TileCollisionActions.BottomAirCollision;
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
 
             key2 = "Block";
             action1 = TileCollisionActions.BottomBlockCollision;
