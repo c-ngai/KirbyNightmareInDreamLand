@@ -15,6 +15,7 @@ namespace KirbyNightmareInDreamLand
             public const string RoomRegistry = "Content/Rooms.json";
             public const string KeymapRegistry = "Content/Keymaps.json";
             public const string TileSpriteList = "Content/Images/TileSprites.txt";
+            public const string HitboxRegistry = "Content/Hitboxes.json";
         }
 
         public static class Namespaces
