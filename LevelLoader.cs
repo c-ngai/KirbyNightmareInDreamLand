@@ -396,6 +396,7 @@ namespace KirbyNightmareInDreamLand
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Top, action1, null);
 
+            key1 = "Player";
             key2 = "PowerUp";
             action1 = DynamicCollisionActions.KirbyItemCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, null, action1);

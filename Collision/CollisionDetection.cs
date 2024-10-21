@@ -164,7 +164,6 @@ namespace KirbyNightmareInDreamLand
                 // Iterate across all the columns of the TileMap visible within the frame of the camera
                 for (int x = LeftX; x < RightX; x++)
                 {
-                    int z = 0;
                     Tile tile = new Tile();
                     tile.type = (TileCollisionType)level.CurrentRoom.TileMap[y][x];
                     tile.rectangle = new Rectangle(x * Constants.Level.TILE_SIZE, y * Constants.Level.TILE_SIZE, Constants.Level.TILE_SIZE, Constants.Level.TILE_SIZE);

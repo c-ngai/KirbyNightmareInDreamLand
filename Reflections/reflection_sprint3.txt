@@ -1,0 +1,38 @@
+﻿Sprint 3 Reflection
+10/20/2024
+
+###############################################################################
+
+1. Team Dynamics
+
+This Sprint was a doozy! With the semester picking up and midterm season in full
+swing, our ability to effectively delegate time to the project while managing other
+classes were limited. People who were more available toward the beginning of the sprint
+were held up by others who weren't able to contribute until the second half of the
+sprint and vice versa.
+
+We received two extensions and still were unable to resolve all of the collision
+bugs.
+
+We definitely underestimated how much work collision would be and should have
+assigned more than 3 people to the task. 
+
+
+2. Adherence To Deadlines
+
+Compared to the last sprint, we definitely did much better in getting most of our
+code reviews done earlier. 
+
+Because of the huge amount of work that is getting collision on slopes to work,
+the functionality of the sprint was not complete, and several bugs got backlogged
+making it hard to refactor and clean code as well as have up-to-date documentation.
+
+
+3. Plans for Next Sprint
+
+    *  Assign a person to be in charge of documentation. README and reflection
+       as well as the project planning documents should be clean and submittable.
+    *  Distribute coding responsibilities more evenly.
+    *  Have regular in-person meetings to work on the project.
+
+

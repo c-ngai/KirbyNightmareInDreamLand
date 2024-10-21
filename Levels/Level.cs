@@ -90,20 +90,6 @@ namespace KirbyNightmareInDreamLand.Levels
             LoadRoom(RoomName, null);
         }
 
-
-        //// Loads a room into the level by name. If spawn point is unspecified, it will use the room's default.
-        //public void LoadRoom(string RoomName)
-        //{
-        //    if (LevelLoader.Instance.Rooms.ContainsKey(RoomName))
-        //    {
-        //        LoadRoom(RoomName, )
-        //    }
-        //    else
-        //    {
-        //        Debug.WriteLine("ERROR: \"" + RoomName + "\" is not a valid room name and cannot be loaded.");
-        //    }
-        //}
-
         private List<Sprite> LoadTileSprites(string filepath)
         {
             List<Sprite> TileSprites = new List<Sprite>();

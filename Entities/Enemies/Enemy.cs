@@ -28,13 +28,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public bool CollisionActive { get; set; } = true;
 
-        /*
-          public bool IsFalling
-          {
-              get => isFalling; 
-          }
-        */
-
         protected Enemy(Vector2 startPosition, EnemyType type)
         {
             //Initialize all variables
@@ -94,7 +87,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             frameCounter++;
         }
 
-        // Method to reset the frame counter
         public void ResetFrameCounter()
         {
             frameCounter = 0;
@@ -118,16 +110,15 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public void TakeDamage(Rectangle intersection)
         {
-            currentState.TakeDamage(); // Delegate to current state
+            currentState.TakeDamage();
             CollisionActive = false;
         }
 
         public void ChangeDirection()
         {
-            currentState.ChangeDirection(); // Delegate to current state
+            currentState.ChangeDirection();
         }
 
-        // Public methods to interact with stateMachine
         public void ChangePose(EnemyPose pose)
         {
             stateMachine.ChangePose(pose);
@@ -143,7 +134,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             return stateMachine.GetStateString();
         }
 
-        public virtual void Update(GameTime gameTime) // Change to virtual
+        public virtual void Update(GameTime gameTime) 
         {
             if (CollisionActive && !IsDead)
             {
@@ -152,10 +143,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 UpdateTexture();
                 enemySprite.Update();
 
-                //if (isFalling)
-                //{
-                    Fall();
-                //}
+                Fall();
 
                 GetHitBox(); // Ensure hitbox is updated
             } else {

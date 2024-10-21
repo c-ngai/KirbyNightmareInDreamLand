@@ -8,9 +8,6 @@ namespace KirbyNightmareInDreamLand.Collision
     public enum CollisionSide { Top, Left, Right, Bottom };
     public class CollisionResponse
     {
-        //level loader times register collision?
-        //not  abad idea to and them the collision rectangle, most ocllision handlers will want to know overlap
-        //or have it in constructors 
         public Dictionary<Tuple<string, string, CollisionSide>, Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>>> collisionMapping { get; private set; }
         private static CollisionResponse instance = new CollisionResponse();
         public static CollisionResponse Instance
@@ -28,6 +25,7 @@ namespace KirbyNightmareInDreamLand.Collision
         {
             collisionMapping = new Dictionary<Tuple<string, string, CollisionSide>, Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>>>();
         }
+
         // Creates string mappings of object types and collision side to determine object reactions 
         // gets called by level loader
         public void RegisterCollision(string object1, string object2, CollisionSide side, Action<ICollidable, ICollidable, Rectangle> object1Command, Action<ICollidable, ICollidable, Rectangle> object2Command)
@@ -44,16 +42,13 @@ namespace KirbyNightmareInDreamLand.Collision
             }
             return true;
         }
+
         public void ExecuteCollision(ICollidable object1, ICollidable object2, CollisionSide side)
         {
             String key1 = object1.GetObjectType();
             String key2 = object2.GetObjectType();
             if(ShouldCollide(key1, key2))
             {   
-                // if((key2.Equals("Air") || key2.Equals("Block")) && key1.Equals("Player"))
-                // {
-                //     System.Console.WriteLine(key1 + " " + key2 + " "+ side);
-                // }
                 //hand side that is being collided
                 Tuple<String, String, CollisionSide> objects = new Tuple<String, String, CollisionSide>(key1, key2, side);
 

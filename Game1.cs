@@ -131,8 +131,6 @@ namespace KirbyNightmareInDreamLand
             Level = new Level();
             Level.LoadRoom("room1");
 
-            
-
             // Load the desired keymap by name
             LevelLoader.Instance.LoadKeymap("keymap1");
         }
@@ -158,9 +156,6 @@ namespace KirbyNightmareInDreamLand
 
             foreach(IPlayer player in manager.Players) player.Update(time);
             manager.EnemyList[manager.CurrentEnemyIndex].Update(time);
-
-            // Commented out since we currently do not need item
-            // item.Update();
 
             //enemyList2.Add(new Hothead(new Vector2(170, 100))); // FOR PERFORMANCE TESTING
             foreach (IEnemy enemy in enemyList2) enemy.Update(time); // FOR PERFORMANCE TESTING
