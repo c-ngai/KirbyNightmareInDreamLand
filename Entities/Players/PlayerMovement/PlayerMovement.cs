@@ -221,12 +221,16 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public void AdjustOnSlopeCollision(IPlayerStateMachine state, Tile tile, float slope, float yIntercept)
         {
-            if (state.GetPose( ) != KirbyPose.JumpRising)
+            Rectangle intersection = tile.rectangle;
+            if (position.X > intersection.Left && position.X < intersection.Right)
             {
-                Rectangle intersection = tile.rectangle;
                 float offset = position.X - intersection.X;
                 //Debug.WriteLine($"Starting Y position: {position.Y}");
-                position.Y = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
+                float kirbyAdjustment = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
+                if (position.Y > kirbyAdjustment)
+                {
+                    position.Y = kirbyAdjustment;
+                }
                 //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
             }
         }
