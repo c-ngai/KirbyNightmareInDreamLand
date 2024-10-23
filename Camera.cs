@@ -18,6 +18,7 @@ namespace KirbyNightmareInDreamLand
 
         private Vector3 position;
         public Rectangle bounds;
+        public Rectangle enemyBounds;
 
         // Matrix for the level, everything drawn here is in world space.
         public Matrix LevelMatrix { get; set; }
@@ -31,6 +32,7 @@ namespace KirbyNightmareInDreamLand
 
             position = new Vector3(0,0,0);
             bounds = new Rectangle((int)position.X, (int)position.Y, Constants.Graphics.GAME_WIDTH, Constants.Graphics.GAME_HEIGHT);
+            enemyBounds = new Rectangle((int)position.X, (int)position.Y, Constants.Graphics.GAME_WIDTH + Constants.Level.TILE_SIZE, Constants.Graphics.GAME_HEIGHT + Constants.Level.TILE_SIZE);
 
             LevelMatrix = new Matrix();
             ScreenMatrix = new Matrix();
@@ -117,5 +119,9 @@ namespace KirbyNightmareInDreamLand
             return bounds;
         }
 
+        public Rectangle GetEnemyBounds()
+        {
+            return enemyBounds;
+        }
     }
 }
