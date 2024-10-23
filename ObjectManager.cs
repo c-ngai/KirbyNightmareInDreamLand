@@ -21,7 +21,7 @@ namespace KirbyNightmareInDreamLand
         // Single-player but can later be updated to an array of kirbys for multiplayer
         public List<IPlayer> Players { get; private set; }
 
-        //public IEnemy[] EnemyList { get; set; }
+        public IEnemy[] EnemyList { get; set; }
 
         public Sprite Item { get; set; }
 
@@ -45,7 +45,6 @@ namespace KirbyNightmareInDreamLand
 
         public void LoadObjects()
         {
-            ObjectManager.Instance.ResetDynamicCollisionBoxes();
             // Creates kirby object
             //make it a list from the get go to make it multiplayer asap
             Players = new List<IPlayer>();

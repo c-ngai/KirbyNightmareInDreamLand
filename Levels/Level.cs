@@ -32,7 +32,7 @@ namespace KirbyNightmareInDreamLand.Levels
 
         public Vector2 SpawnPoint { get; private set; }
 
-        private List<Enemy> enemyList;
+        public List<Enemy> enemyList { get; private set; }
 
         private List<PowerUp> powerUpList;
 
@@ -68,7 +68,9 @@ namespace KirbyNightmareInDreamLand.Levels
         {
             if (LevelLoader.Instance.Rooms.ContainsKey(RoomName))
             {
+                // Sets it up so player will not be incorrectly removed during room changes
                 manager.ResetDynamicCollisionBoxes();
+                manager.ResetStaticObjects();
                 CurrentRoom = LevelLoader.Instance.Rooms[RoomName];
                 LoadLevelObjects();
                 SpawnPoint = _spawnPoint ?? CurrentRoom.SpawnPoint;
