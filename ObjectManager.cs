@@ -43,10 +43,9 @@ namespace KirbyNightmareInDreamLand
             InitializeTileTypes();
         }
 
-        public void LoadObjects()
+        public void LoadKirby()
         {
             // Creates kirby object
-            //make it a list from the get go to make it multiplayer asap
             Players = new List<IPlayer>();
             IPlayer kirby = new Player(new Vector2(30, Constants.Graphics.FLOOR));
             Players.Add(kirby);

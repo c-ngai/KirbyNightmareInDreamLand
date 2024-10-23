@@ -59,23 +59,23 @@ namespace KirbyNightmareInDreamLand
 
         public static class Collision
         {
-            public const float GENTLE1_SLOPE_LEFT_M = 0.25F;
-            public const int GENTLE1_SLOPE_LEFT_YINTERCEPT = -1;
+            public const float GENTLE1_SLOPE_LEFT_M = 0.5F;
+            public const int GENTLE1_SLOPE_LEFT_YINTERCEPT = 0;
 
-            public const float GENTLE2_SLOPE_LEFT_M = 0.4F;
-            public const float GENTLE2_SLOPE_LEFT_YINTERCEPT = 9.6F;
+            public const float GENTLE2_SLOPE_LEFT_M = 0.5F;
+            public const float GENTLE2_SLOPE_LEFT_YINTERCEPT = 8F;
 
             public const int STEEP_SLOPE_LEFT_M = 1;
-            public const int STEEP_SLOPE_LEFT_YINTERCEPT = -1;
+            public const int STEEP_SLOPE_LEFT_YINTERCEPT = 0;
 
-            public const float GENTLE1_SLOPE_RIGHT_M = -0.25F;
-            public const int GENTLE1_SLOPE_RIGHT_YINTERCEPT = 4;
+            public const float GENTLE1_SLOPE_RIGHT_M = -0.5F;
+            public const int GENTLE1_SLOPE_RIGHT_YINTERCEPT = 8;
 
-            public const float GENTLE2_SLOPE_RIGHT_M = -0.4F;
-            public const int GENTLE2_SLOPE_RIGHT_YINTERCEPT = 15;
+            public const float GENTLE2_SLOPE_RIGHT_M = -0.5F;
+            public const int GENTLE2_SLOPE_RIGHT_YINTERCEPT = 16;
 
             public const int STEEP_SLOPE_RIGHT_M = -1;
-            public const int STEEP_SLOPE_RIGHT_YINTERCEPT = 15;
+            public const int STEEP_SLOPE_RIGHT_YINTERCEPT = 16;
         }
         public static class HitBoxes
         {

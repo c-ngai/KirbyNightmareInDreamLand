@@ -14,7 +14,7 @@ namespace KirbyNightmareInDreamLand.Commands
         // is there a better way to do this beyond resetting every single game object?
         public void Execute()
         {
-            manager.LoadObjects();
+            manager.LoadKirby();
             level.LoadRoom(level.CurrentRoom.Name);
         }
     }
