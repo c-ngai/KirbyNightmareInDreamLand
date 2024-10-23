@@ -20,6 +20,9 @@
 /processorParam:TextureFormat=Compressed
 /build:DefaultFont.spritefont
 
+#begin Hitboxes.json
+/copy:Hitboxes.json
+
 #begin Images/backgrounds.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -229,4 +232,7 @@
 
 #begin Tilemaps/testroom1.csv
 /copy:Tilemaps/testroom1.csv
+
+#begin Tilemaps/treasureroom.csv
+/copy:Tilemaps/treasureroom.csv
 

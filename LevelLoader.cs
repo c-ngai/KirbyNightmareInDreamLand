@@ -32,6 +32,12 @@ namespace KirbyNightmareInDreamLand
         // Dictionary from string to Keymap. Keymap is a List of Keymappings.
         public Dictionary<string, List<Keymapping>> Keymaps { get; private set; }
 
+        // Dictionary from string to Dictionary<string, Rectangle>.
+        // The outer dictionary takes object type (kirby, waddledee, etc) and the inner
+        // dictionary takes pose. Each type is required to have a "default" hitbox for
+        // when pose is unspecified.
+        public Dictionary<string, Dictionary<string, Rectangle>> Hitboxes { get; private set; }
+
 
         public SpriteFont Font { get; private set; }
         public Texture2D Borders { get; private set; }
@@ -53,6 +59,7 @@ namespace KirbyNightmareInDreamLand
             Tilemaps = new Dictionary<string, int[][]>();
             Rooms = new Dictionary<string, Room>();
             Keymaps = new Dictionary<string, List<Keymapping>>();
+            Hitboxes = new Dictionary<string, Dictionary<string, Rectangle>>();
             collisionResponse = CollisionResponse.Instance;
         }
 
@@ -68,14 +75,17 @@ namespace KirbyNightmareInDreamLand
             LoadAllRooms(); // Dependent on sprite animations and tilemaps already loaded
 
             LoadAllKeymaps();
+
+            LoadAllHitboxes();
             SetCollisionResponses();
+
 
             // Spritefont only for debug functionality
             Font = _content.Load<SpriteFont>("DefaultFont");
 
             // Border for fullscreen letterboxing
             Borders = new Texture2D(_graphics, 1, 1);
-            Borders.SetData(new Color[] { new Color(0, 0, 0, 127) });
+            Borders.SetData(new Color[] { Color.Black });
 
         }
 
@@ -248,6 +258,82 @@ namespace KirbyNightmareInDreamLand
             }
         }
 
+
+
+        // Loads a hitbox given its and data.
+        private void LoadHitbox(Dictionary<string, Rectangle> _poseDictionary, string _poseName, HitboxJsonData _hitboxJsonData)
+        {
+            Rectangle _hitbox = new Rectangle(
+                _hitboxJsonData.XOffset,
+                _hitboxJsonData.YOffset,
+                _hitboxJsonData.Width,
+                _hitboxJsonData.Height
+            );
+            _poseDictionary.Add(_poseName, _hitbox);
+        }
+
+        // Loads all hitboxes from the .json registry.
+        public void LoadAllHitboxes()
+        {
+            // Open the hitbox data file and deserialize it into a dictionary of dictionaries.
+            Dictionary<string, Dictionary<string, HitboxJsonData>> hitboxJsonDatas = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, HitboxJsonData>>>(File.ReadAllText(Constants.Filepaths.HitboxRegistry), new JsonSerializerOptions());
+
+            // Run through the json dictionary of hitbox TYPE dictionaries.
+            foreach (KeyValuePair<string, Dictionary<string, HitboxJsonData>> jsonTypeDictionary in hitboxJsonDatas)
+            {
+                // Create a hitbox POSE dictionary in Hitboxes for the current type.
+                Dictionary<string, Rectangle> poseDictionary = new Dictionary<string, Rectangle>();
+                Hitboxes.Add(jsonTypeDictionary.Key, poseDictionary);
+
+                foreach (KeyValuePair<string, HitboxJsonData> data in jsonTypeDictionary.Value)
+                {
+                    LoadHitbox(poseDictionary, data.Key, data.Value);
+                }
+            }
+        }
+
+        // Get a hitbox from an object and a pose key
+        public Rectangle GetHitbox(string objectKey, string poseKey)
+        {
+            // If the hitbox dictionary contains a hitbox set for this object
+            if (Hitboxes.ContainsKey(objectKey))
+            {
+                
+                Dictionary<string, Rectangle> poseDictionary = Hitboxes[objectKey];
+
+                // If the hitbox set for this object contains a hitbox for the given pose, return it.
+                if (poseDictionary.ContainsKey(poseKey)) 
+                {
+                    return poseDictionary[poseKey];
+                }
+                // If the hitbox set for this object does NOT contain a hitbox for the given pose, return its default hitbox.
+                else if (poseDictionary.ContainsKey("default")) 
+                {
+                    return poseDictionary["default"];
+                }
+                // If the hitbox set for this object does not contain a default hitbox, something is wrong.
+                else
+                {
+                    Debug.WriteLine("ERROR (Hitboxes.json): Hitbox set for object type \"" + objectKey + "\" does not specify a default hitbox.");
+                    return new Rectangle();
+                }
+                
+            }
+            // If the hitbox dictionary does NOT contain a hitbox set for this object
+            else
+            {
+                Debug.WriteLine("ERROR (Hitboxes.json): No hitbox set for object type \"" + objectKey + "\" is specified.");
+                return new Rectangle();
+            }
+        }
+
+        public Rectangle GetHitbox(string objectKey)
+        {
+            return GetHitbox(objectKey, "default");
+        }
+
+
+
         public void SetCollisionResponses()
         {
             #region Player-Tile Collisons
@@ -276,31 +362,43 @@ namespace KirbyNightmareInDreamLand
             action1 = TileCollisionActions.LeftBlockCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
 
-            // TODO: add the correct commands for the slope handling;
-            key2 = "SlopeSteepLeft";
-            action1 = TileCollisionActions.BottomBlockCollision;
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
-
             key2 = "SlopeGentle1Left";
+            action1 = TileCollisionActions.GentleLeftSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
 
             key2 = "SlopeGentle2Left";
+            action1 = TileCollisionActions.MediumLeftSlopeCollison;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
 
-            key2 = "SlopeGentle2Right";
+            key2 = "SlopeSteepLeft";
+            action1 = TileCollisionActions.SteepLeftSlopeCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+
+            key2 = "SlopeGentle1Right";
+            action1 = TileCollisionActions.GentleRightSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
 
-            key2 = "SlopeGentle1Right";
+            key2 = "SlopeGentle2Right";
+            action1 = TileCollisionActions.MediumRightSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+
+            key2 = "SlopeSteepRight";
+            action1 = TileCollisionActions.SteepRightSlopeCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
             #endregion
 
             #region Enemy-Tile Collisions
             key1 = "Enemy";
+            key2 = "Air";
+            action1 = TileCollisionActions.BottomAirCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+
             key2 = "Water";
             action1 = TileCollisionActions.WaterCollision;
             for (int j = 0; j < Constants.HitBoxes.SIDES; j++)
@@ -308,11 +406,6 @@ namespace KirbyNightmareInDreamLand
                 collisionResponse.RegisterCollision(key1, key2, (CollisionSide)j, action1, null);
             }
 
-            /*
-            key2 = "Air";
-            action1 = TileCollisionActions.BottomAirCollision;
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);*/
-
             key2 = "Block";
             action1 = TileCollisionActions.BottomBlockCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
@@ -321,32 +414,40 @@ namespace KirbyNightmareInDreamLand
             action1 = TileCollisionActions.LeftBlockCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
 
-            // TODO: add the correct commands for the slope handling;
-            key2 = "SlopeSteepLeft";
-            action1 = TileCollisionActions.BottomBlockCollision;
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
-
             key2 = "SlopeGentle1Left";
+            action1 = TileCollisionActions.GentleLeftSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
 
             key2 = "SlopeGentle2Left";
+            action1 = TileCollisionActions.MediumLeftSlopeCollison;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
 
-            key2 = "SlopeGentle2Right";
+            key2 = "SlopeSteepLeft";
+            action1 = TileCollisionActions.SteepLeftSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
 
             key2 = "SlopeGentle1Right";
+            action1 = TileCollisionActions.GentleRightSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+
+            key2 = "SlopeGentle2Right";
+            action1 = TileCollisionActions.MediumRightSlopeCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+
+            key2 = "SlopeSteepRight";
+            action1 = TileCollisionActions.SteepRightSlopeCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
             #endregion
 
-            /*
+            
             #region Projectile Collisions
-            key1 = "Projectile";
+            key1 = "EnemyAttack";
             key2 = "Block";
             action1 = TileCollisionActions.BottomBlockCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
@@ -355,7 +456,7 @@ namespace KirbyNightmareInDreamLand
             action1 = TileCollisionActions.LeftBlockCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
             #endregion
-            */
+            
 
             #region Player-Enemy Collisions
             key1 = "Enemy";
@@ -373,14 +474,15 @@ namespace KirbyNightmareInDreamLand
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Top, action1, null);
 
-            key1 = "Player";
-            key2 = "EnemyAttack";
+            key1 = "EnemyAttack";
+            key2 = "Player";
             action1 = DynamicCollisionActions.KirbyEnemyAttackCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Top, action1, null);
 
+            key1 = "Player";
             key2 = "PowerUp";
             action1 = DynamicCollisionActions.KirbyItemCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, null, action1);

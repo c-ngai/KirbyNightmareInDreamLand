@@ -90,20 +90,6 @@ namespace KirbyNightmareInDreamLand.Levels
             LoadRoom(RoomName, null);
         }
 
-
-        //// Loads a room into the level by name. If spawn point is unspecified, it will use the room's default.
-        //public void LoadRoom(string RoomName)
-        //{
-        //    if (LevelLoader.Instance.Rooms.ContainsKey(RoomName))
-        //    {
-        //        LoadRoom(RoomName, )
-        //    }
-        //    else
-        //    {
-        //        Debug.WriteLine("ERROR: \"" + RoomName + "\" is not a valid room name and cannot be loaded.");
-        //    }
-        //}
-
         private List<Sprite> LoadTileSprites(string filepath)
         {
             List<Sprite> TileSprites = new List<Sprite>();
@@ -120,7 +106,7 @@ namespace KirbyNightmareInDreamLand.Levels
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (_game.DEBUG_LEVEL_MODE)
+            if (_game.DEBUG_LEVEL_MODE || CurrentRoom.Name == "treasureroom")
             {
                 DrawDebug(spriteBatch);
             }
@@ -134,12 +120,23 @@ namespace KirbyNightmareInDreamLand.Levels
         {
             if (CurrentRoom.BackgroundSprite != null)
             {
-                Vector2 backgroundPosition = new Vector2(
-                    _camera.GetPosition().X * BackgroundParallaxFactor,
-                    _camera.GetPosition().Y * BackgroundParallaxFactor
+                //Vector2 backgroundPosition = new Vector2(
+                //    _camera.GetPosition().X * BackgroundParallaxFactor,
+                //    _camera.GetPosition().Y * BackgroundParallaxFactor
+                //);
+
+                Vector2 cameraPosition = new Vector2(
+                    _camera.GetPosition().X * (1),
+                    _camera.GetPosition().Y * (1)
+                );
+                
+                Vector2 backgroundScreenPosition = new Vector2(
+                    _camera.GetPosition().X * ((float)(_camera.bounds.Width - CurrentRoom.BackgroundSprite.Width) / (CurrentRoom.Width - _camera.bounds.Width)),
+                    _camera.GetPosition().Y * ((float)(_camera.bounds.Height - CurrentRoom.BackgroundSprite.Height) / (CurrentRoom.Height - _camera.bounds.Height))
                 );
 
-                CurrentRoom.BackgroundSprite.Draw(backgroundPosition, spriteBatch); 
+                Vector2 backgroundPosition = cameraPosition + backgroundScreenPosition;
+                CurrentRoom.BackgroundSprite.Draw(backgroundPosition, spriteBatch);
             }
         }
 
@@ -275,6 +272,7 @@ namespace KirbyNightmareInDreamLand.Levels
         // Debug mode (toggle F2), draws the usually-invisible collision tiles, doors, and enemy spawn locations.
         private void DrawDebug(SpriteBatch spriteBatch)
         {
+            DrawBackground(spriteBatch);
             DrawTiles(spriteBatch);
             DrawDoorStars(spriteBatch);
             DrawDoors(spriteBatch);
@@ -290,6 +288,7 @@ namespace KirbyNightmareInDreamLand.Levels
                 Vector2 doorPos = door.Bounds.Location.ToVector2();
                 Vector2 textSize = LevelLoader.Instance.Font.MeasureString(door.DestinationRoom);
                 Vector2 textPos = doorPos - new Vector2(-9 + textSize.X / 2, -1 + textSize.Y);
+                textPos.Floor();
 
                 GameDebug.Instance.DrawSolidRectangle(spriteBatch, door.Bounds, Color.Red);
                 spriteBatch.DrawString(LevelLoader.Instance.Font, door.DestinationRoom, textPos, Color.Red);
