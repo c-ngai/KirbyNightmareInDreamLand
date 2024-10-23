@@ -17,8 +17,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         // and movement management so it is not doing this much
         private PlayerStateMachine state;
         private PlayerMovement movement;
-        private Sprite playerSprite ;
+        private Sprite playerSprite;
         public PlayerAttack attack {get; private set;}
+        public PlayerAttack starAttack {get; private set;}
 
         //health stuffs -- will be taken to another class connected to kirby in next sprint
         private int health = Constants.Kirby.MAX_HEALTH;
@@ -374,11 +375,15 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void Attack()
         {
             //slide beam float exhale mouthful exhale
-            if(attack == null && state.ShortAttack()){
-                attack = new PlayerAttack(this, AttackType());
+            if(IsWithEnemy() && starAttack == null && state.ShortAttack()){
+                starAttack = new PlayerAttack(this, AttackType());
                 if(!state.IsCrouching())AttackAnimation();
                 movement.Attack(this);
                 //ChangeAttackBool(true);
+            } else if (attack == null && state.ShortAttack()) {
+                attack = new PlayerAttack(this, AttackType());
+                if(!state.IsCrouching())AttackAnimation();
+                movement.Attack(this);
             }
         }
         public void AttackPressed()
@@ -392,15 +397,19 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
 
         }
-        public void StopAttacking()
+        public void StopAttacking() //long attacks
         {
             if(attack != null && attack.IsDone())
             {
                 StopMoving();
-                //ChangeAttackBool(false);
                 attack.EndAttack();
                 attack = null;
+            } else if (starAttack != null && starAttack.IsDone()){
+                StopMoving();
+                starAttack.EndAttack();
+                starAttack = null;
             }
+
         }
        
 

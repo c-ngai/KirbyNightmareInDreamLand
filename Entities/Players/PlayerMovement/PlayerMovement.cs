@@ -11,7 +11,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //seperate movement and state 
         //make these #define
 
-        protected float yVel = 0;
+        protected float yVel = Constants.Physics.GRAVITY;
         protected float xVel = 0;
         protected float walkingVel = Constants.Physics.WALKING_VELOCITY;
         protected float runningVel = Constants.Physics.RUNNING_VELOCITY;
@@ -211,7 +211,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void AdjustFromBottomCollisionPlatform(Rectangle intersection)
         {
             position.Y = intersection.Y + 1;
-            yVel = 0;
+            position.Y += 0;
             ChangeKirbyLanded(true);
         }
 
