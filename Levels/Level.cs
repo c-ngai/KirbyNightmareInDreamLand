@@ -183,12 +183,6 @@ namespace KirbyNightmareInDreamLand.Levels
             }
         }
 
-        // gets called when player defeats an enemy so that it doesn't get drawn anymore
-        public void removeEnemyFromList(Enemy enemy)
-        {
-            enemyList.Remove(enemy);
-        }
-
         // gets called when player uses a power up so it doesn't get drawn anymore
         public void removePowerUpFromList(PowerUp powerUp)
         {
