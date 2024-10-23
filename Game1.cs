@@ -125,7 +125,7 @@ namespace KirbyNightmareInDreamLand
             LevelLoader.Instance.LoadAllContent();
 
             // Load all objects
-            manager.LoadObjects();
+            manager.LoadKirby();
 
             // Create level instance and load initial room
             Level = new Level();
@@ -140,7 +140,6 @@ namespace KirbyNightmareInDreamLand
 
         }
 
-        List<IEnemy> enemyList2 = new List<IEnemy>(); // FOR PERFORMANCE TESTING
         protected override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
@@ -155,11 +154,6 @@ namespace KirbyNightmareInDreamLand
             GameTime = gameTime;
 
             foreach(IPlayer player in manager.Players) player.Update(time);
-            manager.EnemyList[manager.CurrentEnemyIndex].Update(time);
-
-            //enemyList2.Add(new Hothead(new Vector2(170, 100))); // FOR PERFORMANCE TESTING
-            foreach (IEnemy enemy in enemyList2) enemy.Update(time); // FOR PERFORMANCE TESTING
-            manager.EnemyList[manager.CurrentEnemyIndex].Update(time);
 
             ObjectManager.Instance.OrganizeList();
 
@@ -181,9 +175,6 @@ namespace KirbyNightmareInDreamLand
             _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.LevelMatrix);
             // Draw level
             Level.Draw(_spriteBatch);
-            // Draw only selected enemy
-            // enemyList[currentEnemyIndex].Draw(spriteBatch);
-            foreach (IEnemy enemy in enemyList2) enemy.Draw(_spriteBatch); // FOR PERFORMANCE TESTING
 
             // Draw kirby
             foreach(IPlayer player in manager.Players) player.Draw(_spriteBatch);

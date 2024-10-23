@@ -176,19 +176,20 @@ namespace KirbyNightmareInDreamLand
             return tiles;
         }
 
+        private Color green = new Color(0, 255, 0, 20);
         public void DebugDraw(SpriteBatch spriteBatch)
         {
+            foreach (var staticObj in manager.StaticObjects)
+            {
+                GameDebug.Instance.DrawRectangle(spriteBatch, staticObj.GetHitBox(), Color.Green);
+            }
+
             foreach (var dynamicObj in manager.DynamicObjects)
             {
                 if (dynamicObj.CollisionActive)
                 {
                     GameDebug.Instance.DrawRectangle(spriteBatch, dynamicObj.GetHitBox(), Color.Red);
                 }
-            }
-
-            foreach (var staticObj in manager.StaticObjects)
-            {
-                GameDebug.Instance.DrawRectangle(spriteBatch, staticObj.GetHitBox(), Color.Red);
             }
         }
 
