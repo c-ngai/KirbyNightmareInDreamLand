@@ -24,7 +24,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             ChangeState(new SparkyPause1State(this)); // Set initial state
             yVel = 0;
             xVel = Constants.Sparky.HOP_SPEED;
-           // isPlasmaActive = false;
         }
 
 
@@ -33,11 +32,21 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             //Keeps track of number of hoops
             hopCounter++;
 
-            float t = (float)hopCounter / Constants.Sparky.HOP_FREQUENCY;
-
+            //float t = (float)hopCounter / Constants.Sparky.HOP_FREQUENCY;
             //Y movement calculations for smooth hops
-            yVel = (float)(Math.Sin(t * Math.PI * 2) * currentHopHeight / 2);
-            position.Y -= yVel;
+            //yVel = (float)(Math.Sin(t * Math.PI * 2) * currentHopHeight / 2);
+            // position.Y -= yVel;
+
+            //Y movement calculations for smooth hops (upwards during hop)
+            if (hopCounter < Constants.Sparky.HOP_FREQUENCY / 2) // Going up in the first half of the hop cycle
+            {
+                yVel = (float)(Math.Sin((float)hopCounter / Constants.Sparky.HOP_FREQUENCY * Math.PI) * currentHopHeight);
+                position.Y -= yVel; // Move upwards
+            }
+            else
+            {
+                Fall(); // Apply gravity/fall in the second half of the hop cycle
+            }
 
             // X movement. Check direction for boundaries 
             if (!stateMachine.IsLeft())
@@ -88,10 +97,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
          UpdateTexture();
          enemySprite.Update();
 
-         //if (isFalling)
-         //{
-         Fall();
-         //}
+         //Fall();
          GetHitBox();
 
          // Handle the beam if active
@@ -114,7 +120,16 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
          isPlasmaActive = true;
      }
  }
- 
+
+        public override void Fall()
+        {
+            if (yVel > 0)  // Only fall if we're coming down (positive yVel indicates downward movement)
+            {
+                yVel += gravity / 100;  // Increase vertical velocity by gravity
+                position.Y += yVel;  // Apply the updated velocity to the enemy's Y position
+            }
+        }
+
 
 
     }
