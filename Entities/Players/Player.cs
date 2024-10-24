@@ -474,6 +474,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             Vector2 rectPoint = CalculateRectanglePoint(GetKirbyPosition());
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
         }
+
+        public  Vector2 GetPosition()
+        {
+            return GetKirbyPosition();
+        }
         #endregion
 
         #region Collisions

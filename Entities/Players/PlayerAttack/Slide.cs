@@ -59,6 +59,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
             Vector2 rectPoint = CalculateRectanglePoint(Position);
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.SLIDE_WIDTH, Constants.HitBoxes.SLIDE_HEIGHT);
         }
+        public Vector2 GetPosition()
+        {
+            return Position;
+        }
         public void Draw(SpriteBatch spriteBatch)
         {
             //uneeded

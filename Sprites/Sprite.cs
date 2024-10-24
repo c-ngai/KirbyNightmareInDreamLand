@@ -98,17 +98,8 @@ namespace KirbyNightmareInDreamLand.Sprites
                 // DEBUG VISUALS, TIDY UP LATER
                 if (_game.DEBUG_SPRITE_MODE == true)
                 {
-                    GameDebug.Instance.DrawRectangle(spriteBatch, destinationRectangle, Color.Blue);
-                    GameDebug.Instance.DrawPoint(spriteBatch, position, Color.Red);
-
-                    // Draws purple borders around all tiles intersecting with the sprite boundaries
-                    /*
-                    List<Tile> tiles = _game.level.IntersectingTiles(spriteBatch, destinationRectangle);
-                    foreach (Tile tile in tiles)
-                    {
-                        Debug.Instance.DrawRectangle(spriteBatch, tile.rectangle, Color.Purple);
-                    }
-                    */
+                    GameDebug.Instance.DrawRectangle(spriteBatch, destinationRectangle, Color.Blue, 0.5f);
+                    GameDebug.Instance.DrawPoint(spriteBatch, position, Color.Red, 0.75f);
                 }
             }
 

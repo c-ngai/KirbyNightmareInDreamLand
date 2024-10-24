@@ -84,6 +84,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
             Vector2 rectPoint = CalculateRectanglePoint(position);
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.SPARKY_ATTACK_WIDTH, Constants.HitBoxes.SPARKY_ATTACK_HEIGHT);
         }
+        public Vector2 GetPosition()
+        {
+            return Position;
+        }
 
         public void EndAttack()
         {

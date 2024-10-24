@@ -230,6 +230,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 if (position.Y > kirbyAdjustment)
                 {
                     position.Y = kirbyAdjustment;
+                    ChangeKirbyLanded(true);
                 }
                 //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
             }

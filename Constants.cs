@@ -63,9 +63,9 @@ namespace KirbyNightmareInDreamLand
             public const int GENTLE1_SLOPE_LEFT_YINTERCEPT = 0;
 
             public const float GENTLE2_SLOPE_LEFT_M = 0.5F;
-            public const float GENTLE2_SLOPE_LEFT_YINTERCEPT = 8F;
+            public const int GENTLE2_SLOPE_LEFT_YINTERCEPT = 8;
 
-            public const int STEEP_SLOPE_LEFT_M = 1;
+            public const float STEEP_SLOPE_LEFT_M = 1;
             public const int STEEP_SLOPE_LEFT_YINTERCEPT = 0;
 
             public const float GENTLE1_SLOPE_RIGHT_M = -0.5F;
@@ -74,7 +74,7 @@ namespace KirbyNightmareInDreamLand
             public const float GENTLE2_SLOPE_RIGHT_M = -0.5F;
             public const int GENTLE2_SLOPE_RIGHT_YINTERCEPT = 16;
 
-            public const int STEEP_SLOPE_RIGHT_M = -1;
+            public const float STEEP_SLOPE_RIGHT_M = -1;
             public const int STEEP_SLOPE_RIGHT_YINTERCEPT = 16;
         }
         public static class HitBoxes
