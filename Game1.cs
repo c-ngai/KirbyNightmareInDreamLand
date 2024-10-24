@@ -13,7 +13,7 @@ namespace KirbyNightmareInDreamLand
 {
     public class Game1 : Game
     {
-        private SpriteBatch _spriteBatch;
+        public SpriteBatch _spriteBatch;
         private ObjectManager manager;
         
         public GraphicsDeviceManager Graphics { get; private set; }

@@ -14,9 +14,11 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using static KirbyNightmareInDreamLand.Constants;
+using static KirbyNightmareInDreamLand.Levels.Level;
 
 namespace KirbyNightmareInDreamLand.Levels
 {
+
     public class Level
     {
 
@@ -32,6 +34,8 @@ namespace KirbyNightmareInDreamLand.Levels
 
         public Vector2 SpawnPoint { get; private set; }
 
+        private SpriteBatch spriteBatch;
+
         private List<Enemy> enemyList;
 
         private List<PowerUp> powerUpList;
@@ -41,6 +45,22 @@ namespace KirbyNightmareInDreamLand.Levels
         private Sprite _doorstarsSprite;
 
         private ObjectManager manager = ObjectManager.Instance;
+
+        public struct RoomChangeData
+        {
+            public bool ChangeRoom;
+            public string DestinationRoom;
+            public Vector2 DestinationPoint;
+            public bool FadeInComplete;
+            public bool FadeOutComplete;
+            public bool CurrentlyFadingOut;
+            public bool CurrentlyFadingIn;
+            public bool CurrentlyTransitioning;
+            public float FadeSpeed;
+            public float FadeAlpha;
+        }
+
+        private RoomChangeData _roomChangeData;
 
         // Holds a sprite for kirby and each enemy type to draw at their spawn points in level debug mode.
         private Dictionary<string, Sprite> SpawnSprites = new Dictionary<string, Sprite>()
@@ -59,8 +79,23 @@ namespace KirbyNightmareInDreamLand.Levels
             _game = Game1.Instance;
             _camera = _game.Camera;
 
+            spriteBatch = Game1.Instance._spriteBatch;
+
             TileSprites = LoadTileSprites(Constants.Filepaths.TileSpriteList);
             _doorstarsSprite = SpriteFactory.Instance.CreateSprite("doorstars");
+
+            _roomChangeData = new RoomChangeData
+            {
+                ChangeRoom = false,
+                DestinationRoom = null,
+                DestinationPoint = Vector2.Zero,
+                CurrentlyFadingIn = false,
+                CurrentlyFadingOut= false,
+                CurrentlyTransitioning = false,
+                FadeSpeed = 0.01f,
+                FadeAlpha = 0f
+             };
+
         }
 
         // Loads a room into the level by name, specifying a spawn point. (for entering from a door)
@@ -120,11 +155,6 @@ namespace KirbyNightmareInDreamLand.Levels
         {
             if (CurrentRoom.BackgroundSprite != null)
             {
-                //Vector2 backgroundPosition = new Vector2(
-                //    _camera.GetPosition().X * BackgroundParallaxFactor,
-                //    _camera.GetPosition().Y * BackgroundParallaxFactor
-                //);
-
                 Vector2 cameraPosition = new Vector2(
                     _camera.GetPosition().X * (1),
                     _camera.GetPosition().Y * (1)
@@ -155,6 +185,14 @@ namespace KirbyNightmareInDreamLand.Levels
             DrawForeground(spriteBatch);
             DrawDoorStars(spriteBatch);
             DrawLevelObjects(spriteBatch);
+            if (_roomChangeData.CurrentlyFadingOut)
+            {
+                FadeOut();
+            }
+            if (_roomChangeData.CurrentlyFadingIn)
+            {
+                FadeIn();
+            }
         }
 
         //level 
@@ -194,12 +232,6 @@ namespace KirbyNightmareInDreamLand.Levels
             }
         }
 
-        // gets called when player defeats an enemy so that it doesn't get drawn anymore
-        public void removeEnemyFromList(Enemy enemy)
-        {
-            enemyList.Remove(enemy);
-        }
-
         // gets called when player uses a power up so it doesn't get drawn anymore
         public void removePowerUpFromList(PowerUp powerUp)
         {
@@ -235,6 +267,24 @@ namespace KirbyNightmareInDreamLand.Levels
             return result;
         }
 
+        public void FadeIn()
+        {
+             GameDebug.Instance.DrawSolidRectangle(spriteBatch, _camera.bounds, Color.White * _roomChangeData.FadeAlpha);
+        }
+
+
+        public void FadeOut()
+        {
+             GameDebug.Instance.DrawSolidRectangle(spriteBatch, _camera.bounds, Color.White * _roomChangeData.FadeAlpha);
+        }
+
+        public void ChangeRoom()
+        {
+            FadeOut();
+            FadeIn();
+        }
+
+
         // go to the next room, called because a player wants to go through a door 
         public void EnterDoorAt(Vector2 playerPos)
         {
@@ -242,8 +292,11 @@ namespace KirbyNightmareInDreamLand.Levels
             {
                 if (door.Bounds.Contains(playerPos))
                 {
-                    LoadRoom(door.DestinationRoom, door.DestinationPoint);
-                    break;
+                    _roomChangeData.DestinationRoom = door.DestinationRoom;
+                    _roomChangeData.DestinationPoint = door.DestinationPoint;
+                    _roomChangeData.ChangeRoom = true;
+                    _roomChangeData.CurrentlyFadingOut = true;
+                    _roomChangeData.CurrentlyTransitioning = true;
                 }
             }
         }
@@ -265,6 +318,40 @@ namespace KirbyNightmareInDreamLand.Levels
             {
                 powerUp.Update();
             }
+
+            // if we are currently fading out we want to keep fading out
+            if (_roomChangeData.CurrentlyTransitioning && _roomChangeData.CurrentlyFadingOut)
+            {
+                _roomChangeData.FadeAlpha += _roomChangeData.FadeSpeed;
+                if (_roomChangeData.FadeAlpha >= 1.0f)
+                {
+                    _roomChangeData.FadeAlpha = 0f;
+                    _roomChangeData.CurrentlyFadingOut = false; // Fade-out complete
+                }
+            }
+
+            //if we are transitioning and not fading out
+            if (_roomChangeData.CurrentlyTransitioning && !_roomChangeData.CurrentlyFadingOut && !_roomChangeData.CurrentlyFadingIn)
+            {
+                LoadRoom(_roomChangeData.DestinationRoom, _roomChangeData.DestinationPoint);
+                _roomChangeData.ChangeRoom = false;
+                _roomChangeData.CurrentlyFadingIn = true;
+            }
+
+            // if we are currently fading in we want to keep fading in
+            //if (_roomChangeData.CurrentlyTransitioning && _roomChangeData.CurrentlyFadingIn)
+            //{
+
+            //    _roomChangeData.FadeAlpha -= _roomChangeData.FadeSpeed;
+            //    if (_roomChangeData.FadeAlpha <= 0f)
+            //    {
+            //        _roomChangeData.FadeAlpha = 0f;
+            //        _roomChangeData.CurrentlyFadingIn = false; // Fade-in complete
+            //        _roomChangeData.CurrentlyTransitioning = false;
+            //    }
+
+            //}
+
         }
 
         // Following methods authored by Mark 
