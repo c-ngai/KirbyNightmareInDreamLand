@@ -53,14 +53,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #region Walking
         public virtual void Walk(bool isLeft)
         {
-            if (isLeft)
-            {
-                xVel = walkingVel * -1;
-            }
-            else
-            {
-                xVel = walkingVel;
-            }
+            xVel = isLeft ? walkingVel * -1 : walkingVel;
         }
         #endregion
 
@@ -130,10 +123,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             
             position.X += xVel;
             position.Y += yVel; // + gravity * dt *dt *.5f;
-
-            
-            
-
         }
         public virtual void AdjustX(Player kirby)
         {
@@ -188,7 +177,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
 
         #region TileCollision
-        public void AdjustFromBottomCollisionBlock(Rectangle intersection)
+        public virtual void AdjustFromBottomCollisionBlock(Rectangle intersection)
         {
             position.Y = intersection.Y;
             yVel = 0;

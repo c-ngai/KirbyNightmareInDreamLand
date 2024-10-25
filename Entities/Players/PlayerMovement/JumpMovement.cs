@@ -34,8 +34,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void FinishJump(Player kirby)
         {
             kirby.ChangePose(KirbyPose.Standing);
-            yVel = 0;
-            xVel = 0;
             kirby.ChangeMovement();
 
         }
@@ -99,5 +97,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             Adjust(kirby);
         }
         #endregion
+
+        public override void AdjustFromBottomCollisionBlock(Rectangle intersection)
+        {
+            position.Y = intersection.Y;
+            yVel = 0;
+        }
     }
 }
