@@ -5,6 +5,7 @@ using KirbyNightmareInDreamLand.StateMachines;
 using Microsoft.VisualBasic;
 using KirbyNightmareInDreamLand.Levels;
 using System.Diagnostics;
+using System;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -154,7 +155,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             // {
             //     yVel = 0;
             // } 
-            yVel = landed ? 0 : 2; //* dt *dt *.5f);
+            //yVel = landed ? 0 : 2; //* dt *dt *.5f);
 
             //dont go through the ceiling
             if (position.Y < 10)
@@ -208,8 +209,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public void AdjustFromBottomCollisionPlatform(Rectangle intersection)
         {
-            position.Y -= gravity;
-            position.Y += 0;
+            position.Y = intersection.Y;
+            yVel = 0;
             ChangeKirbyLanded(true);
         }
 
@@ -221,9 +222,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 float offset = position.X - intersection.X;
                 //Debug.WriteLine($"Starting Y position: {position.Y}");
                 float kirbyAdjustment = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
-                if (position.Y > kirbyAdjustment)
+                if (position.Y > kirbyAdjustment || state.CanMove() ) // the CanMove check is a bit jank, basically supposed to be "is kirby moving on the ground in a way where we want him to stay locked on the ground"
                 {
                     position.Y = kirbyAdjustment;
+                    yVel = Math.Abs(xVel); // If on a slope, set yVel to the absolute value of xVel so that kirby magnetizes down to the slope
                     ChangeKirbyLanded(true);
                 }
                 //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");

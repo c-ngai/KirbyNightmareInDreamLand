@@ -8,10 +8,15 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public const float jumpCeiling = Constants.Physics.JUMP_CEILING;
 
         protected float jumpVel = Constants.Physics.JUMP_VEL;
+        protected float jumpHeight = Constants.Physics.JUMP_MAX_HEIGHT;
+
+        private float startingY;
+
         public new float yVel = -2f;
         public JumpMovement(Vector2 pos) : base(pos)
         {
             landed = false;
+            startingY = position.Y;
         }
 
         public override void Walk(bool isLeft)
@@ -44,7 +49,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public override void Jump(bool isLeft)
         {
-            if (position.Y > 45 && yVel < 0)
+            if (position.Y > startingY - jumpHeight && yVel < 0)
             { //makes it so kirby can only jump so hight
                 yVel = jumpVel;
             }
