@@ -279,8 +279,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }else if (state.IsJumping() && !state.IsFloating()){ //if jumping and x is pressed again
                 //Float();
                 movement.Jump(state.IsLeft());
-            } else {
-                //does nothing
             }
         }
         #endregion
@@ -375,13 +373,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void Attack()
         {
-            //slide beam float exhale mouthful exhale
+            //mouthful exhale
             if(IsWithEnemy() && starAttack == null && state.ShortAttack()){
-                starAttack = new PlayerAttack(this, AttackType());
+                starAttack = new PlayerAttack(this, "Star");
                 if(!state.IsCrouching())AttackAnimation();
                 movement.Attack(this);
                 //ChangeAttackBool(true);
-            } else if (attack == null && state.ShortAttack()) {
+            } else if (attack == null && state.ShortAttack()) { //slide beam float exhale 
                 attack = new PlayerAttack(this, AttackType());
                 if(!state.IsCrouching())AttackAnimation();
                 movement.Attack(this);
@@ -452,8 +450,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             EndInvinciblility(gameTime);
             playerSprite.Update();
             GetHitBox();
-            if(attack != null){
-                attack.Update(gameTime, this);
+            if(attack != null || starAttack != null){
+                attack?.Update(gameTime, this);
+                starAttack?.Update(gameTime, this);
             }
         }
 
@@ -467,8 +466,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 playerSprite.Draw(movement.GetPosition(), spriteBatch);
             }
 
-            if(attack != null){
-                attack.Draw(spriteBatch, this);
+            if(attack != null || starAttack != null){
+                attack?.Draw(spriteBatch, this);
+                starAttack?.Draw(spriteBatch, this);
             }
         }
         public Vector2 CalculateRectanglePoint(Vector2 pos)
@@ -515,6 +515,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 movement.Fall();
                 movement.ChangeKirbyLanded(false);
            }
+           movement.ChangeKirbyLanded(false);
         }
 
         public void CollisionWithGentle1LeftSlope(Tile tile)

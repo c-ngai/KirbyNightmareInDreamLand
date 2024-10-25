@@ -19,6 +19,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         protected float walkingVel = Constants.Physics.WALKING_VELOCITY;
         protected float runningVel = Constants.Physics.RUNNING_VELOCITY;
         protected float gravity = Constants.Physics.GRAVITY;
+        protected float dt = Constants.Physics.DT;
         protected float damageVel = Constants.Physics.DAMAGE_VELOCITY;
         public ITimeCalculator timer;
         protected bool landed = true;
@@ -65,14 +66,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #region Running
         public virtual void Run(bool isLeft)
         {
-            if (isLeft)
-            {
-                xVel = runningVel * -1;
-            }
-            else
-            {
-                xVel = runningVel;
-            }
+            xVel = isLeft ? runningVel * -1 : xVel = runningVel;
         }
         #endregion
 
@@ -131,12 +125,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //update kirby position in UI
         public virtual void UpdatePosition(GameTime gameTime)
         {
+            yVel += gravity * dt;
+            
             position.X += xVel;
-            position.Y += yVel;
-            if (position.Y > 0)
-            {
-                yVel += gravity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            }
+            position.Y += yVel; // + gravity * dt *dt *.5f;
+
+            
             
 
         }
@@ -156,12 +150,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public virtual void AdjustY(Player kirby)
         {
             //dont go through the floor
-            if (landed)
-            {
-                yVel = 0;
-            } else {
-                yVel = gravity;
-            }
+            // if (landed)
+            // {
+            //     yVel = 0;
+            // } 
+            yVel = landed ? 0 : 2; //* dt *dt *.5f);
 
             //dont go through the ceiling
             if (position.Y < 10)
@@ -186,7 +179,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void Fall()
         {
             ////kirby.ChangePose(Kirby.FreeFall);
-            yVel = gravity;
+            //yVel = gravity;
         }
         public void ChangeKirbyLanded(bool land)
         {
@@ -196,8 +189,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #region TileCollision
         public void AdjustFromBottomCollisionBlock(Rectangle intersection)
         {
-            position.Y = intersection.Y + 1;
+            position.Y = intersection.Y;
             yVel = 0;
+            
         }
 
         public virtual void AdjustFromRightCollisionBlock(Rectangle intersection)
@@ -214,7 +208,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public void AdjustFromBottomCollisionPlatform(Rectangle intersection)
         {
-            position.Y = intersection.Y + 1;
+            position.Y -= gravity;
             position.Y += 0;
             ChangeKirbyLanded(true);
         }

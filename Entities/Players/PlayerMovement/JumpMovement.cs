@@ -44,7 +44,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public override void Jump(bool isLeft)
         {
-            if (position.Y > 60 && yVel < 0)
+            if (position.Y > 45 && yVel < 0)
             { //makes it so kirby can only jump so hight
                 yVel = jumpVel;
             }
@@ -59,10 +59,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //update kirby position in UI
         public override void UpdatePosition(GameTime gameTime)
         {
+            yVel += gravity * dt;
             position.X += xVel;
-            position.Y += yVel;
-            yVel += gravity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
+            position.Y += yVel ;//+ gravity * dt *dt *.5f;
         }
 
         public override void AdjustY(Player kirby)
