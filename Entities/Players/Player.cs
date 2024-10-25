@@ -483,6 +483,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             Vector2 rectPoint = CalculateRectanglePoint(GetKirbyPosition());
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
         }
+
+        public  Vector2 GetPosition()
+        {
+            return GetKirbyPosition();
+        }
         #endregion
 
         #region Collisions
@@ -514,32 +519,44 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public void CollisionWithGentle1LeftSlope(Tile tile)
         {
-            movement.AdjustGentle1SlopeLeftCollision(state, tile);
+            float slope = Constants.Collision.GENTLE1_SLOPE_LEFT_M;
+            float yIntercept = Constants.Collision.GENTLE1_SLOPE_LEFT_YINTERCEPT;
+            movement.AdjustOnSlopeCollision(state, tile, slope, yIntercept);
         }
 
         public void CollisionWithGentle2LeftSlope(Tile tile)
         {
-            movement.AdjustGentle2SlopeLeftCollision(state, tile);
+            float slope = Constants.Collision.GENTLE2_SLOPE_LEFT_M;
+            float yIntercept = Constants.Collision.GENTLE2_SLOPE_LEFT_YINTERCEPT;
+            movement.AdjustOnSlopeCollision(state, tile, slope, yIntercept);
         }
 
         public void CollisionWithSteepLeftSlope(Tile tile)
         {
-            movement.AdjustSteepSlopeLeftCollision(state, tile);
+            float slope = Constants.Collision.STEEP_SLOPE_LEFT_M;
+            float yIntercept = Constants.Collision.STEEP_SLOPE_LEFT_YINTERCEPT;
+            movement.AdjustOnSlopeCollision(state, tile, slope, yIntercept);
         }
 
         public void CollisionWithGentle1RightSlope(Tile tile)
         {
-            movement.AdjustGentle1SlopeRightCollision(state, tile);
+            float slope = Constants.Collision.GENTLE1_SLOPE_RIGHT_M;
+            float yIntercept = Constants.Collision.GENTLE1_SLOPE_RIGHT_YINTERCEPT;
+            movement.AdjustOnSlopeCollision(state, tile, slope, yIntercept);
         }
 
         public void CollisionWithGentle2RightSlope(Tile tile)
         {
-            movement.AdjustGentle2SlopeRightCollision(state, tile);
+            float slope = Constants.Collision.GENTLE2_SLOPE_RIGHT_M;
+            float yIntercept = Constants.Collision.GENTLE2_SLOPE_RIGHT_YINTERCEPT;
+            movement.AdjustOnSlopeCollision(state, tile, slope, yIntercept);
         }
 
         public void CollisionWithSteepRightSlope(Tile tile)
         {
-            movement.AdjustSteepSlopeRightCollision(state, tile);
+            float slope = Constants.Collision.STEEP_SLOPE_RIGHT_M;
+            float yIntercept = Constants.Collision.STEEP_SLOPE_RIGHT_YINTERCEPT;
+            movement.AdjustOnSlopeCollision(state, tile, slope, yIntercept);
         }
         #endregion
     }

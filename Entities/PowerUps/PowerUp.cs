@@ -45,7 +45,10 @@ namespace KirbyNightmareInDreamLand.Entities.PowerUps
             Vector2 rectPoint = CalculateRectanglePoint(position);
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
         }
-
+        public Vector2 GetPosition()
+        {
+            return Position;
+        }
         public Vector2 Position
         {
             //Returns position on screen

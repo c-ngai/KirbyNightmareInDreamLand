@@ -36,6 +36,10 @@ namespace KirbyNightmareInDreamLand.Levels
         {
             return rectangle;
         }
+        public Vector2 GetPosition()
+        {
+            return rectangle.Location.ToVector2();
+        }
 
         public string GetObjectType()
         {

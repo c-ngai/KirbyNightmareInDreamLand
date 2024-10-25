@@ -32,7 +32,7 @@ namespace KirbyNightmareInDreamLand.Levels
 
         public Vector2 SpawnPoint { get; private set; }
 
-        private List<Enemy> enemyList;
+        public List<Enemy> enemyList { get; private set; }
 
         private List<PowerUp> powerUpList;
 
@@ -68,7 +68,9 @@ namespace KirbyNightmareInDreamLand.Levels
         {
             if (LevelLoader.Instance.Rooms.ContainsKey(RoomName))
             {
+                // Sets it up so player will not be incorrectly removed during room changes
                 manager.ResetDynamicCollisionBoxes();
+                manager.ResetStaticObjects();
                 CurrentRoom = LevelLoader.Instance.Rooms[RoomName];
                 LoadLevelObjects();
                 SpawnPoint = _spawnPoint ?? CurrentRoom.SpawnPoint;
@@ -290,7 +292,7 @@ namespace KirbyNightmareInDreamLand.Levels
                 Vector2 textPos = doorPos - new Vector2(-9 + textSize.X / 2, -1 + textSize.Y);
                 textPos.Floor();
 
-                GameDebug.Instance.DrawSolidRectangle(spriteBatch, door.Bounds, Color.Red);
+                GameDebug.Instance.DrawSolidRectangle(spriteBatch, door.Bounds, Color.Red, 0.5f);
                 spriteBatch.DrawString(LevelLoader.Instance.Font, door.DestinationRoom, textPos, Color.Red);
             }
         }
@@ -305,6 +307,7 @@ namespace KirbyNightmareInDreamLand.Levels
             }
         }
 
+        Color translucent = new Color(127, 127, 127, 127);
         // Draws static, transparent sprites of the corresponding enemy for each enemy spawn point in the level.
         private void DrawSpawnPoints(SpriteBatch spriteBatch)
         {
@@ -313,13 +316,13 @@ namespace KirbyNightmareInDreamLand.Levels
             _game.DEBUG_SPRITE_MODE = false;
 
             Vector2 kirbyPos = CurrentRoom.SpawnPoint;
-            SpawnSprites["Kirby"].Draw(kirbyPos, spriteBatch, new Color(255, 255, 255, 127));
+            SpawnSprites["Kirby"].Draw(kirbyPos, spriteBatch, translucent);
 
             // Draw each enemy spawn point
             foreach (EnemyData enemy in CurrentRoom.Enemies)
             {
                 Vector2 enemyPos = enemy.SpawnPoint;
-                SpawnSprites[enemy.EnemyType].Draw(enemyPos, spriteBatch, new Color(255, 255, 255, 63));
+                SpawnSprites[enemy.EnemyType].Draw(enemyPos, spriteBatch, translucent);
             }
 
             // Restore old sprite debug mode state.
