@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System;
 using System.Linq;
+using Microsoft.Xna.Framework.Graphics.PackedVector;
+using Microsoft.Xna.Framework.Input;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -15,7 +17,7 @@ namespace KirbyNightmareInDreamLand
         private readonly GraphicsDevice _graphicsDevice;
         private readonly Texture2D texture;
 
-
+        
 
         private static readonly GameDebug _instance = new();
 
@@ -33,15 +35,15 @@ namespace KirbyNightmareInDreamLand
             _graphicsDevice = _game.GraphicsDevice;
             // TEMPORARY, FOR DEBUG SPRITE VISUALS
             texture = new Texture2D(_graphicsDevice, 1, 1);
-            texture.SetData(new Color[] { new(255, 255, 255, 63) });
+            texture.SetData(new Color[] { new(255, 255, 255, 255) });
         }
 
 
 
         // Draws an unfilled rectangle
-        public void DrawRectangle(SpriteBatch spriteBatch, Rectangle rectangle, Color color)
+        public void DrawRectangle(SpriteBatch spriteBatch, Rectangle rectangle, Color color, float alpha)
         {
-
+            color *= alpha;
             // Draw box around inside of rectangle
             // top side
             spriteBatch.Draw(texture, new Rectangle(rectangle.X, rectangle.Y, rectangle.Width, 1), color);
@@ -57,19 +59,38 @@ namespace KirbyNightmareInDreamLand
 
 
         // Draws a solid-filled rectangle
-        public void DrawSolidRectangle(SpriteBatch spriteBatch, Rectangle rectangle, Color color)
+        public void DrawSolidRectangle(SpriteBatch spriteBatch, Rectangle rectangle, Color color, float alpha)
         {
+            color *= alpha;
             spriteBatch.Draw(texture, rectangle, color);
         }
 
 
 
         // Draws a 2x2 box centered at a point. (points refer to the top-left corner of their pixel, which is why this is 2x2 and not 1x1)
-        public void DrawPoint(SpriteBatch spriteBatch, Vector2 position, Color color)
+        public void DrawPoint(SpriteBatch spriteBatch, Vector2 position, Color color, float alpha)
         {
+            color *= alpha;
             spriteBatch.Draw(texture, new Rectangle((int)(position.X) - 1, (int)(position.Y) - 1, 2, 2), color);
         }
 
+
+        private List<Vector2> positionLog = new List<Vector2>();
+        public void LogPosition(Vector2 point)
+        {
+            positionLog.Add(point);
+        }
+        public void ClearPositionLog()
+        {
+            positionLog.Clear();
+        }
+        public void DrawPositionLog(SpriteBatch spriteBatch, Color color, float alpha)
+        {
+            foreach (Vector2 position in positionLog)
+            {
+                DrawPoint(spriteBatch, position, color, alpha);
+            }
+        }
 
 
         // Draws the debug text from the top-left of the screen
@@ -128,7 +149,7 @@ namespace KirbyNightmareInDreamLand
         // Draws black letterbox borders on the edge of the screen. Should be only visible in fullscreen. Done to maintain aspect ratio and integer scaling regardless of display resolution.
         public void DrawBorders(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, null);
 
             Color color = _game.DEBUG_TEXT_ENABLED ? translucent : Color.White;
 
@@ -140,6 +161,10 @@ namespace KirbyNightmareInDreamLand
             spriteBatch.Draw(LevelLoader.Instance.Borders, new Rectangle(_game.WINDOW_XOFFSET + _game.WINDOW_WIDTH, _game.WINDOW_YOFFSET, _game.WINDOW_XOFFSET, _game.WINDOW_HEIGHT), color);
             // Bottom side
             spriteBatch.Draw(LevelLoader.Instance.Borders, new Rectangle(0, _game.WINDOW_YOFFSET + _game.WINDOW_HEIGHT, _game.WINDOW_WIDTH + 2 * _game.WINDOW_XOFFSET, _game.WINDOW_YOFFSET), color);
+
+            // weird color blendstate test: mouse X on screen determines opacity of a red rectangle covering the whole screen
+            //byte alpha = (byte)((Mouse.GetState().X * 255 / Game1.Instance.GraphicsDevice.Viewport.Width - Game1.Instance.GraphicsDevice.Viewport.X));
+            //DrawSolidRectangle(spriteBatch, new Rectangle(_game.WINDOW_XOFFSET, _game.WINDOW_YOFFSET, _game.WINDOW_WIDTH, _game.WINDOW_HEIGHT), Color.Red, (float)alpha / 255);
 
             spriteBatch.End();
         }

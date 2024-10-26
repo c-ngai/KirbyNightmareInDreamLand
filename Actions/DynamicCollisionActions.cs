@@ -81,13 +81,5 @@ namespace KirbyNightmareInDreamLand.Actions
                 star.EndAttack(); //change skirby to mouthful
             }
         }
-     
-        public static void EntityCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
-        {
-            Player player = (Player)object2;
-            Enemy enemy = (Enemy)object1;
-            player.TakeDamage(intersection);
-            enemy.TakeDamage(intersection);
-        }
     }
 }

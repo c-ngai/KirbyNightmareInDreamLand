@@ -8,6 +8,7 @@ using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Collision;
 using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -125,7 +126,7 @@ namespace KirbyNightmareInDreamLand
             LevelLoader.Instance.LoadAllContent();
 
             // Load all objects
-            manager.LoadObjects();
+            manager.LoadKirby();
 
             // Create level instance and load initial room
             Level = new Level();
@@ -140,7 +141,6 @@ namespace KirbyNightmareInDreamLand
 
         }
 
-        List<IEnemy> enemyList2 = new List<IEnemy>(); // FOR PERFORMANCE TESTING
         protected override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
@@ -155,35 +155,27 @@ namespace KirbyNightmareInDreamLand
             GameTime = gameTime;
 
             foreach(IPlayer player in manager.Players) player.Update(time);
-            manager.EnemyList[manager.CurrentEnemyIndex].Update(time);
 
-            //enemyList2.Add(new Hothead(new Vector2(170, 100))); // FOR PERFORMANCE TESTING
-            foreach (IEnemy enemy in enemyList2) enemy.Update(time); // FOR PERFORMANCE TESTING
-            manager.EnemyList[manager.CurrentEnemyIndex].Update(time);
+            Level.UpdateLevel();
 
             ObjectManager.Instance.OrganizeList();
 
             CollisionDetection.Instance.CheckCollisions();
 
-            Level.UpdateLevel();
-
             Camera.Update();
         }
 
 
-
+        
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.White);
+            //GraphicsDevice.Clear(Color.Black);
             base.Draw(gameTime);
 
             // Level spritebatch
-            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.LevelMatrix);
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Camera.LevelMatrix);
             // Draw level
             Level.Draw(_spriteBatch);
-            // Draw only selected enemy
-            // enemyList[currentEnemyIndex].Draw(spriteBatch);
-            foreach (IEnemy enemy in enemyList2) enemy.Draw(_spriteBatch); // FOR PERFORMANCE TESTING
 
             // Draw kirby
             foreach(IPlayer player in manager.Players) player.Draw(_spriteBatch);
@@ -194,6 +186,10 @@ namespace KirbyNightmareInDreamLand
             {
                 CollisionDetection.Instance.DebugDraw(_spriteBatch);
             }
+
+            // Draws the debug position log
+            GameDebug.Instance.DrawPositionLog(_spriteBatch, Color.Red, 1.0f);
+
             _spriteBatch.End();
 
             // Static spritebatch

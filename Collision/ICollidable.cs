@@ -6,6 +6,7 @@ namespace KirbyNightmareInDreamLand
     {
         bool CollisionActive {get;}
         Rectangle GetHitBox();
+        Vector2 GetPosition();
         string GetObjectType();
 
     }

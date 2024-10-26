@@ -185,6 +185,16 @@
             "Key": "OemOpenBrackets",
             "ExecutionType": "StartingPress",
             "Command": "GraphicsDecreaseTargetFramerateCommand"
+        },
+        {
+            "Key": "LeftAlt",
+            "ExecutionType": "Pressed",
+            "Command": "PositionLogAddCommand"
+        },
+        {
+            "Key": "LeftControl",
+            "ExecutionType": "StartingPress",
+            "Command": "PositionLogClearCommand"
         }
     ]
 
