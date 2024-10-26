@@ -272,13 +272,13 @@ namespace KirbyNightmareInDreamLand.Levels
 
         public void FadeIn()
         {
-             GameDebug.Instance.DrawSolidRectangle(spriteBatch, _camera.bounds, Color.White * _roomChangeData.FadeAlpha);
+             GameDebug.Instance.DrawSolidRectangle(spriteBatch, _camera.bounds, Color.White, _roomChangeData.FadeAlpha);
         }
 
 
         public void FadeOut()
         {
-             GameDebug.Instance.DrawSolidRectangle(spriteBatch, _camera.bounds, Color.White * _roomChangeData.FadeAlpha);
+             GameDebug.Instance.DrawSolidRectangle(spriteBatch, _camera.bounds, Color.White, _roomChangeData.FadeAlpha);
         }
 
         public void ChangeRoom()
