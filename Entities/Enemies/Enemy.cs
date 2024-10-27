@@ -189,77 +189,75 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
         }
 
+        public virtual Vector2 GetPosition()
+        {
+            return position;
+        }
+
         public virtual void BottomCollisionWithBlock(Rectangle intersection)
         {
-            position.Y = intersection.Y + 1; // TODO: fix jank, the +1 is a total bandaid
+            position.Y = intersection.Y; // Note: +1 removed because in Game1.Update I made level update before collision is called. This makes collisions happen after preexisting momentum is applied -Mark
             yVel = 0;
             isFalling = false;
         }
+        // Commented out the inside for now. Is this necessary? -Mark
         public void BottomCollisionWithAir(Rectangle intersection)
         {
-            isFalling = true;
-            Fall();
+            //isFalling = true;
+            //Fall();
+        }
+        public virtual void AdjustOnSlopeCollision(Tile tile, float slope, float yIntercept)
+        {
+            Rectangle intersection = tile.rectangle;
+            if (position.X > intersection.Left && position.X < intersection.Right)
+            {
+                float offset = position.X - intersection.X;
+                //Debug.WriteLine($"Starting Y position: {position.Y}");
+                float slopeY = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
+                //GameDebug.Instance.LogPosition(new Vector2(position.X, position.Y));
+                if (position.Y > slopeY)
+                {
+                    position.Y = slopeY;
+                    yVel = 0;
+                }
+                //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
+            }
         }
         public void AdjustGentle1SlopeLeftCollision(Tile tile)
         {
-            Rectangle intersection = tile.rectangle;
-            float offset = position.X - intersection.X;
-            //Debug.WriteLine($"Starting Y position: {position.Y}");
             float slope = Constants.Collision.GENTLE1_SLOPE_LEFT_M;
             float yIntercept = Constants.Collision.GENTLE1_SLOPE_LEFT_YINTERCEPT;
-            position.Y = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
-            //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
+            AdjustOnSlopeCollision(tile, slope, yIntercept);
         }
         public void AdjustGentle2SlopeLeftCollision(Tile tile)
         {
-            Rectangle intersection = tile.rectangle;
-            float offset = position.X - intersection.X;
-            //Debug.WriteLine($"Starting Y position: {position.Y}");
             float slope = Constants.Collision.GENTLE2_SLOPE_LEFT_M;
             float yIntercept = Constants.Collision.GENTLE2_SLOPE_LEFT_YINTERCEPT;
-            position.Y = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
-            //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
+            AdjustOnSlopeCollision(tile, slope, yIntercept);
         }
-
         public void AdjustSteepSlopeLeftCollision(Tile tile)
         {
-            Rectangle intersection = tile.rectangle;
-            float offset = position.X - intersection.X;
-            //Debug.WriteLine($"Starting Y position: {position.Y}");
             float slope = Constants.Collision.STEEP_SLOPE_LEFT_M;
             float yIntercept = Constants.Collision.STEEP_SLOPE_LEFT_YINTERCEPT;
-            position.Y = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
-            //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
+            AdjustOnSlopeCollision(tile, slope, yIntercept);
         }
-
         public void AdjustGentle1SlopeRightCollision(Tile tile)
         {
-            Rectangle intersection = tile.rectangle;
-            float offset = position.X - intersection.X;
-            float slope = Constants.Collision.GENTLE1_SLOPE_LEFT_M;
-            float yIntercept = Constants.Collision.GENTLE1_SLOPE_LEFT_YINTERCEPT;
-            position.Y = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
-            //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
+            float slope = Constants.Collision.GENTLE1_SLOPE_RIGHT_M;
+            float yIntercept = Constants.Collision.GENTLE1_SLOPE_RIGHT_YINTERCEPT;
+            AdjustOnSlopeCollision(tile, slope, yIntercept);
         }
-
         public void AdjustGentle2SlopeRightCollision(Tile tile)
         {
-            Rectangle intersection = tile.rectangle;
-            float offset = position.X - intersection.X;
             float slope = Constants.Collision.GENTLE2_SLOPE_RIGHT_M;
             float yIntercept = Constants.Collision.GENTLE2_SLOPE_RIGHT_YINTERCEPT;
-            position.Y = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
-            //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
+            AdjustOnSlopeCollision(tile, slope, yIntercept);
         }
-
         public void AdjustSteepSlopeRightCollision(Tile tile)
         {
-            Rectangle intersection = tile.rectangle;
-            float offset = position.X - intersection.X;
-            //Debug.WriteLine($"Starting Y position: {position.Y}");
             float slope = Constants.Collision.STEEP_SLOPE_RIGHT_M;
             float yIntercept = Constants.Collision.STEEP_SLOPE_RIGHT_YINTERCEPT;
-            position.Y = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
+            AdjustOnSlopeCollision(tile, slope, yIntercept);
         }
     }
 }

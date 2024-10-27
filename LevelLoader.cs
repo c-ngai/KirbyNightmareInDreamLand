@@ -366,6 +366,7 @@ namespace KirbyNightmareInDreamLand
             action1 = TileCollisionActions.GentleLeftSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null); // Register opposite side for gentle1 bc kirby registers that side when near the top
 
             key2 = "SlopeGentle2Left";
             action1 = TileCollisionActions.MediumLeftSlopeCollison;
@@ -381,6 +382,7 @@ namespace KirbyNightmareInDreamLand
             action1 = TileCollisionActions.GentleRightSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null); // Register opposite side for gentle1 bc kirby registers that side when near the top
 
             key2 = "SlopeGentle2Right";
             action1 = TileCollisionActions.MediumRightSlopeCollision;
@@ -390,11 +392,12 @@ namespace KirbyNightmareInDreamLand
             key2 = "SlopeSteepRight";
             action1 = TileCollisionActions.SteepRightSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
             #endregion
 
             #region Enemy-Tile Collisions
             key1 = "Enemy";
+            // Is this necessary? Enemies already fall every update, I don't think we need to check for air. Either way, fall should only be called once per update. -Mark
             key2 = "Air";
             action1 = TileCollisionActions.BottomAirCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
@@ -418,6 +421,7 @@ namespace KirbyNightmareInDreamLand
             action1 = TileCollisionActions.GentleLeftSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null); // Register opposite side for gentle1 bc enemy registers that side when near the top
 
             key2 = "SlopeGentle2Left";
             action1 = TileCollisionActions.MediumLeftSlopeCollison;
@@ -433,6 +437,7 @@ namespace KirbyNightmareInDreamLand
             action1 = TileCollisionActions.GentleRightSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null); // Register opposite side for gentle1 bc enemy registers that side when near the top
 
             key2 = "SlopeGentle2Right";
             action1 = TileCollisionActions.MediumRightSlopeCollision;
@@ -442,7 +447,7 @@ namespace KirbyNightmareInDreamLand
             key2 = "SlopeSteepRight";
             action1 = TileCollisionActions.SteepRightSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
             #endregion
 
             

@@ -17,6 +17,7 @@
     <None Remove="Content\Tilemaps\room1.csv" />
     <None Remove="CodeReviews2\" />
     <None Remove="Entities\PowerUps\" />
+    <None Remove="Levels\Transition\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon.ico" />
@@ -28,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entities\PowerUps\" />
+    <Folder Include="Levels\Transition\" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />

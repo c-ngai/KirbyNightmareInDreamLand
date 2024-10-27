@@ -8,13 +8,14 @@ using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Collision;
 using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace KirbyNightmareInDreamLand
 {
     public class Game1 : Game
     {
-        private SpriteBatch _spriteBatch;
-        private ObjectManager manager;
+        public SpriteBatch _spriteBatch;
+        public ObjectManager manager;
         
         public GraphicsDeviceManager Graphics { get; private set; }
         public KeyboardController Keyboard { get; private set; }
@@ -155,11 +156,11 @@ namespace KirbyNightmareInDreamLand
 
             foreach(IPlayer player in manager.Players) player.Update(time);
 
+            Level.UpdateLevel();
+
             ObjectManager.Instance.OrganizeList();
 
             CollisionDetection.Instance.CheckCollisions();
-
-            Level.UpdateLevel();
 
             Camera.Update();
         }
@@ -172,7 +173,7 @@ namespace KirbyNightmareInDreamLand
             base.Draw(gameTime);
 
             // Level spritebatch
-            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.LevelMatrix);
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Camera.LevelMatrix);
             // Draw level
             Level.Draw(_spriteBatch);
 
@@ -185,6 +186,10 @@ namespace KirbyNightmareInDreamLand
             {
                 CollisionDetection.Instance.DebugDraw(_spriteBatch);
             }
+
+            // Draws the debug position log
+            GameDebug.Instance.DrawPositionLog(_spriteBatch, Color.Red, 1.0f);
+
             _spriteBatch.End();
 
             // Static spritebatch
