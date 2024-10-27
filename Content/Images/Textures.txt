@@ -6,9 +6,11 @@ Images/Spritesheets/enemies
 Images/Spritesheets/items
 Images/Spritesheets/projectiles
 Images/Spritesheets/doorstars
-Images/collisionTileset
-Images/backgrounds
-Images/room1_level
-Images/room2_level
-Images/room3_level
+Images/Level/collisionTileset
+Images/Level/backgrounds
+Images/Level/room1_level
+Images/Level/room2_level
+Images/Level/room3_level
+Images/UI/pause
+Images/UI/ui
 Images/invalidspritename
