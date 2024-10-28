@@ -5,6 +5,7 @@ using KirbyNightmareInDreamLand.Controllers;
 using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Sprites;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -13,6 +14,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
+using static KirbyNightmareInDreamLand.Constants;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -70,6 +72,8 @@ namespace KirbyNightmareInDreamLand
 
             LoadAllTextures();
             LoadAllSpriteAnimations(); // Dependent on textures already loaded
+
+            LoadAllSounds();
 
             LoadAllTilemaps();
             LoadAllRooms(); // Dependent on sprite animations and tilemaps already loaded
@@ -131,6 +135,27 @@ namespace KirbyNightmareInDreamLand
             foreach (KeyValuePair<string, SpriteJsonData> data in spriteJsonDatas)
             {
                 LoadSpriteAnimation(data.Key, data.Value);
+            }
+        }
+
+
+
+        public void LoadAllSounds()
+        {
+            foreach (string filepath in Directory.GetFiles(Constants.Filepaths.AudioDirectory, "*.xnb", SearchOption.AllDirectories))
+            {
+                //Debug.WriteLine("Loading sound: " + filepath);
+
+                string directory = Path.GetDirectoryName(Path.GetRelativePath("Content", filepath));
+                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(filepath);
+                string contentPath = Path.Combine(directory, fileNameWithoutExtension);
+
+                //Debug.WriteLine("   Directory name: " + directory);
+                //Debug.WriteLine("   File name: " + fileNameWithoutExtension);
+                //Debug.WriteLine("   Content path: " + contentPath);
+
+                SoundEffect sound = _content.Load<SoundEffect>(contentPath);
+                Sound.Sounds.Add(fileNameWithoutExtension, sound);
             }
         }
 
@@ -234,7 +259,7 @@ namespace KirbyNightmareInDreamLand
             }
             else
             {
-                Debug.WriteLine("LevelLoader.LoadKeymapping: ERROR: string \"" + keymappingJsonData.Command + "\" returns null from Type.GetType()");
+                Debug.WriteLine("ERROR: LevelLoader.LoadKeymapping: string \"" + keymappingJsonData.Command + "\" returns null from Type.GetType()");
             }
         }
 
@@ -498,11 +523,11 @@ namespace KirbyNightmareInDreamLand
             
             #endregion
 
-            Debug.WriteLine("Dictionary after collisionMapping");
-            foreach (var collision in collisionResponse.collisionMapping)
-            {
-                Debug.WriteLine(collision);
-            }
+            //Debug.WriteLine("Dictionary after collisionMapping");
+            //foreach (var collision in collisionResponse.collisionMapping)
+            //{
+            //    Debug.WriteLine(collision);
+            //}
         }
     }
 }

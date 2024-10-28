@@ -210,11 +210,11 @@ namespace KirbyNightmareInDreamLand.Levels
 
                 if (type != null)
                 {
-                    System.Diagnostics.Debug.WriteLine("This is the type name for the enemy: " + type);
+                    //System.Diagnostics.Debug.WriteLine("This is the type name for the enemy: " + type);
 
                     // Get the constructor that takes a Vector2 parameter
                     ConstructorInfo constructor = type.GetConstructor(new[] { typeof(Vector2) });
-                    System.Diagnostics.Debug.WriteLine("this is the enemy constructor" + constructor);
+                    //System.Diagnostics.Debug.WriteLine("this is the enemy constructor" + constructor);
 
                     if (constructor != null)
                     {
