@@ -9,6 +9,7 @@ using KirbyNightmareInDreamLand.Collision;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using KirbyNightmareInDreamLand.UI;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -20,6 +21,8 @@ namespace KirbyNightmareInDreamLand
         public GraphicsDeviceManager Graphics { get; private set; }
         public KeyboardController Keyboard { get; private set; }
         public MouseController MouseController { get; private set; }
+
+        private HUD hud;
 
         // Camera instance for the game
         public Camera Camera { get; private set; }
@@ -134,6 +137,8 @@ namespace KirbyNightmareInDreamLand
 
             // Load the desired keymap by name
             LevelLoader.Instance.LoadKeymap("keymap1");
+
+            hud = new HUD();
         }
 
         protected override void UnloadContent()
@@ -194,6 +199,7 @@ namespace KirbyNightmareInDreamLand
 
             // Static spritebatch
             _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.ScreenMatrix);
+            hud.Draw(_spriteBatch);
             _spriteBatch.End();
 
             // Stop timer for calculating max fps
