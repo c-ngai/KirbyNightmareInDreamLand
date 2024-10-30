@@ -209,11 +209,10 @@ namespace KirbyNightmareInDreamLand
             if (DEBUG_TEXT_ENABLED)
             {
                 GameDebug.Instance.DrawDebugText(_spriteBatch);
+                manager.ResetDebugStaticObjects();
             }
             // Draw borders (should only be visible in fullscreen for letterboxing)
             GameDebug.Instance.DrawBorders(_spriteBatch);
-
-            manager.UpdateObjectLists();
         }
 
     }
