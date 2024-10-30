@@ -9,17 +9,20 @@ using KirbyNightmareInDreamLand.Collision;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using KirbyNightmareInDreamLand.UI;
 
 namespace KirbyNightmareInDreamLand
 {
     public class Game1 : Game
     {
-        private SpriteBatch _spriteBatch;
-        private ObjectManager manager;
+        public SpriteBatch _spriteBatch;
+        public ObjectManager manager;
         
         public GraphicsDeviceManager Graphics { get; private set; }
         public KeyboardController Keyboard { get; private set; }
         public MouseController MouseController { get; private set; }
+
+        private HUD hud;
 
         // Camera instance for the game
         public Camera Camera { get; private set; }
@@ -134,6 +137,8 @@ namespace KirbyNightmareInDreamLand
 
             // Load the desired keymap by name
             LevelLoader.Instance.LoadKeymap("keymap1");
+
+            hud = new HUD();
         }
 
         protected override void UnloadContent()
@@ -166,10 +171,10 @@ namespace KirbyNightmareInDreamLand
         }
 
 
-        
+
         protected override void Draw(GameTime gameTime)
         {
-            //GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.White);
             base.Draw(gameTime);
 
             // Level spritebatch
@@ -194,6 +199,7 @@ namespace KirbyNightmareInDreamLand
 
             // Static spritebatch
             _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.ScreenMatrix);
+            hud.Draw(_spriteBatch);
             _spriteBatch.End();
 
             // Stop timer for calculating max fps
@@ -203,11 +209,10 @@ namespace KirbyNightmareInDreamLand
             if (DEBUG_TEXT_ENABLED)
             {
                 GameDebug.Instance.DrawDebugText(_spriteBatch);
+                manager.ResetDebugStaticObjects();
             }
             // Draw borders (should only be visible in fullscreen for letterboxing)
             GameDebug.Instance.DrawBorders(_spriteBatch);
-
-            manager.UpdateObjectLists();
         }
 
     }
