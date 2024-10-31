@@ -67,6 +67,7 @@ namespace KirbyNightmareInDreamLand.Controllers
             for (int i = 0; i < currentState.Length; i++)
             {
                 tempDict.Add(currentState[i], true);
+                //Console.WriteLine($"Key pressed: {currentState[i]}");
             }
 
             // Iterates through all relevant keybinds
@@ -90,28 +91,10 @@ namespace KirbyNightmareInDreamLand.Controllers
         }
         public void PausedUpdate()
         {
-            currentState = Keyboard.GetState().GetPressedKeys();
-
-             IDictionaryEnumerator enumerator = oldKeyStates.GetEnumerator();
-            // A temporary dictionary was used because there isn't an update map method
-            Dictionary<Keys, bool> tempDict = new Dictionary<Keys, bool>();
-
-            for (int i = 0; i < currentState.Length; i++)
+            if(Keyboard.GetState().GetPressedKeys().Contains(Keys.Space))
             {
-                if(currentState[i] == Keys.Enter)
-                {
-                    tempDict.Add(currentState[i], true);
-                }
+                startKeys[Keys.Space].Execute();
             }
-
-            foreach(Keys key in currentState)
-            {
-                if(key == Keys.Enter){
-                    if (oldKeyStates[key]) startKeys[key].Execute();
-                }
-            }
-            
-            oldKeyStates = tempDict;
         }
     }
 }

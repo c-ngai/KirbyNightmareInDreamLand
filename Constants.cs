@@ -38,7 +38,7 @@ namespace KirbyNightmareInDreamLand
             public const float FRAME_RATE = 0.03125f;
             public const float GRAVITY = 10f;
             public const float DT = 0.0166666f;
-            public const float FLOAT_GRAVITY = 0.02f; //its 2f as the gravity times 0.01 as a "time elapsed" so float kirby falls at a constan rate
+            public const float FLOAT_GRAVITY = 5f; //its 2f as the gravity times 0.01 as a "time elapsed" so float kirby falls at a constan rate
             public const float FLOAT_GRAVITY2 = 0.16f; //the other gravity rate but the float where this is used does not have game time acess
             public const float JUMP_VEL = -2f;
             public const float JUMP_MAX_HEIGHT = 200; // 45 IS ACTUAL VALUE, 200 is for moonjump while wip // Slight misnomer, not the max height of the jump but the height that you can no longer accellerate upwards at by holding jump

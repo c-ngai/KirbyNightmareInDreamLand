@@ -172,7 +172,7 @@ namespace KirbyNightmareInDreamLand
 
                 Camera.Update();
             } else {
-                Keyboard.PausedUpdate();
+                Keyboard.Update();
             }
            
         }
@@ -224,10 +224,9 @@ namespace KirbyNightmareInDreamLand
 
                 //manager.UpdateObjectLists();
             } else {
-                _spriteBatch.Begin();
-                GraphicsDevice.Clear(Color.CornflowerBlue);
-                base.Draw(gameTime);
-                _spriteBatch.End();
+                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Camera.LevelMatrix);
+                Game1.Instance.Level.DrawPauseScreen();
+                 _spriteBatch.End();
             }
         }
 

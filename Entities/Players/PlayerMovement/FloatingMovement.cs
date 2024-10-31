@@ -45,10 +45,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             //dont go through the floor but float state as not been terminated
             if (landed)
-            {
-                yVel =0;
-                xVel = 0;
-                
+            {   
                 kirby.ChangePose(KirbyPose.FloatingGrounded);
             }
         }
@@ -72,7 +69,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 AdjustYPositionWhileFloating(kirby);
             }
-            yVel +=  floatGravity; 
+            yVel +=  floatGravity * dt; 
 
             //dont go through the ceiling
             if (position.Y < 20)
@@ -84,9 +81,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public override void UpdatePosition(GameTime gameTime)
         {
+            yVel += floatGravity * dt;
             position.X += xVel;
             position.Y += yVel;
-            yVel += floatGravity;
         }
         //the animation of kirby letting air go
         public void FloatingEndAnimation(Player kirby)
@@ -110,7 +107,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if (!kirby.GetKirbyPose().Equals("FloatingGrounded"))
             {
                 FloatingEndAnimation(kirby);
-                floatGravity = gravity;
+                //floatGravity = gravity;
                 endFloat = true;
                 yVel = floatVel;
                 FloatingFallingAnimation(kirby);
