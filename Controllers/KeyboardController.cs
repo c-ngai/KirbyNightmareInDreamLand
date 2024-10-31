@@ -88,5 +88,30 @@ namespace KirbyNightmareInDreamLand.Controllers
             // Stores current iteration state for next iteration's use 
             oldKeyStates = tempDict;
         }
+        public void PausedUpdate()
+        {
+            currentState = Keyboard.GetState().GetPressedKeys();
+
+             IDictionaryEnumerator enumerator = oldKeyStates.GetEnumerator();
+            // A temporary dictionary was used because there isn't an update map method
+            Dictionary<Keys, bool> tempDict = new Dictionary<Keys, bool>();
+
+            for (int i = 0; i < currentState.Length; i++)
+            {
+                if(currentState[i] == Keys.Enter)
+                {
+                    tempDict.Add(currentState[i], true);
+                }
+            }
+
+            foreach(Keys key in currentState)
+            {
+                if(key == Keys.Enter){
+                    if (oldKeyStates[key]) startKeys[key].Execute();
+                }
+            }
+            
+            oldKeyStates = tempDict;
+        }
     }
 }

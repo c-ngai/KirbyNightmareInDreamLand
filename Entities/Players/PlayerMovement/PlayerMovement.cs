@@ -144,7 +144,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             // {
             //     yVel = 0;
             // } 
+<<<<<<< HEAD
             //yVel = landed ? 0 : 2; //* dt *dt *.5f);
+=======
+            yVel +=  gravity *dt; //* dt *dt *.5f);
+>>>>>>> 3f13c57 (pause)
 
             //dont go through the ceiling
             if (position.Y < 10)
@@ -179,9 +183,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #region TileCollision
         public virtual void AdjustFromBottomCollisionBlock(Rectangle intersection)
         {
-            position.Y = intersection.Y;
             yVel = 0;
-            
+            position.Y = intersection.Y;
+            ChangeKirbyLanded(true);
         }
 
         public virtual void AdjustFromRightCollisionBlock(Rectangle intersection)
@@ -216,6 +220,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     position.Y = kirbyAdjustment;
                     yVel = Math.Abs(xVel); // If on a slope, set yVel to the absolute value of xVel so that kirby magnetizes down to the slope
                     ChangeKirbyLanded(true);
+                    yVel = 0;
                 }
                 //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
             }

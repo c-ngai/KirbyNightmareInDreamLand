@@ -34,6 +34,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void FinishJump(Player kirby)
         {
             kirby.ChangePose(KirbyPose.Standing);
+            yVel = 0;
             kirby.ChangeMovement();
 
         }
@@ -72,8 +73,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             //dont go through the floor
             if (landed)
             {
-                yVel = 0;
-                FinishJump(kirby); //once he is back on the floor kirby is normal again
+                FinishJump(kirby);
+                //once he is back on the floor kirby is normal again
             }
             //dont go through the ceiling
             if (position.Y < jumpCeiling)
@@ -98,10 +99,5 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         #endregion
 
-        public override void AdjustFromBottomCollisionBlock(Rectangle intersection)
-        {
-            position.Y = intersection.Y;
-            yVel = 0;
-        }
     }
 }

@@ -51,6 +51,7 @@ namespace KirbyNightmareInDreamLand
         public int WINDOW_YOFFSET { get; set; }
         public int MAX_WINDOW_WIDTH { get; set; }
         public int TARGET_FRAMERATE { get; set; }
+        public bool PAUSED = false;
 
         private static Game1 _instance;
         public static Game1 Instance
@@ -148,71 +149,86 @@ namespace KirbyNightmareInDreamLand
 
         protected override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
-            time = gameTime;
+            if(!PAUSED)
+            {
+                base.Update(gameTime);
+                time = gameTime;
 
-            // Reset timer for calculating max fps
-            TickStopwatch.Restart();
+                // Reset timer for calculating max fps
+                TickStopwatch.Restart();
 
-            Keyboard.Update();
-            MouseController.Update();
+                Keyboard.Update();
+                MouseController.Update();
 
-            GameTime = gameTime;
+                GameTime = gameTime;
 
-            foreach(IPlayer player in manager.Players) player.Update(time);
+                foreach(IPlayer player in manager.Players) player.Update(time);
 
-            Level.UpdateLevel();
+                Level.UpdateLevel();
 
-            ObjectManager.Instance.OrganizeList();
+                ObjectManager.Instance.OrganizeList();
 
-            CollisionDetection.Instance.CheckCollisions();
+                CollisionDetection.Instance.CheckCollisions();
 
-            Camera.Update();
+                Camera.Update();
+            } else {
+                Keyboard.PausedUpdate();
+            }
+           
         }
 
 
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.White);
-            base.Draw(gameTime);
+            if(!PAUSED) {
+                GraphicsDevice.Clear(Color.White);
+                base.Draw(gameTime);
 
-            // Level spritebatch
-            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Camera.LevelMatrix);
-            // Draw level
-            Level.Draw(_spriteBatch);
+                // Level spritebatch
+                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Camera.LevelMatrix);
+                // Draw level
+                Level.Draw(_spriteBatch);
 
-            // Draw kirby
-            foreach(IPlayer player in manager.Players) player.Draw(_spriteBatch);
+                // Draw kirby
+                foreach(IPlayer player in manager.Players) player.Draw(_spriteBatch);
 
-            // Not currently using item
-            // item.Draw(new Vector2(200, 150), spriteBatch);
-            if (DEBUG_COLLISION_MODE)
-            {
-                CollisionDetection.Instance.DebugDraw(_spriteBatch);
+                // Not currently using item
+                // item.Draw(new Vector2(200, 150), spriteBatch);
+                if (DEBUG_COLLISION_MODE)
+                {
+                    CollisionDetection.Instance.DebugDraw(_spriteBatch);
+                }
+
+                // Draws the debug position log
+                GameDebug.Instance.DrawPositionLog(_spriteBatch, Color.Red, 1.0f);
+
+                _spriteBatch.End();
+                
+                // Static spritebatch
+                _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.ScreenMatrix);
+                hud.Draw(_spriteBatch);
+                _spriteBatch.End();
+
+                // Stop timer for calculating max fps
+                TickStopwatch.Stop();
+                
+                // Draw Debug Text
+                if (DEBUG_TEXT_ENABLED)
+                {
+                    GameDebug.Instance.DrawDebugText(_spriteBatch);
+                    manager.ResetDebugStaticObjects();
+                }
+                // Draw borders (should only be visible in fullscreen for letterboxing)
+                GameDebug.Instance.DrawBorders(_spriteBatch);
+
+                //manager.UpdateObjectLists();
+            } else {
+                _spriteBatch.Begin();
+                GraphicsDevice.Clear(Color.CornflowerBlue);
+                base.Draw(gameTime);
+                _spriteBatch.End();
             }
-
-            // Draws the debug position log
-            GameDebug.Instance.DrawPositionLog(_spriteBatch, Color.Red, 1.0f);
-
-            _spriteBatch.End();
-
-            // Static spritebatch
-            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.ScreenMatrix);
-            hud.Draw(_spriteBatch);
-            _spriteBatch.End();
-
-            // Stop timer for calculating max fps
-            TickStopwatch.Stop();
-            
-            // Draw Debug Text
-            if (DEBUG_TEXT_ENABLED)
-            {
-                GameDebug.Instance.DrawDebugText(_spriteBatch);
-                manager.ResetDebugStaticObjects();
-            }
-            // Draw borders (should only be visible in fullscreen for letterboxing)
-            GameDebug.Instance.DrawBorders(_spriteBatch);
         }
 
     }
