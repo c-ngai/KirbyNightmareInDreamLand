@@ -23,7 +23,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             //if kirby is not attacking
             //or in the case he is it doesnt apply for the star attack
-            if((kirby.attack == null) || (kirby.attack.currentAttack.GetType() == typeof(KirbyStar)) )// if he is not attacking or is spweing an enemey
+            if((kirby.attack == null) || kirby.starAttack != null )// if he is not attacking or is spweing an enemey
             {
                 UpdatePosition(gameTime);
             }
