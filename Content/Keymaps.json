@@ -12,6 +12,11 @@
             "Command": "KirbyRunningRightCommand"
         },
         {
+            "Key": "Right",
+            "ExecutionType": "StartingPress",
+            "Command": "KirbyRunningRightCommand"
+        },
+        {
             "Key": "Left",
             "ExecutionType": "Pressed",
             "Command": "KirbyMoveLeftCommand"
@@ -35,6 +40,11 @@
             "Key": "Up",
             "ExecutionType": "Pressed",
             "Command": "KirbyFloatCommand"
+        },
+        {
+            "Key": "Space",
+            "ExecutionType": "StartingPress",
+            "Command": "PauseCommand"
         },
         {
             "Key": "Up",

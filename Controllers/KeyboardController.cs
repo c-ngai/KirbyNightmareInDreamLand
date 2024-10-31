@@ -67,6 +67,7 @@ namespace KirbyNightmareInDreamLand.Controllers
             for (int i = 0; i < currentState.Length; i++)
             {
                 tempDict.Add(currentState[i], true);
+                //Console.WriteLine($"Key pressed: {currentState[i]}");
             }
 
             // Iterates through all relevant keybinds
@@ -87,6 +88,13 @@ namespace KirbyNightmareInDreamLand.Controllers
 
             // Stores current iteration state for next iteration's use 
             oldKeyStates = tempDict;
+        }
+        public void PausedUpdate()
+        {
+            if(Keyboard.GetState().GetPressedKeys().Contains(Keys.Space))
+            {
+                startKeys[Keys.Space].Execute();
+            }
         }
     }
 }
