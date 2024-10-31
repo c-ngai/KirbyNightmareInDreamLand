@@ -12,6 +12,7 @@ using System.Linq;
 using KirbyNightmareInDreamLand.UI;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
+using System.Xml.Linq;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -144,9 +145,8 @@ namespace KirbyNightmareInDreamLand
             // Load the desired keymap by name
             LevelLoader.Instance.LoadKeymap("keymap1");
 
-            soundInstance = SoundManager.CreateInstance("song_vegetablevalley_intro");
-            soundInstance.Play();
-
+            //soundInstance = SoundManager.CreateInstance("song_vegetablevalley_intro");
+            //soundInstance.Play();
 
             hud = new HUD();
         }
@@ -201,12 +201,12 @@ namespace KirbyNightmareInDreamLand
                 GraphicsDevice.Clear(Color.White);
                 base.Draw(gameTime);
 
-            // Level spritebatch
-            //RasterizerState rasterizerState = new RasterizerState { ScissorTestEnable = true };
-            //GraphicsDevice.ScissorRectangle = Camera.ScissorRectangle;
-            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Camera.LevelMatrix);
-            // Draw level
-            Level.Draw(_spriteBatch);
+                // Level spritebatch
+                //RasterizerState rasterizerState = new RasterizerState { ScissorTestEnable = true };
+                //GraphicsDevice.ScissorRectangle = Camera.ScissorRectangle;
+                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Camera.LevelMatrix);
+                // Draw level
+                Level.Draw(_spriteBatch);
 
                 // Draw kirby
                 foreach(IPlayer player in manager.Players) player.Draw(_spriteBatch);
@@ -222,11 +222,17 @@ namespace KirbyNightmareInDreamLand
                 GameDebug.Instance.DrawPositionLog(_spriteBatch, Color.Red, 1.0f);
 
                 _spriteBatch.End();
-                
+
                 // Static spritebatch
+                // Temporarily disable culling for the static spritebatch, LAZY FIX, WILL IMPLEMENT PROPER FIX LATER -Mark
+                bool old_CULLING_ENABLED = CULLING_ENABLED;
+                CULLING_ENABLED = false;
+
                 _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.ScreenMatrix);
                 hud.Draw(_spriteBatch);
                 _spriteBatch.End();
+                // Restore old culling mode
+                CULLING_ENABLED = old_CULLING_ENABLED;
 
                 // Stop timer for calculating max fps
                 TickStopwatch.Stop();
@@ -242,9 +248,9 @@ namespace KirbyNightmareInDreamLand
 
                 //manager.UpdateObjectLists();
             } else {
-                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Camera.LevelMatrix);
+                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Camera.ScreenMatrix);
                 Game1.Instance.Level.DrawPauseScreen();
-                 _spriteBatch.End();
+                _spriteBatch.End();
             }
         }
 

@@ -216,7 +216,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     position.Y = kirbyAdjustment;
                     yVel = Math.Abs(xVel); // If on a slope, set yVel to the absolute value of xVel so that kirby magnetizes down to the slope
                     ChangeKirbyLanded(true);
-                    yVel = 0;
+                    //yVel = 0;
                 }
                 //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
             }
