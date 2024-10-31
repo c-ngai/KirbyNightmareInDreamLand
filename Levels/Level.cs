@@ -292,7 +292,7 @@ namespace KirbyNightmareInDreamLand.Levels
             List<string> kirbyType = new List<string>();
             foreach(Player player in Game1.Instance.manager.Players)
             {
-                kirbyType.Add(player.GetKirbyType());
+                kirbyType.Add(player.GetKirbyTypePause());
             }
             Sprite pause_sprite = SpriteFactory.Instance.CreateSprite(kirbyType[0] + "_pause_screen");
             Sprite pause_background = SpriteFactory.Instance.CreateSprite("pause_screen_background");
