@@ -154,9 +154,21 @@ namespace KirbyNightmareInDreamLand
                 //Debug.WriteLine("   File name: " + fileNameWithoutExtension);
                 //Debug.WriteLine("   Content path: " + contentPath);
 
-                SoundEffect sound = _content.Load<SoundEffect>(contentPath);
-                Sound.Sounds.Add(fileNameWithoutExtension, sound);
+                SoundEffect soundEffect = _content.Load<SoundEffect>(contentPath);
+                SoundEndBehavior soundEndBehavior = SoundEndBehavior.Nothing;
+                SoundEffect nextSound = null;
+
+                Sound sound = new Sound(soundEffect, soundEndBehavior, nextSound);
+                SoundManager.Sounds.Add(fileNameWithoutExtension, sound);
             }
+
+            SoundManager.Sounds["inhale_intro"].soundEndBehavior = SoundEndBehavior.LoopNext;
+            SoundManager.Sounds["inhale_intro"].nextSound = SoundManager.Sounds["inhale_loop"].soundEffect;
+            SoundManager.Sounds["inhale_loop"].soundEndBehavior = SoundEndBehavior.Loop;
+
+            SoundManager.Sounds["song_vegetablevalley_intro"].soundEndBehavior = SoundEndBehavior.LoopNext;
+            SoundManager.Sounds["song_vegetablevalley_intro"].nextSound = SoundManager.Sounds["song_vegetablevalley_loop"].soundEffect;
+            SoundManager.Sounds["song_vegetablevalley_loop"].soundEndBehavior = SoundEndBehavior.Loop;
         }
 
         
@@ -259,7 +271,7 @@ namespace KirbyNightmareInDreamLand
             }
             else
             {
-                Debug.WriteLine("ERROR: LevelLoader.LoadKeymapping: string \"" + keymappingJsonData.Command + "\" returns null from Type.GetType()");
+                Debug.WriteLine(" [ERROR] LevelLoader.LoadKeymapping: string \"" + keymappingJsonData.Command + "\" returns null from Type.GetType()");
             }
         }
 

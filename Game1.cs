@@ -9,6 +9,8 @@ using KirbyNightmareInDreamLand.Collision;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -108,9 +110,12 @@ namespace KirbyNightmareInDreamLand
             Keyboard = new KeyboardController();
             MouseController = new MouseController();
 
+            SoundEffect.Initialize();
+
             base.Initialize();
         }
 
+        public SoundInstance soundInstance;
         protected override void LoadContent()
         {
             System.Diagnostics.Debug.WriteLine("Debug from content load");
@@ -134,7 +139,13 @@ namespace KirbyNightmareInDreamLand
 
             // Load the desired keymap by name
             LevelLoader.Instance.LoadKeymap("keymap1");
+
+            soundInstance = SoundManager.CreateInstance("song_vegetablevalley_intro");
+            soundInstance.Play();
+
         }
+
+
 
         protected override void UnloadContent()
         {
@@ -163,16 +174,20 @@ namespace KirbyNightmareInDreamLand
             CollisionDetection.Instance.CheckCollisions();
 
             Camera.Update();
+
+            SoundManager.Update();
         }
 
 
-
+        
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.White);
             base.Draw(gameTime);
 
             // Level spritebatch
+            //RasterizerState rasterizerState = new RasterizerState { ScissorTestEnable = true };
+            //GraphicsDevice.ScissorRectangle = Camera.ScissorRectangle;
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Camera.LevelMatrix);
             // Draw level
             Level.Draw(_spriteBatch);

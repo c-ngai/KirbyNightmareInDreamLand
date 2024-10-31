@@ -13,83 +13,29 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Audio/Sounds/catch.wav
+#begin Audio/inhale_intro.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Audio/Sounds/catch.wav
+/build:Audio/inhale_intro.wav
 
-#begin Audio/Sounds/enemyexplode.wav
+#begin Audio/inhale_loop.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Audio/Sounds/enemyexplode.wav
+/build:Audio/inhale_loop.wav
 
-#begin Audio/Sounds/getpower.wav
+#begin Audio/song_vegetablevalley_intro.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Audio/Sounds/getpower.wav
+/build:Audio/song_vegetablevalley_intro.wav
 
-#begin Audio/Sounds/inhale.wav
+#begin Audio/song_vegetablevalley_loop.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Audio/Sounds/inhale.wav
-
-#begin Audio/Sounds/jump.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sounds/jump.wav
-
-#begin Audio/Sounds/jump.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sounds/jump.wav
-
-#begin Audio/Sounds/kirbyhurt1.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sounds/kirbyhurt1.wav
-
-#begin Audio/Sounds/kirbyhurt2.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sounds/kirbyhurt2.wav
-
-#begin Audio/Sounds/select.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sounds/select.wav
-
-#begin Audio/Sounds/spit.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sounds/spit.wav
-
-#begin Audio/Sounds/spitbig.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sounds/spitbig.wav
-
-#begin Audio/Sounds/swallow.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sounds/swallow.wav
-
-#begin Audio/Sounds/waddledoobeam.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sounds/waddledoobeam.wav
+/build:Audio/song_vegetablevalley_loop.wav
 
 #begin DefaultFont.spritefont
 /importer:FontDescriptionImporter

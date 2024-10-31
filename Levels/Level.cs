@@ -114,7 +114,7 @@ namespace KirbyNightmareInDreamLand.Levels
             }
             else
             {
-                Debug.WriteLine("ERROR: \"" + RoomName + "\" is not a valid room name and cannot be loaded.");
+                Debug.WriteLine(" [ERROR] \"" + RoomName + "\" is not a valid room name and cannot be loaded.");
             }
         }
 
