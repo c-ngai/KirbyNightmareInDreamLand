@@ -137,7 +137,7 @@ namespace KirbyNightmareInDreamLand
             // Load all content through LevelLoader
             LevelLoader.Instance.LoadAllContent();
 
-            // Load all objects
+            // Load player
             manager.LoadKirby();
 
             // Create level instance and load initial room

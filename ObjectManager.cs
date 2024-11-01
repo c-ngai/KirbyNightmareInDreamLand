@@ -120,6 +120,11 @@ namespace KirbyNightmareInDreamLand
         {
             DynamicObjects.RemoveAll(obj => !obj.CollisionActive);
         }
+
+        public void RemoveNonPlayers()
+        {
+            DynamicObjects.RemoveAll(obj => !obj.GetObjectType().Equals("Player"));
+        }
         #endregion
     }
 }
