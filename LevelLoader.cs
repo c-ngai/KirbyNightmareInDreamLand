@@ -3,6 +3,7 @@ using KirbyNightmareInDreamLand.Collision;
 using KirbyNightmareInDreamLand.Commands;
 using KirbyNightmareInDreamLand.Controllers;
 using KirbyNightmareInDreamLand.Levels;
+using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;

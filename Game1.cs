@@ -13,6 +13,7 @@ using KirbyNightmareInDreamLand.UI;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
 using System.Xml.Linq;
+using KirbyNightmareInDreamLand.Audio;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -31,6 +32,8 @@ namespace KirbyNightmareInDreamLand
         public Camera Camera { get; private set; }
 
         public Level Level { get; private set; }
+
+        public SoundInstance music;
 
         // Sets up single reference for game time for things such as commands which cannot get current time elsewise
         // Note this is program time and not game time 
@@ -120,7 +123,6 @@ namespace KirbyNightmareInDreamLand
             base.Initialize();
         }
 
-        public SoundInstance soundInstance;
         protected override void LoadContent()
         {
             System.Diagnostics.Debug.WriteLine("Debug from content load");
@@ -145,8 +147,8 @@ namespace KirbyNightmareInDreamLand
             // Load the desired keymap by name
             LevelLoader.Instance.LoadKeymap("keymap1");
 
-            //soundInstance = SoundManager.CreateInstance("song_vegetablevalley_intro");
-            //soundInstance.Play();
+            music = SoundManager.CreateInstance("song_vegetablevalley_intro");
+            music.Play();
 
             hud = new HUD();
         }
