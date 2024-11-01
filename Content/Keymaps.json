@@ -205,6 +205,11 @@
             "Key": "LeftControl",
             "ExecutionType": "StartingPress",
             "Command": "PositionLogClearCommand"
+        },
+        {
+            "Key": "M",
+            "ExecutionType": "StartingPress",
+            "Command": "AudioToggleMuteCommand"
         }
     ]
 

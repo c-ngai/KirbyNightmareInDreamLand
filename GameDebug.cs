@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using Microsoft.Xna.Framework.Graphics.PackedVector;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -124,6 +125,7 @@ namespace KirbyNightmareInDreamLand
             texts.Add("Current Max FPS: " + Math.Round(maxFrameRate));
             texts.Add("Average Max FPS: " + Math.Round(maxfpsLog.Average()));
             texts.Add("Current room: " + _game.Level.CurrentRoom.Name);
+            //texts.Add("SoundManager.SoundInstances.Count = " + SoundManager.SoundInstances.Count);
             texts.Add("");
             texts.Add("+/- : Resize window");
             texts.Add("F : Toggle fullscreen");
@@ -133,6 +135,7 @@ namespace KirbyNightmareInDreamLand
             texts.Add("F3 : Toggle level debug mode");
             texts.Add("F4 : Toggle sprite culling");
             texts.Add("F5 : Toggle collision debug mode");
+            texts.Add("M : Toggle mute");
             //texts.Add("Alt (hold) : Record Kirby position");
             //texts.Add("Ctrl : Clear Kirby position log");
 
