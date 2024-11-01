@@ -43,6 +43,8 @@ namespace KirbyNightmareInDreamLand
 
         public Stopwatch TickStopwatch { get; private set; } = new Stopwatch();
 
+        public int UpdateCounter { get; private set; }
+
 
         // Graphics settings modifiable at runtime
         public bool DEBUG_TEXT_ENABLED { get; set; }
@@ -87,6 +89,8 @@ namespace KirbyNightmareInDreamLand
             WINDOW_XOFFSET = 0;
             WINDOW_YOFFSET = 0;
             TARGET_FRAMERATE = 60;
+
+            UpdateCounter = 0;
 
             TargetElapsedTime = TimeSpan.FromMilliseconds(1000f / TARGET_FRAMERATE);
 
@@ -147,7 +151,7 @@ namespace KirbyNightmareInDreamLand
             // Load the desired keymap by name
             LevelLoader.Instance.LoadKeymap("keymap1");
 
-            music = SoundManager.CreateInstance("song_vegetablevalley_intro");
+            music = SoundManager.CreateInstance("song_vegetablevalley");
             music.Play();
 
             hud = new HUD();
@@ -166,6 +170,8 @@ namespace KirbyNightmareInDreamLand
             {
                 base.Update(gameTime);
                 time = gameTime;
+
+                GameDebug.Instance.ResetCounters();
 
                 // Reset timer for calculating max fps
                 TickStopwatch.Restart();
@@ -192,7 +198,8 @@ namespace KirbyNightmareInDreamLand
                 Keyboard.Update();
                 SoundManager.Update();
             }
-           
+
+            UpdateCounter++;
         }
 
 

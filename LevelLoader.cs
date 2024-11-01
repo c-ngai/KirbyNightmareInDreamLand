@@ -163,12 +163,12 @@ namespace KirbyNightmareInDreamLand
                 SoundManager.Sounds.Add(fileNameWithoutExtension, sound);
             }
 
-            SoundManager.Sounds["inhale_intro"].soundEndBehavior = SoundEndBehavior.LoopNext;
-            SoundManager.Sounds["inhale_intro"].nextSound = SoundManager.Sounds["inhale_loop"].soundEffect;
+            SoundManager.Sounds["inhale"].soundEndBehavior = SoundEndBehavior.LoopNext;
+            SoundManager.Sounds["inhale"].nextSound = SoundManager.Sounds["inhale_loop"].soundEffect;
             SoundManager.Sounds["inhale_loop"].soundEndBehavior = SoundEndBehavior.Loop;
 
-            SoundManager.Sounds["song_vegetablevalley_intro"].soundEndBehavior = SoundEndBehavior.LoopNext;
-            SoundManager.Sounds["song_vegetablevalley_intro"].nextSound = SoundManager.Sounds["song_vegetablevalley_loop"].soundEffect;
+            SoundManager.Sounds["song_vegetablevalley"].soundEndBehavior = SoundEndBehavior.LoopNext;
+            SoundManager.Sounds["song_vegetablevalley"].nextSound = SoundManager.Sounds["song_vegetablevalley_loop"].soundEffect;
             SoundManager.Sounds["song_vegetablevalley_loop"].soundEndBehavior = SoundEndBehavior.Loop;
         }
 
