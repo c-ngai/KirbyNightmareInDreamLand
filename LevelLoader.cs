@@ -332,26 +332,12 @@ namespace KirbyNightmareInDreamLand
             return GetHitbox(objectKey, "default");
         }
 
-
-
         public void SetCollisionResponses()
         {
             #region Player-Tile Collisons
             String key1 = "Player";
-            String key2 = "Air";
-            Action<ICollidable, ICollidable, Rectangle> action1 = TileCollisionActions.BottomAirCollision;
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
-
-            // If we plan on implementing swimming this will need to be modified
-            key2 = "Water";
-            for (int j = 0; j < Constants.HitBoxes.SIDES; j++)
-            {
-                collisionResponse.RegisterCollision(key1, key2, (CollisionSide)j, null, null);
-            }
-
-
-            key2 = "Platform";
-            action1 = TileCollisionActions.BottomPlatformCollision;
+            String key2 = "Platform";
+            Action<ICollidable, ICollidable, Rectangle> action1 = TileCollisionActions.BottomPlatformCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
 
             key2 = "Block";

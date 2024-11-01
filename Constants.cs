@@ -120,7 +120,7 @@ namespace KirbyNightmareInDreamLand
             //Inhale
             public static int NORMAL_SIZE = 36;
             public static Vector2 NORMAL_OFFSET_RIGHT = new Vector2(7, -24);
-            public static Vector2 NORMA_OFFSET_LEFT = new Vector2(-41, -24);
+            public static Vector2 NORMAL_OFFSET_LEFT = new Vector2(-41, -24);
 
             public static int SPARK_SIZE = 55;
             public static Vector2 SPARK_OFFSET = new Vector2(-27, -33);
@@ -292,6 +292,19 @@ namespace KirbyNightmareInDreamLand
             public const float JUMP_VELOCITY = 2.5f;
             public const float FORWARD_MOVEMENT = 0.5f;
             public const float DEAD_FRAMES = 20;
+        }
+
+        public class Particle
+        {
+            public static Vector2 STAR_OFFSET_TOPLEFT = new Vector2(-4, -10);
+            public static Vector2 STAR_OFFSET_TOP = new Vector2(0, -10);
+            public static Vector2 STAR_OFFSET_TOPRIGHT = new Vector2(4, -10);
+            public static Vector2 STAR_OFFSET_LEFT = new Vector2(-4, -5);
+            public static Vector2 STAR_OFFSET_RIGHT = new Vector2(4, -5);
+            public static Vector2 STAR_OFFSET_BOTTOMLEFT = new Vector2(-4, 0);
+            public static Vector2 STAR_OFFSET_BOTTOM = new Vector2(0, 0);
+            public static Vector2 STAR_OFFSET_BOTTOMRIGHT = new Vector2(4, 0);
+
         }
     }
 }
