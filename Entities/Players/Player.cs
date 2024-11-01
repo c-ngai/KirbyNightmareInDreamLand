@@ -503,7 +503,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #region Collisions
         public void BottomCollisionWithBlock(Rectangle intersection)
         {
-            movement.ChangeKirbyLanded(true);
             movement.AdjustFromBottomCollisionBlock(intersection);
         }
         public void RightCollisionWithBlock(Rectangle intersection)

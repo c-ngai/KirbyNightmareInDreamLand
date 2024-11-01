@@ -182,6 +182,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             yVel = 0;
             position.Y = intersection.Y;
             ChangeKirbyLanded(true);
+
         }
 
         public virtual void AdjustFromRightCollisionBlock(Rectangle intersection)
@@ -218,7 +219,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     ChangeKirbyLanded(true);
                     //yVel = 0;
                 }
-                //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
             }
         }
         #endregion

@@ -100,8 +100,8 @@ namespace KirbyNightmareInDreamLand.Levels
         {
             if (LevelLoader.Instance.Rooms.ContainsKey(RoomName))
             {
-                // Sets it up so player will not be incorrectly removed during room changes
-                manager.ResetDynamicCollisionBoxes();
+                // Sets it up so players are the only thing remaining in the object lists when rooms change
+                manager.RemoveNonPlayers();
                 manager.ResetStaticObjects();
                 CurrentRoom = LevelLoader.Instance.Rooms[RoomName];
                 LoadLevelObjects();
