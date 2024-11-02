@@ -56,6 +56,14 @@ namespace KirbyNightmareInDreamLand.Levels
             public float FadeAlpha;
         }
 
+        public struct GameOverData
+        {
+            public bool GameOver;
+            public bool CurrentlyTransitioning;
+            public float FadeSpeed;
+            public float FadeAlpha;
+        }
+
         private RoomChangeData _roomChangeData;
 
         // Holds a sprite for kirby and each enemy type to draw at their spawn points in level debug mode.
@@ -94,6 +102,13 @@ namespace KirbyNightmareInDreamLand.Levels
                 FadeAlpha = 0f
              };
         }
+
+        public Vector2 convertTileToPixel(Vector2 tilePosition)
+        {
+            return new Vector2(tilePosition.X * Constants.Level.TILE_SIZE, tilePosition.Y * Constants.Level.TILE_SIZE);
+        }
+
+        #region Loading
 
         // Loads a room into the level by name, specifying a spawn point. (for entering from a door)
         public void LoadRoom(string RoomName, Vector2? _spawnPoint)
@@ -138,6 +153,9 @@ namespace KirbyNightmareInDreamLand.Levels
             return TileSprites;
         }
 
+        #endregion
+
+        #region Drawing
         public void Draw(SpriteBatch spriteBatch)
         {
             if (_game.DEBUG_LEVEL_MODE || CurrentRoom.Name == "treasureroom")
@@ -147,6 +165,27 @@ namespace KirbyNightmareInDreamLand.Levels
             else
             {
                 DrawLevel(spriteBatch);
+            }
+        }
+
+        // Draws the level normally; background and foreground.
+        public void DrawLevel(SpriteBatch spriteBatch)
+        {
+            DrawBackground(spriteBatch);
+            DrawForeground(spriteBatch);
+            DrawDoorStars(spriteBatch);
+            DrawLevelObjects(spriteBatch);
+            if (_roomChangeData.CurrentlyFadingOut)
+            {
+                FadeOut();
+            }
+            if (_roomChangeData.CurrentlyFadingIn)
+            {
+                FadeIn();
+            }
+            if (LevelPaused)
+            {
+                DrawPauseScreen();
             }
         }
 
@@ -177,26 +216,47 @@ namespace KirbyNightmareInDreamLand.Levels
             }
         }
 
-        // Draws the level normally; background and foreground.
-        public void DrawLevel(SpriteBatch spriteBatch)
+        // draws enemies and tomatoes
+        public void DrawLevelObjects(SpriteBatch spriteBatch)
         {
-            DrawBackground(spriteBatch);
-            DrawForeground(spriteBatch);
-            DrawDoorStars(spriteBatch);
-            DrawLevelObjects(spriteBatch);
-            if (_roomChangeData.CurrentlyFadingOut)
+            foreach (Enemy enemy in enemyList)
             {
-                FadeOut();
+                enemy.Draw(spriteBatch);
             }
-            if (_roomChangeData.CurrentlyFadingIn)
+
+            foreach (PowerUp powerUp in powerUpList)
             {
-                FadeIn();
-            }
-            if (LevelPaused)
-            {
-                DrawPauseScreen();
+                powerUp.Draw(spriteBatch);
             }
         }
+
+        // Draws a rectangle at every door with its destination room written above
+        private void DrawDoors(SpriteBatch spriteBatch)
+        {
+            foreach (Door door in CurrentRoom.Doors)
+            {
+                Vector2 doorPos = door.Bounds.Location.ToVector2();
+                Vector2 textSize = LevelLoader.Instance.Font.MeasureString(door.DestinationRoom);
+                Vector2 textPos = doorPos - new Vector2(-9 + textSize.X / 2, -1 + textSize.Y);
+                textPos.Floor();
+
+                GameDebug.Instance.DrawSolidRectangle(spriteBatch, door.Bounds, Color.Red, 0.5f);
+                spriteBatch.DrawString(LevelLoader.Instance.Font, door.DestinationRoom, textPos, Color.Red);
+            }
+        }
+
+        // Draws the stars around each door
+        private void DrawDoorStars(SpriteBatch spriteBatch)
+        {
+            foreach (Door door in CurrentRoom.Doors)
+            {
+                Vector2 doorPos = door.Bounds.Location.ToVector2();
+                _doorstarsSprite.Draw(doorPos, spriteBatch);
+            }
+        }
+        #endregion
+
+        #region LocalObjectManagement
 
         //level 
         //instantiate on demand
@@ -241,19 +301,9 @@ namespace KirbyNightmareInDreamLand.Levels
             powerUpList.Remove(powerUp);
         }
 
-        // draws enemies and tomatoes
-        public void DrawLevelObjects(SpriteBatch spriteBatch)
-        {
-            foreach(Enemy enemy in enemyList)
-            {
-                enemy.Draw(spriteBatch);
-            }
+        #endregion
 
-            foreach (PowerUp powerUp in powerUpList)
-            {
-                powerUp.Draw(spriteBatch);
-            }
-        }
+        #region Go between rooms 
 
         // tells player if they are at a door or not 
         public bool atDoor(Vector2 playerPosition)
@@ -270,6 +320,22 @@ namespace KirbyNightmareInDreamLand.Levels
             return result;
         }
 
+        // go to the next room, called because a player wants to go through a door 
+        public void EnterDoorAt(Vector2 playerPos)
+        {
+            foreach (Door door in CurrentRoom.Doors)
+            {
+                if (door.Bounds.Contains(playerPos))
+                {
+                    _roomChangeData.DestinationRoom = door.DestinationRoom;
+                    _roomChangeData.DestinationPoint = door.DestinationPoint;
+                    _roomChangeData.ChangeRoom = true;
+                    _roomChangeData.CurrentlyFadingOut = true;
+                    _roomChangeData.CurrentlyTransitioning = true;
+                }
+            }
+        }
+
         public void FadeIn()
         {
              GameDebug.Instance.DrawSolidRectangle(spriteBatch, _camera.bounds, Color.White, _roomChangeData.FadeAlpha);
@@ -281,11 +347,9 @@ namespace KirbyNightmareInDreamLand.Levels
              GameDebug.Instance.DrawSolidRectangle(spriteBatch, _camera.bounds, Color.White, _roomChangeData.FadeAlpha);
         }
 
-        public void ChangeRoom()
-        {
-            FadeOut();
-            FadeIn();
-        }
+        #endregion
+
+        #region Pause 
 
         public void DrawPauseScreen()
         {
@@ -301,22 +365,6 @@ namespace KirbyNightmareInDreamLand.Levels
             pause_sprite.Draw(Vector2.Zero, spriteBatch);
         }
 
-        // go to the next room, called because a player wants to go through a door 
-        public void EnterDoorAt(Vector2 playerPos)
-        {
-            foreach(Door door in CurrentRoom.Doors)
-            {
-                if (door.Bounds.Contains(playerPos))
-                {
-                    _roomChangeData.DestinationRoom = door.DestinationRoom;
-                    _roomChangeData.DestinationPoint = door.DestinationPoint;
-                    _roomChangeData.ChangeRoom = true;
-                    _roomChangeData.CurrentlyFadingOut = true;
-                    _roomChangeData.CurrentlyTransitioning = true;
-                }
-            }
-        }
-
         public void PauseLevel()
         {
             LevelPaused = true;
@@ -327,10 +375,9 @@ namespace KirbyNightmareInDreamLand.Levels
             LevelPaused = false;
         }
 
-        public Vector2 convertTileToPixel(Vector2 tilePosition)
-        {
-            return new Vector2(tilePosition.X * Constants.Level.TILE_SIZE, tilePosition.Y * Constants.Level.TILE_SIZE);
-        }
+        #endregion
+
+        #region UpdateLevel
 
         public void UpdateLevel()
         {
@@ -369,18 +416,20 @@ namespace KirbyNightmareInDreamLand.Levels
 
             CurrentRoom.ForegroundSprite.Update();
             _doorstarsSprite.Update();
-            foreach(Enemy enemy in enemyList)
+            foreach (Enemy enemy in enemyList)
             {
                 enemy.Update(_game.time);
             }
-            foreach(PowerUp powerUp in powerUpList)
+            foreach (PowerUp powerUp in powerUpList)
             {
                 powerUp.Update();
             }
 
         }
 
-        // Following methods authored by Mark 
+        #endregion
+
+        #region Debug
 
         // Debug mode (toggle F2), draws the usually-invisible collision tiles, doors, and enemy spawn locations.
         private void DrawDebug(SpriteBatch spriteBatch)
@@ -398,31 +447,6 @@ namespace KirbyNightmareInDreamLand.Levels
             if (_roomChangeData.CurrentlyFadingIn)
             {
                 FadeIn();
-            }
-        }
-
-        // Draws a rectangle at every door with its destination room written above
-        private void DrawDoors(SpriteBatch spriteBatch)
-        {
-            foreach (Door door in CurrentRoom.Doors)
-            {
-                Vector2 doorPos = door.Bounds.Location.ToVector2();
-                Vector2 textSize = LevelLoader.Instance.Font.MeasureString(door.DestinationRoom);
-                Vector2 textPos = doorPos - new Vector2(-9 + textSize.X / 2, -1 + textSize.Y);
-                textPos.Floor();
-
-                GameDebug.Instance.DrawSolidRectangle(spriteBatch, door.Bounds, Color.Red, 0.5f);
-                spriteBatch.DrawString(LevelLoader.Instance.Font, door.DestinationRoom, textPos, Color.Red);
-            }
-        }
-
-        // Draws the stars around each door
-        private void DrawDoorStars(SpriteBatch spriteBatch)
-        {
-            foreach (Door door in CurrentRoom.Doors)
-            {
-                Vector2 doorPos = door.Bounds.Location.ToVector2();
-                _doorstarsSprite.Draw(doorPos, spriteBatch);
             }
         }
 
@@ -498,3 +522,4 @@ namespace KirbyNightmareInDreamLand.Levels
         }
     }
 }
+        #endregion
