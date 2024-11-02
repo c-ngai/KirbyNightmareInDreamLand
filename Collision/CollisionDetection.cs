@@ -99,9 +99,12 @@ namespace KirbyNightmareInDreamLand
                         if (response.collisionMapping.ContainsKey(key))
                         {
                             response.ExecuteCollision(dynamicObj, staticObj, side);
+                            GameDebug.Instance.NumOfStaticExecuteCollisionCalls++;
                         } 
                     }
                 }
+                // Clears relevant tiles after each dynamic object
+                manager.ResetStaticObjects();
             }
         }
          //in charge of dynamic (tile) collisions
@@ -128,23 +131,23 @@ namespace KirbyNightmareInDreamLand
                         if (response.collisionMapping.ContainsKey(key))
                         {
                             response.ExecuteCollision(manager.DynamicObjects[i], manager.DynamicObjects[j], side);
-                            
+                            GameDebug.Instance.NumOfDynamicExecuteCollisionCalls++;
                         } 
                     }
                 }
+                // Removes dynamic objects that are no longer active after checking a dynamic object with all other possibilies
+                manager.UpdateDynamicObjects();
             }
         }
 
-            // Method to handle collision detection
-            public void CheckCollisions()
+        // Method to handle collision detection
+        public void CheckCollisions()
         {
             if (CollisionOn)
             {
-                //DynamicObjects.RemoveAll(obj => !obj.CollisionActive);
                 // Check dynamic objects against static objects
                 StaticCollisionCheck();
                 // Check dynamic objects against each other, avoiding duplicate tests
-                //add check for enemies not colliding with each other?? probably within their ouwn class
                 DynamicCollisionCheck();
             }
         }
@@ -205,7 +208,7 @@ namespace KirbyNightmareInDreamLand
         private Color green = new Color(0, 255, 0);
         public void DebugDraw(SpriteBatch spriteBatch)
         {
-            foreach (var staticObj in manager.StaticObjects)
+            foreach (var staticObj in manager.DebugStaticObjects)
             {
                 GameDebug.Instance.DrawRectangle(spriteBatch, staticObj.GetHitBox(), green, 0.5f);
             }

@@ -14,8 +14,10 @@ namespace KirbyNightmareInDreamLand
             public const string TilemapList = "Content/Tilemaps.txt";
             public const string RoomRegistry = "Content/Rooms.json";
             public const string KeymapRegistry = "Content/Keymaps.json";
-            public const string TileSpriteList = "Content/Images/TileSprites.txt";
+            public const string TileSpriteList = "Content/Images/Level/TileSprites.txt";
             public const string HitboxRegistry = "Content/Hitboxes.json";
+            // Directories
+            public const string AudioDirectory = "Content/Audio";
         }
 
         public static class Namespaces
@@ -37,9 +39,11 @@ namespace KirbyNightmareInDreamLand
         {
             public const float FRAME_RATE = 0.03125f;
             public const float GRAVITY = 10f;
-            public const float FLOAT_GRAVITY = 0.02f; //its 2f as the gravity times 0.01 as a "time elapsed" so float kirby falls at a constan rate
+            public const float DT = 0.0166666f;
+            public const float FLOAT_GRAVITY = 5f; //its 2f as the gravity times 0.01 as a "time elapsed" so float kirby falls at a constan rate
             public const float FLOAT_GRAVITY2 = 0.16f; //the other gravity rate but the float where this is used does not have game time acess
             public const float JUMP_VEL = -2f;
+            public const float JUMP_MAX_HEIGHT = 200; // 45 IS ACTUAL VALUE, 200 is for moonjump while wip // Slight misnomer, not the max height of the jump but the height that you can no longer accellerate upwards at by holding jump
             public const float FLOAT_VEL = 0.5F;
             public const float WALKING_VELOCITY = 1.3f;
             public const float RUNNING_VELOCITY = 1.75f;
@@ -118,7 +122,7 @@ namespace KirbyNightmareInDreamLand
             //Inhale
             public static int NORMAL_SIZE = 36;
             public static Vector2 NORMAL_OFFSET_RIGHT = new Vector2(7, -24);
-            public static Vector2 NORMA_OFFSET_LEFT = new Vector2(-41, -24);
+            public static Vector2 NORMAL_OFFSET_LEFT = new Vector2(-41, -24);
 
             public static int SPARK_SIZE = 55;
             public static Vector2 SPARK_OFFSET = new Vector2(-27, -33);
@@ -290,6 +294,19 @@ namespace KirbyNightmareInDreamLand
             public const float JUMP_VELOCITY = 2.5f;
             public const float FORWARD_MOVEMENT = 0.5f;
             public const float DEAD_FRAMES = 20;
+        }
+
+        public class Particle
+        {
+            public static Vector2 STAR_OFFSET_TOPLEFT = new Vector2(-4, -10);
+            public static Vector2 STAR_OFFSET_TOP = new Vector2(0, -10);
+            public static Vector2 STAR_OFFSET_TOPRIGHT = new Vector2(4, -10);
+            public static Vector2 STAR_OFFSET_LEFT = new Vector2(-4, -5);
+            public static Vector2 STAR_OFFSET_RIGHT = new Vector2(4, -5);
+            public static Vector2 STAR_OFFSET_BOTTOMLEFT = new Vector2(-4, 0);
+            public static Vector2 STAR_OFFSET_BOTTOM = new Vector2(0, 0);
+            public static Vector2 STAR_OFFSET_BOTTOMRIGHT = new Vector2(4, 0);
+
         }
     }
 }

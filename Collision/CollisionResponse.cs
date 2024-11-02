@@ -23,7 +23,7 @@ namespace KirbyNightmareInDreamLand.Collision
         }
         public CollisionResponse()
         {
-            collisionMapping = new Dictionary<Tuple<string, string, CollisionSide>, Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>>>();
+            collisionMapping = new();
         }
 
         // Creates string mappings of object types and collision side to determine object reactions 
@@ -66,7 +66,6 @@ namespace KirbyNightmareInDreamLand.Collision
                     }
                 }
             } 
-            
         }
     }
 }

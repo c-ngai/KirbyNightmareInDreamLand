@@ -115,8 +115,8 @@ namespace KirbyNightmareInDreamLand.Levels
         {
             if (LevelLoader.Instance.Rooms.ContainsKey(RoomName))
             {
-                // Sets it up so player will not be incorrectly removed during room changes
-                manager.ResetDynamicCollisionBoxes();
+                // Sets it up so players are the only thing remaining in the object lists when rooms change
+                manager.RemoveNonPlayers();
                 manager.ResetStaticObjects();
                 CurrentRoom = LevelLoader.Instance.Rooms[RoomName];
                 LoadLevelObjects();
@@ -129,7 +129,7 @@ namespace KirbyNightmareInDreamLand.Levels
             }
             else
             {
-                Debug.WriteLine("ERROR: \"" + RoomName + "\" is not a valid room name and cannot be loaded.");
+                Debug.WriteLine(" [ERROR] \"" + RoomName + "\" is not a valid room name and cannot be loaded.");
             }
         }
 
@@ -270,11 +270,11 @@ namespace KirbyNightmareInDreamLand.Levels
 
                 if (type != null)
                 {
-                    System.Diagnostics.Debug.WriteLine("This is the type name for the enemy: " + type);
+                    //System.Diagnostics.Debug.WriteLine("This is the type name for the enemy: " + type);
 
                     // Get the constructor that takes a Vector2 parameter
                     ConstructorInfo constructor = type.GetConstructor(new[] { typeof(Vector2) });
-                    System.Diagnostics.Debug.WriteLine("this is the enemy constructor" + constructor);
+                    //System.Diagnostics.Debug.WriteLine("this is the enemy constructor" + constructor);
 
                     if (constructor != null)
                     {
@@ -356,7 +356,7 @@ namespace KirbyNightmareInDreamLand.Levels
             List<string> kirbyType = new List<string>();
             foreach(Player player in Game1.Instance.manager.Players)
             {
-                kirbyType.Add(player.GetKirbyType());
+                kirbyType.Add(player.GetKirbyTypePause());
             }
             Sprite pause_sprite = SpriteFactory.Instance.CreateSprite(kirbyType[0] + "_pause_screen");
             Sprite pause_background = SpriteFactory.Instance.CreateSprite("pause_screen_background");

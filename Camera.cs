@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using static KirbyNightmareInDreamLand.Constants;
 
 namespace KirbyNightmareInDreamLand
@@ -23,6 +24,8 @@ namespace KirbyNightmareInDreamLand
         public Rectangle bounds;
         public Rectangle enemyBounds;
 
+        public Rectangle ScissorRectangle;
+
         // Matrix for the level, everything drawn here is in world space.
         public Matrix LevelMatrix { get; set; }
         // Matrix for the screen, everything drawn here is directly in screen space. For HUD, etc. Things not part of the actual "game world".
@@ -35,8 +38,20 @@ namespace KirbyNightmareInDreamLand
             _game = Game1.Instance;
 
             position = new Vector3(0,0,0);
-            bounds = new Rectangle((int)position.X, (int)position.Y, Constants.Graphics.GAME_WIDTH, Constants.Graphics.GAME_HEIGHT);
-            enemyBounds = new Rectangle((int)position.X, (int)position.Y, Constants.Graphics.GAME_WIDTH + Constants.Level.TILE_SIZE, Constants.Graphics.GAME_HEIGHT + Constants.Level.TILE_SIZE);
+            bounds = new Rectangle(
+                (int)position.X,
+                (int)position.Y,
+                Constants.Graphics.GAME_WIDTH,
+                Constants.Graphics.GAME_HEIGHT
+            );
+            enemyBounds = new Rectangle(
+                (int)position.X - Constants.Level.TILE_SIZE,
+                (int)position.Y - Constants.Level.TILE_SIZE,
+                Constants.Graphics.GAME_WIDTH + 2 * Constants.Level.TILE_SIZE,
+                Constants.Graphics.GAME_HEIGHT + 2 * Constants.Level.TILE_SIZE
+            );
+
+            ScissorRectangle = new Rectangle(_game.WINDOW_XOFFSET, _game.WINDOW_YOFFSET, _game.WINDOW_WIDTH, _game.WINDOW_HEIGHT);
 
             LevelMatrix = new Matrix();
             ScreenMatrix = new Matrix();
@@ -98,6 +113,14 @@ namespace KirbyNightmareInDreamLand
         {
             bounds.X = (int)position.X;
             bounds.Y = (int)position.Y;
+
+            enemyBounds.X = (int)position.X - Constants.Level.TILE_SIZE;
+            enemyBounds.Y = (int)position.Y - Constants.Level.TILE_SIZE;
+
+            ScissorRectangle.X = _game.WINDOW_XOFFSET;
+            ScissorRectangle.Y = _game.WINDOW_YOFFSET;
+            ScissorRectangle.Width = _game.WINDOW_WIDTH;
+            ScissorRectangle.Height = _game.WINDOW_HEIGHT;
         }
 
         public void UpdateMatrices()

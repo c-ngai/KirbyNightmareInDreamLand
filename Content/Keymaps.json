@@ -9,7 +9,7 @@
         {
             "Key": "Right",
             "ExecutionType": "StoppingPress",
-            "Command": "KirbyRunningRightCommand"
+            "Command": "KirbyStopMovingCommand"
         },
         {
             "Key": "Left",
@@ -19,7 +19,7 @@
         {
             "Key": "Left",
             "ExecutionType": "StoppingPress",
-            "Command": "KirbyRunningLeftCommand"
+            "Command": "KirbyStopMovingCommand"
         },
         {
             "Key": "Down",
@@ -37,6 +37,11 @@
             "Command": "KirbyFloatCommand"
         },
         {
+            "Key": "Space",
+            "ExecutionType": "StartingPress",
+            "Command": "PauseCommand"
+        },
+        {
             "Key": "Up",
             "ExecutionType": "StartingPress",
             "Command": "KirbyEnterDoorCommand"
@@ -49,7 +54,7 @@
         {
             "Key": "D",
             "ExecutionType": "StoppingPress",
-            "Command": "KirbyRunningRightCommand"
+            "Command": "KirbyStopMovingCommand"
         },
         {
             "Key": "A",
@@ -59,7 +64,7 @@
         {
             "Key": "A",
             "ExecutionType": "StoppingPress",
-            "Command": "KirbyRunningLeftCommand"
+            "Command": "KirbyStopMovingCommand"
         },
         {
             "Key": "S",
@@ -195,6 +200,11 @@
             "Key": "LeftControl",
             "ExecutionType": "StartingPress",
             "Command": "PositionLogClearCommand"
+        },
+        {
+            "Key": "M",
+            "ExecutionType": "StartingPress",
+            "Command": "AudioToggleMuteCommand"
         }
     ]
 
