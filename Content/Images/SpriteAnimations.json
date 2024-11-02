@@ -16703,94 +16703,9 @@
         ]
     },
 
-  "Spark_pause_screen": {
-    "Source texture": "pause_screen_spritesheet",
-    "Loop point": 0,
-    "Flip horizontally?": false,
-    "Frames": [
-      {
-        "X": 0,
-        "Y": 352,
-        "Width": 240,
-        "Height": 176,
-        "CenterX": 0,
-        "CenterY": 0,
-        "Time": 1
-      }
-    ]
-  },
-
-  "Fire_pause_screen": {
-    "Source texture": "pause_screen_spritesheet",
-    "Loop point": 0,
-    "Flip horizontally?": false,
-    "Frames": [
-      {
-        "X": 0,
-        "Y": 528,
-        "Width": 240,
-        "Height": 176,
-        "CenterX": 0,
-        "CenterY": 0,
-        "Time": 1
-      }
-    ]
-  },
-
-  "Normal_pause_screen": {
-    "Source texture": "pause_screen_spritesheet",
-    "Loop point": 0,
-    "Flip horizontally?": false,
-    "Frames": [
-      {
-        "X": 0,
-        "Y": 704,
-        "Width": 240,
-        "Height": 176,
-        "CenterX": 0,
-        "CenterY": 0,
-        "Time": 1
-      }
-    ]
-  },
-
-  "Dead_pause_screen": {
-    "Source texture": "pause_screen_spritesheet",
-    "Loop point": 0,
-    "Flip horizontally?": false,
-    "Frames": [
-      {
-        "X": 0,
-        "Y": 704,
-        "Width": 240,
-        "Height": 176,
-        "CenterX": 0,
-        "CenterY": 0,
-        "Time": 1
-      }
-    ]
-  },
-
-  "Mouthful_pause_screen": {
-    "Source texture": "pause_screen_spritesheet",
-    "Loop point": 0,
-    "Flip horizontally?": false,
-    "Frames": [
-      {
-        "X": 0,
-        "Y": 704,
-        "Width": 240,
-        "Height": 176,
-        "CenterX": 0,
-        "CenterY": 0,
-        "Time": 1
-      }
-    ]
-  },
-
-  "Game_over_animation": {
+  "Game_over_foreground": {
     "Source texture": "game_over_spritesheet",
-    "Loop point": 0,
+    "Loop point": 9,
     "Flip horizontally?": false,
     "Frames": [
       {
@@ -16873,11 +16788,20 @@
         "CenterX": 0,
         "CenterY": 0,
         "Time": 8
+      },
+      {
+        "X": 0,
+        "Y": 1936,
+        "Width": 256,
+        "Height": 176,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
       }
     ]
   },
 
-  "Game_over_background1": {
+  "Game_over_foreground_no_letters": {
     "Source texture": "game_over_spritesheet",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -16895,7 +16819,7 @@
   },
 
 
-  "Game_over_background2": {
+  "Game_over_background": {
     "Source texture": "game_over_spritesheet",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -16904,24 +16828,7 @@
         "X": 0,
         "Y": 1584,
         "Width": 256,
-        "Height": 176,
-        "CenterX": 0,
-        "CenterY": 0,
-        "Time": 1
-      }
-    ]
-  },
-
-  "Game_over_background3": {
-    "Source texture": "game_over_spritesheet",
-    "Loop point": 0,
-    "Flip horizontally?": false,
-    "Frames": [
-      {
-        "X": 0,
-        "Y": 1760,
-        "Width": 256,
-        "Height": 176,
+        "Height": 160,
         "CenterX": 0,
         "CenterY": 0,
         "Time": 1
