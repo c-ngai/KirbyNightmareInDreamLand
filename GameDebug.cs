@@ -18,7 +18,10 @@ namespace KirbyNightmareInDreamLand
         private readonly GraphicsDevice _graphicsDevice;
         private readonly Texture2D texture;
 
-        
+        public int NumOfSpriteDrawCalls;
+        public int NumOfSpriteBatchDrawCalls;
+        public int NumOfStaticExecuteCollisionCalls;
+        public int NumOfDynamicExecuteCollisionCalls;
 
         private static readonly GameDebug _instance = new();
 
@@ -37,6 +40,21 @@ namespace KirbyNightmareInDreamLand
             // TEMPORARY, FOR DEBUG SPRITE VISUALS
             texture = new Texture2D(_graphicsDevice, 1, 1);
             texture.SetData(new Color[] { new(255, 255, 255, 255) });
+
+            NumOfSpriteDrawCalls = 0;
+            NumOfSpriteBatchDrawCalls = 0;
+            NumOfStaticExecuteCollisionCalls = 0;
+            NumOfDynamicExecuteCollisionCalls = 0;
+        }
+
+
+
+        public void ResetCounters()
+        {
+            NumOfSpriteDrawCalls = 0;
+            NumOfSpriteBatchDrawCalls = 0;
+            NumOfStaticExecuteCollisionCalls = 0;
+            NumOfDynamicExecuteCollisionCalls = 0;
         }
 
 
@@ -125,7 +143,11 @@ namespace KirbyNightmareInDreamLand
             texts.Add("Current Max FPS: " + Math.Round(maxFrameRate));
             texts.Add("Average Max FPS: " + Math.Round(maxfpsLog.Average()));
             texts.Add("Current room: " + _game.Level.CurrentRoom.Name);
-            //texts.Add("SoundManager.SoundInstances.Count = " + SoundManager.SoundInstances.Count);
+            texts.Add("");
+            texts.Add("Sprite.Draw calls: " + NumOfSpriteDrawCalls);
+            texts.Add("SpriteBatch.Draw calls: " + NumOfSpriteBatchDrawCalls);
+            texts.Add("Static ExecuteCollision calls: " + NumOfStaticExecuteCollisionCalls);
+            texts.Add("Dynamic ExecuteCollision calls: " + NumOfDynamicExecuteCollisionCalls);
             texts.Add("");
             texts.Add("+/- : Resize window");
             texts.Add("F : Toggle fullscreen");

@@ -9,12 +9,7 @@
         {
             "Key": "Right",
             "ExecutionType": "StoppingPress",
-            "Command": "KirbyRunningRightCommand"
-        },
-        {
-            "Key": "Right",
-            "ExecutionType": "StartingPress",
-            "Command": "KirbyRunningRightCommand"
+            "Command": "KirbyStopMovingCommand"
         },
         {
             "Key": "Left",
@@ -24,7 +19,7 @@
         {
             "Key": "Left",
             "ExecutionType": "StoppingPress",
-            "Command": "KirbyRunningLeftCommand"
+            "Command": "KirbyStopMovingCommand"
         },
         {
             "Key": "Down",
@@ -59,7 +54,7 @@
         {
             "Key": "D",
             "ExecutionType": "StoppingPress",
-            "Command": "KirbyRunningRightCommand"
+            "Command": "KirbyStopMovingCommand"
         },
         {
             "Key": "A",
@@ -69,7 +64,7 @@
         {
             "Key": "A",
             "ExecutionType": "StoppingPress",
-            "Command": "KirbyRunningLeftCommand"
+            "Command": "KirbyStopMovingCommand"
         },
         {
             "Key": "S",

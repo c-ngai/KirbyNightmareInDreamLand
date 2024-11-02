@@ -4,10 +4,15 @@ namespace KirbyNightmareInDreamLand.Commands
 {
     public class KirbyStopMovingCommand : ICommand
     {
+        private IPlayer _player;
+        public KirbyStopMovingCommand()
+        {
+            _player = ObjectManager.Instance.Players[0];
+        }
 
         public void Execute()
         {
-            ObjectManager.Instance.Players[0].StopMoving();
+            _player.StopMoving();
         }
     }
 }

@@ -99,6 +99,7 @@ namespace KirbyNightmareInDreamLand
                         if (response.collisionMapping.ContainsKey(key))
                         {
                             response.ExecuteCollision(dynamicObj, staticObj, side);
+                            GameDebug.Instance.NumOfStaticExecuteCollisionCalls++;
                         } 
                     }
                 }
@@ -130,7 +131,7 @@ namespace KirbyNightmareInDreamLand
                         if (response.collisionMapping.ContainsKey(key))
                         {
                             response.ExecuteCollision(manager.DynamicObjects[i], manager.DynamicObjects[j], side);
-                            
+                            GameDebug.Instance.NumOfDynamicExecuteCollisionCalls++;
                         } 
                     }
                 }
