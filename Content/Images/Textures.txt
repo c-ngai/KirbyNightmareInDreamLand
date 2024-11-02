@@ -7,6 +7,7 @@ Images/Spritesheets/items
 Images/Spritesheets/projectiles
 Images/Spritesheets/doorstars
 Images/Spritesheets/pause_screen_spritesheet
+Images/Spritesheets/game_over_spritesheet
 Images/collisionTileset
 Images/backgrounds
 Images/room1_level
