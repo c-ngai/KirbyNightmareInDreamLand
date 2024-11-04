@@ -11,7 +11,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         private float distanceMoved = 0;
         private float startingX;
 
-        private int timer = 0;
+        private double timer = 0;
 
         public override void Walk(bool isLeft)
         {
@@ -27,11 +27,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             kirby.Slide();
             if(kirby.IsSliding())
-            {   Slide(kirby);
-                if(distanceMoved == 0){
-                    startingX = position.X;
-                    distanceMoved = 1;
-                }
+            {   
+                xVel = kirby.IsLeft() ? runningVel * -1 :runningVel;
             }
         }
 
@@ -40,26 +37,32 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             //Slide(isLeft);
         }
 
-        public void AdjustSlide(Player kirby)
+        public void AdjustSlide(Player kirby, GameTime gameTime)
         {
             if(kirby.IsSliding())
             {
-                distanceMoved = Math.Abs(position.X - startingX);
-                if(distanceMoved > slideDistance )
+                timer += gameTime.ElapsedGameTime.TotalSeconds; 
+                if(timer > .8)
                 {
                     StopMovement();
                     kirby.EndSlide();
+                    timer = 0;
                 } 
             }
         }
-        public override void Adjust(Player kirby)
+        // public override void Adjust(Player kirby)
+        // {
+        //     AdjustSlide(kirby);
+        //     //if kirby collides with a wall while crouching the slide ends
+        //     //AdjustX(kirby);  // Turning this off temporarily  -Mark
+        //     AdjustY(kirby);
+        // }
+        public override void MovePlayer(Player kirby, GameTime gameTime)
         {
-            AdjustSlide(kirby);
-            //if kirby collides with a wall while crouching the slide ends
-            //AdjustX(kirby);  // Turning this off temporarily  -Mark
-            AdjustY(kirby);
+            UpdatePosition(gameTime);
+            AdjustX(kirby);
+            AdjustSlide(kirby, gameTime);
         }
-
         public override void AdjustFromRightCollisionBlock(Rectangle intersection)
         {
             position.X -= intersection.Width;
