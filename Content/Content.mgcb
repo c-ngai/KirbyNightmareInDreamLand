@@ -19,18 +19,6 @@
 /processorParam:Quality=Best
 /build:Audio/catch.wav
 
-#begin Audio/catch.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/catch.wav
-
-#begin Audio/inhale_loop.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/inhale_loop.wav
-
 #begin Audio/inhale_loop.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -49,18 +37,6 @@
 /processorParam:Quality=Best
 /build:Audio/jump.wav
 
-#begin Audio/jump.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/jump.wav
-
-#begin Audio/land.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/land.wav
-
 #begin Audio/land.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -72,18 +48,6 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/select.wav
-
-#begin Audio/select.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/select.wav
-
-#begin Audio/song_vegetablevalley_loop.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/song_vegetablevalley_loop.wav
 
 #begin Audio/song_vegetablevalley_loop.wav
 /importer:WavImporter
@@ -103,23 +67,14 @@
 /processorParam:Quality=Best
 /build:Audio/spit.wav
 
-#begin Audio/spit.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/spit.wav
-
 #begin Audio/spitbig.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/spitbig.wav
 
-#begin Audio/spitbig.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/spitbig.wav
+#begin Buttonmaps.json
+/copy:Buttonmaps.json
 
 #begin DefaultFont.spritefont
 /importer:FontDescriptionImporter

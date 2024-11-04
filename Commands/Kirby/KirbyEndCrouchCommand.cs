@@ -1,23 +1,27 @@
-﻿using Microsoft.Xna.Framework.Input;
-using KirbyNightmareInDreamLand.Time;
-using KirbyNightmareInDreamLand.Entities.Players;
-using KirbyNightmareInDreamLand.Controllers;
+﻿using KirbyNightmareInDreamLand.Entities.Players;
+using System.Collections.Generic;
 
 namespace KirbyNightmareInDreamLand.Commands
 {
     public class KirbyEndCrouchCommand : ICommand
     {
-        private IPlayer kirby;
-
-        public KirbyEndCrouchCommand()
+        // Reference to player list
+        private List<IPlayer> _players;
+        // Index of player to execute on
+        private int playerIndex;
+        public KirbyEndCrouchCommand(int _playerIndex)
         {
-            // Accessing the player and keyboard controller through Game1.Instance
-            kirby = ObjectManager.Instance.Players[0]; // Assuming there is always at least one player
+            _players = ObjectManager.Instance.Players;
+            playerIndex = _playerIndex;
         }
 
         public void Execute()
         {
-            ObjectManager.Instance.Players[0].EndCrouch();
+            // If a player of this index exists
+            if (playerIndex < _players.Count)
+            {
+                _players[playerIndex].EndCrouch();
+            }
         }
     }
 }

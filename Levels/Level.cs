@@ -108,7 +108,7 @@ namespace KirbyNightmareInDreamLand.Levels
                 SpawnPoint = _spawnPoint ?? CurrentRoom.SpawnPoint;
                 foreach (IPlayer player in manager.Players)
                 {
-                    player.GoToRoomSpawn();
+                    player?.GoToRoomSpawn();
                     manager.RegisterDynamicObject((Player)player);
                 }
             }
