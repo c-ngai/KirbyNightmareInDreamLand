@@ -95,18 +95,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         #endregion
 
-        #region slide
-        public virtual void Slide(Player kirby)
-        {
-            //slideStarting = kirby.PositionX;
-            if(kirby.IsSliding())
-            {
-                xVel = kirby.IsLeft() ? runningVel * -1 :runningVel;
-            }
-        }
-
-        #endregion
-
         #region Floating
         //starts floating pose animation
         #endregion
