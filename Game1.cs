@@ -10,6 +10,11 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using KirbyNightmareInDreamLand.UI;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
+using System.Xml.Linq;
+using KirbyNightmareInDreamLand.Audio;
+using Microsoft.Xna.Framework.Input;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -20,6 +25,7 @@ namespace KirbyNightmareInDreamLand
         
         public GraphicsDeviceManager Graphics { get; private set; }
         public KeyboardController Keyboard { get; private set; }
+        public GamepadController Gamepad { get; private set; }
         public MouseController MouseController { get; private set; }
 
         private HUD hud;
@@ -29,6 +35,8 @@ namespace KirbyNightmareInDreamLand
 
         public Level Level { get; private set; }
 
+        public SoundInstance music;
+
         // Sets up single reference for game time for things such as commands which cannot get current time elsewise
         // Note this is program time and not game time 
         public GameTime time { get; set; }
@@ -36,6 +44,8 @@ namespace KirbyNightmareInDreamLand
         public static GameTime GameTime { get; private set; }
 
         public Stopwatch TickStopwatch { get; private set; } = new Stopwatch();
+
+        public int UpdateCounter { get; private set; }
 
 
         // Graphics settings modifiable at runtime
@@ -82,6 +92,8 @@ namespace KirbyNightmareInDreamLand
             WINDOW_YOFFSET = 0;
             TARGET_FRAMERATE = 60;
 
+            UpdateCounter = 0;
+
             TargetElapsedTime = TimeSpan.FromMilliseconds(1000f / TARGET_FRAMERATE);
 
             #region set max window width
@@ -110,7 +122,12 @@ namespace KirbyNightmareInDreamLand
             Graphics.ApplyChanges();
 
             Keyboard = new KeyboardController();
+            Gamepad = new GamepadController();
             MouseController = new MouseController();
+
+            GamePad.InitDatabase();
+
+            SoundEffect.Initialize();
 
             base.Initialize();
         }
@@ -129,7 +146,7 @@ namespace KirbyNightmareInDreamLand
             // Load all content through LevelLoader
             LevelLoader.Instance.LoadAllContent();
 
-            // Load all objects
+            // Load player
             manager.LoadKirby();
 
             // Create level instance and load initial room
@@ -138,9 +155,15 @@ namespace KirbyNightmareInDreamLand
 
             // Load the desired keymap by name
             LevelLoader.Instance.LoadKeymap("keymap1");
+            LevelLoader.Instance.LoadButtonmap("buttonmap1");
+
+            music = SoundManager.CreateInstance("song_vegetablevalley");
+            music.Play();
 
             hud = new HUD();
         }
+
+
 
         protected override void UnloadContent()
         {
@@ -154,10 +177,13 @@ namespace KirbyNightmareInDreamLand
                 base.Update(gameTime);
                 time = gameTime;
 
+                GameDebug.Instance.ResetCounters();
+
                 // Reset timer for calculating max fps
                 TickStopwatch.Restart();
 
                 Keyboard.Update();
+                Gamepad.Update();
                 MouseController.Update();
 
                 GameTime = gameTime;
@@ -171,14 +197,21 @@ namespace KirbyNightmareInDreamLand
                 CollisionDetection.Instance.CheckCollisions();
 
                 Camera.Update();
-            } else {
-                Keyboard.Update();
+
+                SoundManager.Update();
             }
-           
+            else
+            {
+                Keyboard.Update();
+                Gamepad.Update();
+                SoundManager.Update();
+            }
+
+            UpdateCounter++;
         }
 
 
-
+        
         protected override void Draw(GameTime gameTime)
         {
             if(!PAUSED) {
@@ -186,6 +219,8 @@ namespace KirbyNightmareInDreamLand
                 base.Draw(gameTime);
 
                 // Level spritebatch
+                //RasterizerState rasterizerState = new RasterizerState { ScissorTestEnable = true };
+                //GraphicsDevice.ScissorRectangle = Camera.ScissorRectangle;
                 _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Camera.LevelMatrix);
                 // Draw level
                 Level.Draw(_spriteBatch);
@@ -204,11 +239,22 @@ namespace KirbyNightmareInDreamLand
                 GameDebug.Instance.DrawPositionLog(_spriteBatch, Color.Red, 1.0f);
 
                 _spriteBatch.End();
-                
+
                 // Static spritebatch
+                // Temporarily disable culling for the static spritebatch, LAZY FIX, WILL IMPLEMENT PROPER FIX LATER -Mark
+                bool old_CULLING_ENABLED = CULLING_ENABLED;
+                CULLING_ENABLED = false;
+
                 _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.ScreenMatrix);
                 hud.Draw(_spriteBatch);
+                // Draw thumbstick input if debug text is on
+                if (DEBUG_TEXT_ENABLED)
+                {
+                    GameDebug.Instance.DrawThumbstickInput(_spriteBatch);
+                }
                 _spriteBatch.End();
+                // Restore old culling mode
+                CULLING_ENABLED = old_CULLING_ENABLED;
 
                 // Stop timer for calculating max fps
                 TickStopwatch.Stop();
@@ -219,14 +265,15 @@ namespace KirbyNightmareInDreamLand
                     GameDebug.Instance.DrawDebugText(_spriteBatch);
                     manager.ResetDebugStaticObjects();
                 }
+
                 // Draw borders (should only be visible in fullscreen for letterboxing)
                 GameDebug.Instance.DrawBorders(_spriteBatch);
 
                 //manager.UpdateObjectLists();
             } else {
-                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Camera.LevelMatrix);
+                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Camera.ScreenMatrix);
                 Game1.Instance.Level.DrawPauseScreen();
-                 _spriteBatch.End();
+                _spriteBatch.End();
             }
         }
 

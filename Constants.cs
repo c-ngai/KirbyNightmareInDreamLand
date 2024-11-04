@@ -14,8 +14,11 @@ namespace KirbyNightmareInDreamLand
             public const string TilemapList = "Content/Tilemaps.txt";
             public const string RoomRegistry = "Content/Rooms.json";
             public const string KeymapRegistry = "Content/Keymaps.json";
+            public const string ButtonmapRegistry = "Content/Buttonmaps.json";
             public const string TileSpriteList = "Content/Images/Level/TileSprites.txt";
             public const string HitboxRegistry = "Content/Hitboxes.json";
+            // Directories
+            public const string AudioDirectory = "Content/Audio";
         }
 
         public static class Namespaces
@@ -120,7 +123,7 @@ namespace KirbyNightmareInDreamLand
             //Inhale
             public static int NORMAL_SIZE = 36;
             public static Vector2 NORMAL_OFFSET_RIGHT = new Vector2(7, -24);
-            public static Vector2 NORMA_OFFSET_LEFT = new Vector2(-41, -24);
+            public static Vector2 NORMAL_OFFSET_LEFT = new Vector2(-41, -24);
 
             public static int SPARK_SIZE = 55;
             public static Vector2 SPARK_OFFSET = new Vector2(-27, -33);
@@ -154,6 +157,12 @@ namespace KirbyNightmareInDreamLand
             // determines max time that can elapse for double button presses to register as a command
             public const double RESPONSE_TIME = 250;
             public const double SLIDE_TIME = 250;
+        }
+
+        public class GamePad
+        {
+            public const float ANALOG_TO_DIGITAL_QUANTIZATION_SLOPE = 1.5f; // For a visual explanation of what this actually represents, see https://www.desmos.com/calculator/vaylnekztn and adjust the slider at the top
+            public const float THUMBSTICK_DEADZONE = 0.25f;
         }
 
       public class EnemyFire
@@ -292,6 +301,19 @@ namespace KirbyNightmareInDreamLand
             public const float JUMP_VELOCITY = 2.5f;
             public const float FORWARD_MOVEMENT = 0.5f;
             public const float DEAD_FRAMES = 20;
+        }
+
+        public class Particle
+        {
+            public static Vector2 STAR_OFFSET_TOPLEFT = new Vector2(-4, -10);
+            public static Vector2 STAR_OFFSET_TOP = new Vector2(0, -10);
+            public static Vector2 STAR_OFFSET_TOPRIGHT = new Vector2(4, -10);
+            public static Vector2 STAR_OFFSET_LEFT = new Vector2(-4, -5);
+            public static Vector2 STAR_OFFSET_RIGHT = new Vector2(4, -5);
+            public static Vector2 STAR_OFFSET_BOTTOMLEFT = new Vector2(-4, 0);
+            public static Vector2 STAR_OFFSET_BOTTOM = new Vector2(0, 0);
+            public static Vector2 STAR_OFFSET_BOTTOMRIGHT = new Vector2(4, 0);
+
         }
     }
 }

@@ -13,6 +13,69 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Audio/catch.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/catch.wav
+
+#begin Audio/inhale_loop.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/inhale_loop.wav
+
+#begin Audio/inhale.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/inhale.wav
+
+#begin Audio/jump.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/jump.wav
+
+#begin Audio/land.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/land.wav
+
+#begin Audio/select.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/select.wav
+
+#begin Audio/song_vegetablevalley_loop.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/song_vegetablevalley_loop.wav
+
+#begin Audio/song_vegetablevalley.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/song_vegetablevalley.wav
+
+#begin Audio/spit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/spit.wav
+
+#begin Audio/spitbig.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/spitbig.wav
+
+#begin Buttonmaps.json
+/copy:Buttonmaps.json
+
 #begin DefaultFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -124,6 +187,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/Spritesheets/enemies.png
+
+#begin Images/Spritesheets/game_over_spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Spritesheets/game_over_spritesheet.png
 
 #begin Images/Spritesheets/items.png
 /importer:TextureImporter
@@ -256,6 +331,9 @@
 
 #begin Tilemaps.txt
 /copy:Tilemaps.txt
+
+#begin Tilemaps/game_over_tileset.csv
+/copy:Tilemaps/game_over_tileset.csv
 
 #begin Tilemaps/room1_tileset.csv
 /copy:Tilemaps/room1_tileset.csv

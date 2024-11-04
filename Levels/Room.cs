@@ -129,7 +129,7 @@ namespace KirbyNightmareInDreamLand.Levels
                 }
                 else
                 {
-                    Debug.WriteLine("ERROR: In room \"" + Name + "\", \"" + enemyJsonData.EnemyType + "\" is not a valid enemy name. (check capitalization?)");
+                    Debug.WriteLine(" [ERROR] In room \"" + Name + "\", \"" + enemyJsonData.EnemyType + "\" is not a valid enemy name. (check capitalization?)");
                 }
             }
 

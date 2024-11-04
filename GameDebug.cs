@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using Microsoft.Xna.Framework.Graphics.PackedVector;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -17,7 +18,10 @@ namespace KirbyNightmareInDreamLand
         private readonly GraphicsDevice _graphicsDevice;
         private readonly Texture2D texture;
 
-        
+        public int NumOfSpriteDrawCalls;
+        public int NumOfSpriteBatchDrawCalls;
+        public int NumOfStaticExecuteCollisionCalls;
+        public int NumOfDynamicExecuteCollisionCalls;
 
         private static readonly GameDebug _instance = new();
 
@@ -36,6 +40,21 @@ namespace KirbyNightmareInDreamLand
             // TEMPORARY, FOR DEBUG SPRITE VISUALS
             texture = new Texture2D(_graphicsDevice, 1, 1);
             texture.SetData(new Color[] { new(255, 255, 255, 255) });
+
+            NumOfSpriteDrawCalls = 0;
+            NumOfSpriteBatchDrawCalls = 0;
+            NumOfStaticExecuteCollisionCalls = 0;
+            NumOfDynamicExecuteCollisionCalls = 0;
+        }
+
+
+
+        public void ResetCounters()
+        {
+            NumOfSpriteDrawCalls = 0;
+            NumOfSpriteBatchDrawCalls = 0;
+            NumOfStaticExecuteCollisionCalls = 0;
+            NumOfDynamicExecuteCollisionCalls = 0;
         }
 
 
@@ -73,6 +92,24 @@ namespace KirbyNightmareInDreamLand
             color *= alpha;
             spriteBatch.Draw(texture, new Rectangle((int)(position.X) - 1, (int)(position.Y) - 1, 2, 2), color);
         }
+
+
+
+        // Draws a circle. This implementaton is dumb but I don't care
+        public void DrawSolidCircle(SpriteBatch spriteBatch, Rectangle rectangle, Color color, float alpha)
+        {
+            for (int y = rectangle.Top; y < rectangle.Bottom; y++)
+            {
+                double y2 = ((double)y - rectangle.Top - (rectangle.Height/2)) / (rectangle.Height / 2);
+                Rectangle slice = new Rectangle(
+                    (int)(rectangle.Left + rectangle.Width/2 - rectangle.Width * Math.Sqrt(1-y2*y2)/2),
+                    y,
+                    (int)(rectangle.Width * Math.Sqrt(1 - y2 * y2)),
+                    1);
+                DrawSolidRectangle(spriteBatch, slice, color, alpha);
+            }
+        }
+
 
 
         private List<Vector2> positionLog = new List<Vector2>();
@@ -116,6 +153,18 @@ namespace KirbyNightmareInDreamLand
 
             // Add debug text to list of lines
             List<string> texts = new List<string>();
+
+            for (int i = 0; i < 16; i++)
+            {
+                GamePadCapabilities capabilities = GamePad.GetCapabilities(i);
+                if (capabilities.IsConnected)
+                {
+                    texts.Add("GamePadType: " + capabilities.GamePadType + ", DisplayName: " + capabilities.DisplayName + ", Identifier: " + capabilities.Identifier);
+                    texts.Add(GamePad.GetState(i).ToString());
+                    texts.Add("");
+                }
+            }
+
             texts.Add("GraphicsAdapter.DefaultAdapter.CurrentDisplayMode: (" + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width + ", " + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height + ")");
             texts.Add("GraphicsDevice.Viewport: (" + _graphicsDevice.Viewport.Width + ", " + _graphicsDevice.Viewport.Height + ")");
             texts.Add("Target framerate: " + _game.TARGET_FRAMERATE);
@@ -125,6 +174,11 @@ namespace KirbyNightmareInDreamLand
             texts.Add("Average Max FPS: " + Math.Round(maxfpsLog.Average()));
             texts.Add("Current room: " + _game.Level.CurrentRoom.Name);
             texts.Add("");
+            texts.Add("Sprite.Draw calls: " + NumOfSpriteDrawCalls);
+            texts.Add("SpriteBatch.Draw calls: " + NumOfSpriteBatchDrawCalls);
+            texts.Add("Static ExecuteCollision calls: " + NumOfStaticExecuteCollisionCalls);
+            texts.Add("Dynamic ExecuteCollision calls: " + NumOfDynamicExecuteCollisionCalls);
+            texts.Add("");
             texts.Add("+/- : Resize window");
             texts.Add("F : Toggle fullscreen");
             texts.Add("");
@@ -133,6 +187,7 @@ namespace KirbyNightmareInDreamLand
             texts.Add("F3 : Toggle level debug mode");
             texts.Add("F4 : Toggle sprite culling");
             texts.Add("F5 : Toggle collision debug mode");
+            texts.Add("M : Toggle mute");
             //texts.Add("Alt (hold) : Record Kirby position");
             //texts.Add("Ctrl : Clear Kirby position log");
 
@@ -144,6 +199,24 @@ namespace KirbyNightmareInDreamLand
                 spriteBatch.DrawString(LevelLoader.Instance.Font, texts[i], position, Color.Black);
             }
             spriteBatch.End();
+        }
+
+
+        // Draws a visual of the thumbstick input in the top right corner, if there is a controller connected to slot #0.
+        public void DrawThumbstickInput(SpriteBatch spriteBatch)
+        {
+            if (GamePad.GetCapabilities(0).IsConnected)
+            {
+                Vector2 ThumbStickLeft = GamePad.GetState(0).ThumbSticks.Left;
+                Vector2 Left = new Vector2(220, 20) + new Vector2(ThumbStickLeft.X, -ThumbStickLeft.Y) * 20;
+                Rectangle range = new Rectangle(200, 0, 40, 40);
+                int deadzone = (int)(Constants.GamePad.THUMBSTICK_DEADZONE * 20);
+                Rectangle deadzoneCircle = new Rectangle(220 - deadzone, 20 - deadzone, deadzone * 2, deadzone * 2);
+                GameDebug.Instance.DrawSolidRectangle(spriteBatch, range, Color.Red, 0.2f);
+                GameDebug.Instance.DrawSolidCircle(spriteBatch, range, Color.Red, 0.2f);
+                GameDebug.Instance.DrawSolidCircle(spriteBatch, deadzoneCircle, Color.Red, 0.2f);
+                GameDebug.Instance.DrawPoint(spriteBatch, Left, Color.Red, 1);
+            }
         }
 
 
