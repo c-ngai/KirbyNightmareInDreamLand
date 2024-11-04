@@ -144,7 +144,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             // {
             //     yVel = 0;
             // } 
-            yVel +=  gravity *dt; 
+            yVel +=  gravity * dt; 
 
             //dont go through the ceiling
             if (position.Y < 10)
