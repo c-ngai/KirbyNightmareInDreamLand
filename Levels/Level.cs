@@ -436,9 +436,9 @@ namespace KirbyNightmareInDreamLand.Levels
             // if we are transitioning and not fading out we want to use the opaque screen to load the new room 
             if (_roomChangeData.CurrentlyTransitioning && !_roomChangeData.CurrentlyFadingOut && !_roomChangeData.CurrentlyFadingIn)
             {
-                LoadRoom(_roomChangeData.DestinationRoom, _roomChangeData.DestinationPoint);
+                LoadRoom(_roomChangeData.DestinationRoom, _roomChangeData.DestinationPoint); // load new room
                 _roomChangeData.ChangeRoom = false; // we changed the room, so reset bool so we don't keep reloading the room
-                _roomChangeData.CurrentlyFadingIn = true; //  Cue the fade it 
+                _roomChangeData.CurrentlyFadingIn = true; //  Cue the fade in 
             }
 
             // if we are currently fading in we want to keep fading in
