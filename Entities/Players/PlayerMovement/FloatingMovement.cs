@@ -69,7 +69,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 AdjustYPositionWhileFloating(kirby);
             }
-            yVel +=  floatGravity * dt; 
+            //yVel +=  floatGravity * dt; 
 
             //dont go through the ceiling
             if (position.Y < 20)
@@ -107,7 +107,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if (!kirby.GetKirbyPose().Equals("FloatingGrounded"))
             {
                 FloatingEndAnimation(kirby);
-                //floatGravity = gravity;
+                floatGravity = gravity;
                 endFloat = true;
                 yVel = floatVel;
                 FloatingFallingAnimation(kirby);

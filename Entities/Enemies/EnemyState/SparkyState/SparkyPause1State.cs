@@ -18,6 +18,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
 
         public void Enter()
         {
+            _enemy.UpdateDirection();
             _enemy.ChangePose(EnemyPose.Standing);
             _enemy.ResetFrameCounter();
         }

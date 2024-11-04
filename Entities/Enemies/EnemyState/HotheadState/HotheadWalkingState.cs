@@ -29,6 +29,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState
 
             if (_hothead.FrameCounter >= Constants.Hothead.WALK_FRAMES)
             {
+                _hothead.UpdateDirection();
                 _hothead.ChangeState(new HotheadChargingState(_hothead));
                 _hothead.UpdateTexture();
             }

@@ -86,6 +86,14 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             frameCounter++;
         }
+        public void UpdateDirection()
+        {
+            if(ObjectManager.Instance.Players[0].GetKirbyPosition().X < this.position.X){
+                stateMachine.FaceLeft();
+            } else {
+                stateMachine.FaceRight();
+            }
+        }
 
         public void ResetFrameCounter()
         {
