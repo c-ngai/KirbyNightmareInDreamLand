@@ -73,6 +73,9 @@
 /processorParam:Quality=Best
 /build:Audio/spitbig.wav
 
+#begin Buttonmaps.json
+/copy:Buttonmaps.json
+
 #begin DefaultFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

@@ -1,23 +1,27 @@
-﻿using Microsoft.Xna.Framework.Input;
-using KirbyNightmareInDreamLand.Entities.Players;
-using KirbyNightmareInDreamLand.Controllers;
+﻿using KirbyNightmareInDreamLand.Entities.Players;
+using System.Collections.Generic;
 
 namespace KirbyNightmareInDreamLand.Commands
 {
     public class KirbyMoveCrouchedCommand : ICommand
     {
-        private IPlayer kirby;
-
-        // Constructor with no parameters
-        public KirbyMoveCrouchedCommand()
+        // Reference to player list
+        private List<IPlayer> _players;
+        // Index of player to execute on
+        private int playerIndex;
+        public KirbyMoveCrouchedCommand(int _playerIndex)
         {
-            kirby = ObjectManager.Instance.Players[0];
+            _players = ObjectManager.Instance.Players;
+            playerIndex = _playerIndex;
         }
 
         public void Execute()
         {
-            ObjectManager.Instance.Players[0].Crouch();
+            // If a player of this index exists
+            if (playerIndex < _players.Count)
+            {
+                _players[playerIndex].Crouch();
+            }
         }
-
     }
 }

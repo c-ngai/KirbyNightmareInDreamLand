@@ -13,7 +13,7 @@ namespace KirbyNightmareInDreamLand.Controllers
         private List<Keys> controllerKeys;
         private Dictionary<Keys, ICommand> pressedKeys;
         private Dictionary<Keys, ICommand> startKeys;
-        public Dictionary<Keys, ICommand> stopKeys { get; set; }
+        private Dictionary<Keys, ICommand> stopKeys;
 
         public Dictionary<Keys, bool> oldKeyStates { get; set; }
 

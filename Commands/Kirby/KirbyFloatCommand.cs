@@ -1,23 +1,33 @@
 ﻿using KirbyNightmareInDreamLand.Entities.Players;
+using System.Collections.Generic;
+
 namespace KirbyNightmareInDreamLand.Commands
 {
     public class KirbyFloatCommand : ICommand
     {
         Game1 _game;
-        IPlayer _player;
-
-        public KirbyFloatCommand()
+        // Reference to player list
+        private List<IPlayer> _players;
+        // Index of player to execute on
+        private int playerIndex;
+        public KirbyFloatCommand(int _playerIndex)
         {
             _game = Game1.Instance;
-            _player = ObjectManager.Instance.Players[0];
+            _players = ObjectManager.Instance.Players;
+            playerIndex = _playerIndex;
         }
+
 
         public void Execute()
         {
-            // If kirby is not in a door, float
-            if (!_game.Level.atDoor(_player.GetKirbyPosition()))
+            // If a player of this index exists
+            if (playerIndex < _players.Count)
             {
-                ObjectManager.Instance.Players[0].Float();
+                // If kirby is not in a door, float
+                if (!_game.Level.atDoor(_players[playerIndex].GetKirbyPosition()))
+                {
+                    _players[playerIndex].Float();
+                }
             }
         }
     }
