@@ -3,13 +3,12 @@ using System.Text.Json.Serialization;
 
 namespace KirbyNightmareInDreamLand.Controllers
 {
-    // Class for deserializing each keymapping data in the .json file.
-    public class KeymappingJsonData
+    // Class for deserializing each buttonmapping data in the .json file.
+    public class ButtonmappingJsonData
     {
-        public string Key { get; set; }
+        public string Button { get; set; }
         public string ExecutionType { get; set; }
         public string Command { get; set; }
-        public int? PlayerIndex { get; set; }
     }
 
 }

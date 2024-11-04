@@ -1,0 +1,71 @@
+{
+
+    "buttonmap1": [
+        {
+            "Button": "DPadRight",
+            "ExecutionType": "Pressed",
+            "Command": "KirbyMoveRightCommand"
+        },
+        {
+            "Button": "DPadRight",
+            "ExecutionType": "StoppingPress",
+            "Command": "KirbyStopMovingCommand"
+        },
+        {
+            "Button": "DPadLeft",
+            "ExecutionType": "Pressed",
+            "Command": "KirbyMoveLeftCommand"
+        },
+        {
+            "Button": "DPadLeft",
+            "ExecutionType": "StoppingPress",
+            "Command": "KirbyStopMovingCommand"
+        },
+        {
+            "Button": "DPadDown",
+            "ExecutionType": "Pressed",
+            "Command": "KirbyMoveCrouchedCommand"
+        },
+        {
+            "Button": "DPadDown",
+            "ExecutionType": "StoppingPress",
+            "Command": "KirbyEndCrouchCommand"
+        },
+        {
+            "Button": "DPadUp",
+            "ExecutionType": "Pressed",
+            "Command": "KirbyFloatCommand"
+        },
+        {
+            "Button": "DPadUp",
+            "ExecutionType": "StartingPress",
+            "Command": "KirbyEnterDoorCommand"
+        },
+        {
+            "Button": "Start",
+            "ExecutionType": "StartingPress",
+            "Command": "PauseCommand"
+        },
+        {
+            "Button": "B",
+            "ExecutionType": "Pressed",
+            "Command": "KirbyJumpCommand"
+        },
+        {
+            "Button": "A",
+            "ExecutionType": "StartingPress",
+            "Command": "KirbyAttackCommand"
+        },
+        {
+            "Button": "A",
+            "ExecutionType": "StoppingPress",
+            "Command": "KirbyStopAttackingCommand"
+        },
+        {
+            "Button": "A",
+            "ExecutionType": "Pressed",
+            "Command": "KirbyAttackPressedCommand"
+        }
+    ]
+
+}

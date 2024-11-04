@@ -14,6 +14,7 @@ namespace KirbyNightmareInDreamLand
             public const string TilemapList = "Content/Tilemaps.txt";
             public const string RoomRegistry = "Content/Rooms.json";
             public const string KeymapRegistry = "Content/Keymaps.json";
+            public const string ButtonmapRegistry = "Content/Buttonmaps.json";
             public const string TileSpriteList = "Content/Images/Level/TileSprites.txt";
             public const string HitboxRegistry = "Content/Hitboxes.json";
             // Directories
@@ -156,6 +157,12 @@ namespace KirbyNightmareInDreamLand
             // determines max time that can elapse for double button presses to register as a command
             public const double RESPONSE_TIME = 250;
             public const double SLIDE_TIME = 250;
+        }
+
+        public class GamePad
+        {
+            public const float ANALOG_TO_DIGITAL_QUANTIZATION_SLOPE = 1.5f; // For a visual explanation of what this actually represents, see https://www.desmos.com/calculator/vaylnekztn and adjust the slider at the top
+            public const float THUMBSTICK_DEADZONE = 0.25f;
         }
 
       public class EnemyFire
