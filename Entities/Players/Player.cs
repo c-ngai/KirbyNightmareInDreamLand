@@ -18,8 +18,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         // and movement management so it is not doing this much
         private PlayerStateMachine state;
         private PlayerMovement movement;
-        private Sprite playerSprite ;
+        private Sprite playerSprite;
         public PlayerAttack attack {get; private set;}
+        public PlayerAttack starAttack {get; private set;}
 
         //health stuffs -- will be taken to another class connected to kirby in next sprint
         private int health = Constants.Kirby.MAX_HEALTH;
@@ -75,6 +76,16 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public string GetKirbyType()
         {
             return state.GetKirbyType().ToString();
+        }
+        public string GetKirbyTypePause()
+        {
+            if(GetKirbyType().ToString().Equals("Mouthful"))
+            {
+                return "Normal";
+            } else {
+                return state.GetKirbyType().ToString();
+            }
+            
         }
         public bool IsLeft(){
             return state.IsLeft();
@@ -278,8 +289,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }else if (state.IsJumping() && !state.IsFloating()){ //if jumping and x is pressed again
                 //Float();
                 movement.Jump(state.IsLeft());
-            } else {
-                //does nothing
             }
         }
         #endregion
@@ -374,12 +383,16 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void Attack()
         {
-            //slide beam float exhale mouthful exhale
-            if(attack == null && state.ShortAttack()){
-                attack = new PlayerAttack(this, AttackType());
+            //mouthful exhale
+            if(IsWithEnemy() && starAttack == null && state.ShortAttack()){
+                starAttack = new PlayerAttack(this, "Star");
                 if(!state.IsCrouching())AttackAnimation();
                 movement.Attack(this);
                 //ChangeAttackBool(true);
+            } else if (attack == null && state.ShortAttack()) { //slide beam float exhale 
+                attack = new PlayerAttack(this, AttackType());
+                if(!state.IsCrouching())AttackAnimation();
+                movement.Attack(this);
             }
         }
         public void AttackPressed()
@@ -393,15 +406,19 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
 
         }
-        public void StopAttacking()
+        public void StopAttacking() //long attacks
         {
             if(attack != null && attack.IsDone())
             {
                 StopMoving();
-                //ChangeAttackBool(false);
                 attack.EndAttack();
                 attack = null;
+            } else if (starAttack != null && starAttack.IsDone()){
+                StopMoving();
+                starAttack.EndAttack();
+                starAttack = null;
             }
+
         }
        
 
@@ -443,8 +460,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             EndInvinciblility(gameTime);
             playerSprite.Update();
             GetHitBox();
-            if(attack != null){
-                attack.Update(gameTime, this);
+            if(attack != null || starAttack != null){
+                attack?.Update(gameTime, this);
+                starAttack?.Update(gameTime, this);
             }
         }
 
@@ -458,8 +476,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 playerSprite.Draw(movement.GetPosition(), spriteBatch);
             }
 
-            if(attack != null){
-                attack.Draw(spriteBatch, this);
+            if(attack != null || starAttack != null){
+                attack?.Draw(spriteBatch, this);
+                starAttack?.Draw(spriteBatch, this);
             }
         }
         public Vector2 CalculateRectanglePoint(Vector2 pos)
@@ -484,7 +503,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #region Collisions
         public void BottomCollisionWithBlock(Rectangle intersection)
         {
-            movement.ChangeKirbyLanded(true);
             movement.AdjustFromBottomCollisionBlock(intersection);
         }
         public void RightCollisionWithBlock(Rectangle intersection)
@@ -506,6 +524,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 movement.Fall();
                 movement.ChangeKirbyLanded(false);
            }
+           movement.ChangeKirbyLanded(false);
         }
 
         public void CollisionWithGentle1LeftSlope(Tile tile)

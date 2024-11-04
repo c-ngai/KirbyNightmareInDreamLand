@@ -17,6 +17,7 @@ namespace KirbyNightmareInDreamLand
 
         // Need to be able to access specific objects without removing them
         public List<ICollidable> StaticObjects { get; private set; }
+        public List<ICollidable> DebugStaticObjects { get; private set; }
 
         // Single-player but can later be updated to an array of kirbys for multiplayer
         public List<IPlayer> Players { get; private set; }
@@ -39,7 +40,7 @@ namespace KirbyNightmareInDreamLand
         {
             DynamicObjects = new List<ICollidable>();
             StaticObjects = new List<ICollidable>();
-            Players = new List<IPlayer>();
+            DebugStaticObjects = new List<ICollidable>();
             InitializeTileTypes();
         }
 
@@ -80,6 +81,11 @@ namespace KirbyNightmareInDreamLand
             StaticObjects.Clear();
         }
 
+        public void ResetDebugStaticObjects()
+        {
+            DebugStaticObjects.Clear();
+        }
+
         // Register dynamic objects like Player, Enemy, Projectiles, etc.
         public void RegisterDynamicObject(ICollidable dynamicObj)
         {
@@ -89,7 +95,11 @@ namespace KirbyNightmareInDreamLand
         // Register static objects like Tiles and the PowerUp.
         public void RegisterStaticObject(ICollidable staticObj)
         {
-            if (!StaticObjects.Contains(staticObj)) StaticObjects.Add(staticObj);
+            if (!StaticObjects.Contains(staticObj))
+            {
+                StaticObjects.Add(staticObj);
+                DebugStaticObjects.Add(staticObj);
+            }
         }
 
         public void RemoveDynamicObject(ICollidable dynamicObj)
@@ -106,10 +116,14 @@ namespace KirbyNightmareInDreamLand
             DynamicObjects = DynamicObjects.OrderBy<ICollidable, String>(o => o.GetObjectType()).ToList();
         }
 
-        public void UpdateObjectLists()
+        public void UpdateDynamicObjects()
         {
-            ResetStaticObjects();
             DynamicObjects.RemoveAll(obj => !obj.CollisionActive);
+        }
+
+        public void RemoveNonPlayers()
+        {
+            DynamicObjects.RemoveAll(obj => !obj.GetObjectType().Equals("Player"));
         }
         #endregion
     }

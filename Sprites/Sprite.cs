@@ -95,6 +95,7 @@ namespace KirbyNightmareInDreamLand.Sprites
             {
                 // Draw the sprite to the spriteBatch.
                 spriteBatch.Draw(texture, position, sourceRectangle, color, 0, frameCenter, 1, _spriteAnimation.SpriteEffects, 0);
+                GameDebug.Instance.NumOfSpriteBatchDrawCalls++;
                 // DEBUG VISUALS, TIDY UP LATER
                 if (_game.DEBUG_SPRITE_MODE == true)
                 {
@@ -102,7 +103,7 @@ namespace KirbyNightmareInDreamLand.Sprites
                     GameDebug.Instance.DrawPoint(spriteBatch, position, Color.Red, 0.75f);
                 }
             }
-
+            GameDebug.Instance.NumOfSpriteDrawCalls++;
         }
 
         // Draws the sprite to the spriteBatch. With unspecified color mask, uses white (no change to source image).

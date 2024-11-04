@@ -13,6 +13,69 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Audio/catch.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/catch.wav
+
+#begin Audio/inhale_loop.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/inhale_loop.wav
+
+#begin Audio/inhale.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/inhale.wav
+
+#begin Audio/jump.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/jump.wav
+
+#begin Audio/land.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/land.wav
+
+#begin Audio/select.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/select.wav
+
+#begin Audio/song_vegetablevalley_loop.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/song_vegetablevalley_loop.wav
+
+#begin Audio/song_vegetablevalley.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/song_vegetablevalley.wav
+
+#begin Audio/spit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/spit.wav
+
+#begin Audio/spitbig.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/spitbig.wav
+
+#begin Buttonmaps.json
+/copy:Buttonmaps.json
+
 #begin DefaultFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -22,30 +85,6 @@
 
 #begin Hitboxes.json
 /copy:Hitboxes.json
-
-#begin Images/backgrounds.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/backgrounds.png
-
-#begin Images/collisionTileset.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/collisionTileset.png
 
 #begin Images/invalidspritename.png
 /importer:TextureImporter
@@ -59,7 +98,7 @@
 /processorParam:TextureFormat=Color
 /build:Images/invalidspritename.png
 
-#begin Images/room1_level.png
+#begin Images/Level/backgrounds.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -69,9 +108,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/room1_level.png
+/build:Images/Level/backgrounds.png
 
-#begin Images/room2_level.png
+#begin Images/Level/collisionTileset.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -81,9 +120,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/room2_level.png
+/build:Images/Level/collisionTileset.png
 
-#begin Images/room3_level.png
+#begin Images/Level/room1_level.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -93,7 +132,34 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/room3_level.png
+/build:Images/Level/room1_level.png
+
+#begin Images/Level/room2_level.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Level/room2_level.png
+
+#begin Images/Level/room3_level.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Level/room3_level.png
+
+#begin Images/Level/TileSprites.txt
+/copy:Images/Level/TileSprites.txt
 
 #begin Images/SpriteAnimations.json
 /copy:Images/SpriteAnimations.json
@@ -121,6 +187,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/Spritesheets/enemies.png
+
+#begin Images/Spritesheets/game_over_spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Spritesheets/game_over_spritesheet.png
 
 #begin Images/Spritesheets/items.png
 /importer:TextureImporter
@@ -194,6 +272,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/Spritesheets/kirby_underwater.png
 
+#begin Images/Spritesheets/pause_screen_spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Spritesheets/pause_screen_spritesheet.png
+
 #begin Images/Spritesheets/projectiles.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -209,8 +299,29 @@
 #begin Images/Textures.txt
 /copy:Images/Textures.txt
 
-#begin Images/TileSprites.txt
-/copy:Images/TileSprites.txt
+#begin Images/UI/pause.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/UI/pause.png
+
+#begin Images/UI/ui.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/UI/ui.png
 
 #begin Keymaps.json
 /copy:Keymaps.json
@@ -220,6 +331,9 @@
 
 #begin Tilemaps.txt
 /copy:Tilemaps.txt
+
+#begin Tilemaps/game_over_tileset.csv
+/copy:Tilemaps/game_over_tileset.csv
 
 #begin Tilemaps/room1_tileset.csv
 /copy:Tilemaps/room1_tileset.csv

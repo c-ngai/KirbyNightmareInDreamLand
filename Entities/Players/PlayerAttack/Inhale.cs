@@ -41,7 +41,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public Vector2 CalculateRectanglePoint(Vector2 pos)
         {
-            return pos + (IsLeft ? Constants.HitBoxes.NORMA_OFFSET_LEFT: Constants.HitBoxes.NORMAL_OFFSET_RIGHT); 
+            return pos + (IsLeft ? Constants.HitBoxes.NORMAL_OFFSET_LEFT: Constants.HitBoxes.NORMAL_OFFSET_RIGHT); 
         }
         public string GetObjectType()
         {
