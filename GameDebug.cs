@@ -153,18 +153,16 @@ namespace KirbyNightmareInDreamLand
 
             // Add debug text to list of lines
             List<string> texts = new List<string>();
-
-            for (int i = 0; i < 16; i++)
-            {
-                GamePadCapabilities capabilities = GamePad.GetCapabilities(i);
-                if (capabilities.IsConnected)
-                {
-                    texts.Add("GamePadType: " + capabilities.GamePadType + ", DisplayName: " + capabilities.DisplayName + ", Identifier: " + capabilities.Identifier);
-                    texts.Add(GamePad.GetState(i).ToString());
-                    texts.Add("");
-                }
-            }
-
+            //for (int i = 0; i < 16; i++)
+            //{
+            //    GamePadCapabilities capabilities = GamePad.GetCapabilities(i);
+            //    if (capabilities.IsConnected)
+            //    {
+            //        texts.Add("GamePadType: " + capabilities.GamePadType + ", DisplayName: " + capabilities.DisplayName + ", Identifier: " + capabilities.Identifier);
+            //        texts.Add(GamePad.GetState(i).ToString());
+            //        texts.Add("");
+            //    }
+            //}
             texts.Add("GraphicsAdapter.DefaultAdapter.CurrentDisplayMode: (" + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width + ", " + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height + ")");
             texts.Add("GraphicsDevice.Viewport: (" + _graphicsDevice.Viewport.Width + ", " + _graphicsDevice.Viewport.Height + ")");
             texts.Add("Target framerate: " + _game.TARGET_FRAMERATE);

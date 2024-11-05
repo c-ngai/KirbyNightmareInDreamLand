@@ -126,7 +126,7 @@ namespace KirbyNightmareInDreamLand
             MouseController = new MouseController();
 
             GamePad.InitDatabase();
-
+            
             SoundEffect.Initialize();
 
             base.Initialize();
@@ -192,6 +192,7 @@ namespace KirbyNightmareInDreamLand
 
                 Level.UpdateLevel();
 
+                ObjectManager.Instance.ResetDebugStaticObjects();
                 ObjectManager.Instance.OrganizeList();
 
                 CollisionDetection.Instance.CheckCollisions();
@@ -263,7 +264,6 @@ namespace KirbyNightmareInDreamLand
                 if (DEBUG_TEXT_ENABLED)
                 {
                     GameDebug.Instance.DrawDebugText(_spriteBatch);
-                    manager.ResetDebugStaticObjects();
                 }
 
                 // Draw borders (should only be visible in fullscreen for letterboxing)

@@ -20,37 +20,45 @@ namespace KirbyNightmareInDreamLand.Controllers
 
         private GamePadState[] oldStates;
 
+        private int MaximumPlayerCount;
         private int MaximumGamePadCount;
+        private int[] controllerPlayer;
 
         public GamepadController()
         {
-            MaximumGamePadCount = 4;
-            //MaximumGamePadCount = GamePad.MaximumGamePadCount;
+            MaximumPlayerCount = Constants.Game.MAXIMUM_PLAYER_COUNT;
+            MaximumGamePadCount = GamePad.MaximumGamePadCount;
             Debug.WriteLine("Maximum supported Gamepads on this system: " + MaximumGamePadCount);
+
+            controllerPlayer = new int[MaximumGamePadCount];
+            for(int i = 0; i < MaximumGamePadCount; i++)
+            {
+                controllerPlayer[i] = i % MaximumPlayerCount;
+            }
+            
 
             controllerButtons = new List<Buttons>();
 
             // Initialize arrays
-            pressedButtons = new Dictionary<Buttons, ICommand>[MaximumGamePadCount];
-            startButtons = new Dictionary<Buttons, ICommand>[MaximumGamePadCount];
-            stopButtons = new Dictionary<Buttons, ICommand>[MaximumGamePadCount];
+            pressedButtons = new Dictionary<Buttons, ICommand>[MaximumPlayerCount];
+            startButtons = new Dictionary<Buttons, ICommand>[MaximumPlayerCount];
+            stopButtons = new Dictionary<Buttons, ICommand>[MaximumPlayerCount];
             oldStates = new GamePadState[MaximumGamePadCount];
-            for (int gamepadIndex = 0; gamepadIndex < MaximumGamePadCount; gamepadIndex++)
+            for (int playerIndex = 0; playerIndex < MaximumPlayerCount; playerIndex++)
             {
-                pressedButtons[gamepadIndex] = new Dictionary<Buttons, ICommand>();
-                startButtons[gamepadIndex] = new Dictionary<Buttons, ICommand>();
-                stopButtons[gamepadIndex] = new Dictionary<Buttons, ICommand>();
-                oldStates[gamepadIndex] = GamePadState.Default;
+                pressedButtons[playerIndex] = new Dictionary<Buttons, ICommand>();
+                startButtons[playerIndex] = new Dictionary<Buttons, ICommand>();
+                stopButtons[playerIndex] = new Dictionary<Buttons, ICommand>();
             }
         }
 
         public void ClearMappings()
         {
-            for (int gamepadIndex = 0; gamepadIndex < MaximumGamePadCount; gamepadIndex++)
+            for (int playerIndex = 0; playerIndex < MaximumPlayerCount; playerIndex++)
             {
-                pressedButtons[gamepadIndex].Clear();
-                startButtons[gamepadIndex].Clear();
-                stopButtons[gamepadIndex].Clear();
+                pressedButtons[playerIndex].Clear();
+                startButtons[playerIndex].Clear();
+                stopButtons[playerIndex].Clear();
             }
             controllerButtons.Clear();
         }
@@ -58,8 +66,8 @@ namespace KirbyNightmareInDreamLand.Controllers
         public void RegisterCommand(Buttons button, ExecutionType executionType, ConstructorInfo commandConstructorInfo)
         {
             
-            // For every valid gamepad index
-            for (int gamepadIndex = 0; gamepadIndex < MaximumGamePadCount; gamepadIndex++)
+            // For every valid player index
+            for (int playerIndex = 0; playerIndex < MaximumPlayerCount; playerIndex++)
             {
                 // Get the ParameterInfos for the current command constructor
                 ParameterInfo[] parameterInfos = commandConstructorInfo.GetParameters();
@@ -72,22 +80,22 @@ namespace KirbyNightmareInDreamLand.Controllers
                 // If there are parameters, pass in the gamepadIndex as the only parameter (ASSUMPTION THAT THIS IS THE ONLY PARAMETER A CONSTRUCTERINFO WILL HAVE)
                 else
                 {
-                    command = (ICommand)commandConstructorInfo.Invoke(new object[] { gamepadIndex });
+                    command = (ICommand)commandConstructorInfo.Invoke(new object[] { playerIndex });
                 }
                 
                 // Add the command to its respective dictionary based on the ExecutionType
                 switch (executionType)
                 {
                     case ExecutionType.Pressed:
-                        pressedButtons[gamepadIndex].Add(button, command);
+                        pressedButtons[playerIndex].Add(button, command);
                         break;
 
                     case ExecutionType.StartingPress:
-                        startButtons[gamepadIndex].Add(button, command);
+                        startButtons[playerIndex].Add(button, command);
                         break;
 
                     case ExecutionType.StoppingPress:
-                        stopButtons[gamepadIndex].Add(button, command);
+                        stopButtons[playerIndex].Add(button, command);
                         break;
                 }
 
@@ -143,6 +151,9 @@ namespace KirbyNightmareInDreamLand.Controllers
                 GamePadCapabilities capabilities = GamePad.GetCapabilities(gamepadIndex);
                 if (capabilities.IsConnected)
                 {
+                    // Get the player index mapped to this controller
+                    int playerIndex = controllerPlayer[gamepadIndex];
+                    
                     // Get the current state of the controller
                     GamePadState state = GamePad.GetState(gamepadIndex);
 
@@ -150,19 +161,38 @@ namespace KirbyNightmareInDreamLand.Controllers
                     foreach (Buttons button in controllerButtons)
                     {
                         // Execute pressed buttons if it is currently being pressed
-                        if (pressedButtons[gamepadIndex].ContainsKey(button) && IsButtonDown(state, button))
+                        if (pressedButtons[playerIndex].ContainsKey(button) && IsButtonDown(state, button))
                         {
-                            pressedButtons[gamepadIndex][button].Execute();
+                            pressedButtons[playerIndex][button].Execute();
                         }
                         // Execute start buttons if is is now pressed and was not pressed last update
-                        if (startButtons[gamepadIndex].ContainsKey(button) && IsButtonDown(state, button) && !IsButtonDown(oldStates[gamepadIndex], button))
+                        if (startButtons[playerIndex].ContainsKey(button) && IsButtonDown(state, button) && !IsButtonDown(oldStates[gamepadIndex], button))
                         {
-                            startButtons[gamepadIndex][button].Execute();
+                            startButtons[playerIndex][button].Execute();
                         }
                         // Execute stop buttons if it is no longer pressed and was pressed last update
-                        if (stopButtons[gamepadIndex].ContainsKey(button) && !IsButtonDown(state, button) && IsButtonDown(oldStates[gamepadIndex], button))
+                        if (stopButtons[playerIndex].ContainsKey(button) && !IsButtonDown(state, button) && IsButtonDown(oldStates[gamepadIndex], button))
                         {
-                            stopButtons[gamepadIndex][button].Execute();
+                            stopButtons[playerIndex][button].Execute();
+                        }
+                    }
+
+                    // If left shoulder is pressed, move control to the previous player
+                    if (state.IsButtonDown(Buttons.LeftShoulder) && !oldStates[gamepadIndex].IsButtonDown(Buttons.LeftShoulder))
+                    {
+                        controllerPlayer[gamepadIndex]--;
+                        if (controllerPlayer[gamepadIndex] < 0)
+                        {
+                            controllerPlayer[gamepadIndex] = 0;
+                        }
+                    }
+                    // If right shoulder is pressed, move control to the next player
+                    if (state.IsButtonDown(Buttons.RightShoulder) && !oldStates[gamepadIndex].IsButtonDown(Buttons.RightShoulder))
+                    {
+                        controllerPlayer[gamepadIndex]++;
+                        if (controllerPlayer[gamepadIndex] >= MaximumPlayerCount)
+                        {
+                            controllerPlayer[gamepadIndex] = MaximumPlayerCount - 1;
                         }
                     }
 

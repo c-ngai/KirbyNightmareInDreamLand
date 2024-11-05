@@ -230,6 +230,16 @@
             "Key": "M",
             "ExecutionType": "StartingPress",
             "Command": "AudioToggleMuteCommand"
+        },
+        {
+            "Key": "OemComma",
+            "ExecutionType": "StartingPress",
+            "Command": "PlayerRemoveCommand"
+        },
+        {
+            "Key": "OemPeriod",
+            "ExecutionType": "StartingPress",
+            "Command": "PlayerAddCommand"
         }
     ]
 
