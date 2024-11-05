@@ -1,4 +1,5 @@
-﻿using KirbyNightmareInDreamLand.StateMachines;
+﻿using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
+using KirbyNightmareInDreamLand.StateMachines;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
 
             if (_enemy.FrameCounter >= Constants.Sparky.PAUSE_TIME)
             {
-                _enemy.ChangeState(new SparkyTallJumpState(_enemy));
+                _enemy.ChangeState(new SparkyJumpState(_enemy));
                 _enemy.UpdateTexture();
             }
         }

@@ -277,6 +277,8 @@ namespace KirbyNightmareInDreamLand
             public const float SHORT_HOP_HEIGHT = 1f;
             public const float TALL_HOP_HEIGHT = 2f;
             public const float HOP_SPEED = 0.4f; // speed
+            public const float TALL_JUMP_VELOCITY = 2.1f;
+            public const float SHORT_JUMP_VELOCITY = 1.5f;
 
             public const int PAUSE_TIME = 30;
             public const int ATTACK_TIME = 120;
