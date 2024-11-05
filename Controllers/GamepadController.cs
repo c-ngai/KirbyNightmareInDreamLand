@@ -22,7 +22,7 @@ namespace KirbyNightmareInDreamLand.Controllers
 
         private int MaximumPlayerCount;
         private int MaximumGamePadCount;
-        private int[] controllerPlayer;
+        public int[] controllerPlayer;
 
         public GamepadController()
         {

@@ -248,11 +248,6 @@ namespace KirbyNightmareInDreamLand
 
                 _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.ScreenMatrix);
                 hud.Draw(_spriteBatch);
-                // Draw thumbstick input if debug text is on
-                if (DEBUG_TEXT_ENABLED)
-                {
-                    GameDebug.Instance.DrawThumbstickInput(_spriteBatch);
-                }
                 _spriteBatch.End();
                 // Restore old culling mode
                 CULLING_ENABLED = old_CULLING_ENABLED;
