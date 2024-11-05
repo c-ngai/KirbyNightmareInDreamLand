@@ -120,8 +120,15 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
             // Note (Mark) THIS IS A BIT JANK
             // Basically: if colliding with a block from above, change to walking state if jumping
-            if (currentState.GetType().Equals(typeof(SparkyJumpState))) { 
-                ChangeState(new SparkyPause1State(this));
+            if (currentState.GetType().Equals(typeof(SparkyJumpState))) {
+                if (isTallJump)
+                {
+                    ChangeState(new SparkyPause1State(this));
+                }
+                else
+                {
+                    ChangeState(new SparkyPause2State(this));
+                }
             }
             yVel = 0;
         }
@@ -147,7 +154,14 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                     // TODO: remove band-aid. waddle doo is always still inside the slope on the first frame of his jump, but he shouldn't be. check the order that velocity and position changes happen. position should change by velocity ONCE at the end of an update
                     if (currentState.GetType().Equals(typeof(SparkyJumpState)) && frameCounter > 0)
                     {
-                        ChangeState(new SparkyPause1State(this));
+                        if (isTallJump)
+                        {
+                            ChangeState(new SparkyPause1State(this));
+                        }
+                        else
+                        {
+                            ChangeState(new SparkyPause2State(this));
+                        }
                     }
                     yVel = 0;
                 }
