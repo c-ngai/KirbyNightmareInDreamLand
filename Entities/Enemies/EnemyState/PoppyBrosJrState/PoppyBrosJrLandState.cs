@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState
 {
-    public class PoppyBrosJrHopState : IEnemyState
+    public class PoppyBrosJrLandState : IEnemyState
     {
         private readonly Enemy _enemy;
-        public PoppyBrosJrHopState(Enemy enemy)
+        public PoppyBrosJrLandState(Enemy enemy)
         {
             _enemy = enemy ?? throw new ArgumentNullException(nameof(enemy));
         }
@@ -24,24 +24,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState
 
         public void Update()
         {
-            if (_enemy is PoppyBrosJr jumpableEnemy)
-            {
-                jumpableEnemy.Jump(); // Perform jump action
-                _enemy.IncrementFrameCounter();
-
-                if (!jumpableEnemy.IsJumping)
-                {
-                    _enemy.ChangeState(new PoppyBrosJrLandState(_enemy));
-                    _enemy.UpdateTexture();
-                }
-            }
-            else
-            {
-                // If the enemy cannot jump, transition back to walking
-                _enemy.ChangeState(new PoppyBrosJrLandState(_enemy));
-                _enemy.UpdateTexture();
-            }
-
+            // Wait for a defined period of time
+            _enemy.IncrementFrameCounter();
+            _enemy.ChangeState(new PoppyBrosJrHopState(_enemy));
+            _enemy.UpdateTexture();
         }
 
         public void Exit() { }

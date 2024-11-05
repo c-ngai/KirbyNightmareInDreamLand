@@ -269,9 +269,7 @@ namespace KirbyNightmareInDreamLand
         public class PoppyBrosJr
         {
             public const float MOVE_SPEED = 0.5f;
-            public const int HOP_FREQUENCY = 60; // frames between hops
-            public const float HOP_HEIGHT = 1f; //height of hops
-            public const int HOP_FRAMES = 180;
+            public const float JUMP_VELOCITY = 1.5f;
             public const int HURT_FRAMES = 50;
 
         }
