@@ -1,0 +1,90 @@
+Sprint 4 Readabilty Code Review     11/5/2024
+
+Author of Code Review: Mark DeLeo
+Name of .cs file being reviewed: HUD.cs
+Author of .cs file being reviewed: Payton Murphy
+
+Number of minutes to complete review: 20 minutes
+
+################################################################################ 
+
+10 Code Smells
+
+ 1. SameNameDifferentMeaning
+ 2. YouDontNeedItAnymore
+ 3. DataClumps
+ 4. InappropriateIntimacy
+ 5. FeatureEnvy
+ 6. DuplicatedCode
+ 7. VariableSameNameAsType
+ 8. TooManyParameters
+ 9. LongMethod
+10. LawOfDemeter
+
+################################################################################
+
+
+Comments on Code Smells:
+
+ - DataClumps: The hudElements Dictionary is a data clump. Could probably be
+ grouped into more fitting data structures, see below.
+
+ - DuplicatedCode: Currently all the drawing is just static elements with magic
+ numbers. I know it's a placeholder, but it's still duplicated code. Also see
+ below.
+
+
+
+Comments on Code Readability:
+
+ - I don't quite understand the intent behind the hudElements dictionary. Calling
+ the sprites by their name in a Dictionary doesn't seem any more readable than if
+ each one was just assigned to its own field. I suppose you save having separate
+ lines for field declaration and initialization, if those were to be separate?
+ Accessing them by string in a private dictionary just seems a bit roundabout. My
+ personal recommendation is to group the sprites by type into data structures that
+ best fit how you would want to access them. Personally, I would probably:
+
+     - Group together the 3 power card sprites into a Dictionary by type string
+     ("beam", "spark", "fire") so that you can plug Player.GetType()'s output
+     directly into it to get the right sprite.
+
+     - Group together the 10 digit sprites into an array. Pretty self-explanatory,
+     that way the index of the array will directly correlate to the sprite's
+     number. For example, DigitSprites[6].Draw() (or something like that) would
+     draw the '6' sprite.
+
+     - Lives is a totally static element, so that can just be its own field. The
+     two healthbar ones I would probably just make each their own. Then to draw the
+     healthbar with the correct segments you would probably just do something like
+
+        for (int i = 0; i < 6; i++)
+        {
+            position = (set the position to the initial one plus width times iteration)
+            if (i < kirbysHealth) 
+            {
+                ui_healthbar_1.Draw(position);
+            }
+            else
+            {
+                ui_healthbar_0.Draw(position);
+            }
+        }
+
+
+ - It's a little hard for me to comment on much else since this class is in such a
+ temporary state. Right now, every HUD element is a hard-coded sprite at a
+ hard-coded position. I know in the end the key elements will probably still have
+ hard-coded positions (probably in Constants, but you know what I mean), but for
+ the numbers and the healthbar, I feel like only the position of the first one
+ should be hard-coded, and the rest should just iteratively draw to the right of
+ the previous one, since they have a constant width that you know. Even if those
+ indicators (lives, health, score) aren't going to be connected to the actual
+ values yet, it might be good to at least have placeholder values to display them
+ off of for now. Hard-coding eight zeroes in a row for the score doesn't seem to be
+ very valuable as a placeholder since it will need to be basically completely
+ replaced. Sorry if this seems a little harsh, but I just want to emphasize the
+ value of deliberate, meaningful placeholders: a good placeholder is an arbitrary,
+ temporary piece of something bigger that can be swapped out with the real thing
+ later. If a placeholder needs to be COMPLETELY replaced later, it probably wasn't
+ doing much good as a placeholder.
