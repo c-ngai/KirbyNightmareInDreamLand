@@ -530,6 +530,9 @@
 #begin Tilemaps.txt
 /copy:Tilemaps.txt
 
+#begin Tilemaps/game_over_tileset.csv
+/copy:Tilemaps/game_over_tileset.csv
+
 #begin Tilemaps/room1_tileset.csv
 /copy:Tilemaps/room1_tileset.csv
 

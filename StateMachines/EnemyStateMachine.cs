@@ -18,6 +18,14 @@
         {
             facingLeft = !facingLeft;
         }
+        public void FaceRight()
+        {
+            facingLeft = false;
+        }
+        public void FaceLeft()
+        {
+            facingLeft = true;
+        }
 
         public bool IsLeft()
         {
