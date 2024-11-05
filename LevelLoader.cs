@@ -149,7 +149,7 @@ namespace KirbyNightmareInDreamLand
         #region Audio
         public void LoadAllSounds()
         {
-            foreach (string filepath in Directory.GetFiles(Constants.Filepaths.AudioDirectory, "*.xnb", SearchOption.AllDirectories))
+            foreach (string filepath in Directory.GetFiles(Constants.Filepaths.AudioDirectory, "*", SearchOption.AllDirectories))
             {
                 //Debug.WriteLine("Loading sound: " + filepath);
 
@@ -172,6 +172,16 @@ namespace KirbyNightmareInDreamLand
             SoundManager.Sounds["inhale"].soundEndBehavior = SoundEndBehavior.LoopNext;
             SoundManager.Sounds["inhale"].nextSound = SoundManager.Sounds["inhale_loop"].soundEffect;
             SoundManager.Sounds["inhale_loop"].soundEndBehavior = SoundEndBehavior.Loop;
+
+            SoundManager.Sounds["kirbyfireattack"].soundEndBehavior = SoundEndBehavior.LoopNext;
+            SoundManager.Sounds["kirbyfireattack"].nextSound = SoundManager.Sounds["kirbyfireattack_loop"].soundEffect;
+            SoundManager.Sounds["kirbyfireattack_loop"].soundEndBehavior = SoundEndBehavior.Loop;
+
+            SoundManager.Sounds["kirbysparkattack"].soundEndBehavior = SoundEndBehavior.Loop;
+
+            SoundManager.Sounds["sparkyattack"].soundEndBehavior = SoundEndBehavior.Loop;
+
+            SoundManager.Sounds["hotheadflamethrowerattack"].soundEndBehavior = SoundEndBehavior.Loop;
 
             SoundManager.Sounds["song_vegetablevalley"].soundEndBehavior = SoundEndBehavior.LoopNext;
             SoundManager.Sounds["song_vegetablevalley"].nextSound = SoundManager.Sounds["song_vegetablevalley_loop"].soundEffect;

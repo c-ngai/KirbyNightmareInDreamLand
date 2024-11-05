@@ -13,11 +13,95 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Audio/bounce.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/bounce.wav
+
+#begin Audio/cancel.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/cancel.wav
+
 #begin Audio/catch.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/catch.wav
+
+#begin Audio/cheeringcrowd.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/cheeringcrowd.wav
+
+#begin Audio/dash.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/dash.wav
+
+#begin Audio/deathjingle.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/deathjingle.wav
+
+#begin Audio/dropability.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/dropability.wav
+
+#begin Audio/enemydamage.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/enemydamage.wav
+
+#begin Audio/enemyexplode.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/enemyexplode.wav
+
+#begin Audio/enterdoor.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/enterdoor.wav
+
+#begin Audio/firesomething.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/firesomething.wav
+
+#begin Audio/float.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/float.wav
+
+#begin Audio/heal.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/heal.wav
+
+#begin Audio/hotheadfireballattack.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/hotheadfireballattack.wav
+
+#begin Audio/hotheadflamethrowerattack.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/hotheadflamethrowerattack.wav
 
 #begin Audio/inhale_loop.wav
 /importer:WavImporter
@@ -31,11 +115,71 @@
 /processorParam:Quality=Best
 /build:Audio/inhale.wav
 
+#begin Audio/itempickup.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/itempickup.wav
+
 #begin Audio/jump.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/jump.wav
+
+#begin Audio/kirbybeamattack.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/kirbybeamattack.wav
+
+#begin Audio/kirbydeath.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/kirbydeath.wav
+
+#begin Audio/kirbyfireattack_loop.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/kirbyfireattack_loop.wav
+
+#begin Audio/kirbyfireattack.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/kirbyfireattack.wav
+
+#begin Audio/kirbyhurt1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/kirbyhurt1.wav
+
+#begin Audio/kirbyhurt2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/kirbyhurt2.wav
+
+#begin Audio/kirbyhurtfire1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/kirbyhurtfire1.wav
+
+#begin Audio/kirbyhurtfire2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/kirbyhurtfire2.wav
+
+#begin Audio/kirbysparkattack.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/kirbysparkattack.wav
 
 #begin Audio/land.wav
 /importer:WavImporter
@@ -43,11 +187,41 @@
 /processorParam:Quality=Best
 /build:Audio/land.wav
 
+#begin Audio/movecursor.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/movecursor.wav
+
+#begin Audio/pause.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/pause.wav
+
+#begin Audio/powerup.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/powerup.wav
+
 #begin Audio/select.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/select.wav
+
+#begin Audio/skid.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/skid.wav
+
+#begin Audio/slide.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/slide.wav
 
 #begin Audio/song_vegetablevalley_loop.wav
 /importer:WavImporter
@@ -61,17 +235,41 @@
 /processorParam:Quality=Best
 /build:Audio/song_vegetablevalley.wav
 
+#begin Audio/sparkyattack.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/sparkyattack.wav
+
 #begin Audio/spit.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/spit.wav
 
+#begin Audio/spitair.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/spitair.wav
+
 #begin Audio/spitbig.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/spitbig.wav
+
+#begin Audio/swallow.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/swallow.wav
+
+#begin Audio/waddledooattack.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/waddledooattack.wav
 
 #begin Buttonmaps.json
 /copy:Buttonmaps.json
