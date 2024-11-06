@@ -36,6 +36,16 @@ namespace KirbyNightmareInDreamLand
                 return instance;
             }
         }
+
+        // fields and methods for score
+        public int Score { get; private set; }
+
+        public void UpdateScore(int points)
+        {
+            Score += points;
+        }
+
+
         public ObjectManager()
         {
             DynamicObjects = new List<ICollidable>();
