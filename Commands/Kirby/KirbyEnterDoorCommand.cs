@@ -1,4 +1,5 @@
-﻿using KirbyNightmareInDreamLand.Entities.Players;
+﻿using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Entities.Players;
 using System.Collections.Generic;
 
 namespace KirbyNightmareInDreamLand.Commands
@@ -23,6 +24,7 @@ namespace KirbyNightmareInDreamLand.Commands
             // If a player of this index exists
             if (playerIndex < _players.Count)
             {
+                SoundManager.Play("enterdoor");
                 _game.Level.EnterDoorAt(_players[playerIndex].GetKirbyPosition());
             }
         }

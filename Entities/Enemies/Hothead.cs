@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using KirbyNightmareInDreamLand.Projectiles;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState;
+using KirbyNightmareInDreamLand.Audio;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -91,6 +92,9 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             {
                 isFlamethrowerActive = true;
 
+                //need to loop
+                //SoundManager.Play("hotheadflamethrowerattack");
+
                 // Set the start position for the flamethrower
                 Vector2 flameDirection = stateMachine.IsLeft() ? new Vector2(-1, 0) : new Vector2(1, 0);
                 flamethrowerFrameCounter = 0; 
@@ -99,6 +103,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public override void Attack()
         {
+            SoundManager.Play("hotheadfireballattack");
             //Shoots fireball projectile attack
             Vector2 projectileDirection = stateMachine.IsLeft() ? new Vector2(-1, -0.5f) : new Vector2(1, -0.5f);
             IProjectile newFireball = new EnemyFireball(ProjectilePosition(), projectileDirection);

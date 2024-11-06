@@ -7,6 +7,7 @@ using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState;
 using KirbyNightmareInDreamLand.Levels;
+using KirbyNightmareInDreamLand.Audio;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -92,6 +93,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public override void Attack()
         {
+            SoundManager.Play("waddledooattack");
             //If active, create a new beam using the current position and direction
             if (!isBeamActive)
             {

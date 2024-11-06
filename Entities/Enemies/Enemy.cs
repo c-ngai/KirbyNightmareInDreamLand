@@ -8,6 +8,7 @@ using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 using System;
 using KirbyNightmareInDreamLand.Levels;
 using System.Diagnostics;
+using KirbyNightmareInDreamLand.Audio;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -119,6 +120,9 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public void TakeDamage(Rectangle intersection)
         {
             currentState.TakeDamage();
+            SoundManager.Play("enemydamage");
+            //wait
+            SoundManager.Play("enemyexplode");
             CollisionActive = false;
         }
 
