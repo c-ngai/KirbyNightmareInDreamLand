@@ -9,6 +9,7 @@ namespace KirbyNightmareInDreamLand.Controllers
         public string Key { get; set; }
         public string ExecutionType { get; set; }
         public string Command { get; set; }
+        public int? PlayerIndex { get; set; }
     }
 
 }

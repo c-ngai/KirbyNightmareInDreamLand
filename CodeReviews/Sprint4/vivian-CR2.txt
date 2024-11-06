@@ -1,0 +1,45 @@
+﻿Sprint 4 Quality Code Review     11/4/2024
+
+Author of Code Review: Vivian Ferrigni
+Name of .cs file being reviewed: PlayerMovement.cs 
+Author of .cs file being reivewed: Lina Ordonez Aguiar
+
+Time taken to complete review: 20 minutes 
+
+################################################################################
+
+10 Code Smells:
+
+1. God class 
+2. Duplicated code
+3. TooManyParameters
+4. WhileTrueLoop
+5. LongMethodSmell 
+6. ParallelInheritanceHierarchies
+7. SameNameDifferentMeaning
+8. SwitchCaseSmell
+9. VariableNameSameAsType
+10.DataClumps
+
+################################################################################
+
+Comments:
+
+Magic numbers for level bounds, and consider making a private constant for the tile
+sizes rather than referencing CONSTANTS.Level.TILE_SIZE within complex calculations.
+
+To make the file more readable, add comments to collision calculations and delete
+unused/commented out code unless is it avtivley being debugged.
+
+Currently y position is being calculated every frame in the update position method.
+This could be optimized by calculating y position using s = u + (1/2)at^2. This
+could make gravity smoother and possibly more efficent.
+
+Methods are mostly short and sweet, pretty readable and collision and movement look
+really good. 
+
+Potential Game Change:
+
+If we decided to add multiplayer to our game in Sprint5, this file should be able
+to be resued without any changes since we keep a list of players in game and this
+file is used by each player in the list. 

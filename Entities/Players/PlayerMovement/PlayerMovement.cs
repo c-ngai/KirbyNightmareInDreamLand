@@ -15,7 +15,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //seperate movement and state 
         //make these #define
 
-        protected float yVel = Constants.Physics.GRAVITY;
+        protected float yVel = 0;
         protected float xVel = 0;
         protected float walkingVel = Constants.Physics.WALKING_VELOCITY;
         protected float runningVel = Constants.Physics.RUNNING_VELOCITY;
@@ -95,18 +95,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         #endregion
 
-        #region slide
-        public virtual void Slide(Player kirby)
-        {
-            //slideStarting = kirby.PositionX;
-            if(kirby.IsSliding())
-            {
-                xVel = kirby.IsLeft() ? runningVel * -1 :runningVel;
-            }
-        }
-
-        #endregion
-
         #region Floating
         //starts floating pose animation
         #endregion
@@ -144,7 +132,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             // {
             //     yVel = 0;
             // } 
-            yVel +=  gravity *dt; 
+            yVel +=  gravity * dt; 
 
             //dont go through the ceiling
             if (position.Y < 10)

@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 using static KirbyNightmareInDreamLand.Constants;
+using System.Reflection;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -34,6 +35,9 @@ namespace KirbyNightmareInDreamLand
 
         // Dictionary from string to Keymap. Keymap is a List of Keymappings.
         public Dictionary<string, List<Keymapping>> Keymaps { get; private set; }
+
+        // Dictionary from string to Buttonmap. Keymap is a List of Buttonmappings.
+        public Dictionary<string, List<Buttonmapping>> Buttonmaps { get; private set; }
 
         // Dictionary from string to Dictionary<string, Rectangle>.
         // The outer dictionary takes object type (kirby, waddledee, etc) and the inner
@@ -62,6 +66,7 @@ namespace KirbyNightmareInDreamLand
             Tilemaps = new Dictionary<string, int[][]>();
             Rooms = new Dictionary<string, Room>();
             Keymaps = new Dictionary<string, List<Keymapping>>();
+            Buttonmaps = new Dictionary<string, List<Buttonmapping>>();
             Hitboxes = new Dictionary<string, Dictionary<string, Rectangle>>();
             collisionResponse = CollisionResponse.Instance;
         }
@@ -80,6 +85,7 @@ namespace KirbyNightmareInDreamLand
             LoadAllRooms(); // Dependent on sprite animations and tilemaps already loaded
 
             LoadAllKeymaps();
+            LoadAllButtonmaps();
 
             LoadAllHitboxes();
             SetCollisionResponses();
@@ -95,7 +101,7 @@ namespace KirbyNightmareInDreamLand
         }
 
 
-
+        #region Textures/Sprites
         // Loads a texture image given its name and filepath.
         private void LoadTexture(string textureName, string textureFilepath)
         {
@@ -138,42 +144,53 @@ namespace KirbyNightmareInDreamLand
                 LoadSpriteAnimation(data.Key, data.Value);
             }
         }
+        #endregion
 
-
-
+        #region Audio
         public void LoadAllSounds()
         {
-            foreach (string filepath in Directory.GetFiles(Constants.Filepaths.AudioDirectory, "*.xnb", SearchOption.AllDirectories))
+            // For each file in Content/Audio
+            foreach (string filepath in Directory.GetFiles(Constants.Filepaths.AudioDirectory, "*", SearchOption.AllDirectories))
             {
                 //Debug.WriteLine("Loading sound: " + filepath);
 
+                // Generate the content path as the relative path from /Content/ without a file extension (because monogame is dumb)
                 string directory = Path.GetDirectoryName(Path.GetRelativePath("Content", filepath));
                 string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(filepath);
                 string contentPath = Path.Combine(directory, fileNameWithoutExtension);
 
-                //Debug.WriteLine("   Directory name: " + directory);
-                //Debug.WriteLine("   File name: " + fileNameWithoutExtension);
-                //Debug.WriteLine("   Content path: " + contentPath);
-
+                // Load sound effect, and initialize default end behavior and next sound to nothing/null.
                 SoundEffect soundEffect = _content.Load<SoundEffect>(contentPath);
                 SoundEndBehavior soundEndBehavior = SoundEndBehavior.Nothing;
                 SoundEffect nextSound = null;
 
+                // Create a new Sound object from these three parameters and add it to Sounds
                 Sound sound = new Sound(soundEffect, soundEndBehavior, nextSound);
                 SoundManager.Sounds.Add(fileNameWithoutExtension, sound);
             }
 
+            // Set looping sound behaviors. YES this should probably be data driven, but other stuff is more pressing rn.
             SoundManager.Sounds["inhale"].soundEndBehavior = SoundEndBehavior.LoopNext;
             SoundManager.Sounds["inhale"].nextSound = SoundManager.Sounds["inhale_loop"].soundEffect;
             SoundManager.Sounds["inhale_loop"].soundEndBehavior = SoundEndBehavior.Loop;
+
+            SoundManager.Sounds["kirbyfireattack"].soundEndBehavior = SoundEndBehavior.LoopNext;
+            SoundManager.Sounds["kirbyfireattack"].nextSound = SoundManager.Sounds["kirbyfireattack_loop"].soundEffect;
+            SoundManager.Sounds["kirbyfireattack_loop"].soundEndBehavior = SoundEndBehavior.Loop;
+
+            SoundManager.Sounds["kirbysparkattack"].soundEndBehavior = SoundEndBehavior.Loop;
+
+            SoundManager.Sounds["sparkyattack"].soundEndBehavior = SoundEndBehavior.Loop;
+
+            SoundManager.Sounds["hotheadflamethrowerattack"].soundEndBehavior = SoundEndBehavior.Loop;
 
             SoundManager.Sounds["song_vegetablevalley"].soundEndBehavior = SoundEndBehavior.LoopNext;
             SoundManager.Sounds["song_vegetablevalley"].nextSound = SoundManager.Sounds["song_vegetablevalley_loop"].soundEffect;
             SoundManager.Sounds["song_vegetablevalley_loop"].soundEndBehavior = SoundEndBehavior.Loop;
         }
+        #endregion
 
-        
-
+        #region Rooms/Tilemaps
         // Loads a tilemap given its name and filepath.
         private void LoadTilemap(string tilemapName, string tilemapFilepath)
         {
@@ -230,10 +247,10 @@ namespace KirbyNightmareInDreamLand
                 LoadRoom(data.Key, data.Value);
             }
         }
+        #endregion
 
-
-
-        // Loads a keymap into the keyboard.
+        #region Keyboard
+        // Loads a keymap into the keyboard controller.
         public void LoadKeymap(string keymapName)
         {
             if (Keymaps.ContainsKey(keymapName))
@@ -244,7 +261,15 @@ namespace KirbyNightmareInDreamLand
                 // Register each new key mapping
                 foreach (var mapping in Keymaps[keymapName])
                 {
-                    ICommand command = (ICommand)mapping.CommandConstructorInfo.Invoke(null);
+                    ICommand command;
+                    if (mapping.PlayerIndex != null)
+                    {
+                        command = (ICommand)mapping.CommandConstructorInfo.Invoke(new object[] { mapping.PlayerIndex });
+                    }
+                    else
+                    {
+                        command = (ICommand)mapping.CommandConstructorInfo.Invoke(null);
+                    }
                     _game.Keyboard.RegisterCommand(mapping.Key, mapping.ExecutionType, command);
                 }
             }
@@ -263,7 +288,16 @@ namespace KirbyNightmareInDreamLand
             // Fill out its fields using the JSON data strings
             keymapping.Key = (Keys)Enum.Parse(typeof(Keys), keymappingJsonData.Key);
             keymapping.ExecutionType = (ExecutionType)Enum.Parse(typeof(ExecutionType), keymappingJsonData.ExecutionType);
-            keymapping.CommandConstructorInfo = Type.GetType("KirbyNightmareInDreamLand.Commands." + keymappingJsonData.Command)?.GetConstructor(Type.EmptyTypes);
+            if (keymappingJsonData.PlayerIndex == null)
+            {
+                keymapping.CommandConstructorInfo = Type.GetType("KirbyNightmareInDreamLand.Commands." + keymappingJsonData.Command)?.GetConstructor(Type.EmptyTypes);
+            }
+            else
+            {
+                keymapping.CommandConstructorInfo = Type.GetType("KirbyNightmareInDreamLand.Commands." + keymappingJsonData.Command)?.GetConstructor( new Type[]{ typeof(int) } );
+            }
+            keymapping.PlayerIndex = keymappingJsonData.PlayerIndex;
+
 
             // Add the new keymapping to its respective list.
             if (keymapping.CommandConstructorInfo != null)
@@ -295,9 +329,77 @@ namespace KirbyNightmareInDreamLand
                 }
             }
         }
+        #endregion
 
+        #region Gamepad
+        // Loads a buttonmap into the gamepad controller.
+        public void LoadButtonmap(string buttonmapName)
+        {
+            if (Buttonmaps.ContainsKey(buttonmapName))
+            {
+                // Clear existing button mappings in the controller
+                _game.Gamepad.ClearMappings();
 
+                // Register each new button mapping
+                foreach (Buttonmapping mapping in Buttonmaps[buttonmapName])
+                {
+                    _game.Gamepad.RegisterCommand(mapping.Button, mapping.ExecutionType, mapping.CommandConstructorInfo);
+                }
+            }
+            else
+            {
+                Debug.WriteLine($"Buttonmap '{buttonmapName}' not found.");
+            }
+        }
 
+        // Loads a buttonmapping given its name and data.
+        private void LoadButtonmapping(ButtonmappingJsonData buttonmappingJsonData, List<Buttonmapping> buttonmap)
+        {
+            // Create a new Buttonmapping object
+            Buttonmapping buttonmapping = new Buttonmapping();
+
+            // Fill out its fields using the JSON data strings
+            buttonmapping.Button = (Buttons)Enum.Parse(typeof(Buttons), buttonmappingJsonData.Button);
+            buttonmapping.ExecutionType = (ExecutionType)Enum.Parse(typeof(ExecutionType), buttonmappingJsonData.ExecutionType);
+            // Set ConstructorInfo to constructor with no parameters. If that returns null, then try a constructor that takes one integer.
+            // (ASSUMPTION THAT ALL COMMAND CONSTRUCTORS TAKE EITHER NO PARAMETERS OR ONLY ONE INTEGER)
+            buttonmapping.CommandConstructorInfo = Type.GetType("KirbyNightmareInDreamLand.Commands." + buttonmappingJsonData.Command)?.GetConstructor(Type.EmptyTypes);
+            buttonmapping.CommandConstructorInfo ??= Type.GetType("KirbyNightmareInDreamLand.Commands." + buttonmappingJsonData.Command)?.GetConstructor(new Type[] { typeof(int) });
+
+            // Add the new buttonmapping to its respective list.
+            if (buttonmapping.CommandConstructorInfo != null)
+            {
+                buttonmap.Add(buttonmapping);
+            }
+            else
+            {
+                Debug.WriteLine(" [ERROR] LevelLoader.LoadButtonmapping: string \"" + buttonmappingJsonData.Command + "\" returns null from Type.GetType()");
+            }
+        }
+
+        // Loads all buttonmaps from the .json registry.
+        public void LoadAllButtonmaps()
+        {
+            // Open the buttonmap data file and deserialize it into a dictionary.
+            Dictionary<string, List<ButtonmappingJsonData>> ButtonmapJsonDatas = JsonSerializer.Deserialize<Dictionary<string, List<ButtonmappingJsonData>>>(File.ReadAllText(Constants.Filepaths.ButtonmapRegistry), new JsonSerializerOptions());
+
+            // Run through each buttonmap json data in the dictionary
+            foreach (KeyValuePair<string, List<ButtonmappingJsonData>> ButtonmapJsonData in ButtonmapJsonDatas)
+            {
+                // Add new empty Buttonmap to the Buttonmaps dictionary.
+                Buttonmaps.Add(ButtonmapJsonData.Key, new List<Buttonmapping>());
+                // Run through each buttonmapping json data in the keymap json data
+                foreach (ButtonmappingJsonData buttonmappingJsonData in ButtonmapJsonData.Value)
+                {
+                    // Load the buttonmapping. Passes in the individual keymapping json data and a reference to the actual keymap List<Keymapping> to add it to.
+                    LoadButtonmapping(buttonmappingJsonData, Buttonmaps[ButtonmapJsonData.Key]);
+                }
+            }
+            //Debug.WriteLine("buttonmap1 size: " + Buttonmaps["buttonmap1"]);
+        }
+        #endregion
+
+        #region Hitboxes
         // Loads a hitbox given its and data.
         private void LoadHitbox(Dictionary<string, Rectangle> _poseDictionary, string _poseName, HitboxJsonData _hitboxJsonData)
         {
@@ -369,7 +471,9 @@ namespace KirbyNightmareInDreamLand
         {
             return GetHitbox(objectKey, "default");
         }
+        #endregion
 
+        #region Collision Responses
         public void SetCollisionResponses()
         {
             #region Player-Tile Collisons
@@ -528,5 +632,6 @@ namespace KirbyNightmareInDreamLand
             //    Debug.WriteLine(collision);
             //}
         }
+        #endregion
     }
 }

@@ -7,11 +7,12 @@ Images/Spritesheets/items
 Images/Spritesheets/projectiles
 Images/Spritesheets/doorstars
 Images/Spritesheets/pause_screen_spritesheet
-Images/Level/collisionTileset
+Images/Spritesheets/game_over_spritesheet
 Images/Level/backgrounds
+Images/Level/collisionTileset
 Images/Level/room1_level
 Images/Level/room2_level
 Images/Level/room3_level
-Images/UI/pause
 Images/UI/ui
+Images/UI/pause
 Images/invalidspritename

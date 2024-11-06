@@ -15,6 +15,8 @@ namespace KirbyNightmareInDreamLand.Controllers
         public ExecutionType ExecutionType { get; set; }
         // Constructor info for respective command
         public ConstructorInfo CommandConstructorInfo { get; set; }
+        // PlayerIndex int?
+        public int? PlayerIndex { get; set; }
     }
 
 }

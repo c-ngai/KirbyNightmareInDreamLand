@@ -1,0 +1,37 @@
+Author of Review: Lina Ordonez Aguiar
+Date: 11.1.24
+Sprint #4
+Reviewing: Sound files (sound.cs, soundInstance.cs, soundManager.cs, LoadAllSounds method in LevelLoader)
+Author of file: Mark
+Time: 20 minutes
+
+Chosen code smells:
+    1. Long Functions 
+    2. same name different meaning
+    3. long parameters
+    4. god Objects
+    5. Duplicate code
+    6. Long method
+    7. Data clumps
+    8. Comments 
+    9. Switch Case
+    10. Large Class
+
+Quality:
+    - each class is direct and to the point
+    - each method name makes sense and is straight to the point
+    - the comments make it wasier to understand and follow train of thought
+    - Instance fields soudl not be public as much as possible
+    - debug lines are awesome
+    - you can pre initilaize the booleans in the instance field instead of in initialization.
+    - load all sounds seems like it is going to be a very long method if each sound needs to
+      have its looping behavior hard coded, could be reworked to be data driven
+
+Specific Comments:
+    - Does each sound need to have the looping behavior hard coded?
+    - not all your variables follow the same naming conventions, would be better to get it to agree
+    wih the rest of the code
+    - no magic strings or numbers (good)
+    - love all the comments
+    - very starightforward and to the point
+    - hypothetical change: change variables to not have _  to follow naming conventions.

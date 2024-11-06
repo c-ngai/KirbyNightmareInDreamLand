@@ -31,7 +31,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
             //TO-DO: CHANGE TO WHEN KIRBY + ENEMY COLLIDE
             if (_enemy.FrameCounter >= Constants.Sparky.HURT_FRAMES)
             {
-                _enemy.ChangeState(new SparkyShortJumpState(_enemy));
+                _enemy.ChangeState(new SparkyJumpState(_enemy));
                 _enemy.UpdateTexture();
 
                 if (_enemy.Health <= 0)

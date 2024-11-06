@@ -7,6 +7,7 @@ using System.Linq;
 using Microsoft.Xna.Framework.Graphics.PackedVector;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using KirbyNightmareInDreamLand.Controllers;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -94,6 +95,24 @@ namespace KirbyNightmareInDreamLand
         }
 
 
+
+        // Draws a circle. This implementaton is dumb but I don't care
+        public void DrawSolidCircle(SpriteBatch spriteBatch, Rectangle rectangle, Color color, float alpha)
+        {
+            for (int y = rectangle.Top; y < rectangle.Bottom; y++)
+            {
+                double y2 = ((double)y - rectangle.Top - (rectangle.Height/2)) / (rectangle.Height / 2);
+                Rectangle slice = new Rectangle(
+                    (int)(rectangle.Left + rectangle.Width/2 - rectangle.Width * Math.Sqrt(1-y2*y2)/2),
+                    y,
+                    (int)(rectangle.Width * Math.Sqrt(1 - y2 * y2)),
+                    1);
+                DrawSolidRectangle(spriteBatch, slice, color, alpha);
+            }
+        }
+
+
+
         private List<Vector2> positionLog = new List<Vector2>();
         public void LogPosition(Vector2 point)
         {
@@ -135,6 +154,16 @@ namespace KirbyNightmareInDreamLand
 
             // Add debug text to list of lines
             List<string> texts = new List<string>();
+            //for (int i = 0; i < 16; i++)
+            //{
+            //    GamePadCapabilities capabilities = GamePad.GetCapabilities(i);
+            //    if (capabilities.IsConnected)
+            //    {
+            //        texts.Add("GamePadType: " + capabilities.GamePadType + ", DisplayName: " + capabilities.DisplayName + ", Identifier: " + capabilities.Identifier);
+            //        texts.Add(GamePad.GetState(i).ToString());
+            //        texts.Add("");
+            //    }
+            //}
             texts.Add("GraphicsAdapter.DefaultAdapter.CurrentDisplayMode: (" + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width + ", " + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height + ")");
             texts.Add("GraphicsDevice.Viewport: (" + _graphicsDevice.Viewport.Width + ", " + _graphicsDevice.Viewport.Height + ")");
             texts.Add("Target framerate: " + _game.TARGET_FRAMERATE);
@@ -168,7 +197,68 @@ namespace KirbyNightmareInDreamLand
                 Vector2 position = new Vector2(_game.WINDOW_XOFFSET + 10, _game.WINDOW_YOFFSET + 10 + 16 * i);
                 spriteBatch.DrawString(LevelLoader.Instance.Font, texts[i], position, Color.Black);
             }
+            if (GamePad.GetCapabilities(0).IsConnected)
+            {
+                DrawThumbstickInput(spriteBatch);
+            }
             spriteBatch.End();
+        }
+
+        private int thumbstickDebugSize = 80;
+        private Color[] playerColors = { Color.Pink, Color.Yellow, Color.Red, Color.CornflowerBlue };
+        // Draws a visual of the thumbstick input in the top right corner, if there is a controller connected to slot #0.
+        public void DrawThumbstickInput(SpriteBatch spriteBatch)
+        {
+            //thumbstickDebugSize = Mouse.GetState().X;
+            int playerCount = ObjectManager.Instance.Players.Count;
+            for (int i = 0; i < playerCount; i++)
+            {
+                int gamepadIndex = Array.IndexOf(_game.Gamepad.controllerPlayer, i);
+                bool connected = GamePad.GetCapabilities(gamepadIndex).IsConnected;
+                Color color = connected ? playerColors[i] : Color.Gray;
+
+                Vector2 ThumbStickLeft = GamePad.GetState(gamepadIndex).ThumbSticks.Left;
+
+                Point position = new Point(
+                    _game.WINDOW_XOFFSET + _game.WINDOW_WIDTH - thumbstickDebugSize * (playerCount - i),
+                    _game.WINDOW_YOFFSET
+                    );
+
+                Rectangle range = new Rectangle(
+                    position.X,
+                    position.Y,
+                    thumbstickDebugSize,
+                    thumbstickDebugSize
+                );
+
+                int deadzone = (int)(Constants.GamePad.THUMBSTICK_DEADZONE * thumbstickDebugSize / 2);
+
+                Rectangle deadzoneCircle = new Rectangle(
+                    position.X + thumbstickDebugSize / 2 - deadzone,
+                    position.Y + thumbstickDebugSize / 2 - deadzone,
+                    deadzone * 2,
+                    deadzone * 2
+                    );
+
+                Vector2 LeftStickPoint =
+                    new Vector2(
+                        position.X + thumbstickDebugSize / 2,
+                        position.Y + thumbstickDebugSize / 2
+                    )
+                    +
+                    new Vector2(
+                        ThumbStickLeft.X,
+                        -ThumbStickLeft.Y
+                    )
+                    *
+                    thumbstickDebugSize / 2;
+
+                GameDebug.Instance.DrawSolidRectangle(spriteBatch, range, color, 0.25f);
+                GameDebug.Instance.DrawSolidCircle(spriteBatch, range, color, 0.5f);
+                GameDebug.Instance.DrawSolidCircle(spriteBatch, deadzoneCircle, color, 1f);
+                GameDebug.Instance.DrawPoint(spriteBatch, LeftStickPoint, Color.Black, 1);
+            }
+
         }
 
 

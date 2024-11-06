@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
 using System.Xml.Linq;
 using KirbyNightmareInDreamLand.Audio;
+using Microsoft.Xna.Framework.Input;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -24,6 +25,7 @@ namespace KirbyNightmareInDreamLand
         
         public GraphicsDeviceManager Graphics { get; private set; }
         public KeyboardController Keyboard { get; private set; }
+        public GamepadController Gamepad { get; private set; }
         public MouseController MouseController { get; private set; }
 
         private HUD hud;
@@ -120,8 +122,11 @@ namespace KirbyNightmareInDreamLand
             Graphics.ApplyChanges();
 
             Keyboard = new KeyboardController();
+            Gamepad = new GamepadController();
             MouseController = new MouseController();
 
+            GamePad.InitDatabase();
+            
             SoundEffect.Initialize();
 
             base.Initialize();
@@ -150,6 +155,7 @@ namespace KirbyNightmareInDreamLand
 
             // Load the desired keymap by name
             LevelLoader.Instance.LoadKeymap("keymap1");
+            LevelLoader.Instance.LoadButtonmap("buttonmap1");
 
             music = SoundManager.CreateInstance("song_vegetablevalley");
             music.Play();
@@ -177,6 +183,7 @@ namespace KirbyNightmareInDreamLand
                 TickStopwatch.Restart();
 
                 Keyboard.Update();
+                Gamepad.Update();
                 MouseController.Update();
 
                 GameTime = gameTime;
@@ -185,6 +192,7 @@ namespace KirbyNightmareInDreamLand
 
                 Level.UpdateLevel();
 
+                ObjectManager.Instance.ResetDebugStaticObjects();
                 ObjectManager.Instance.OrganizeList();
 
                 CollisionDetection.Instance.CheckCollisions();
@@ -196,6 +204,7 @@ namespace KirbyNightmareInDreamLand
             else
             {
                 Keyboard.Update();
+                Gamepad.Update();
                 SoundManager.Update();
             }
 
@@ -250,8 +259,8 @@ namespace KirbyNightmareInDreamLand
                 if (DEBUG_TEXT_ENABLED)
                 {
                     GameDebug.Instance.DrawDebugText(_spriteBatch);
-                    manager.ResetDebugStaticObjects();
                 }
+
                 // Draw borders (should only be visible in fullscreen for letterboxing)
                 GameDebug.Instance.DrawBorders(_spriteBatch);
 

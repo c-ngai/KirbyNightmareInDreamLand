@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
 {
-    public class SparkyTallJumpState : IEnemyState
+    public class SparkyJumpState : IEnemyState
     {
         private readonly Enemy _enemy;
 
-        public SparkyTallJumpState(Enemy enemy)
+        public SparkyJumpState(Enemy enemy)
         {
             _enemy = enemy ?? throw new ArgumentNullException(nameof(enemy));
         }
@@ -20,21 +20,24 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
         {
             _enemy.ChangePose(EnemyPose.Hop);
             _enemy.ResetFrameCounter(); // Reset frame counter on entering the state
-
-            if (_enemy is Sparky sparky)
-            {
-                sparky.SetHopHeight(Constants.Sparky.TALL_HOP_HEIGHT); // Set the tall hop height
-            }
         }
 
         public void Update()
         {
-            _enemy.Move(); // Execute movement logic for a tall jump
-            _enemy.IncrementFrameCounter();
-
-            // Transition to pausing after the jump
-            if (_enemy.FrameCounter >= Constants.Sparky.HOP_FREQUENCY)
+            if (_enemy is Sparky jumpableEnemy)
             {
+                jumpableEnemy.Jump(); // Perform jump action
+                _enemy.IncrementFrameCounter();
+
+                if (!jumpableEnemy.IsJumping)
+                {
+                    _enemy.ChangeState(new SparkyPause2State(_enemy));
+                    _enemy.UpdateTexture();
+                }
+            }
+            else
+            {
+                // If the enemy cannot jump, transition back to walking
                 _enemy.ChangeState(new SparkyPause2State(_enemy));
                 _enemy.UpdateTexture();
             }

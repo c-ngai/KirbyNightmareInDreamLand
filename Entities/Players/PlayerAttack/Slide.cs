@@ -29,7 +29,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public bool IsDone()
         {
             float distanceMoved = Math.Abs(Position.X - startingX);
-            if(distanceMoved > slideDistance)
+            if(distanceMoved > slideDistance || !CollisionActive)
             {
                 EndAttack();
                 return true;

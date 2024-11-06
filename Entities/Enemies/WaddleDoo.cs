@@ -42,11 +42,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 currentState.Update();
                 enemySprite.Update();
                 GetHitBox();
-
-                //if (isFalling)
-                //{
-                    Fall();
-                //}
+                 Fall();
 
                 // Handle the beam if active
                 if (isBeamActive)

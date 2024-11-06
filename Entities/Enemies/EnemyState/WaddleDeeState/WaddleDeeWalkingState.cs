@@ -27,13 +27,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState
         {
            _enemy.Move(); // Execute walking movement logic
             _enemy.IncrementFrameCounter(); // Increment the enemy's frame counter
-
-            /* 
-            if (_enemy.FrameCounter >= Constants.WaddleDee.WALK_FRAMES)
-            {
-                _enemy.ChangeState(new WaddleDeeHurtState(_enemy));
-            }
-            */
         }
 
         public void Exit()
