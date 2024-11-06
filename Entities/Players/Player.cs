@@ -24,8 +24,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public PlayerAttack starAttack {get; private set;}
 
         //health stuffs -- will be taken to another class connected to kirby in next sprint
-        private int health = Constants.Kirby.MAX_HEALTH;
-        private int lives = Constants.Kirby.MAX_LIVES;
+        public int health = Constants.Kirby.MAX_HEALTH;
+        public int lives = Constants.Kirby.MAX_LIVES;
         private bool invincible = false;
         private double timer = 0;
 

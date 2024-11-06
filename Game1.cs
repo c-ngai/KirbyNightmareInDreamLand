@@ -177,6 +177,8 @@ namespace KirbyNightmareInDreamLand
                 base.Update(gameTime);
                 time = gameTime;
 
+                hud.Update(gameTime);
+
                 GameDebug.Instance.ResetCounters();
 
                 // Reset timer for calculating max fps
