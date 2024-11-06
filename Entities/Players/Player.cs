@@ -7,6 +7,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using KirbyNightmareInDreamLand.Levels;
+using KirbyNightmareInDreamLand.Audio;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -172,6 +173,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void Death() //does nothing this sprint
         {
             //state.ChangeType(KirbyType.Dead);
+            SoundManager.Play("kirbydeath");
+            //wait a beat
+            SoundManager.Play("deathjingle");
         }
         private void DecreaseHealth()
         {
@@ -196,6 +200,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 if(!IsWithEnemy())ChangeToNormal();
                 if(IsFloating()) movement = new NormalPlayerMovement(GetKirbyPosition());
                 ChangePose(KirbyPose.Hurt);
+                SoundManager.Play("kirbyhurt1");
                 await Task.Delay(Constants.Physics.DELAY);
                 StopMoving();
                 invincible = true;
@@ -286,6 +291,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if(state.CanJump()){ //not floating, not jumping, not crouching
                 movement = new JumpMovement(movement.GetPosition());
                 ChangePose(KirbyPose.JumpRising);
+                SoundManager.Play("jump");
             }else if (state.IsJumping() && !state.IsFloating()){ //if jumping and x is pressed again
                 //Float();
                 movement.Jump(state.IsLeft());
@@ -326,12 +332,14 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if(state.IsWithEnemy())
             {
                 EndSwallow();
+                SoundManager.Play("swallow");
             }
         }
         public void Slide()
         {
             if(!IsSliding() && attack != null){
                 ChangePose(KirbyPose.Sliding);
+                SoundManager.Play("slide");
                 //await Task.Delay(Constants.Physics.DELAY);
             }
         }
@@ -437,6 +445,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             StopAttacking();
             SmallWait();
+            SoundManager.Play("catch");
             ChangeToMouthful();
         }
         private async void SwallowAnimation()
