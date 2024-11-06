@@ -119,6 +119,22 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public void TakeDamage(Rectangle intersection)
         {
+
+            int points = 0;
+
+            // Determine points based on the type of enemy
+            if (this is WaddleDoo || this is BrontoBurt || this is Hothead)
+            {
+                points = 600;
+            }
+            else if (this is WaddleDee || this is PoppyBrosJr)
+            {
+                points = 400;
+            }
+
+            // Update the score in ObjectManager
+            Game1.Instance.manager.UpdateScore(points);
+
             currentState.TakeDamage();
             SoundManager.Play("enemydamage");
             //wait

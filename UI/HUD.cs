@@ -134,6 +134,25 @@ namespace KirbyNightmareInDreamLand.UI
             }
         }
 
+        public void DrawScore(SpriteBatch spriteBatch)
+        {
+            int score = Game1.Instance.manager.Score;
+
+            string scoreText = score.ToString().PadLeft(8, '0'); // Add padding to ensure it is always 8 digits
+
+            // Draw the current score
+            for (int i = 0; i < scoreText.Length; i++)
+            {
+                char digitChar = scoreText[i];
+                int digit = int.Parse(digitChar.ToString());
+
+                // Position the digit based on the index in the score string
+                float xPosition = 176 + i * 8;
+                hudElements[$"ui_{digit}"].Draw(new Vector2(xPosition, 147), spriteBatch);
+            }
+        }
+
+
         public void Draw(SpriteBatch spriteBatch)
         {
             // Draw only the active powerup
@@ -158,14 +177,7 @@ namespace KirbyNightmareInDreamLand.UI
             hudElements["ui_healthbar_1"].Draw(new Vector2(136, 146), spriteBatch);
             hudElements["ui_healthbar_1"].Draw(new Vector2(144, 146), spriteBatch);
 
-            hudElements["ui_0"].Draw(new Vector2(176, 147), spriteBatch);
-            hudElements["ui_0"].Draw(new Vector2(184, 147), spriteBatch);
-            hudElements["ui_0"].Draw(new Vector2(192, 147), spriteBatch);
-            hudElements["ui_0"].Draw(new Vector2(200, 147), spriteBatch);
-            hudElements["ui_0"].Draw(new Vector2(208, 147), spriteBatch);
-            hudElements["ui_0"].Draw(new Vector2(216, 147), spriteBatch);
-            hudElements["ui_0"].Draw(new Vector2(224, 147), spriteBatch);
-            hudElements["ui_0"].Draw(new Vector2(232, 147), spriteBatch);
+            DrawScore(spriteBatch);
         }
     }
 }
