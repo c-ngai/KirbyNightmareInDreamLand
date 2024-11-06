@@ -1,4 +1,5 @@
-﻿using KirbyNightmareInDreamLand.Entities.Players;
+﻿using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Entities.Players;
 using KirbyNightmareInDreamLand.Time;
 using System.Collections.Generic;
 
@@ -20,6 +21,7 @@ namespace KirbyNightmareInDreamLand.Commands
         private int frameOfLastExecution;
         // Flag for if Kirby should be running or walking this frame
         private bool shouldRun;
+        private bool wasDashing;
 
         public KirbyMoveRightCommand(int _playerIndex)
         {
@@ -31,6 +33,7 @@ namespace KirbyNightmareInDreamLand.Commands
             timeOfLastExecution = 0;
             frameOfLastExecution = 0;
             shouldRun = false;
+            wasDashing = false;
         }
 
         public void Execute()
@@ -47,6 +50,14 @@ namespace KirbyNightmareInDreamLand.Commands
                 shouldRun = shouldRun ?
                     (currentTime - timeOfLastExecution < Constants.Controller.RESPONSE_TIME) :
                     (currentTime - timeOfLastExecution < Constants.Controller.RESPONSE_TIME) && (currentFrame > frameOfLastExecution + 1);
+
+                if (shouldRun && !wasDashing)
+                {
+                    SoundManager.Play("dash");
+                }
+
+                // Update wasDashing to match shouldRun for the next frame
+                wasDashing = shouldRun;
 
                 // If shouldRun, then run. If not, then walk.
                 if (shouldRun)

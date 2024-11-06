@@ -11,13 +11,13 @@ namespace KirbyNightmareInDreamLand.Commands
         private List<IPlayer> _players;
         // Index of player to execute on
         private int playerIndex;
+
         public KirbyFloatCommand(int _playerIndex)
         {
             _game = Game1.Instance;
             _players = ObjectManager.Instance.Players;
             playerIndex = _playerIndex;
         }
-
 
         public void Execute()
         {
@@ -33,3 +33,4 @@ namespace KirbyNightmareInDreamLand.Commands
         }
     }
 }
+
