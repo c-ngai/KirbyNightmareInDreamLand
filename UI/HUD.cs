@@ -20,7 +20,9 @@ namespace KirbyNightmareInDreamLand.UI
 
         public HUD(Player player)
         {
+            // Initialize player
             this.player = player;
+
             // Initialize HUD elements
             hudElements = new Dictionary<string, Sprite>
             {
@@ -70,15 +72,15 @@ namespace KirbyNightmareInDreamLand.UI
             var keyboardState = Keyboard.GetState();
 
             // Handle key inputs for powerups
-            if (keyboardState.IsKeyDown(Keys.D8)) // '8' key
+            if (keyboardState.IsKeyDown(Keys.D8))
             {
                 ActivatePowerup("ui_power_beam", gameTime);
             }
-            else if (keyboardState.IsKeyDown(Keys.D9)) // '9' key
+            else if (keyboardState.IsKeyDown(Keys.D9))
             {
                 ActivatePowerup("ui_power_spark", gameTime);
             }
-            else if (keyboardState.IsKeyDown(Keys.D0)) // '0' key
+            else if (keyboardState.IsKeyDown(Keys.D0))
             {
                 ActivatePowerup("ui_power_fire", gameTime);
             }
@@ -98,9 +100,9 @@ namespace KirbyNightmareInDreamLand.UI
                 powerupActive[key] = false;
             }
 
-            // Activate the selected powerup and reset its timer
+            // Activate the selected powerup and reset timer for new powerup
             powerupActive[powerupKey] = true;
-            powerupTimers[powerupKey] = 0f; // Reset timer for new powerup
+            powerupTimers[powerupKey] = 0f;
         }
 
         private void UpdatePowerupPosition(string powerupKey, GameTime gameTime)
@@ -149,7 +151,6 @@ namespace KirbyNightmareInDreamLand.UI
                 char digitChar = scoreText[i];
                 int digit = int.Parse(digitChar.ToString());
 
-                // Position the digit based on the index in the score string
                 float xPosition = 176 + i * 8;
                 hudElements[$"ui_{digit}"].Draw(new Vector2(xPosition, 147), spriteBatch);
             }
@@ -158,13 +159,11 @@ namespace KirbyNightmareInDreamLand.UI
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            // Draw only the active powerup
             foreach (var powerupKey in powerupPositions.Keys)
             {
                 if (powerupActive[powerupKey])
                 {
                     hudElements[powerupKey].Draw(powerupPositions[powerupKey], spriteBatch);
-                    break; // Only one powerup is visible at a time
                 }
             }
 
@@ -186,7 +185,7 @@ namespace KirbyNightmareInDreamLand.UI
             {
                 string healthSprite = i < player.health ? "ui_healthbar_1" : "ui_healthbar_0";
                 hudElements[healthSprite].Draw(new Vector2(healthX, 146), spriteBatch);
-                healthX += 8; // Adjust spacing as needed
+                healthX += 8;
             }
 
             DrawScore(spriteBatch);
