@@ -271,7 +271,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             SetDirectionLeft();
             movement.Run(state.IsLeft());
-           if(state.CanMove()){
+            if (state.CanMove()){
                 ChangePose(KirbyPose.Running);
             }
         }
@@ -408,6 +408,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             //flame spark inhale
             if(attack == null && state.LongAttack()){
                 attack = new PlayerAttack(this, AttackType());
+                //SoundManager.Play("spit");
                 ChangePose(KirbyPose.Attacking);
                 movement.Attack(this);
                 //ChangeAttackBool(true);

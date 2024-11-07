@@ -9,6 +9,7 @@ using System;
 using KirbyNightmareInDreamLand.Levels;
 using System.Diagnostics;
 using KirbyNightmareInDreamLand.Audio;
+using System.Threading.Tasks;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -117,7 +118,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             currentState.Enter();
         }
 
-        public void TakeDamage(Rectangle intersection)
+        public async void TakeDamage(Rectangle intersection)
         {
 
             int points = 0;
@@ -136,9 +137,15 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             Game1.Instance.manager.UpdateScore(points);
 
             currentState.TakeDamage();
+            CollisionActive = false;
             SoundManager.Play("enemydamage");
-            //wait
+            await Task.Delay(Constants.Enemies.DELAY);
             SoundManager.Play("enemyexplode");
+        }
+
+        public void GetSwallowed(Rectangle intersection)
+        {
+            currentState.TakeDamage();
             CollisionActive = false;
         }
 

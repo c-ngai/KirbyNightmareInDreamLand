@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using KirbyNightmareInDreamLand.StateMachines;
+using KirbyNightmareInDreamLand.Audio;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -106,6 +107,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             if (!kirby.GetKirbyPose().Equals("FloatingGrounded"))
             {
+                //SoundManager.Play("spitair");
                 FloatingEndAnimation(kirby);
                 floatGravity = gravity;
                 endFloat = true;

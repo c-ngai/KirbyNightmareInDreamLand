@@ -245,7 +245,12 @@ namespace KirbyNightmareInDreamLand
             public const int FRAME_FIVE = 4;
         }
 
-        public class BrontoBurt
+        public class Enemies
+        {
+            public const int DELAY = 400;
+        }
+
+            public class BrontoBurt
         {
             public const float MOVE_SPEED = 0.5f;
             public const float WAVE_AMPLITUDE = 10f; // height of wave
