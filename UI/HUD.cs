@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand.UI
 {
@@ -15,9 +16,11 @@ namespace KirbyNightmareInDreamLand.UI
         private Dictionary<string, float> powerupTimers;
         private const float slideSpeed = 1f; // Speed at which sprites slide up/down
         private const float stayTime = 2f; // Time in seconds to stay at position (0, 115)
+        private readonly Player player;
 
-        public HUD()
+        public HUD(Player player)
         {
+            this.player = player;
             // Initialize HUD elements
             hudElements = new Dictionary<string, Sprite>
             {
@@ -165,17 +168,26 @@ namespace KirbyNightmareInDreamLand.UI
                 }
             }
 
-            // Draw other HUD elements (Lives, Health, Score)
+            // Draw lives
             hudElements["ui_lives"].Draw(new Vector2(57, 147), spriteBatch);
-            hudElements["ui_0"].Draw(new Vector2(80, 147), spriteBatch);
-            hudElements["ui_2"].Draw(new Vector2(88, 147), spriteBatch);
 
-            hudElements["ui_healthbar_1"].Draw(new Vector2(104, 146), spriteBatch);
-            hudElements["ui_healthbar_1"].Draw(new Vector2(112, 146), spriteBatch);
-            hudElements["ui_healthbar_1"].Draw(new Vector2(120, 146), spriteBatch);
-            hudElements["ui_healthbar_1"].Draw(new Vector2(128, 146), spriteBatch);
-            hudElements["ui_healthbar_1"].Draw(new Vector2(136, 146), spriteBatch);
-            hudElements["ui_healthbar_1"].Draw(new Vector2(144, 146), spriteBatch);
+            int displayLives = player.lives - 1; // Adjust to show 02 for 3 lives, 01 for 2 lives, etc.
+            string displayLivesText = displayLives.ToString().PadLeft(2, '0'); // Format as two digits
+
+            int livesTens = int.Parse(displayLivesText[0].ToString());
+            int livesOnes = int.Parse(displayLivesText[1].ToString());
+
+            hudElements[$"ui_{livesTens}"].Draw(new Vector2(80, 147), spriteBatch);
+            hudElements[$"ui_{livesOnes}"].Draw(new Vector2(88, 147), spriteBatch);
+
+            // Draw health bar based on player.health
+            int healthX = 104;
+            for (int i = 0; i < Constants.Kirby.MAX_HEALTH; i++)
+            {
+                string healthSprite = i < player.health ? "ui_healthbar_1" : "ui_healthbar_0";
+                hudElements[healthSprite].Draw(new Vector2(healthX, 146), spriteBatch);
+                healthX += 8; // Adjust spacing as needed
+            }
 
             DrawScore(spriteBatch);
         }

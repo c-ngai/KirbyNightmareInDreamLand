@@ -124,7 +124,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             int points = 0;
 
             // Determine points based on the type of enemy
-            if (this is WaddleDoo || this is BrontoBurt || this is Hothead)
+            if (this is WaddleDoo || this is BrontoBurt || this is Hothead || this is Sparky)
             {
                 points = 600;
             }
@@ -146,6 +146,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public void GetSwallowed(Rectangle intersection)
         {
             currentState.TakeDamage();
+            this.TakeDamage(intersection);
             CollisionActive = false;
         }
 

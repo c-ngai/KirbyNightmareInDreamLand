@@ -186,7 +186,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if(health == 0)
             {
                 health = Constants.Kirby.MAX_HEALTH;
-                lives--;
+                if (lives != 0) // protects from trying to parse negaive number in HUD
+                {
+                    lives--;
+                }
             }
             if(lives == 0)
             {
