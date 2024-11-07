@@ -15,6 +15,7 @@ using Microsoft.Xna.Framework.Media;
 using System.Xml.Linq;
 using KirbyNightmareInDreamLand.Audio;
 using Microsoft.Xna.Framework.Input;
+using KirbyNightmareInDreamLand.GameState;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -34,6 +35,12 @@ namespace KirbyNightmareInDreamLand
         public Camera Camera { get; private set; }
 
         public Level Level { get; private set; }
+
+        public GameTransitioningState _transitioning;
+
+        private GameFadeOverLay FadeOverLay; 
+
+        public GamePlayingState GameState;
 
         public SoundInstance music;
 
@@ -130,6 +137,9 @@ namespace KirbyNightmareInDreamLand
             SoundEffect.Initialize();
 
             base.Initialize();
+
+            _transitioning = new GameTransitioningState();
+            FadeOverLay = new GameFadeOverLay();
         }
 
         protected override void LoadContent()
@@ -150,6 +160,7 @@ namespace KirbyNightmareInDreamLand
             manager.LoadKirby();
 
             // Create level instance and load initial room
+            GameState = new GamePlayingState();
             Level = new Level();
             Level.LoadRoom("room1");
 
@@ -182,6 +193,7 @@ namespace KirbyNightmareInDreamLand
                 // Reset timer for calculating max fps
                 TickStopwatch.Restart();
 
+                // can put in a list of controllers and update in foreach 
                 Keyboard.Update();
                 Gamepad.Update();
                 MouseController.Update();
@@ -199,6 +211,8 @@ namespace KirbyNightmareInDreamLand
                 Camera.Update();
 
                 SoundManager.Update();
+                _transitioning.Update();
+
             }
             else
             {
@@ -223,10 +237,17 @@ namespace KirbyNightmareInDreamLand
                 //GraphicsDevice.ScissorRectangle = Camera.ScissorRectangle;
                 _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Camera.LevelMatrix);
                 // Draw level
-                Level.Draw(_spriteBatch);
+                Level.Draw();
 
                 // Draw kirby
                 foreach(IPlayer player in manager.Players) player.Draw(_spriteBatch);
+
+                System.Diagnostics.Debug.WriteLine("gamestate type = " + Level._currentState.GetType());
+                System.Diagnostics.Debug.WriteLine("transitioning type = " + _transitioning.GetType());
+                if (Level.IsCurrentState(_transitioning))
+                {
+                    FadeOverLay.Draw(_transitioning.FadeAlpha);
+                }
 
                 // Not currently using item
                 // item.Draw(new Vector2(200, 150), spriteBatch);
@@ -270,10 +291,6 @@ namespace KirbyNightmareInDreamLand
                 GameDebug.Instance.DrawBorders(_spriteBatch);
 
                 //manager.UpdateObjectLists();
-            } else {
-                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Camera.ScreenMatrix);
-                Game1.Instance.Level.DrawPauseScreen();
-                _spriteBatch.End();
             }
         }
 

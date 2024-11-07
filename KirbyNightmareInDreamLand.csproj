@@ -18,6 +18,7 @@
     <None Remove="CodeReviews2\" />
     <None Remove="Entities\PowerUps\" />
     <None Remove="Levels\Transition\" />
+    <None Remove="GameState\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon.ico" />
@@ -31,6 +32,7 @@
     <Folder Include="CodeReviews\Sprint4\" />
     <Folder Include="Entities\PowerUps\" />
     <Folder Include="Levels\Transition\" />
+    <Folder Include="GameState\" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />
