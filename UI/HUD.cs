@@ -14,8 +14,6 @@ namespace KirbyNightmareInDreamLand.UI
         private Dictionary<string, Vector2> powerupPositions;
         private Dictionary<string, bool> powerupActive;
         private Dictionary<string, float> powerupTimers;
-        private const float slideSpeed = 1f; // Speed at which sprites slide up/down
-        private const float stayTime = 2f; // Time in seconds to stay at position (0, 115)
         private readonly Player player;
 
         public HUD(Player player)
@@ -47,9 +45,9 @@ namespace KirbyNightmareInDreamLand.UI
             // Initialize powerup positions and active states
             powerupPositions = new Dictionary<string, Vector2>
             {
-                { "ui_power_beam", new Vector2(0, 147) },
-                { "ui_power_spark", new Vector2(0, 147) },
-                { "ui_power_fire", new Vector2(0, 147) }
+                { "ui_power_beam", Constants.HUD.POWERUP_INIT_POS },
+                { "ui_power_spark", Constants.HUD.POWERUP_INIT_POS },
+                { "ui_power_fire", Constants.HUD.POWERUP_INIT_POS }
             };
 
             powerupActive = new Dictionary<string, bool>
@@ -61,9 +59,9 @@ namespace KirbyNightmareInDreamLand.UI
 
             powerupTimers = new Dictionary<string, float>
             {
-                { "ui_power_beam", 0f },
-                { "ui_power_spark", 0f },
-                { "ui_power_fire", 0f }
+                { "ui_power_beam", Constants.HUD.POWERUP_INIT_TIMER },
+                { "ui_power_spark", Constants.HUD.POWERUP_INIT_TIMER },
+                { "ui_power_fire", Constants.HUD.POWERUP_INIT_TIMER }
             };
         }
 
@@ -102,7 +100,7 @@ namespace KirbyNightmareInDreamLand.UI
 
             // Activate the selected powerup and reset timer for new powerup
             powerupActive[powerupKey] = true;
-            powerupTimers[powerupKey] = 0f;
+            powerupTimers[powerupKey] = Constants.HUD.POWERUP_INIT_TIMER;
         }
 
         private void UpdatePowerupPosition(string powerupKey, GameTime gameTime)
@@ -112,29 +110,29 @@ namespace KirbyNightmareInDreamLand.UI
                 // Timer logic for staying at (0, 115) for a few seconds
                 powerupTimers[powerupKey] += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                if (powerupTimers[powerupKey] < stayTime)
+                if (powerupTimers[powerupKey] < Constants.HUD.STAY_TIME)
                 {
                     // Slide up from the bottom
-                    if (powerupPositions[powerupKey].Y > 115)
+                    if (powerupPositions[powerupKey].Y > Constants.HUD.POWERUP_MAX_Y)
                     {
-                        powerupPositions[powerupKey] -= new Vector2(0, slideSpeed); // Move up
+                        powerupPositions[powerupKey] -= new Vector2(0, Constants.HUD.SLIDE_SPEED); // Move up
                     }
                 }
                 else
                 {
                     // After stay time, slide down to (0, 147)
-                    if (powerupPositions[powerupKey].Y < 147)
+                    if (powerupPositions[powerupKey].Y < Constants.HUD.SPRITES_Y)
                     {
-                        powerupPositions[powerupKey] += new Vector2(0, slideSpeed); // Move down
+                        powerupPositions[powerupKey] += new Vector2(0, Constants.HUD.SLIDE_SPEED); // Move down
                     }
                 }
             }
             else
             {
                 // Slide back down if inactive
-                if (powerupPositions[powerupKey].Y < 147)
+                if (powerupPositions[powerupKey].Y < Constants.HUD.SPRITES_Y)
                 {
-                    powerupPositions[powerupKey] += new Vector2(0, slideSpeed); // Move down
+                    powerupPositions[powerupKey] += new Vector2(0, Constants.HUD.SLIDE_SPEED); // Move down
                 }
             }
         }
@@ -143,7 +141,7 @@ namespace KirbyNightmareInDreamLand.UI
         {
             int score = Game1.Instance.manager.Score;
 
-            string scoreText = score.ToString().PadLeft(8, '0'); // Add padding to ensure it is always 8 digits
+            string scoreText = score.ToString().PadLeft(Constants.HUD.SCORE_PAD, '0'); // Add padding to ensure it is always 8 digits
 
             // Draw the current score
             for (int i = 0; i < scoreText.Length; i++)
@@ -151,8 +149,8 @@ namespace KirbyNightmareInDreamLand.UI
                 char digitChar = scoreText[i];
                 int digit = int.Parse(digitChar.ToString());
 
-                float xPosition = 176 + i * 8;
-                hudElements[$"ui_{digit}"].Draw(new Vector2(xPosition, 147), spriteBatch);
+                float xPosition = 176 + i * Constants.HUD.SPRITE_GAP;
+                hudElements[$"ui_{digit}"].Draw(new Vector2(xPosition, Constants.HUD.SPRITES_Y), spriteBatch);
             }
         }
 
@@ -168,24 +166,24 @@ namespace KirbyNightmareInDreamLand.UI
             }
 
             // Draw lives
-            hudElements["ui_lives"].Draw(new Vector2(57, 147), spriteBatch);
+            hudElements["ui_lives"].Draw(Constants.HUD.LIVES_ICON_POS, spriteBatch);
 
             int displayLives = player.lives - 1; // Adjust to show 02 for 3 lives, 01 for 2 lives, etc.
-            string displayLivesText = displayLives.ToString().PadLeft(2, '0'); // Format as two digits
+            string displayLivesText = displayLives.ToString().PadLeft(Constants.HUD.LIVES_PAD, '0'); // Format as two digits
 
             int livesTens = int.Parse(displayLivesText[0].ToString());
             int livesOnes = int.Parse(displayLivesText[1].ToString());
 
-            hudElements[$"ui_{livesTens}"].Draw(new Vector2(80, 147), spriteBatch);
-            hudElements[$"ui_{livesOnes}"].Draw(new Vector2(88, 147), spriteBatch);
+            hudElements[$"ui_{livesTens}"].Draw(Constants.HUD.LIVES_TENS_POS, spriteBatch);
+            hudElements[$"ui_{livesOnes}"].Draw(Constants.HUD.LIVES_ONES_POS, spriteBatch);
 
             // Draw health bar based on player.health
-            int healthX = 104;
+            int healthX = Constants.HUD.HEALTH_INIT_X;
             for (int i = 0; i < Constants.Kirby.MAX_HEALTH; i++)
             {
                 string healthSprite = i < player.health ? "ui_healthbar_1" : "ui_healthbar_0";
-                hudElements[healthSprite].Draw(new Vector2(healthX, 146), spriteBatch);
-                healthX += 8;
+                hudElements[healthSprite].Draw(new Vector2(healthX, Constants.HUD.HEALTH_Y), spriteBatch);
+                healthX += Constants.HUD.HEALTH_NEXT_X;
             }
 
             DrawScore(spriteBatch);
