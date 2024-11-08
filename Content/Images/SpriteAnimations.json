@@ -15742,6 +15742,68 @@
         ]
     },
 
+    "particle_bumpstar": {
+        "Source texture": "particles",
+        "Loop point": 5,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 8,
+                "Width": 12,
+                "Height": 12,
+                "CenterX": 6,
+                "CenterY": 6,
+                "Time": 2
+            },
+            {
+                "X": 22,
+                "Y": 8,
+                "Width": 12,
+                "Height": 12,
+                "CenterX": 6,
+                "CenterY": 6,
+                "Time": 2
+            },
+            {
+                "X": 36,
+                "Y": 8,
+                "Width": 12,
+                "Height": 12,
+                "CenterX": 6,
+                "CenterY": 6,
+                "Time": 3
+            },
+            {
+                "X": 50,
+                "Y": 8,
+                "Width": 12,
+                "Height": 12,
+                "CenterX": 6,
+                "CenterY": 6,
+                "Time": 3
+            },
+            {
+                "X": 64,
+                "Y": 8,
+                "Width": 12,
+                "Height": 12,
+                "CenterX": 6,
+                "CenterY": 6,
+                "Time": 4
+            },
+            {
+                "X": 78,
+                "Y": 8,
+                "Width": 12,
+                "Height": 12,
+                "CenterX": 6,
+                "CenterY": 6,
+                "Time": 1
+            }
+        ]
+    },
+
     "maximtomato": {
         "Source texture": "items",
         "Loop point": 0,
@@ -16703,187 +16765,187 @@
         ]
     },
 
-  "Game_over_foreground": {
-    "Source texture": "game_over_spritesheet",
-    "Loop point": 9,
-    "Flip horizontally?": false,
-    "Frames": [
-      {
-        "X": 0,
-        "Y": 1408,
-        "Width": 256,
-        "Height": 176,
-        "CenterX": 0,
-        "CenterY": 0,
-        "Time": 1
-      },
-      {
-        "X": 0,
-        "Y": 0,
-        "Width": 256,
-        "Height": 176,
-        "CenterX": 0,
-        "CenterY": 0,
-        "Time": 8
-      },
-      {
-        "X": 0,
-        "Y": 176,
-        "Width": 240,
-        "Height": 176,
-        "CenterX": 0,
-        "CenterY": 0,
-        "Time": 8
-      },
-      {
-        "X": 0,
-        "Y": 352,
-        "Width": 240,
-        "Height": 176,
-        "CenterX": 0,
-        "CenterY": 0,
-        "Time": 8
-      },
-      {
-        "X": 0,
-        "Y": 528,
-        "Width": 240,
-        "Height": 176,
-        "CenterX": 0,
-        "CenterY": 0,
-        "Time": 8
-      },
-      {
-        "X": 0,
-        "Y": 704,
-        "Width": 240,
-        "Height": 176,
-        "CenterX": 0,
-        "CenterY": 0,
-        "Time": 8
-      },
-      {
-        "X": 0,
-        "Y": 880,
-        "Width": 240,
-        "Height": 176,
-        "CenterX": 0,
-        "CenterY": 0,
-        "Time": 8
-      },
-      {
-        "X": 0,
-        "Y": 1056,
-        "Width": 240,
-        "Height": 176,
-        "CenterX": 0,
-        "CenterY": 0,
-        "Time": 8
-      },
-      {
-        "X": 0,
-        "Y": 1232,
-        "Width": 240,
-        "Height": 176,
-        "CenterX": 0,
-        "CenterY": 0,
-        "Time": 8
-      },
-      {
-        "X": 0,
-        "Y": 1936,
-        "Width": 256,
-        "Height": 176,
-        "CenterX": 0,
-        "CenterY": 0,
-        "Time": 1
-      }
-    ]
-  },
+    "Game_over_foreground": {
+        "Source texture": "game_over_spritesheet",
+        "Loop point": 9,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 1408,
+                "Width": 256,
+                "Height": 176,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 0,
+                "Width": 256,
+                "Height": 176,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 8
+            },
+            {
+                "X": 0,
+                "Y": 176,
+                "Width": 240,
+                "Height": 176,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 8
+            },
+            {
+                "X": 0,
+                "Y": 352,
+                "Width": 240,
+                "Height": 176,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 8
+            },
+            {
+                "X": 0,
+                "Y": 528,
+                "Width": 240,
+                "Height": 176,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 8
+            },
+            {
+                "X": 0,
+                "Y": 704,
+                "Width": 240,
+                "Height": 176,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 8
+            },
+            {
+                "X": 0,
+                "Y": 880,
+                "Width": 240,
+                "Height": 176,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 8
+            },
+            {
+                "X": 0,
+                "Y": 1056,
+                "Width": 240,
+                "Height": 176,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 8
+            },
+            {
+                "X": 0,
+                "Y": 1232,
+                "Width": 240,
+                "Height": 176,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 8
+            },
+            {
+                "X": 0,
+                "Y": 1936,
+                "Width": 256,
+                "Height": 176,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
+        ]
+    },
 
-  "Game_over_foreground_no_letters": {
-    "Source texture": "game_over_spritesheet",
-    "Loop point": 0,
-    "Flip horizontally?": false,
-    "Frames": [
-      {
-        "X": 0,
-        "Y": 1408,
-        "Width": 256,
-        "Height": 176,
-        "CenterX": 0,
-        "CenterY": 0,
-        "Time": 1
-      }
-    ]
-  },
+    "Game_over_foreground_no_letters": {
+        "Source texture": "game_over_spritesheet",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 1408,
+                "Width": 256,
+                "Height": 176,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
+        ]
+    },
 
 
-  "Game_over_background": {
-    "Source texture": "game_over_spritesheet",
-    "Loop point": 0,
-    "Flip horizontally?": false,
-    "Frames": [
-      {
-        "X": 0,
-        "Y": 1584,
-        "Width": 256,
-        "Height": 160,
-        "CenterX": 0,
-        "CenterY": 0,
-        "Time": 1
-      }
-    ]
-  },
+    "Game_over_background": {
+        "Source texture": "game_over_spritesheet",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 1584,
+                "Width": 256,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
+        ]
+    },
 
-  "Game_over_continue_button": {
-    "Source texture": "game_over_spritesheet",
-    "Loop point": 0,
-    "Flip horizontally?": false,
-    "Frames": [
-      {
-        "X": 0,
-        "Y": 1936,
-        "Width": 256,
-        "Height": 176,
-        "CenterX": 0,
-        "CenterY": 0,
-        "Time": 1
-      }
-    ]
-  },
+    "Game_over_continue_button": {
+        "Source texture": "game_over_spritesheet",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 1936,
+                "Width": 256,
+                "Height": 176,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
+        ]
+    },
 
-  "Game_over_quit_button": {
-    "Source texture": "game_over_spritesheet",
-    "Loop point": 0,
-    "Flip horizontally?": false,
-    "Frames": [
-      {
-        "X": 0,
-        "Y": 2112,
-        "Width": 256,
-        "Height": 176,
-        "CenterX": 0,
-        "CenterY": 0,
-        "Time": 1
-      }
-    ]
-  },
+    "Game_over_quit_button": {
+        "Source texture": "game_over_spritesheet",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 2112,
+                "Width": 256,
+                "Height": 176,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
+        ]
+    },
 
-  "invalidspritename": {
-    "Source texture": "invalidspritename",
-    "Loop point": 0,
-    "Flip horizontally?": false,
-    "Frames": [
-      {
-        "X": 0,
-        "Y": 0,
-        "Width": 25,
-        "Height": 25,
-        "CenterX": 12,
-        "CenterY": 12,
-        "Time": 1
-      }
-    ]
-  }
+    "invalidspritename": {
+        "Source texture": "invalidspritename",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 0,
+                "Width": 25,
+                "Height": 25,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 1
+            }
+        ]
+    }
 }

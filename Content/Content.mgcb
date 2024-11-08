@@ -470,6 +470,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/Spritesheets/kirby_underwater.png
 
+#begin Images/Spritesheets/particles.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=0,104,0,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Spritesheets/particles.png
+
 #begin Images/Spritesheets/pause_screen_spritesheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
