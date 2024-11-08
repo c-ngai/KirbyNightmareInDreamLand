@@ -145,8 +145,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 yVel = 0;
                 position.Y = 15;
             }
-            if(position.Y > 240)
+            if(position.Y > Game1.Instance.Level.CurrentRoom.Height)
             {
+                Console.WriteLine("here");
                 kirby.RestartKirby();
                 Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
             }
