@@ -190,6 +190,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             movement.DeathSpin();
             CollisionActive = false;
         }
+        public void GameOverKirby()
+        {
+            FillHealth();
+            lives = Constants.Kirby.MAX_LIVES;
+        }
         private void DecreaseHealth(Rectangle intersection)
         {
             if(timer ==0)
@@ -203,6 +208,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 Death();
                 if(lives == 0){
                     //go to game over
+                    GameOverKirby(); //emporary to make sure kirby gets health filed up
                 }
             } else { //health decreased,  but didnt loose life
                 TakeDamageAnimation();
