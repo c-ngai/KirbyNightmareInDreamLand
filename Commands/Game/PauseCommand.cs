@@ -17,7 +17,10 @@ namespace KirbyNightmareInDreamLand.Commands
             {
                 SoundManager.Play("pause");
                 Game1.Instance.Level.PauseLevel();
+                //Game1.Instance.Level.PauseLevel();
             }           
+            //Game1.Instance.PAUSED = !Game1.Instance.PAUSED;
+            
         }
     }
 }
