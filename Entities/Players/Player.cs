@@ -172,6 +172,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void Death() //does nothing this sprint
         {
             //state.ChangeType(KirbyType.Dead);
+            Game1.Instance.Level.GameOver();
         }
         private void DecreaseHealth()
         {

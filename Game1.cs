@@ -36,9 +36,7 @@ namespace KirbyNightmareInDreamLand
 
         public Level Level { get; private set; }
 
-        public GameTransitioningState _transitioning;
-
-        private GameFadeOverLay FadeOverLay; 
+        public GameOverLay gameOverLay; 
 
         public GamePlayingState GameState;
 
@@ -138,8 +136,7 @@ namespace KirbyNightmareInDreamLand
 
             base.Initialize();
 
-            _transitioning = new GameTransitioningState();
-            FadeOverLay = new GameFadeOverLay();
+            gameOverLay = new GameOverLay();
         }
 
         protected override void LoadContent()
@@ -160,7 +157,6 @@ namespace KirbyNightmareInDreamLand
             manager.LoadKirby();
 
             // Create level instance and load initial room
-            GameState = new GamePlayingState();
             Level = new Level();
             Level.LoadRoom("room1");
 
@@ -183,43 +179,31 @@ namespace KirbyNightmareInDreamLand
 
         protected override void Update(GameTime gameTime)
         {
-            if(!PAUSED)
-            {
-                base.Update(gameTime);
-                time = gameTime;
+            base.Update(gameTime);
+            time = gameTime;
 
-                GameDebug.Instance.ResetCounters();
+            GameDebug.Instance.ResetCounters();
 
-                // Reset timer for calculating max fps
-                TickStopwatch.Restart();
+            // Reset timer for calculating max fps
+            TickStopwatch.Restart();
 
-                // can put in a list of controllers and update in foreach 
-                Keyboard.Update();
-                Gamepad.Update();
-                MouseController.Update();
+            // can put in a list of controllers and update in foreach 
+            Keyboard.Update();
+            Gamepad.Update();
+            MouseController.Update();
 
-                GameTime = gameTime;
+            GameTime = gameTime;
 
-                foreach(IPlayer player in manager.Players) player.Update(time);
+            Level.UpdateLevel();
 
-                Level.UpdateLevel();
+            ObjectManager.Instance.OrganizeList();
 
-                ObjectManager.Instance.OrganizeList();
+            CollisionDetection.Instance.CheckCollisions();
 
-                CollisionDetection.Instance.CheckCollisions();
+            Camera.Update();
 
-                Camera.Update();
-
-                SoundManager.Update();
-                _transitioning.Update();
-
-            }
-            else
-            {
-                Keyboard.Update();
-                Gamepad.Update();
-                SoundManager.Update();
-            }
+            SoundManager.Update();
+            //_transitioning.Update();
 
             UpdateCounter++;
         }
@@ -240,13 +224,11 @@ namespace KirbyNightmareInDreamLand
                 Level.Draw();
 
                 // Draw kirby
-                foreach(IPlayer player in manager.Players) player.Draw(_spriteBatch);
+                //foreach(IPlayer player in manager.Players) player.Draw(_spriteBatch);
 
-                System.Diagnostics.Debug.WriteLine("gamestate type = " + Level._currentState.GetType());
-                System.Diagnostics.Debug.WriteLine("transitioning type = " + _transitioning.GetType());
-                if (Level.IsCurrentState(_transitioning))
+                if (Level.IsCurrentState("KirbyNightmareInDreamLand.GameState.GameTransitioningState"))
                 {
-                    FadeOverLay.Draw(_transitioning.FadeAlpha);
+                    gameOverLay.DrawFade(Level.FadeAlpha);
                 }
 
                 // Not currently using item

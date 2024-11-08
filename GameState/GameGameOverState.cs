@@ -17,7 +17,6 @@ namespace KirbyNightmareInDreamLand.GameState
         public GameGameOverState()
 		{
             spriteBatch = Game1.Instance._spriteBatch;
-            LevelLoader.Instance.LoadKeymap(""); // TODO: LINK KEY MAPS TO GAME STATES
             selectContinueScreen = SpriteFactory.Instance.CreateSprite("Game_over_continue_button");
             selectQuitScreen = SpriteFactory.Instance.CreateSprite("Game_over_quit_button");
             gameOverAnimation = SpriteFactory.Instance.CreateSprite("Game_over_foreground");

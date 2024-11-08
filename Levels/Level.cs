@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using static KirbyNightmareInDreamLand.Constants;
 
 namespace KirbyNightmareInDreamLand.Levels
 {
@@ -23,6 +24,7 @@ namespace KirbyNightmareInDreamLand.Levels
         private readonly ObjectManager _manager; 
         public Vector2 SpawnPoint { get; private set; }
 
+        public float FadeAlpha;
 
         public Room CurrentRoom { get; private set; }
 
@@ -32,15 +34,16 @@ namespace KirbyNightmareInDreamLand.Levels
         public string EnemyNamespace = Constants.Namespaces.ENEMY_NAMESPACE;
         public string PowerUpNamespace = Constants.Namespaces.POWERUP_NAMESPACE;
 
-        public string NextRoom = "room1";
+        public string NextRoom;
         public Vector2 NextSpawn;
 
 
-        public IGameState _currentState { get; private set; }
+
+        public IGameState _currentState { get; set; }
 
         public readonly IGameState _playingState;
         private readonly IGameState _pausedState;
-        private readonly IGameState _gameOverState;
+        public readonly IGameState _gameOverState;
         private readonly IGameState _debugState;
         private readonly IGameState _transitionState;
 
@@ -49,16 +52,13 @@ namespace KirbyNightmareInDreamLand.Levels
             _game = Game1.Instance;
             _camera = _game.Camera;
             _manager = Game1.Instance.manager;
-            _currentState = new GamePlayingState();
+            _currentState = new GamePlayingState(this);
 
-            NextRoom = "room1";
-            NextSpawn = new Vector2(0,0);
-
-            _playingState = new GamePlayingState();
+            _playingState = new GamePlayingState(this);
             _pausedState = new GamePausedState();
             _gameOverState = new GameGameOverState();
-            _debugState = new GameDebugState();
-            _transitionState = new GameTransitioningState();
+            _transitionState = new GameTransitioningState(this);
+
         }
 
         public void ChangeState(IGameState newState)
@@ -66,9 +66,9 @@ namespace KirbyNightmareInDreamLand.Levels
             _currentState = newState;
         }
 
-        public bool IsCurrentState(IGameState state)
+        public bool IsCurrentState(string state)
         {
-            return _currentState.GetType().Equals(state.GetType());
+            return (_currentState).ToString().Equals(state);
         }
 
         public void Draw()
@@ -93,7 +93,14 @@ namespace KirbyNightmareInDreamLand.Levels
 
         public void GameOver()
         {
-            ChangeState(_gameOverState);
+            NextRoom = "game_over";
+            NextSpawn = new Vector2(2, 7);
+            _currentState = new GameTransitioningState(this);
+        }
+
+        public void ChangeStateToDebug()
+        {
+            ChangeState(_debugState);
         }
 
         // tells player if they are at a door or not 
@@ -120,12 +127,10 @@ namespace KirbyNightmareInDreamLand.Levels
                 {
                     NextRoom = door.DestinationRoom;
                     NextSpawn = door.DestinationPoint;
-                    ChangeState(_transitionState);
+                    _currentState = new GameTransitioningState(this);
                 }
             }
         }
-
-
 
         // Loads a room into the level by name, specifying a spawn point. (for entering from a door)
         public void LoadRoom(string RoomName, Vector2? _spawnPoint)
@@ -136,6 +141,7 @@ namespace KirbyNightmareInDreamLand.Levels
                 _manager.RemoveNonPlayers();
                 _manager.ResetStaticObjects();
                 CurrentRoom = LevelLoader.Instance.Rooms[RoomName];
+                Debug.WriteLine("current room is " + CurrentRoom);
                 LoadLevelObjects();
                 SpawnPoint = _spawnPoint ?? CurrentRoom.SpawnPoint;
                 foreach (IPlayer player in _manager.Players)
@@ -195,7 +201,8 @@ namespace KirbyNightmareInDreamLand.Levels
                 PowerUp new_item = new PowerUp(powerUp.SpawnPoint, powerUp.PowerUpType);
                 powerUpList.Add(new_item);
             }
-        }
+
+}
 
     }
 }

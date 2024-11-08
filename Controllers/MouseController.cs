@@ -68,7 +68,7 @@ namespace KirbyNightmareInDreamLand.Controllers
 
         private void LoadRoom(string roomName)
         {
-            Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
+            Game1.Instance.Level.LoadRoom(roomName);
         }
 
     }
