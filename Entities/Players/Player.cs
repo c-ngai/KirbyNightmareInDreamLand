@@ -7,6 +7,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using KirbyNightmareInDreamLand.Levels;
+using KirbyNightmareInDreamLand.Audio;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -23,8 +24,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public PlayerAttack starAttack {get; private set;}
 
         //health stuffs -- will be taken to another class connected to kirby in next sprint
-        private int health = Constants.Kirby.MAX_HEALTH;
-        private int lives = Constants.Kirby.MAX_LIVES;
+        public int health = Constants.Kirby.MAX_HEALTH;
+        public int lives = Constants.Kirby.MAX_LIVES;
         private bool invincible = false;
         private double timer = 0;
 
@@ -172,7 +173,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void Death() //does nothing this sprint
         {
             //state.ChangeType(KirbyType.Dead);
+<<<<<<< HEAD
             Game1.Instance.Level.GameOver();
+=======
+            SoundManager.Play("kirbydeath");
+            //wait a beat
+            SoundManager.Play("deathjingle");
+>>>>>>> 435ef060204cc564a0693594d48ee8b96720f25f
         }
         private void DecreaseHealth()
         {
@@ -183,7 +190,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if(health == 0)
             {
                 health = Constants.Kirby.MAX_HEALTH;
-                lives--;
+                if (lives != 0) // protects from trying to parse negaive number in HUD, will need to account for death and restarting at some point
+                {
+                    lives--;
+                }
             }
             if(lives == 0)
             {
@@ -197,6 +207,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 if(!IsWithEnemy())ChangeToNormal();
                 if(IsFloating()) movement = new NormalPlayerMovement(GetKirbyPosition());
                 ChangePose(KirbyPose.Hurt);
+                SoundManager.Play("kirbyhurt1");
                 await Task.Delay(Constants.Physics.DELAY);
                 StopMoving();
                 invincible = true;
@@ -267,7 +278,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             SetDirectionLeft();
             movement.Run(state.IsLeft());
-           if(state.CanMove()){
+            if (state.CanMove()){
                 ChangePose(KirbyPose.Running);
             }
         }
@@ -287,6 +298,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if(state.CanJump()){ //not floating, not jumping, not crouching
                 movement = new JumpMovement(movement.GetPosition());
                 ChangePose(KirbyPose.JumpRising);
+                SoundManager.Play("jump");
             }else if (state.IsJumping() && !state.IsFloating()){ //if jumping and x is pressed again
                 //Float();
                 movement.Jump(state.IsLeft());
@@ -327,12 +339,14 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if(state.IsWithEnemy())
             {
                 EndSwallow();
+                SoundManager.Play("swallow");
             }
         }
         public void Slide()
         {
             if(!IsSliding() && attack != null){
                 ChangePose(KirbyPose.Sliding);
+                SoundManager.Play("slide");
                 //await Task.Delay(Constants.Physics.DELAY);
             }
         }
@@ -401,6 +415,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             //flame spark inhale
             if(attack == null && state.LongAttack()){
                 attack = new PlayerAttack(this, AttackType());
+                //SoundManager.Play("spit");
                 ChangePose(KirbyPose.Attacking);
                 movement.Attack(this);
                 //ChangeAttackBool(true);
@@ -438,6 +453,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             StopAttacking();
             SmallWait();
+            SoundManager.Play("catch");
             ChangeToMouthful();
         }
         private async void SwallowAnimation()

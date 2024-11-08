@@ -6,6 +6,8 @@ using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 using KirbyNightmareInDreamLand.Projectiles;
+using KirbyNightmareInDreamLand.Levels;
+using KirbyNightmareInDreamLand.Audio;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -16,6 +18,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         private float currentHopHeight; // Store the current hop height
         private SparkyPlasma sparkyPlasma;
         private bool isPlasmaActive;
+        private bool isJumping = false;
+        private bool isTallJump = false;
+
+        public bool IsJumping => isJumping;
 
         public Sparky(Vector2 startPosition) : base(startPosition, EnemyType.Sparky)
         {
@@ -24,43 +30,40 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             ChangeState(new SparkyPause1State(this)); // Set initial state
             yVel = 0;
             xVel = Constants.Sparky.HOP_SPEED;
-           // isPlasmaActive = false;
         }
 
 
         public override void Move()
         {
-            //Keeps track of number of hoops
-            hopCounter++;
-
-            float t = (float)hopCounter / Constants.Sparky.HOP_FREQUENCY;
-
-            //Y movement calculations for smooth hops
-            yVel = (float)(Math.Sin(t * Math.PI * 2) * currentHopHeight / 2);
-            position.Y -= yVel;
-
-            // X movement. Check direction for boundaries 
-            if (!stateMachine.IsLeft())
+            //X moevement left and right. Turns around at left/right boundary
+            if (stateMachine.IsLeft())
             {
-                //position.X += Constants.Sparky.HOP_SPEED;
-                position.X += xVel;
+                position.X -= xVel;
             }
             else
             {
-                //position.X -= Constants.Sparky.HOP_SPEED;
-                position.X -= xVel;
+                position.X += xVel;
             }
-
-            // Reset and repeat hops
-            if (hopCounter >= Constants.Sparky.HOP_FREQUENCY)
-            {
-                hopCounter = 0;
-            }
+            UpdateTexture();
         }
 
-        public void SetHopHeight(float height)
+        public override void Jump()
         {
-            currentHopHeight = height; // Set the current hop height
+            if (!isJumping)
+            {
+                isJumping = true;
+
+                if (isTallJump)
+                {
+                    yVel = -Constants.Sparky.TALL_JUMP_VELOCITY;
+                } else
+                {
+                    yVel = -Constants.Sparky.SHORT_JUMP_VELOCITY;
+                }
+                isTallJump = !isTallJump;
+            }
+
+            Move();
         }
 
         public override Vector2 CalculateRectanglePoint(Vector2 pos)
@@ -76,45 +79,96 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             Vector2 rectPoint = CalculateRectanglePoint(position);
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENEMY_WIDTH, Constants.HitBoxes.ENEMY_HEIGHT);
         }
-
-
         
- public override void Update(GameTime gameTime)
- {
-     if (!isDead)
-     {
-         IncrementFrameCounter();
-         currentState.Update();
-         UpdateTexture();
-         enemySprite.Update();
-
-         //if (isFalling)
-         //{
-         Fall();
-         //}
-         GetHitBox();
-
-         // Handle the beam if active
-         if (isPlasmaActive)
+         public override void Update(GameTime gameTime)
          {
-             sparkyPlasma.Update();
-             if (sparkyPlasma.IsDone())
+             if (!isDead)
              {
-                 isPlasmaActive = false;
-             }
-         } 
-     }
- }
+                 IncrementFrameCounter();
+                 currentState.Update();
+                 UpdateTexture();
+                 enemySprite.Update();
 
-         public override void Attack()
- {
-     if (!isPlasmaActive)
-     {
-         sparkyPlasma = new SparkyPlasma(position);
-         isPlasmaActive = true;
-     }
- }
- 
+                 GetHitBox();         
+                 Fall();
+                        
+                 // Handle the beam if active
+                 if (isPlasmaActive)
+                 {
+                     sparkyPlasma.Update();
+                     if (sparkyPlasma.IsDone())
+                     {
+                         isPlasmaActive = false;
+                     }
+                 } 
+             }
+         }
+
+        public override void Attack()
+         {
+             if (!isPlasmaActive)
+             {
+                sparkyPlasma = new SparkyPlasma(position);
+                isPlasmaActive = true;
+             }
+         }
+
+        public override void BottomCollisionWithBlock(Rectangle intersection)
+        {
+            isFalling = false;
+            isJumping = false;
+            position.Y = intersection.Y;
+
+            // Note (Mark) THIS IS A BIT JANK
+            // Basically: if colliding with a block from above, change to walking state if jumping
+            if (currentState.GetType().Equals(typeof(SparkyJumpState))) {
+                if (isTallJump)
+                {
+                    ChangeState(new SparkyPause1State(this));
+                }
+                else
+                {
+                    ChangeState(new SparkyPause2State(this));
+                }
+            }
+            yVel = 0;
+        }
+
+        public override void AdjustOnSlopeCollision(Tile tile, float slope, float yIntercept)
+        {
+
+            //GameDebug.Instance.LogPosition(position);
+
+            Rectangle intersection = tile.rectangle;
+            if (position.X > intersection.Left && position.X < intersection.Right)
+            {
+                float offset = position.X - intersection.X;
+                //Debug.WriteLine($"Starting Y position: {position.Y}");
+                float slopeY = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
+                //GameDebug.Instance.LogPosition(intersection.Location.ToVector2());
+                if (position.Y > slopeY)
+                {
+                    position.Y = slopeY;
+
+                    isFalling = false;
+                    isJumping = false;
+                    // TODO: remove band-aid. waddle doo is always still inside the slope on the first frame of his jump, but he shouldn't be. check the order that velocity and position changes happen. position should change by velocity ONCE at the end of an update
+                    if (currentState.GetType().Equals(typeof(SparkyJumpState)) && frameCounter > 0)
+                    {
+                        if (isTallJump)
+                        {
+                            ChangeState(new SparkyPause1State(this));
+                        }
+                        else
+                        {
+                            ChangeState(new SparkyPause2State(this));
+                        }
+                    }
+                    yVel = 0;
+                }
+                //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
+            }
+        }
 
 
     }

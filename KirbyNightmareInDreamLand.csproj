@@ -29,7 +29,6 @@
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="CodeReviews\Sprint4\" />
     <Folder Include="Entities\PowerUps\" />
     <Folder Include="Levels\Transition\" />
     <Folder Include="GameState\" />

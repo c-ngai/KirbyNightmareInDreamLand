@@ -91,9 +91,14 @@ namespace KirbyNightmareInDreamLand.Controllers
         }
         public void PausedUpdate()
         {
-            if(Keyboard.GetState().GetPressedKeys().Contains(Keys.Space))
+            currentState = Keyboard.GetState().GetPressedKeys();
+            foreach (Keys key in currentState)
             {
-                startKeys[Keys.Space].Execute();
+                if(currentState.Contains(Keys.Space))
+                {
+                    startKeys[Keys.Space].Execute();
+                    return;
+                }
             }
         }
     }

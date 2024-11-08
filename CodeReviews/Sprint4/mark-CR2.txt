@@ -1,0 +1,77 @@
+Sprint 4 Quality Code Review     11/5/2024
+
+Author of Code Review: Mark DeLeo
+Name of .cs file being reviewed: Level.cs
+Author of .cs file being reviewed: Vivian Ferrigni
+
+Number of minutes to complete review: 40 minutes
+
+################################################################################ 
+
+10 Code Smells
+
+ 1. SameNameDifferentMeaning
+ 2. YouDontNeedItAnymore
+ 3. DataClumps
+ 4. InappropriateIntimacy
+ 5. FeatureEnvy
+ 6. DuplicatedCode
+ 7. VariableSameNameAsType
+ 8. TooManyParameters
+ 9. LongMethod
+10. GodClass
+
+################################################################################
+
+
+Comments on Code Smells:
+
+ - GodClass: Level has taken on quite a few features over time and I think a lot of
+ them belong somewhere else. A lot of the responsibilites of Level could probably
+ be more appropriately split up into other classes.
+
+ - FeatureEnvy: Basically already said it with GodClass above, but there's a lot of
+ feature envy here since there's a good deal of functionality that's more
+ interested in other classes than Level itself. 
+
+
+
+Comments on Code Quality:
+
+The code itself in Level is looking pretty good! Most of my criticisms are moreso
+with where code is that with what it's doing. I like the division into regions, but
+a lot of the code still feels like it belongs in other classes.
+
+ - Enemies should probably not be stored in Level, they should be in ObjectManager.
+ I think LoadLevelObjects() can remain almost completely intact, the main change
+ needed is probably just having ObjectManager own the actual enemy list. You can
+ still tell ObjectManager to load an enemy from Level, you'd probably just pass it
+ into a method or something. Drawing and Updating on enemies should also probably
+ be handled by ObjectManager if that's where they'll be stored.
+
+     - Related side note: in general, be very careful when overriding an existing
+     collection field with a new instance. For example: when loading a new room, it
+     would probably be better to clear the existing enemy list rather than to throw
+     away the old one and make a new one. I feel like some of our issues with
+     lingering collision hitboxes might stem from this issue. In a lot of cases,
+     you should want to TELL things that they're getting discarded so that they can
+     take extra steps to unload things if needed. If you just throw away the
+     collection containing them, they have no way of knowing. It really depends on
+     the situation though, since I know I'm making a pretty broad statement here.
+
+ - Pause screen behavior belongs somewhere else.
+
+ - I've already mentioned this before, but the screen fade should especially be
+ somewhere else, since you want to draw it AFTER everything that you want to be
+ covered by the fade. There's just no easy or convenient way to do that with it in
+ Level, since some things that you want covered by the fade are drawn after Level.
+
+ - Also already mentioned this before, but I'm still a little confused by the
+ LevelStateMachine. I think I understand what it does for the most part, but I'm
+ not sure what it really has to do directly with the Level? It seems more broad
+ than just Level, since pausing/winning/losing and such affects more than just that
+ exists in Level. Personally I think the scope of what it handles is broad enough
+ to warrant it going directly in Game1, and maybe being named like GameStateMachine
+ or something. Again, I totally understand the justification for the state machine
+ and its functionality in general, I just don't understand why it's attached
+ specifically to Level.

@@ -5,6 +5,7 @@ using KirbyNightmareInDreamLand.Sprites;
 using KirbyNightmareInDreamLand.StateMachines;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using KirbyNightmareInDreamLand.Audio;
 
 
 namespace KirbyNightmareInDreamLand.Entities.PowerUps
@@ -26,7 +27,6 @@ namespace KirbyNightmareInDreamLand.Entities.PowerUps
             powerUpType = type;
             powerUpSprite = SpriteFactory.Instance.CreateSprite(powerUpType);
             ObjectManager.Instance.RegisterDynamicObject(this);
-
         }
         public string GetObjectType()
         {
@@ -79,6 +79,7 @@ namespace KirbyNightmareInDreamLand.Entities.PowerUps
 
         public void UsePowerUp()
         {
+            SoundManager.Play("itempickup");
             CollisionActive = false;
             // more power up affect logic here 
         }
