@@ -1,4 +1,31 @@
 {
+    "AttackKeyMap": [
+        {
+            "Key": "Space",
+            "ExecutionType": "StartingPress",
+            "Command": "PauseCommand"
+        },
+        {
+            "Key": "Z",
+            "ExecutionType": "StartingPress",
+            "Command": "KirbyAttackCommand",
+            "PlayerIndex": 0
+        },
+        {
+            "Key": "Z",
+            "ExecutionType": "StoppingPress",
+            "Command": "KirbyStopAttackingCommand",
+            "PlayerIndex": 0
+        }
+
+    ], 
+    "PauseKeyMap": [
+        {
+            "Key": "Space",
+            "ExecutionType": "StartingPress",
+            "Command": "PauseCommand"
+        }
+    ],
 
   "keymap1": [
     {
