@@ -17,8 +17,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //make a seperate class to hold all the objects --singleton
         //this class will be refactored in next sprint to make another class: State management
         // and movement management so it is not doing this much
-        private PlayerStateMachine state;
-        private PlayerMovement movement;
+        public PlayerStateMachine state { get; private set; }
+        public PlayerMovement movement { get; private set; }
         private Sprite playerSprite;
         public PlayerAttack attack {get; private set;}
         public PlayerAttack starAttackOne {get; private set;}

@@ -1,10 +1,13 @@
 using Microsoft.Xna.Framework;
 using KirbyNightmareInDreamLand.Sprites;
 using System;
+using KirbyNightmareInDreamLand.StateMachines;
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
     public interface IPlayer : IEntity
     {
+        public PlayerStateMachine state { get; }
+        public PlayerMovement movement { get; }
         void Crouch();
         void EndCrouch();
         void AttackPressed();

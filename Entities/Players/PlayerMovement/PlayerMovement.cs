@@ -177,7 +177,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
 
         #region TileCollision
-        public void AdjustFromBottomCollisionBlock(Rectangle intersection)
+        public virtual void AdjustFromBottomCollisionBlock(Rectangle intersection)
         {
             yVel = 0;
             position.Y = intersection.Y;
