@@ -149,29 +149,40 @@ namespace KirbyNightmareInDreamLand
         #region Audio
         public void LoadAllSounds()
         {
-            foreach (string filepath in Directory.GetFiles(Constants.Filepaths.AudioDirectory, "*.xnb", SearchOption.AllDirectories))
+            // For each file in Content/Audio
+            foreach (string filepath in Directory.GetFiles(Constants.Filepaths.AudioDirectory, "*", SearchOption.AllDirectories))
             {
                 //Debug.WriteLine("Loading sound: " + filepath);
 
+                // Generate the content path as the relative path from /Content/ without a file extension (because monogame is dumb)
                 string directory = Path.GetDirectoryName(Path.GetRelativePath("Content", filepath));
                 string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(filepath);
                 string contentPath = Path.Combine(directory, fileNameWithoutExtension);
 
-                //Debug.WriteLine("   Directory name: " + directory);
-                //Debug.WriteLine("   File name: " + fileNameWithoutExtension);
-                //Debug.WriteLine("   Content path: " + contentPath);
-
+                // Load sound effect, and initialize default end behavior and next sound to nothing/null.
                 SoundEffect soundEffect = _content.Load<SoundEffect>(contentPath);
                 SoundEndBehavior soundEndBehavior = SoundEndBehavior.Nothing;
                 SoundEffect nextSound = null;
 
+                // Create a new Sound object from these three parameters and add it to Sounds
                 Sound sound = new Sound(soundEffect, soundEndBehavior, nextSound);
                 SoundManager.Sounds.Add(fileNameWithoutExtension, sound);
             }
 
+            // Set looping sound behaviors. YES this should probably be data driven, but other stuff is more pressing rn.
             SoundManager.Sounds["inhale"].soundEndBehavior = SoundEndBehavior.LoopNext;
             SoundManager.Sounds["inhale"].nextSound = SoundManager.Sounds["inhale_loop"].soundEffect;
             SoundManager.Sounds["inhale_loop"].soundEndBehavior = SoundEndBehavior.Loop;
+
+            SoundManager.Sounds["kirbyfireattack"].soundEndBehavior = SoundEndBehavior.LoopNext;
+            SoundManager.Sounds["kirbyfireattack"].nextSound = SoundManager.Sounds["kirbyfireattack_loop"].soundEffect;
+            SoundManager.Sounds["kirbyfireattack_loop"].soundEndBehavior = SoundEndBehavior.Loop;
+
+            SoundManager.Sounds["kirbysparkattack"].soundEndBehavior = SoundEndBehavior.Loop;
+
+            SoundManager.Sounds["sparkyattack"].soundEndBehavior = SoundEndBehavior.Loop;
+
+            SoundManager.Sounds["hotheadflamethrowerattack"].soundEndBehavior = SoundEndBehavior.Loop;
 
             SoundManager.Sounds["song_vegetablevalley"].soundEndBehavior = SoundEndBehavior.LoopNext;
             SoundManager.Sounds["song_vegetablevalley"].nextSound = SoundManager.Sounds["song_vegetablevalley_loop"].soundEffect;

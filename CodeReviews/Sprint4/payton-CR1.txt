@@ -1,0 +1,46 @@
+﻿﻿Sprint 4 Readabilty Code Review     11/05/2024
+
+Author of Code Review: Payton Murphy
+Name of .cs file being reviewed: PlayerAttack.cs
+Author of .cs file being reivewed: Lina Aguiar Ordonez
+
+
+Time taken to complete review: 20 minutes
+
+################################################################################
+
+10 Code Smells:
+
+1. SwitchStatementsSmell
+2. SameNameDifferentMeaning
+3. TooManyParameters
+4. InappropriateIntimacy ***
+5. VagueIdentifiers
+6. Middleman
+7. VariableNameSameAsType
+8. WhileNotDoneLoop
+9. DataClumps ***
+10. InstanceofInConditionals
+
+################################################################################
+
+Comments on code smells:
+
+InappropriateImtimacy: PlayerAttack is accessing Player methods GetKirbyPosition() and isLeft() directly.
+This could potentially be considered a case of InapproptiateIntimacy if it creates excessive dependency. 
+In this case, since they both deal with the player, I think it is okay, but you might consider adding a
+wrapper method or encapsulation to reduce dependency on Player methods if PlayerAttack becomes too tightly
+coupled with Player.
+
+DataClumps: Several attack types use the same data--GetKirbyPosition() and IsLeft(), which could indicate a
+clump when these attributes are always used togehter. If more parameters are added, it might be a good idea
+to encapsulate them into a class.
+
+No other major code smells were detected. Good job!
+
+Readability comments:
+
+The code is generally readable and organized well. It has descriptive variable and method names that enhance
+the readability. The dictionary design for attackFactories is a clean way to handle multiple attack types
+without relying on conditionals or switch-case. The method calls are concise, and the logic within each
+method is cohesive and straightforward. Overall, the class' readability is very strong. Well done!

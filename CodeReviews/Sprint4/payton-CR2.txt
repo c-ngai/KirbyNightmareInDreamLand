@@ -1,0 +1,44 @@
+﻿Sprint 4 Readabilty Code Review     11/07/2024
+
+Author of Code Review: Payton Murphy
+Name of .cs file being reviewed: Sparky.cs
+Author of .cs file being reivewed: Gwyn Barnholtz
+
+Time taken to complete review: 30 minutes
+
+################################################################################
+
+10 Code Smells:
+
+1. SwitchStatementsSmell
+2. SameNameDifferentMeaning
+3. TooManyParameters
+4. InappropriateIntimacy
+5. VagueIdentifiers
+6. Middleman ***
+7. VariableNameSameAsType
+8. WhileNotDoneLoop
+9. DataClumps
+10. InstanceofInConditionals
+
+################################################################################
+
+Comments on code smells:
+
+Middleman:  Sparky can potentially by classified as a middleman in managing sparkyPlasma for the plasma attack
+logic. If the plasma object could handle its own lifecycle, the middleman role of Sparky could me mitigated. 
+However, I think it's fine here since the use is pretty minor. It could be more of an issue if other attacks
+were incorporated.
+
+No other major code smells were detected. Nice!
+
+
+Quality/Maintainability comments:
+
+The structure of the code is clearly organized with separation of movement, state changes, and attack functionality.
+Some methods are a little too long, such as AdjustOnSlopeCollision, which has multiple responsibilities (position
+adjustments, collision checks, state changes, etc.). refactoring it into helper methods would improve maintainability.
+As for a hypothetical change, suppose the game introduced more enemy behaviors or new state for Sparky. With the current
+setup, adding a new state would require modifying Sparky directly to accommodate the currentState.GetType checks. Using
+polymorphism could allow Sparky to manage any state type without needing further changes. This would make the game more
+scalable.

@@ -133,7 +133,7 @@ namespace KirbyNightmareInDreamLand
             MouseController = new MouseController();
 
             GamePad.InitDatabase();
-
+            
             SoundEffect.Initialize();
 
             base.Initialize();
@@ -171,7 +171,7 @@ namespace KirbyNightmareInDreamLand
             music = SoundManager.CreateInstance("song_vegetablevalley");
             music.Play();
 
-            hud = new HUD();
+            hud = new HUD(manager.kirby);
         }
 
 
@@ -187,6 +187,8 @@ namespace KirbyNightmareInDreamLand
             {
                 base.Update(gameTime);
                 time = gameTime;
+
+                hud.Update(gameTime);
 
                 GameDebug.Instance.ResetCounters();
 
@@ -204,6 +206,7 @@ namespace KirbyNightmareInDreamLand
 
                 Level.UpdateLevel();
 
+                ObjectManager.Instance.ResetDebugStaticObjects();
                 ObjectManager.Instance.OrganizeList();
 
                 CollisionDetection.Instance.CheckCollisions();
@@ -268,11 +271,6 @@ namespace KirbyNightmareInDreamLand
 
                 _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.ScreenMatrix);
                 hud.Draw(_spriteBatch);
-                // Draw thumbstick input if debug text is on
-                if (DEBUG_TEXT_ENABLED)
-                {
-                    GameDebug.Instance.DrawThumbstickInput(_spriteBatch);
-                }
                 _spriteBatch.End();
                 // Restore old culling mode
                 CULLING_ENABLED = old_CULLING_ENABLED;
@@ -284,7 +282,6 @@ namespace KirbyNightmareInDreamLand
                 if (DEBUG_TEXT_ENABLED)
                 {
                     GameDebug.Instance.DrawDebugText(_spriteBatch);
-                    manager.ResetDebugStaticObjects();
                 }
 
                 // Draw borders (should only be visible in fullscreen for letterboxing)
