@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using System.Diagnostics;
 using System;
 using System.Linq;
+using KirbyNightmareInDreamLand.Particles;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -22,13 +23,19 @@ namespace KirbyNightmareInDreamLand
         // Single-player but can later be updated to an array of kirbys for multiplayer
         public List<IPlayer> Players { get; private set; }
 
+
         public Player kirby;
 
         public IEnemy[] EnemyList { get; set; }
 
+        public List<IParticle> Particles { get; private set; }
         public Sprite Item { get; set; }
 
         public string[] tileTypes { get; private set; } = new string[Constants.Level.NUMBER_OF_TILE_TYPES];
+
+        // fields and methods for score
+        public int Score { get; private set; }
+
 
         private static ObjectManager instance = new ObjectManager();
         public static ObjectManager Instance
@@ -39,8 +46,14 @@ namespace KirbyNightmareInDreamLand
             }
         }
 
-        // fields and methods for score
-        public int Score { get; private set; }
+        public ObjectManager()
+        {
+            DynamicObjects = new List<ICollidable>();
+            StaticObjects = new List<ICollidable>();
+            DebugStaticObjects = new List<ICollidable>();
+            Particles = new List<IParticle>();
+            InitializeTileTypes();
+        }
 
         public void UpdateScore(int points)
         {
@@ -48,25 +61,26 @@ namespace KirbyNightmareInDreamLand
         }
 
 
-        public ObjectManager()
-        {
-            DynamicObjects = new List<ICollidable>();
-            StaticObjects = new List<ICollidable>();
-            DebugStaticObjects = new List<ICollidable>();
-            InitializeTileTypes();
-        }
-
         public void LoadKirby()
         {
             // Creates kirby object
             Players = new List<IPlayer>();
-            kirby = new Player(new Vector2(30, Constants.Graphics.FLOOR));
+            kirby = new Player(new Vector2(Constants.Kirby.STARTINGXPOSITION, Constants.Graphics.FLOOR));
             Players.Add(kirby);
             // Target the camera on Kirby
             Camera camera = Game1.Instance.Camera;
             camera.TargetPlayer(Players[0]);
         }
 
+        public void AddParticle(IParticle particle)
+        {
+            Particles.Add(particle);
+        }
+
+        public void UpdateParticles()
+        {
+            Particles.RemoveAll(obj => obj.IsDone());
+        }
 
         #region Collision
         public void InitializeTileTypes()

@@ -6,6 +6,7 @@ using Microsoft.VisualBasic;
 using KirbyNightmareInDreamLand.Levels;
 using System.Diagnostics;
 using System;
+using KirbyNightmareInDreamLand.Particles;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -165,12 +166,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
 
         #region TileCollision
-        public virtual void AdjustFromBottomCollisionBlock(Rectangle intersection)
+        public void AdjustFromBottomCollisionBlock(Rectangle intersection)
         {
             yVel = 0;
             position.Y = intersection.Y;
             ChangeKirbyLanded(true);
-
         }
 
         public virtual void AdjustFromRightCollisionBlock(Rectangle intersection)

@@ -20,10 +20,13 @@ namespace KirbyNightmareInDreamLand.Particles
         public Star(Vector2 kirbyPosition)
         {
             randomGenerator = new Random();
-            spawnPoint = SpawnPoints[randomGenerator.Next(0, 8)];
+            
+            // Randomly generates the star at one of the 8 possible offsets 
+            spawnPoint = SpawnPoints[randomGenerator.Next(Constants.Particle.STARPOSITION1, Constants.Particle.STARPOSITION8)];
 
             position = kirbyPosition + spawnPoint;
-            sprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_right");
+            sprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_star_right");
+            ObjectManager.Instance.AddParticle(this);
             completed = false;
         }
 
@@ -37,22 +40,19 @@ namespace KirbyNightmareInDreamLand.Particles
             }
             else
             {
-                completed = true;
                 sprite = null;
+                completed = true;
             }
-        }
-
-        public bool isDone()
-        {
-            return completed;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (!completed && sprite != null)
-            {
-                sprite.Draw(position, spriteBatch);
-            }
+            sprite.Draw(position, spriteBatch);
+        }
+
+        public bool IsDone()
+        {
+            return completed;
         }
     }
 }

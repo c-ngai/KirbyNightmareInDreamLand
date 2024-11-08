@@ -15,6 +15,7 @@ using Microsoft.Xna.Framework.Media;
 using System.Xml.Linq;
 using KirbyNightmareInDreamLand.Audio;
 using Microsoft.Xna.Framework.Input;
+using KirbyNightmareInDreamLand.Particles;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -192,10 +193,14 @@ namespace KirbyNightmareInDreamLand
 
                 foreach(IPlayer player in manager.Players) player.Update(time);
 
+                foreach (IParticle particle in manager.Particles) particle.Update();
+
+                manager.UpdateParticles();
+
                 Level.UpdateLevel();
 
-                ObjectManager.Instance.ResetDebugStaticObjects();
-                ObjectManager.Instance.OrganizeList();
+                manager.ResetDebugStaticObjects();
+                manager.OrganizeList();
 
                 CollisionDetection.Instance.CheckCollisions();
 
@@ -230,6 +235,9 @@ namespace KirbyNightmareInDreamLand
 
                 // Draw kirby
                 foreach(IPlayer player in manager.Players) player.Draw(_spriteBatch);
+
+                // Draw particles
+                foreach (IParticle particle in manager.Particles) particle.Draw(_spriteBatch);
 
                 // Not currently using item
                 // item.Draw(new Vector2(200, 150), spriteBatch);
