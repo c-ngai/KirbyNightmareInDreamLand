@@ -245,7 +245,12 @@ namespace KirbyNightmareInDreamLand
             public const int FRAME_FIVE = 4;
         }
 
-        public class BrontoBurt
+        public class Enemies
+        {
+            public const int DELAY = 400;
+        }
+
+            public class BrontoBurt
         {
             public const float MOVE_SPEED = 0.5f;
             public const float WAVE_AMPLITUDE = 10f; // height of wave
@@ -318,6 +323,31 @@ namespace KirbyNightmareInDreamLand
             public static Vector2 STAR_OFFSET_BOTTOMLEFT = new Vector2(-4, 0);
             public static Vector2 STAR_OFFSET_BOTTOM = new Vector2(0, 0);
             public static Vector2 STAR_OFFSET_BOTTOMRIGHT = new Vector2(4, 0);
+
+        }
+
+        public class HUD
+        {
+            public const float SLIDE_SPEED = 1f; // Speed at which sprites slide up/down
+            public const float STAY_TIME = 2f; // Time in seconds to stay at position (0, 115)
+            public static Vector2 POWERUP_INIT_POS = new Vector2(0, 147);
+            public const float POWERUP_INIT_TIMER = 0f; 
+            public const int POWERUP_MAX_Y = 115;
+            public const int SPRITES_Y = 147;
+            public const int SCORE_PAD = 8;
+            public const int SPRITE_GAP = 8;
+            public static Vector2 LIVES_ICON_POS = new Vector2(57, 147);
+            public const int LIVES_PAD = 2;
+            public static Vector2 LIVES_TENS_POS = new Vector2(80, 147);
+            public static Vector2 LIVES_ONES_POS = new Vector2(88, 147);
+            public const int HEALTH_INIT_X = 104;
+            public const int HEALTH_Y = 146;
+            public const int HEALTH_NEXT_X = 8;
+
+
+
+
+
 
         }
     }

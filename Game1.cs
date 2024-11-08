@@ -160,7 +160,7 @@ namespace KirbyNightmareInDreamLand
             music = SoundManager.CreateInstance("song_vegetablevalley");
             music.Play();
 
-            hud = new HUD();
+            hud = new HUD(manager.kirby);
         }
 
 
@@ -176,6 +176,8 @@ namespace KirbyNightmareInDreamLand
             {
                 base.Update(gameTime);
                 time = gameTime;
+
+                hud.Update(gameTime);
 
                 GameDebug.Instance.ResetCounters();
 

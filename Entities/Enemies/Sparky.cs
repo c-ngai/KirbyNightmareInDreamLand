@@ -7,6 +7,7 @@ using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 using KirbyNightmareInDreamLand.Projectiles;
 using KirbyNightmareInDreamLand.Levels;
+using KirbyNightmareInDreamLand.Audio;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -107,8 +108,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
          {
              if (!isPlasmaActive)
              {
-                 sparkyPlasma = new SparkyPlasma(position);
-                 isPlasmaActive = true;
+                sparkyPlasma = new SparkyPlasma(position);
+                isPlasmaActive = true;
              }
          }
 

@@ -8,6 +8,8 @@ using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 using System;
 using KirbyNightmareInDreamLand.Levels;
 using System.Diagnostics;
+using KirbyNightmareInDreamLand.Audio;
+using System.Threading.Tasks;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -116,9 +118,35 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             currentState.Enter();
         }
 
-        public void TakeDamage(Rectangle intersection)
+        public async void TakeDamage(Rectangle intersection)
+        {
+
+            int points = 0;
+
+            // Determine points based on the type of enemy
+            if (this is WaddleDoo || this is BrontoBurt || this is Hothead || this is Sparky)
+            {
+                points = 600;
+            }
+            else if (this is WaddleDee || this is PoppyBrosJr)
+            {
+                points = 400;
+            }
+
+            // Update the score in ObjectManager
+            Game1.Instance.manager.UpdateScore(points);
+
+            currentState.TakeDamage();
+            CollisionActive = false;
+            SoundManager.Play("enemydamage");
+            await Task.Delay(Constants.Enemies.DELAY);
+            SoundManager.Play("enemyexplode");
+        }
+
+        public void GetSwallowed(Rectangle intersection)
         {
             currentState.TakeDamage();
+            this.TakeDamage(intersection);
             CollisionActive = false;
         }
 

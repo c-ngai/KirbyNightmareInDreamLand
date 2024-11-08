@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using KirbyNightmareInDreamLand.StateMachines;
+using KirbyNightmareInDreamLand.Audio;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -36,6 +37,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             kirby.ChangePose(KirbyPose.Standing);
             yVel = 0;
             kirby.ChangeMovement();
+            SoundManager.Play("land");
 
         }
         //checks if kirby is going down to start the falling animation
