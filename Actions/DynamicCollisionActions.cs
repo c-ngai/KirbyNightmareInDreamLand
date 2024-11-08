@@ -48,7 +48,7 @@ namespace KirbyNightmareInDreamLand.Actions
             if (type.Equals("Enemy"))
             {
                 Enemy enemy = (Enemy)object1;
-                enemy.TakeDamage(intersection);
+                enemy.GetSwallowed(intersection);
             }
 
             if(object2 is Inhale)

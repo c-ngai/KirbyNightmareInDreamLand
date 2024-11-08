@@ -7,6 +7,11 @@ namespace KirbyNightmareInDreamLand
     {
         public static readonly List<string> ValidEnemyNames = new List<string> { "WaddleDee", "WaddleDoo", "BrontoBurt", "PoppyBrosJr", "Sparky", "Hothead" };
 
+        public static class Game
+        {
+            public const int MAXIMUM_PLAYER_COUNT = 4;
+        }
+
         public static class Filepaths
         {
             public const string TextureList = "Content/Images/Textures.txt";
@@ -44,7 +49,7 @@ namespace KirbyNightmareInDreamLand
             public const float FLOAT_GRAVITY = 5f; //its 2f as the gravity times 0.01 as a "time elapsed" so float kirby falls at a constan rate
             public const float FLOAT_GRAVITY2 = 0.16f; //the other gravity rate but the float where this is used does not have game time acess
             public const float JUMP_VEL = -2f;
-            public const float JUMP_MAX_HEIGHT = 200; // 45 IS ACTUAL VALUE, 200 is for moonjump while wip // Slight misnomer, not the max height of the jump but the height that you can no longer accellerate upwards at by holding jump
+            public const float JUMP_MAX_HEIGHT = 45; // Slight misnomer, not the max height of the jump but the height that you can no longer accellerate upwards at by holding jump
             public const float FLOAT_VEL = 0.9F;
             public const float WALKING_VELOCITY = 1.3f;
             public const float RUNNING_VELOCITY = 1.75f;
@@ -225,7 +230,7 @@ namespace KirbyNightmareInDreamLand
 
         public class Star
         {
-            public const float SPEED = 1f; // Constant speed of the star
+            public const float SPEED = 4f; // Constant speed of the star
 
         }
 
@@ -240,7 +245,12 @@ namespace KirbyNightmareInDreamLand
             public const int FRAME_FIVE = 4;
         }
 
-        public class BrontoBurt
+        public class Enemies
+        {
+            public const int DELAY = 400;
+        }
+
+            public class BrontoBurt
         {
             public const float MOVE_SPEED = 0.5f;
             public const float WAVE_AMPLITUDE = 10f; // height of wave
@@ -264,9 +274,7 @@ namespace KirbyNightmareInDreamLand
         public class PoppyBrosJr
         {
             public const float MOVE_SPEED = 0.5f;
-            public const int HOP_FREQUENCY = 60; // frames between hops
-            public const float HOP_HEIGHT = 1f; //height of hops
-            public const int HOP_FRAMES = 180;
+            public const float JUMP_VELOCITY = 1.5f;
             public const int HURT_FRAMES = 50;
 
         }
@@ -277,6 +285,8 @@ namespace KirbyNightmareInDreamLand
             public const float SHORT_HOP_HEIGHT = 1f;
             public const float TALL_HOP_HEIGHT = 2f;
             public const float HOP_SPEED = 0.4f; // speed
+            public const float TALL_JUMP_VELOCITY = 2.1f;
+            public const float SHORT_JUMP_VELOCITY = 1.5f;
 
             public const int PAUSE_TIME = 30;
             public const int ATTACK_TIME = 120;
@@ -313,6 +323,31 @@ namespace KirbyNightmareInDreamLand
             public static Vector2 STAR_OFFSET_BOTTOMLEFT = new Vector2(-4, 0);
             public static Vector2 STAR_OFFSET_BOTTOM = new Vector2(0, 0);
             public static Vector2 STAR_OFFSET_BOTTOMRIGHT = new Vector2(4, 0);
+
+        }
+
+        public class HUD
+        {
+            public const float SLIDE_SPEED = 1f; // Speed at which sprites slide up/down
+            public const float STAY_TIME = 2f; // Time in seconds to stay at position (0, 115)
+            public static Vector2 POWERUP_INIT_POS = new Vector2(0, 147);
+            public const float POWERUP_INIT_TIMER = 0f; 
+            public const int POWERUP_MAX_Y = 115;
+            public const int SPRITES_Y = 147;
+            public const int SCORE_PAD = 8;
+            public const int SPRITE_GAP = 8;
+            public static Vector2 LIVES_ICON_POS = new Vector2(57, 147);
+            public const int LIVES_PAD = 2;
+            public static Vector2 LIVES_TENS_POS = new Vector2(80, 147);
+            public static Vector2 LIVES_ONES_POS = new Vector2(88, 147);
+            public const int HEALTH_INIT_X = 104;
+            public const int HEALTH_Y = 146;
+            public const int HEALTH_NEXT_X = 8;
+
+
+
+
+
 
         }
     }

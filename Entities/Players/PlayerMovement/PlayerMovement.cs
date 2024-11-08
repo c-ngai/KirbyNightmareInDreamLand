@@ -15,7 +15,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //seperate movement and state 
         //make these #define
 
-        protected float yVel = Constants.Physics.GRAVITY;
+        protected float yVel = 0;
         protected float xVel = 0;
         protected float walkingVel = Constants.Physics.WALKING_VELOCITY;
         protected float runningVel = Constants.Physics.RUNNING_VELOCITY;

@@ -22,6 +22,8 @@ namespace KirbyNightmareInDreamLand
         // Single-player but can later be updated to an array of kirbys for multiplayer
         public List<IPlayer> Players { get; private set; }
 
+        public Player kirby;
+
         public IEnemy[] EnemyList { get; set; }
 
         public Sprite Item { get; set; }
@@ -36,6 +38,16 @@ namespace KirbyNightmareInDreamLand
                 return instance;
             }
         }
+
+        // fields and methods for score
+        public int Score { get; private set; }
+
+        public void UpdateScore(int points)
+        {
+            Score += points;
+        }
+
+
         public ObjectManager()
         {
             DynamicObjects = new List<ICollidable>();
@@ -48,7 +60,7 @@ namespace KirbyNightmareInDreamLand
         {
             // Creates kirby object
             Players = new List<IPlayer>();
-            IPlayer kirby = new Player(new Vector2(30, Constants.Graphics.FLOOR));
+            kirby = new Player(new Vector2(30, Constants.Graphics.FLOOR));
             Players.Add(kirby);
             // Target the camera on Kirby
             Camera camera = Game1.Instance.Camera;
