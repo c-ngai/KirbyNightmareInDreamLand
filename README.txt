@@ -1,12 +1,11 @@
 ﻿
 Team Kirby Superstars
-Sprint2: 9/30/2024 - 10/18/2024
+Sprint4: 10/21/2024 - 11/09/2024
 
 Group Members:  Gwyneth Barnholtz, Mark DeLeo, Vivian Ferrigni, Payton Murphy,
                 Carman Ngai, Lina Ordonez Aguiar
 
-Project: Sprint3 - Level Loading/Segmentation and Collision Handling
-         Kirby: Nightmare in Dreamland, Level 1 
+Project: Sprint4 - Finished framework and first level
 
 ###############################################################################
 
@@ -45,6 +44,9 @@ The 'z' key:
 
 Number keys (1, 2, 3, 4) can be used to show Kirby use a different power-up modes
 (Normal, Beam, Fire, Spark). ***
+
+8, 9, and 0 keys can be used to show the different powerup cards (beam, spark, fire) on the HUD.
+Note that this will later be changed to show the cards when Kirby gets a powerup in Sprint5.
 
 Use 'q' to quit and 'r' to reset the program back to its initial state.
 
