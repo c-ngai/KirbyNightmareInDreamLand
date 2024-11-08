@@ -89,17 +89,5 @@ namespace KirbyNightmareInDreamLand.Controllers
             // Stores current iteration state for next iteration's use 
             oldKeyStates = tempDict;
         }
-        public void PausedUpdate()
-        {
-            currentState = Keyboard.GetState().GetPressedKeys();
-            foreach (Keys key in currentState)
-            {
-                if(currentState.Contains(Keys.Space))
-                {
-                    startKeys[Keys.Space].Execute();
-                    return;
-                }
-            }
-        }
     }
 }

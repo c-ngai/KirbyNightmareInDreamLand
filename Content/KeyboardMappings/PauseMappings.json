@@ -1,0 +1,10 @@
+{
+
+    "keymap2": [
+        {
+            "Key": "Space",
+            "ExecutionType": "StartingPress",
+            "Command": "PauseCommand"
+        }
+    ]
+}

@@ -8,7 +8,6 @@ namespace KirbyNightmareInDreamLand.Entities
         void TakeDamage(Rectangle intersection);
         void Attack();
         void Update(GameTime gametime);
-        String GetCollisionType();
         void Draw(SpriteBatch spriteBatch);
 
     }

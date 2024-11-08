@@ -18,7 +18,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
         public ElectricAttack(Vector2 pos, bool isLeft)
         {
-            IsLeft = isLeft;
             Position = pos;
             ObjectManager.Instance.RegisterDynamicObject(this);
             sound = SoundManager.CreateInstance("kirbysparkattack");

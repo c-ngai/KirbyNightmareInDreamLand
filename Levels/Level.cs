@@ -83,11 +83,15 @@ namespace KirbyNightmareInDreamLand.Levels
 
         public void PauseLevel()
         {
+            LevelLoader.Instance.LoadKeymap("PauseKeyMap");
             ChangeState(_pausedState);
+           
+    
         }
 
         public void UnpauseLevel()
         {
+            LevelLoader.Instance.LoadKeymap("KeyMap1");
             ChangeState(_playingState);
         }
 

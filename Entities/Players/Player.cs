@@ -125,10 +125,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             return movement.GetPosition();
         }
-        public String GetCollisionType()
-        {
-            return "Player";
-        }
         #endregion
 
         #region Power-Up
@@ -204,13 +200,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
             if(health == 0) //health decresed to 0 and lost life
             {
-                FillHealth();
                 lives--;
                 Death();
                 if(lives == 0){
                     //go to game over
                     GameOverKirby(); //emporary to make sure kirby gets health filed up
                 }
+                FillHealth();
             } else { //health decreased,  but didnt loose life
                 TakeDamageAnimation();
                 movement.ReceiveDamage(intersection);
@@ -426,6 +422,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 //ChangeAttackBool(true);
             } else if (attack == null && state.ShortAttack()) { //slide beam float exhale 
                 attack = new PlayerAttack(this, AttackType());
+                
                 if(!state.IsCrouching())AttackAnimation();
                 movement.Attack(this);
             }

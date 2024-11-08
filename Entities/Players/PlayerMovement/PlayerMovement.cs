@@ -147,9 +147,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
             if(position.Y > Game1.Instance.Level.CurrentRoom.Height)
             {
-                Console.WriteLine("here");
-                kirby.RestartKirby();
                 Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
+                if(kirby.lives == 0) // game over 
+                {
+                    
+                } else {
+                    kirby.RestartKirby();
+                }
             }
         }
         //ensures sprite does not leave the window
