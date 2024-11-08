@@ -213,7 +213,7 @@ namespace KirbyNightmareInDreamLand
         
         protected override void Draw(GameTime gameTime)
         {
-            if(!PAUSED) {
+            //if(!PAUSED) {
                 GraphicsDevice.Clear(Color.White);
                 base.Draw(gameTime);
 
@@ -268,7 +268,7 @@ namespace KirbyNightmareInDreamLand
                 GameDebug.Instance.DrawBorders(_spriteBatch);
 
                 //manager.UpdateObjectLists();
-            }
+            //}
         }
 
     }

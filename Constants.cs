@@ -145,8 +145,8 @@ namespace KirbyNightmareInDreamLand
 
         public class Kirby
         {
-            public const int MAX_HEALTH = 6;
-            public const int MAX_LIVES = 3;
+            public const int MAX_HEALTH = 1;
+            public const int MAX_LIVES = 10;
             public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(13, -7);
             public static Vector2 BEAM_ATTACK_OFFSET_LEFT = new Vector2(-13, -7);
             public static Vector2 PUFF_ATTACK_OFFSET = new Vector2(15, 0);

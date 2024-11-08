@@ -40,12 +40,14 @@ namespace KirbyNightmareInDreamLand.Levels
 
 
         public IGameState _currentState { get; set; }
+        private string oldGameState;
 
         public readonly IGameState _playingState;
         private readonly IGameState _pausedState;
         public readonly IGameState _gameOverState;
         private readonly IGameState _debugState;
         private readonly IGameState _transitionState;
+        private readonly BaseGameState _lifeLost;
 
         public Level()
         {
@@ -58,7 +60,9 @@ namespace KirbyNightmareInDreamLand.Levels
             _pausedState = new GamePausedState();
             _gameOverState = new GameGameOverState();
             _transitionState = new GameTransitioningState(this);
+            _lifeLost = new GameLifeLostState(this);
 
+            oldGameState = _currentState.ToString();
         }
 
         public void ChangeState(IGameState newState)
@@ -76,9 +80,39 @@ namespace KirbyNightmareInDreamLand.Levels
             _currentState.Draw();
         }
 
+        private static Dictionary<string, string> gameStateKeymaps = new  Dictionary<string, string> 
+        {
+            {"KirbyNightmareInDreamLand.GameState.GamePlayingState", "keymap1"},
+            {"KirbyNightmareInDreamLand.GameState.GamePausedState", "PauseKeyMap"},
+            {"KirbyNightmareInDreamLand.GameState.GameGameOverState", "keymap1"},
+            {"KirbyNightmareInDreamLand.GameState.GameDebugState", "keymap1"},
+            {"KirbyNightmareInDreamLand.GameState.GameTransitioningState", "PauseKeyMap"},
+            {"KirbyNightmareInDreamLand.GameState.GameLifeLostState", "PauseKeyMap"}
+        };
+        
+        private void UpdateKeymap()
+        {
+            string currentGameState = _currentState.ToString();
+            if(currentGameState != oldGameState)
+            {
+                if (gameStateKeymaps.ContainsKey(currentGameState))
+                {
+                    LevelLoader.Instance.LoadKeymap(gameStateKeymaps[currentGameState]);
+                }
+                else
+                {
+                    Debug.WriteLine(" [ERROR] Level.UpdateKeymap(): gameStateKepmaps does not contain key \"" + currentGameState + "\"");
+                }
+                
+            }
+            oldGameState = _currentState.ToString();
+        }
+
         public void UpdateLevel()
         {
             _currentState.Update();
+            UpdateKeymap();
+
         }
 
         public void PauseLevel()
@@ -90,7 +124,14 @@ namespace KirbyNightmareInDreamLand.Levels
         {
             ChangeState(_playingState);
         }
-
+        public void ChangeToLifeLost()
+        {
+            ChangeState(_lifeLost);
+        }
+        public void ChangeToPlaying()
+        {
+            ChangeState(_playingState);
+        }
         public void GameOver()
         {
             NextRoom = "game_over";
