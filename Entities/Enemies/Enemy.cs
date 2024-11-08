@@ -45,7 +45,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             currentState = new WaddleDooWalkingState(this); // Initialize with the walking state
             ObjectManager.Instance.RegisterDynamicObject(this);
             currentState.Enter();
-            frameCounter = 0; 
+            frameCounter = 0;
+            UpdateTexture();
         }
 
         public string GetObjectType()

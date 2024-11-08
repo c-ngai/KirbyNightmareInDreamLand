@@ -7,7 +7,14 @@ namespace KirbyNightmareInDreamLand.Commands
 
         public void Execute()
         {
-            Game1.Instance.PAUSED = !Game1.Instance.PAUSED;
+            if (Game1.Instance.Level.IsCurrentState("KirbyNightmareInDreamLand.GameState.GamePausedState"))
+            {
+                Game1.Instance.Level.UnpauseLevel();
+            }
+            else
+            {
+                Game1.Instance.Level.PauseLevel();
+            }           
         }
     }
 }

@@ -189,6 +189,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             state.ChangePose(KirbyPose.DeathSpin);
             movement.DeathSpin();
             CollisionActive = false;
+
         }
         public void GameOverKirby()
         {
@@ -216,6 +217,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
             
         }
+
         //calls method to drecease health & changes kirby pose
         private async void TakeDamageAnimation()
         {
