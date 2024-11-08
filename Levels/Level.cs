@@ -201,8 +201,7 @@ namespace KirbyNightmareInDreamLand.Levels
                 PowerUp new_item = new PowerUp(powerUp.SpawnPoint, powerUp.PowerUpType);
                 powerUpList.Add(new_item);
             }
-
-}
+        }
 
     }
 }

@@ -197,6 +197,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 Death();
             }
         }
+
         //calls method to drecease health & changes kirby pose
         private async void TakeDamageAnimation()
         {

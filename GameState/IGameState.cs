@@ -150,6 +150,7 @@ namespace KirbyNightmareInDreamLand.GameState
             DrawDoors(spriteBatch);
             DrawSpawnPoints(spriteBatch);
             DrawLevelObjects(spriteBatch);
+            foreach (IPlayer player in _manager.Players) player.Draw(spriteBatch);
         }
 
         // Draws a rectangle at every door with its destination room written above
