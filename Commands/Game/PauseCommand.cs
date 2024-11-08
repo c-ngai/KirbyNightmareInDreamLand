@@ -1,5 +1,7 @@
 
 
+using KirbyNightmareInDreamLand.Audio;
+
 namespace KirbyNightmareInDreamLand.Commands
 {
     public class PauseCommand : ICommand
@@ -13,6 +15,7 @@ namespace KirbyNightmareInDreamLand.Commands
             }
             else
             {
+                SoundManager.Play("pause");
                 Game1.Instance.Level.PauseLevel();
             }           
         }
