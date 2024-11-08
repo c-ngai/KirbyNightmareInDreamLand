@@ -112,6 +112,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                     beam.Draw(spriteBatch);
                 }
                 //draw enemy
+                enemySprite.Draw(position, spriteBatch);
                 //spriteBatch.DrawString(LevelLoader.Instance.Font, isJumping.ToString(), position + new Vector2(-24, -30), Color.Black);
             }
         }
