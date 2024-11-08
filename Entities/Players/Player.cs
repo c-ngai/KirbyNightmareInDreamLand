@@ -34,6 +34,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         private string oldState;
         public bool attackIsActive{get; private set; } = false;
         public bool CollisionActive { get; private set;} = true;
+        public bool DEAD = false;
 
         //collision stuffs
 
@@ -81,7 +82,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public string GetKirbyTypePause()
         {
-            if(GetKirbyType().ToString().Equals("Mouthful"))
+            if(GetKirbyType().Equals("Mouthful"))
             {
                 return "Normal";
             } else {
@@ -179,6 +180,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         } 
         public async void Death() //does nothing this sprint
         {
+            movement.StopMovement();
             ChangeToNormal();
             state.ChangePose(KirbyPose.DeathStun);
             await Task.Delay(1500);
@@ -189,8 +191,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void GameOverKirby()
         {
-            FillHealth();
-            lives = Constants.Kirby.MAX_LIVES;
+            //FillHealth();
+            //lives = Constants.Kirby.MAX_LIVES;
         }
         private void DecreaseHealth(Rectangle intersection)
         {
@@ -201,12 +203,17 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if(health == 0) //health decresed to 0 and lost life
             {
                 lives--;
+                Game1.Instance.Level.ChangeToLifeLost();
                 Death();
                 if(lives == 0){
                     //go to game over
-                    GameOverKirby(); //emporary to make sure kirby gets health filed up
+                    //GameOverKirby(); //emporary to make sure kirby gets health filed up
+                    Game1.Instance.Level.GameOver();
+                    DEAD = true;
+                }else {
+                    FillHealth();
                 }
-                FillHealth();
+                //FillHealth();
             } else { //health decreased,  but didnt loose life
                 TakeDamageAnimation();
                 movement.ReceiveDamage(intersection);
@@ -422,7 +429,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 //ChangeAttackBool(true);
             } else if (attack == null && state.ShortAttack()) { //slide beam float exhale 
                 attack = new PlayerAttack(this, AttackType());
-                
+
                 if(!state.IsCrouching())AttackAnimation();
                 movement.Attack(this);
             }

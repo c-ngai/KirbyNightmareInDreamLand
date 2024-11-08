@@ -147,12 +147,14 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
             if(position.Y > Game1.Instance.Level.CurrentRoom.Height)
             {
-                Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
-                if(kirby.lives == 0) // game over 
+                if(kirby.DEAD == true) // game over 
                 {
-                    
+                    //kirby.FillHealth();
+                    //Game1.Instance.Level.GameOver();
                 } else {
                     kirby.RestartKirby();
+                    Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
+                    Game1.Instance.Level.ChangeToPlaying();
                 }
             }
         }

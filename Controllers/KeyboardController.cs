@@ -34,7 +34,7 @@ namespace KirbyNightmareInDreamLand.Controllers
             startKeys.Clear();
             stopKeys.Clear();
             controllerKeys.Clear();
-            oldKeyStates.Clear();
+            //oldKeyStates.Clear();
         }
 
         public void RegisterCommand(Keys key, ExecutionType type, ICommand command)
