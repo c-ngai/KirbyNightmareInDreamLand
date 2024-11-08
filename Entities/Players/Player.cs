@@ -173,13 +173,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void Death() //does nothing this sprint
         {
             //state.ChangeType(KirbyType.Dead);
-<<<<<<< HEAD
             Game1.Instance.Level.GameOver();
-=======
             SoundManager.Play("kirbydeath");
             //wait a beat
             SoundManager.Play("deathjingle");
->>>>>>> 435ef060204cc564a0693594d48ee8b96720f25f
         }
         private void DecreaseHealth()
         {
