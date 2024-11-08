@@ -54,6 +54,10 @@ namespace KirbyNightmareInDreamLand.StateMachines
         }
         #endregion Type
 
+        public bool HasPowerUp()
+        {
+            return GetKirbyType() == KirbyType.Beam || GetKirbyType() == KirbyType.Fire || GetKirbyType() == KirbyType.Spark;
+        }
         public bool IsJumping()
         {
             return GetPose() == KirbyPose.JumpRising || GetPose() == KirbyPose.JumpFalling;
@@ -116,7 +120,7 @@ namespace KirbyNightmareInDreamLand.StateMachines
 
         public bool LongAttack()
         {
-            return (GetKirbyType() == KirbyType.Normal) || (GetKirbyType() == KirbyType.Fire) || (GetKirbyType() == KirbyType.Spark);
+            return (GetKirbyType() == KirbyType.Normal && !IsCrouching()) || (GetKirbyType() == KirbyType.Fire) || (GetKirbyType() == KirbyType.Spark);
         }
         public bool ShortAttack()
         {

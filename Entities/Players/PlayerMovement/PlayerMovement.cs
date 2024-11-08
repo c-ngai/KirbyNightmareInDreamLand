@@ -23,6 +23,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         protected float gravity = Constants.Physics.GRAVITY;
         protected float dt = Constants.Physics.DT;
         protected float damageVel = Constants.Physics.DAMAGE_VELOCITY;
+        protected int ceiling = 20;
         public ITimeCalculator timer;
         protected bool landed = true;
 
@@ -75,6 +76,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             //overwritten by other methods
         }
+        #endregion
+
+        #region DeathSpin
         public void ReceiveDamage(Rectangle intersection)
         {
             if (intersection.X <= position.X) 
@@ -85,19 +89,20 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 xVel = damageVel * -1;
             }
-            if (yVel > 0)
-            {
-                yVel *= -1;
-            }
-            else
-            {
-                yVel *= -1;
-            }
-        }
-        #endregion
 
-        #region Floating
+            yVel = 0;
+        }
+        public void ReleaseDamageSpin()
+        {
+            xVel = 0;
+            yVel += -1;
+        }
         //starts floating pose animation
+        public void DeathSpin()
+        {
+            yVel = -8;
+            
+        }
         #endregion
 
         public virtual void Jump(bool isLeft)
@@ -136,10 +141,16 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             yVel +=  gravity * dt; 
 
             //dont go through the ceiling
-            if (position.Y < 10)
+            if (position.Y < 15)
             {
                 yVel = 0;
-                position.Y = 10;
+                position.Y = 15;
+            }
+            if(position.Y > Game1.Instance.Level.CurrentRoom.Height)
+            {
+                Console.WriteLine("here");
+                kirby.RestartKirby();
+                Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
             }
         }
         //ensures sprite does not leave the window
