@@ -98,6 +98,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                      sparkyPlasma.Update();
                      if (sparkyPlasma.IsDone())
                      {
+                        sparkyPlasma.EndAttack();
                          isPlasmaActive = false;
                      }
                  } 

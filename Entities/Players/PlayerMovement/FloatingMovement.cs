@@ -9,7 +9,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
     {
         protected float floatVel = Constants.Physics.FLOAT_VEL;
         protected float floatGravity = Constants.Physics.FLOAT_GRAVITY;
-        protected new float gravity = Constants.Physics.FLOAT_GRAVITY2;
+        //protected new float gravity = Constants.Physics.FLOAT_GRAVITY2;
         private float floatFallingWindow = Constants.Graphics.FLOOR + 50;
         protected bool endFloat = false;
         public FloatingMovement(Vector2 pos) : base(pos)

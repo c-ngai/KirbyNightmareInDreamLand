@@ -7,10 +7,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
     {
         public CrouchingMovement(Vector2 pos) : base(pos){}
 
-        private static int slideDistance = 70;
-        private float distanceMoved = 0;
-        private float startingX;
-
         private double timer = 0;
 
         public override void Walk(bool isLeft)
