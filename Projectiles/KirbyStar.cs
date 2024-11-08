@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
 using System;
+using KirbyNightmareInDreamLand.Audio;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
@@ -39,6 +40,8 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 : SpriteFactory.Instance.CreateSprite("projectile_kirby_star_left");
             
             ObjectManager.Instance.RegisterDynamicObject(this);
+
+            SoundManager.Play("spit");
         }
         public string GetObjectType()
         {

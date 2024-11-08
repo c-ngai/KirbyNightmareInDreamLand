@@ -367,7 +367,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             if(!IsSliding() && attack != null){
                 ChangePose(KirbyPose.Sliding);
-                SoundManager.Play("slide");
                 //await Task.Delay(Constants.Physics.DELAY);
             }
         }
@@ -436,7 +435,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             //flame spark inhale
             if(attack == null && state.LongAttack()){
                 attack = new PlayerAttack(this, AttackType());
-                //SoundManager.Play("spit");
                 ChangePose(KirbyPose.Attacking);
                 movement.Attack(this);
                 //ChangeAttackBool(true);

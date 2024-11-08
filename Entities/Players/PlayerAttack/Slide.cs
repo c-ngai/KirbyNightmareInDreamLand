@@ -1,6 +1,7 @@
 
 using System;
 using System.Net;
+using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Entities.Players;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -21,6 +22,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
             Position =pos;
             startingX = pos.X;
             ObjectManager.Instance.RegisterDynamicObject(this);
+            SoundManager.Play("slide");
         }
         public void EndAttack()
         {

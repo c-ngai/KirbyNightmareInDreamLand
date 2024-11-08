@@ -1,4 +1,5 @@
-﻿using KirbyNightmareInDreamLand.StateMachines;
+﻿using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.StateMachines;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState
     public class HotheadAttackingState : IEnemyState
     {
         private readonly Hothead _hothead;
+        private SoundInstance sound;
 
         public HotheadAttackingState(Hothead hothead)
         {
@@ -21,6 +23,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState
         {
             _hothead.ChangePose(EnemyPose.Attacking);
             _hothead.ResetFrameCounter();
+            sound = SoundManager.CreateInstance("hotheadflamethrowerattack");
+            sound.Play();
         }
 
         public void Update()
@@ -33,7 +37,9 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState
             }
         }
 
-        public void Exit() { }
+        public void Exit() {
+            sound.Stop();
+        }
 
         public void TakeDamage()
         {
