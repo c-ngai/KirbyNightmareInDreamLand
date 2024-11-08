@@ -56,7 +56,7 @@ namespace KirbyNightmareInDreamLand.Levels
 
             _playingState = new GamePlayingState(this);
             _pausedState = new GamePausedState();
-            _gameOverState = new GameGameOverState();
+            _gameOverState = new GameGameOverState(this);
             _transitionState = new GameTransitioningState(this);
 
         }
@@ -90,6 +90,17 @@ namespace KirbyNightmareInDreamLand.Levels
         {
             ChangeState(_playingState);
         }
+
+        public void SelectQuit()
+        {
+            _currentState.SelectQuitButton();
+        }
+
+        public void SelectContinue()
+        {
+            _currentState.SelectContinueButton();
+        }
+
 
         public void GameOver()
         {

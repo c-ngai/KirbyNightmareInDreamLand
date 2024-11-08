@@ -4,7 +4,6 @@ using KirbyNightmareInDreamLand.Sprites;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using KirbyNightmareInDreamLand.Audio;
 
 namespace KirbyNightmareInDreamLand.GameState
 {
@@ -36,6 +35,16 @@ namespace KirbyNightmareInDreamLand.GameState
         public void Update()
         {
             // do nothing when paused
+        }
+
+        public void SelectQuitButton()
+        {
+            // do nothing
+        }
+
+        public void SelectContinueButton()
+        {
+            // do nothing
         }
 
     }

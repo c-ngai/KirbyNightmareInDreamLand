@@ -1,246 +1,261 @@
 {
 
-    "keymap1": [
-        {
-            "Key": "Right",
-            "ExecutionType": "Pressed",
-            "Command": "KirbyMoveRightCommand",
-            "PlayerIndex": 0
-        },
-        {
-            "Key": "Right",
-            "ExecutionType": "StoppingPress",
-            "Command": "KirbyStopMovingCommand",
-            "PlayerIndex": 0
-        },
-        {
-            "Key": "Left",
-            "ExecutionType": "Pressed",
-            "Command": "KirbyMoveLeftCommand",
-            "PlayerIndex": 0
-        },
-        {
-            "Key": "Left",
-            "ExecutionType": "StoppingPress",
-            "Command": "KirbyStopMovingCommand",
-            "PlayerIndex": 0
-        },
-        {
-            "Key": "Down",
-            "ExecutionType": "Pressed",
-            "Command": "KirbyMoveCrouchedCommand",
-            "PlayerIndex": 0
-        },
-        {
-            "Key": "Down",
-            "ExecutionType": "StoppingPress",
-            "Command": "KirbyEndCrouchCommand",
-            "PlayerIndex": 0
-        },
-        {
-            "Key": "Up",
-            "ExecutionType": "Pressed",
-            "Command": "KirbyFloatCommand",
-            "PlayerIndex": 0
-        },
-        {
-            "Key": "Up",
-            "ExecutionType": "StartingPress",
-            "Command": "KirbyEnterDoorCommand",
-            "PlayerIndex": 0
-        },
-        {
-            "Key": "Space",
-            "ExecutionType": "StartingPress",
-            "Command": "PauseCommand"
-        },
-        {
-            "Key": "D",
-            "ExecutionType": "Pressed",
-            "Command": "KirbyMoveRightCommand",
-            "PlayerIndex": 0
-        },
-        {
-            "Key": "D",
-            "ExecutionType": "StoppingPress",
-            "Command": "KirbyStopMovingCommand",
-            "PlayerIndex": 0
-        },
-        {
-            "Key": "A",
-            "ExecutionType": "Pressed",
-            "Command": "KirbyMoveLeftCommand",
-            "PlayerIndex": 0
-        },
-        {
-            "Key": "A",
-            "ExecutionType": "StoppingPress",
-            "Command": "KirbyStopMovingCommand",
-            "PlayerIndex": 0
-        },
-        {
-            "Key": "S",
-            "ExecutionType": "Pressed",
-            "Command": "KirbyMoveCrouchedCommand",
-            "PlayerIndex": 0
-        },
-        {
-            "Key": "S",
-            "ExecutionType": "StoppingPress",
-            "Command": "KirbyEndCrouchCommand",
-            "PlayerIndex": 0
-        },
-        {
-            "Key": "W",
-            "ExecutionType": "Pressed",
-            "Command": "KirbyFloatCommand",
-            "PlayerIndex": 0
-        },
-        {
-            "Key": "W",
-            "ExecutionType": "StartingPress",
-            "Command": "KirbyEnterDoorCommand",
-            "PlayerIndex": 0
-        },
-        {
-            "Key": "X",
-            "ExecutionType": "Pressed",
-            "Command": "KirbyJumpCommand",
-            "PlayerIndex": 0
-        },
-        {
-            "Key": "Z",
-            "ExecutionType": "StartingPress",
-            "Command": "KirbyAttackCommand",
-            "PlayerIndex": 0
-        },
-        {
-            "Key": "Z",
-            "ExecutionType": "StoppingPress",
-            "Command": "KirbyStopAttackingCommand",
-            "PlayerIndex": 0
-        },
-        {
-            "Key": "Z",
-            "ExecutionType": "Pressed",
-            "Command": "KirbyAttackPressedCommand",
-            "PlayerIndex": 0
-        },
-        {
-            "Key": "D1",
-            "ExecutionType": "StartingPress",
-            "Command": "KirbyChangeNormalCommand"
-        },
-        {
-            "Key": "D2",
-            "ExecutionType": "StartingPress",
-            "Command": "KirbyChangeBeamCommand"
-        },
-        {
-            "Key": "D3",
-            "ExecutionType": "StartingPress",
-            "Command": "KirbyChangeFireCommand"
-        },
-        {
-            "Key": "D4",
-            "ExecutionType": "StartingPress",
-            "Command": "KirbyChangeSparkCommand"
-        },
-        {
-            "Key": "O",
-            "ExecutionType": "StartingPress",
-            "Command": "PreviousEnemyCommand"
-        },
-        {
-            "Key": "P",
-            "ExecutionType": "StartingPress",
-            "Command": "NextEnemyCommand"
-        },
-        {
-            "Key": "Q",
-            "ExecutionType": "StartingPress",
-            "Command": "QuitCommand"
-        },
-        {
-            "Key": "R",
-            "ExecutionType": "StartingPress",
-            "Command": "ResetCommand"
-        },
-        {
-            "Key": "F1",
-            "ExecutionType": "StartingPress",
-            "Command": "GraphicsToggleDebugTextCommand"
-        },
-        {
-            "Key": "F2",
-            "ExecutionType": "StartingPress",
-            "Command": "GraphicsToggleDebugSpriteCommand"
-        },
-        {
-            "Key": "F3",
-            "ExecutionType": "StartingPress",
-            "Command": "GraphicsToggleDebugLevelCommand"
-        },
-        {
-            "Key": "F4",
-            "ExecutionType": "StartingPress",
-            "Command": "GraphicsToggleCullingCommand"
-        },
-        {
-            "Key": "F5",
-            "ExecutionType": "StartingPress",
-            "Command": "GraphicsToggleDebugCollisionCommand"
-        },
-        {
-            "Key": "F",
-            "ExecutionType": "StartingPress",
-            "Command": "GraphicsToggleFullscreenCommand"
-        },
-        {
-            "Key": "OemPlus",
-            "ExecutionType": "StartingPress",
-            "Command": "GraphicsIncreaseWindowSizeCommand"
-        },
-        {
-            "Key": "OemMinus",
-            "ExecutionType": "StartingPress",
-            "Command": "GraphicsDecreaseWindowSizeCommand"
-        },
-        {
-            "Key": "OemCloseBrackets",
-            "ExecutionType": "StartingPress",
-            "Command": "GraphicsIncreaseTargetFramerateCommand"
-        },
-        {
-            "Key": "OemOpenBrackets",
-            "ExecutionType": "StartingPress",
-            "Command": "GraphicsDecreaseTargetFramerateCommand"
-        },
-        {
-            "Key": "LeftAlt",
-            "ExecutionType": "Pressed",
-            "Command": "PositionLogAddCommand"
-        },
-        {
-            "Key": "LeftControl",
-            "ExecutionType": "StartingPress",
-            "Command": "PositionLogClearCommand"
-        },
-        {
-            "Key": "M",
-            "ExecutionType": "StartingPress",
-            "Command": "AudioToggleMuteCommand"
-        },
-        {
-            "Key": "OemComma",
-            "ExecutionType": "StartingPress",
-            "Command": "PlayerRemoveCommand"
-        },
-        {
-            "Key": "OemPeriod",
-            "ExecutionType": "StartingPress",
-            "Command": "PlayerAddCommand"
-        }
-    ]
+  "keymap1": [
+    {
+      "Key": "Right",
+      "ExecutionType": "Pressed",
+      "Command": "KirbyMoveRightCommand",
+      "PlayerIndex": 0
+    },
+    {
+      "Key": "Right",
+      "ExecutionType": "StoppingPress",
+      "Command": "KirbyStopMovingCommand",
+      "PlayerIndex": 0
+    },
+    {
+      "Key": "Left",
+      "ExecutionType": "Pressed",
+      "Command": "KirbyMoveLeftCommand",
+      "PlayerIndex": 0
+    },
+    {
+      "Key": "Left",
+      "ExecutionType": "StoppingPress",
+      "Command": "KirbyStopMovingCommand",
+      "PlayerIndex": 0
+    },
+    {
+      "Key": "Down",
+      "ExecutionType": "Pressed",
+      "Command": "KirbyMoveCrouchedCommand",
+      "PlayerIndex": 0
+    },
+    {
+      "Key": "Down",
+      "ExecutionType": "StoppingPress",
+      "Command": "KirbyEndCrouchCommand",
+      "PlayerIndex": 0
+    },
+    {
+      "Key": "Up",
+      "ExecutionType": "Pressed",
+      "Command": "KirbyFloatCommand",
+      "PlayerIndex": 0
+    },
+    {
+      "Key": "Up",
+      "ExecutionType": "StartingPress",
+      "Command": "KirbyEnterDoorCommand",
+      "PlayerIndex": 0
+    },
+    {
+      "Key": "Space",
+      "ExecutionType": "StartingPress",
+      "Command": "PauseCommand"
+    },
+    {
+      "Key": "D",
+      "ExecutionType": "Pressed",
+      "Command": "KirbyMoveRightCommand",
+      "PlayerIndex": 0
+    },
+    {
+      "Key": "D",
+      "ExecutionType": "StoppingPress",
+      "Command": "KirbyStopMovingCommand",
+      "PlayerIndex": 0
+    },
+    {
+      "Key": "A",
+      "ExecutionType": "Pressed",
+      "Command": "KirbyMoveLeftCommand",
+      "PlayerIndex": 0
+    },
+    {
+      "Key": "A",
+      "ExecutionType": "StoppingPress",
+      "Command": "KirbyStopMovingCommand",
+      "PlayerIndex": 0
+    },
+    {
+      "Key": "S",
+      "ExecutionType": "Pressed",
+      "Command": "KirbyMoveCrouchedCommand",
+      "PlayerIndex": 0
+    },
+    {
+      "Key": "S",
+      "ExecutionType": "StoppingPress",
+      "Command": "KirbyEndCrouchCommand",
+      "PlayerIndex": 0
+    },
+    {
+      "Key": "W",
+      "ExecutionType": "Pressed",
+      "Command": "KirbyFloatCommand",
+      "PlayerIndex": 0
+    },
+    {
+      "Key": "W",
+      "ExecutionType": "StartingPress",
+      "Command": "KirbyEnterDoorCommand",
+      "PlayerIndex": 0
+    },
+    {
+      "Key": "X",
+      "ExecutionType": "Pressed",
+      "Command": "KirbyJumpCommand",
+      "PlayerIndex": 0
+    },
+    {
+      "Key": "Z",
+      "ExecutionType": "StartingPress",
+      "Command": "KirbyAttackCommand",
+      "PlayerIndex": 0
+    },
+    {
+      "Key": "Z",
+      "ExecutionType": "StoppingPress",
+      "Command": "KirbyStopAttackingCommand",
+      "PlayerIndex": 0
+    },
+    {
+      "Key": "Z",
+      "ExecutionType": "Pressed",
+      "Command": "KirbyAttackPressedCommand",
+      "PlayerIndex": 0
+    },
+    {
+      "Key": "D1",
+      "ExecutionType": "StartingPress",
+      "Command": "KirbyChangeNormalCommand"
+    },
+    {
+      "Key": "D2",
+      "ExecutionType": "StartingPress",
+      "Command": "KirbyChangeBeamCommand"
+    },
+    {
+      "Key": "D3",
+      "ExecutionType": "StartingPress",
+      "Command": "KirbyChangeFireCommand"
+    },
+    {
+      "Key": "D4",
+      "ExecutionType": "StartingPress",
+      "Command": "KirbyChangeSparkCommand"
+    },
+    {
+      "Key": "O",
+      "ExecutionType": "StartingPress",
+      "Command": "PreviousEnemyCommand"
+    },
+    {
+      "Key": "P",
+      "ExecutionType": "StartingPress",
+      "Command": "NextEnemyCommand"
+    },
+    {
+      "Key": "Q",
+      "ExecutionType": "StartingPress",
+      "Command": "QuitCommand"
+    },
+    {
+      "Key": "R",
+      "ExecutionType": "StartingPress",
+      "Command": "ResetCommand"
+    },
+    {
+      "Key": "F1",
+      "ExecutionType": "StartingPress",
+      "Command": "GraphicsToggleDebugTextCommand"
+    },
+    {
+      "Key": "F2",
+      "ExecutionType": "StartingPress",
+      "Command": "GraphicsToggleDebugSpriteCommand"
+    },
+    {
+      "Key": "F3",
+      "ExecutionType": "StartingPress",
+      "Command": "GraphicsToggleDebugLevelCommand"
+    },
+    {
+      "Key": "F4",
+      "ExecutionType": "StartingPress",
+      "Command": "GraphicsToggleCullingCommand"
+    },
+    {
+      "Key": "F5",
+      "ExecutionType": "StartingPress",
+      "Command": "GraphicsToggleDebugCollisionCommand"
+    },
+    {
+      "Key": "F",
+      "ExecutionType": "StartingPress",
+      "Command": "GraphicsToggleFullscreenCommand"
+    },
+    {
+      "Key": "OemPlus",
+      "ExecutionType": "StartingPress",
+      "Command": "GraphicsIncreaseWindowSizeCommand"
+    },
+    {
+      "Key": "OemMinus",
+      "ExecutionType": "StartingPress",
+      "Command": "GraphicsDecreaseWindowSizeCommand"
+    },
+    {
+      "Key": "OemCloseBrackets",
+      "ExecutionType": "StartingPress",
+      "Command": "GraphicsIncreaseTargetFramerateCommand"
+    },
+    {
+      "Key": "OemOpenBrackets",
+      "ExecutionType": "StartingPress",
+      "Command": "GraphicsDecreaseTargetFramerateCommand"
+    },
+    {
+      "Key": "LeftAlt",
+      "ExecutionType": "Pressed",
+      "Command": "PositionLogAddCommand"
+    },
+    {
+      "Key": "LeftControl",
+      "ExecutionType": "StartingPress",
+      "Command": "PositionLogClearCommand"
+    },
+    {
+      "Key": "M",
+      "ExecutionType": "StartingPress",
+      "Command": "AudioToggleMuteCommand"
+    },
+    {
+      "Key": "OemComma",
+      "ExecutionType": "StartingPress",
+      "Command": "PlayerRemoveCommand"
+    },
+    {
+      "Key": "OemPeriod",
+      "ExecutionType": "StartingPress",
+      "Command": "PlayerAddCommand"
+    }
+  ],
+
+  "keymap_gameover": [
+    {
+      "Key": "Up",
+      "ExecutionType": "Pressed",
+      "Command": "KirbyMoveRightCommand",
+      "PlayerIndex": 0
+    },
+    {
+      "Key": "Down",
+      "ExecutionType": "StoppingPress",
+      "Command": "KirbyStopMovingCommand",
+      "PlayerIndex": 0
+    }
+  ]
 
 }

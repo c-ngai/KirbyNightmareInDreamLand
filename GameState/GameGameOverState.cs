@@ -1,52 +1,57 @@
 ﻿using System;
+using KirbyNightmareInDreamLand.Entities.Players;
+using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static KirbyNightmareInDreamLand.Levels.Level;
+
 
 namespace KirbyNightmareInDreamLand.GameState
 {
-	public class GameGameOverState : IGameState
+	public class GameGameOverState : BaseGameState
 	{
+        private ObjectManager _manager;
         SpriteBatch spriteBatch;
-        public Sprite currentSprite;
+        public Sprite currentButtonSprite;
         public Sprite selectQuitScreen;
         public Sprite selectContinueScreen;
-        public Sprite gameOverAnimation;
 
-        public GameGameOverState()
-		{
+        public GameGameOverState(Level _level) : base(_level)
+        {
+            _manager = Game1.Instance.manager;
             spriteBatch = Game1.Instance._spriteBatch;
-            selectContinueScreen = SpriteFactory.Instance.CreateSprite("Game_over_continue_button");
-            selectQuitScreen = SpriteFactory.Instance.CreateSprite("Game_over_quit_button");
-            gameOverAnimation = SpriteFactory.Instance.CreateSprite("Game_over_foreground");
-            currentSprite = gameOverAnimation;
+            selectContinueScreen = SpriteFactory.Instance.CreateSprite("button_continue");
+            selectQuitScreen = SpriteFactory.Instance.CreateSprite("button_quit");
+            currentButtonSprite = selectContinueScreen;
         }
 
-        public void Draw()
+        public override void Draw()
         {
-            gameOverAnimation.Draw(Vector2.Zero, spriteBatch);
+            DrawBackground(spriteBatch);
+            DrawForeground(spriteBatch);
+            currentButtonSprite.Draw(new Vector2(136, 71), spriteBatch);
+            foreach (IPlayer player in _manager.Players) player.Draw(spriteBatch);
         }
 
-        public void Update()
+        public override void Update()
         {
-            currentSprite.Update();
+            base.Update();
         }
 
 
         public void SelectQuit()
         {
-            if (currentSprite == selectContinueScreen)
+            if (currentButtonSprite == selectContinueScreen)
             {
-                currentSprite = selectQuitScreen;
+                currentButtonSprite = selectQuitScreen;
             }
         }
 
         public void SelectContinue()
         {
-            if (currentSprite == selectQuitScreen)
+            if (currentButtonSprite == selectQuitScreen)
             {
-                currentSprite = selectContinueScreen;
+                currentButtonSprite = selectContinueScreen;
             }
         }
     }
