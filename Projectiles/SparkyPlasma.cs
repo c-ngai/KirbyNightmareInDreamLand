@@ -46,7 +46,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
             {
                 framesActive++;
 
-                if (framesActive >= Constants.Sparky.ATTACK_TIME)
+                if (IsDone())
                 {
                     EndAttack();
                 }
@@ -57,7 +57,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (!IsActive)
+            if (IsDone())
             {
                 ObjectManager.Instance.RemoveDynamicObject(this); 
             }
@@ -65,7 +65,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
         public bool IsDone()
         {
-            return !IsActive;
+            return framesActive >= Constants.Sparky.ATTACK_TIME;
         }
 
         public bool CollisionActive { get; set; } = true;
@@ -93,6 +93,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             IsActive = false;  
             CollisionActive = false;
+            ObjectManager.Instance.RemoveDynamicObject(this); 
         }
     }
 }

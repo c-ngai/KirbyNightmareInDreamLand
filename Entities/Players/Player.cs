@@ -21,7 +21,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         private PlayerMovement movement;
         private Sprite playerSprite;
         public PlayerAttack attack {get; private set;}
-        public PlayerAttack starAttack {get; private set;}
+        public PlayerAttack starAttackOne {get; private set;}
+        public PlayerAttack starAttackTwo {get; private set;}
 
         //health stuffs -- will be taken to another class connected to kirby in next sprint
         public int health = Constants.Kirby.MAX_HEALTH;
@@ -169,46 +170,70 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #endregion
 
         #region health 
-        //health will be moved to another class
-        public void Death() //does nothing this sprint
+        public void RestartKirby()
         {
             //state.ChangeType(KirbyType.Dead);
-            Game1.Instance.Level.GameOver();
             SoundManager.Play("kirbydeath");
             //wait a beat
             SoundManager.Play("deathjingle");
-        }
-        private void DecreaseHealth()
+            CollisionActive = true;
+            movement.StopMovement();
+            ChangePose(KirbyPose.Standing);
+            invincible = false;
+        } 
+        public async void Death() //does nothing this sprint
         {
-            if(timer == 0)
+            ChangeToNormal();
+            state.ChangePose(KirbyPose.DeathStun);
+            await Task.Delay(1500);
+            state.ChangePose(KirbyPose.DeathSpin);
+            movement.DeathSpin();
+            CollisionActive = false;
+
+        }
+        public void GameOverKirby()
+        {
+            FillHealth();
+            lives = Constants.Kirby.MAX_LIVES;
+        }
+        private void DecreaseHealth(Rectangle intersection)
+        {
+            if(timer ==0)
             {
-                health --;
+                health --; //decrease health
             }
-            if(health == 0)
+            if(health == 0) //health decresed to 0 and lost life
             {
-                health = Constants.Kirby.MAX_HEALTH;
-                if (lives != 0) // protects from trying to parse negaive number in HUD, will need to account for death and restarting at some point
-                {
-                    lives--;
-                }
-            }
-            if(lives == 0)
-            {
+                FillHealth();
+                lives--;
                 Death();
+                if(lives == 0){
+                    //go to game over
+                    GameOverKirby(); //emporary to make sure kirby gets health filed up
+                }
+            } else { //health decreased,  but didnt loose life
+                TakeDamageAnimation();
+                movement.ReceiveDamage(intersection);
             }
+            
         }
 
         //calls method to drecease health & changes kirby pose
         private async void TakeDamageAnimation()
         {
             if(invincible){
+                if(state.HasPowerUp())
+                {
+                    starAttackTwo = new PlayerAttack(this, "Star");
+                    if(!state.IsCrouching())AttackAnimation();
+                    movement.Attack(this);
+                }
                 if(!IsWithEnemy())ChangeToNormal();
                 if(IsFloating()) movement = new NormalPlayerMovement(GetKirbyPosition());
                 ChangePose(KirbyPose.Hurt);
                 SoundManager.Play("kirbyhurt1");
                 await Task.Delay(Constants.Physics.DELAY);
                 StopMoving();
-                invincible = true;
             }
         }
         private void EndInvinciblility(GameTime gameTime)
@@ -226,9 +251,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if(!invincible)
             {
                 invincible = true;
-                TakeDamageAnimation();
-                DecreaseHealth();
-                movement.ReceiveDamage(intersection);
+                DecreaseHealth(intersection);
             }
             
         }
@@ -396,9 +419,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void Attack()
         {
-            //mouthful exhale
-            if(IsWithEnemy() && starAttack == null && state.ShortAttack()){
-                starAttack = new PlayerAttack(this, "Star");
+            //mouthful exhale -- spits out star
+            if(IsWithEnemy() && state.ShortAttack()){
+                starAttackOne = new PlayerAttack(this, "Star");
                 if(!state.IsCrouching())AttackAnimation();
                 movement.Attack(this);
                 //ChangeAttackBool(true);
@@ -427,10 +450,16 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 StopMoving();
                 attack.EndAttack();
                 attack = null;
-            } else if (starAttack != null && starAttack.IsDone()){
-                StopMoving();
-                starAttack.EndAttack();
-                starAttack = null;
+            }
+            if (starAttackOne != null && starAttackOne.IsDone()){
+                //StopMoving();
+                starAttackOne.EndAttack();
+                starAttackOne = null;
+            }
+            if (starAttackTwo != null && starAttackTwo.IsDone()){
+                //StopMoving();
+                starAttackTwo.EndAttack();
+                starAttackTwo = null;
             }
 
         }
@@ -445,19 +474,19 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         private async void SmallWait()
         {
-            await Task.Delay(1000);
+            await Task.Delay(10000);
         }
         public void SwallowEnemy()
         {
-            StopAttacking();
             SmallWait();
             SoundManager.Play("catch");
+            StopAttacking();
             ChangeToMouthful();
         }
         private async void SwallowAnimation()
         {
+            await Task.Delay(1500);
             state.ChangePose(KirbyPose.Swallow);
-            await Task.Delay(1000);
         }
         private void EndSwallow()
         {
@@ -475,9 +504,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             EndInvinciblility(gameTime);
             playerSprite.Update();
             GetHitBox();
-            if(attack != null || starAttack != null){
+            if(attack != null || starAttackOne != null || starAttackTwo != null){
                 attack?.Update(gameTime, this);
-                starAttack?.Update(gameTime, this);
+                starAttackOne?.Update(gameTime, this);
+                starAttackTwo?.Update(gameTime, this);
             }
         }
 
@@ -491,9 +521,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 playerSprite.Draw(movement.GetPosition(), spriteBatch);
             }
 
-            if(attack != null || starAttack != null){
+            if(attack != null || starAttackOne != null || starAttackTwo != null){
                 attack?.Draw(spriteBatch, this);
-                starAttack?.Draw(spriteBatch, this);
+                starAttackOne?.Draw(spriteBatch, this);
+                starAttackTwo?.Draw(spriteBatch, this);
             }
         }
         public Vector2 CalculateRectanglePoint(Vector2 pos)
