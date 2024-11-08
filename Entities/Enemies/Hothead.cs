@@ -72,19 +72,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             return stateMachine.IsLeft() ? new Vector2(position.X - 18, position.Y - 7 ) : new Vector2(position.X + 18, position.Y - 7);
         }
 
-        public override void Move()
-        {
-            // Walking back and forth in X axis 
-            if (stateMachine.IsLeft())
-            {
-                position.X -= xVel;
-            }
-            else
-            {
-                position.X += xVel;
-            }
-        }
-
         public void Flamethrower(/*GameTime gameTime*/)
         {
             //Shoots flamethrower if called while inactive

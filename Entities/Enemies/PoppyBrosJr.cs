@@ -5,6 +5,7 @@ using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState;
 using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -21,20 +22,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             xVel = Constants.PoppyBrosJr.MOVE_SPEED;
         }
 
-        public override void Move()
-        {
-            //X moevement left and right. Turns around at left/right boundary
-            if (stateMachine.IsLeft())
-            {
-                position.X -= xVel;
-            }
-            else
-            {
-                position.X += xVel;
-            }
-            UpdateTexture();
-        }
-
         public override void Jump()
         {
             if (!isJumping)
@@ -45,7 +32,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             }
             Move();
         }
-
 
         public override void BottomCollisionWithBlock(Rectangle intersection)
         {

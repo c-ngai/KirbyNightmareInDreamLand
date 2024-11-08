@@ -26,15 +26,19 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState
         {
             // Wait for a defined period of time
             _enemy.IncrementFrameCounter();
-            _enemy.ChangeState(new PoppyBrosJrHopState(_enemy));
-            _enemy.UpdateTexture();
+
+            if (_enemy.FrameCounter >= Constants.PoppyBrosJr.PAUSE_TIME)
+            {
+                _enemy.ChangeState(new PoppyBrosJrHopState(_enemy));
+                _enemy.UpdateTexture();
+            }
         }
 
         public void Exit() { }
 
         public void TakeDamage()
         {
-            _enemy.ChangeState(new WaddleDooHurtState(_enemy));
+            _enemy.ChangeState(new PoppyBrosJrHurtState(_enemy));
             _enemy.UpdateTexture();
         }
 

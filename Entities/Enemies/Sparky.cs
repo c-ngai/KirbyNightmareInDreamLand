@@ -32,21 +32,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             xVel = Constants.Sparky.HOP_SPEED;
         }
 
-
-        public override void Move()
-        {
-            //X moevement left and right. Turns around at left/right boundary
-            if (stateMachine.IsLeft())
-            {
-                position.X -= xVel;
-            }
-            else
-            {
-                position.X += xVel;
-            }
-            UpdateTexture();
-        }
-
         public override void Jump()
         {
             if (!isJumping)
@@ -89,8 +74,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                  UpdateTexture();
                  enemySprite.Update();
 
-                 GetHitBox();         
-                 Fall();
+                Fall();
+                GetHitBox();            
                         
                  // Handle the beam if active
                  if (isPlasmaActive)
@@ -99,11 +84,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                      if (sparkyPlasma.IsDone())
                      {
                         sparkyPlasma.EndAttack();
-                         isPlasmaActive = false;
+                        isPlasmaActive = false;
                      }
                  } 
              }
-         }
+        }
 
         public override void Attack()
          {

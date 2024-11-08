@@ -21,23 +21,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             //TO-DO: spawn facing the direction kirby is in
             stateMachine.ChangeDirection();
             xVel = Constants.WaddleDee.MOVE_SPEED;
-        }
-
-        public override void Move()
-        {
-
-            //Debug.WriteLine(position.X + ", " + position.Y);
-
-            // X movement logic. Moves until boundaries
-            if (stateMachine.IsLeft())
-                {
-                    position.X -= xVel;
-                }
-                else
-                {
-                    position.X += xVel;
-                }
-            }
+        } 
 
         }
     }

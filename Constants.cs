@@ -276,6 +276,7 @@ namespace KirbyNightmareInDreamLand
             public const float MOVE_SPEED = 0.5f;
             public const float JUMP_VELOCITY = 1.5f;
             public const int HURT_FRAMES = 50;
+            public const int PAUSE_TIME = 1;
 
         }
 
