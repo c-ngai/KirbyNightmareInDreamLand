@@ -9,7 +9,7 @@ namespace KirbyNightmareInDreamLand.Commands.GameOver
 
         public void Execute()
         {
-            myGame.Exit();
+            Game1.Instance.Level.SelectQuit();
         }
     }
 }

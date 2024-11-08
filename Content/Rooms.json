@@ -451,12 +451,12 @@
   },
 
   "winner_room": {
-    "Foreground sprite": "",
-    "Background sprite": "Winning_background",
+    "Foreground sprite": "Winning_background",
+    "Background sprite": "",
     "Tilemap": "room1_tileset",
 
-    "Spawn tile X": 0,
-    "Spawn tile Y": 0,
+    "Spawn tile X": 2,
+    "Spawn tile Y": 7,
 
     "Lock camera X?": true,
     "Locked camera X": 0,

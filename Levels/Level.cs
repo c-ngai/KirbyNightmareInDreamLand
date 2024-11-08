@@ -45,6 +45,7 @@ namespace KirbyNightmareInDreamLand.Levels
         private readonly IGameState _pausedState;
         public readonly IGameState _gameOverState;
         private readonly IGameState _debugState;
+        private readonly IGameState _winningState;
         private readonly IGameState _transitionState;
 
         public Level()
@@ -58,7 +59,7 @@ namespace KirbyNightmareInDreamLand.Levels
             _pausedState = new GamePausedState();
             _gameOverState = new GameGameOverState(this);
             _transitionState = new GameTransitioningState(this);
-
+            _winningState = new GameWinningState(this);
         }
 
         public void ChangeState(IGameState newState)
@@ -79,6 +80,10 @@ namespace KirbyNightmareInDreamLand.Levels
         public void UpdateLevel()
         {
             _currentState.Update();
+            if(CurrentRoom.Name == "winner_room")
+            {
+                ChangeState(_winningState);
+            }
         }
 
         public void PauseLevel()
@@ -100,7 +105,6 @@ namespace KirbyNightmareInDreamLand.Levels
         {
             _currentState.SelectContinueButton();
         }
-
 
         public void GameOver()
         {
