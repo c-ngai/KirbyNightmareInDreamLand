@@ -6,7 +6,7 @@ using System.Diagnostics;
 namespace KirbyNightmareInDreamLand.Collision
 {
     public enum CollisionSide { Top, Left, Right, Bottom };
-    public class CollisionResponse
+    sealed class CollisionResponse
     {
         public Dictionary<Tuple<string, string, CollisionSide>, Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>>> collisionMapping { get; private set; }
         private static CollisionResponse instance = new CollisionResponse();
