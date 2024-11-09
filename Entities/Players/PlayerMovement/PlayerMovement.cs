@@ -134,10 +134,25 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 position.X = Game1.Instance.Level.CurrentRoom.Width + levelBoundsRight;
             }
         }
+        public void FallOffScreenOne(Player kirby)
+        {
+            if(kirby.DEAD == true) // game over 
+            {
+                Game1.Instance.Level.GameOver();
+                kirby.FillFullHealth();
+            } else {
+                kirby.RestartKirby();
+                Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
+                Game1.Instance.Level.ChangeToPlaying();
+            }
+        }
+        public void FallOffScreenTwo(Player kirby)
+        {
+            kirby.FallOffScreenDeath();
+
+        }
         public virtual void AdjustY(Player kirby)
         {
-            yVel +=  gravity * dt; 
-
             //dont go through the ceiling
             if (position.Y < ceiling)
             {
@@ -146,15 +161,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
             if(position.Y > Game1.Instance.Level.CurrentRoom.Height)
             {
-                if(kirby.DEAD == true) // game over 
-                {
-                    Game1.Instance.Level.GameOver();
-                    kirby.FillFullHealth();
+                if(kirby.CollisionActive){
+                    FallOffScreenTwo(kirby);
                 } else {
-                    Console.WriteLine("here");
-                    kirby.RestartKirby();
-                    Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
-                    Game1.Instance.Level.ChangeToPlaying();
+                    FallOffScreenOne(kirby);
                 }
             }
         }

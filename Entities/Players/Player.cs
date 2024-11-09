@@ -186,12 +186,30 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             SoundManager.Play("kirbydeath");
             state.ChangePose(KirbyPose.DeathStun);
             await Task.Delay(Constants.WaitTimes.DELAY_1500);
+            DeathSpin();
+        }
+        public async void DeathSpin()
+        {
             //wait a beat
             SoundManager.Play("deathjingle");
             state.ChangePose(KirbyPose.DeathSpin);
             movement.DeathSpin();
             CollisionActive = false;
-
+        }
+        public void FallOffScreenDeath()
+        {
+            health = 0;
+            lives --;
+            Game1.Instance.Level.ChangeToLifeLost();
+            movement.DeathMovement();
+            DeathSpin();
+            if(lives == 0){
+                //go to game over
+                //Game1.Instance.Level.GameOver();
+                DEAD = true;
+            }else {
+                FillHealth();
+            }
         }
         private void DecreaseHealth(Rectangle intersection)
         {
@@ -205,7 +223,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 Death();
                 if(lives == 0){
                     //go to game over
-                    Game1.Instance.Level.GameOver();
+                    //Game1.Instance.Level.GameOver();
                     DEAD = true;
                 }else {
                     FillHealth();
@@ -239,7 +257,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             if(invincible){
                 timer += gameTime.ElapsedGameTime.TotalSeconds; 
-                if(timer > 5){
+                if(timer > Constants.Kirby.INVINCIBLE_TIME){
                     invincible = false;
                     timer = 0;
                 }

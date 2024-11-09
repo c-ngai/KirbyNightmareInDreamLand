@@ -92,8 +92,6 @@ Player Movement: note: most major bugs can be exited out of by pressing jump aka
  - slide sometimes happens without changing the pose into sliding
  - sometimes movement just softlocks in position or onto float, it is unclear but we are working on finding the source and fixing it
  - pressing z repeatedly and up while kirby is floating sometimes softlocks it into postion
- - He sometimes also falls off screen past waterfall and cannot be recovered 
-    because of our buggy restart so the program must be rerun
 
  Level Loading:
  - restart is currently completely broken after implementing a level loader and an object manager in this game
