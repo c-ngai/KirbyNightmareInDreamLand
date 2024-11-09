@@ -46,7 +46,7 @@ namespace KirbyNightmareInDreamLand
         #region  Physics
         public static class Physics
         {
-            public const float GRAVITY = 9f;
+            public const float GRAVITY = 10f;
             public const float DT = 0.0166666f;
             public const float FLOAT_GRAVITY = 5f; //its 2f as the gravity times 0.01 as a "time elapsed" so float kirby falls at a constan rate
             public const float JUMP_VEL = -2f;
@@ -284,7 +284,7 @@ namespace KirbyNightmareInDreamLand
             public class BrontoBurt
         {
             public const float MOVE_SPEED = 0.5f;
-            public const float WAVE_AMPLITUDE = 10f; // height of wave
+            public const float WAVE_AMPLITUDE = 0.5f; // height of wave
             public const float WAVE_FREQUENCY = 0.05f; // wave speed
             public const int HURT_FRAMES = 50;
             public const int SLOW_FLY_FRAMES = 100;
