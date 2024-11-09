@@ -35,6 +35,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public bool attackIsActive{get; private set; } = false;
         public bool CollisionActive { get; private set;} = true;
         public bool DEAD = false;
+        public bool lifeLost = false;
 
         //collision stuffs
 
@@ -51,7 +52,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public string GetObjectType()
         {
-            return "Player";
+            return Constants.CollisionObjectType.PLAYER;
         }
         //changes kiry's texture if he is in a different state than before
         //only called by Draw
@@ -170,50 +171,45 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void RestartKirby()
         {
             //state.ChangeType(KirbyType.Dead);
-            SoundManager.Play("kirbydeath");
-            //wait a beat
-            SoundManager.Play("deathjingle");
             CollisionActive = true;
             movement.StopMovement();
             ChangePose(KirbyPose.Standing);
             invincible = false;
+            timer = 0;
         } 
-        public async void Death() //does nothing this sprint
+        public async void Death()
         {
-            movement.StopMovement();
+            state.ChangePose(KirbyPose.Standing);
+            StopMoving(); 
             ChangeToNormal();
+            ChangeMovement();
+            SoundManager.Play("kirbydeath");
             state.ChangePose(KirbyPose.DeathStun);
-            await Task.Delay(1500);
+            await Task.Delay(Constants.WaitTimes.DELAY_1500);
+            //wait a beat
+            SoundManager.Play("deathjingle");
             state.ChangePose(KirbyPose.DeathSpin);
             movement.DeathSpin();
             CollisionActive = false;
 
         }
-        public void GameOverKirby()
-        {
-            //FillHealth();
-            //lives = Constants.Kirby.MAX_LIVES;
-        }
         private void DecreaseHealth(Rectangle intersection)
         {
-            if(timer ==0)
-            {
-                health --; //decrease health
-            }
+            if(timer ==0) health --; //decrease health
             if(health == 0) //health decresed to 0 and lost life
             {
+                lifeLost = true;
                 lives--;
                 Game1.Instance.Level.ChangeToLifeLost();
+                movement.DeathMovement();
                 Death();
                 if(lives == 0){
                     //go to game over
-                    //GameOverKirby(); //emporary to make sure kirby gets health filed up
                     Game1.Instance.Level.GameOver();
                     DEAD = true;
                 }else {
                     FillHealth();
                 }
-                //FillHealth();
             } else { //health decreased,  but didnt loose life
                 TakeDamageAnimation();
                 movement.ReceiveDamage(intersection);
@@ -235,7 +231,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 if(IsFloating()) movement = new NormalPlayerMovement(GetKirbyPosition());
                 ChangePose(KirbyPose.Hurt);
                 SoundManager.Play("kirbyhurt1");
-                await Task.Delay(Constants.Physics.DELAY);
+                await Task.Delay(Constants.WaitTimes.DELAY_400);
                 StopMoving();
             }
         }
@@ -261,6 +257,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void FillHealth()
         {
             health = Constants.Kirby.MAX_HEALTH;
+        }
+        public void FillFullHealth()
+        {
+            health = Constants.Kirby.MAX_HEALTH;
+            lives = Constants.Kirby.MAX_LIVES;
         }
         #endregion
 
@@ -332,7 +333,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         private async void StartFloating()
         {
             ChangePose(KirbyPose.FloatingStart);
-            await Task.Delay(Constants.Physics.DELAY*2);
+            await Task.Delay(Constants.WaitTimes.DELAY_800);
         }
         public void Float()
         {
@@ -391,6 +392,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             if(state.IsCrouching()){
                 EndSlide(); //if sliding changes to standin
+                movement.EndSlide();
                 ChangeMovement(); //change to normal
                 StopMoving(); //set vel to 0 and standing
                 if(attack != null)// && attack.IsDone())
@@ -410,11 +412,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             //beam float exhale mouthful exhale
             ChangePose(KirbyPose.Attacking);
             if(GetKirbyType().Equals("Beam")){
-                await Task.Delay(500);
+                await Task.Delay(Constants.WaitTimes.DELAY_500);
                 //ChangeAttackBool(false);
                 attack = null;
             } else {  //float and mouthful exhale
-                await Task.Delay(200);
+                await Task.Delay(Constants.WaitTimes.DELAY_200);
             }
             if(!state.IsFloating()) ChangePose(KirbyPose.Standing);
             if(IsWithEnemy())ChangeToNormal();
@@ -485,9 +487,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             StopAttacking();
             ChangeToMouthful();
         }
-        private async void SwallowAnimation()
+        private void SwallowAnimation()
         {
-            await Task.Delay(1500);
             state.ChangePose(KirbyPose.Swallow);
         }
         private void EndSwallow()
@@ -510,6 +511,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 attack?.Update(gameTime, this);
                 starAttackOne?.Update(gameTime, this);
                 starAttackTwo?.Update(gameTime, this);
+            }
+            if(lifeLost)
+            {
+                Death();
+                lifeLost = false;
             }
         }
 

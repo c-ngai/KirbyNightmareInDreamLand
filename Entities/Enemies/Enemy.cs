@@ -51,7 +51,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public string GetObjectType()
         {
-            return "Enemy";
+            return Constants.CollisionObjectType.ENEMY;
         }
 
         public Vector2 Position

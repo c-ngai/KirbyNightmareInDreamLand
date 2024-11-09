@@ -13,7 +13,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         private float startingY;
 
-        public new float yVel = -2f;
+        public new float yVel = Constants.Physics.JUMP_VEL;
         public JumpMovement(Vector2 pos) : base(pos)
         {
             landed = false;
@@ -22,14 +22,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public override void Walk(bool isLeft)
         {
-            if (isLeft)
-            {
-                xVel = jumpVel;
-            }
-            else
-            {
-                xVel = jumpVel * -1;
-            }
+            xVel = isLeft ? jumpVel :jumpVel * -1;
         }
         #region Jumping
         public void FinishJump(Player kirby)

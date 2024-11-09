@@ -13,7 +13,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public Vector2 Position {get; private set;}
         public Vector2 Velocity {get; private set;}
         public bool CollisionActive { get; private set;} = true;
-        private bool IsLeft;
         private SoundInstance sound;
 
         public ElectricAttack(Vector2 pos, bool isLeft)
@@ -51,7 +50,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public string GetObjectType()
         {
-            return "PlayerAttack";
+            return Constants.CollisionObjectType.PLAYER_ATTACK;
         }
 
         public void EndAttack()

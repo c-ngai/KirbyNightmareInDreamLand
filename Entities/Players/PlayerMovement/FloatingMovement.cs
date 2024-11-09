@@ -70,13 +70,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 AdjustYPositionWhileFloating(kirby);
             }
-            //yVel +=  floatGravity * dt; 
-
             //dont go through the ceiling
-            if (position.Y < 20)
+            if (position.Y < Constants.Kirby.CEILING)
             {
                 yVel = 0;
-                position.Y = 20;
+                position.Y = Constants.Kirby.CEILING;
             }
         }
 

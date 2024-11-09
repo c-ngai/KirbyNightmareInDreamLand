@@ -115,7 +115,6 @@ namespace KirbyNightmareInDreamLand.Levels
 
         public void UpdateLevel()
         {
-            _currentState.Update();
             UpdateKeymap();
 
             if(CurrentRoom.Name == winningRoomString)
@@ -126,6 +125,7 @@ namespace KirbyNightmareInDreamLand.Levels
             {
                 ChangeState(_gameOverState);
             }
+            _currentState.Update();
         }
 
         public void PauseLevel()

@@ -1,31 +1,41 @@
 {
-	"AttackKeyMap": [
-		{
-			"Key": "Space",
-			"ExecutionType": "StartingPress",
-			"Command": "PauseCommand"
-		},
-		{
-			"Key": "Z",
-			"ExecutionType": "StartingPress",
-			"Command": "KirbyAttackCommand",
-			"PlayerIndex": 0
-		},
-		{
-			"Key": "Z",
-			"ExecutionType": "StoppingPress",
-			"Command": "KirbyStopAttackingCommand",
-			"PlayerIndex": 0
-		}
+    "AttackMaping": [
+        {
+            "Key": "Space",
+            "ExecutionType": "StartingPress",
+            "Command": "PauseCommand"
+        },
+        {
+            "Key": "Z",
+            "ExecutionType": "StartingPress",
+            "Command": "KirbyAttackCommand",
+            "PlayerIndex": 0
+        },
+        {
+            "Key": "Z",
+            "ExecutionType": "StoppingPress",
+            "Command": "KirbyStopAttackingCommand",
+            "PlayerIndex": 0
+        }
 
-	],
-	"PauseKeyMap": [
-		{
-			"Key": "Space",
-			"ExecutionType": "StartingPress",
-			"Command": "PauseCommand"
-		}
-	],
+    ], 
+    "PauseKeyMap": [
+        {
+            "Key": "Space",
+            "ExecutionType": "StartingPress",
+            "Command": "PauseCommand"
+        },
+        {
+            "Key": "Q",
+            "ExecutionType": "StartingPress",
+            "Command": "QuitCommand"
+        },
+        {
+            "Key": "R",
+            "ExecutionType": "StartingPress",
+            "Command": "ResetCommand"
+        }
+    ],
 
 	"keymap1": [
 		{
