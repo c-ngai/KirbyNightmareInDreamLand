@@ -199,7 +199,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void AdjustFromBottomCollisionPlatform(Rectangle intersection, IPlayerStateMachine state)
         {
             // Only adjust if kirby was moving downwards during the collision
-            Debug.WriteLine(yVel);
             if (yVel > 0 || state.GetPose() == KirbyPose.FreeFall || state.GetPose() == KirbyPose.JumpFalling)
             {
                 position.Y = intersection.Y;
