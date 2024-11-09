@@ -18,6 +18,9 @@ namespace KirbyNightmareInDreamLand.GameState
     {
         void Draw();
         void Update();
+        void SelectQuitButton();
+        void SelectContinueButton();
+        void SelectButton();
     }
 
     public abstract class BaseGameState : IGameState
@@ -105,6 +108,21 @@ namespace KirbyNightmareInDreamLand.GameState
                 Vector2 backgroundPosition = cameraPosition + backgroundScreenPosition;
                 level.CurrentRoom.BackgroundSprite.Draw(backgroundPosition, spriteBatch);
             }
+        }
+
+        public virtual void SelectQuitButton()
+        {
+
+        }
+
+        public virtual void SelectContinueButton()
+        {
+
+        }
+
+        public virtual void SelectButton()
+        {
+
         }
 
         // only draw foreground is not implemented in the base class 

@@ -1,42 +1,26 @@
-﻿using System;
-using KirbyNightmareInDreamLand.Entities.Enemies;
-using KirbyNightmareInDreamLand.Entities.Players;
-using KirbyNightmareInDreamLand.Entities.PowerUps;
-using KirbyNightmareInDreamLand.Levels;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Reflection;
+﻿using KirbyNightmareInDreamLand.Levels;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using static KirbyNightmareInDreamLand.Levels.Level;
-using KirbyNightmareInDreamLand.Sprites;
-using System.Xml.Linq;
+
 
 namespace KirbyNightmareInDreamLand.GameState
 {
     public class GameTransitioningState : BaseGameState
     {
 
-        private readonly SpriteBatch spriteBatch;
-        private readonly Camera _camera;
-        private readonly ObjectManager _manager;
-
         public Vector2 DestinationPoint;
-        private bool FadeInComplete;
-        private bool FadeOutComplete;
+
         private bool CurrentlyFadingOut;
         private bool CurrentlyFadingIn;
-        private bool CurrentlyTransitioning;
-        private float FadeSpeed = 0.01f;
+        private float FadeSpeed = Constants.Transition.FADE_SPEED;
+        private float opaqueAlpha = Constants.Transition.FADE_VALUE_OPAQUE;
+        private float transparentAlpha = Constants.Transition.FADE_VALUE_TRANSPARENT;
+        private float startFade = Constants.Transition.FADE_OUT_START;
+        private string gameOverString = Constants.RoomStrings.GAME_OVER_ROOM;
         public float FadeAlpha { get; private set; }
 
         public GameTransitioningState(Level _level) : base( _level)
         {
-            spriteBatch = Game1.Instance._spriteBatch;
-            _camera = Game1.Instance.Camera;
-            _manager = Game1.Instance.manager;
-            level.FadeAlpha = 0f;
-
+            level.FadeAlpha = Constants.Transition.FADE_OUT_START;
             CurrentlyFadingIn = false;
             CurrentlyFadingOut = true;
         }
@@ -46,15 +30,15 @@ namespace KirbyNightmareInDreamLand.GameState
 
             base.Update();
 
-            System.Diagnostics.Debug.WriteLine($"FadeAlpha: {FadeAlpha}, CurrentlyFadingOut: {CurrentlyFadingOut}, CurrentlyFadingIn: {CurrentlyFadingIn}");
+            //System.Diagnostics.Debug.WriteLine($"FadeAlpha: {FadeAlpha}, CurrentlyFadingOut: {CurrentlyFadingOut}, CurrentlyFadingIn: {CurrentlyFadingIn}");
 
             // if we are currently fading out we want to keep fading out
             if (CurrentlyFadingOut)
             {
                 level.FadeAlpha += FadeSpeed; // increment opacity 
-                if (level.FadeAlpha >= 1.0f) // if we are opaque  
+                if (level.FadeAlpha >= opaqueAlpha) // if we are opaque  
                 {
-                    level.FadeAlpha = 1f; // reset fadeAlpha so fade-in is ready 
+                    level.FadeAlpha = opaqueAlpha; // reset fadeAlpha so fade-in is ready 
                     CurrentlyFadingOut = false; // Fade-out complete
                 }
             }
@@ -63,7 +47,7 @@ namespace KirbyNightmareInDreamLand.GameState
             if (!CurrentlyFadingOut && !CurrentlyFadingIn)
             {
                 level.LoadRoom(level.NextRoom, level.NextSpawn); // load new room
-                System.Diagnostics.Debug.WriteLine("Next room is ..." + level.NextRoom);
+                //System.Diagnostics.Debug.WriteLine("Next room is ..." + level.NextRoom);
                 CurrentlyFadingIn = true; //  Que the fade in
             }
 
@@ -71,11 +55,11 @@ namespace KirbyNightmareInDreamLand.GameState
             if ( CurrentlyFadingIn)
             {
                 level.FadeAlpha -= FadeSpeed; // decrement opacity 
-                if (level.FadeAlpha <= 0.05f) // if we are transparent 
+                if (level.FadeAlpha <= transparentAlpha) // if we are transparent 
                 {
-                    level.FadeAlpha = 0f; // reset fadeAlpha so fade-out is ready to go
+                    level.FadeAlpha = startFade; // reset fadeAlpha so fade-out is ready to go
                     CurrentlyFadingIn = false; // Fade-in complete
-                    if (level.NextRoom == "game_over")
+                    if (level.NextRoom == gameOverString)
                     {
                         level.ChangeState(Game1.Instance.Level._gameOverState);
                     }
