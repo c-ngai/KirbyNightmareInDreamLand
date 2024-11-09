@@ -256,7 +256,7 @@ namespace KirbyNightmareInDreamLand
             public class BrontoBurt
         {
             public const float MOVE_SPEED = 0.5f;
-            public const float WAVE_AMPLITUDE = 10f; // height of wave
+            public const float WAVE_AMPLITUDE = 0.5f; // height of wave
             public const float WAVE_FREQUENCY = 0.05f; // wave speed
             public const int HURT_FRAMES = 50;
             public const int SLOW_FLY_FRAMES = 100;
@@ -280,7 +280,6 @@ namespace KirbyNightmareInDreamLand
             public const float JUMP_VELOCITY = 1.5f;
             public const int HURT_FRAMES = 50;
             public const int PAUSE_TIME = 1;
-
         }
 
         public class Sparky

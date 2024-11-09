@@ -26,15 +26,14 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public override void Move()
         {
-            //Creats Y oscillation using sin. Smooth flying motion up and down
+            // Increment the time counter to maintain oscillation
             timeCounter += Constants.BrontoBurt.WAVE_FREQUENCY;
-            position.Y = initialY + Constants.BrontoBurt.WAVE_AMPLITUDE * (float)Math.Sin(timeCounter);
 
-            // yVel = -Constants.WaddleDoo.JUMP_VELOCITY;
-            //instead of changing position.Y directly, change yVel using sin?
+            // Oscillate vertically using a sine wave pattern
+            yVel = Constants.BrontoBurt.WAVE_AMPLITUDE * (float)Math.Sin(timeCounter);
+            position.Y += yVel; // Apply the Y-axis oscillation
 
-
-            //Checks to change if X value is within left/right bounds
+            // Move horizontally according to direction and speed
             if (stateMachine.IsLeft())
             {
                 position.X -= xVel;
@@ -43,6 +42,20 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             {
                 position.X += xVel;
             }
+
+            // Update texture if needed
+            UpdateTexture();
+        }
+
+        public override void Fall()
+        {
+            //empty- no falling
+        }
+
+        public override void ChangeDirection()
+        {
+            currentState.ChangeDirection();
+            timeCounter = 0f;
         }
 
     }
