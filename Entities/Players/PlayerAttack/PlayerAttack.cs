@@ -14,9 +14,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public IProjectile currentAttack {get; private set;}
 
         private Dictionary<string, Func<Player, IProjectile>> attackFactories;
+        private Vector2 position;
+        private bool isLeft;
         public PlayerAttack(Player kirby, String attackType)
         {
             InitializeAttackDictionary();
+            position = kirby.GetKirbyPosition();
+            isLeft = kirby.IsLeft();
             // Set the attack based on the string
             currentAttack = attackFactories[attackType](kirby);
         }
@@ -24,13 +28,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             attackFactories  = new Dictionary<string, Func<Player, IProjectile>>
             {
-                { "Beam", (k) => new KirbyBeam(k.GetKirbyPosition(), !k.IsLeft()) },
-                { "Fire", (k) => new KirbyFlamethrower(k.GetKirbyPosition(), !k.IsLeft()) },
-                { "Puff", (k) => new KirbyPuff(k.GetKirbyPosition(), !k.IsLeft()) },
-                { "Normal", (k) => new Inhale(k.GetKirbyPosition(), k.IsLeft(), k) },
-                { "Spark", (k) => new ElectricAttack(k.GetKirbyPosition(), k.IsLeft()) },
-                { "Slide", (k) => new Slide(k.GetKirbyPosition(), k.IsLeft()) },
-                { "Star", (k) => new KirbyStar(k.GetKirbyPosition(), !k.IsLeft()) }
+                { "Beam", (k) => new KirbyBeam(position, !isLeft) },
+                { "Fire", (k) => new KirbyFlamethrower(position, !isLeft) },
+                { "Puff", (k) => new KirbyPuff(position, !isLeft) },
+                { "Normal", (k) => new Inhale(position, isLeft, k) },
+                { "Spark", (k) => new ElectricAttack(position, isLeft) },
+                { "Slide", (k) => new Slide(position, isLeft) },
+                { "Star", (k) => new KirbyStar(position, !isLeft) }
             };
         }
         public void EndAttack()

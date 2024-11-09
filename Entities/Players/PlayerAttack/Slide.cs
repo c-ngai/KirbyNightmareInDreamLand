@@ -40,7 +40,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public string GetObjectType()
         {
-            return "PlayerAttack";
+            return Constants.CollisionObjectType.PLAYER_ATTACK;
         }
         public void Update()
         {

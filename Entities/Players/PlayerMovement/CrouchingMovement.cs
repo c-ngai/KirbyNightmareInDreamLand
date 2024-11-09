@@ -38,25 +38,25 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if(kirby.IsSliding())
             {
                 timer += gameTime.ElapsedGameTime.TotalSeconds; 
-                if(timer > .8)
+                if(timer > Constants.Kirby.SLIDE_TIME)
                 {
                     StopMovement();
                     kirby.EndSlide();
                     timer = 0;
+                    kirby.attack?.EndAttack();
                 } 
             }
         }
-        // public override void Adjust(Player kirby)
-        // {
-        //     AdjustSlide(kirby);
-        //     //if kirby collides with a wall while crouching the slide ends
-        //     //AdjustX(kirby);  // Turning this off temporarily  -Mark
-        //     AdjustY(kirby);
-        // }
+        public override void EndSlide()
+        {
+            StopMovement();
+            timer = 0;
+        }
         public override void MovePlayer(Player kirby, GameTime gameTime)
         {
             UpdatePosition(gameTime);
             AdjustX(kirby);
+            AdjustY(kirby);
             AdjustSlide(kirby, gameTime);
         }
         public override void AdjustFromRightCollisionBlock(Rectangle intersection)
