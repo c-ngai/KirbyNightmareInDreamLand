@@ -443,7 +443,7 @@ namespace KirbyNightmareInDreamLand
         #endregion
 
         #region Debug
-        public class Debug
+        public class DebugValues
         {
             public const int GREEN_R = 0;
             public const int GREEN_G = 255;
