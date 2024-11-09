@@ -53,7 +53,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public override Vector2 CalculateRectanglePoint(Vector2 pos)
         {
-            float x = pos.X - Constants.HitBoxes.ENEMY_WIDTH / 2;
+            float x = pos.X - Constants.HitBoxes.ENEMY_WIDTH / Constants.Sparky.HITBOX_RECTANGLE_OFFSET;
             float y = pos.Y - Constants.HitBoxes.ENEMY_HEIGHT;
             Vector2 rectPoint = new Vector2(x, y);
             return rectPoint;

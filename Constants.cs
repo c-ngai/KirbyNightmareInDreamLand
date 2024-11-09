@@ -280,6 +280,11 @@ namespace KirbyNightmareInDreamLand
         public class Enemies
         {
             public const int DELAY = 400;
+            public const int HEALTH = 1;
+            public const int STRONG_ENEMY_POINTS = 600;
+            public const int WEAK_ENEMY_POINTS = 400;
+            public const int GRAVITY_OFFSET = 100;
+            public const int DAMAGE_TAKEN = 1;
         }
 
             public class BrontoBurt
@@ -301,6 +306,13 @@ namespace KirbyNightmareInDreamLand
             public const int ATTACK_FRAMES = 100;
             public const int SHOOT_FRAMES = 100;
             public const int HURT_FRAMES = 50;
+            public static Vector2 FLAMETHROWER_LEFT = new Vector2(-1, 0);
+            public static Vector2 FLAMETHROWER_RIGHT = new Vector2(1, 0);
+            public const int FLAMETHROWER_X_OFFSET = 18;
+            public const int FLAMETHROWER_Y_OFFSET = 7;
+            public static Vector2 FIREBALL_LEFT = new Vector2(-1, -0.5f);
+            public static Vector2 FIREBALL_RIGHT = new Vector2(1, -0.5f);
+            public const int FRAME_1 = 1;
         }
 
         public class PoppyBrosJr
@@ -320,6 +332,7 @@ namespace KirbyNightmareInDreamLand
             public const float HOP_SPEED = 0.4f; // speed
             public const float TALL_JUMP_VELOCITY = 2.1f;
             public const float SHORT_JUMP_VELOCITY = 1.5f;
+            public const int HITBOX_RECTANGLE_OFFSET = 2;
 
             public const int PAUSE_TIME = 30;
             public const int ATTACK_TIME = 120;

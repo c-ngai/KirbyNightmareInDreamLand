@@ -23,7 +23,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState
                 _enemy.ChangePose(EnemyPose.Hurt);
                 _enemy.ResetFrameCounter();
 
-                 _enemy.Health -= 1;
+                 _enemy.Health -= Constants.Enemies.DAMAGE_TAKEN;
         }
 
             public void Update()

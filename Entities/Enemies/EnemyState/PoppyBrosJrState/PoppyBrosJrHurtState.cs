@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static KirbyNightmareInDreamLand.Constants;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState
 {
@@ -18,8 +19,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState
         public void Enter()
         {
             _enemy.ChangePose(EnemyPose.Hurt);
-            _enemy.ResetFrameCounter(); 
-            _enemy.Health -= 1;
+            _enemy.ResetFrameCounter();
+            _enemy.Health -= Constants.Enemies.DAMAGE_TAKEN;
         }
 
         public void Update()

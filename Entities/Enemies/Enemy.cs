@@ -34,7 +34,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             //Initialize all variables
             position = startPosition;
-            health = 1;
+            health = Constants.Enemies.HEALTH;
             isDead = false;
             xVel = 0;
             yVel = 0;
@@ -127,11 +127,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             // Determine points based on the type of enemy
             if (this is WaddleDoo || this is BrontoBurt || this is Hothead || this is Sparky)
             {
-                points = 600;
+                points = Constants.Enemies.STRONG_ENEMY_POINTS;
             }
             else if (this is WaddleDee || this is PoppyBrosJr)
             {
-                points = 400;
+                points = Constants.Enemies.WEAK_ENEMY_POINTS;
             }
 
             // Update the score in ObjectManager
@@ -204,7 +204,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void Fall()
         {
-            yVel += gravity / 100;  // Increase vertical velocity by gravity
+            yVel += gravity / Constants.Enemies.GRAVITY_OFFSET;  // Increase vertical velocity by gravity
             position.Y += yVel;  // Apply the updated velocity to the enemy's Y position
         }
 

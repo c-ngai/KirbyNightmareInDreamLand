@@ -9,19 +9,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
     public class WaddleDee : Enemy
     {
-        //Keep track of current frame
-        //private int frameCounter = 0;
         public WaddleDee(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDee)
         {
-            //Set pose and sprite
-            //Debug.WriteLine("Hello from Waddle Dee:" + startPosition);
-
             UpdateTexture();
             currentState = new WaddleDeeWalkingState(this);
-            //TO-DO: spawn facing the direction kirby is in
             stateMachine.ChangeDirection();
             xVel = Constants.WaddleDee.MOVE_SPEED;
         } 
-
         }
     }
