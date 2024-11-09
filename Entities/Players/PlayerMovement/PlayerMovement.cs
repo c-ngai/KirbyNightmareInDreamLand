@@ -6,6 +6,7 @@ using Microsoft.VisualBasic;
 using KirbyNightmareInDreamLand.Levels;
 using System.Diagnostics;
 using System;
+using KirbyNightmareInDreamLand.Particles;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -192,7 +193,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             yVel = 0;
             position.Y = intersection.Y;
             ChangeKirbyLanded(true);
-
         }
 
         public virtual void AdjustFromRightCollisionBlock(Rectangle intersection)
@@ -207,11 +207,15 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             xVel = 0;
         }
 
-        public void AdjustFromBottomCollisionPlatform(Rectangle intersection)
+        public void AdjustFromBottomCollisionPlatform(Rectangle intersection, IPlayerStateMachine state)
         {
-            position.Y = intersection.Y;
-            yVel = 0;
-            ChangeKirbyLanded(true);
+            // Only adjust if kirby was moving downwards during the collision
+            if (yVel > 0 || state.GetPose() == KirbyPose.FreeFall || state.GetPose() == KirbyPose.JumpFalling)
+            {
+                position.Y = intersection.Y;
+                yVel = 0;
+                ChangeKirbyLanded(true);
+            }
         }
 
         public void AdjustOnSlopeCollision(IPlayerStateMachine state, Tile tile, float slope, float yIntercept)
@@ -220,14 +224,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if (position.X > intersection.Left && position.X < intersection.Right)
             {
                 float offset = position.X - intersection.X;
-                //Debug.WriteLine($"Starting Y position: {position.Y}");
+
                 float kirbyAdjustment = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
-                if (position.Y > kirbyAdjustment || state.CanMove() ) // the CanMove check is a bit jank, basically supposed to be "is kirby moving on the ground in a way where we want him to stay locked on the ground"
+                if (position.Y > kirbyAdjustment || state.CanMove() ) // "is kirby moving on the ground in a way where we want him to stay locked on the ground"
                 {
                     position.Y = kirbyAdjustment;
                     yVel = Math.Abs(xVel); // If on a slope, set yVel to the absolute value of xVel so that kirby magnetizes down to the slope
                     ChangeKirbyLanded(true);
-                    //yVel = 0;
                 }
             }
         }

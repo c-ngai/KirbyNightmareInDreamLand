@@ -18,5 +18,8 @@
         public KirbyType GetKirbyType();
         public bool CanMove();
 
+        public bool IsFalling();
+        public bool IsFloating();
+
     }
 }

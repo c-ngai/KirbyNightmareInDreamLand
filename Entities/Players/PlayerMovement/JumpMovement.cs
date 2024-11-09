@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Particles;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -31,6 +32,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             yVel = 0;
             kirby.ChangeMovement();
             SoundManager.Play("land");
+            IParticle star = new Star(position);
 
         }
         //checks if kirby is going down to start the falling animation
@@ -44,7 +46,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public override void Jump(bool isLeft)
         {
             if (position.Y > startingY - jumpHeight && yVel < 0)
-            { //makes it so kirby can only jump so hight
+            { //makes it so kirby can only jump so high
                 yVel = jumpVel;
             }
         }

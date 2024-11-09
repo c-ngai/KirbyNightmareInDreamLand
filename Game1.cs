@@ -16,6 +16,7 @@ using System.Xml.Linq;
 using KirbyNightmareInDreamLand.Audio;
 using Microsoft.Xna.Framework.Input;
 using KirbyNightmareInDreamLand.GameState;
+using KirbyNightmareInDreamLand.Particles;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -195,13 +196,19 @@ namespace KirbyNightmareInDreamLand
             GameTime = gameTime;
 
             Level.UpdateLevel();
+            
+            manager.ResetDebugStaticObjects();
+            manager.OrganizeList();
 
-            ObjectManager.Instance.OrganizeList();
 
-            ObjectManager.Instance.ResetDebugStaticObjects();
             CollisionDetection.Instance.CheckCollisions();
 
             Camera.Update();
+
+            foreach (IParticle particle in manager.Particles) particle.Update();
+
+            manager.UpdateParticles();
+
 
             SoundManager.Update();
             //_transitioning.Update();
@@ -230,6 +237,9 @@ namespace KirbyNightmareInDreamLand
                 {
                     gameOverLay.DrawFade(Level.FadeAlpha);
                 }
+
+                // Draw particles
+                foreach (IParticle particle in manager.Particles) particle.Draw(_spriteBatch);
 
                 // Not currently using item
                 // item.Draw(new Vector2(200, 150), spriteBatch);
