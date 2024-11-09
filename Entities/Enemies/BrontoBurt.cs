@@ -9,14 +9,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
     public class BrontoBurt : Enemy
     {
-
-        private readonly float initialY; // initial height
         private float timeCounter = 0f; // wave time counter
 
         public BrontoBurt(Vector2 startPosition) : base(startPosition, EnemyType.BrontoBurt)
         {
             //Initialize starting Y position,
-            initialY = startPosition.Y;
             stateMachine.ChangePose(EnemyPose.FlyingSlow);
             ChangeState(new BrontoBurtFlyingSlowState(this)); // Set initial state
 

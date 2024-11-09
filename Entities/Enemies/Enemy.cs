@@ -81,7 +81,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             get { return frameCounter; }
         }
-        public String GetCollisionType()
+        public static String GetCollisionType()
         {
             return "Enemy";
         }

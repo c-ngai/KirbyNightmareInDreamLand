@@ -15,7 +15,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
     {
         // Jump variables
         private bool isJumping = false;
-        private float originalY;
 
         // Beam ability
         private EnemyBeam beam;
