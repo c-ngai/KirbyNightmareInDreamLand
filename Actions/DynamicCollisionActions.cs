@@ -69,7 +69,7 @@ namespace KirbyNightmareInDreamLand.Actions
             pu.UsePowerUp();
         }
 
-        //kirby intercats with powerupstar 
+        //kirby interacts with powerupstar 
         public static void KirbyProjectileCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
             Player player = (Player)object1;

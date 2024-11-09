@@ -12,7 +12,7 @@ using KirbyNightmareInDreamLand.Particles;
 
 namespace KirbyNightmareInDreamLand
 {
-    public class ObjectManager
+    public sealed class ObjectManager
     {
         public List<ICollidable> DynamicObjects { get; private set; }
 
@@ -24,7 +24,7 @@ namespace KirbyNightmareInDreamLand
         public List<IPlayer> Players { get; private set; }
 
 
-        public Player kirby;
+        public Player kirby { get; private set; }
 
         public IEnemy[] EnemyList { get; set; }
 
@@ -52,6 +52,7 @@ namespace KirbyNightmareInDreamLand
             StaticObjects = new List<ICollidable>();
             DebugStaticObjects = new List<ICollidable>();
             Particles = new List<IParticle>();
+            Players = new List<IPlayer>();
             InitializeTileTypes();
         }
 
@@ -60,16 +61,10 @@ namespace KirbyNightmareInDreamLand
             Score += points;
         }
 
-
-        public void LoadKirby()
+        public void AddKirby(IPlayer Kirby)
         {
-            // Creates kirby object
-            Players = new List<IPlayer>();
-            kirby = new Player(new Vector2(Constants.Kirby.STARTINGXPOSITION, Constants.Graphics.FLOOR));
-            Players.Add(kirby);
-            // Target the camera on Kirby
-            Camera camera = Game1.Instance.Camera;
-            camera.TargetPlayer(Players[0]);
+            kirby = (Player) Kirby;
+            Players.Add(Kirby);
         }
         #region keyboard
         public void ChangeKeyboard()
@@ -156,6 +151,11 @@ namespace KirbyNightmareInDreamLand
         public void RemoveNonPlayers()
         {
             DynamicObjects.RemoveAll(obj => !obj.GetObjectType().Equals("Player"));
+        }
+
+        public void ClearPlayerList()
+        {
+            Players.Clear();
         }
         #endregion
     }

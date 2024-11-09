@@ -6,7 +6,6 @@ namespace KirbyNightmareInDreamLand.Particles
     {
         void Update();
         void Draw(SpriteBatch spriteBatch);
-
         bool IsDone();
     }
 }
