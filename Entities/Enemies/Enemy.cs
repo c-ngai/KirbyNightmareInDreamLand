@@ -16,6 +16,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
     public abstract class Enemy : IEnemy, ICollidable
     {
         protected Vector2 position; //Where enemy is drawn on screen
+        protected Vector2 spawnPosition; //Where enemy is first drawn on screen
         protected int health; //Enemy health
         protected bool isDead;  //If enemy is dead
         protected Sprite enemySprite;
@@ -34,6 +35,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             //Initialize all variables
             position = startPosition;
+            spawnPosition = startPosition;
             health = Constants.Enemies.HEALTH;
             isDead = false;
             xVel = 0;
@@ -173,6 +175,20 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void Update(GameTime gameTime) 
         {
+            /* TO-DO: Should this be in Draw or update?
+             * 
+            //respawn enemy if dead but just outside camera bounds
+            if (IsDead && Game1.Instance.Camera.GetEnemyBounds().Contains(spawnPosition.ToPoint()))
+            {
+                // Respawn the enemy
+                CollisionActive = true;
+                IsDead = false;
+                health = Constants.Enemies.HEALTH;
+                position = spawnPosition;
+                frameCounter = 0;
+                UpdateTexture();
+            }*/
+
             if (CollisionActive && !IsDead)
             {
                 IncrementFrameCounter();
@@ -196,6 +212,19 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 enemySprite.Draw(position, spriteBatch);
                 //spriteBatch.DrawString(LevelLoader.Instance.Font, frameCounter.ToString(), position, Color.Black);
             }
+
+            // TO-DO: Should this be in Draw or update?
+            //respawn enemy if dead but just outside camera bounds
+            else if (IsDead && Game1.Instance.Camera.GetEnemyBounds().Contains(spawnPosition.ToPoint()))
+            {
+                //load at spawn point
+                CollisionActive = true;
+                IsDead = false;
+                health = Constants.Enemies.HEALTH;
+                position = spawnPosition;
+                frameCounter = 0;
+                UpdateTexture();
+            }          
         }
 
         public virtual void Attack() { }
