@@ -34,7 +34,7 @@ namespace KirbyNightmareInDreamLand.GameState
 
         public void Update()
         {
-            // do nothing when paused
+            // do nothing
         }
 
         public void SelectQuitButton()
@@ -43,6 +43,11 @@ namespace KirbyNightmareInDreamLand.GameState
         }
 
         public void SelectContinueButton()
+        {
+            // do nothing
+        }
+
+        public void SelectButton()
         {
             // do nothing
         }

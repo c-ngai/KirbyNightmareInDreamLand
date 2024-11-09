@@ -48,6 +48,10 @@ Number keys (1, 2, 3, 4) can be used to show Kirby use a different power-up mode
 8, 9, and 0 keys can be used to show the different powerup cards (beam, spark, fire) on the HUD.
 Note that this will later be changed to show the cards when Kirby gets a powerup in Sprint5.
 
+When on Game over and Level Complete Screens 'up' and 'down' arrow keys navigate
+between Quit and Continue buttons, to select a highlighted button, use 'space'.
+Quit exits the program and continue restarts the game in room 1. 
+
 Use 'q' to quit and 'r' to reset the program back to its initial state.
 
 Use 'f1' to toggle debug mode for graphics.

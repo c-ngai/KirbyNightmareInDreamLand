@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using KirbyNightmareInDreamLand.Entities.Players;
 using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Sprites;
@@ -11,15 +12,19 @@ namespace KirbyNightmareInDreamLand.GameState
 	public class GameGameOverState : BaseGameState
 	{
         private ObjectManager _manager;
-        SpriteBatch spriteBatch;
-        public Sprite currentButtonSprite;
-        public Sprite selectQuitScreen;
-        public Sprite selectContinueScreen;
+        private SpriteBatch spriteBatch;
+        private Sprite currentButtonSprite;
+        private Sprite selectQuitScreen;
+        private Sprite selectContinueScreen;
+        private Vector2 kirbyStartRoomSpawn = Constants.Level.ROOM1_SPAWN_POINT;
+        private string room1String = Constants.RoomStrings.ROOM_1;
+        private Vector2 buttonPosition = Constants.ButtonLocations.GAMEOVER_BUTTONS;
 
         public GameGameOverState(Level _level) : base(_level)
         {
             _manager = Game1.Instance.manager;
             spriteBatch = Game1.Instance._spriteBatch;
+
             selectContinueScreen = SpriteFactory.Instance.CreateSprite("button_continue");
             selectQuitScreen = SpriteFactory.Instance.CreateSprite("button_quit");
             currentButtonSprite = selectContinueScreen;
@@ -29,7 +34,7 @@ namespace KirbyNightmareInDreamLand.GameState
         {
             DrawBackground(spriteBatch);
             DrawForeground(spriteBatch);
-            currentButtonSprite.Draw(new Vector2(136, 71), spriteBatch);
+            currentButtonSprite.Draw(buttonPosition, spriteBatch);
             foreach (IPlayer player in _manager.Players) player.Draw(spriteBatch);
         }
 
@@ -38,22 +43,31 @@ namespace KirbyNightmareInDreamLand.GameState
             base.Update();
         }
 
-
-        public void SelectQuit()
+        public override void SelectQuitButton()
         {
-            if (currentButtonSprite == selectContinueScreen)
-            {
-                currentButtonSprite = selectQuitScreen;
-            }
+            currentButtonSprite = selectQuitScreen;            
         }
 
-        public void SelectContinue()
+        public override void SelectContinueButton()
+        {
+            currentButtonSprite = selectContinueScreen;
+        }
+
+        public override void SelectButton()
         {
             if (currentButtonSprite == selectQuitScreen)
             {
-                currentButtonSprite = selectContinueScreen;
+                Game1.Instance.Exit();
+            }
+            else
+            {
+                level.NextRoom = room1String;
+                level.NextSpawn = kirbyStartRoomSpawn;
+                level.LoadRoom(level.NextRoom, level.NextSpawn); // load new room
+                level.ChangeToPlaying();
             }
         }
+
     }
 }
 

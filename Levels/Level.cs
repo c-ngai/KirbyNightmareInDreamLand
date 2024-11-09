@@ -50,6 +50,10 @@ namespace KirbyNightmareInDreamLand.Levels
         private readonly IGameState _transitionState;
         private readonly BaseGameState _lifeLost;
 
+        private Vector2 gameOverSpawnPoint = Constants.Level.GAME_OVER_SPAWN_POINT;
+        private string gameOverRoomString = Constants.RoomStrings.GAME_OVER_ROOM;
+        private string winningRoomString = Constants.RoomStrings.LEVEL_COMPLETE_ROOM;
+
         public Level()
         {
             _game = Game1.Instance;
@@ -85,10 +89,11 @@ namespace KirbyNightmareInDreamLand.Levels
         {
             {"KirbyNightmareInDreamLand.GameState.GamePlayingState", "keymap1"},
             {"KirbyNightmareInDreamLand.GameState.GamePausedState", "PauseKeyMap"},
-            {"KirbyNightmareInDreamLand.GameState.GameGameOverState", "keymap1"},
+            {"KirbyNightmareInDreamLand.GameState.GameGameOverState", "keymap_gameover"},
             {"KirbyNightmareInDreamLand.GameState.GameDebugState", "keymap1"},
             {"KirbyNightmareInDreamLand.GameState.GameTransitioningState", "PauseKeyMap"},
-            {"KirbyNightmareInDreamLand.GameState.GameLifeLostState", "PauseKeyMap"}
+            {"KirbyNightmareInDreamLand.GameState.GameLifeLostState", "PauseKeyMap"},
+            {"KirbyNightmareInDreamLand.GameState.GameWinningState", "keymap_winning"}
         };
         
         private void UpdateKeymap()
@@ -104,7 +109,6 @@ namespace KirbyNightmareInDreamLand.Levels
                 {
                     Debug.WriteLine(" [ERROR] Level.UpdateKeymap(): gameStateKepmaps does not contain key \"" + currentGameState + "\"");
                 }
-                
             }
             oldGameState = _currentState.ToString();
         }
@@ -114,9 +118,13 @@ namespace KirbyNightmareInDreamLand.Levels
             _currentState.Update();
             UpdateKeymap();
 
-            if(CurrentRoom.Name == "winner_room")
+            if(CurrentRoom.Name == winningRoomString)
             {
                 ChangeState(_winningState);
+            }
+            if (CurrentRoom.Name == gameOverRoomString)
+            {
+                ChangeState(_gameOverState);
             }
         }
 
@@ -129,14 +137,17 @@ namespace KirbyNightmareInDreamLand.Levels
         {
             ChangeState(_playingState);
         }
+
         public void ChangeToLifeLost()
         {
             ChangeState(_lifeLost);
         }
+
         public void ChangeToPlaying()
         {
             ChangeState(_playingState);
         }
+
         public void SelectQuit()
         {
             _currentState.SelectQuitButton();
@@ -147,10 +158,20 @@ namespace KirbyNightmareInDreamLand.Levels
             _currentState.SelectContinueButton();
         }
 
+        public void SelectButton()
+        {
+            _currentState.SelectButton();
+        }
+
+        public void ChangeToTransitionState()
+        {
+            _currentState = new GameTransitioningState(this);
+        }
+
         public void GameOver()
         {
-            NextRoom = "game_over";
-            NextSpawn = new Vector2(2, 7);
+            NextRoom = gameOverRoomString;
+            NextSpawn = gameOverSpawnPoint;
             _currentState = new GameTransitioningState(this);
         }
 
@@ -197,7 +218,7 @@ namespace KirbyNightmareInDreamLand.Levels
                 _manager.RemoveNonPlayers();
                 _manager.ResetStaticObjects();
                 CurrentRoom = LevelLoader.Instance.Rooms[RoomName];
-                Debug.WriteLine("current room is " + CurrentRoom);
+                // Debug.WriteLine("current room is " + CurrentRoom);
                 LoadLevelObjects();
                 SpawnPoint = _spawnPoint ?? CurrentRoom.SpawnPoint;
                 foreach (IPlayer player in _manager.Players)
@@ -247,7 +268,7 @@ namespace KirbyNightmareInDreamLand.Levels
                 }
             }
 
-            System.Diagnostics.Debug.WriteLine("enemy list contains" + enemyList.Count + "enemies");
+            //System.Diagnostics.Debug.WriteLine("enemy list contains" + enemyList.Count + "enemies");
 
             // power ups currently do not require dynamic typing because they all use the same class. Will possibly need to change this later on. 
             powerUpList = new List<PowerUp>();

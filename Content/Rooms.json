@@ -19,13 +19,6 @@
         "DestinationRoom": "room2",
         "DestinationTileX": 2,
         "DestinationTileY": 7
-      },
-      {
-        "TileX": 2,
-        "TileY": 7,
-        "DestinationRoom": "game_over",
-        "DestinationTileX": 45,
-        "DestinationTileY": 11
       }
     ],
     "Enemies": [
@@ -93,13 +86,6 @@
         "DestinationRoom": "room3",
         "DestinationTileX": 2,
         "DestinationTileY": 7
-      },
-      {
-        "TileX": 2,
-        "TileY": 7,
-        "DestinationRoom": "treasureroom",
-        "DestinationTileX": 48,
-        "DestinationTileY": 11
       }
     ],
     "Enemies": [
@@ -165,13 +151,6 @@
         "DestinationRoom": "room2",
         "DestinationTileX": 61,
         "DestinationTileY": 7
-      },
-      {
-        "TileX": 6,
-        "TileY": 7,
-        "DestinationRoom": "treasureroom",
-        "DestinationTileX": 51,
-        "DestinationTileY": 11
       },
       {
         "TileX": 60,

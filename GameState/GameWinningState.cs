@@ -14,13 +14,17 @@ namespace KirbyNightmareInDreamLand.GameState
         public Sprite selectQuitScreen;
         public Sprite selectContinueScreen;
 
+        private Vector2 kirbyStartRoomSpawn = Constants.Level.ROOM1_SPAWN_POINT;
+        private string room1String = Constants.RoomStrings.ROOM_1;
+        private Vector2 buttonPosition = Constants.ButtonLocations.LEVEL_COMPLETE_BUTTONS;
+
         public GameWinningState(Levels.Level _level) : base(_level)
         {
 
             _manager = Game1.Instance.manager;
             spriteBatch = Game1.Instance._spriteBatch;
-            selectContinueScreen = SpriteFactory.Instance.CreateSprite("button_continue");
-            selectQuitScreen = SpriteFactory.Instance.CreateSprite("button_quit");
+            selectContinueScreen = SpriteFactory.Instance.CreateSprite("Winning_continue_selected_button");
+            selectQuitScreen = SpriteFactory.Instance.CreateSprite("Winning_quit_selected");
             currentButtonSprite = selectContinueScreen;
         }
 
@@ -28,7 +32,7 @@ namespace KirbyNightmareInDreamLand.GameState
         {
             DrawBackground(spriteBatch);
             DrawForeground(spriteBatch);
-            currentButtonSprite.Draw(new Vector2(136, 71), spriteBatch);
+            currentButtonSprite.Draw(buttonPosition, spriteBatch);
             foreach (IPlayer player in _manager.Players) player.Draw(spriteBatch);
         }
 
@@ -52,5 +56,33 @@ namespace KirbyNightmareInDreamLand.GameState
                 currentButtonSprite = selectContinueScreen;
             }
         }
+
+        public override void SelectQuitButton()
+        {
+            currentButtonSprite = selectQuitScreen;
+        }
+
+        public override void SelectContinueButton()
+        {
+            currentButtonSprite = selectContinueScreen;
+        }
+
+        public override void SelectButton()
+        {
+            if (currentButtonSprite == selectQuitScreen)
+            {
+                Game1.Instance.Exit();
+            }
+            else
+            {
+                level.NextRoom = room1String;
+                level.NextSpawn = kirbyStartRoomSpawn;
+                level.LoadRoom(level.NextRoom, level.NextSpawn); // load new room
+                level.ChangeToPlaying();
+            }
+        }
+
     }
 }
+
+

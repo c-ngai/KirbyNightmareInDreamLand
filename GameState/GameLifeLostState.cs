@@ -17,8 +17,6 @@ namespace KirbyNightmareInDreamLand.GameState
             spriteBatch = Game1.Instance._spriteBatch;
             _manager = Game1.Instance.manager;
         }
-
-        
     }
 }
 

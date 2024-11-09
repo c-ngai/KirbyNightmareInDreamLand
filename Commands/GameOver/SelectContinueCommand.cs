@@ -1,8 +1,8 @@
 ﻿using System;
-namespace KirbyNightmareInDreamLand.Commands.GameOver
+namespace KirbyNightmareInDreamLand.Commands
 {
-	public class SelectContinueCommand
-	{
+	public class SelectContinueCommand : ICommand
+    {
 		public SelectContinueCommand()
 		{
 		}

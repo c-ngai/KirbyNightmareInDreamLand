@@ -20,6 +20,7 @@ namespace KirbyNightmareInDreamLand.GameState
         void Update();
         void SelectQuitButton();
         void SelectContinueButton();
+        void SelectButton();
     }
 
     public abstract class BaseGameState : IGameState
@@ -109,12 +110,17 @@ namespace KirbyNightmareInDreamLand.GameState
             }
         }
 
-        public void SelectQuitButton()
+        public virtual void SelectQuitButton()
         {
 
         }
 
-        public void SelectContinueButton()
+        public virtual void SelectContinueButton()
+        {
+
+        }
+
+        public virtual void SelectButton()
         {
 
         }

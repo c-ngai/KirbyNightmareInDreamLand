@@ -1,7 +1,7 @@
 ﻿using System;
-namespace KirbyNightmareInDreamLand.Commands.GameOver
+namespace KirbyNightmareInDreamLand.Commands
 {
-    public class SelectQuitCommand
+    public class SelectQuitCommand : ICommand
     {
         public SelectQuitCommand()
         {
