@@ -70,11 +70,12 @@ namespace KirbyNightmareInDreamLand.GameState
         public override void SelectButton()
         {
             if (currentButtonSprite == selectQuitScreen)
-            {
+            {               
                 Game1.Instance.Exit();
+
             }
             else
-            {
+            {        
                 level.NextRoom = room1String;
                 level.NextSpawn = kirbyStartRoomSpawn;
                 level.LoadRoom(level.NextRoom, level.NextSpawn); // load new room

@@ -401,7 +401,7 @@ namespace KirbyNightmareInDreamLand
 
         public class RoomStrings
         {
-            public const string ROOM_1 = "room_1";
+            public const string ROOM_1 = "room1";
             public const string GAME_OVER_ROOM = "game_over";
             public const string LEVEL_COMPLETE_ROOM = "winner_room";
         }
