@@ -1,32 +1,30 @@
 ﻿using System;
-using System.Diagnostics;
 using KirbyNightmareInDreamLand.Entities.Players;
-using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-
 namespace KirbyNightmareInDreamLand.GameState
 {
-	public class GameGameOverState : BaseGameState
+	public class GameWinningState : BaseGameState
 	{
         private ObjectManager _manager;
-        private SpriteBatch spriteBatch;
-        private Sprite currentButtonSprite;
-        private Sprite selectQuitScreen;
-        private Sprite selectContinueScreen;
+        SpriteBatch spriteBatch;
+        public Sprite currentButtonSprite;
+        public Sprite selectQuitScreen;
+        public Sprite selectContinueScreen;
+
         private Vector2 kirbyStartRoomSpawn = Constants.Level.ROOM1_SPAWN_POINT;
         private string room1String = Constants.RoomStrings.ROOM_1;
-        private Vector2 buttonPosition = Constants.ButtonLocations.GAMEOVER_BUTTONS;
+        private Vector2 buttonPosition = Constants.ButtonLocations.LEVEL_COMPLETE_BUTTONS;
 
-        public GameGameOverState(Level _level) : base(_level)
+        public GameWinningState(Levels.Level _level) : base(_level)
         {
+
             _manager = Game1.Instance.manager;
             spriteBatch = Game1.Instance._spriteBatch;
-
-            selectContinueScreen = SpriteFactory.Instance.CreateSprite("button_continue");
-            selectQuitScreen = SpriteFactory.Instance.CreateSprite("button_quit");
+            selectContinueScreen = SpriteFactory.Instance.CreateSprite("Winning_continue_selected_button");
+            selectQuitScreen = SpriteFactory.Instance.CreateSprite("Winning_quit_selected");
             currentButtonSprite = selectContinueScreen;
         }
 
@@ -43,9 +41,25 @@ namespace KirbyNightmareInDreamLand.GameState
             base.Update();
         }
 
+        public void SelectQuit()
+        {
+            if (currentButtonSprite == selectContinueScreen)
+            {
+                currentButtonSprite = selectQuitScreen;
+            }
+        }
+
+        public void SelectContinue()
+        {
+            if (currentButtonSprite == selectQuitScreen)
+            {
+                currentButtonSprite = selectContinueScreen;
+            }
+        }
+
         public override void SelectQuitButton()
         {
-            currentButtonSprite = selectQuitScreen;            
+            currentButtonSprite = selectQuitScreen;
         }
 
         public override void SelectContinueButton()
@@ -70,4 +84,5 @@ namespace KirbyNightmareInDreamLand.GameState
 
     }
 }
+
 
