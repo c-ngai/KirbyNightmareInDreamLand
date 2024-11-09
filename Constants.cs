@@ -350,6 +350,15 @@ namespace KirbyNightmareInDreamLand
 
         public class Particle
         {
+            public static Vector2 STAR_STARTXY_TOPLEFT = new Vector2(-8, -16);
+            public static Vector2 STAR_STARTXY_TOP = new Vector2(0, -16);
+            public static Vector2 STAR_STARTXY_TOPRIGHT = new Vector2(8, -16);
+            public static Vector2 STAR_STARTXY_LEFT = new Vector2(-10, -10);
+            public static Vector2 STAR_STARTXY_RIGHT = new Vector2(10, -10);
+            public static Vector2 STAR_STARTXY_BOTTOMLEFT = new Vector2(-8, 0);
+            public static Vector2 STAR_STARTXY_BOTTOM = new Vector2(0, 0);
+            public static Vector2 STAR_STARTXY_BOTTOMRIGHT = new Vector2(8, 0);
+
             public static Vector2 STAR_OFFSET_TOPLEFT = new Vector2(-1, -1);
             public static Vector2 STAR_OFFSET_TOP = new Vector2(0, -1);
             public static Vector2 STAR_OFFSET_TOPRIGHT = new Vector2(1, -1);
@@ -358,9 +367,17 @@ namespace KirbyNightmareInDreamLand
             public static Vector2 STAR_OFFSET_BOTTOMLEFT = new Vector2(-1, 1);
             public static Vector2 STAR_OFFSET_BOTTOM = new Vector2(0, 1);
             public static Vector2 STAR_OFFSET_BOTTOMRIGHT = new Vector2(1, 1);
-            public static int STARPOSITION1 = 0;
-            public static int STARPOSITION8 = 7;
-            public static int STAR_MAX_FRAMES = 15;
+
+            public static Vector2[] startingLocations = new[] { Constants.Particle.STAR_STARTXY_TOPLEFT, Constants.Particle.STAR_STARTXY_TOP, Constants.Particle.STAR_STARTXY_TOPRIGHT,
+            Constants.Particle.STAR_STARTXY_LEFT, Constants.Particle.STAR_STARTXY_RIGHT, Constants.Particle.STAR_STARTXY_BOTTOMLEFT, Constants.Particle.STAR_STARTXY_BOTTOM,
+            Constants.Particle.STAR_STARTXY_BOTTOMRIGHT};
+            public static Vector2[] offsets = new[] { Constants.Particle.STAR_OFFSET_TOPLEFT, Constants.Particle.STAR_OFFSET_TOP, Constants.Particle.STAR_OFFSET_TOPRIGHT,
+            Constants.Particle.STAR_OFFSET_LEFT, Constants.Particle.STAR_OFFSET_RIGHT, Constants.Particle.STAR_OFFSET_BOTTOMLEFT, Constants.Particle.STAR_OFFSET_BOTTOM,
+            Constants.Particle.STAR_OFFSET_BOTTOMRIGHT};
+
+            public static int OFFSET1 = 0;
+            public static int OFFSET8 = 8;
+            public static int STAR_MAX_FRAMES = 14;
 
             public static Vector2 CLOUD_OFFSET_LEFT = new Vector2(-2, 0);
             public static Vector2 CLOUD_OFFSET_RIGHT = new Vector2(2, 0);

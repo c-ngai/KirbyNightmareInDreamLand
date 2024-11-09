@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
 using System;
+using System.Diagnostics;
 
 namespace KirbyNightmareInDreamLand.Particles
 {
@@ -9,23 +10,21 @@ namespace KirbyNightmareInDreamLand.Particles
     {
         private Sprite sprite;
         private Vector2 position;
+        private int randomIndex;
         private int frameCount = 0;
         private Random randomGenerator;
-        private Vector2[] SpawnPoints = new[] { Constants.Particle.STAR_OFFSET_TOPLEFT, Constants.Particle.STAR_OFFSET_TOP, Constants.Particle.STAR_OFFSET_TOPRIGHT,
-            Constants.Particle.STAR_OFFSET_LEFT, Constants.Particle.STAR_OFFSET_RIGHT, Constants.Particle.STAR_OFFSET_BOTTOMLEFT, Constants.Particle.STAR_OFFSET_BOTTOM,
-            Constants.Particle.STAR_OFFSET_BOTTOMRIGHT};
-        private Vector2 offset;
         private bool completed;
 
         public Star(Vector2 kirbyPosition)
         {
             randomGenerator = new Random();
-            
-            // Randomly generates the star at one of the 8 possible offsets 
-            offset = SpawnPoints[randomGenerator.Next(Constants.Particle.STARPOSITION1, Constants.Particle.STARPOSITION8)];
 
-            position = kirbyPosition + offset;
-            sprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_star_right");
+            // Randomly generates the star at one of the 8 possible offsets 
+            randomIndex = randomGenerator.Next(Constants.Particle.OFFSET1, Constants.Particle.OFFSET8);
+            Debug.WriteLine(randomIndex);
+
+            position = kirbyPosition + Constants.Particle.startingLocations[randomIndex];
+            sprite = SpriteFactory.Instance.CreateSprite("particle_bumpstar");
             ObjectManager.Instance.AddParticle(this);
             completed = false;
         }
@@ -35,7 +34,8 @@ namespace KirbyNightmareInDreamLand.Particles
             if (frameCount < Constants.Particle.STAR_MAX_FRAMES)
             {
                 sprite.Update();
-                position += offset;
+                position += Constants.Particle.offsets[randomIndex];
+                Debug.WriteLine(Constants.Particle.offsets[randomIndex]);
                 frameCount++;
             }
             else

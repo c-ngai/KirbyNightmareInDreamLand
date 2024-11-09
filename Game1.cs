@@ -181,6 +181,7 @@ namespace KirbyNightmareInDreamLand
         protected override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            
             time = gameTime;
 
             GameDebug.Instance.ResetCounters();
