@@ -88,7 +88,7 @@ Known bugs:
 Player Movement: note: most major bugs can be exited out of by pressing jump aka 'x'
  - if you are attacking and move the player, kirby doesnt move position, but the sprite changes, we are aware
     - this bug will now sometimes cause it to clip into the floor and go the end of room
- - sometimes kirby clips into floor and speed runs the level, we are aware
+ - sometimes kirby clips into floor and speed runs the level (he gets stuck underground), we are aware
  - slide sometimes happens without changing the pose into sliding
  - sometimes movement just softlocks in position or onto float, it is unclear but we are working on finding the source and fixing it
  - pressing z repeatedly and up while kirby is floating sometimes softlocks it into postion
