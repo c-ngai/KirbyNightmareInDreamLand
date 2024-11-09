@@ -24,7 +24,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState
 
             public void Update()
             {
-                if (_hothead.FrameCounter == 1) // Fireball on frame 1
+                if (_hothead.FrameCounter == Constants.Hothead.FRAME_1) // Fireball on frame 1
                 {
                     _hothead.Attack();
                 }

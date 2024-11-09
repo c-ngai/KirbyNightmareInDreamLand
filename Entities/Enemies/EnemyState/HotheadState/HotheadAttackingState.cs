@@ -45,6 +45,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState
         {
             _hothead.ChangeState(new HotheadHurtState(_hothead));
             _hothead.UpdateTexture();
+            sound.Stop();
         }
 
         public void ChangeDirection()

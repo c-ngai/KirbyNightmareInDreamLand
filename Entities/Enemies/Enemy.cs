@@ -16,6 +16,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
     public abstract class Enemy : IEnemy, ICollidable
     {
         protected Vector2 position; //Where enemy is drawn on screen
+        protected Vector2 spawnPosition; //Where enemy is first drawn on screen
         protected int health; //Enemy health
         protected bool isDead;  //If enemy is dead
         protected Sprite enemySprite;
@@ -34,7 +35,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             //Initialize all variables
             position = startPosition;
-            health = 1;
+            spawnPosition = startPosition;
+            health = Constants.Enemies.HEALTH;
             isDead = false;
             xVel = 0;
             yVel = 0;
@@ -81,7 +83,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             get { return frameCounter; }
         }
-        public String GetCollisionType()
+        public static String GetCollisionType()
         {
             return "Enemy";
         }
@@ -127,11 +129,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             // Determine points based on the type of enemy
             if (this is WaddleDoo || this is BrontoBurt || this is Hothead || this is Sparky)
             {
-                points = 600;
+                points = Constants.Enemies.STRONG_ENEMY_POINTS;
             }
             else if (this is WaddleDee || this is PoppyBrosJr)
             {
-                points = 400;
+                points = Constants.Enemies.WEAK_ENEMY_POINTS;
             }
 
             // Update the score in ObjectManager
@@ -151,7 +153,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             CollisionActive = false;
         }
 
-        public void ChangeDirection()
+        public virtual void ChangeDirection()
         {
             currentState.ChangeDirection();
         }
@@ -173,7 +175,21 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void Update(GameTime gameTime) 
         {
-            if (CollisionActive && !IsDead)
+            /* TO-DO: Should this be in Draw or update?
+             * 
+            //respawn enemy if dead but just outside camera bounds
+            if (IsDead && Game1.Instance.Camera.GetEnemyBounds().Contains(spawnPosition.ToPoint()))
+            {
+                // Respawn the enemy
+                CollisionActive = true;
+                IsDead = false;
+                health = Constants.Enemies.HEALTH;
+                position = spawnPosition;
+                frameCounter = 0;
+                UpdateTexture();
+            }*/
+
+            if (CollisionActive && !IsDead && Game1.Instance.Camera.GetEnemyBounds().Contains(position.ToPoint()))
             {
                 IncrementFrameCounter();
                 currentState.Update();
@@ -190,12 +206,25 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            //Draw if enemy is alive
-            if (CollisionActive && !IsDead)
+            //Draw if enemy is alive and 
+            if (CollisionActive && !IsDead && Game1.Instance.Camera.GetEnemyBounds().Contains(position.ToPoint()))
             {
                 enemySprite.Draw(position, spriteBatch);
                 //spriteBatch.DrawString(LevelLoader.Instance.Font, frameCounter.ToString(), position, Color.Black);
             }
+
+            // TO-DO: Should this be in Draw or update?
+            //respawn enemy if dead but just outside camera bounds
+            else if (IsDead && Game1.Instance.Camera.GetEnemyBounds().Contains(spawnPosition.ToPoint()))
+            {
+                //load at spawn point
+                CollisionActive = true;
+                IsDead = false;
+                health = Constants.Enemies.HEALTH;
+                position = spawnPosition;
+                frameCounter = 0;
+                UpdateTexture();
+            }          
         }
 
         public virtual void Attack() { }
@@ -204,7 +233,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void Fall()
         {
-            yVel += gravity / 100;  // Increase vertical velocity by gravity
+            yVel += gravity / Constants.Enemies.GRAVITY_OFFSET;  // Increase vertical velocity by gravity
             position.Y += yVel;  // Apply the updated velocity to the enemy's Y position
         }
 

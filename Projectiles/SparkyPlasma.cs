@@ -9,7 +9,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class SparkyPlasma : IProjectile, ICollidable
     {
-        private Sprite projectileSprite;
+        private readonly Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;
         private int framesActive;

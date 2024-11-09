@@ -13,9 +13,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
     public class Sparky : Enemy
     {
-        private int hopCounter = 0; //number of hops
-        private int stateCounter = 0;   //frames that have passed in 1 state
-        private float currentHopHeight; // Store the current hop height
         private SparkyPlasma sparkyPlasma;
         private bool isPlasmaActive;
         private bool isJumping = false;
@@ -53,7 +50,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public override Vector2 CalculateRectanglePoint(Vector2 pos)
         {
-            float x = pos.X - Constants.HitBoxes.ENEMY_WIDTH / 2;
+            float x = pos.X - Constants.HitBoxes.ENEMY_WIDTH / Constants.Sparky.HITBOX_RECTANGLE_OFFSET;
             float y = pos.Y - Constants.HitBoxes.ENEMY_HEIGHT;
             Vector2 rectPoint = new Vector2(x, y);
             return rectPoint;
