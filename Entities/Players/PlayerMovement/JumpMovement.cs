@@ -77,12 +77,23 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 yVel = 0;
                 position.Y = jumpCeiling;
             }
-
+             if(position.Y > Game1.Instance.Level.CurrentRoom.Height)
+            {
+                if(kirby.DEAD == true) // game over 
+                {
+                    Game1.Instance.Level.GameOver();
+                    kirby.FillFullHealth();
+                } else {
+                    kirby.RestartKirby();
+                    Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
+                    Game1.Instance.Level.ChangeToPlaying();
+                }
+            }
         }
         //ensures sprite does not leave the window
         public override void Adjust(Player kirby)
         {
-            //AdjustX(kirby);
+            AdjustX(kirby);
             AdjustY(kirby);
             JumpCheck(kirby);
         }

@@ -76,6 +76,18 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 yVel = 0;
                 position.Y = Constants.Kirby.CEILING;
             }
+             if(position.Y > Game1.Instance.Level.CurrentRoom.Height)
+            {
+                if(kirby.DEAD == true) // game over 
+                {
+                    Game1.Instance.Level.GameOver();
+                    kirby.FillFullHealth();
+                } else {
+                    kirby.RestartKirby();
+                    Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
+                    Game1.Instance.Level.ChangeToPlaying();
+                }
+            }
         }
 
         public override void UpdatePosition(GameTime gameTime)

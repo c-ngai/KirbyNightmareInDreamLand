@@ -151,6 +151,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     Game1.Instance.Level.GameOver();
                     kirby.FillFullHealth();
                 } else {
+                    Console.WriteLine("here");
                     kirby.RestartKirby();
                     Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
                     Game1.Instance.Level.ChangeToPlaying();
@@ -170,11 +171,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             Adjust(kirby);
         }
         #endregion
-        public void Fall()
-        {
-            ////kirby.ChangePose(Kirby.FreeFall);
-            //yVel = gravity;
-        }
         public void ChangeKirbyLanded(bool land)
         {
             landed = land;

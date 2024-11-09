@@ -56,6 +56,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             UpdatePosition(gameTime);
             AdjustX(kirby);
+            AdjustY(kirby);
             AdjustSlide(kirby, gameTime);
         }
         public override void AdjustFromRightCollisionBlock(Rectangle intersection)
