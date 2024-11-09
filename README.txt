@@ -137,6 +137,10 @@ Collision:
         entering into falling animation while on slope
  - some of the enemies are having bugs with colliding into tiles because of the multiple response issue
 
+Mouse Controller and Game State:
+- because using the mouse controller to go through rooms the game state is not changed and so controls get stuck in the
+wrong keymap and the quit continue buttons are draw on regular levels. Will fix next sprint. 
+
 ###############################################################################
 
 Documentation/Planning Tools:
