@@ -44,23 +44,23 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             if (IsActive)
             {
+                projectileSprite.Update();
                 framesActive++;
 
                 if (IsDone())
                 {
                     EndAttack();
                 }
-
-                projectileSprite.Update();
             }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (IsDone())
+            if (!IsActive)
             {
                 ObjectManager.Instance.RemoveDynamicObject(this); 
             }
+
         }
 
         public bool IsDone()
@@ -72,7 +72,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
         public virtual Vector2 CalculateRectanglePoint(Vector2 pos)
         {
-
             float x = pos.X - Constants.HitBoxes.SPARKY_ATTACK_WIDTH / 2;
             float y = pos.Y - Constants.HitBoxes.SPARKY_ATTACK_HEIGHT + Constants.HitBoxes.SPARKY_ATTACK_OFFSET;
             Vector2 rectPoint = new Vector2(x, y);
@@ -93,7 +92,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             IsActive = false;  
             CollisionActive = false;
-            ObjectManager.Instance.RemoveDynamicObject(this); 
+            ObjectManager.Instance.RemoveDynamicObject(this);         
         }
     }
 }

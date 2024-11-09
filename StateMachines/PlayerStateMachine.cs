@@ -60,20 +60,20 @@ namespace KirbyNightmareInDreamLand.StateMachines
         }
         public bool IsJumping()
         {
-            return GetPose() == KirbyPose.JumpRising || GetPose() == KirbyPose.JumpFalling;
+            return (GetPose() == KirbyPose.JumpRising) || (GetPose() == KirbyPose.JumpFalling);
         }
         public bool IsFloating()
         {
             //checks if any of the float poses are active
-            bool checkOne = GetPose() == KirbyPose.FloatingStart || GetPose() == KirbyPose.FloatingRising;
-            bool checkTwo = GetPose() == KirbyPose.FloatingFalling || GetPose() == KirbyPose.FloatingGrounded;
-            bool checkThree = GetPose() == KirbyPose.FloatingEnd || GetPose() == KirbyPose.FreeFall;
+            bool checkOne = (GetPose() == KirbyPose.FloatingStart) || (GetPose() == KirbyPose.FloatingRising);
+            bool checkTwo = (GetPose() == KirbyPose.FloatingFalling) || (GetPose() ==KirbyPose.FloatingGrounded);
+            bool checkThree = (GetPose() == KirbyPose.FloatingEnd) || (GetPose() == KirbyPose.FreeFall);
             return checkOne || checkTwo || checkThree;
 
         }
         public bool IsCrouching()
         {
-            return GetPose() == KirbyPose.Crouching || GetPose() == KirbyPose.Sliding;
+            return (GetPose() == KirbyPose.Crouching) || (GetPose() == KirbyPose.Sliding);
         }
         public bool IsAttacking() //checks if kirby is not attacking
         {
@@ -120,7 +120,8 @@ namespace KirbyNightmareInDreamLand.StateMachines
 
         public bool LongAttack()
         {
-            return (GetKirbyType() == KirbyType.Normal && !IsCrouching()) || (GetKirbyType() == KirbyType.Fire) || (GetKirbyType() == KirbyType.Spark);
+            bool normalNotCrouching =  !IsCrouching() && GetKirbyType() == KirbyType.Normal;
+            return (!IsCrouching()) && (normalNotCrouching || (GetKirbyType() == KirbyType.Fire) || (GetKirbyType() == KirbyType.Spark));
         }
         public bool ShortAttack()
         {

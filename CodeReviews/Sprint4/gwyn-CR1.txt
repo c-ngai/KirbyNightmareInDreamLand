@@ -1,0 +1,36 @@
+Author of Code Review: Gwyn Barnholtz
+Date: 11/8
+Sprint 4
+Reviewing: Star.cs
+Author of .cs file: Carman
+Number of minutes to complete review: 10
+################################################################################ 
+
+10 Code Smells
+
+Long Functions
+Large Class
+Long Parameters
+Duplicate Code
+Feature Envy
+Switch Statements
+Shotgun Surgery
+Same Name, Different Meaning
+Data Clumps
+Temporary Field
+
+################################################################################
+
+Comments on Code Smells:
+	There are no long functions, as each is under 10 lines. The class is a good size with only a handful 
+	of functions. There is a max of 1 parameter and no duplicate code. There isn’t any feature envy and 
+	all code is cohesive. There are no switch statements, everything seems easily odifyable without hard 
+	consequences, and there are no duplicate names. There isn’t any temporary fields or data clumps.
+
+	Overall, everything here looks good. Very short class and gets the job done. Looks good!
+
+Comments on Readability:
+	I could easily look through Star.cs and IParticle.cs and understand what is going on. The sprites 
+	have no hitboxes and stay on for a constant number of frames.However, there are currently no comments, 
+	so the code might benefit from that. However, overall looks like solid code! Great job!
+

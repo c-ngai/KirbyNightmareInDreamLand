@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework.Input;
 using KirbyNightmareInDreamLand.Commands;
+using KirbyNightmareInDreamLand.GameState;
 
 namespace KirbyNightmareInDreamLand.Controllers
 {
@@ -14,14 +15,16 @@ namespace KirbyNightmareInDreamLand.Controllers
         private readonly List<string> roomList;
         private int currentRoomIndex;
 
+
         private MouseState previousMouseState;
 
         public MouseController()
         {
             this.game = Game1.Instance;
-            roomList = new List<string> { "room1", "room2", "room3", "treasureroom", "game_over" }; // Make sure names align with what's in Rooms.json
+            roomList = new List<string> { "room1", "room2", "room3", "treasureroom", "game_over", "winner_room"}; // Make sure names align with what's in Rooms.json
             currentRoomIndex = 0;
             previousMouseState = Mouse.GetState();
+
         }
 
         public void Update()
@@ -65,7 +68,7 @@ namespace KirbyNightmareInDreamLand.Controllers
 
         private void LoadRoom(string roomName)
         {
-            game.Level.LoadRoom(roomName);
+            Game1.Instance.Level.LoadRoom(roomName);
         }
 
     }

@@ -1,10 +1,12 @@
-﻿using KirbyNightmareInDreamLand.Levels;
+﻿using KirbyNightmareInDreamLand.GameState;
+using KirbyNightmareInDreamLand.Levels;
 namespace KirbyNightmareInDreamLand.Commands
 {
     public class ResetCommand : ICommand
     {
         private ObjectManager manager;
         private Level level;
+
         public ResetCommand()
         {
             manager = ObjectManager.Instance;
@@ -13,7 +15,7 @@ namespace KirbyNightmareInDreamLand.Commands
 
         public void Execute()
         {
-            level.LoadRoom(level.CurrentRoom.Name);
+            Game1.Instance.Level.LoadRoom(level.CurrentRoom.Name);
         }
     }
 }

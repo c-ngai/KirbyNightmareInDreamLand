@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
 using System.Net.NetworkInformation;
 using System;
+using KirbyNightmareInDreamLand.Audio;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
@@ -50,6 +51,8 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 : SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_left");
 
             ObjectManager.Instance.RegisterDynamicObject(this);
+
+            SoundManager.Play("spitair");
         }
          public Vector2 CalculateRectanglePoint(Vector2 pos)
         {

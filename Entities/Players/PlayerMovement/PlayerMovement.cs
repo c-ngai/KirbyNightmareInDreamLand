@@ -23,12 +23,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         protected float gravity = Constants.Physics.GRAVITY;
         protected float dt = Constants.Physics.DT;
         protected float damageVel = Constants.Physics.DAMAGE_VELOCITY;
-        protected int ceiling = 20;
+        protected float ceiling = Constants.Kirby.CEILING;
         public ITimeCalculator timer;
         protected bool landed = true;
 
-        private int levelBoundsLeft = 10;
-        private int levelBoundsRight = -10;
+        private int levelBoundsLeft =  Constants.Kirby.BOUNDS;
+        private int levelBoundsRight = Constants.Kirby.BOUNDS * -1;
 
         protected Vector2 position;
         //constructor
@@ -45,6 +45,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void StopMovement()
         {
             xVel = 0;
+        }
+        public void DeathMovement()
+        {
+            xVel = 0;
+            yVel = 0;
         }
 
         public void GoToRoomSpawn()
@@ -76,6 +81,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             //overwritten by other methods
         }
+        public virtual void EndSlide()
+        {
+            //overwritten
+        }
         #endregion
 
         #region DeathSpin
@@ -92,15 +101,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
             yVel = 0;
         }
-        public void ReleaseDamageSpin()
-        {
-            xVel = 0;
-            yVel += -1;
-        }
         //starts floating pose animation
         public void DeathSpin()
         {
-            yVel = -8;
+            yVel = Constants.Physics.DEATH_VELOCITY;
             
         }
         #endregion
@@ -131,26 +135,38 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 position.X = Game1.Instance.Level.CurrentRoom.Width + levelBoundsRight;
             }
         }
+        public void FallOffScreenOne(Player kirby)
+        {
+            if(kirby.DEAD == true) // game over 
+            {
+                Game1.Instance.Level.GameOver();
+                kirby.FillFullHealth();
+            } else {
+                kirby.RestartKirby();
+                Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
+                Game1.Instance.Level.ChangeToPlaying();
+            }
+        }
+        public void FallOffScreenTwo(Player kirby)
+        {
+            kirby.FallOffScreenDeath();
+
+        }
         public virtual void AdjustY(Player kirby)
         {
-            //dont go through the floor
-            // if (landed)
-            // {
-            //     yVel = 0;
-            // } 
-            yVel +=  gravity * dt; 
-
             //dont go through the ceiling
-            if (position.Y < 15)
+            if (position.Y < ceiling)
             {
                 yVel = 0;
-                position.Y = 15;
+                position.Y = ceiling;
             }
             if(position.Y > Game1.Instance.Level.CurrentRoom.Height)
             {
-                Console.WriteLine("here");
-                kirby.RestartKirby();
-                Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
+                if(kirby.CollisionActive){
+                    FallOffScreenTwo(kirby);
+                } else {
+                    FallOffScreenOne(kirby);
+                }
             }
         }
         //ensures sprite does not leave the window
@@ -166,11 +182,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             Adjust(kirby);
         }
         #endregion
-        public void Fall()
-        {
-            ////kirby.ChangePose(Kirby.FreeFall);
-            //yVel = gravity;
-        }
         public void ChangeKirbyLanded(bool land)
         {
             landed = land;

@@ -34,7 +34,7 @@ namespace KirbyNightmareInDreamLand.Controllers
             startKeys.Clear();
             stopKeys.Clear();
             controllerKeys.Clear();
-            oldKeyStates.Clear();
+            //oldKeyStates.Clear();
         }
 
         public void RegisterCommand(Keys key, ExecutionType type, ICommand command)
@@ -88,18 +88,6 @@ namespace KirbyNightmareInDreamLand.Controllers
 
             // Stores current iteration state for next iteration's use 
             oldKeyStates = tempDict;
-        }
-        public void PausedUpdate()
-        {
-            currentState = Keyboard.GetState().GetPressedKeys();
-            foreach (Keys key in currentState)
-            {
-                if(currentState.Contains(Keys.Space))
-                {
-                    startKeys[Keys.Space].Execute();
-                    return;
-                }
-            }
         }
     }
 }

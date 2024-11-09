@@ -15,6 +15,7 @@ using Microsoft.Xna.Framework.Media;
 using System.Xml.Linq;
 using KirbyNightmareInDreamLand.Audio;
 using Microsoft.Xna.Framework.Input;
+using KirbyNightmareInDreamLand.GameState;
 using KirbyNightmareInDreamLand.Particles;
 
 namespace KirbyNightmareInDreamLand
@@ -35,6 +36,10 @@ namespace KirbyNightmareInDreamLand
         public Camera Camera { get; private set; }
 
         public Level Level { get; private set; }
+
+        public GameOverLay gameOverLay; 
+
+        public GamePlayingState GameState;
 
         public SoundInstance music;
 
@@ -131,6 +136,8 @@ namespace KirbyNightmareInDreamLand
             SoundEffect.Initialize();
 
             base.Initialize();
+
+            gameOverLay = new GameOverLay();
         }
 
         protected override void LoadContent()
@@ -173,47 +180,38 @@ namespace KirbyNightmareInDreamLand
 
         protected override void Update(GameTime gameTime)
         {
-            if(!PAUSED)
-            {
-                base.Update(gameTime);
-                time = gameTime;
+            base.Update(gameTime);
+            time = gameTime;
 
-                hud.Update(gameTime);
+            GameDebug.Instance.ResetCounters();
 
-                GameDebug.Instance.ResetCounters();
+            // Reset timer for calculating max fps
+            TickStopwatch.Restart();
 
-                // Reset timer for calculating max fps
-                TickStopwatch.Restart();
+            // can put in a list of controllers and update in foreach 
+            Keyboard.Update();
+            Gamepad.Update();
+            MouseController.Update();
 
-                Keyboard.Update();
-                Gamepad.Update();
-                MouseController.Update();
+            GameTime = gameTime;
 
-                GameTime = gameTime;
+            Level.UpdateLevel();
+            
+            manager.ResetDebugStaticObjects();
+            manager.OrganizeList();
 
-                foreach(IPlayer player in manager.Players) player.Update(time);
 
-                foreach (IParticle particle in manager.Particles) particle.Update();
+            CollisionDetection.Instance.CheckCollisions();
 
-                manager.UpdateParticles();
+            Camera.Update();
 
-                Level.UpdateLevel();
+            foreach (IParticle particle in manager.Particles) particle.Update();
 
-                manager.ResetDebugStaticObjects();
-                manager.OrganizeList();
+            manager.UpdateParticles();
 
-                CollisionDetection.Instance.CheckCollisions();
 
-                Camera.Update();
-
-                SoundManager.Update();
-            }
-            else
-            {
-                Keyboard.Update();
-                Gamepad.Update();
-                SoundManager.Update();
-            }
+            SoundManager.Update();
+            //_transitioning.Update();
 
             UpdateCounter++;
         }
@@ -222,7 +220,6 @@ namespace KirbyNightmareInDreamLand
         
         protected override void Draw(GameTime gameTime)
         {
-            if(!PAUSED) {
                 GraphicsDevice.Clear(Color.White);
                 base.Draw(gameTime);
 
@@ -231,10 +228,15 @@ namespace KirbyNightmareInDreamLand
                 //GraphicsDevice.ScissorRectangle = Camera.ScissorRectangle;
                 _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Camera.LevelMatrix);
                 // Draw level
-                Level.Draw(_spriteBatch);
+                Level.Draw();
 
                 // Draw kirby
-                foreach(IPlayer player in manager.Players) player.Draw(_spriteBatch);
+                //foreach(IPlayer player in manager.Players) player.Draw(_spriteBatch);
+
+                if (Level.IsCurrentState("KirbyNightmareInDreamLand.GameState.GameTransitioningState"))
+                {
+                    gameOverLay.DrawFade(Level.FadeAlpha);
+                }
 
                 // Draw particles
                 foreach (IParticle particle in manager.Particles) particle.Draw(_spriteBatch);
@@ -275,11 +277,7 @@ namespace KirbyNightmareInDreamLand
                 GameDebug.Instance.DrawBorders(_spriteBatch);
 
                 //manager.UpdateObjectLists();
-            } else {
-                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Camera.ScreenMatrix);
-                Game1.Instance.Level.DrawPauseScreen();
-                _spriteBatch.End();
-            }
+            
         }
 
     }

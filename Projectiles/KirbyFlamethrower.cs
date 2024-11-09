@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using KirbyNightmareInDreamLand.Audio;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private List<KirbyFlameSegment> flameSegments;
         private float elapsedTime;
         private bool isFacingRight; // Boolean to determine the direction Kirby is facing
+        private SoundInstance sound;
 
         public Vector2 Position
         {
@@ -33,9 +35,13 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
             flameSegments = new List<KirbyFlameSegment>();
             elapsedTime = 0f;
+
+            sound = SoundManager.CreateInstance("kirbyfireattack");
+            sound.Play();
         }
         public void EndAttack()
         {
+            sound.Stop();
             foreach (var segment in flameSegments)
             {
                 segment.EndAttack();

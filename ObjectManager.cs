@@ -71,6 +71,12 @@ namespace KirbyNightmareInDreamLand
             Camera camera = Game1.Instance.Camera;
             camera.TargetPlayer(Players[0]);
         }
+        #region keyboard
+        public void ChangeKeyboard()
+        {
+            
+        }
+        #endregion
 
         public void AddParticle(IParticle particle)
         {

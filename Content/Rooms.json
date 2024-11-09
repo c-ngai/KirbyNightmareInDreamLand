@@ -19,13 +19,6 @@
         "DestinationRoom": "room2",
         "DestinationTileX": 2,
         "DestinationTileY": 7
-      },
-      {
-        "TileX": 2,
-        "TileY": 7,
-        "DestinationRoom": "treasureroom",
-        "DestinationTileX": 45,
-        "DestinationTileY": 11
       }
     ],
     "Enemies": [
@@ -93,13 +86,6 @@
         "DestinationRoom": "room3",
         "DestinationTileX": 2,
         "DestinationTileY": 7
-      },
-      {
-        "TileX": 2,
-        "TileY": 7,
-        "DestinationRoom": "treasureroom",
-        "DestinationTileX": 48,
-        "DestinationTileY": 11
       }
     ],
     "Enemies": [
@@ -167,12 +153,11 @@
         "DestinationTileY": 7
       },
       {
-        "TileX": 6,
-        "TileY": 7,
-        "DestinationRoom": "treasureroom",
-        "DestinationTileX": 51,
-        "DestinationTileY": 11
+        "TileX": 60,
+        "TileY": 3,
+        "DestinationRoom": "winner_room"
       }
+
     ],
     "Enemies": [
       {
@@ -434,7 +419,23 @@
     "Tilemap": "room1_tileset",
 
     "Spawn tile X": 2,
-    "Spawn tile Y": 4,
+    "Spawn tile Y": 7,
+
+    "Lock camera X?": true,
+    "Locked camera X": 0,
+    "Lock camera Y?": true,
+    "Locked camera Y": 0,
+
+    "Doors": []
+  },
+
+  "winner_room": {
+    "Foreground sprite": "Winning_background",
+    "Background sprite": "",
+    "Tilemap": "room1_tileset",
+
+    "Spawn tile X": 2,
+    "Spawn tile Y": 7,
 
     "Lock camera X?": true,
     "Locked camera X": 0,

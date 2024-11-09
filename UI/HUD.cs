@@ -168,7 +168,7 @@ namespace KirbyNightmareInDreamLand.UI
             // Draw lives
             hudElements["ui_lives"].Draw(Constants.HUD.LIVES_ICON_POS, spriteBatch);
 
-            int displayLives = player.lives - 1; // Adjust to show 02 for 3 lives, 01 for 2 lives, etc.
+            int displayLives = player.lives; // Adjust to show 02 for 3 lives, 01 for 2 lives, etc.
             string displayLivesText = displayLives.ToString().PadLeft(Constants.HUD.LIVES_PAD, '0'); // Format as two digits
 
             int livesTens = int.Parse(displayLivesText[0].ToString());

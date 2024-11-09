@@ -177,6 +177,7 @@ namespace KirbyNightmareInDreamLand
             texts.Add("SpriteBatch.Draw calls: " + NumOfSpriteBatchDrawCalls);
             texts.Add("Static ExecuteCollision calls: " + NumOfStaticExecuteCollisionCalls);
             texts.Add("Dynamic ExecuteCollision calls: " + NumOfDynamicExecuteCollisionCalls);
+            texts.Add("ObjectManager.DynamicObjects.Count: " + ObjectManager.Instance.DynamicObjects.Count);
             texts.Add("");
             texts.Add("+/- : Resize window");
             texts.Add("F : Toggle fullscreen");
@@ -187,6 +188,8 @@ namespace KirbyNightmareInDreamLand
             texts.Add("F4 : Toggle sprite culling");
             texts.Add("F5 : Toggle collision debug mode");
             texts.Add("M : Toggle mute");
+            texts.Add("Game state " + _game.Level._currentState);
+            texts.Add("Game state " + _game.Level._currentState.ToString());
             //texts.Add("Alt (hold) : Record Kirby position");
             //texts.Add("Ctrl : Clear Kirby position log");
 

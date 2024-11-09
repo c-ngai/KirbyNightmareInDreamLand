@@ -12,6 +12,7 @@ namespace KirbyNightmareInDreamLand
             public const int MAXIMUM_PLAYER_COUNT = 4;
         }
 
+        #region FilePaths/NamesSpace/Graphics
         public static class Filepaths
         {
             public const string TextureList = "Content/Images/Textures.txt";
@@ -25,7 +26,8 @@ namespace KirbyNightmareInDreamLand
             // Directories
             public const string AudioDirectory = "Content/Audio";
         }
-
+        
+        
         public static class Namespaces
         {
             public const string ENEMY_NAMESPACE = "KirbyNightmareInDreamLand.Entities.Enemies.";
@@ -40,14 +42,13 @@ namespace KirbyNightmareInDreamLand
             public const int FLOOR = 128;
             public const float PARALLAX_FACTOR = 0.85f;
         }
-
+        #endregion
+        #region  Physics
         public static class Physics
         {
-            public const float FRAME_RATE = 0.03125f;
-            public const float GRAVITY = 10f;
+            public const float GRAVITY = 9f;
             public const float DT = 0.0166666f;
             public const float FLOAT_GRAVITY = 5f; //its 2f as the gravity times 0.01 as a "time elapsed" so float kirby falls at a constan rate
-            public const float FLOAT_GRAVITY2 = 0.16f; //the other gravity rate but the float where this is used does not have game time acess
             public const float JUMP_VEL = -2f;
             public const float JUMP_MAX_HEIGHT = 45; // Slight misnomer, not the max height of the jump but the height that you can no longer accellerate upwards at by holding jump
             public const float FLOAT_VEL = 0.9F;
@@ -56,17 +57,19 @@ namespace KirbyNightmareInDreamLand
             public const float DAMAGE_VELOCITY =2f;
             public const float JUMP_CEILING = 38.4f;
 
-            public const int DELAY = 400;
-            public const int DELAY2 = 10;
+            public const float DEATH_VELOCITY = -8;
         }
-
+        #endregion
         public static class Level
         {
             public const int TILE_SIZE = 16;
             public const int NUMBER_OF_TILE_TYPES = 10;
             public static Vector2 BOTTOM_MIDDLE_OF_TILE = new Vector2(TILE_SIZE / 2, TILE_SIZE);
-        }
+            public static Vector2 ROOM1_SPAWN_POINT = new Vector2(2, 4);
+            public static Vector2 GAME_OVER_SPAWN_POINT = new Vector2(2, 7);
 
+        }
+        #region  Collision
         public static class Collision
         {
             public const float GENTLE1_SLOPE_LEFT_M = 0.5F;
@@ -87,6 +90,16 @@ namespace KirbyNightmareInDreamLand
             public const float STEEP_SLOPE_RIGHT_M = -1;
             public const int STEEP_SLOPE_RIGHT_YINTERCEPT = 16;
         }
+        public class CollisionObjectType
+        {
+            //Constants.CollisionObjectType.
+            public const string PLAYER = "Player";
+            public const string PLAYER_ATTACK = "PlayerAttack";
+            public const string ENEMY_ATTACK = "EnemyAttack";
+            public const string ENEMY = "Enemy";
+        }
+        #endregion
+        #region  HitBoxes
         public static class HitBoxes
         {
             public const int ENTITY_WIDTH = 13;
@@ -142,10 +155,12 @@ namespace KirbyNightmareInDreamLand
             public static Vector2 STAR_OFFSET_RIGHT = new Vector2(7, -12);
             public static Vector2 STAR_OFFSET_LEFT = new Vector2(-19, -12);
         }
-
+        #endregion
+        #region  Kirby
         public class Kirby
         {
-            public const int MAX_HEALTH = 1;
+            public const float INVINCIBLE_TIME = 3;
+            public const int MAX_HEALTH = 6;
             public const int MAX_LIVES = 3;
             public const int STARTINGXPOSITION = 30;
             public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(13, -7);
@@ -155,7 +170,20 @@ namespace KirbyNightmareInDreamLand
             public static Vector2 FLAME_ATTACK_OFFSET_LEFT = new Vector2(-25, -10);
             public static Vector2 STAR_ATTACK_OFFSET_RIGHT= new Vector2(8, -10);
             public static Vector2 STAR_ATTACK_OFFSET_LEFT= new Vector2(-8, -10);
+            public static float SLIDE_TIME = 0.8f;
+            public static float CEILING = 15;
+            public static int BOUNDS = 10;
 
+
+        }
+        #endregion
+        public class WaitTimes
+        {
+            public const int DELAY_400 = 400;
+            public const int DELAY_1500 = 1500;
+            public const int DELAY_800 = 800;
+            public const int DELAY_500 = 500;
+            public const int DELAY_200 = 200;
         }
 
         public class Controller
@@ -171,6 +199,7 @@ namespace KirbyNightmareInDreamLand
             public const float THUMBSTICK_DEADZONE = 0.25f;
         }
 
+        #region Projectiles
       public class EnemyFire
         {
             // For flame segmentts
@@ -245,6 +274,8 @@ namespace KirbyNightmareInDreamLand
             public const int FRAME_FOUR = 3;
             public const int FRAME_FIVE = 4;
         }
+        #endregion
+        #region enemies
 
         public class Enemies
         {
@@ -277,6 +308,7 @@ namespace KirbyNightmareInDreamLand
             public const float MOVE_SPEED = 0.5f;
             public const float JUMP_VELOCITY = 1.5f;
             public const int HURT_FRAMES = 50;
+            public const int PAUSE_TIME = 1;
 
         }
 
@@ -313,6 +345,8 @@ namespace KirbyNightmareInDreamLand
             public const float FORWARD_MOVEMENT = 0.5f;
             public const float DEAD_FRAMES = 20;
         }
+        #endregion
+        #region  Particle+HUD
 
         public class Particle
         {
@@ -350,12 +384,29 @@ namespace KirbyNightmareInDreamLand
             public const int HEALTH_INIT_X = 104;
             public const int HEALTH_Y = 146;
             public const int HEALTH_NEXT_X = 8;
+        }
 
+        public class RoomStrings
+        {
+            public const string ROOM_1 = "room_1";
+            public const string GAME_OVER_ROOM = "game_over";
+            public const string LEVEL_COMPLETE_ROOM = "winner_room";
+        }
 
+        public class ButtonLocations
+        {
+            public static Vector2 GAMEOVER_BUTTONS = new Vector2(136, 71);
+            public static Vector2 LEVEL_COMPLETE_BUTTONS = new Vector2(125, 80);
+        }
 
-
-
+        public class Transition
+        {
+            public const float FADE_SPEED = 0.05f;
+            public const float FADE_OUT_START = 0.0f;
+            public const float FADE_VALUE_OPAQUE = 1.0f;
+            public const float FADE_VALUE_TRANSPARENT = 0.05f;
 
         }
+        #endregion
     }
 }
