@@ -41,6 +41,9 @@ namespace KirbyNightmareInDreamLand
             public const int GAME_HEIGHT = 160;
             public const int FLOOR = 128;
             public const float PARALLAX_FACTOR = 0.85f;
+            public const int MAX_FRAME_RATE = 60;
+            public const int MIN_FRAME_RATE = 5;
+            public const float TIME_CONVERSION = 1000f;
         }
         #endregion
         #region  Physics
@@ -436,6 +439,18 @@ namespace KirbyNightmareInDreamLand
             public const float FADE_VALUE_OPAQUE = 1.0f;
             public const float FADE_VALUE_TRANSPARENT = 0.05f;
 
+        }
+        #endregion
+
+        #region Debug
+        public class Debug
+        {
+            public const int GREEN_R = 0;
+            public const int GREEN_G = 255;
+            public const int GREEN_B = 0;
+            public const float GREEN_ALPHA = 0.5f;
+
+            public const float RED_ALPHA = 1.0f;
         }
         #endregion
     }

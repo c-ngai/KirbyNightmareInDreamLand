@@ -53,7 +53,9 @@ between Quit and Continue buttons, to select a highlighted button, use 'space'.
 Quit exits the program and continue restarts the game in room 1. Level Complete Screen happens when you 
 enter the last door in Level 3.
 
-Use 'q' to quit and 'r' to reset the current level back to its initial state (does not reset player health).
+Use 'space' to pause the game and use 'space' again to unpause.
+
+Use 'q' to quit and 'r' to reset the current level back to its initial state.
 
 Use 'f1' to toggle debug mode for graphics.
 
@@ -87,7 +89,6 @@ implement of having better enemy AI.
 
 ###############################################################################
 
-
 Known bugs:
 
 Player Movement:
@@ -108,6 +109,7 @@ Mouse Controller and Game State:
 - if you transition between doors while moving, kirby keeps moving while transitioning
 - when you lose your final health and die, it does not enter game end sequence and you instead lose access to Kirby and have full health again
   * we have the game over sequence coded in so we think it is an issue with state transition that we will fix next sprint
+- reset does not reset player state (if kirby enters invulnerable and reset is hit he will still be in invulnerable)
 
 Particles:
 - Need to stop run particles from displaying when double press happens when floating

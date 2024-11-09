@@ -21,7 +21,6 @@ namespace KirbyNightmareInDreamLand.Particles
 
             // Randomly generates the star at one of the 8 possible offsets 
             randomIndex = randomGenerator.Next(Constants.Particle.OFFSET1, Constants.Particle.OFFSET8);
-            Debug.WriteLine(randomIndex);
 
             position = kirbyPosition + Constants.Particle.startingLocations[randomIndex];
             sprite = SpriteFactory.Instance.CreateSprite("particle_bumpstar");

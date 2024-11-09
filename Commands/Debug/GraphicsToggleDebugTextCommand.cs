@@ -12,10 +12,5 @@
         {
             game.DEBUG_TEXT_ENABLED = !game.DEBUG_TEXT_ENABLED;
         }
-
-        public void Undo()
-        {
-
-        }
     }
 }
