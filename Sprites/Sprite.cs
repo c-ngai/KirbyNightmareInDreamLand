@@ -21,6 +21,16 @@ namespace KirbyNightmareInDreamLand.Sprites
         private int tickCounter;
         private int counter = 0;
 
+        public int Width
+        {
+            get => _spriteAnimation.FrameSourceRectangles[currentFrame].Width;
+        }
+
+        public int Height
+        {
+            get => _spriteAnimation.FrameSourceRectangles[currentFrame].Height;
+        }
+
         /* Creates a new animation object from an animation file. Imports animation
          * data from a .csv file into the Animation object. */
         public Sprite(SpriteAnimation spriteAnimation)
@@ -85,23 +95,15 @@ namespace KirbyNightmareInDreamLand.Sprites
             {
                 // Draw the sprite to the spriteBatch.
                 spriteBatch.Draw(texture, position, sourceRectangle, color, 0, frameCenter, 1, _spriteAnimation.SpriteEffects, 0);
+                GameDebug.Instance.NumOfSpriteBatchDrawCalls++;
                 // DEBUG VISUALS, TIDY UP LATER
                 if (_game.DEBUG_SPRITE_MODE == true)
                 {
-                    GameDebug.Instance.DrawRectangle(spriteBatch, destinationRectangle, Color.Blue);
-                    GameDebug.Instance.DrawPoint(spriteBatch, position, Color.Red);
-
-                    // Draws purple borders around all tiles intersecting with the sprite boundaries
-                    /*
-                    List<Tile> tiles = _game.level.IntersectingTiles(spriteBatch, destinationRectangle);
-                    foreach (Tile tile in tiles)
-                    {
-                        Debug.Instance.DrawRectangle(spriteBatch, tile.rectangle, Color.Purple);
-                    }
-                    */
+                    GameDebug.Instance.DrawRectangle(spriteBatch, destinationRectangle, Color.Blue, 0.5f);
+                    GameDebug.Instance.DrawPoint(spriteBatch, position, Color.Red, 0.75f);
                 }
             }
-
+            GameDebug.Instance.NumOfSpriteDrawCalls++;
         }
 
         // Draws the sprite to the spriteBatch. With unspecified color mask, uses white (no change to source image).
@@ -113,14 +115,18 @@ namespace KirbyNightmareInDreamLand.Sprites
 
         public void DamageDraw(Vector2 position, SpriteBatch spriteBatch)
         {
-            counter ++;
-            if (counter < 10)
+            if (counter < 4)
             {
                 Draw(position, spriteBatch);
-            } else{
-                if(counter == 20)
-                    counter = 0;
             }
+            else
+            {
+                Draw(position, spriteBatch, Color.Red);
+            }
+            // spriteBatch.DrawString(LevelLoader.Instance.Font, counter.ToString(), position, Color.Black); // DEBUG, draw counter
+            counter++;
+            if (counter == 8)
+                counter = 0;
         }
 
         // Resets the animation to the start. Should be desirable to call any time an entity's sprite is switched.

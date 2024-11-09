@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
 using System;
+using KirbyNightmareInDreamLand.Audio;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
@@ -39,6 +40,8 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 : SpriteFactory.Instance.CreateSprite("projectile_kirby_star_left");
             
             ObjectManager.Instance.RegisterDynamicObject(this);
+
+            SoundManager.Play("spit");
         }
         public string GetObjectType()
         {
@@ -58,6 +61,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             Vector2 rectPoint = CalculateRectanglePoint(Position);
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.PUFF_SIZE, Constants.HitBoxes.PUFF_SIZE);
+        }
+        public Vector2 GetPosition()
+        {
+            return Position;
         }
         public void Draw(SpriteBatch spriteBatch)
         {

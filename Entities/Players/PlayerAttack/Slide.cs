@@ -1,6 +1,7 @@
 
 using System;
 using System.Net;
+using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Entities.Players;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -21,6 +22,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
             Position =pos;
             startingX = pos.X;
             ObjectManager.Instance.RegisterDynamicObject(this);
+            SoundManager.Play("slide");
         }
         public void EndAttack()
         {
@@ -29,7 +31,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public bool IsDone()
         {
             float distanceMoved = Math.Abs(Position.X - startingX);
-            if(distanceMoved > slideDistance)
+            if(distanceMoved > slideDistance || !CollisionActive)
             {
                 EndAttack();
                 return true;
@@ -38,7 +40,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public string GetObjectType()
         {
-            return "PlayerAttack";
+            return Constants.CollisionObjectType.PLAYER_ATTACK;
         }
         public void Update()
         {
@@ -58,6 +60,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             Vector2 rectPoint = CalculateRectanglePoint(Position);
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.SLIDE_WIDTH, Constants.HitBoxes.SLIDE_HEIGHT);
+        }
+        public Vector2 GetPosition()
+        {
+            return Position;
         }
         public void Draw(SpriteBatch spriteBatch)
         {

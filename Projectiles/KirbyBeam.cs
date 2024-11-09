@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using KirbyNightmareInDreamLand.Audio;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private const int UnitsPerFrame = Constants.KirbyBeam.UNITS_PER_FRAME;
         private const int fourthFrameInPattern = Constants.KirbyBeam.FRAME_FOUR;
         private const int fifthFrameInPattern = Constants.KirbyBeam.FRAME_FIVE;
-
 
         public Vector2 Position
         {
@@ -44,6 +44,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
             beamSegments = new List<KirbyBeamSegment>();
             frameCounter = 0;
             segmentsFired = 0;
+            SoundManager.Play("kirbybeamattack");
         }
 
         private float GetRotation()
@@ -70,7 +71,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void EndAttack()
         {
-            foreach(var segment in beamSegments)
+            foreach (var segment in beamSegments)
             {
                 if(segment.IsDone())
                 {

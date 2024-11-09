@@ -6,6 +6,8 @@ using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState;
+using KirbyNightmareInDreamLand.Levels;
+using KirbyNightmareInDreamLand.Audio;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -13,8 +15,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
     {
         // Jump variables
         private bool isJumping = false;
-        private float originalY;
-        //private float jumpVelocity = 0;
 
         // Beam ability
         private EnemyBeam beam;
@@ -41,11 +41,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 currentState.Update();
                 enemySprite.Update();
                 GetHitBox();
-
-                //if (isFalling)
-                //{
-                    Fall();
-                //}
+                 Fall();
 
                 // Handle the beam if active
                 if (isBeamActive)
@@ -65,20 +61,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             return stateMachine.IsLeft() ? new Vector2(position.X - 17, position.Y - 7) : new Vector2(position.X + 17, position.Y - 7);
         }
 
-        public override void Move()
-        {
-            //X moevement left and right. Turns around at left/right boundary
-            if (stateMachine.IsLeft())
-            {
-                position.X -= xVel;
-            }
-            else
-            {
-                position.X += xVel;
-            }
-            UpdateTexture();
-        }
-
         public override void Jump()
         {
             if (!isJumping)
@@ -88,13 +70,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 yVel = -Constants.WaddleDoo.JUMP_VELOCITY;
             }
 
-            //position.Y += yVel;
-
             Move();
         }
 
         public override void Attack()
         {
+            SoundManager.Play("waddledooattack");
             //If active, create a new beam using the current position and direction
             if (!isBeamActive)
             {
@@ -122,15 +103,46 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             isFalling = false;
             isJumping = false;
-            position.Y = intersection.Y + 1; // TODO: fix jank, the +1 is a total bandaid
-            yVel = 0;
+            position.Y = intersection.Y;
+            
             // Note (Mark) THIS IS A BIT JANK
             // Basically: if colliding with a block from above, change to walking state if jumping
             if (currentState.GetType().Equals(typeof(WaddleDooJumpingState)))
             {
                 ChangeState(new WaddleDooWalkingState(this));
             }
-            
+            yVel = 0;
         }
+
+        public override void AdjustOnSlopeCollision(Tile tile, float slope, float yIntercept)
+        {
+
+            //GameDebug.Instance.LogPosition(position);
+
+            Rectangle intersection = tile.rectangle;
+            if (position.X > intersection.Left && position.X < intersection.Right)
+            {
+                float offset = position.X - intersection.X;
+                //Debug.WriteLine($"Starting Y position: {position.Y}");
+                float slopeY = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
+                //GameDebug.Instance.LogPosition(intersection.Location.ToVector2());
+                if (position.Y > slopeY)
+                {
+                    position.Y = slopeY;
+                    
+                    isFalling = false;
+                    isJumping = false;
+                    // TODO: remove band-aid. waddle doo is always still inside the slope on the first frame of his jump, but he shouldn't be. check the order that velocity and position changes happen. position should change by velocity ONCE at the end of an update
+                    if (currentState.GetType().Equals(typeof(WaddleDooJumpingState)) && frameCounter > 0)
+                    {
+                        ChangeState(new WaddleDooWalkingState(this));
+                    }
+                    yVel = 0;
+                }
+                //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
+            }
+        }
+
     }
+
 }

@@ -48,7 +48,7 @@ namespace KirbyNightmareInDreamLand.Actions
             if (type.Equals("Enemy"))
             {
                 Enemy enemy = (Enemy)object1;
-                enemy.TakeDamage(intersection);
+                enemy.GetSwallowed(intersection);
             }
 
             if(object2 is Inhale)
@@ -69,7 +69,7 @@ namespace KirbyNightmareInDreamLand.Actions
             pu.UsePowerUp();
         }
 
-        //kirby intercats with powerupstar 
+        //kirby interacts with powerupstar 
         public static void KirbyProjectileCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
             Player player = (Player)object1;
@@ -80,14 +80,6 @@ namespace KirbyNightmareInDreamLand.Actions
                 KirbyStar star = (KirbyStar)object2;
                 star.EndAttack(); //change skirby to mouthful
             }
-        }
-     
-        public static void EntityCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
-        {
-            Player player = (Player)object2;
-            Enemy enemy = (Enemy)object1;
-            player.TakeDamage(intersection);
-            enemy.TakeDamage(intersection);
         }
     }
 }

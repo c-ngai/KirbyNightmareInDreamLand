@@ -1,12 +1,11 @@
 ﻿
 Team Kirby Superstars
-Sprint2: 9/30/2024 - 10/18/2024
+Sprint4: 10/21/2024 - 11/09/2024
 
 Group Members:  Gwyneth Barnholtz, Mark DeLeo, Vivian Ferrigni, Payton Murphy,
                 Carman Ngai, Lina Ordonez Aguiar
 
-Project: Sprint3 - Level Loading/Segmentation and Collision Handling
-         Kirby: Nightmare in Dreamland, Level 1 
+Project: Sprint4 - Finished framework and first level
 
 ###############################################################################
 
@@ -27,7 +26,7 @@ Down arrow allows him to crouch. Down and z alows him to slide.
 
 Up arrow allows him to float. It will also be used for him to travel through doors to move between levels.
 
-The 'A' and 'D' keys change Kirby's facing direction.
+The 'A' and 'D' keys change Kirby's facing direction NOT movement.
 
     **NOTE** We plan on removing the hardcoded key mappings in the commands so that we can
     later swap them out and use WASD along with the arrows to move Kirby. This is reflected
@@ -46,7 +45,17 @@ The 'z' key:
 Number keys (1, 2, 3, 4) can be used to show Kirby use a different power-up modes
 (Normal, Beam, Fire, Spark). ***
 
-Use 'q' to quit and 'r' to reset the program back to its initial state.
+8, 9, and 0 keys can be used to show the different powerup cards (beam, spark, fire) on the HUD.
+Note that this will later be changed to show the cards when Kirby gets a powerup in Sprint5.
+
+When on Game over and Level Complete Screens 'up' and 'down' arrow keys navigate
+between Quit and Continue buttons, to select a highlighted button, use 'space'.
+Quit exits the program and continue restarts the game in room 1. Level Complete Screen happens when you 
+enter the last door in Level 3.
+
+Use 'space' to pause the game and use 'space' again to unpause.
+
+Use 'q' to quit and 'r' to reset the current level back to its initial state.
 
 Use 'f1' to toggle debug mode for graphics.
 
@@ -68,68 +77,42 @@ Use ']' to increase the frame rate.
 
 Use '[' to decrease the frame rate. 
 
+Use 'm' to mute sound.
+
 ###############################################################################
 
 Backlogged Tasks:
 
-Swimming animation: IMPORTANT - We got permission from one of the graders to leave this on the backlog
-for the forseeable future without losing points. We are unsure if we are going to implement swimming as
-a part of the game design at this point since it is not required for the project and we would need to 
-implement water collision behavior. We are currently treaing water tiles as air. We will decide if we will
-implement swimming at a later sprint. For now, we are leaving it on the backlog.
-
-Particle implementation: IMPORTANT - We got permission from one of the graders to leave this 
-on the backlog for the forseeable future without losing points; it is not a requirement for 
-the class and should be implemented near the end of the project if we have time.There is a 
-considerable amount of particle animations that supplement the animations for the entities 
-and projectiles. The particles are purely visual, with no collision or physics. It is part of 
-the animation, however, due to Kirby having overwhelmingly more animations than Zelda and Mario, 
-we needed to prioritize getting in the entitiy and projectile animations that were required for 
-this sprint. 
-
-Refactoring Commands: We completed our initial goal for refactoring from last sprint. However, the current implementation of the commands includes
-hardcoded key mappings. We are planning to refactor this again by the next sprint so that the mappings can be swappable.
-
-Kirby Reabsorption: kirby can't reabsorb a star once it is spewed out, just the way it was coded 
-made it so only one "attack" would be active at a time and kirby couldnt start another attack
-while another one is active. Refactoring is not an option at this point. This blocks him from
-inhaling or letting go of exhale while the star is active. 
-
-Smooth out some collision responses and physics: we plan on making collision smoother including less jittery/like
-teleportation and adjusting falling/falling speeds in certain scenarios since we focused our efforts this sprint on 
-getting things like slope collision to work. We also plan on adjusting his jump range to be more accurate to the game.
-
-A couple projectile attacks: Kirby's star attack after releasing a swallowed enemy currently does not despawn but this will be added by next sprint.
-We are also working on adding two more projectile attacks that are missing from enemy spark and flamethrower attacks. Due to the sheer number of 
-Kirby attacks, enemy attacks, and other collision interactions we backlogged these two and will complete them by next sprint.
-
-Implementing life loss/health system: we will be using the fall off screen after falling beneath the waterfall to trigger one of the health mechanics
-and reset his position at the start of the level including resetting the level itself.
+Improve enemy spawning: make it so that enemies only load when nearby screen camera and will respawn when player goes 
+backward through the level. We backlogged this task to complete in Sprint5 because it is of the features we wish to 
+implement of having better enemy AI. 
 
 ###############################################################################
 
-
 Known bugs:
 
-Player Movement: note: most major bugs can be exited out of by pressing jump aka 'x'
- - if you are attacking and move the player, kirby doesnt move position, but the sprite changes, we are aware
- - slide sometimes happens without changing the pose into sliding
- - sometimes movement just softlocks in position or onto float, it is unclear but we are working on finding the source and fixing it
- - pressing z repeatedly and up while kirby is floating sometimes softlocks it into postion
- - Kirby can jump off screen if you jump at the edge of the level, this will be patched soon
-    He can also fall off screen past waterfall and cannot be recovered because of our buggy restart so the program must be rerun
+Player Movement:
+ - if you are attacking and move the player, it lets you do movement in place instead of staying on the attack animations for fire and spark kirbys
+ - slide sometimes doesn't work when you change kirby's direction after sliding and Kirby stays in crouch but will be fine again once you exit crouch
+ - movements sometimes have soft locks, mostly fixed but some movement has issues when multiple commands are being executed
 
- Level Loading:
- - restart is currently completely broken after implementing a level loader and an object manager in this game
-    we are pretty sure we are repeating some calls on object lists due to incorrect synchronization that is causing these issues
+Enemy:
+ - PoppyBrosJr hopping sprites has a glitch
+ - Flying enemy also struggles with wall collision because it is changing it's direction but not fixing the pathing
+ - Looping enemy sounds don't stop when moving between levels
+ - Hothead flamethrower needs to be separated out as a projectile attack (needs to be done to implement it as a collidable)
 
-Collision:
- - there are physics issues sometimes that are caused by multiple responses going off due to multiple intersection tiles 
-   please press jump at this time and it should exit out of most of these "stuck" states
-    these include: 
-        being stuck on a slope and/or walking across air (this combination is often triggered)
-        entering into falling animation while on slope
- - some of the enemies are having bugs with colliding into tiles because of the multiple response issue
+Mouse Controller and Game State:
+- because using the mouse controller to go through rooms the game state is not changed, controls get stuck in the
+  wrong keymap and the quit continue buttons are drawn on regular levels when you cycle to different levels after reaching the ending
+  "Game Over"/"Level Complete" screens. We will fix next sprint
+- if you transition between doors while moving, kirby keeps moving while transitioning
+- when you lose your final health and die, it does not enter game end sequence and you instead lose access to Kirby and have full health again
+  * we have the game over sequence coded in so we think it is an issue with state transition that we will fix next sprint
+- reset does not reset player state (if kirby enters invulnerable and reset is hit he will still be in invulnerable)
+
+Particles:
+- Need to stop run particles from displaying when double press happens when floating
 
 ###############################################################################
 

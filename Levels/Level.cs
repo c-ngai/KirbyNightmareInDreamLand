@@ -1,66 +1,212 @@
-﻿using KirbyNightmareInDreamLand.Entities;
-using KirbyNightmareInDreamLand.Entities.Enemies;
+﻿using KirbyNightmareInDreamLand.Entities.Enemies;
 using KirbyNightmareInDreamLand.Entities.Players;
 using KirbyNightmareInDreamLand.Entities.PowerUps;
+using KirbyNightmareInDreamLand.GameState;
 using KirbyNightmareInDreamLand.Sprites;
 using KirbyNightmareInDreamLand.StateMachines;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
 using System.IO;
-using System.Net;
 using System.Reflection;
 using static KirbyNightmareInDreamLand.Constants;
 
 namespace KirbyNightmareInDreamLand.Levels
 {
+
     public class Level
     {
 
         private readonly Game1 _game;
         private readonly Camera _camera;
+        private readonly ObjectManager _manager; 
+        public Vector2 SpawnPoint { get; private set; }
 
-        public float BackgroundParallaxFactor = Constants.Graphics.PARALLAX_FACTOR;
-
-        public string EnemyNamespace = Constants.Namespaces.ENEMY_NAMESPACE;
-        public string PowerUpNamespace = Constants.Namespaces.POWERUP_NAMESPACE;
+        public float FadeAlpha;
 
         public Room CurrentRoom { get; private set; }
 
-        public Vector2 SpawnPoint { get; private set; }
-
-        private List<Enemy> enemyList;
-
-        private List<PowerUp> powerUpList;
-
-        private List<Sprite> TileSprites;
-
-        private Sprite _doorstarsSprite;
-
         private ObjectManager manager = ObjectManager.Instance;
+        public List<Enemy> enemyList;
+        public List<PowerUp> powerUpList;
+        public string EnemyNamespace = Constants.Namespaces.ENEMY_NAMESPACE;
+        public string PowerUpNamespace = Constants.Namespaces.POWERUP_NAMESPACE;
 
-        // Holds a sprite for kirby and each enemy type to draw at their spawn points in level debug mode.
-        private Dictionary<string, Sprite> SpawnSprites = new Dictionary<string, Sprite>()
-        {
-            { "Kirby" , SpriteFactory.Instance.CreateSprite("kirby_normal_standing_right") },
-            { "WaddleDee" , SpriteFactory.Instance.CreateSprite("waddledee_walking_left") },
-            { "WaddleDoo" , SpriteFactory.Instance.CreateSprite("waddledoo_walking_left") },
-            { "BrontoBurt" , SpriteFactory.Instance.CreateSprite("brontoburt_standing_left") },
-            { "PoppyBrosJr" , SpriteFactory.Instance.CreateSprite("poppybrosjr_hop_left") },
-            { "Sparky" , SpriteFactory.Instance.CreateSprite("sparky_standing_left") },
-            { "Hothead" , SpriteFactory.Instance.CreateSprite("hothead_walking_left") },
-        };
+        public string NextRoom;
+        public Vector2 NextSpawn;
+
+
+
+        public IGameState _currentState { get; set; }
+        private string oldGameState;
+
+        public readonly IGameState _playingState;
+        private readonly IGameState _pausedState;
+        public readonly IGameState _gameOverState;
+        private readonly IGameState _debugState;
+        private readonly IGameState _winningState;
+        private readonly IGameState _transitionState;
+        private readonly BaseGameState _lifeLost;
+
+        private Vector2 gameOverSpawnPoint = Constants.Level.GAME_OVER_SPAWN_POINT;
+        private string gameOverRoomString = Constants.RoomStrings.GAME_OVER_ROOM;
+        private string winningRoomString = Constants.RoomStrings.LEVEL_COMPLETE_ROOM;
 
         public Level()
         {
             _game = Game1.Instance;
             _camera = _game.Camera;
+            _manager = Game1.Instance.manager;
+            _currentState = new GamePlayingState(this);
 
-            TileSprites = LoadTileSprites(Constants.Filepaths.TileSpriteList);
-            _doorstarsSprite = SpriteFactory.Instance.CreateSprite("doorstars");
+            _playingState = new GamePlayingState(this);
+            _pausedState = new GamePausedState();
+            _gameOverState = new GameGameOverState(this);
+            _transitionState = new GameTransitioningState(this);
+            _lifeLost = new GameLifeLostState(this);
+            _winningState = new GameWinningState(this);
+            oldGameState = _currentState.ToString();
+        }
+
+        public void ChangeState(IGameState newState)
+        {
+            _currentState = newState;
+        }
+
+        public bool IsCurrentState(string state)
+        {
+            return (_currentState).ToString().Equals(state);
+        }
+
+        public void Draw()
+        {
+            _currentState.Draw();
+        }
+
+        private static Dictionary<string, string> gameStateKeymaps = new  Dictionary<string, string> 
+        {
+            {"KirbyNightmareInDreamLand.GameState.GamePlayingState", "keymap1"},
+            {"KirbyNightmareInDreamLand.GameState.GamePausedState", "PauseKeyMap"},
+            {"KirbyNightmareInDreamLand.GameState.GameGameOverState", "keymap_gameover"},
+            {"KirbyNightmareInDreamLand.GameState.GameDebugState", "keymap1"},
+            {"KirbyNightmareInDreamLand.GameState.GameTransitioningState", "PauseKeyMap"},
+            {"KirbyNightmareInDreamLand.GameState.GameLifeLostState", "PauseKeyMap"},
+            {"KirbyNightmareInDreamLand.GameState.GameWinningState", "keymap_winning"}
+        };
+        
+        private void UpdateKeymap()
+        {
+            string currentGameState = _currentState.ToString();
+            if(currentGameState != oldGameState)
+            {
+                if (gameStateKeymaps.ContainsKey(currentGameState))
+                {
+                    LevelLoader.Instance.LoadKeymap(gameStateKeymaps[currentGameState]);
+                }
+                else
+                {
+                    Debug.WriteLine(" [ERROR] Level.UpdateKeymap(): gameStateKepmaps does not contain key \"" + currentGameState + "\"");
+                }
+            }
+            oldGameState = _currentState.ToString();
+        }
+
+        public void UpdateLevel()
+        {
+            UpdateKeymap();
+
+            if(CurrentRoom.Name == winningRoomString)
+            {
+                ChangeState(_winningState);
+            }
+            if (CurrentRoom.Name == gameOverRoomString)
+            {
+                ChangeState(_gameOverState);
+            }
+            _currentState.Update();
+        }
+
+        public void PauseLevel()
+        {
+            ChangeState(_pausedState);
+        }
+
+        public void UnpauseLevel()
+        {
+            ChangeState(_playingState);
+        }
+
+        public void ChangeToLifeLost()
+        {
+            ChangeState(_lifeLost);
+        }
+
+        public void ChangeToPlaying()
+        {
+            ChangeState(_playingState);
+        }
+
+        public void SelectQuit()
+        {
+            _currentState.SelectQuitButton();
+        }
+
+        public void SelectContinue()
+        {
+            _currentState.SelectContinueButton();
+        }
+
+        public void SelectButton()
+        {
+            _currentState.SelectButton();
+        }
+
+        public void ChangeToTransitionState()
+        {
+            _currentState = new GameTransitioningState(this);
+        }
+
+        public void GameOver()
+        {
+            NextRoom = gameOverRoomString;
+            NextSpawn = gameOverSpawnPoint;
+            _currentState = new GameTransitioningState(this);
+        }
+
+        public void ChangeStateToDebug()
+        {
+            ChangeState(_debugState);
+        }
+
+        // tells player if they are at a door or not 
+        public bool atDoor(Vector2 playerPosition)
+        {
+            bool result = false;
+            foreach (Door door in CurrentRoom.Doors)
+            {
+                if (door.Bounds.Contains(playerPosition))
+                {
+                    result = true;
+                }
+            }
+
+            return result;
+        }
+
+        // go to the next room, called because a player wants to go through a door 
+        public void EnterDoorAt(Vector2 playerPos)
+        {
+            foreach (Door door in CurrentRoom.Doors)
+            {
+                if (door.Bounds.Contains(playerPos))
+                {
+                    NextRoom = door.DestinationRoom;
+                    NextSpawn = door.DestinationPoint;
+                    _currentState = new GameTransitioningState(this);
+                }
+            }
         }
 
         // Loads a room into the level by name, specifying a spawn point. (for entering from a door)
@@ -68,21 +214,25 @@ namespace KirbyNightmareInDreamLand.Levels
         {
             if (LevelLoader.Instance.Rooms.ContainsKey(RoomName))
             {
-                manager.ResetDynamicCollisionBoxes();
+                // Sets it up so players are the only thing remaining in the object lists when rooms change
+                _manager.RemoveNonPlayers();
+                _manager.ResetStaticObjects();
                 CurrentRoom = LevelLoader.Instance.Rooms[RoomName];
+                // Debug.WriteLine("current room is " + CurrentRoom);
                 LoadLevelObjects();
                 SpawnPoint = _spawnPoint ?? CurrentRoom.SpawnPoint;
-                foreach (IPlayer player in manager.Players)
+                foreach (IPlayer player in _manager.Players)
                 {
-                    player.GoToRoomSpawn();
-                    manager.RegisterDynamicObject((Player)player);
+                    player?.GoToRoomSpawn();
+                    _manager.RegisterDynamicObject((Player)player);
                 }
             }
             else
             {
-                Debug.WriteLine("ERROR: \"" + RoomName + "\" is not a valid room name and cannot be loaded.");
+                Debug.WriteLine(" [ERROR] \"" + RoomName + "\" is not a valid room name and cannot be loaded.");
             }
         }
+
 
         // Overflow method. If no spawn point is specified, the level will load the room's default. TODO: refactor this?? does this implementation suck?????
         public void LoadRoom(string RoomName)
@@ -90,61 +240,6 @@ namespace KirbyNightmareInDreamLand.Levels
             LoadRoom(RoomName, null);
         }
 
-        private List<Sprite> LoadTileSprites(string filepath)
-        {
-            List<Sprite> TileSprites = new List<Sprite>();
-
-            List<string> lines = new(File.ReadLines(filepath));
-            foreach (string line in lines)
-            {
-                Sprite sprite = SpriteFactory.Instance.CreateSprite(line);
-                TileSprites.Add(sprite);
-            }
-
-            return TileSprites;
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            if (_game.DEBUG_LEVEL_MODE || CurrentRoom.Name == "testroom1")
-            {
-                DrawDebug(spriteBatch);
-            }
-            else
-            {
-                DrawLevel(spriteBatch);
-            }
-        }
-
-        private void DrawBackground(SpriteBatch spriteBatch)
-        {
-            if (CurrentRoom.BackgroundSprite != null)
-            {
-                Vector2 backgroundPosition = new Vector2(
-                    _camera.GetPosition().X * BackgroundParallaxFactor,
-                    _camera.GetPosition().Y * BackgroundParallaxFactor
-                );
-
-                CurrentRoom.BackgroundSprite.Draw(backgroundPosition, spriteBatch); 
-            }
-        }
-
-        private void DrawForeground(SpriteBatch spriteBatch)
-        {
-            if (CurrentRoom.ForegroundSprite != null)
-            {
-                CurrentRoom.ForegroundSprite.Draw(Vector2.Zero, spriteBatch); 
-            }
-        }
-
-        // Draws the level normally; background and foreground.
-        public void DrawLevel(SpriteBatch spriteBatch)
-        {
-            DrawBackground(spriteBatch);
-            DrawForeground(spriteBatch);
-            DrawDoorStars(spriteBatch);
-            DrawLevelObjects(spriteBatch);
-        }
 
         //level 
         //instantiate on demand
@@ -158,11 +253,11 @@ namespace KirbyNightmareInDreamLand.Levels
 
                 if (type != null)
                 {
-                    System.Diagnostics.Debug.WriteLine("This is the type name for the enemy: " + type);
+                    //System.Diagnostics.Debug.WriteLine("This is the type name for the enemy: " + type);
 
                     // Get the constructor that takes a Vector2 parameter
                     ConstructorInfo constructor = type.GetConstructor(new[] { typeof(Vector2) });
-                    System.Diagnostics.Debug.WriteLine("this is the enemy constructor" + constructor);
+                    //System.Diagnostics.Debug.WriteLine("this is the enemy constructor" + constructor);
 
                     if (constructor != null)
                     {
@@ -173,9 +268,11 @@ namespace KirbyNightmareInDreamLand.Levels
                 }
             }
 
-            // power ups currently do not require dynamic typing because they all use the same class. Will possibly need to chang ethis later on. 
+            //System.Diagnostics.Debug.WriteLine("enemy list contains" + enemyList.Count + "enemies");
+
+            // power ups currently do not require dynamic typing because they all use the same class. Will possibly need to change this later on. 
             powerUpList = new List<PowerUp>();
-            foreach(PowerUpData powerUp in CurrentRoom.PowerUps)
+            foreach (PowerUpData powerUp in CurrentRoom.PowerUps)
             {
                 Type type = Type.GetType(PowerUpNamespace);
                 PowerUp new_item = new PowerUp(powerUp.SpawnPoint, powerUp.PowerUpType);
@@ -183,183 +280,5 @@ namespace KirbyNightmareInDreamLand.Levels
             }
         }
 
-        // gets called when player defeats an enemy so that it doesn't get drawn anymore
-        public void removeEnemyFromList(Enemy enemy)
-        {
-            enemyList.Remove(enemy);
-        }
-
-        // gets called when player uses a power up so it doesn't get drawn anymore
-        public void removePowerUpFromList(PowerUp powerUp)
-        {
-            powerUpList.Remove(powerUp);
-        }
-
-        // draws enemies and tomatoes
-        public void DrawLevelObjects(SpriteBatch spriteBatch)
-        {
-            foreach(Enemy enemy in enemyList)
-            {
-                enemy.Draw(spriteBatch);
-            }
-
-            foreach (PowerUp powerUp in powerUpList)
-            {
-                powerUp.Draw(spriteBatch);
-            }
-        }
-
-        // tells player if they are at a door or not 
-        public bool atDoor(Vector2 playerPosition)
-        {
-            bool result = false;
-            foreach(Door door in CurrentRoom.Doors)
-            {
-                if(door.Bounds.Contains(playerPosition))
-                {
-                    result = true;
-                }
-            }
-
-            return result;
-        }
-
-        // go to the next room, called because a player wants to go through a door 
-        public void EnterDoorAt(Vector2 playerPos)
-        {
-            foreach(Door door in CurrentRoom.Doors)
-            {
-                if (door.Bounds.Contains(playerPos))
-                {
-                    LoadRoom(door.DestinationRoom, door.DestinationPoint);
-                    break;
-                }
-            }
-        }
-
-        public Vector2 convertTileToPixel(Vector2 tilePosition)
-        {
-            return new Vector2(tilePosition.X * Constants.Level.TILE_SIZE, tilePosition.Y * Constants.Level.TILE_SIZE);
-        }
-
-        public void UpdateLevel()
-        {
-            CurrentRoom.ForegroundSprite.Update();
-            _doorstarsSprite.Update();
-            foreach(Enemy enemy in enemyList)
-            {
-                enemy.Update(_game.time);
-            }
-            foreach(PowerUp powerUp in powerUpList)
-            {
-                powerUp.Update();
-            }
-        }
-
-        // Following methods authored by Mark 
-
-        // Debug mode (toggle F2), draws the usually-invisible collision tiles, doors, and enemy spawn locations.
-        private void DrawDebug(SpriteBatch spriteBatch)
-        {
-            DrawTiles(spriteBatch);
-            DrawDoorStars(spriteBatch);
-            DrawDoors(spriteBatch);
-            DrawSpawnPoints(spriteBatch);
-            DrawLevelObjects(spriteBatch);
-        }
-
-        // Draws a rectangle at every door with its destination room written above
-        private void DrawDoors(SpriteBatch spriteBatch)
-        {
-            foreach (Door door in CurrentRoom.Doors)
-            {
-                Vector2 doorPos = door.Bounds.Location.ToVector2();
-                Vector2 textSize = LevelLoader.Instance.Font.MeasureString(door.DestinationRoom);
-                Vector2 textPos = doorPos - new Vector2(-9 + textSize.X / 2, -1 + textSize.Y);
-
-                GameDebug.Instance.DrawSolidRectangle(spriteBatch, door.Bounds, Color.Red);
-                spriteBatch.DrawString(LevelLoader.Instance.Font, door.DestinationRoom, textPos, Color.Red);
-            }
-        }
-
-        // Draws the stars around each door
-        private void DrawDoorStars(SpriteBatch spriteBatch)
-        {
-            foreach (Door door in CurrentRoom.Doors)
-            {
-                Vector2 doorPos = door.Bounds.Location.ToVector2();
-                _doorstarsSprite.Draw(doorPos, spriteBatch);
-            }
-        }
-
-        // Draws static, transparent sprites of the corresponding enemy for each enemy spawn point in the level.
-        private void DrawSpawnPoints(SpriteBatch spriteBatch)
-        {
-            // Temporarily disable sprite debug mode if it's on.
-            bool old_DEBUG_SPRITE_MODE = _game.DEBUG_SPRITE_MODE;
-            _game.DEBUG_SPRITE_MODE = false;
-
-            Vector2 kirbyPos = CurrentRoom.SpawnPoint;
-            SpawnSprites["Kirby"].Draw(kirbyPos, spriteBatch, new Color(255, 255, 255, 127));
-
-            // Draw each enemy spawn point
-            foreach (EnemyData enemy in CurrentRoom.Enemies)
-            {
-                Vector2 enemyPos = enemy.SpawnPoint;
-                SpawnSprites[enemy.EnemyType].Draw(enemyPos, spriteBatch, new Color(255, 255, 255, 63));
-            }
-
-            // Restore old sprite debug mode state.
-            _game.DEBUG_SPRITE_MODE = old_DEBUG_SPRITE_MODE;
-        }
-
-        // Draw visualizations of all the usually-invisible collision tiles.
-        private void DrawTiles(SpriteBatch spriteBatch)
-        {
-            // Temporarily disable sprite debug mode if it's on. Sprite debug with debug tiles makes the screen look very messy, it's not useful information. This feels like a sloppy solution but it works for now.
-            bool old_DEBUG_SPRITE_MODE = _game.DEBUG_SPRITE_MODE;
-            _game.DEBUG_SPRITE_MODE = false;
-
-            // Set bounds on the TileMap to iterate from
-            int TopY, BottomY, LeftX, RightX;
-            if (_game.CULLING_ENABLED)
-            {
-                TopY = Math.Max(_camera.GetBounds().Top / Constants.Level.TILE_SIZE, 0);
-                BottomY = Math.Min(_camera.GetBounds().Bottom / Constants.Level.TILE_SIZE + 1, CurrentRoom.TileHeight);
-                LeftX = Math.Max(_camera.GetBounds().Left / Constants.Level.TILE_SIZE, 0);
-                RightX = Math.Min(_camera.GetBounds().Right / Constants.Level.TILE_SIZE + 1, CurrentRoom.TileWidth);
-            }
-            else
-            {
-                TopY = 0;
-                BottomY = CurrentRoom.TileHeight;
-                LeftX = 0;
-                RightX = CurrentRoom.TileWidth;
-            }
-
-            // Temporarily disable sprite culling if it's on, because this function has its own culling that relies on the regularity of tiles that is much more efficient than the rectangle intersection-detecting method of the Sprite class.
-            bool old_CULLING_ENABLED = _game.CULLING_ENABLED;
-            _game.CULLING_ENABLED = false;
-
-            // Iterate across all the rows of the TileMap visible within the frame of the camera
-            for (int y = TopY; y < BottomY; y++)
-            {
-                // Iterate across all the columns of the TileMap visible within the frame of the camera
-                for (int x = LeftX; x < RightX; x++)
-                {
-                    DrawTile(spriteBatch, CurrentRoom.TileMap[y][x], new Vector2(x * Constants.Level.TILE_SIZE, y * Constants.Level.TILE_SIZE));
-                }
-            }
-
-            // Restore old sprite debug mode state.
-            _game.DEBUG_SPRITE_MODE = old_DEBUG_SPRITE_MODE;
-            _game.CULLING_ENABLED = old_CULLING_ENABLED;
-        }
-
-        // Draw a single tile.
-        private void DrawTile(SpriteBatch spriteBatch, int tileID, Vector2 position)
-        {
-            TileSprites[tileID].Draw(position, spriteBatch);
-        }
     }
 }

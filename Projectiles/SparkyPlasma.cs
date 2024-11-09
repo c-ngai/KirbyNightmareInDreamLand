@@ -9,7 +9,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class SparkyPlasma : IProjectile, ICollidable
     {
-        private Sprite projectileSprite;
+        private readonly Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;
         private int framesActive;
@@ -44,14 +44,13 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             if (IsActive)
             {
+                projectileSprite.Update();
                 framesActive++;
 
-                if (framesActive >= Constants.Sparky.ATTACK_TIME)
+                if (IsDone())
                 {
                     EndAttack();
                 }
-
-                projectileSprite.Update();
             }
         }
 
@@ -61,18 +60,18 @@ namespace KirbyNightmareInDreamLand.Projectiles
             {
                 ObjectManager.Instance.RemoveDynamicObject(this); 
             }
+
         }
 
         public bool IsDone()
         {
-            return !IsActive;
+            return framesActive >= Constants.Sparky.ATTACK_TIME;
         }
 
         public bool CollisionActive { get; set; } = true;
 
         public virtual Vector2 CalculateRectanglePoint(Vector2 pos)
         {
-
             float x = pos.X - Constants.HitBoxes.SPARKY_ATTACK_WIDTH / 2;
             float y = pos.Y - Constants.HitBoxes.SPARKY_ATTACK_HEIGHT + Constants.HitBoxes.SPARKY_ATTACK_OFFSET;
             Vector2 rectPoint = new Vector2(x, y);
@@ -84,11 +83,16 @@ namespace KirbyNightmareInDreamLand.Projectiles
             Vector2 rectPoint = CalculateRectanglePoint(position);
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.SPARKY_ATTACK_WIDTH, Constants.HitBoxes.SPARKY_ATTACK_HEIGHT);
         }
+        public Vector2 GetPosition()
+        {
+            return Position;
+        }
 
         public void EndAttack()
         {
             IsActive = false;  
             CollisionActive = false;
+            ObjectManager.Instance.RemoveDynamicObject(this);         
         }
     }
 }

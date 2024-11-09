@@ -21,7 +21,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState
             {
                 _hothead.ChangePose(EnemyPose.Hurt);
                 _hothead.ResetFrameCounter();
-            _hothead.Health -= 1;
+                _hothead.Health -= Constants.Enemies.DAMAGE_TAKEN;
         }
 
         public void Update()

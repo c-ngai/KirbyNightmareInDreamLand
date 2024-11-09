@@ -5,6 +5,7 @@ using KirbyNightmareInDreamLand.Sprites;
 using KirbyNightmareInDreamLand.StateMachines;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using KirbyNightmareInDreamLand.Audio;
 
 
 namespace KirbyNightmareInDreamLand.Entities.PowerUps
@@ -26,7 +27,6 @@ namespace KirbyNightmareInDreamLand.Entities.PowerUps
             powerUpType = type;
             powerUpSprite = SpriteFactory.Instance.CreateSprite(powerUpType);
             ObjectManager.Instance.RegisterDynamicObject(this);
-
         }
         public string GetObjectType()
         {
@@ -45,7 +45,10 @@ namespace KirbyNightmareInDreamLand.Entities.PowerUps
             Vector2 rectPoint = CalculateRectanglePoint(position);
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
         }
-
+        public Vector2 GetPosition()
+        {
+            return Position;
+        }
         public Vector2 Position
         {
             //Returns position on screen
@@ -76,6 +79,7 @@ namespace KirbyNightmareInDreamLand.Entities.PowerUps
 
         public void UsePowerUp()
         {
+            SoundManager.Play("itempickup");
             CollisionActive = false;
             // more power up affect logic here 
         }

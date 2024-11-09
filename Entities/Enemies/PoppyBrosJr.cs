@@ -3,52 +3,77 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState;
+using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
     public class PoppyBrosJr : Enemy
     {
-        private int hopCounter = 0; //number of hops
+        private bool isJumping = false;
+        public bool IsJumping => isJumping;
 
         public PoppyBrosJr(Vector2 startPosition) : base(startPosition, EnemyType.PoppyBrosJr)
         {
             stateMachine.ChangePose(EnemyPose.Hop);
             ChangeState(new PoppyBrosJrHopState(this));
-            //TO-DO: spawn facing the direction kirby is in
             yVel = 0;
             xVel = Constants.PoppyBrosJr.MOVE_SPEED;
         }
 
-        public override void Move()
+        public override void Jump()
         {
-            // Handles x movement. Walking back and forth until left/right boundary
-            if (stateMachine.IsLeft())
+            if (!isJumping)
             {
-                position.X -= xVel;
+                // Start jumping and store initial y
+                isJumping = true;
+                yVel = -Constants.PoppyBrosJr.JUMP_VELOCITY;
             }
-            else
-            {
-                position.X += xVel;
-            }
-            Hop();
+            Move();
         }
 
-        private void Hop()
+        public override void BottomCollisionWithBlock(Rectangle intersection)
         {
-            //Handles Y movement and calculates oscillation of hops.
-            hopCounter++;
-            float t = (float)hopCounter / Constants.PoppyBrosJr.HOP_FREQUENCY;
+            isFalling = false;
+            isJumping = false;
+            position.Y = intersection.Y;
 
-            // Smooth hopping math
-            yVel = (float)(Math.Sin(t * Math.PI * 2) * Constants.PoppyBrosJr.HOP_HEIGHT / 2);
-            position.Y -= yVel;
-
-            // Reset hop counter for cycle
-            if (hopCounter >= Constants.PoppyBrosJr.HOP_FREQUENCY)
+            // Note (Mark) THIS IS A BIT JANK
+            // Basically: if colliding with a block from above, change to walking state if jumping
+            if (currentState.GetType().Equals(typeof(PoppyBrosJrHopState)))
             {
-                hopCounter = 0;
-                enemySprite.ResetAnimation(); // Mark addition: since hop is a non-looping animation that we want to repeat but we already have that sprite, just call ResetAnimation on it.
+                ChangeState(new PoppyBrosJrLandState(this));
+            }
+            yVel = 0;
+        }
+
+        public override void AdjustOnSlopeCollision(Tile tile, float slope, float yIntercept)
+        {
+
+            //GameDebug.Instance.LogPosition(position);
+
+            Rectangle intersection = tile.rectangle;
+            if (position.X > intersection.Left && position.X < intersection.Right)
+            {
+                float offset = position.X - intersection.X;
+                //Debug.WriteLine($"Starting Y position: {position.Y}");
+                float slopeY = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
+                //GameDebug.Instance.LogPosition(intersection.Location.ToVector2());
+                if (position.Y > slopeY)
+                {
+                    position.Y = slopeY;
+
+                    isFalling = false;
+                    isJumping = false;
+                    // TODO: remove band-aid. waddle doo is always still inside the slope on the first frame of his jump, but he shouldn't be. check the order that velocity and position changes happen. position should change by velocity ONCE at the end of an update
+                    if (currentState.GetType().Equals(typeof(PoppyBrosJrHopState)) && frameCounter > 0)
+                    {
+                        ChangeState(new PoppyBrosJrLandState(this));
+                    }
+                    yVel = 0;
+                }
+                //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
             }
         }
     }

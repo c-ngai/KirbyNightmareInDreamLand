@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using KirbyNightmareInDreamLand.Projectiles;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState;
+using KirbyNightmareInDreamLand.Audio;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -48,7 +49,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 // Update flamethrower if active
                 if (isFlamethrowerActive)
                 {
-                    flamethrower.Update(gameTime, ProjectilePosition(), stateMachine.IsLeft() ? new Vector2(-1, 0) : new Vector2(1, 0));
+                    flamethrower.Update(gameTime, ProjectilePosition(), stateMachine.IsLeft() ? Constants.Hothead.FLAMETHROWER_LEFT : Constants.Hothead.FLAMETHROWER_RIGHT);
                     flamethrowerFrameCounter++;
 
                     if (flamethrowerFrameCounter >= Constants.Hothead.ATTACK_FRAMES)
@@ -68,20 +69,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             // Adjust flamethrower position based on Hothead's facing direction
             //no magic numbers
-            return stateMachine.IsLeft() ? new Vector2(position.X - 18, position.Y - 7 ) : new Vector2(position.X + 18, position.Y - 7);
-        }
-
-        public override void Move()
-        {
-            // Walking back and forth in X axis 
-            if (stateMachine.IsLeft())
-            {
-                position.X -= xVel;
-            }
-            else
-            {
-                position.X += xVel;
-            }
+            return stateMachine.IsLeft() ? new Vector2(position.X - Constants.Hothead.FLAMETHROWER_X_OFFSET, position.Y - Constants.Hothead.FLAMETHROWER_Y_OFFSET) : new Vector2(position.X + Constants.Hothead.FLAMETHROWER_X_OFFSET, position.Y - Constants.Hothead.FLAMETHROWER_Y_OFFSET);
         }
 
         public void Flamethrower(/*GameTime gameTime*/)
@@ -91,16 +79,20 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             {
                 isFlamethrowerActive = true;
 
+                //need to loop
+                //SoundManager.Play("hotheadflamethrowerattack");
+
                 // Set the start position for the flamethrower
-                Vector2 flameDirection = stateMachine.IsLeft() ? new Vector2(-1, 0) : new Vector2(1, 0);
+                Vector2 flameDirection = stateMachine.IsLeft() ? Constants.Hothead.FLAMETHROWER_LEFT : Constants.Hothead.FLAMETHROWER_RIGHT;
                 flamethrowerFrameCounter = 0; 
             }
         }
 
         public override void Attack()
         {
+            SoundManager.Play("hotheadfireballattack");
             //Shoots fireball projectile attack
-            Vector2 projectileDirection = stateMachine.IsLeft() ? new Vector2(-1, -0.5f) : new Vector2(1, -0.5f);
+            Vector2 projectileDirection = stateMachine.IsLeft() ? Constants.Hothead.FIREBALL_LEFT : Constants.Hothead.FIREBALL_RIGHT;
             IProjectile newFireball = new EnemyFireball(ProjectilePosition(), projectileDirection);
             fireballs.Add(newFireball);
         }

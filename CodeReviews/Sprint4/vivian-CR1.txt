@@ -1,0 +1,50 @@
+﻿Sprint 3 Readabilty Code Review     11/4/2024
+
+Author of Code Review: Vivian Ferrigni
+Name of .cs file being reviewed: Enemy.cs
+Author of .cs file being reivewed: Gwyn Barnholtz
+
+Time taken to complete review:
+
+################################################################################
+
+10 Code Smells:
+
+1. God class 
+2. Duplicated code
+3. TooManyParameters
+4. WhileTrueLoop
+5. LongMethodSmell 
+6. ParallelInheritanceHierarchies
+7. SameNameDifferentMeaning
+8. SwitchCaseSmell
+9. VariableNameSameAsType
+10.DataClumps
+
+################################################################################
+
+Comments:
+
+Good use of comments; only suggestion would be to add more comments on code with
+heavy logic/physics. 
+
+It seems like frame counter is only being used to track how long an enemy is in a
+state, if thats the case it can be moved into EnemyStateMachine for cohesion. 
+
+Currently UpdateTexture makes a new texture for every enemy state change, as we
+get more enemies this could become a performance issue, maybe initialized them all
+at once in a dictionary and reassign the current sprite with an existing one from
+that dictionary?
+
+I also reviewed the Player Movement class and noticed your collision handling has
+a lot of similar code, maybe consider making a SlopeCollisionHandler class to
+share this functionality with Player.
+
+Get rid of magic numbers like gravity / 100, instead you could scale gravity by a
+factor if different enemies need different falling speeds.
+
+Overall most methods are short and simple, mostly easy to read except for the fact
+that I never took a physics class. Overall good job! 
+
+
+

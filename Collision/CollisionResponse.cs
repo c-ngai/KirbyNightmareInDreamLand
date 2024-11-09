@@ -6,7 +6,7 @@ using System.Diagnostics;
 namespace KirbyNightmareInDreamLand.Collision
 {
     public enum CollisionSide { Top, Left, Right, Bottom };
-    public class CollisionResponse
+    public sealed class CollisionResponse
     {
         public Dictionary<Tuple<string, string, CollisionSide>, Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>>> collisionMapping { get; private set; }
         private static CollisionResponse instance = new CollisionResponse();
@@ -23,7 +23,7 @@ namespace KirbyNightmareInDreamLand.Collision
         }
         public CollisionResponse()
         {
-            collisionMapping = new Dictionary<Tuple<string, string, CollisionSide>, Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>>>();
+            collisionMapping = new();
         }
 
         // Creates string mappings of object types and collision side to determine object reactions 
@@ -52,10 +52,10 @@ namespace KirbyNightmareInDreamLand.Collision
                 //hand side that is being collided
                 Tuple<String, String, CollisionSide> objects = new Tuple<String, String, CollisionSide>(key1, key2, side);
 
-                Rectangle intersection = Rectangle.Intersect(object1.GetHitBox(), object2.GetHitBox());
-                Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>> commands = collisionMapping[objects];
                 if (collisionMapping.ContainsKey(objects))
                 {
+                    Rectangle intersection = Rectangle.Intersect(object1.GetHitBox(), object2.GetHitBox());
+                    Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>> commands = collisionMapping[objects];
                     if (commands.Item1 != null)
                     {
                         commands.Item1(object1, object2, intersection);
@@ -66,7 +66,6 @@ namespace KirbyNightmareInDreamLand.Collision
                     }
                 }
             } 
-            
         }
     }
 }

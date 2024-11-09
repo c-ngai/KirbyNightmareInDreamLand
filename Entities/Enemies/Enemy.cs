@@ -8,12 +8,15 @@ using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 using System;
 using KirbyNightmareInDreamLand.Levels;
 using System.Diagnostics;
+using KirbyNightmareInDreamLand.Audio;
+using System.Threading.Tasks;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
     public abstract class Enemy : IEnemy, ICollidable
     {
         protected Vector2 position; //Where enemy is drawn on screen
+        protected Vector2 spawnPosition; //Where enemy is first drawn on screen
         protected int health; //Enemy health
         protected bool isDead;  //If enemy is dead
         protected Sprite enemySprite;
@@ -32,7 +35,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             //Initialize all variables
             position = startPosition;
-            health = 1;
+            spawnPosition = startPosition;
+            health = Constants.Enemies.HEALTH;
             isDead = false;
             xVel = 0;
             yVel = 0;
@@ -43,12 +47,13 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             currentState = new WaddleDooWalkingState(this); // Initialize with the walking state
             ObjectManager.Instance.RegisterDynamicObject(this);
             currentState.Enter();
-            frameCounter = 0; 
+            frameCounter = 0;
+            UpdateTexture();
         }
 
         public string GetObjectType()
         {
-            return "Enemy";
+            return Constants.CollisionObjectType.ENEMY;
         }
 
         public Vector2 Position
@@ -78,13 +83,21 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             get { return frameCounter; }
         }
-        public String GetCollisionType()
+        public static String GetCollisionType()
         {
             return "Enemy";
         }
         public void IncrementFrameCounter()
         {
             frameCounter++;
+        }
+        public void UpdateDirection()
+        {
+            if(ObjectManager.Instance.Players[0].GetKirbyPosition().X < this.position.X){
+                stateMachine.FaceLeft();
+            } else {
+                stateMachine.FaceRight();
+            }
         }
 
         public void ResetFrameCounter()
@@ -108,13 +121,39 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             currentState.Enter();
         }
 
-        public void TakeDamage(Rectangle intersection)
+        public async void TakeDamage(Rectangle intersection)
+        {
+
+            int points = 0;
+
+            // Determine points based on the type of enemy
+            if (this is WaddleDoo || this is BrontoBurt || this is Hothead || this is Sparky)
+            {
+                points = Constants.Enemies.STRONG_ENEMY_POINTS;
+            }
+            else if (this is WaddleDee || this is PoppyBrosJr)
+            {
+                points = Constants.Enemies.WEAK_ENEMY_POINTS;
+            }
+
+            // Update the score in ObjectManager
+            Game1.Instance.manager.UpdateScore(points);
+
+            currentState.TakeDamage();
+            CollisionActive = false;
+            SoundManager.Play("enemydamage");
+            await Task.Delay(Constants.Enemies.DELAY);
+            SoundManager.Play("enemyexplode");
+        }
+
+        public void GetSwallowed(Rectangle intersection)
         {
             currentState.TakeDamage();
+            this.TakeDamage(intersection);
             CollisionActive = false;
         }
 
-        public void ChangeDirection()
+        public virtual void ChangeDirection()
         {
             currentState.ChangeDirection();
         }
@@ -136,7 +175,21 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void Update(GameTime gameTime) 
         {
-            if (CollisionActive && !IsDead)
+            /* TO-DO: Should this be in Draw or update?
+             * 
+            //respawn enemy if dead but just outside camera bounds
+            if (IsDead && Game1.Instance.Camera.GetEnemyBounds().Contains(spawnPosition.ToPoint()))
+            {
+                // Respawn the enemy
+                CollisionActive = true;
+                IsDead = false;
+                health = Constants.Enemies.HEALTH;
+                position = spawnPosition;
+                frameCounter = 0;
+                UpdateTexture();
+            }*/
+
+            if (CollisionActive && !IsDead /*&& Game1.Instance.Camera.GetEnemyBounds().Contains(position.ToPoint())*/)
             {
                 IncrementFrameCounter();
                 currentState.Update();
@@ -153,15 +206,26 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            //Draw if enemy is alive
-            if (CollisionActive && !IsDead)
+            //Draw if enemy is alive and 
+            if (CollisionActive && !IsDead /* && Game1.Instance.Camera.GetEnemyBounds().Contains(position.ToPoint())*/)
             {
                 enemySprite.Draw(position, spriteBatch);
+                //spriteBatch.DrawString(LevelLoader.Instance.Font, frameCounter.ToString(), position, Color.Black);
             }
-            else
+
+            /*
+            // TO-DO: Should this be in Draw or update?
+            //respawn enemy if dead but just outside camera bounds
+            else if (IsDead && Game1.Instance.Camera.GetEnemyBounds().Contains(spawnPosition.ToPoint()))
             {
-                ObjectManager.Instance.RemoveDynamicObject(this); // Deregister if dead
-            }
+                //load at spawn point
+                CollisionActive = true;
+                IsDead = false;
+                health = Constants.Enemies.HEALTH;
+                position = spawnPosition;
+                frameCounter = 0;
+                UpdateTexture();
+            }          */
         }
 
         public virtual void Attack() { }
@@ -170,11 +234,23 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void Fall()
         {
-            yVel += gravity / 100;  // Increase vertical velocity by gravity
+            yVel += gravity / Constants.Enemies.GRAVITY_OFFSET;  // Increase vertical velocity by gravity
             position.Y += yVel;  // Apply the updated velocity to the enemy's Y position
         }
 
-        public abstract void Move();
+        public virtual void Move()
+        {
+            // Walking back and forth in X axis 
+            if (stateMachine.IsLeft())
+            {
+                position.X -= xVel;
+            }
+            else
+            {
+                position.X += xVel;
+            }
+            UpdateTexture();
+        }
 
         public virtual Vector2 CalculateRectanglePoint(Vector2 pos)
         {
@@ -189,77 +265,75 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
         }
 
+        public virtual Vector2 GetPosition()
+        {
+            return position;
+        }
+
         public virtual void BottomCollisionWithBlock(Rectangle intersection)
         {
-            position.Y = intersection.Y + 1; // TODO: fix jank, the +1 is a total bandaid
+            position.Y = intersection.Y; // Note: +1 removed because in Game1.Update I made level update before collision is called. This makes collisions happen after preexisting momentum is applied -Mark
             yVel = 0;
             isFalling = false;
         }
+        // Commented out the inside for now. Is this necessary? -Mark
         public void BottomCollisionWithAir(Rectangle intersection)
         {
-            isFalling = true;
-            Fall();
+            //isFalling = true;
+            //Fall();
+        }
+        public virtual void AdjustOnSlopeCollision(Tile tile, float slope, float yIntercept)
+        {
+            Rectangle intersection = tile.rectangle;
+            if (position.X > intersection.Left && position.X < intersection.Right)
+            {
+                float offset = position.X - intersection.X;
+                //Debug.WriteLine($"Starting Y position: {position.Y}");
+                float slopeY = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
+                //GameDebug.Instance.LogPosition(new Vector2(position.X, position.Y));
+                if (position.Y > slopeY)
+                {
+                    position.Y = slopeY;
+                    yVel = 0;
+                }
+                //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
+            }
         }
         public void AdjustGentle1SlopeLeftCollision(Tile tile)
         {
-            Rectangle intersection = tile.rectangle;
-            float offset = position.X - intersection.X;
-            //Debug.WriteLine($"Starting Y position: {position.Y}");
             float slope = Constants.Collision.GENTLE1_SLOPE_LEFT_M;
             float yIntercept = Constants.Collision.GENTLE1_SLOPE_LEFT_YINTERCEPT;
-            position.Y = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
-            //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
+            AdjustOnSlopeCollision(tile, slope, yIntercept);
         }
         public void AdjustGentle2SlopeLeftCollision(Tile tile)
         {
-            Rectangle intersection = tile.rectangle;
-            float offset = position.X - intersection.X;
-            //Debug.WriteLine($"Starting Y position: {position.Y}");
             float slope = Constants.Collision.GENTLE2_SLOPE_LEFT_M;
             float yIntercept = Constants.Collision.GENTLE2_SLOPE_LEFT_YINTERCEPT;
-            position.Y = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
-            //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
+            AdjustOnSlopeCollision(tile, slope, yIntercept);
         }
-
         public void AdjustSteepSlopeLeftCollision(Tile tile)
         {
-            Rectangle intersection = tile.rectangle;
-            float offset = position.X - intersection.X;
-            //Debug.WriteLine($"Starting Y position: {position.Y}");
             float slope = Constants.Collision.STEEP_SLOPE_LEFT_M;
             float yIntercept = Constants.Collision.STEEP_SLOPE_LEFT_YINTERCEPT;
-            position.Y = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
-            //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
+            AdjustOnSlopeCollision(tile, slope, yIntercept);
         }
-
         public void AdjustGentle1SlopeRightCollision(Tile tile)
         {
-            Rectangle intersection = tile.rectangle;
-            float offset = position.X - intersection.X;
-            float slope = Constants.Collision.GENTLE1_SLOPE_LEFT_M;
-            float yIntercept = Constants.Collision.GENTLE1_SLOPE_LEFT_YINTERCEPT;
-            position.Y = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
-            //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
+            float slope = Constants.Collision.GENTLE1_SLOPE_RIGHT_M;
+            float yIntercept = Constants.Collision.GENTLE1_SLOPE_RIGHT_YINTERCEPT;
+            AdjustOnSlopeCollision(tile, slope, yIntercept);
         }
-
         public void AdjustGentle2SlopeRightCollision(Tile tile)
         {
-            Rectangle intersection = tile.rectangle;
-            float offset = position.X - intersection.X;
             float slope = Constants.Collision.GENTLE2_SLOPE_RIGHT_M;
             float yIntercept = Constants.Collision.GENTLE2_SLOPE_RIGHT_YINTERCEPT;
-            position.Y = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
-            //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
+            AdjustOnSlopeCollision(tile, slope, yIntercept);
         }
-
         public void AdjustSteepSlopeRightCollision(Tile tile)
         {
-            Rectangle intersection = tile.rectangle;
-            float offset = position.X - intersection.X;
-            //Debug.WriteLine($"Starting Y position: {position.Y}");
             float slope = Constants.Collision.STEEP_SLOPE_RIGHT_M;
             float yIntercept = Constants.Collision.STEEP_SLOPE_RIGHT_YINTERCEPT;
-            position.Y = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
+            AdjustOnSlopeCollision(tile, slope, yIntercept);
         }
     }
 }

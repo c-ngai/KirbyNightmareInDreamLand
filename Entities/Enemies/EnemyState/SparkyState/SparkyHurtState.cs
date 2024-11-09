@@ -21,25 +21,18 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
         {
             _enemy.ChangePose(EnemyPose.Hurt);
             _enemy.ResetFrameCounter();
-            _enemy.Health -= 1;
+            _enemy.Health -= Constants.Enemies.DAMAGE_TAKEN;
         }
 
         public void Update()
         {
             _enemy.IncrementFrameCounter();
 
-            //TO-DO: CHANGE TO WHEN KIRBY + ENEMY COLLIDE
-            if (_enemy.FrameCounter >= Constants.Sparky.HURT_FRAMES)
-            {
-                _enemy.ChangeState(new SparkyShortJumpState(_enemy));
-                _enemy.UpdateTexture();
-
                 if (_enemy.Health <= 0)
                 {
                     _enemy.IsDead = true;
                     _enemy.CollisionActive = false;
-                }
-            }
+                }          
         }
 
         public void Exit() { }

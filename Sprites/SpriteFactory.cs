@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace KirbyNightmareInDreamLand.Sprites
 {
-    public class SpriteFactory
+    public sealed class SpriteFactory
     {
         // Dictionary from string to Texture2D. For easily retrieving a texture by name.
         public Dictionary<string, Texture2D> Textures { get; private set; }
@@ -47,7 +47,7 @@ namespace KirbyNightmareInDreamLand.Sprites
             }
             else
             {
-                Debug.WriteLine("INVALID SPRITE NAME: " + spriteAnimationName); //debug line
+                Debug.WriteLine(" [ERROR] Invalid sprite name: " + spriteAnimationName); //debug line
                 return new Sprite(spriteAnimations["invalidspritename"]);
             }
         }

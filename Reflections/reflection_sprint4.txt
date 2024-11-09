@@ -1,0 +1,40 @@
+﻿Sprint 4 Reflection
+11/07/2024
+
+###############################################################################
+
+1. Team Dynamics
+
+This Sprint definitely a bit more relaxed than the previous one. Much of the work
+incolved refactoring and cleaning up code from earlier sprints rather than introducing
+a ton of major new functionality. Only a few of our roles involved implementing new
+features, while the others completely revolved around refactoring/fixing previous code
+and working on the backlog. The lighter workload allowed some members to finish their
+tasks early, helping us get a headstart on Sprint 5. The team did a good job of staying
+on top of deadlines and avoiding the rush we faced previously.
+
+Overall, having a more balaned sprint was beneficial for team morale, and it showed in
+out productivity and enthusiasm for Sprint 5 ideas. 
+
+
+2. Adherence To Deadlines
+
+Our team did a good job sticking to official sprint deadlines compared to the last
+sprint. Most of our code reviews were completed early, allowing us to address feedback
+and avoid last-minute changes. This was a noticable improvement from previous sprints.
+
+While we did get most tasks done early on in the Sprint, we continue to underestimate
+how long certain tasks will take to complete. When we set deadlines for our team in our
+team meetings, we tend to set them way too early and can be a bit too ambitious. Going 
+forward, we need to set more realistic personal deadlines.
+
+
+3. Plans for Next Sprint
+
+    *  Assign a person to be in charge of documentation. README and reflection
+       as well as the project planning documents should be clean and submittable.
+    *  Distribute coding responsibilities more evenly.
+    *  Have regular in-person meetings to work on the project.
+    *  Make sure that all code reviews get in early
+    *  Realistic task estimates, especially considering how much we want to do for
+       Sprint 5

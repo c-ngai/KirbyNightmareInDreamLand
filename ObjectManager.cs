@@ -8,34 +8,34 @@ using Microsoft.Xna.Framework;
 using System.Diagnostics;
 using System;
 using System.Linq;
+using KirbyNightmareInDreamLand.Particles;
 
 namespace KirbyNightmareInDreamLand
 {
-    public class ObjectManager
+    public sealed class ObjectManager
     {
         public List<ICollidable> DynamicObjects { get; private set; }
 
         // Need to be able to access specific objects without removing them
         public List<ICollidable> StaticObjects { get; private set; }
+        public List<ICollidable> DebugStaticObjects { get; private set; }
 
         // Single-player but can later be updated to an array of kirbys for multiplayer
         public List<IPlayer> Players { get; private set; }
 
+
+        public Player kirby { get; private set; }
+
         public IEnemy[] EnemyList { get; set; }
 
-        // Get enemies (currently one of each but can change to an array of each enemy type)
-        private IEnemy waddledeeTest;
-        private IEnemy waddledooTest;
-        private IEnemy brontoburtTest;
-        private IEnemy hotheadTest;
-        private IEnemy poppybrosjrTest;
-        private IEnemy sparkyTest;
-
-        public int CurrentEnemyIndex { get; set; }
-
+        public List<IParticle> Particles { get; private set; }
         public Sprite Item { get; set; }
 
         public string[] tileTypes { get; private set; } = new string[Constants.Level.NUMBER_OF_TILE_TYPES];
+
+        // fields and methods for score
+        public int Score { get; private set; }
+
 
         private static ObjectManager instance = new ObjectManager();
         public static ObjectManager Instance
@@ -45,47 +45,43 @@ namespace KirbyNightmareInDreamLand
                 return instance;
             }
         }
+
         public ObjectManager()
         {
             DynamicObjects = new List<ICollidable>();
             StaticObjects = new List<ICollidable>();
+            DebugStaticObjects = new List<ICollidable>();
+            Particles = new List<IParticle>();
             Players = new List<IPlayer>();
             InitializeTileTypes();
         }
 
-        public void LoadItem()
+        public void UpdateScore(int points)
         {
-            Item = SpriteFactory.Instance.CreateSprite("item_maximtomato");
+            Score += points;
         }
 
-        public void LoadObjects()
+        public void AddKirby(IPlayer Kirby)
         {
-            ObjectManager.Instance.ResetDynamicCollisionBoxes();
-            // Creates kirby object
-            //make it a list from the get go to make it multiplayer asap
-            Players = new List<IPlayer>();
-            IPlayer kirby = new Player(new Vector2(30, Constants.Graphics.FLOOR));
-            Players.Add(kirby);
-            // Target the camera on Kirby
-            Camera camera = Game1.Instance.Camera;
-            camera.TargetPlayer(Players[0]);
+            kirby = (Player) Kirby;
+            Players.Add(Kirby);
+        }
+        #region keyboard
+        public void ChangeKeyboard()
+        {
+            
+        }
+        #endregion
 
-
-            // Currently commented out since we don't need the item
-            // LoadItem();
-
-            // Creates enemies
-            waddledeeTest = new WaddleDee(new Vector2(80, Constants.Graphics.FLOOR));
-            waddledooTest = new WaddleDoo(new Vector2(80, Constants.Graphics.FLOOR));
-            brontoburtTest = new BrontoBurt(new Vector2(80, Constants.Graphics.FLOOR));
-            hotheadTest = new Hothead(new Vector2(80, Constants.Graphics.FLOOR));
-            poppybrosjrTest = new PoppyBrosJr(new Vector2(80, Constants.Graphics.FLOOR));
-            sparkyTest = new Sparky(new Vector2(80, Constants.Graphics.FLOOR));
-
-            EnemyList = new IEnemy[] { waddledeeTest, waddledooTest, brontoburtTest, hotheadTest, poppybrosjrTest, sparkyTest };
-            CurrentEnemyIndex = 0;
+        public void AddParticle(IParticle particle)
+        {
+            Particles.Add(particle);
         }
 
+        public void UpdateParticles()
+        {
+            Particles.RemoveAll(obj => obj.IsDone());
+        }
 
         #region Collision
         public void InitializeTileTypes()
@@ -112,6 +108,11 @@ namespace KirbyNightmareInDreamLand
             StaticObjects.Clear();
         }
 
+        public void ResetDebugStaticObjects()
+        {
+            DebugStaticObjects.Clear();
+        }
+
         // Register dynamic objects like Player, Enemy, Projectiles, etc.
         public void RegisterDynamicObject(ICollidable dynamicObj)
         {
@@ -121,7 +122,11 @@ namespace KirbyNightmareInDreamLand
         // Register static objects like Tiles and the PowerUp.
         public void RegisterStaticObject(ICollidable staticObj)
         {
-            if (!StaticObjects.Contains(staticObj)) StaticObjects.Add(staticObj);
+            if (!StaticObjects.Contains(staticObj))
+            {
+                StaticObjects.Add(staticObj);
+                DebugStaticObjects.Add(staticObj);
+            }
         }
 
         public void RemoveDynamicObject(ICollidable dynamicObj)
@@ -138,10 +143,19 @@ namespace KirbyNightmareInDreamLand
             DynamicObjects = DynamicObjects.OrderBy<ICollidable, String>(o => o.GetObjectType()).ToList();
         }
 
-        public void UpdateObjectLists()
+        public void UpdateDynamicObjects()
         {
-            ResetStaticObjects();
             DynamicObjects.RemoveAll(obj => !obj.CollisionActive);
+        }
+
+        public void RemoveNonPlayers()
+        {
+            DynamicObjects.RemoveAll(obj => !obj.GetObjectType().Equals("Player"));
+        }
+
+        public void ClearPlayerList()
+        {
+            Players.Clear();
         }
         #endregion
     }

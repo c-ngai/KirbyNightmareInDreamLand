@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
 using System.Collections.Generic;
 using System;
+using KirbyNightmareInDreamLand.Audio;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
@@ -82,6 +83,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             Vector2 rectPoint = CalculateRectanglePoint(Position);
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.BEAM_SIZE, Constants.HitBoxes.BEAM_SIZE);
+        }
+        public Vector2 GetPosition()
+        {
+            return Position;
         }
         public void EndAttack()
         {

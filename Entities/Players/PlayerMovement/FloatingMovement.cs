@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using KirbyNightmareInDreamLand.StateMachines;
+using KirbyNightmareInDreamLand.Audio;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -8,7 +9,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
     {
         protected float floatVel = Constants.Physics.FLOAT_VEL;
         protected float floatGravity = Constants.Physics.FLOAT_GRAVITY;
-        protected new float gravity = Constants.Physics.FLOAT_GRAVITY2;
+        //protected new float gravity = Constants.Physics.FLOAT_GRAVITY2;
         private float floatFallingWindow = Constants.Graphics.FLOOR + 50;
         protected bool endFloat = false;
         public FloatingMovement(Vector2 pos) : base(pos)
@@ -45,10 +46,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             //dont go through the floor but float state as not been terminated
             if (landed)
-            {
-                yVel =0;
-                xVel = 0;
-                
+            {   
                 kirby.ChangePose(KirbyPose.FloatingGrounded);
             }
         }
@@ -72,20 +70,27 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 AdjustYPositionWhileFloating(kirby);
             }
-
             //dont go through the ceiling
-            if (position.Y < 20)
+            if (position.Y < Constants.Kirby.CEILING)
             {
                 yVel = 0;
-                position.Y = 20;
+                position.Y = Constants.Kirby.CEILING;
+            }
+             if(position.Y > Game1.Instance.Level.CurrentRoom.Height)
+            {
+                if(kirby.CollisionActive){
+                    FallOffScreenTwo(kirby);
+                } else {
+                    FallOffScreenOne(kirby);
+                }
             }
         }
 
         public override void UpdatePosition(GameTime gameTime)
         {
+            yVel += floatGravity * dt;
             position.X += xVel;
             position.Y += yVel;
-            yVel += floatGravity;
         }
         //the animation of kirby letting air go
         public void FloatingEndAnimation(Player kirby)
@@ -108,6 +113,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             if (!kirby.GetKirbyPose().Equals("FloatingGrounded"))
             {
+                //SoundManager.Play("spitair");
                 FloatingEndAnimation(kirby);
                 floatGravity = gravity;
                 endFloat = true;

@@ -3,8 +3,10 @@ using KirbyNightmareInDreamLand.Collision;
 using KirbyNightmareInDreamLand.Commands;
 using KirbyNightmareInDreamLand.Controllers;
 using KirbyNightmareInDreamLand.Levels;
+using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Sprites;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -13,15 +15,19 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
+using static KirbyNightmareInDreamLand.Constants;
+using System.Reflection;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand
 {
-    public class LevelLoader
+    public sealed class LevelLoader
     {
         private readonly Game1 _game;
         private readonly ContentManager _content;
         private readonly GraphicsDevice _graphics;
         private CollisionResponse collisionResponse;
+        private ObjectManager manager;
 
         // Dictionary from string to Tilemap. For easily retrieving a tilemap by name.
         public Dictionary<string, int[][]> Tilemaps { get; private set; }
@@ -31,6 +37,15 @@ namespace KirbyNightmareInDreamLand
 
         // Dictionary from string to Keymap. Keymap is a List of Keymappings.
         public Dictionary<string, List<Keymapping>> Keymaps { get; private set; }
+
+        // Dictionary from string to Buttonmap. Keymap is a List of Buttonmappings.
+        public Dictionary<string, List<Buttonmapping>> Buttonmaps { get; private set; }
+
+        // Dictionary from string to Dictionary<string, Rectangle>.
+        // The outer dictionary takes object type (kirby, waddledee, etc) and the inner
+        // dictionary takes pose. Each type is required to have a "default" hitbox for
+        // when pose is unspecified.
+        public Dictionary<string, Dictionary<string, Rectangle>> Hitboxes { get; private set; }
 
 
         public SpriteFont Font { get; private set; }
@@ -53,7 +68,10 @@ namespace KirbyNightmareInDreamLand
             Tilemaps = new Dictionary<string, int[][]>();
             Rooms = new Dictionary<string, Room>();
             Keymaps = new Dictionary<string, List<Keymapping>>();
+            Buttonmaps = new Dictionary<string, List<Buttonmapping>>();
+            Hitboxes = new Dictionary<string, Dictionary<string, Rectangle>>();
             collisionResponse = CollisionResponse.Instance;
+            manager = ObjectManager.Instance;
         }
 
 
@@ -64,23 +82,41 @@ namespace KirbyNightmareInDreamLand
             LoadAllTextures();
             LoadAllSpriteAnimations(); // Dependent on textures already loaded
 
+            LoadAllSounds();
+
             LoadAllTilemaps();
             LoadAllRooms(); // Dependent on sprite animations and tilemaps already loaded
 
             LoadAllKeymaps();
+            LoadAllButtonmaps();
+
+            LoadAllHitboxes();
             SetCollisionResponses();
+
 
             // Spritefont only for debug functionality
             Font = _content.Load<SpriteFont>("DefaultFont");
 
             // Border for fullscreen letterboxing
             Borders = new Texture2D(_graphics, 1, 1);
-            Borders.SetData(new Color[] { new Color(0, 0, 0, 127) });
+            Borders.SetData(new Color[] { Color.Black });
 
         }
 
+        #region Kirby
+        public void LoadKirby()
+        {
+            // Ensures player list is empty
+            manager.ClearPlayerList();
+            manager.AddKirby(new Player(new Vector2(Constants.Kirby.STARTINGXPOSITION, Constants.Graphics.FLOOR)));
+            // Target the camera on Player 1
+            Camera camera = Game1.Instance.Camera;
+            camera.TargetPlayer(manager.Players[0]);
+        }
+        #endregion
 
 
+        #region Textures/Sprites
         // Loads a texture image given its name and filepath.
         private void LoadTexture(string textureName, string textureFilepath)
         {
@@ -123,9 +159,53 @@ namespace KirbyNightmareInDreamLand
                 LoadSpriteAnimation(data.Key, data.Value);
             }
         }
+        #endregion
 
-        
+        #region Audio
+        public void LoadAllSounds()
+        {
+            // For each file in Content/Audio
+            foreach (string filepath in Directory.GetFiles(Constants.Filepaths.AudioDirectory, "*", SearchOption.AllDirectories))
+            {
+                //Debug.WriteLine("Loading sound: " + filepath);
 
+                // Generate the content path as the relative path from /Content/ without a file extension (because monogame is dumb)
+                string directory = Path.GetDirectoryName(Path.GetRelativePath("Content", filepath));
+                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(filepath);
+                string contentPath = Path.Combine(directory, fileNameWithoutExtension);
+
+                // Load sound effect, and initialize default end behavior and next sound to nothing/null.
+                SoundEffect soundEffect = _content.Load<SoundEffect>(contentPath);
+                SoundEndBehavior soundEndBehavior = SoundEndBehavior.Nothing;
+                SoundEffect nextSound = null;
+
+                // Create a new Sound object from these three parameters and add it to Sounds
+                Sound sound = new Sound(soundEffect, soundEndBehavior, nextSound);
+                SoundManager.Sounds.Add(fileNameWithoutExtension, sound);
+            }
+
+            // Set looping sound behaviors. YES this should probably be data driven, but other stuff is more pressing rn.
+            SoundManager.Sounds["inhale"].soundEndBehavior = SoundEndBehavior.LoopNext;
+            SoundManager.Sounds["inhale"].nextSound = SoundManager.Sounds["inhale_loop"].soundEffect;
+            SoundManager.Sounds["inhale_loop"].soundEndBehavior = SoundEndBehavior.Loop;
+
+            SoundManager.Sounds["kirbyfireattack"].soundEndBehavior = SoundEndBehavior.LoopNext;
+            SoundManager.Sounds["kirbyfireattack"].nextSound = SoundManager.Sounds["kirbyfireattack_loop"].soundEffect;
+            SoundManager.Sounds["kirbyfireattack_loop"].soundEndBehavior = SoundEndBehavior.Loop;
+
+            SoundManager.Sounds["kirbysparkattack"].soundEndBehavior = SoundEndBehavior.Loop;
+
+            SoundManager.Sounds["sparkyattack"].soundEndBehavior = SoundEndBehavior.Loop;
+
+            SoundManager.Sounds["hotheadflamethrowerattack"].soundEndBehavior = SoundEndBehavior.Loop;
+
+            SoundManager.Sounds["song_vegetablevalley"].soundEndBehavior = SoundEndBehavior.LoopNext;
+            SoundManager.Sounds["song_vegetablevalley"].nextSound = SoundManager.Sounds["song_vegetablevalley_loop"].soundEffect;
+            SoundManager.Sounds["song_vegetablevalley_loop"].soundEndBehavior = SoundEndBehavior.Loop;
+        }
+        #endregion
+
+        #region Rooms/Tilemaps
         // Loads a tilemap given its name and filepath.
         private void LoadTilemap(string tilemapName, string tilemapFilepath)
         {
@@ -182,10 +262,10 @@ namespace KirbyNightmareInDreamLand
                 LoadRoom(data.Key, data.Value);
             }
         }
+        #endregion
 
-
-
-        // Loads a keymap into the keyboard.
+        #region Keyboard
+        // Loads a keymap into the keyboard controller.
         public void LoadKeymap(string keymapName)
         {
             if (Keymaps.ContainsKey(keymapName))
@@ -196,7 +276,15 @@ namespace KirbyNightmareInDreamLand
                 // Register each new key mapping
                 foreach (var mapping in Keymaps[keymapName])
                 {
-                    ICommand command = (ICommand)mapping.CommandConstructorInfo.Invoke(null);
+                    ICommand command;
+                    if (mapping.PlayerIndex != null)
+                    {
+                        command = (ICommand)mapping.CommandConstructorInfo.Invoke(new object[] { mapping.PlayerIndex });
+                    }
+                    else
+                    {
+                        command = (ICommand)mapping.CommandConstructorInfo.Invoke(null);
+                    }
                     _game.Keyboard.RegisterCommand(mapping.Key, mapping.ExecutionType, command);
                 }
             }
@@ -215,7 +303,16 @@ namespace KirbyNightmareInDreamLand
             // Fill out its fields using the JSON data strings
             keymapping.Key = (Keys)Enum.Parse(typeof(Keys), keymappingJsonData.Key);
             keymapping.ExecutionType = (ExecutionType)Enum.Parse(typeof(ExecutionType), keymappingJsonData.ExecutionType);
-            keymapping.CommandConstructorInfo = Type.GetType("KirbyNightmareInDreamLand.Commands." + keymappingJsonData.Command)?.GetConstructor(Type.EmptyTypes);
+            if (keymappingJsonData.PlayerIndex == null)
+            {
+                keymapping.CommandConstructorInfo = Type.GetType("KirbyNightmareInDreamLand.Commands." + keymappingJsonData.Command)?.GetConstructor(Type.EmptyTypes);
+            }
+            else
+            {
+                keymapping.CommandConstructorInfo = Type.GetType("KirbyNightmareInDreamLand.Commands." + keymappingJsonData.Command)?.GetConstructor( new Type[]{ typeof(int) } );
+            }
+            keymapping.PlayerIndex = keymappingJsonData.PlayerIndex;
+
 
             // Add the new keymapping to its respective list.
             if (keymapping.CommandConstructorInfo != null)
@@ -224,7 +321,7 @@ namespace KirbyNightmareInDreamLand
             }
             else
             {
-                Debug.WriteLine("LevelLoader.LoadKeymapping: ERROR: string \"" + keymappingJsonData.Command + "\" returns null from Type.GetType()");
+                Debug.WriteLine(" [ERROR] LevelLoader.LoadKeymapping: string \"" + keymappingJsonData.Command + "\" returns null from Type.GetType()");
             }
         }
 
@@ -247,25 +344,157 @@ namespace KirbyNightmareInDreamLand
                 }
             }
         }
+        #endregion
 
+        #region Gamepad
+        // Loads a buttonmap into the gamepad controller.
+        public void LoadButtonmap(string buttonmapName)
+        {
+            if (Buttonmaps.ContainsKey(buttonmapName))
+            {
+                // Clear existing button mappings in the controller
+                _game.Gamepad.ClearMappings();
+
+                // Register each new button mapping
+                foreach (Buttonmapping mapping in Buttonmaps[buttonmapName])
+                {
+                    _game.Gamepad.RegisterCommand(mapping.Button, mapping.ExecutionType, mapping.CommandConstructorInfo);
+                }
+            }
+            else
+            {
+                Debug.WriteLine($"Buttonmap '{buttonmapName}' not found.");
+            }
+        }
+
+        // Loads a buttonmapping given its name and data.
+        private void LoadButtonmapping(ButtonmappingJsonData buttonmappingJsonData, List<Buttonmapping> buttonmap)
+        {
+            // Create a new Buttonmapping object
+            Buttonmapping buttonmapping = new Buttonmapping();
+
+            // Fill out its fields using the JSON data strings
+            buttonmapping.Button = (Buttons)Enum.Parse(typeof(Buttons), buttonmappingJsonData.Button);
+            buttonmapping.ExecutionType = (ExecutionType)Enum.Parse(typeof(ExecutionType), buttonmappingJsonData.ExecutionType);
+            // Set ConstructorInfo to constructor with no parameters. If that returns null, then try a constructor that takes one integer.
+            // (ASSUMPTION THAT ALL COMMAND CONSTRUCTORS TAKE EITHER NO PARAMETERS OR ONLY ONE INTEGER)
+            buttonmapping.CommandConstructorInfo = Type.GetType("KirbyNightmareInDreamLand.Commands." + buttonmappingJsonData.Command)?.GetConstructor(Type.EmptyTypes);
+            buttonmapping.CommandConstructorInfo ??= Type.GetType("KirbyNightmareInDreamLand.Commands." + buttonmappingJsonData.Command)?.GetConstructor(new Type[] { typeof(int) });
+
+            // Add the new buttonmapping to its respective list.
+            if (buttonmapping.CommandConstructorInfo != null)
+            {
+                buttonmap.Add(buttonmapping);
+            }
+            else
+            {
+                Debug.WriteLine(" [ERROR] LevelLoader.LoadButtonmapping: string \"" + buttonmappingJsonData.Command + "\" returns null from Type.GetType()");
+            }
+        }
+
+        // Loads all buttonmaps from the .json registry.
+        public void LoadAllButtonmaps()
+        {
+            // Open the buttonmap data file and deserialize it into a dictionary.
+            Dictionary<string, List<ButtonmappingJsonData>> ButtonmapJsonDatas = JsonSerializer.Deserialize<Dictionary<string, List<ButtonmappingJsonData>>>(File.ReadAllText(Constants.Filepaths.ButtonmapRegistry), new JsonSerializerOptions());
+
+            // Run through each buttonmap json data in the dictionary
+            foreach (KeyValuePair<string, List<ButtonmappingJsonData>> ButtonmapJsonData in ButtonmapJsonDatas)
+            {
+                // Add new empty Buttonmap to the Buttonmaps dictionary.
+                Buttonmaps.Add(ButtonmapJsonData.Key, new List<Buttonmapping>());
+                // Run through each buttonmapping json data in the keymap json data
+                foreach (ButtonmappingJsonData buttonmappingJsonData in ButtonmapJsonData.Value)
+                {
+                    // Load the buttonmapping. Passes in the individual keymapping json data and a reference to the actual keymap List<Keymapping> to add it to.
+                    LoadButtonmapping(buttonmappingJsonData, Buttonmaps[ButtonmapJsonData.Key]);
+                }
+            }
+            //Debug.WriteLine("buttonmap1 size: " + Buttonmaps["buttonmap1"]);
+        }
+        #endregion
+
+        #region Hitboxes
+        // Loads a hitbox given its and data.
+        private void LoadHitbox(Dictionary<string, Rectangle> _poseDictionary, string _poseName, HitboxJsonData _hitboxJsonData)
+        {
+            Rectangle _hitbox = new Rectangle(
+                _hitboxJsonData.XOffset,
+                _hitboxJsonData.YOffset,
+                _hitboxJsonData.Width,
+                _hitboxJsonData.Height
+            );
+            _poseDictionary.Add(_poseName, _hitbox);
+        }
+
+        // Loads all hitboxes from the .json registry.
+        public void LoadAllHitboxes()
+        {
+            // Open the hitbox data file and deserialize it into a dictionary of dictionaries.
+            Dictionary<string, Dictionary<string, HitboxJsonData>> hitboxJsonDatas = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, HitboxJsonData>>>(File.ReadAllText(Constants.Filepaths.HitboxRegistry), new JsonSerializerOptions());
+
+            // Run through the json dictionary of hitbox TYPE dictionaries.
+            foreach (KeyValuePair<string, Dictionary<string, HitboxJsonData>> jsonTypeDictionary in hitboxJsonDatas)
+            {
+                // Create a hitbox POSE dictionary in Hitboxes for the current type.
+                Dictionary<string, Rectangle> poseDictionary = new Dictionary<string, Rectangle>();
+                Hitboxes.Add(jsonTypeDictionary.Key, poseDictionary);
+
+                foreach (KeyValuePair<string, HitboxJsonData> data in jsonTypeDictionary.Value)
+                {
+                    LoadHitbox(poseDictionary, data.Key, data.Value);
+                }
+            }
+        }
+
+        // Get a hitbox from an object and a pose key
+        public Rectangle GetHitbox(string objectKey, string poseKey)
+        {
+            // If the hitbox dictionary contains a hitbox set for this object
+            if (Hitboxes.ContainsKey(objectKey))
+            {
+                
+                Dictionary<string, Rectangle> poseDictionary = Hitboxes[objectKey];
+
+                // If the hitbox set for this object contains a hitbox for the given pose, return it.
+                if (poseDictionary.ContainsKey(poseKey)) 
+                {
+                    return poseDictionary[poseKey];
+                }
+                // If the hitbox set for this object does NOT contain a hitbox for the given pose, return its default hitbox.
+                else if (poseDictionary.ContainsKey("default")) 
+                {
+                    return poseDictionary["default"];
+                }
+                // If the hitbox set for this object does not contain a default hitbox, something is wrong.
+                else
+                {
+                    Debug.WriteLine("ERROR (Hitboxes.json): Hitbox set for object type \"" + objectKey + "\" does not specify a default hitbox.");
+                    return new Rectangle();
+                }
+                
+            }
+            // If the hitbox dictionary does NOT contain a hitbox set for this object
+            else
+            {
+                Debug.WriteLine("ERROR (Hitboxes.json): No hitbox set for object type \"" + objectKey + "\" is specified.");
+                return new Rectangle();
+            }
+        }
+
+        public Rectangle GetHitbox(string objectKey)
+        {
+            return GetHitbox(objectKey, "default");
+        }
+        #endregion
+
+        #region Collision Responses
         public void SetCollisionResponses()
         {
             #region Player-Tile Collisons
             String key1 = "Player";
-            String key2 = "Air";
-            Action<ICollidable, ICollidable, Rectangle> action1 = TileCollisionActions.BottomAirCollision;
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
-
-            // If we plan on implementing swimming this will need to be modified
-            key2 = "Water";
-            for (int j = 0; j < Constants.HitBoxes.SIDES; j++)
-            {
-                collisionResponse.RegisterCollision(key1, key2, (CollisionSide)j, null, null);
-            }
-
-
-            key2 = "Platform";
-            action1 = TileCollisionActions.BottomPlatformCollision;
+            String key2 = "Platform";
+            Action<ICollidable, ICollidable, Rectangle> action1 = TileCollisionActions.BottomPlatformCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
 
             key2 = "Block";
@@ -280,6 +509,7 @@ namespace KirbyNightmareInDreamLand
             action1 = TileCollisionActions.GentleLeftSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null); // Register opposite side for gentle1 bc kirby registers that side when near the top
 
             key2 = "SlopeGentle2Left";
             action1 = TileCollisionActions.MediumLeftSlopeCollison;
@@ -295,6 +525,7 @@ namespace KirbyNightmareInDreamLand
             action1 = TileCollisionActions.GentleRightSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null); // Register opposite side for gentle1 bc kirby registers that side when near the top
 
             key2 = "SlopeGentle2Right";
             action1 = TileCollisionActions.MediumRightSlopeCollision;
@@ -304,11 +535,12 @@ namespace KirbyNightmareInDreamLand
             key2 = "SlopeSteepRight";
             action1 = TileCollisionActions.SteepRightSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
             #endregion
 
             #region Enemy-Tile Collisions
             key1 = "Enemy";
+            // Is this necessary? Enemies already fall every update, I don't think we need to check for air. Either way, fall should only be called once per update. -Mark
             key2 = "Air";
             action1 = TileCollisionActions.BottomAirCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
@@ -332,6 +564,7 @@ namespace KirbyNightmareInDreamLand
             action1 = TileCollisionActions.GentleLeftSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null); // Register opposite side for gentle1 bc enemy registers that side when near the top
 
             key2 = "SlopeGentle2Left";
             action1 = TileCollisionActions.MediumLeftSlopeCollison;
@@ -347,6 +580,7 @@ namespace KirbyNightmareInDreamLand
             action1 = TileCollisionActions.GentleRightSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null); // Register opposite side for gentle1 bc enemy registers that side when near the top
 
             key2 = "SlopeGentle2Right";
             action1 = TileCollisionActions.MediumRightSlopeCollision;
@@ -356,7 +590,7 @@ namespace KirbyNightmareInDreamLand
             key2 = "SlopeSteepRight";
             action1 = TileCollisionActions.SteepRightSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
             #endregion
 
             
@@ -407,11 +641,12 @@ namespace KirbyNightmareInDreamLand
             
             #endregion
 
-            Debug.WriteLine("Dictionary after collisionMapping");
-            foreach (var collision in collisionResponse.collisionMapping)
-            {
-                Debug.WriteLine(collision);
-            }
+            //Debug.WriteLine("Dictionary after collisionMapping");
+            //foreach (var collision in collisionResponse.collisionMapping)
+            //{
+            //    Debug.WriteLine(collision);
+            //}
         }
+        #endregion
     }
 }

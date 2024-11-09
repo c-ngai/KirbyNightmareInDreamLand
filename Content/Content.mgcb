@@ -13,6 +13,267 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Audio/bounce.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/bounce.wav
+
+#begin Audio/cancel.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/cancel.wav
+
+#begin Audio/catch.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/catch.wav
+
+#begin Audio/cheeringcrowd.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/cheeringcrowd.wav
+
+#begin Audio/dash.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/dash.wav
+
+#begin Audio/deathjingle.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/deathjingle.wav
+
+#begin Audio/dropability.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/dropability.wav
+
+#begin Audio/enemydamage.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/enemydamage.wav
+
+#begin Audio/enemyexplode.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/enemyexplode.wav
+
+#begin Audio/enterdoor.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/enterdoor.wav
+
+#begin Audio/firesomething.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/firesomething.wav
+
+#begin Audio/float.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/float.wav
+
+#begin Audio/heal.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/heal.wav
+
+#begin Audio/hotheadfireballattack.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/hotheadfireballattack.wav
+
+#begin Audio/hotheadflamethrowerattack.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/hotheadflamethrowerattack.wav
+
+#begin Audio/inhale_loop.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/inhale_loop.wav
+
+#begin Audio/inhale.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/inhale.wav
+
+#begin Audio/itempickup.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/itempickup.wav
+
+#begin Audio/jump.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/jump.wav
+
+#begin Audio/kirbybeamattack.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/kirbybeamattack.wav
+
+#begin Audio/kirbydeath.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/kirbydeath.wav
+
+#begin Audio/kirbyfireattack_loop.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/kirbyfireattack_loop.wav
+
+#begin Audio/kirbyfireattack.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/kirbyfireattack.wav
+
+#begin Audio/kirbyhurt1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/kirbyhurt1.wav
+
+#begin Audio/kirbyhurt2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/kirbyhurt2.wav
+
+#begin Audio/kirbyhurtfire1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/kirbyhurtfire1.wav
+
+#begin Audio/kirbyhurtfire2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/kirbyhurtfire2.wav
+
+#begin Audio/kirbysparkattack.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/kirbysparkattack.wav
+
+#begin Audio/land.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/land.wav
+
+#begin Audio/movecursor.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/movecursor.wav
+
+#begin Audio/pause.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/pause.wav
+
+#begin Audio/powerup.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/powerup.wav
+
+#begin Audio/select.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/select.wav
+
+#begin Audio/skid.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/skid.wav
+
+#begin Audio/slide.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/slide.wav
+
+#begin Audio/song_vegetablevalley_loop.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/song_vegetablevalley_loop.wav
+
+#begin Audio/song_vegetablevalley.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/song_vegetablevalley.wav
+
+#begin Audio/sparkyattack.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/sparkyattack.wav
+
+#begin Audio/spit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/spit.wav
+
+#begin Audio/spitair.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/spitair.wav
+
+#begin Audio/spitbig.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/spitbig.wav
+
+#begin Audio/swallow.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/swallow.wav
+
+#begin Audio/waddledooattack.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/waddledooattack.wav
+
+#begin Buttonmaps.json
+/copy:Buttonmaps.json
+
 #begin DefaultFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -20,29 +281,8 @@
 /processorParam:TextureFormat=Compressed
 /build:DefaultFont.spritefont
 
-#begin Images/backgrounds.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/backgrounds.png
-
-#begin Images/collisionTileset.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/collisionTileset.png
+#begin Hitboxes.json
+/copy:Hitboxes.json
 
 #begin Images/invalidspritename.png
 /importer:TextureImporter
@@ -56,7 +296,7 @@
 /processorParam:TextureFormat=Color
 /build:Images/invalidspritename.png
 
-#begin Images/room1_level.png
+#begin Images/Level/backgrounds.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -66,9 +306,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/room1_level.png
+/build:Images/Level/backgrounds.png
 
-#begin Images/room2_level.png
+#begin Images/Level/collisionTileset.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -78,9 +318,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/room2_level.png
+/build:Images/Level/collisionTileset.png
 
-#begin Images/room3_level.png
+#begin Images/Level/room1_level.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -90,10 +330,49 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/room3_level.png
+/build:Images/Level/room1_level.png
+
+#begin Images/Level/room2_level.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Level/room2_level.png
+
+#begin Images/Level/room3_level.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Level/room3_level.png
+
+#begin Images/Level/TileSprites.txt
+/copy:Images/Level/TileSprites.txt
 
 #begin Images/SpriteAnimations.json
 /copy:Images/SpriteAnimations.json
+
+#begin Images/Spritesheets/buttons.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Spritesheets/buttons.png
 
 #begin Images/Spritesheets/doorstars.png
 /importer:TextureImporter
@@ -118,6 +397,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/Spritesheets/enemies.png
+
+#begin Images/Spritesheets/game_over_spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Spritesheets/game_over_spritesheet.png
 
 #begin Images/Spritesheets/items.png
 /importer:TextureImporter
@@ -191,6 +482,30 @@
 /processorParam:TextureFormat=Color
 /build:Images/Spritesheets/kirby_underwater.png
 
+#begin Images/Spritesheets/particles.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=0,104,0,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Spritesheets/particles.png
+
+#begin Images/Spritesheets/pause_screen_spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Spritesheets/pause_screen_spritesheet.png
+
 #begin Images/Spritesheets/projectiles.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -203,11 +518,44 @@
 /processorParam:TextureFormat=Color
 /build:Images/Spritesheets/projectiles.png
 
+#begin Images/Spritesheets/winning_screen.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Spritesheets/winning_screen.png
+
 #begin Images/Textures.txt
 /copy:Images/Textures.txt
 
-#begin Images/TileSprites.txt
-/copy:Images/TileSprites.txt
+#begin Images/UI/pause.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/UI/pause.png
+
+#begin Images/UI/ui.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/UI/ui.png
 
 #begin Keymaps.json
 /copy:Keymaps.json
@@ -217,6 +565,9 @@
 
 #begin Tilemaps.txt
 /copy:Tilemaps.txt
+
+#begin Tilemaps/game_over_tileset.csv
+/copy:Tilemaps/game_over_tileset.csv
 
 #begin Tilemaps/room1_tileset.csv
 /copy:Tilemaps/room1_tileset.csv
@@ -229,4 +580,7 @@
 
 #begin Tilemaps/testroom1.csv
 /copy:Tilemaps/testroom1.csv
+
+#begin Tilemaps/treasureroom.csv
+/copy:Tilemaps/treasureroom.csv
 

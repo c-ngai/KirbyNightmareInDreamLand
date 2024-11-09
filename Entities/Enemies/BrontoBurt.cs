@@ -9,31 +9,28 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
     public class BrontoBurt : Enemy
     {
-
-        private readonly float initialY; // initial height
         private float timeCounter = 0f; // wave time counter
 
         public BrontoBurt(Vector2 startPosition) : base(startPosition, EnemyType.BrontoBurt)
         {
             //Initialize starting Y position,
-            initialY = startPosition.Y;
             stateMachine.ChangePose(EnemyPose.FlyingSlow);
             ChangeState(new BrontoBurtFlyingSlowState(this)); // Set initial state
 
-            //TO-DO: spawn facing the direction kirby is in
-           // stateMachine.ChangeDirection();
-
-           yVel = 0;
-           xVel = Constants.BrontoBurt.MOVE_SPEED;
+            yVel = 0;
+            xVel = Constants.BrontoBurt.MOVE_SPEED;
         }
 
         public override void Move()
         {
-            //Creats Y oscillation using sin. Smooth flying motion up and down
+            // Increment the time counter to maintain oscillation
             timeCounter += Constants.BrontoBurt.WAVE_FREQUENCY;
-            position.Y = initialY + Constants.BrontoBurt.WAVE_AMPLITUDE * (float)Math.Sin(timeCounter);
 
-            //Checks to change if X value is within left/right bounds
+            // Oscillate vertically using a sine wave pattern
+            yVel = Constants.BrontoBurt.WAVE_AMPLITUDE * (float)Math.Sin(timeCounter);
+            position.Y += yVel; // Apply the Y-axis oscillation
+
+            // Move horizontally according to direction and speed
             if (stateMachine.IsLeft())
             {
                 position.X -= xVel;
@@ -42,6 +39,14 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             {
                 position.X += xVel;
             }
+
+            // Update texture if needed
+            UpdateTexture();
+        }
+
+        public override void Fall()
+        {
+            //empty- no falling
         }
 
     }

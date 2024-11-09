@@ -1,4 +1,6 @@
-﻿using KirbyNightmareInDreamLand.StateMachines;
+﻿using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Projectiles;
+using KirbyNightmareInDreamLand.StateMachines;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
     public class SparkyAttackingState : IEnemyState
     {
         private readonly Enemy _enemy;
+        private SoundInstance sound;
 
         public SparkyAttackingState(Enemy enemy)
         {
@@ -20,12 +23,13 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
         {
             _enemy.ChangePose(EnemyPose.Attacking);
             _enemy.ResetFrameCounter();
+            sound = SoundManager.CreateInstance("sparkyattack");
+            sound.Play();
         }
 
         public void Update()
         {
             _enemy.Attack(); // Perform the attack
-            _enemy.IncrementFrameCounter();
 
             // Transition to hurt state after the attack frames
             if (_enemy.FrameCounter >= Constants.Sparky.ATTACK_TIME)
@@ -35,12 +39,15 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
             }
         }
 
-        public void Exit() { }
+        public void Exit() {
+            sound.Stop();
+        }
 
         public void TakeDamage()
         {
             _enemy.ChangeState(new SparkyHurtState(_enemy));
             _enemy.UpdateTexture();
+            sound.Stop();
         }
 
         public void ChangeDirection()

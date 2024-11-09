@@ -13,7 +13,7 @@ namespace KirbyNightmareInDreamLand.Controllers
         private List<Keys> controllerKeys;
         private Dictionary<Keys, ICommand> pressedKeys;
         private Dictionary<Keys, ICommand> startKeys;
-        public Dictionary<Keys, ICommand> stopKeys { get; set; }
+        private Dictionary<Keys, ICommand> stopKeys;
 
         public Dictionary<Keys, bool> oldKeyStates { get; set; }
 
@@ -34,7 +34,7 @@ namespace KirbyNightmareInDreamLand.Controllers
             startKeys.Clear();
             stopKeys.Clear();
             controllerKeys.Clear();
-            oldKeyStates.Clear();
+            //oldKeyStates.Clear();
         }
 
         public void RegisterCommand(Keys key, ExecutionType type, ICommand command)
@@ -67,6 +67,7 @@ namespace KirbyNightmareInDreamLand.Controllers
             for (int i = 0; i < currentState.Length; i++)
             {
                 tempDict.Add(currentState[i], true);
+                //Console.WriteLine($"Key pressed: {currentState[i]}");
             }
 
             // Iterates through all relevant keybinds

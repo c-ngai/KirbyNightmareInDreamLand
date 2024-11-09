@@ -8,22 +8,40 @@ using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Collision;
 using System;
 using System.Diagnostics;
+using System.Linq;
+using KirbyNightmareInDreamLand.UI;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
+using System.Xml.Linq;
+using KirbyNightmareInDreamLand.Audio;
+using Microsoft.Xna.Framework.Input;
+using KirbyNightmareInDreamLand.GameState;
+using KirbyNightmareInDreamLand.Particles;
 
 namespace KirbyNightmareInDreamLand
 {
-    public class Game1 : Game
+    public sealed class Game1 : Game
     {
-        private SpriteBatch _spriteBatch;
-        private ObjectManager manager;
+        public SpriteBatch _spriteBatch;
+        public ObjectManager manager;
         
         public GraphicsDeviceManager Graphics { get; private set; }
         public KeyboardController Keyboard { get; private set; }
+        public GamepadController Gamepad { get; private set; }
         public MouseController MouseController { get; private set; }
+
+        private HUD hud;
 
         // Camera instance for the game
         public Camera Camera { get; private set; }
 
         public Level Level { get; private set; }
+
+        public GameOverLay gameOverLay; 
+
+        public GamePlayingState GameState;
+
+        public SoundInstance music;
 
         // Sets up single reference for game time for things such as commands which cannot get current time elsewise
         // Note this is program time and not game time 
@@ -32,6 +50,8 @@ namespace KirbyNightmareInDreamLand
         public static GameTime GameTime { get; private set; }
 
         public Stopwatch TickStopwatch { get; private set; } = new Stopwatch();
+
+        public int UpdateCounter { get; private set; }
 
 
         // Graphics settings modifiable at runtime
@@ -47,6 +67,7 @@ namespace KirbyNightmareInDreamLand
         public int WINDOW_YOFFSET { get; set; }
         public int MAX_WINDOW_WIDTH { get; set; }
         public int TARGET_FRAMERATE { get; set; }
+        public bool PAUSED = false;
 
         private static Game1 _instance;
         public static Game1 Instance
@@ -77,6 +98,8 @@ namespace KirbyNightmareInDreamLand
             WINDOW_YOFFSET = 0;
             TARGET_FRAMERATE = 60;
 
+            UpdateCounter = 0;
+
             TargetElapsedTime = TimeSpan.FromMilliseconds(1000f / TARGET_FRAMERATE);
 
             #region set max window width
@@ -105,9 +128,16 @@ namespace KirbyNightmareInDreamLand
             Graphics.ApplyChanges();
 
             Keyboard = new KeyboardController();
+            Gamepad = new GamepadController();
             MouseController = new MouseController();
 
+            GamePad.InitDatabase();
+            
+            SoundEffect.Initialize();
+
             base.Initialize();
+
+            gameOverLay = new GameOverLay();
         }
 
         protected override void LoadContent()
@@ -124,8 +154,8 @@ namespace KirbyNightmareInDreamLand
             // Load all content through LevelLoader
             LevelLoader.Instance.LoadAllContent();
 
-            // Load all objects
-            manager.LoadObjects();
+            // Load player
+            LevelLoader.Instance.LoadKirby();
 
             // Create level instance and load initial room
             Level = new Level();
@@ -133,85 +163,122 @@ namespace KirbyNightmareInDreamLand
 
             // Load the desired keymap by name
             LevelLoader.Instance.LoadKeymap("keymap1");
+            LevelLoader.Instance.LoadButtonmap("buttonmap1");
+
+            music = SoundManager.CreateInstance("song_vegetablevalley");
+            music?.Play();
+
+            hud = new HUD(manager.kirby);
         }
+
+
 
         protected override void UnloadContent()
         {
 
         }
 
-        List<IEnemy> enemyList2 = new List<IEnemy>(); // FOR PERFORMANCE TESTING
         protected override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            
             time = gameTime;
+
+            GameDebug.Instance.ResetCounters();
 
             // Reset timer for calculating max fps
             TickStopwatch.Restart();
 
+            // can put in a list of controllers and update in foreach 
             Keyboard.Update();
+            Gamepad.Update();
             MouseController.Update();
 
             GameTime = gameTime;
 
-            foreach(IPlayer player in manager.Players) player.Update(time);
-            manager.EnemyList[manager.CurrentEnemyIndex].Update(time);
+            Level.UpdateLevel();
+            
+            manager.ResetDebugStaticObjects();
+            manager.OrganizeList();
 
-            //enemyList2.Add(new Hothead(new Vector2(170, 100))); // FOR PERFORMANCE TESTING
-            foreach (IEnemy enemy in enemyList2) enemy.Update(time); // FOR PERFORMANCE TESTING
-            manager.EnemyList[manager.CurrentEnemyIndex].Update(time);
-
-            ObjectManager.Instance.OrganizeList();
 
             CollisionDetection.Instance.CheckCollisions();
 
-            Level.UpdateLevel();
-
             Camera.Update();
+
+            foreach (IParticle particle in manager.Particles) particle.Update();
+
+            manager.UpdateParticles();
+
+
+            SoundManager.Update();
+            //_transitioning.Update();
+
+            UpdateCounter++;
         }
 
 
-
+        
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.White);
-            base.Draw(gameTime);
+                GraphicsDevice.Clear(Color.White);
+                base.Draw(gameTime);
 
-            // Level spritebatch
-            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.LevelMatrix);
-            // Draw level
-            Level.Draw(_spriteBatch);
-            // Draw only selected enemy
-            // enemyList[currentEnemyIndex].Draw(spriteBatch);
-            foreach (IEnemy enemy in enemyList2) enemy.Draw(_spriteBatch); // FOR PERFORMANCE TESTING
+                // Level spritebatch
+                //RasterizerState rasterizerState = new RasterizerState { ScissorTestEnable = true };
+                //GraphicsDevice.ScissorRectangle = Camera.ScissorRectangle;
+                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Camera.LevelMatrix);
+                // Draw level
+                Level.Draw();
 
-            // Draw kirby
-            foreach(IPlayer player in manager.Players) player.Draw(_spriteBatch);
+                // Draw kirby
+                //foreach(IPlayer player in manager.Players) player.Draw(_spriteBatch);
 
-            // Not currently using item
-            // item.Draw(new Vector2(200, 150), spriteBatch);
-            if (DEBUG_COLLISION_MODE)
-            {
-                CollisionDetection.Instance.DebugDraw(_spriteBatch);
-            }
-            _spriteBatch.End();
+                if (Level.IsCurrentState("KirbyNightmareInDreamLand.GameState.GameTransitioningState"))
+                {
+                    gameOverLay.DrawFade(Level.FadeAlpha);
+                }
 
-            // Static spritebatch
-            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.ScreenMatrix);
-            _spriteBatch.End();
+                // Draw particles
+                foreach (IParticle particle in manager.Particles) particle.Draw(_spriteBatch);
 
-            // Stop timer for calculating max fps
-            TickStopwatch.Stop();
+                // Not currently using item
+                // item.Draw(new Vector2(200, 150), spriteBatch);
+                if (DEBUG_COLLISION_MODE)
+                {
+                    CollisionDetection.Instance.DebugDraw(_spriteBatch);
+                }
+
+                // Draws the debug position log
+                GameDebug.Instance.DrawPositionLog(_spriteBatch, Color.Red, 1.0f);
+
+                _spriteBatch.End();
+
+                // Static spritebatch
+                // Temporarily disable culling for the static spritebatch, LAZY FIX, WILL IMPLEMENT PROPER FIX LATER -Mark
+                bool old_CULLING_ENABLED = CULLING_ENABLED;
+                CULLING_ENABLED = false;
+
+                _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.ScreenMatrix);
+                hud.Draw(_spriteBatch);
+                _spriteBatch.End();
+                // Restore old culling mode
+                CULLING_ENABLED = old_CULLING_ENABLED;
+
+                // Stop timer for calculating max fps
+                TickStopwatch.Stop();
+                
+                // Draw Debug Text
+                if (DEBUG_TEXT_ENABLED)
+                {
+                    GameDebug.Instance.DrawDebugText(_spriteBatch);
+                }
+
+                // Draw borders (should only be visible in fullscreen for letterboxing)
+                GameDebug.Instance.DrawBorders(_spriteBatch);
+
+                //manager.UpdateObjectLists();
             
-            // Draw Debug Text
-            if (DEBUG_TEXT_ENABLED)
-            {
-                GameDebug.Instance.DrawDebugText(_spriteBatch);
-            }
-            // Draw borders (should only be visible in fullscreen for letterboxing)
-            GameDebug.Instance.DrawBorders(_spriteBatch);
-
-            manager.UpdateObjectLists();
         }
 
     }
