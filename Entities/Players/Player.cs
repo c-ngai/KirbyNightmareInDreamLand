@@ -377,6 +377,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void EndSlide()
         {
             if(state.IsSliding()){
+                movement.EndSlide();
                 movement.StopMovement(); //set vel to 0
                 ChangePose(KirbyPose.Crouching); //set back to crouching
                 //ChangeAttackBool(false);  //stop attack mode
@@ -390,9 +391,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void EndCrouch()
         {
-            if(state.IsCrouching()){
+            //if(state.IsCrouching()){
                 EndSlide(); //if sliding changes to standin
-                movement.EndSlide();
                 ChangeMovement(); //change to normal
                 StopMoving(); //set vel to 0 and standing
                 if(attack != null)// && attack.IsDone())
@@ -400,7 +400,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     attack.EndAttack();
                     attack = null;
                 }
-            } 
+            //} 
         }
         #endregion
         

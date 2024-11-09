@@ -120,7 +120,7 @@ namespace KirbyNightmareInDreamLand.StateMachines
 
         public bool LongAttack()
         {
-            return (GetKirbyType() == KirbyType.Normal && !IsCrouching()) || (GetKirbyType() == KirbyType.Fire) || (GetKirbyType() == KirbyType.Spark);
+            return (GetKirbyType() == KirbyType.Normal && !IsCrouching()) && ((GetKirbyType() == KirbyType.Fire) || (GetKirbyType() == KirbyType.Spark));
         }
         public bool ShortAttack()
         {
