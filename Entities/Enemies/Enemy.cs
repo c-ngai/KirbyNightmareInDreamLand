@@ -189,7 +189,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 UpdateTexture();
             }*/
 
-            if (CollisionActive && !IsDead && Game1.Instance.Camera.GetEnemyBounds().Contains(position.ToPoint()))
+            if (CollisionActive && !IsDead /*&& Game1.Instance.Camera.GetEnemyBounds().Contains(position.ToPoint())*/)
             {
                 IncrementFrameCounter();
                 currentState.Update();
@@ -207,12 +207,13 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             //Draw if enemy is alive and 
-            if (CollisionActive && !IsDead && Game1.Instance.Camera.GetEnemyBounds().Contains(position.ToPoint()))
+            if (CollisionActive && !IsDead /* && Game1.Instance.Camera.GetEnemyBounds().Contains(position.ToPoint())*/)
             {
                 enemySprite.Draw(position, spriteBatch);
                 //spriteBatch.DrawString(LevelLoader.Instance.Font, frameCounter.ToString(), position, Color.Black);
             }
 
+            /*
             // TO-DO: Should this be in Draw or update?
             //respawn enemy if dead but just outside camera bounds
             else if (IsDead && Game1.Instance.Camera.GetEnemyBounds().Contains(spawnPosition.ToPoint()))
@@ -224,7 +225,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 position = spawnPosition;
                 frameCounter = 0;
                 UpdateTexture();
-            }          
+            }          */
         }
 
         public virtual void Attack() { }
