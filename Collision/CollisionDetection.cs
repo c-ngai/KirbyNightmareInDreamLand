@@ -208,19 +208,19 @@ namespace KirbyNightmareInDreamLand
             return IntersectingTiles(collisionRectangle, Vector2.Zero);
         }
 
-        private Color green = new Color(Constants.Debug.GREEN_R, Constants.Debug.GREEN_G, Constants.Debug.GREEN_B);
+        private Color green = new Color(Constants.DebugValues.GREEN_R, Constants.DebugValues.GREEN_G, Constants.DebugValues.GREEN_B);
         public void DebugDraw(SpriteBatch spriteBatch)
         {
             foreach (var staticObj in manager.DebugStaticObjects)
             {
-                GameDebug.Instance.DrawRectangle(spriteBatch, staticObj.GetHitBox(), green, Constants.Debug.GREEN_ALPHA);
+                GameDebug.Instance.DrawRectangle(spriteBatch, staticObj.GetHitBox(), green, Constants.DebugValues.GREEN_ALPHA);
             }
 
             foreach (var dynamicObj in manager.DynamicObjects)
             {
                 if (dynamicObj.CollisionActive)
                 {
-                    GameDebug.Instance.DrawRectangle(spriteBatch, dynamicObj.GetHitBox(), Color.Red, Constants.Debug.RED_ALPHA);
+                    GameDebug.Instance.DrawRectangle(spriteBatch, dynamicObj.GetHitBox(), Color.Red, Constants.DebugValues.RED_ALPHA);
                 }
             }
         }
