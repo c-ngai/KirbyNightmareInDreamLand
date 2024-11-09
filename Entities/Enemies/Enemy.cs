@@ -194,10 +194,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             if (CollisionActive && !IsDead)
             {
                 enemySprite.Draw(position, spriteBatch);
-            }
-            else
-            {
-                ObjectManager.Instance.RemoveDynamicObject(this); // Deregister if dead
+                //spriteBatch.DrawString(LevelLoader.Instance.Font, frameCounter.ToString(), position, Color.Black);
             }
         }
 
@@ -211,7 +208,19 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             position.Y += yVel;  // Apply the updated velocity to the enemy's Y position
         }
 
-        public abstract void Move();
+        public virtual void Move()
+        {
+            // Walking back and forth in X axis 
+            if (stateMachine.IsLeft())
+            {
+                position.X -= xVel;
+            }
+            else
+            {
+                position.X += xVel;
+            }
+            UpdateTexture();
+        }
 
         public virtual Vector2 CalculateRectanglePoint(Vector2 pos)
         {

@@ -196,8 +196,9 @@ namespace KirbyNightmareInDreamLand
 
             Level.UpdateLevel();
 
-                ObjectManager.Instance.OrganizeList();
+            ObjectManager.Instance.OrganizeList();
 
+            ObjectManager.Instance.ResetDebugStaticObjects();
             CollisionDetection.Instance.CheckCollisions();
 
             Camera.Update();
