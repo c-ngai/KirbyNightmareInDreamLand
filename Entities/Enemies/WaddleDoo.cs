@@ -72,8 +72,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 yVel = -Constants.WaddleDoo.JUMP_VELOCITY;
             }
 
-            //position.Y += yVel;
-
             Move();
         }
 

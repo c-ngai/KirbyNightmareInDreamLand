@@ -30,6 +30,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             timeCounter += Constants.BrontoBurt.WAVE_FREQUENCY;
             position.Y = initialY + Constants.BrontoBurt.WAVE_AMPLITUDE * (float)Math.Sin(timeCounter);
 
+            // yVel = -Constants.WaddleDoo.JUMP_VELOCITY;
+            //instead of changing position.Y directly, change yVel using sin?
+
+
             //Checks to change if X value is within left/right bounds
             if (stateMachine.IsLeft())
             {
