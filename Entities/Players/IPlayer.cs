@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using KirbyNightmareInDreamLand.Sprites;
 using System;
 using KirbyNightmareInDreamLand.StateMachines;
+using KirbyNightmareInDreamLand.Levels;
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
     public interface IPlayer : IEntity

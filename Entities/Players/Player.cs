@@ -559,7 +559,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void BottomCollisionWithPlatform(Rectangle intersection)
         {
-            movement.AdjustFromBottomCollisionPlatform(intersection);
+            movement.AdjustFromBottomCollisionPlatform(intersection, state);
         }
         public void BottomCollisionWithAir(Rectangle intersection)
         {
