@@ -188,7 +188,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             await Task.Delay(Constants.WaitTimes.DELAY_1500);
             DeathSpin();
         }
-        public async void DeathSpin()
+        public void DeathSpin()
         {
             //wait a beat
             SoundManager.Play("deathjingle");
