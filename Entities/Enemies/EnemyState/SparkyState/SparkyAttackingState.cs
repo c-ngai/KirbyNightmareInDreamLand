@@ -47,6 +47,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
         {
             _enemy.ChangeState(new SparkyHurtState(_enemy));
             _enemy.UpdateTexture();
+            sound.Stop();
         }
 
         public void ChangeDirection()

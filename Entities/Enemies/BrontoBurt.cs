@@ -52,11 +52,5 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             //empty- no falling
         }
 
-        public override void ChangeDirection()
-        {
-            currentState.ChangeDirection();
-            timeCounter = 0f;
-        }
-
     }
 }
