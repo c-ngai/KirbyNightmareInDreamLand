@@ -189,7 +189,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 UpdateTexture();
             }*/
 
-            if (CollisionActive && !IsDead)
+            if (CollisionActive && !IsDead && Game1.Instance.Camera.GetEnemyBounds().Contains(position.ToPoint()))
             {
                 IncrementFrameCounter();
                 currentState.Update();
@@ -206,8 +206,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            //Draw if enemy is alive
-            if (CollisionActive && !IsDead)
+            //Draw if enemy is alive and 
+            if (CollisionActive && !IsDead && Game1.Instance.Camera.GetEnemyBounds().Contains(position.ToPoint()))
             {
                 enemySprite.Draw(position, spriteBatch);
                 //spriteBatch.DrawString(LevelLoader.Instance.Font, frameCounter.ToString(), position, Color.Black);
