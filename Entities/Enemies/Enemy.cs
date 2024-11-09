@@ -151,7 +151,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             CollisionActive = false;
         }
 
-        public void ChangeDirection()
+        public virtual void ChangeDirection()
         {
             currentState.ChangeDirection();
         }

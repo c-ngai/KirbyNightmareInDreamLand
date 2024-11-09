@@ -148,7 +148,7 @@ namespace KirbyNightmareInDreamLand
 
         public class Kirby
         {
-            public const int MAX_HEALTH = 1;
+            public const int MAX_HEALTH = 5;
             public const int MAX_LIVES = 10;
             public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(13, -7);
             public static Vector2 BEAM_ATTACK_OFFSET_LEFT = new Vector2(-13, -7);
@@ -256,7 +256,7 @@ namespace KirbyNightmareInDreamLand
             public class BrontoBurt
         {
             public const float MOVE_SPEED = 0.5f;
-            public const float WAVE_AMPLITUDE = 10f; // height of wave
+            public const float WAVE_AMPLITUDE = 0.5f; // height of wave
             public const float WAVE_FREQUENCY = 0.05f; // wave speed
             public const int HURT_FRAMES = 50;
             public const int SLOW_FLY_FRAMES = 100;
