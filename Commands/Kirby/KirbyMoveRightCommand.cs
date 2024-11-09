@@ -1,5 +1,6 @@
 ﻿using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Entities.Players;
+using KirbyNightmareInDreamLand.Particles;
 using KirbyNightmareInDreamLand.Time;
 using System.Collections.Generic;
 
@@ -54,6 +55,8 @@ namespace KirbyNightmareInDreamLand.Commands
                 if (shouldRun && !wasDashing)
                 {
                     SoundManager.Play("dash");
+                    bool isLeft = false;
+                    IParticle cloud = new Cloud(_players[playerIndex].movement.GetPosition(), isLeft);
                 }
 
                 // Update wasDashing to match shouldRun for the next frame

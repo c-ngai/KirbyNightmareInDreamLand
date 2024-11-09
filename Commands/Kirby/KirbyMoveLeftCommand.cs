@@ -1,7 +1,9 @@
 ﻿using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Entities.Players;
+using KirbyNightmareInDreamLand.Particles;
 using KirbyNightmareInDreamLand.Time;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace KirbyNightmareInDreamLand.Commands
 {
@@ -52,10 +54,12 @@ namespace KirbyNightmareInDreamLand.Commands
                     (currentTime - timeOfLastExecution < Constants.Controller.RESPONSE_TIME) :
                     (currentTime - timeOfLastExecution < Constants.Controller.RESPONSE_TIME) && (currentFrame > frameOfLastExecution + 1);
 
-                // Play dash sound on transition from walking to dashing
+                // Play dash sound and animation on transition from walking to dashing 
                 if (shouldRun && !wasDashing)
                 {
                     SoundManager.Play("dash");
+                    bool isLeft = true;
+                    IParticle cloud = new Cloud(_players[playerIndex].movement.GetPosition(), isLeft);
                 }
 
                 // Update wasDashing to match shouldRun for the next frame

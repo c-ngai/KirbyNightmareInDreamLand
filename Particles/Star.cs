@@ -14,45 +14,45 @@ namespace KirbyNightmareInDreamLand.Particles
         private Vector2[] SpawnPoints = new[] { Constants.Particle.STAR_OFFSET_TOPLEFT, Constants.Particle.STAR_OFFSET_TOP, Constants.Particle.STAR_OFFSET_TOPRIGHT,
             Constants.Particle.STAR_OFFSET_LEFT, Constants.Particle.STAR_OFFSET_RIGHT, Constants.Particle.STAR_OFFSET_BOTTOMLEFT, Constants.Particle.STAR_OFFSET_BOTTOM,
             Constants.Particle.STAR_OFFSET_BOTTOMRIGHT};
-        private Vector2 spawnPoint;
+        private Vector2 offset;
         private bool completed;
 
         public Star(Vector2 kirbyPosition)
         {
             randomGenerator = new Random();
-            spawnPoint = SpawnPoints[randomGenerator.Next(0, 8)];
+            
+            // Randomly generates the star at one of the 8 possible offsets 
+            offset = SpawnPoints[randomGenerator.Next(Constants.Particle.STARPOSITION1, Constants.Particle.STARPOSITION8)];
 
-            position = kirbyPosition + spawnPoint;
-            sprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_right");
+            position = kirbyPosition + offset;
+            sprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_star_right");
+            ObjectManager.Instance.AddParticle(this);
             completed = false;
         }
 
         public void Update()
         {
-            if (frameCount < Constants.Puff.MAX_FRAMES)
+            if (frameCount < Constants.Particle.STAR_MAX_FRAMES)
             {
                 sprite.Update();
-                position += spawnPoint;
+                position += offset;
                 frameCount++;
             }
             else
             {
-                completed = true;
                 sprite = null;
+                completed = true;
             }
-        }
-
-        public bool isDone()
-        {
-            return completed;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (!completed && sprite != null)
-            {
-                sprite.Draw(position, spriteBatch);
-            }
+            sprite.Draw(position, spriteBatch);
+        }
+
+        public bool IsDone()
+        {
+            return completed;
         }
     }
 }

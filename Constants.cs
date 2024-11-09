@@ -162,6 +162,7 @@ namespace KirbyNightmareInDreamLand
             public const float INVINCIBLE_TIME = 3;
             public const int MAX_HEALTH = 6;
             public const int MAX_LIVES = 3;
+            public const int STARTINGXPOSITION = 30;
             public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(13, -7);
             public static Vector2 BEAM_ATTACK_OFFSET_LEFT = new Vector2(-13, -7);
             public static Vector2 PUFF_ATTACK_OFFSET = new Vector2(15, 0);
@@ -349,15 +350,21 @@ namespace KirbyNightmareInDreamLand
 
         public class Particle
         {
-            public static Vector2 STAR_OFFSET_TOPLEFT = new Vector2(-4, -10);
-            public static Vector2 STAR_OFFSET_TOP = new Vector2(0, -10);
-            public static Vector2 STAR_OFFSET_TOPRIGHT = new Vector2(4, -10);
-            public static Vector2 STAR_OFFSET_LEFT = new Vector2(-4, -5);
-            public static Vector2 STAR_OFFSET_RIGHT = new Vector2(4, -5);
-            public static Vector2 STAR_OFFSET_BOTTOMLEFT = new Vector2(-4, 0);
-            public static Vector2 STAR_OFFSET_BOTTOM = new Vector2(0, 0);
-            public static Vector2 STAR_OFFSET_BOTTOMRIGHT = new Vector2(4, 0);
+            public static Vector2 STAR_OFFSET_TOPLEFT = new Vector2(-1, -1);
+            public static Vector2 STAR_OFFSET_TOP = new Vector2(0, -1);
+            public static Vector2 STAR_OFFSET_TOPRIGHT = new Vector2(1, -1);
+            public static Vector2 STAR_OFFSET_LEFT = new Vector2(-1, 0);
+            public static Vector2 STAR_OFFSET_RIGHT = new Vector2(1, 0);
+            public static Vector2 STAR_OFFSET_BOTTOMLEFT = new Vector2(-1, 1);
+            public static Vector2 STAR_OFFSET_BOTTOM = new Vector2(0, 1);
+            public static Vector2 STAR_OFFSET_BOTTOMRIGHT = new Vector2(1, 1);
+            public static int STARPOSITION1 = 0;
+            public static int STARPOSITION8 = 7;
+            public static int STAR_MAX_FRAMES = 15;
 
+            public static Vector2 CLOUD_OFFSET_LEFT = new Vector2(-2, 0);
+            public static Vector2 CLOUD_OFFSET_RIGHT = new Vector2(2, 0);
+            public static int CLOUD_MAX_FRAMES = 10;
         }
 
         public class HUD
