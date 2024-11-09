@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace KirbyNightmareInDreamLand
 {
-    public class CollisionDetection
+    public sealed class CollisionDetection
     {
         private ObjectManager manager { get; }
         private CollisionResponse response { get; }
@@ -96,11 +96,12 @@ namespace KirbyNightmareInDreamLand
 
                         string type2 = staticObj.GetObjectType();
                         Tuple<string, string, CollisionSide> key = new Tuple<string, string, CollisionSide>(type1, type2, side);
+                        // Collision detection does not care about the response dictionary but debug does to accurately keep track of dynamic execution calls
                         if (response.collisionMapping.ContainsKey(key))
                         {
-                            response.ExecuteCollision(dynamicObj, staticObj, side);
                             GameDebug.Instance.NumOfStaticExecuteCollisionCalls++;
-                        } 
+                        }
+                        response.ExecuteCollision(dynamicObj, staticObj, side);
                     }
                 }
                 // Clears relevant tiles after each dynamic object
@@ -128,11 +129,13 @@ namespace KirbyNightmareInDreamLand
                         string type2 = manager.DynamicObjects[j].GetObjectType();
                         
                         Tuple<string, string, CollisionSide> key = new Tuple<string, string, CollisionSide>(type1, type2, side);
+
+                        // Collision detection does not care about the response dictionary but debug does to accurately keep track of dynamic execution calls
                         if (response.collisionMapping.ContainsKey(key))
                         {
-                            response.ExecuteCollision(manager.DynamicObjects[i], manager.DynamicObjects[j], side);
                             GameDebug.Instance.NumOfDynamicExecuteCollisionCalls++;
-                        } 
+                        }
+                        response.ExecuteCollision(manager.DynamicObjects[i], manager.DynamicObjects[j], side);
                     }
                 }
                 // Removes dynamic objects that are no longer active after checking a dynamic object with all other possibilies

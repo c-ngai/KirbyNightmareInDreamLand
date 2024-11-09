@@ -20,7 +20,7 @@ using KirbyNightmareInDreamLand.Particles;
 
 namespace KirbyNightmareInDreamLand
 {
-    public class Game1 : Game
+    public sealed class Game1 : Game
     {
         public SpriteBatch _spriteBatch;
         public ObjectManager manager;
@@ -155,7 +155,7 @@ namespace KirbyNightmareInDreamLand
             LevelLoader.Instance.LoadAllContent();
 
             // Load player
-            manager.LoadKirby();
+            LevelLoader.Instance.LoadKirby();
 
             // Create level instance and load initial room
             Level = new Level();
