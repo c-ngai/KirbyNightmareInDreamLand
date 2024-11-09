@@ -20,11 +20,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             stateMachine.ChangePose(EnemyPose.FlyingSlow);
             ChangeState(new BrontoBurtFlyingSlowState(this)); // Set initial state
 
-            //TO-DO: spawn facing the direction kirby is in
-           // stateMachine.ChangeDirection();
-
-           yVel = 0;
-           xVel = Constants.BrontoBurt.MOVE_SPEED;
+            yVel = 0;
+            xVel = Constants.BrontoBurt.MOVE_SPEED;
         }
 
         public override void Move()
@@ -32,6 +29,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             //Creats Y oscillation using sin. Smooth flying motion up and down
             timeCounter += Constants.BrontoBurt.WAVE_FREQUENCY;
             position.Y = initialY + Constants.BrontoBurt.WAVE_AMPLITUDE * (float)Math.Sin(timeCounter);
+
+            // yVel = -Constants.WaddleDoo.JUMP_VELOCITY;
+            //instead of changing position.Y directly, change yVel using sin?
+
 
             //Checks to change if X value is within left/right bounds
             if (stateMachine.IsLeft())

@@ -1,0 +1,43 @@
+Author of Code Review: Gwyn Barnholtz
+Date: 11/8
+Sprint 4
+Reviewing: SoundManager.cs
+Author of .cs file: Mark
+Number of minutes to complete review: 10
+################################################################################ 
+
+10 Code Smells
+
+Long Functions
+Large Class
+Long Parameters
+Duplicate Code
+Feature Envy
+Switch Statements
+Shotgun Surgery
+Same Name, Different Meaning
+Data Clumps
+Temporary Field
+
+################################################################################
+
+Comments on Code Smells:
+	There are no long functions, as each is under 15 lines. The class is a good 
+	size with only a handful of functions. You utilize multiple classes (Sound.cs 
+	and SoundInstance.cs) very well to make each class concise and cohesive. There 
+	is a max of 1 parameter which is good. There is some duplicate code, however, 
+	it is for a good reason- to be able to create a sound in multiple ways depending 
+	on circumstances to call. There isn’t any feature envy and all code is cohesive. 
+	There are no switch statements, everything seems easily modifyable without hard 
+	consequences, and there are no duplicate names. There isn’t any temporary fields 
+	or data clumps.
+
+	Overall, the code seems maintainable and effective. Great job!
+
+Comments on Quality:
+	As the person who implemented all the sounds within the game, you did an amazing 
+	job streamlining this process. Your Sound system allows the user to have looping 
+	audios, using play() and stop(), while also allowing just a single 1-time sound 
+	easy to play. This code is super amazing to use, and with your comments, I can 
+	understand what you’re doing every step. Great work!
+

@@ -196,8 +196,9 @@ namespace KirbyNightmareInDreamLand
 
             Level.UpdateLevel();
 
-                ObjectManager.Instance.OrganizeList();
+            ObjectManager.Instance.OrganizeList();
 
+            ObjectManager.Instance.ResetDebugStaticObjects();
             CollisionDetection.Instance.CheckCollisions();
 
             Camera.Update();
@@ -212,7 +213,6 @@ namespace KirbyNightmareInDreamLand
         
         protected override void Draw(GameTime gameTime)
         {
-            //if(!PAUSED) {
                 GraphicsDevice.Clear(Color.White);
                 base.Draw(gameTime);
 
@@ -267,7 +267,7 @@ namespace KirbyNightmareInDreamLand
                 GameDebug.Instance.DrawBorders(_spriteBatch);
 
                 //manager.UpdateObjectLists();
-            //}
+            
         }
 
     }

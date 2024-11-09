@@ -63,20 +63,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             return stateMachine.IsLeft() ? new Vector2(position.X - 17, position.Y - 7) : new Vector2(position.X + 17, position.Y - 7);
         }
 
-        public override void Move()
-        {
-            //X moevement left and right. Turns around at left/right boundary
-            if (stateMachine.IsLeft())
-            {
-                position.X -= xVel;
-            }
-            else
-            {
-                position.X += xVel;
-            }
-            UpdateTexture();
-        }
-
         public override void Jump()
         {
             if (!isJumping)
@@ -85,8 +71,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 isJumping = true;
                 yVel = -Constants.WaddleDoo.JUMP_VELOCITY;
             }
-
-            //position.Y += yVel;
 
             Move();
         }

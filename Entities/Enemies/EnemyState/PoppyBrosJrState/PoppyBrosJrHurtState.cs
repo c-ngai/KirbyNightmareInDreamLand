@@ -17,7 +17,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState
         }
         public void Enter()
         {
-            _enemy.ChangePose(EnemyPose.Hop);
+            _enemy.ChangePose(EnemyPose.Hurt);
             _enemy.ResetFrameCounter(); 
             _enemy.Health -= 1;
         }

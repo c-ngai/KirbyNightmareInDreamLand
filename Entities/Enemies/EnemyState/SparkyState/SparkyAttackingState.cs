@@ -30,7 +30,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
         public void Update()
         {
             _enemy.Attack(); // Perform the attack
-            _enemy.IncrementFrameCounter();
 
             // Transition to hurt state after the attack frames
             if (_enemy.FrameCounter >= Constants.Sparky.ATTACK_TIME)

@@ -65,6 +65,9 @@ namespace KirbyNightmareInDreamLand
             public const int TILE_SIZE = 16;
             public const int NUMBER_OF_TILE_TYPES = 10;
             public static Vector2 BOTTOM_MIDDLE_OF_TILE = new Vector2(TILE_SIZE / 2, TILE_SIZE);
+            public static Vector2 ROOM1_SPAWN_POINT = new Vector2(2, 4);
+            public static Vector2 GAME_OVER_SPAWN_POINT = new Vector2(2, 7);
+
         }
 
         public static class Collision
@@ -276,6 +279,7 @@ namespace KirbyNightmareInDreamLand
             public const float MOVE_SPEED = 0.5f;
             public const float JUMP_VELOCITY = 1.5f;
             public const int HURT_FRAMES = 50;
+            public const int PAUSE_TIME = 1;
 
         }
 
@@ -343,11 +347,27 @@ namespace KirbyNightmareInDreamLand
             public const int HEALTH_INIT_X = 104;
             public const int HEALTH_Y = 146;
             public const int HEALTH_NEXT_X = 8;
+        }
 
+        public class RoomStrings
+        {
+            public const string ROOM_1 = "room_1";
+            public const string GAME_OVER_ROOM = "game_over";
+            public const string LEVEL_COMPLETE_ROOM = "winner_room";
+        }
 
+        public class ButtonLocations
+        {
+            public static Vector2 GAMEOVER_BUTTONS = new Vector2(136, 71);
+            public static Vector2 LEVEL_COMPLETE_BUTTONS = new Vector2(125, 80);
+        }
 
-
-
+        public class Transition
+        {
+            public const float FADE_SPEED = 0.05f;
+            public const float FADE_OUT_START = 0.0f;
+            public const float FADE_VALUE_OPAQUE = 1.0f;
+            public const float FADE_VALUE_TRANSPARENT = 0.05f;
 
         }
     }
