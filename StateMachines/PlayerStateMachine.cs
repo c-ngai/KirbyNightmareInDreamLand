@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace KirbyNightmareInDreamLand.StateMachines
 {
     public class PlayerStateMachine : IPlayerStateMachine
@@ -6,9 +8,11 @@ namespace KirbyNightmareInDreamLand.StateMachines
         private bool facingLeft;
         private KirbyPose pose;
         private KirbyType type;
+        private int colorIndex;
 
-        public PlayerStateMachine()
+        public PlayerStateMachine(int playerIndex)
         {
+            colorIndex = playerIndex % 4;
             facingLeft = false;
             pose = KirbyPose.Standing;
             type = KirbyType.Normal;
@@ -130,7 +134,7 @@ namespace KirbyNightmareInDreamLand.StateMachines
         public string[] GetSpriteParameters()
         {
             string[] spriteParameters = new string[4];
-            spriteParameters[0] = "kirby";
+            spriteParameters[0] = "kirby" + colorIndex;
             spriteParameters[1] = type.ToString().ToLower();
             spriteParameters[2] = pose.ToString().ToLower();
             spriteParameters[3] = facingLeft ? "left" : "right";
@@ -142,7 +146,7 @@ namespace KirbyNightmareInDreamLand.StateMachines
             string power = type.ToString().ToLower();
             string posing = pose.ToString().ToLower();
             string facing = facingLeft ? "left" : "right";
-            return "kirby_" + power + "_" + posing + "_" + facing;
+            return "kirby" + colorIndex + "_" + power + "_" + posing + "_" + facing;
         }
 
         public bool IsInAir()

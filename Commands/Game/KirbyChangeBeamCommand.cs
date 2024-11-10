@@ -6,7 +6,10 @@ namespace KirbyNightmareInDreamLand.Commands
 
         public void Execute()
         {
-            ObjectManager.Instance.Players[0].ChangeToBeam();
+            foreach (IPlayer player in ObjectManager.Instance.Players)
+            {
+                player.ChangeToBeam();
+            }
         }
     }
 }

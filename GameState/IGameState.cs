@@ -38,7 +38,7 @@ namespace KirbyNightmareInDreamLand.GameState
         // Holds a sprite for kirby and each enemy type to draw at their spawn points in level debug mode.
         private Dictionary<string, Sprite> SpawnSprites = new Dictionary<string, Sprite>()
         {
-            { "Kirby" , SpriteFactory.Instance.CreateSprite("kirby_normal_standing_right") },
+            { "Kirby" , SpriteFactory.Instance.CreateSprite("kirby0_normal_standing_right") },
             { "WaddleDee" , SpriteFactory.Instance.CreateSprite("waddledee_walking_left") },
             { "WaddleDoo" , SpriteFactory.Instance.CreateSprite("waddledoo_walking_left") },
             { "BrontoBurt" , SpriteFactory.Instance.CreateSprite("brontoburt_standing_left") },

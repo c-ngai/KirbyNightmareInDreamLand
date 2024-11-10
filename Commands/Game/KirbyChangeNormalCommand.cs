@@ -5,7 +5,10 @@ namespace KirbyNightmareInDreamLand.Commands
     {
         public void Execute()
         {
-            ObjectManager.Instance.Players[0].ChangeToNormal();
+            foreach (IPlayer player in ObjectManager.Instance.Players)
+            {
+                player.ChangeToNormal();
+            }
         }
     }
 }

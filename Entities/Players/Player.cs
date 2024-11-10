@@ -19,6 +19,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         // and movement management so it is not doing this much
         public PlayerStateMachine state { get; private set; }
         public PlayerMovement movement { get; private set; }
+        private int playerIndex;
         private Sprite playerSprite;
         public PlayerAttack attack {get; private set;}
         public PlayerAttack starAttackOne {get; private set;}
@@ -40,14 +41,15 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //collision stuffs
 
         //constructor
-        public Player(Vector2 pos)
+        public Player(Vector2 pos, int playerIndex)
         {
-            state = new PlayerStateMachine();
+            this.playerIndex = playerIndex;
+            state = new PlayerStateMachine(playerIndex);
             movement = new NormalPlayerMovement(pos);
-            oldState = state.GetStateString();
+            oldState = null;
             ObjectManager.Instance.RegisterDynamicObject(this);
-            playerSprite = SpriteFactory.Instance.CreateSprite("kirby_normal_standing_right");
             movement.ChangeKirbyLanded(false);
+            UpdateTexture();
         }
 
         public string GetObjectType()
