@@ -44,6 +44,11 @@ namespace KirbyNightmareInDreamLand
             public const int MAX_FRAME_RATE = 60;
             public const int MIN_FRAME_RATE = 5;
             public const float TIME_CONVERSION = 1000f;
+            public static Color INVINCIBLE_COLOR = new Color(255, 255, 0, 127);
+
+            public const int PLAYER_ARROW_VISIBILITY_BOUNDS_OUTSET = 10;
+            public const int PLAYER_ARROW_BOUNDS_INSET = 12;
+            public const int PLAYER_ARROW_BOUNDS_BOTTOM_INSET = 14;
         }
         #endregion
         #region  Physics

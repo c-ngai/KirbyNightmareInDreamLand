@@ -14,6 +14,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 {
     public class Player : IPlayer, ICollidable
     {
+        private Game1 _game;
         //BSP trees for collision optimization
         //make a seperate class to hold all the objects --singleton
         //this class will be refactored in next sprint to make another class: State management
@@ -23,6 +24,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         private int playerIndex;
         private Sprite playerSprite;
         private int spriteDamageCounter;
+        private Sprite[][] playerarrows;
         public PlayerAttack attack {get; private set;}
         public PlayerAttack starAttackOne {get; private set;}
         public PlayerAttack starAttackTwo {get; private set;}
@@ -45,6 +47,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //constructor
         public Player(Vector2 pos, int playerIndex)
         {
+            _game = Game1.Instance;
             this.playerIndex = playerIndex;
             state = new PlayerStateMachine(playerIndex);
             movement = new NormalPlayerMovement(pos);
@@ -52,6 +55,23 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             ObjectManager.Instance.RegisterDynamicObject(this);
             movement.ChangeKirbyLanded(false);
             UpdateTexture();
+            CreatePlayerArrowSprites();
+        }
+
+        private void CreatePlayerArrowSprites()
+        {
+            playerarrows = new Sprite[3][];
+            // For each of the 9 sprites in the 3x3 arrow texture grid
+            for (int x = 0; x <= 2; x++)
+            {
+                playerarrows[x] = new Sprite[3];
+                for (int y = 0; y <= 2; y++)
+                {
+                    // Create the sprite from the respective name
+                    string spriteName = "playerarrow" + playerIndex + "_" + x + "," + y;
+                    playerarrows[x][y] = SpriteFactory.Instance.CreateSprite(spriteName);
+                }
+            }
         }
 
         public string GetObjectType()
@@ -543,7 +563,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
         }
 
-        Color invincibleColor = new Color(255, 255, 0, 127);
+        
         public void Draw(SpriteBatch spriteBatch)
         {
             UpdateTexture();
@@ -553,12 +573,15 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 // Draw a second, tinted, translucent copy of the sprite on top of itself to tint it brigher. Use of unpremultiplied color in a premultiplied environment to do this. Stupid
                 if (spriteDamageCounter % 8 < 4)
                 {
-                    playerSprite.Draw(movement.GetPosition(), spriteBatch, invincibleColor);
+                    playerSprite.Draw(movement.GetPosition(), spriteBatch, Constants.Graphics.INVINCIBLE_COLOR);
                 }
                 
             } else {
                 playerSprite.Draw(movement.GetPosition(), spriteBatch);
             }
+
+            // Draw an arrow pointing to this player if off screen
+            DrawArrow(spriteBatch);
 
             if(attack != null || starAttackOne != null || starAttackTwo != null){
                 attack?.Draw(spriteBatch, this);
@@ -566,6 +589,85 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 starAttackTwo?.Draw(spriteBatch, this);
             }
         }
+
+        private void DrawArrow(SpriteBatch spriteBatch)
+        {
+            // Get camera bounds
+            Rectangle cameraBounds = _game.cameras[_game.CurrentCamera].bounds;
+            // Set bounds of which the arrow should draw if the player is outside
+            int outset = Constants.Graphics.PLAYER_ARROW_VISIBILITY_BOUNDS_OUTSET;
+            Rectangle visibilityBounds = new Rectangle(cameraBounds.X - outset, cameraBounds.Y - outset, cameraBounds.Width + outset * 2, cameraBounds.Height + outset * 2);
+            // Set bounds to restrict the arrow to
+            int inset = Constants.Graphics.PLAYER_ARROW_BOUNDS_INSET;
+            int bottom_inset = Constants.Graphics.PLAYER_ARROW_BOUNDS_INSET;
+            Rectangle arrowBounds = new Rectangle(cameraBounds.X + inset, cameraBounds.Y + inset, cameraBounds.Width - inset * 2, cameraBounds.Height - inset * 2 - bottom_inset);
+
+            // Get the position of self
+            Vector2 position = GetPosition();
+            // Center the position to target vertically in the middle of Kirby's body (kirby's position is at his bottom-middle, at his feet)
+            position.Y -= 8; 
+
+            // If my position is NOT in the current camera
+            if (!visibilityBounds.Contains(position))
+            {
+                // Default arrow X to target X and sprite X to middle
+                float x = position.X;
+                int spriteX = 1;
+                // If target is left of bounds, bound it
+                if (arrowBounds.Left > x)
+                {
+                    x = arrowBounds.Left;
+                    spriteX = 0;
+                }
+                // If target is right of bounds, bound it
+                else if (x > arrowBounds.Right)
+                {
+                    x = arrowBounds.Right;
+                    spriteX = 2;
+                }
+
+                // Default arrow Y to target Y and sprite Y to middle
+                float y = position.Y;
+                int spriteY = 1;
+                // If target is above bounds, bound it
+                if (arrowBounds.Top > y)
+                {
+                    y = arrowBounds.Top;
+                    spriteY = 0;
+                }
+                // If target is below bounds, bound it
+                else if (y > arrowBounds.Bottom)
+                {
+                    y = arrowBounds.Bottom;
+                    spriteY = 2;
+                }
+
+                Vector2 arrowposition = new Vector2(x, y);
+                // Offset arrow position based on player index to avoid arrows stacking and obscuring each other (especially in corners)
+                switch (playerIndex)
+                {
+                    case 0:
+                        arrowposition.X += -1;
+                        arrowposition.Y += -2;
+                        break;
+                    case 1:
+                        arrowposition.X += 2;
+                        arrowposition.Y += -1;
+                        break;
+                    case 2:
+                        arrowposition.X += -2;
+                        arrowposition.Y += 1;
+                        break;
+                    case 3:
+                        arrowposition.X += 1;
+                        arrowposition.Y += 2;
+                        break;
+                }
+                // Draw the arrow's corresponding sprite
+                playerarrows[spriteX][spriteY].Draw(arrowposition, spriteBatch);
+            }
+        }
+
         public Vector2 CalculateRectanglePoint(Vector2 pos)
         {
             float x = pos.X - Constants.HitBoxes.ENTITY_WIDTH/2;

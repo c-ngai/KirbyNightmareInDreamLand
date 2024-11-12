@@ -18,6 +18,8 @@ Images/Misc/enemies
 Images/Misc/items
 Images/Misc/projectiles
 Images/Misc/particles
+Images/Misc/playerarrows
+Images/Misc/playerarrow_you
 Images/Level/doorstars
 Images/Level/backgrounds
 Images/Level/collisionTileset

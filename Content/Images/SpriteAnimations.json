@@ -55186,6 +55186,603 @@
         ]
     },
 
+    "playerarrow_you": {
+        "Source texture": "playerarrow_you",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 0,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 14,
+                "Time": 1
+            }
+        ]
+    },
+
+    "playerarrow0_0,0": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 0,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow0_1,0": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 16,
+                "Y": 0,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow0_2,0": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 32,
+                "Y": 0,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow0_0,1": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 16,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow0_1,1": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 16,
+                "Y": 16,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow0_2,1": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 32,
+                "Y": 16,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow0_0,2": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 32,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow0_1,2": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 16,
+                "Y": 32,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow0_2,2": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 32,
+                "Y": 32,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+
+    "playerarrow1_0,0": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 48,
+                "Y": 0,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow1_1,0": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 64,
+                "Y": 0,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow1_2,0": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 80,
+                "Y": 0,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow1_0,1": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 48,
+                "Y": 16,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow1_1,1": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 64,
+                "Y": 16,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow1_2,1": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 80,
+                "Y": 16,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow1_0,2": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 48,
+                "Y": 32,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow1_1,2": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 64,
+                "Y": 32,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow1_2,2": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 80,
+                "Y": 32,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+
+    "playerarrow2_0,0": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 48,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow2_1,0": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 16,
+                "Y": 48,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow2_2,0": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 32,
+                "Y": 48,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow2_0,1": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 64,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow2_1,1": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 16,
+                "Y": 64,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow2_2,1": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 32,
+                "Y": 64,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow2_0,2": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 80,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow2_1,2": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 16,
+                "Y": 80,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow2_2,2": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 32,
+                "Y": 80,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+
+    "playerarrow3_0,0": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 48,
+                "Y": 48,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow3_1,0": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 64,
+                "Y": 48,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow3_2,0": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 80,
+                "Y": 48,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow3_0,1": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 48,
+                "Y": 64,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow3_1,1": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 64,
+                "Y": 64,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow3_2,1": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 80,
+                "Y": 64,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow3_0,2": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 48,
+                "Y": 80,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow3_1,2": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 64,
+                "Y": 80,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+    "playerarrow3_2,2": {
+        "Source texture": "playerarrows",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 80,
+                "Y": 80,
+                "Width": 16,
+                "Height": 16,
+                "CenterX": 8,
+                "CenterY": 8,
+                "Time": 1
+            }
+        ]
+    },
+
     "pausescreen_normal": {
         "Source texture": "pause",
         "Loop point": 0,

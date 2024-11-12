@@ -182,7 +182,7 @@ namespace KirbyNightmareInDreamLand.GameState
             Game1.Instance.DEBUG_SPRITE_MODE = false;
 
             Vector2 kirbyPos = level.CurrentRoom.SpawnPoint;
-            SpawnSprites["Kirby"].Draw(kirbyPos, spriteBatch, new Color(255, 255, 255, 0));
+            SpawnSprites["Kirby"].Draw(kirbyPos, spriteBatch, translucent);
 
             // Draw each enemy spawn point
             foreach (EnemyData enemy in level.CurrentRoom.Enemies)
