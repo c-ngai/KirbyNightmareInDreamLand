@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics.PackedVector;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using KirbyNightmareInDreamLand.Controllers;
+using KirbyNightmareInDreamLand.Sprites;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -172,24 +173,26 @@ namespace KirbyNightmareInDreamLand
             texts.Add("Current Max FPS: " + Math.Round(maxFrameRate));
             texts.Add("Average Max FPS: " + Math.Round(maxfpsLog.Average()));
             texts.Add("Current room: " + _game.Level.CurrentRoom.Name);
+            texts.Add("Game state: " + _game.Level._currentState.ToString().Substring(36));
             texts.Add("");
             texts.Add("Sprite.Draw calls: " + NumOfSpriteDrawCalls);
             texts.Add("SpriteBatch.Draw calls: " + NumOfSpriteBatchDrawCalls);
             texts.Add("Static ExecuteCollision calls: " + NumOfStaticExecuteCollisionCalls);
             texts.Add("Dynamic ExecuteCollision calls: " + NumOfDynamicExecuteCollisionCalls);
             texts.Add("ObjectManager.DynamicObjects.Count: " + ObjectManager.Instance.DynamicObjects.Count);
-            texts.Add("");
-            texts.Add("+/- : Resize window");
-            texts.Add("F : Toggle fullscreen");
+            //texts.Add("");
+            //texts.Add("+/- : Resize window");
+            //texts.Add("Q : Toggle fullscreen");
+            //texts.Add("W : Toggle splitscreen");
+            //texts.Add("Insert/Delete: Add/remove players");
+            //texts.Add("M : Mute audio");
             texts.Add("");
             texts.Add("F1 : Toggle debug text");
             texts.Add("F2 : Toggle sprite debug mode");
             texts.Add("F3 : Toggle level debug mode");
             texts.Add("F4 : Toggle sprite culling");
             texts.Add("F5 : Toggle collision debug mode");
-            texts.Add("M : Toggle mute");
-            texts.Add("Game state " + _game.Level._currentState);
-            texts.Add("Game state " + _game.Level._currentState.ToString());
+            
             //texts.Add("Alt (hold) : Record Kirby position");
             //texts.Add("Ctrl : Clear Kirby position log");
 
@@ -265,13 +268,22 @@ namespace KirbyNightmareInDreamLand
         }
 
 
+        public void DrawEmptyPlayerScreen(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, null);
+            spriteBatch.Draw(SpriteFactory.Instance.Textures["emptyplayerscreen"], bounds, Color.White);
+            spriteBatch.End();
+        }
+
+
         private Color translucent = new Color( 255, 255, 255, 127 );
         // Draws black letterbox borders on the edge of the screen. Should be only visible in fullscreen. Done to maintain aspect ratio and integer scaling regardless of display resolution.
         public void DrawBorders(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, null);
 
-            Color color = _game.DEBUG_TEXT_ENABLED ? translucent : Color.White;
+            //Color color = _game.DEBUG_TEXT_ENABLED ? translucent : Color.White;
+            Color color = Color.White;
 
             // Left side
             spriteBatch.Draw(LevelLoader.Instance.Borders, new Rectangle(0, _game.WINDOW_YOFFSET, _game.WINDOW_XOFFSET, _game.WINDOW_HEIGHT), color);

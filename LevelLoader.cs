@@ -109,9 +109,6 @@ namespace KirbyNightmareInDreamLand
             // Ensures player list is empty
             manager.ClearPlayerList();
             manager.AddKirby(new Player(new Vector2(Constants.Kirby.STARTINGXPOSITION, Constants.Graphics.FLOOR), 0));
-            // Target the camera on Player 1
-            Camera camera = Game1.Instance.Camera;
-            camera.TargetPlayer(manager.Players[0]);
         }
         #endregion
 

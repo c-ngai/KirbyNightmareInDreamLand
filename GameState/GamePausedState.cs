@@ -9,17 +9,15 @@ namespace KirbyNightmareInDreamLand.GameState
 {
 	public class GamePausedState : IGameState
 	{
-        SpriteBatch spriteBatch;
-        Camera _camera;
-
-		public GamePausedState()
+        private Game1 _game;
+        public GamePausedState()
 		{
-            spriteBatch = Game1.Instance._spriteBatch;
-            _camera = Game1.Instance.Camera;
+            _game = Game1.Instance;
         }
 
-        public void Draw()
+        public void Draw(SpriteBatch spriteBatch)
         {
+            Camera _camera = _game.cameras[_game.CurrentCamera];
             GameDebug.Instance.DrawSolidRectangle(spriteBatch, _camera.bounds, Color.White, 1);
             List<string> kirbyType = new List<string>();
             foreach (Player player in Game1.Instance.manager.Players)

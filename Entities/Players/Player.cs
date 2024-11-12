@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Audio;
+using Microsoft.Xna.Framework.Input;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -21,6 +22,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public PlayerMovement movement { get; private set; }
         private int playerIndex;
         private Sprite playerSprite;
+        private int spriteDamageCounter;
         public PlayerAttack attack {get; private set;}
         public PlayerAttack starAttackOne {get; private set;}
         public PlayerAttack starAttackTwo {get; private set;}
@@ -270,6 +272,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if(!invincible)
             {
                 invincible = true;
+                spriteDamageCounter = 0;
                 DecreaseHealth(intersection);
             }
             
@@ -526,6 +529,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             movement.MovePlayer(this, gameTime);
             EndInvinciblility(gameTime);
             playerSprite.Update();
+            spriteDamageCounter++;
             GetHitBox();
             if(attack != null || starAttackOne != null || starAttackTwo != null){
                 attack?.Update(gameTime, this);
@@ -539,12 +543,19 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
         }
 
+        Color invincibleColor = new Color(255, 255, 0, 127);
         public void Draw(SpriteBatch spriteBatch)
         {
             UpdateTexture();
             
             if(invincible){
-                playerSprite.DamageDraw(movement.GetPosition(), spriteBatch);
+                playerSprite.Draw(movement.GetPosition(), spriteBatch);
+                // Draw a second, tinted, translucent copy of the sprite on top of itself to tint it brigher. Use of unpremultiplied color in a premultiplied environment to do this. Stupid
+                if (spriteDamageCounter % 8 < 4)
+                {
+                    playerSprite.Draw(movement.GetPosition(), spriteBatch, invincibleColor);
+                }
+                
             } else {
                 playerSprite.Draw(movement.GetPosition(), spriteBatch);
             }

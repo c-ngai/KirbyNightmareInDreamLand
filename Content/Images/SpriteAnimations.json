@@ -55650,6 +55650,23 @@
         ]
     },
 
+    "emptyplayerscreen": {
+        "Source texture": "emptyplayerscreen",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 0,
+                "Width": 240,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
+        ]
+    },
+
     "invalidspritename": {
         "Source texture": "invalidspritename",
         "Loop point": 0,
