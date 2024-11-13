@@ -39,73 +39,73 @@
 
 	"keymap1": [
 		{
-			"Key": "H",
+			"Key": "D",
 			"ExecutionType": "Pressed",
 			"Command": "KirbyMoveRightCommand",
 			"PlayerIndex": 0
 		},
 		{
-			"Key": "H",
+			"Key": "D",
 			"ExecutionType": "StoppingPress",
 			"Command": "KirbyStopMovingCommand",
 			"PlayerIndex": 0
 		},
 		{
-			"Key": "F",
+			"Key": "A",
 			"ExecutionType": "Pressed",
 			"Command": "KirbyMoveLeftCommand",
 			"PlayerIndex": 0
 		},
 		{
-			"Key": "F",
+			"Key": "A",
 			"ExecutionType": "StoppingPress",
 			"Command": "KirbyStopMovingCommand",
 			"PlayerIndex": 0
 		},
 		{
-			"Key": "G",
+			"Key": "S",
 			"ExecutionType": "Pressed",
 			"Command": "KirbyMoveCrouchedCommand",
 			"PlayerIndex": 0
 		},
 		{
-			"Key": "G",
+			"Key": "S",
 			"ExecutionType": "StoppingPress",
 			"Command": "KirbyEndCrouchCommand",
 			"PlayerIndex": 0
 		},
 		{
-			"Key": "T",
+			"Key": "W",
 			"ExecutionType": "Pressed",
 			"Command": "KirbyFloatCommand",
 			"PlayerIndex": 0
 		},
 		{
-			"Key": "T",
+			"Key": "W",
 			"ExecutionType": "StartingPress",
 			"Command": "KirbyEnterDoorCommand",
 			"PlayerIndex": 0
 		},
 		{
-			"Key": "X",
+			"Key": "B",
 			"ExecutionType": "Pressed",
 			"Command": "KirbyJumpCommand",
 			"PlayerIndex": 0
 		},
 		{
-			"Key": "Z",
+			"Key": "V",
 			"ExecutionType": "StartingPress",
 			"Command": "KirbyAttackCommand",
 			"PlayerIndex": 0
 		},
 		{
-			"Key": "Z",
+			"Key": "V",
 			"ExecutionType": "StoppingPress",
 			"Command": "KirbyStopAttackingCommand",
 			"PlayerIndex": 0
 		},
 		{
-			"Key": "Z",
+			"Key": "V",
 			"ExecutionType": "Pressed",
 			"Command": "KirbyAttackPressedCommand",
 			"PlayerIndex": 0
@@ -253,12 +253,12 @@
 			"Command": "GraphicsToggleDebugCollisionCommand"
 		},
 		{
-			"Key": "Q",
+			"Key": "F",
 			"ExecutionType": "StartingPress",
 			"Command": "GraphicsToggleFullscreenCommand"
 		},
 		{
-			"Key": "W",
+			"Key": "G",
 			"ExecutionType": "StartingPress",
 			"Command": "GraphicsToggleSplitscreenCommand"
 		},
