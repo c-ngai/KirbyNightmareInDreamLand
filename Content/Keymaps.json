@@ -21,12 +21,12 @@
     ], 
     "PauseKeyMap": [
         {
-            "Key": "Space",
+            "Key": "Enter",
             "ExecutionType": "StartingPress",
             "Command": "PauseCommand"
         },
         {
-            "Key": "Q",
+            "Key": "Escape",
             "ExecutionType": "StartingPress",
             "Command": "QuitCommand"
         },
@@ -39,59 +39,6 @@
 
 	"keymap1": [
 		{
-			"Key": "Right",
-			"ExecutionType": "Pressed",
-			"Command": "KirbyMoveRightCommand",
-			"PlayerIndex": 0
-		},
-		{
-			"Key": "Right",
-			"ExecutionType": "StoppingPress",
-			"Command": "KirbyStopMovingCommand",
-			"PlayerIndex": 0
-		},
-		{
-			"Key": "Left",
-			"ExecutionType": "Pressed",
-			"Command": "KirbyMoveLeftCommand",
-			"PlayerIndex": 0
-		},
-		{
-			"Key": "Left",
-			"ExecutionType": "StoppingPress",
-			"Command": "KirbyStopMovingCommand",
-			"PlayerIndex": 0
-		},
-		{
-			"Key": "Down",
-			"ExecutionType": "Pressed",
-			"Command": "KirbyMoveCrouchedCommand",
-			"PlayerIndex": 0
-		},
-		{
-			"Key": "Down",
-			"ExecutionType": "StoppingPress",
-			"Command": "KirbyEndCrouchCommand",
-			"PlayerIndex": 0
-		},
-		{
-			"Key": "Up",
-			"ExecutionType": "Pressed",
-			"Command": "KirbyFloatCommand",
-			"PlayerIndex": 0
-		},
-		{
-			"Key": "Up",
-			"ExecutionType": "StartingPress",
-			"Command": "KirbyEnterDoorCommand",
-			"PlayerIndex": 0
-		},
-		{
-			"Key": "Space",
-			"ExecutionType": "StartingPress",
-			"Command": "PauseCommand"
-		},
-		{
 			"Key": "D",
 			"ExecutionType": "Pressed",
 			"Command": "KirbyMoveRightCommand",
@@ -140,28 +87,105 @@
 			"PlayerIndex": 0
 		},
 		{
-			"Key": "X",
+			"Key": "B",
 			"ExecutionType": "Pressed",
 			"Command": "KirbyJumpCommand",
 			"PlayerIndex": 0
 		},
 		{
-			"Key": "Z",
+			"Key": "V",
 			"ExecutionType": "StartingPress",
 			"Command": "KirbyAttackCommand",
 			"PlayerIndex": 0
 		},
 		{
-			"Key": "Z",
+			"Key": "V",
 			"ExecutionType": "StoppingPress",
 			"Command": "KirbyStopAttackingCommand",
 			"PlayerIndex": 0
 		},
 		{
-			"Key": "Z",
+			"Key": "V",
 			"ExecutionType": "Pressed",
 			"Command": "KirbyAttackPressedCommand",
 			"PlayerIndex": 0
+		},
+		{
+			"Key": "Right",
+			"ExecutionType": "Pressed",
+			"Command": "KirbyMoveRightCommand",
+			"PlayerIndex": 1
+		},
+		{
+			"Key": "Right",
+			"ExecutionType": "StoppingPress",
+			"Command": "KirbyStopMovingCommand",
+			"PlayerIndex": 1
+		},
+		{
+			"Key": "Left",
+			"ExecutionType": "Pressed",
+			"Command": "KirbyMoveLeftCommand",
+			"PlayerIndex": 1
+		},
+		{
+			"Key": "Left",
+			"ExecutionType": "StoppingPress",
+			"Command": "KirbyStopMovingCommand",
+			"PlayerIndex": 1
+		},
+		{
+			"Key": "Down",
+			"ExecutionType": "Pressed",
+			"Command": "KirbyMoveCrouchedCommand",
+			"PlayerIndex": 1
+		},
+		{
+			"Key": "Down",
+			"ExecutionType": "StoppingPress",
+			"Command": "KirbyEndCrouchCommand",
+			"PlayerIndex": 1
+		},
+		{
+			"Key": "Up",
+			"ExecutionType": "Pressed",
+			"Command": "KirbyFloatCommand",
+			"PlayerIndex": 1
+		},
+		{
+			"Key": "Up",
+			"ExecutionType": "StartingPress",
+			"Command": "KirbyEnterDoorCommand",
+			"PlayerIndex": 1
+		},
+		{
+			"Key": "OemQuestion",
+			"ExecutionType": "Pressed",
+			"Command": "KirbyJumpCommand",
+			"PlayerIndex": 1
+		},
+		{
+			"Key": "OemPeriod",
+			"ExecutionType": "StartingPress",
+			"Command": "KirbyAttackCommand",
+			"PlayerIndex": 1
+		},
+		{
+			"Key": "OemPeriod",
+			"ExecutionType": "StoppingPress",
+			"Command": "KirbyStopAttackingCommand",
+			"PlayerIndex": 1
+		},
+		{
+			"Key": "OemPeriod",
+			"ExecutionType": "Pressed",
+			"Command": "KirbyAttackPressedCommand",
+			"PlayerIndex": 1
+		},
+		{
+			"Key": "Enter",
+			"ExecutionType": "StartingPress",
+			"Command": "PauseCommand"
 		},
 		{
 			"Key": "D1",
@@ -194,7 +218,7 @@
 			"Command": "NextEnemyCommand"
 		},
 		{
-			"Key": "Q",
+			"Key": "Escape",
 			"ExecutionType": "StartingPress",
 			"Command": "QuitCommand"
 		},
@@ -234,6 +258,11 @@
 			"Command": "GraphicsToggleFullscreenCommand"
 		},
 		{
+			"Key": "G",
+			"ExecutionType": "StartingPress",
+			"Command": "GraphicsToggleSplitscreenCommand"
+		},
+		{
 			"Key": "OemPlus",
 			"ExecutionType": "StartingPress",
 			"Command": "GraphicsIncreaseWindowSizeCommand"
@@ -269,12 +298,12 @@
 			"Command": "AudioToggleMuteCommand"
 		},
 		{
-			"Key": "OemComma",
+			"Key": "Delete",
 			"ExecutionType": "StartingPress",
 			"Command": "PlayerRemoveCommand"
 		},
 		{
-			"Key": "OemPeriod",
+			"Key": "Insert",
 			"ExecutionType": "StartingPress",
 			"Command": "PlayerAddCommand"
 		}

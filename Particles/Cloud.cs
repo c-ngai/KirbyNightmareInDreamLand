@@ -30,7 +30,6 @@ namespace KirbyNightmareInDreamLand.Particles
             completed = false;
         }
 
-        // TODO: change it to cloud max frames when that is determined
         public void Update()
         {
             if (frameCount < Constants.Particle.CLOUD_MAX_FRAMES)

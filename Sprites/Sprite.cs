@@ -40,7 +40,6 @@ namespace KirbyNightmareInDreamLand.Sprites
             currentFrame = 0;
             tickCounter = -1;
             _game = Game1.Instance;
-            _camera = _game.Camera;
         }
 
 
@@ -65,6 +64,7 @@ namespace KirbyNightmareInDreamLand.Sprites
         // Draws the sprite to the spriteBatch.
         public void Draw(Vector2 position, SpriteBatch spriteBatch, Color color)
         {
+            _camera = _game.cameras[_game.CurrentCamera];
             // Floor the position
             position.Floor();
 

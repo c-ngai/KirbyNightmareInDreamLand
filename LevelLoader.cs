@@ -17,15 +17,17 @@ using System.IO;
 using System.Text.Json;
 using static KirbyNightmareInDreamLand.Constants;
 using System.Reflection;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand
 {
-    public class LevelLoader
+    public sealed class LevelLoader
     {
         private readonly Game1 _game;
         private readonly ContentManager _content;
         private readonly GraphicsDevice _graphics;
         private CollisionResponse collisionResponse;
+        private ObjectManager manager;
 
         // Dictionary from string to Tilemap. For easily retrieving a tilemap by name.
         public Dictionary<string, int[][]> Tilemaps { get; private set; }
@@ -69,6 +71,7 @@ namespace KirbyNightmareInDreamLand
             Buttonmaps = new Dictionary<string, List<Buttonmapping>>();
             Hitboxes = new Dictionary<string, Dictionary<string, Rectangle>>();
             collisionResponse = CollisionResponse.Instance;
+            manager = ObjectManager.Instance;
         }
 
 
@@ -99,6 +102,15 @@ namespace KirbyNightmareInDreamLand
             Borders.SetData(new Color[] { Color.Black });
 
         }
+
+        #region Kirby
+        public void LoadKirby()
+        {
+            // Ensures player list is empty
+            manager.ClearPlayerList();
+            manager.AddKirby(new Player(new Vector2(Constants.Kirby.STARTINGXPOSITION, Constants.Graphics.FLOOR), 0));
+        }
+        #endregion
 
 
         #region Textures/Sprites

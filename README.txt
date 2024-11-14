@@ -26,7 +26,7 @@ Down arrow allows him to crouch. Down and z alows him to slide.
 
 Up arrow allows him to float. It will also be used for him to travel through doors to move between levels.
 
-The 'A' and 'D' keys change Kirby's facing direction.
+The 'A' and 'D' keys change Kirby's facing direction NOT movement.
 
     **NOTE** We plan on removing the hardcoded key mappings in the commands so that we can
     later swap them out and use WASD along with the arrows to move Kirby. This is reflected
@@ -50,9 +50,12 @@ Note that this will later be changed to show the cards when Kirby gets a powerup
 
 When on Game over and Level Complete Screens 'up' and 'down' arrow keys navigate
 between Quit and Continue buttons, to select a highlighted button, use 'space'.
-Quit exits the program and continue restarts the game in room 1. 
+Quit exits the program and continue restarts the game in room 1. Level Complete Screen happens when you 
+enter the last door in Level 3.
 
-Use 'q' to quit and 'r' to reset the program back to its initial state.
+Use 'space' to pause the game and use 'space' again to unpause.
+
+Use 'q' to quit and 'r' to reset the current level back to its initial state.
 
 Use 'f1' to toggle debug mode for graphics.
 
@@ -74,40 +77,42 @@ Use ']' to increase the frame rate.
 
 Use '[' to decrease the frame rate. 
 
+Use 'm' to mute sound.
+
 ###############################################################################
 
 Backlogged Tasks:
 
-
+Improve enemy spawning: make it so that enemies only load when nearby screen camera and will respawn when player goes 
+backward through the level. We backlogged this task to complete in Sprint5 because it is of the features we wish to 
+implement of having better enemy AI. 
 
 ###############################################################################
 
-
 Known bugs:
 
-Player Movement: note: most major bugs can be exited out of by pressing jump aka 'x'
- - if you are attacking and move the player, kirby doesnt move position, but the sprite changes, we are aware
-    - this bug will now sometimes cause it to clip into the floor and go the end of room
- - sometimes kirby clips into floor and speed runs the level (he gets stuck underground), we are aware
- - slide sometimes happens without changing the pose into sliding
- - sometimes movement just softlocks in position or onto float, it is unclear but we are working on finding the source and fixing it
- - pressing z repeatedly and up while kirby is floating sometimes softlocks it into postion
+Player Movement:
+ - if you are attacking and move the player, it lets you do movement in place instead of staying on the attack animations for fire and spark kirbys
+ - slide sometimes doesn't work when you change kirby's direction after sliding and Kirby stays in crouch but will be fine again once you exit crouch
+ - movements sometimes have soft locks, mostly fixed but some movement has issues when multiple commands are being executed
 
- Level Loading:
- - restart is currently completely broken after implementing a level loader and an object manager in this game
-    we are pretty sure we are repeating some calls on object lists due to incorrect synchronization that is causing these issues
-
-Collision:
- - there are physics issues sometimes that are caused by multiple responses going off due to multiple intersection tiles 
-   please press jump at this time and it should exit out of most of these "stuck" states
-    these include: 
-        being stuck on a slope and/or walking across air (this combination is often triggered)
-        entering into falling animation while on slope
- - some of the enemies are having bugs with colliding into tiles because of the multiple response issue
+Enemy:
+ - PoppyBrosJr hopping sprites has a glitch
+ - Flying enemy also struggles with wall collision because it is changing it's direction but not fixing the pathing
+ - Looping enemy sounds don't stop when moving between levels
+ - Hothead flamethrower needs to be separated out as a projectile attack (needs to be done to implement it as a collidable)
 
 Mouse Controller and Game State:
-- because using the mouse controller to go through rooms the game state is not changed and so controls get stuck in the
-wrong keymap and the quit continue buttons are draw on regular levels. Will fix next sprint. 
+- because using the mouse controller to go through rooms the game state is not changed, controls get stuck in the
+  wrong keymap and the quit continue buttons are drawn on regular levels when you cycle to different levels after reaching the ending
+  "Game Over"/"Level Complete" screens. We will fix next sprint
+- if you transition between doors while moving, kirby keeps moving while transitioning
+- when you lose your final health and die, it does not enter game end sequence and you instead lose access to Kirby and have full health again
+  * we have the game over sequence coded in so we think it is an issue with state transition that we will fix next sprint
+- reset does not reset player state (if kirby enters invulnerable and reset is hit he will still be in invulnerable)
+
+Particles:
+- Need to stop run particles from displaying when double press happens when floating
 
 ###############################################################################
 

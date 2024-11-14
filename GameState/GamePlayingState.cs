@@ -16,16 +16,14 @@ namespace KirbyNightmareInDreamLand.GameState
 {
 	public class GamePlayingState : BaseGameState
 	{
-        SpriteBatch spriteBatch;
 
         public GamePlayingState(Level _level) : base(_level)
         {
-            spriteBatch = Game1.Instance._spriteBatch;
         }
 
-        public override void Draw()
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw();
+            base.Draw(spriteBatch);
         }
     }
 }

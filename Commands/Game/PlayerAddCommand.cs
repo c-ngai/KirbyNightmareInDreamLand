@@ -17,7 +17,7 @@ namespace KirbyNightmareInDreamLand.Commands
             if (objectManager.Players.Count < Constants.Game.MAXIMUM_PLAYER_COUNT)
             {
                 Vector2 player1Position = objectManager.Players[0].GetKirbyPosition();
-                IPlayer kirby = new Player(player1Position);
+                IPlayer kirby = new Player(player1Position, objectManager.Players.Count);
                 objectManager.Players.Add(kirby);
             }
         }

@@ -15,10 +15,10 @@ namespace KirbyNightmareInDreamLand.Commands
 
         public void Execute()
         {
-            if (game.TARGET_FRAMERATE < 60) // If not fullscreen and the window size isn't already maximum
+            if (game.TARGET_FRAMERATE < Constants.Graphics.MAX_FRAME_RATE) // If not fullscreen and the window size isn't already maximum
             {
                 game.TARGET_FRAMERATE += 5;
-                game.TargetElapsedTime = TimeSpan.FromMilliseconds(1000f / game.TARGET_FRAMERATE);
+                game.TargetElapsedTime = TimeSpan.FromMilliseconds(Constants.Graphics.TIME_CONVERSION / game.TARGET_FRAMERATE);
             }
         }
     }

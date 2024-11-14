@@ -8,8 +8,8 @@ namespace KirbyNightmareInDreamLand.GameState
 {
 	public class GameWinningState : BaseGameState
 	{
+        private Game1 _game;
         private ObjectManager _manager;
-        SpriteBatch spriteBatch;
         public Sprite currentButtonSprite;
         public Sprite selectQuitScreen;
         public Sprite selectContinueScreen;
@@ -20,17 +20,17 @@ namespace KirbyNightmareInDreamLand.GameState
 
         public GameWinningState(Levels.Level _level) : base(_level)
         {
-
+            _game = Game1.Instance;
             _manager = Game1.Instance.manager;
-            spriteBatch = Game1.Instance._spriteBatch;
             selectContinueScreen = SpriteFactory.Instance.CreateSprite("Winning_continue_selected_button");
             selectQuitScreen = SpriteFactory.Instance.CreateSprite("Winning_quit_selected");
             currentButtonSprite = selectContinueScreen;
         }
 
-        public override void Draw()
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            DrawBackground(spriteBatch);
+            Camera camera = _game.cameras[_game.CurrentCamera];
+            DrawBackground(spriteBatch, camera);
             DrawForeground(spriteBatch);
             currentButtonSprite.Draw(buttonPosition, spriteBatch);
             foreach (IPlayer player in _manager.Players) player.Draw(spriteBatch);

@@ -20,7 +20,6 @@ namespace KirbyNightmareInDreamLand.Levels
     {
 
         private readonly Game1 _game;
-        private readonly Camera _camera;
         private readonly ObjectManager _manager; 
         public Vector2 SpawnPoint { get; private set; }
 
@@ -57,7 +56,6 @@ namespace KirbyNightmareInDreamLand.Levels
         public Level()
         {
             _game = Game1.Instance;
-            _camera = _game.Camera;
             _manager = Game1.Instance.manager;
             _currentState = new GamePlayingState(this);
 
@@ -80,9 +78,9 @@ namespace KirbyNightmareInDreamLand.Levels
             return (_currentState).ToString().Equals(state);
         }
 
-        public void Draw()
+        public void Draw(SpriteBatch spriteBatch)
         {
-            _currentState.Draw();
+            _currentState.Draw(spriteBatch);
         }
 
         private static Dictionary<string, string> gameStateKeymaps = new  Dictionary<string, string> 
