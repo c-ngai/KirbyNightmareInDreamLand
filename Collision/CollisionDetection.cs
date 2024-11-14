@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace KirbyNightmareInDreamLand
 {
-    public class CollisionDetection
+    public sealed class CollisionDetection
     {
         private ObjectManager manager { get; }
         private CollisionResponse response { get; }
@@ -96,11 +96,12 @@ namespace KirbyNightmareInDreamLand
 
                         string type2 = staticObj.GetObjectType();
                         Tuple<string, string, CollisionSide> key = new Tuple<string, string, CollisionSide>(type1, type2, side);
+                        // Collision detection does not care about the response dictionary but debug does to accurately keep track of dynamic execution calls
                         if (response.collisionMapping.ContainsKey(key))
                         {
-                            response.ExecuteCollision(dynamicObj, staticObj, side);
                             GameDebug.Instance.NumOfStaticExecuteCollisionCalls++;
-                        } 
+                        }
+                        response.ExecuteCollision(dynamicObj, staticObj, side);
                     }
                 }
                 // Clears relevant tiles after each dynamic object
@@ -128,11 +129,13 @@ namespace KirbyNightmareInDreamLand
                         string type2 = manager.DynamicObjects[j].GetObjectType();
                         
                         Tuple<string, string, CollisionSide> key = new Tuple<string, string, CollisionSide>(type1, type2, side);
+
+                        // Collision detection does not care about the response dictionary but debug does to accurately keep track of dynamic execution calls
                         if (response.collisionMapping.ContainsKey(key))
                         {
-                            response.ExecuteCollision(manager.DynamicObjects[i], manager.DynamicObjects[j], side);
                             GameDebug.Instance.NumOfDynamicExecuteCollisionCalls++;
-                        } 
+                        }
+                        response.ExecuteCollision(manager.DynamicObjects[i], manager.DynamicObjects[j], side);
                     }
                 }
                 // Removes dynamic objects that are no longer active after checking a dynamic object with all other possibilies
@@ -205,19 +208,19 @@ namespace KirbyNightmareInDreamLand
             return IntersectingTiles(collisionRectangle, Vector2.Zero);
         }
 
-        private Color green = new Color(0, 255, 0);
+        private Color green = new Color(Constants.DebugValues.GREEN_R, Constants.DebugValues.GREEN_G, Constants.DebugValues.GREEN_B);
         public void DebugDraw(SpriteBatch spriteBatch)
         {
             foreach (var staticObj in manager.DebugStaticObjects)
             {
-                GameDebug.Instance.DrawRectangle(spriteBatch, staticObj.GetHitBox(), green, 0.5f);
+                GameDebug.Instance.DrawRectangle(spriteBatch, staticObj.GetHitBox(), green, Constants.DebugValues.GREEN_ALPHA);
             }
 
             foreach (var dynamicObj in manager.DynamicObjects)
             {
                 if (dynamicObj.CollisionActive)
                 {
-                    GameDebug.Instance.DrawRectangle(spriteBatch, dynamicObj.GetHitBox(), Color.Red, 1.0f);
+                    GameDebug.Instance.DrawRectangle(spriteBatch, dynamicObj.GetHitBox(), Color.Red, Constants.DebugValues.RED_ALPHA);
                 }
             }
         }

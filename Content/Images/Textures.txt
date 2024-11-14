@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Images/Spritesheets/kirby_normal
 Images/Spritesheets/kirby_beam
 Images/Spritesheets/kirby_spark
@@ -12,11 +13,41 @@ Images/Spritesheets/game_over_spritesheet
 Images/Spritesheets/winning_screen
 Images/Spritesheets/buttons
 Images/Spritesheets/hub_spritesheet
+=======
+Images/Kirby/kirby0_normal
+Images/Kirby/kirby1_normal
+Images/Kirby/kirby2_normal
+Images/Kirby/kirby3_normal
+Images/Kirby/kirby0_beam
+Images/Kirby/kirby1_beam
+Images/Kirby/kirby2_beam
+Images/Kirby/kirby3_beam
+Images/Kirby/kirby0_spark
+Images/Kirby/kirby1_spark
+Images/Kirby/kirby2_spark
+Images/Kirby/kirby3_spark
+Images/Kirby/kirby0_fire
+Images/Kirby/kirby1_fire
+Images/Kirby/kirby2_fire
+Images/Kirby/kirby3_fire
+Images/Misc/enemies
+Images/Misc/items
+Images/Misc/projectiles
+Images/Misc/particles
+Images/Misc/playerarrows
+Images/Misc/playerarrow_you
+Images/Level/doorstars
+>>>>>>> 07e22bf111a48a89477995082e0a7529c0f5aa89
 Images/Level/backgrounds
 Images/Level/collisionTileset
 Images/Level/room1_level
 Images/Level/room2_level
 Images/Level/room3_level
-Images/UI/ui
+Images/UI/pause_screen_spritesheet
+Images/UI/game_over_spritesheet
+Images/UI/winning_screen
+Images/UI/buttons
+Images/UI/hud
 Images/UI/pause
+Images/UI/emptyplayerscreen
 Images/invalidspritename

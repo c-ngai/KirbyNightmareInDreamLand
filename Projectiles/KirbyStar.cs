@@ -76,7 +76,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public bool IsDone()
         {
-            if(!Game1.Instance.Camera.bounds.Contains(position))
+            if(!Camera.InAnyActiveCamera(position))
             {
                 EndAttack();
                 return true;
