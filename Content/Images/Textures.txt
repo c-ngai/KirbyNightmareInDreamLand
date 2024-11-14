@@ -11,6 +11,7 @@ Images/Spritesheets/pause_screen_spritesheet
 Images/Spritesheets/game_over_spritesheet
 Images/Spritesheets/winning_screen
 Images/Spritesheets/buttons
+Images/Spritesheets/hub_spritesheet
 Images/Level/backgrounds
 Images/Level/collisionTileset
 Images/Level/room1_level

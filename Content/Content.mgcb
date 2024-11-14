@@ -410,6 +410,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/Spritesheets/game_over_spritesheet.png
 
+#begin Images/Spritesheets/hub_spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Spritesheets/hub_spritesheet.png
+
 #begin Images/Spritesheets/items.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -568,6 +580,9 @@
 
 #begin Tilemaps/game_over_tileset.csv
 /copy:Tilemaps/game_over_tileset.csv
+
+#begin Tilemaps/hub_tileset.csv
+/copy:Tilemaps/hub_tileset.csv
 
 #begin Tilemaps/room1_tileset.csv
 /copy:Tilemaps/room1_tileset.csv

@@ -21,7 +21,7 @@ namespace KirbyNightmareInDreamLand.Controllers
         public MouseController()
         {
             this.game = Game1.Instance;
-            roomList = new List<string> { "room1", "room2", "room3", "treasureroom", "game_over", "winner_room"}; // Make sure names align with what's in Rooms.json
+            roomList = new List<string> { "room1", "room2", "room3", "hub", "treasureroom", "game_over", "winner_room"}; // Make sure names align with what's in Rooms.json
             currentRoomIndex = 0;
             previousMouseState = Mouse.GetState();
 
