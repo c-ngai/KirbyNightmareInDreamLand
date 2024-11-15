@@ -43,5 +43,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState
         {
             _enemy.ToggleDirection();
         }
+
+        public void Dispose()
+        {
+
+        }
+
     }
 }

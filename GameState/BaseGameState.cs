@@ -68,7 +68,7 @@ namespace KirbyNightmareInDreamLand.GameState
         {
             level.CurrentRoom.ForegroundSprite.Update();
             DoorStarsSprite.Update();
-            foreach (Enemy enemy in Game1.Instance.Level.enemyList)
+            foreach (Enemy enemy in _manager.Enemies)
             {
                 enemy.Update(_game.time);
             }
@@ -125,7 +125,7 @@ namespace KirbyNightmareInDreamLand.GameState
         // draws enemies and tomatoes
         public void DrawLevelObjects(SpriteBatch spriteBatch)
         {
-            foreach (Enemy enemy in Game1.Instance.Level.enemyList)
+            foreach (Enemy enemy in _manager.Enemies)
             {
                 enemy.Draw(spriteBatch);
             }
