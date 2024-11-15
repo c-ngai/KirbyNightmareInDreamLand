@@ -179,7 +179,7 @@ namespace KirbyNightmareInDreamLand
             public static Vector2 FLAME_ATTACK_OFFSET_LEFT = new Vector2(-25, -10);
             public static Vector2 STAR_ATTACK_OFFSET_RIGHT= new Vector2(8, -10);
             public static Vector2 STAR_ATTACK_OFFSET_LEFT= new Vector2(-8, -10);
-            public static float SLIDE_TIME = 0.8f;
+            public static float SLIDE_TIME = 0.7f;
             public static float CEILING = 15;
             public static int BOUNDS = 10;
 

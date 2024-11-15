@@ -171,6 +171,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             state.ChangeType(KirbyType.Spark);
         }
+        public void ChangeToProfessor()
+        {
+            state.ChangeType(KirbyType.Professor);
+        }
         public void ChangeToMouthful()
         {
             state.ChangeType(KirbyType.Mouthful);

@@ -208,6 +208,11 @@
 			"Command": "KirbyChangeSparkCommand"
 		},
 		{
+			"Key": "D5",
+			"ExecutionType": "StartingPress",
+			"Command": "KirbyChangeProfessorCommand"
+		},
+		{
 			"Key": "O",
 			"ExecutionType": "StartingPress",
 			"Command": "PreviousEnemyCommand"
