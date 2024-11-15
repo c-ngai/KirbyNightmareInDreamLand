@@ -141,8 +141,11 @@ namespace KirbyNightmareInDreamLand.GameState
         {
             foreach (Door door in level.CurrentRoom.Doors)
             {
-                Vector2 doorPos = door.Bounds.Location.ToVector2();
-                DoorStarsSprite.Draw(doorPos, spriteBatch);
+                if (door.DrawDoorStars)
+                {
+                    Vector2 doorPos = door.Bounds.Location.ToVector2();
+                    DoorStarsSprite.Draw(doorPos, spriteBatch);
+                }
             }
         }
 

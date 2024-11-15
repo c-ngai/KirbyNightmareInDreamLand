@@ -18,12 +18,14 @@ namespace KirbyNightmareInDreamLand.Levels
         public Rectangle Bounds;
         public string DestinationRoom;
         public Vector2 DestinationPoint;
+        public bool DrawDoorStars;
 
-        public Door(Rectangle bounds, string destinationRoom, Vector2 destinationPoint)
+        public Door(Rectangle bounds, string destinationRoom, Vector2 destinationPoint, bool drawDoorStars)
         {
             Bounds = bounds;
             DestinationRoom = destinationRoom;
             DestinationPoint = destinationPoint;
+            DrawDoorStars = drawDoorStars;
         }
     }
     public struct EnemyData
@@ -110,7 +112,8 @@ namespace KirbyNightmareInDreamLand.Levels
                     doorJsonData.DestinationTileX, doorJsonData.DestinationTileY)
                     * Constants.Level.TILE_SIZE
                     + Constants.Level.BOTTOM_MIDDLE_OF_TILE;
-                Door door = new Door(Bounds, DestinationRoom, DestinationPoint);
+                bool DrawDoorStars = doorJsonData.DrawDoorStars;
+                Door door = new Door(Bounds, DestinationRoom, DestinationPoint, DrawDoorStars);
                 Doors.Add(door);
             }
 
