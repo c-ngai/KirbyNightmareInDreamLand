@@ -1,19 +1,4 @@
-<<<<<<< HEAD
-Images/Spritesheets/kirby_normal
-Images/Spritesheets/kirby_beam
-Images/Spritesheets/kirby_spark
-Images/Spritesheets/kirby_fire
-Images/Spritesheets/enemies
-Images/Spritesheets/items
-Images/Spritesheets/projectiles
-Images/Spritesheets/particles
-Images/Spritesheets/doorstars
-Images/Spritesheets/pause_screen_spritesheet
-Images/Spritesheets/game_over_spritesheet
-Images/Spritesheets/winning_screen
-Images/Spritesheets/buttons
 Images/Spritesheets/hub_spritesheet
-=======
 Images/Kirby/kirby0_normal
 Images/Kirby/kirby1_normal
 Images/Kirby/kirby2_normal
@@ -37,7 +22,6 @@ Images/Misc/particles
 Images/Misc/playerarrows
 Images/Misc/playerarrow_you
 Images/Level/doorstars
->>>>>>> 07e22bf111a48a89477995082e0a7529c0f5aa89
 Images/Level/backgrounds
 Images/Level/collisionTileset
 Images/Level/room1_level

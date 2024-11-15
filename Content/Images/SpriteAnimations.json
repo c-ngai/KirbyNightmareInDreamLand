@@ -54702,8 +54702,7 @@
         ]
     },
 
-<<<<<<< HEAD
-  "hub_foreground": {
+    "hub_foreground": {
     "Source texture": "hub_spritesheet",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -54971,23 +54970,6 @@
     ]
   },
 
-  "invalidspritename": {
-    "Source texture": "invalidspritename",
-    "Loop point": 0,
-    "Flip horizontally?": false,
-    "Frames": [
-      {
-        "X": 0,
-        "Y": 0,
-        "Width": 25,
-        "Height": 25,
-        "CenterX": 12,
-        "CenterY": 12,
-        "Time": 1
-      }
-    ]
-  }
-=======
     "background_lake": {
         "Source texture": "backgrounds",
         "Loop point": 0,
@@ -56566,5 +56548,4 @@
             }
         ]
     }
->>>>>>> 07e22bf111a48a89477995082e0a7529c0f5aa89
 }
