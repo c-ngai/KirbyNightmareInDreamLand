@@ -18,5 +18,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         void UpdateTexture();
         string GetStateString();
         void ChangePose(EnemyPose pose);
+        void Dispose();
     }
 }

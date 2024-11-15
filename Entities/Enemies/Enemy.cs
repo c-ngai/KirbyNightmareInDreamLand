@@ -140,7 +140,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             Game1.Instance.manager.UpdateScore(points);
 
             currentState.TakeDamage();
-            CollisionActive = false;
+            Dispose();
             SoundManager.Play("enemydamage");
             await Task.Delay(Constants.Enemies.DELAY);
             SoundManager.Play("enemyexplode");
@@ -150,7 +150,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             currentState.TakeDamage();
             this.TakeDamage(intersection);
-            CollisionActive = false;
+            Dispose();
         }
 
         public virtual void ChangeDirection()
@@ -200,7 +200,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
                 GetHitBox(); // Ensure hitbox is updated
             } else {
-                CollisionActive = false;
+                Dispose();
             }
         }
 
@@ -335,5 +335,14 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             float yIntercept = Constants.Collision.STEEP_SLOPE_RIGHT_YINTERCEPT;
             AdjustOnSlopeCollision(tile, slope, yIntercept);
         }
+
+
+        public virtual void Dispose()
+        {
+            CollisionActive = false;
+            currentState.Dispose();
+        }
+       
+
     }
 }

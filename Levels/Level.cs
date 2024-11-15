@@ -28,7 +28,6 @@ namespace KirbyNightmareInDreamLand.Levels
         public Room CurrentRoom { get; private set; }
 
         private ObjectManager manager = ObjectManager.Instance;
-        public List<Enemy> enemyList;
         public List<PowerUp> powerUpList;
         public string EnemyNamespace = Constants.Namespaces.ENEMY_NAMESPACE;
         public string PowerUpNamespace = Constants.Namespaces.POWERUP_NAMESPACE;
@@ -244,7 +243,9 @@ namespace KirbyNightmareInDreamLand.Levels
         // this needs to move to level loader or object manager 
         public void LoadLevelObjects()
         {
-            enemyList = new List<Enemy>();
+            // Clear all existing enemies from the previous room before loading new ones
+            _manager.ClearEnemies();
+
             foreach (EnemyData enemy in CurrentRoom.Enemies)
             {
                 Type type = Type.GetType(EnemyNamespace + enemy.EnemyType);
@@ -261,7 +262,7 @@ namespace KirbyNightmareInDreamLand.Levels
                     {
                         // Create an instance of the enemy
                         Enemy enemyObject = (Enemy)constructor.Invoke(new object[] { enemy.SpawnPoint });
-                        enemyList.Add(enemyObject);
+                        _manager.Enemies.Add(enemyObject);
                     }
                 }
             }

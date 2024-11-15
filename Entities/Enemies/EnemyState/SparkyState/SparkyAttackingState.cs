@@ -54,5 +54,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
         {
             _enemy.ToggleDirection();
         }
+
+        public void Dispose()
+        {
+            sound.Dispose();
+        }
+
     }
 }

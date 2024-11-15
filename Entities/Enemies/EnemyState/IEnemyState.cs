@@ -13,6 +13,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState
         void Exit();          // Cleanup on exit from this state
         void TakeDamage();    // Handle taking damage in different states
         void ChangeDirection();  // Handle changing direction
+        void Dispose();
     }
 
 }

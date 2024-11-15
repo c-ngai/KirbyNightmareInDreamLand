@@ -20,13 +20,13 @@ namespace KirbyNightmareInDreamLand
         public List<ICollidable> StaticObjects { get; private set; }
         public List<ICollidable> DebugStaticObjects { get; private set; }
 
-        // Single-player but can later be updated to an array of kirbys for multiplayer
         public List<IPlayer> Players { get; private set; }
 
+        public List<IEnemy> Enemies { get; set; }
 
         public Player kirby { get; private set; }
 
-        public IEnemy[] EnemyList { get; set; }
+        
 
         public List<IParticle> Particles { get; private set; }
         public Sprite Item { get; set; }
@@ -53,7 +53,17 @@ namespace KirbyNightmareInDreamLand
             DebugStaticObjects = new List<ICollidable>();
             Particles = new List<IParticle>();
             Players = new List<IPlayer>();
+            Enemies = new List<IEnemy>();
             InitializeTileTypes();
+        }
+
+        public void ClearEnemies()
+        {
+            foreach (IEnemy enemy in Enemies)
+            {
+                enemy.Dispose();
+            }
+            Enemies.Clear();
         }
 
         public void UpdateScore(int points)

@@ -46,5 +46,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState
         {
             _enemy.ToggleDirection();
         }
+
+        public void Dispose()
+        {
+
+        }
+
     }
 }

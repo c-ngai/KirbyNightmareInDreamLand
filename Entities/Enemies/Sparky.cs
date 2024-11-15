@@ -153,6 +153,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             }
         }
 
+        public override void Dispose()
+        {
+            base.Dispose();
+            ObjectManager.Instance.RemoveDynamicObject(sparkyPlasma);
+        }
 
     }
 }
