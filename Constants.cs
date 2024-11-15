@@ -59,6 +59,7 @@ namespace KirbyNightmareInDreamLand
             public const float FLOAT_GRAVITY = 5f; //its 2f as the gravity times 0.01 as a "time elapsed" so float kirby falls at a constan rate
             public const float JUMP_VEL = -2f;
             public const float JUMP_MAX_HEIGHT = 45; // Slight misnomer, not the max height of the jump but the height that you can no longer accellerate upwards at by holding jump
+            public const int JUMP_MAX_FRAMES = 22;
             public const float FLOAT_VEL = 0.9F;
             public const float WALKING_VELOCITY = 1.3f;
             public const float RUNNING_VELOCITY = 1.75f;
