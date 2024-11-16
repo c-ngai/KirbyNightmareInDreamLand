@@ -10,6 +10,7 @@ using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Audio;
 using Microsoft.Xna.Framework.Input;
 using KirbyNightmareInDreamLand.Particles;
+using static KirbyNightmareInDreamLand.Constants;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -31,8 +32,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public PlayerAttack starAttackTwo {get; private set;}
 
         //health stuffs -- will be taken to another class connected to kirby in next sprint
-        public int health = Constants.Kirby.MAX_HEALTH;
-        public int lives = Constants.Kirby.MAX_LIVES;
+        public int health { get; private set; }
+        public int lives { get; private set; }
         private bool invincible = false;
         private double timer = 0;
 
@@ -57,6 +58,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             oldState = null;
             oldPose = state.GetPose();
             poseCounter = 0;
+            health = Constants.Kirby.MAX_HEALTH;
+            lives = Constants.Kirby.MAX_LIVES;
             ObjectManager.Instance.RegisterDynamicObject(this);
             movement.ChangeKirbyLanded(false);
             UpdateTexture();

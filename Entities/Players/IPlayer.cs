@@ -9,6 +9,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
     {
         public PlayerStateMachine state { get; }
         public PlayerMovement movement { get; }
+        public int health { get; }
+        public int lives { get; }
         void Crouch();
         void EndCrouch();
         void AttackPressed();

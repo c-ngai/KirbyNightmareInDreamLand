@@ -165,5 +165,17 @@ namespace KirbyNightmareInDreamLand
             return false;
         }
 
+        public static bool InAnyActiveEnemyBounds(Vector2 position)
+        {
+            for (int i = 0; i < Game1.Instance.ActiveCameraCount; i++)
+            {
+                if (Game1.Instance.cameras[i].enemyBounds.Contains(position))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
 }

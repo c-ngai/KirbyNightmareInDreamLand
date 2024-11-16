@@ -30,7 +30,7 @@ namespace KirbyNightmareInDreamLand
         public GamepadController Gamepad { get; private set; }
         public MouseController MouseController { get; private set; }
 
-        private HUD hud;
+        private HUD[] huds;
 
         public Camera[] cameras;
         public int ActiveCameraCount;
@@ -136,6 +136,7 @@ namespace KirbyNightmareInDreamLand
             MouseController = new MouseController();
 
             cameras = new Camera[Constants.Game.MAXIMUM_PLAYER_COUNT];
+            huds = new HUD[Constants.Game.MAXIMUM_PLAYER_COUNT];
             CurrentCamera = 0;
 
             GamePad.InitDatabase();
@@ -166,6 +167,7 @@ namespace KirbyNightmareInDreamLand
             for (int i = 0; i < Constants.Game.MAXIMUM_PLAYER_COUNT; i++)
             {
                 cameras[i] = new Camera(i);
+                huds[i] = new HUD(i);
             }
 
             // Create level instance and load initial room
@@ -179,7 +181,7 @@ namespace KirbyNightmareInDreamLand
             music = SoundManager.CreateInstance("song_vegetablevalley");
             music?.Play();
 
-            hud = new HUD(manager.kirby);
+            
         }
 
 
@@ -220,6 +222,7 @@ namespace KirbyNightmareInDreamLand
             for (int i = 0; i < Constants.Game.MAXIMUM_PLAYER_COUNT; i++)
             {
                 cameras[i].Update();
+                huds[i].Update();
             }
 
             foreach (IParticle particle in manager.Particles) particle.Update();
@@ -235,7 +238,7 @@ namespace KirbyNightmareInDreamLand
 
         
 
-        private void DrawView(Rectangle bounds, Camera camera)
+        private void DrawView(Rectangle bounds)
         {
             // Level spritebatch
             RasterizerState rasterizerState = new RasterizerState { ScissorTestEnable = true };
@@ -243,7 +246,7 @@ namespace KirbyNightmareInDreamLand
             
             Matrix viewMatrix = Matrix.CreateScale((float)bounds.Width / Constants.Graphics.GAME_WIDTH) * Matrix.CreateTranslation(bounds.X, bounds.Y, 0);
             
-            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, rasterizerState, null, camera.LevelMatrix * viewMatrix);
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, rasterizerState, null, cameras[CurrentCamera].LevelMatrix * viewMatrix);
             // Draw level
             Level.Draw(_spriteBatch);
 
@@ -276,7 +279,7 @@ namespace KirbyNightmareInDreamLand
             CULLING_ENABLED = false;
 
             _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, rasterizerState, null, viewMatrix);
-            hud.Draw(_spriteBatch);
+            huds[CurrentCamera].Draw(_spriteBatch);
             _spriteBatch.End();
             // Restore old culling mode
             CULLING_ENABLED = old_CULLING_ENABLED;
@@ -301,7 +304,7 @@ namespace KirbyNightmareInDreamLand
                     if (i < ActiveCameraCount)
                     {
                         CurrentCamera = i;
-                        DrawView(bounds, cameras[i]);
+                        DrawView(bounds);
                     }
                     else
                     {
@@ -313,7 +316,7 @@ namespace KirbyNightmareInDreamLand
             {
                 Rectangle bounds = new Rectangle(WINDOW_XOFFSET, WINDOW_YOFFSET, WINDOW_WIDTH, WINDOW_HEIGHT);
                 CurrentCamera = 0;
-                DrawView(bounds, cameras[0]);
+                DrawView(bounds);
             }
 
             
