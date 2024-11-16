@@ -1,83 +1,48 @@
-﻿# Kirby: Nightmare in Dream Land
-## by Team Kirby Superstars
-Group Members:  Gwyneth Barnholtz, Mark DeLeo, Vivian Ferrigni, Payton Murphy, Carman Ngai, Lina Ordonez Aguiar
-Sprint4: 10/21/2024 - 11/09/2024
+# Kirby: Nightmare in Dream Land
+by **Team Kirby Superstars**  
+Gwyneth Barnholtz, Mark DeLeo, Vivian Ferrigni, Payton Murphy, Carman Ngai, Lina Ordonez Aguiar
 
+## Contents
+* [Controls](#controls)
 
+<a id="controls"></a>
+## Controls
+### Keyboard
+![image](.readme_content/keyboard%20guide.png) 
+---
+### Controller
+![image](.readme_content/controller%20guide.png) 
+---
+**General control notes:**
+- Double-tap **LEFT** and **RIGHT** to dash
+- Hold **JUMP** longer to jump higher
+- When you have an enemy in your mouth, press **ATTACK** again to spit it out, or **DOWN** to swallow it and take its power, if it has one
+- Press **DOWN** to crouch, and **DOWN** + **ATTACK** to slide
+- Press **UP** to float
+- Press **UP** while in a door to enter it
 
-Project: Sprint4 - Finished framework and first level
+**Gamepad-specific control notes:**  
 
-###############################################################################
+Monogame is only directly compatible with XInput controllers, if you want to use DirectInput controllers you will need a way to emulate XInput with DirectInput. For example, to use Nintendo Switch controllers with this game, use [BetterJoy](https://www.betterjoy.org/) to emulate Nintendo Switch controllers as generic XInput. Controllers will be automatically mapped to a player slot, but to change this, use the left and right bumpers to decrement and increment the player slot that you control. There's nothing in the code stopping multiple controllers from controlling one player, so coordinate the controllers to be mapped to the players you want. If you press F1 to enter debug text mode, there will also be a graphic in the top-right corner to visualize left stick input. This can make it easier to tell who's controlling who, since the slots are color-coded to the Kirbys and will turn gray if no controller is mapped to that slot. 
 
-Program Controls:
-
-Right-clicking progresses to the next room.
-
-Left-clicking regresses to the previous room.
-
-Left and right arrow keys move Kirby.
-
-Two consecutive left or right arrow presses (either hold then press or press press) 
-makes Kirby run.
-
-'X' allows him to jump. Hold for long jump and press for short.
-
-Down arrow allows him to crouch. Down and z alows him to slide.
-
-Up arrow allows him to float. It will also be used for him to travel through doors to move between levels.
-
-The 'A' and 'D' keys change Kirby's facing direction NOT movement.
-
-    **NOTE** We plan on removing the hardcoded key mappings in the commands so that we can
-    later swap them out and use WASD along with the arrows to move Kirby. This is reflected
-    on the backlog.
-
-The 'z' key:
-    Kirby inhales when standing still and can swallow a nearby enemy
-    Kirby slides when crouching and z is pressed
-    Kirby attacks 
-        Exhales when floating
-        Uses beam when in beam
-        Uses fire when in fire
-        Uses spark when in spark
-        Unleashes star attack if Kirby has inhaled an enemy
-
-Number keys (1, 2, 3, 4) can be used to show Kirby use a different power-up modes
-(Normal, Beam, Fire, Spark). ***
-
-8, 9, and 0 keys can be used to show the different powerup cards (beam, spark, fire) on the HUD.
-Note that this will later be changed to show the cards when Kirby gets a powerup in Sprint5.
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 
 When on Game over and Level Complete Screens 'up' and 'down' arrow keys navigate
 between Quit and Continue buttons, to select a highlighted button, use 'space'.
+
 Quit exits the program and continue restarts the game in room 1. Level Complete Screen happens when you 
 enter the last door in Level 3.
 
-Use 'space' to pause the game and use 'space' again to unpause.
-
-Use 'q' to quit and 'r' to reset the current level back to its initial state.
-
-Use 'f1' to toggle debug mode for graphics.
-
-Use 'f2' to toggle debug mode for sprites.
-
-Use 'f3' to toggle debug mode for level.
-
-Use 'f4' to toggle culling.
-
-Use 'f5' to toggle debug mode for collision.
-
-Use 'F' to toggle fullscreen.
-
-Use '+' to increase the window size.
-
-Use '-' to decrease the window size.
-
-Use ']' to increase the frame rate.
-
-Use '[' to decrease the frame rate. 
-
-Use 'm' to mute sound.
 
 ###############################################################################
 
