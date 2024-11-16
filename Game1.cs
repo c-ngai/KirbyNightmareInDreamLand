@@ -89,7 +89,7 @@ namespace KirbyNightmareInDreamLand
         }
         protected override void Initialize()
         {
-            DEBUG_TEXT_ENABLED = true;
+            DEBUG_TEXT_ENABLED = false;
             DEBUG_SPRITE_MODE = false;
             DEBUG_LEVEL_MODE = false; // TODO: Change to false by default later, currently no normal level draw behavior
             CULLING_ENABLED = true;
