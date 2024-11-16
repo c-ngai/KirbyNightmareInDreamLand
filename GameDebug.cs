@@ -180,19 +180,16 @@ namespace KirbyNightmareInDreamLand
             texts.Add("Static ExecuteCollision calls: " + NumOfStaticExecuteCollisionCalls);
             texts.Add("Dynamic ExecuteCollision calls: " + NumOfDynamicExecuteCollisionCalls);
             texts.Add("ObjectManager.DynamicObjects.Count: " + ObjectManager.Instance.DynamicObjects.Count);
-            //texts.Add("");
-            //texts.Add("+/- : Resize window");
-            //texts.Add("Q : Toggle fullscreen");
-            //texts.Add("W : Toggle splitscreen");
-            //texts.Add("Insert/Delete: Add/remove players");
-            //texts.Add("M : Mute audio");
             texts.Add("");
             texts.Add("F1 : Toggle debug text");
             texts.Add("F2 : Toggle sprite debug mode");
             texts.Add("F3 : Toggle level debug mode");
             texts.Add("F4 : Toggle sprite culling");
             texts.Add("F5 : Toggle collision debug mode");
-            
+            texts.Add("[/] : Increase/decrease target framerate");
+            texts.Add("Alt (hold) : Log player position to screen");
+            texts.Add("Ctrl : Clear player position log");
+
             //texts.Add("Alt (hold) : Record Kirby position");
             //texts.Add("Ctrl : Clear Kirby position log");
 

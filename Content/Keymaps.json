@@ -213,16 +213,6 @@
 			"Command": "KirbyChangeProfessorCommand"
 		},
 		{
-			"Key": "O",
-			"ExecutionType": "StartingPress",
-			"Command": "PreviousEnemyCommand"
-		},
-		{
-			"Key": "P",
-			"ExecutionType": "StartingPress",
-			"Command": "NextEnemyCommand"
-		},
-		{
 			"Key": "Escape",
 			"ExecutionType": "StartingPress",
 			"Command": "QuitCommand"

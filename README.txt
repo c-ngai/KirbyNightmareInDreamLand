@@ -1,9 +1,9 @@
-﻿
-Team Kirby Superstars
+﻿# Kirby: Nightmare in Dream Land
+## by Team Kirby Superstars
+Group Members:  Gwyneth Barnholtz, Mark DeLeo, Vivian Ferrigni, Payton Murphy, Carman Ngai, Lina Ordonez Aguiar
 Sprint4: 10/21/2024 - 11/09/2024
 
-Group Members:  Gwyneth Barnholtz, Mark DeLeo, Vivian Ferrigni, Payton Murphy,
-                Carman Ngai, Lina Ordonez Aguiar
+
 
 Project: Sprint4 - Finished framework and first level
 
