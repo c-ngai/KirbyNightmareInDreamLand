@@ -56613,6 +56613,412 @@
             }
         ]
     },
+    "particle_dash_right": {
+        "Source texture": "particle_dash",
+        "Loop point": 10,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 0,
+                "Width": 38,
+                "Height": 30,
+                "CenterX": 40,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 30,
+                "Width": 38,
+                "Height": 30,
+                "CenterX": 40,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 60,
+                "Width": 38,
+                "Height": 30,
+                "CenterX": 40,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 90,
+                "Width": 38,
+                "Height": 30,
+                "CenterX": 40,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 120,
+                "Width": 38,
+                "Height": 30,
+                "CenterX": 40,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 150,
+                "Width": 38,
+                "Height": 30,
+                "CenterX": 40,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 180,
+                "Width": 38,
+                "Height": 30,
+                "CenterX": 40,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 210,
+                "Width": 38,
+                "Height": 30,
+                "CenterX": 40,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 240,
+                "Width": 38,
+                "Height": 30,
+                "CenterX": 40,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 270,
+                "Width": 38,
+                "Height": 30,
+                "CenterX": 40,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 300,
+                "Width": 38,
+                "Height": 30,
+                "CenterX": 40,
+                "CenterY": 24,
+                "Time": 1
+            }
+        ]
+    },
+    "particle_dash_left": {
+        "Source texture": "particle_dash",
+        "Loop point": 10,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 0,
+                "Width": 38,
+                "Height": 30,
+                "CenterX": 40,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 30,
+                "Width": 38,
+                "Height": 30,
+                "CenterX": 40,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 60,
+                "Width": 38,
+                "Height": 30,
+                "CenterX": 40,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 90,
+                "Width": 38,
+                "Height": 30,
+                "CenterX": 40,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 120,
+                "Width": 38,
+                "Height": 30,
+                "CenterX": 40,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 150,
+                "Width": 38,
+                "Height": 30,
+                "CenterX": 40,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 180,
+                "Width": 38,
+                "Height": 30,
+                "CenterX": 40,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 210,
+                "Width": 38,
+                "Height": 30,
+                "CenterX": 40,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 240,
+                "Width": 38,
+                "Height": 30,
+                "CenterX": 40,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 270,
+                "Width": 38,
+                "Height": 30,
+                "CenterX": 40,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 300,
+                "Width": 38,
+                "Height": 30,
+                "CenterX": 40,
+                "CenterY": 24,
+                "Time": 1
+            }
+        ]
+    },
+    "OLDparticle_dash_right": {
+        "Source texture": "particle_dash",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 0,
+                "Width": 45,
+                "Height": 28,
+                "CenterX": 47,
+                "CenterY": 22,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 28,
+                "Width": 45,
+                "Height": 28,
+                "CenterX": 47,
+                "CenterY": 22,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 56,
+                "Width": 45,
+                "Height": 28,
+                "CenterX": 47,
+                "CenterY": 22,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 84,
+                "Width": 45,
+                "Height": 28,
+                "CenterX": 47,
+                "CenterY": 22,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 112,
+                "Width": 45,
+                "Height": 28,
+                "CenterX": 47,
+                "CenterY": 22,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 140,
+                "Width": 45,
+                "Height": 28,
+                "CenterX": 47,
+                "CenterY": 22,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 168,
+                "Width": 45,
+                "Height": 28,
+                "CenterX": 47,
+                "CenterY": 22,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 196,
+                "Width": 45,
+                "Height": 28,
+                "CenterX": 47,
+                "CenterY": 22,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 224,
+                "Width": 45,
+                "Height": 28,
+                "CenterX": 47,
+                "CenterY": 22,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 252,
+                "Width": 45,
+                "Height": 28,
+                "CenterX": 47,
+                "CenterY": 22,
+                "Time": 1
+            }
+        ]
+    },
+    "OLDparticle_dash_left": {
+        "Source texture": "particle_dash",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 0,
+                "Width": 45,
+                "Height": 28,
+                "CenterX": 47,
+                "CenterY": 22,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 28,
+                "Width": 45,
+                "Height": 28,
+                "CenterX": 47,
+                "CenterY": 22,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 56,
+                "Width": 45,
+                "Height": 28,
+                "CenterX": 47,
+                "CenterY": 22,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 84,
+                "Width": 45,
+                "Height": 28,
+                "CenterX": 47,
+                "CenterY": 22,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 112,
+                "Width": 45,
+                "Height": 28,
+                "CenterX": 47,
+                "CenterY": 22,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 140,
+                "Width": 45,
+                "Height": 28,
+                "CenterX": 47,
+                "CenterY": 22,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 168,
+                "Width": 45,
+                "Height": 28,
+                "CenterX": 47,
+                "CenterY": 22,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 196,
+                "Width": 45,
+                "Height": 28,
+                "CenterX": 47,
+                "CenterY": 22,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 224,
+                "Width": 45,
+                "Height": 28,
+                "CenterX": 47,
+                "CenterY": 22,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 252,
+                "Width": 45,
+                "Height": 28,
+                "CenterX": 47,
+                "CenterY": 22,
+                "Time": 1
+            }
+        ]
+    },
 
     "maximtomato": {
         "Source texture": "items",

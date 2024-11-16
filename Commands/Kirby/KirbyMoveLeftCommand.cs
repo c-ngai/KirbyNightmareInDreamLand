@@ -23,8 +23,6 @@ namespace KirbyNightmareInDreamLand.Commands
         private int frameOfLastExecution;
         // Flag for if Kirby should be running or walking this frame
         private bool shouldRun;
-        //old state
-        private bool wasDashing;
 
         public KirbyMoveLeftCommand(int _playerIndex)
         {
@@ -36,7 +34,6 @@ namespace KirbyNightmareInDreamLand.Commands
             timeOfLastExecution = 0;
             frameOfLastExecution = 0;
             shouldRun = false;
-            wasDashing = false;
         }
 
         public void Execute()
@@ -53,17 +50,6 @@ namespace KirbyNightmareInDreamLand.Commands
                 shouldRun = shouldRun ?
                     (currentTime - timeOfLastExecution < Constants.Controller.RESPONSE_TIME) :
                     (currentTime - timeOfLastExecution < Constants.Controller.RESPONSE_TIME) && (currentFrame > frameOfLastExecution + 1);
-
-                // Play dash sound and animation on transition from walking to dashing 
-                if (shouldRun && !wasDashing)
-                {
-                    SoundManager.Play("dash");
-                    bool isLeft = true;
-                    IParticle cloud = new Cloud(_players[playerIndex].movement.GetPosition(), isLeft);
-                }
-
-                // Update wasDashing to match shouldRun for the next frame
-                wasDashing = shouldRun;
 
                 // If shouldRun, then run. If not, then walk.
                 if (shouldRun)

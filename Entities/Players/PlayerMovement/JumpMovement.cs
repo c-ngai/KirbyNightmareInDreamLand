@@ -43,7 +43,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //checks if kirby is going down to start the falling animation
         public void JumpCheck(Player kirby)
         {
-            if (yVel > 0)
+            if (yVel > 0) // && kirby.GetKirbyPose() == KirbyPose.JumpRising)
             {
                 kirby.ChangePose(KirbyPose.JumpFalling);
             }

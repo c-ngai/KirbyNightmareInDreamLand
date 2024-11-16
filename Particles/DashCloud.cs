@@ -1,46 +1,40 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
-using System;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand.Particles
 {
-    public class Cloud : IParticle
+    public class DashCloud : IParticle
     {
+        private IPlayer player;
         private Sprite sprite;
         private Vector2 position;
         private int frameCount = 0;
-        private Vector2 offset;
         private bool completed;
 
-        public Cloud(Vector2 kirbyPosition, bool isLeft)
+        public DashCloud(IPlayer player)
         {
+            this.player = player;
             // assign the appropriate sprite based on direction
-            sprite = isLeft
-                ? SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_right")
-                : SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_left");
+            sprite = player.IsLeft()
+                ? SpriteFactory.Instance.CreateSprite("particle_dash_left")
+                : SpriteFactory.Instance.CreateSprite("particle_dash_right");
 
-            // assign appropriate animation location and direction 
-            offset = isLeft
-                ? Constants.Particle.CLOUD_OFFSET_RIGHT
-                : Constants.Particle.CLOUD_OFFSET_LEFT;
-
-            position = kirbyPosition + offset;
+            position = player.GetKirbyPosition();
             ObjectManager.Instance.AddParticle(this);
             completed = false;
         }
 
         public void Update()
         {
-            if (frameCount < Constants.Particle.CLOUD_MAX_FRAMES)
+            if (frameCount < Constants.Particle.DASH_CLOUD_FRAMES)
             {
                 sprite.Update();
-                position += offset;
                 frameCount++;
             }
             else
             {
-                sprite = null;
                 completed = true;
             }
         }

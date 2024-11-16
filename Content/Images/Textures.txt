@@ -19,6 +19,7 @@ Images/Misc/enemies
 Images/Misc/items
 Images/Misc/projectiles
 Images/Misc/particles
+Images/Misc/particle_dash
 Images/Misc/playerarrows
 Images/Misc/playerarrow_you
 Images/Level/doorstars

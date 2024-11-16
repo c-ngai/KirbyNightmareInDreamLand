@@ -401,9 +401,8 @@ namespace KirbyNightmareInDreamLand
             public static int OFFSET8 = 8;
             public static int STAR_MAX_FRAMES = 14;
 
-            public static Vector2 CLOUD_OFFSET_LEFT = new Vector2(-2, 0);
-            public static Vector2 CLOUD_OFFSET_RIGHT = new Vector2(2, 0);
-            public static int CLOUD_MAX_FRAMES = 10;
+            public static int DASH_CLOUD_FRAMES = 10;
+            public static int DASH_CLOUD_LOOPS = 3;
         }
 
         public class HUD

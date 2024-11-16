@@ -9,6 +9,7 @@ using System.Threading;
 using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Audio;
 using Microsoft.Xna.Framework.Input;
+using KirbyNightmareInDreamLand.Particles;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -37,6 +38,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         //others
         private string oldState;
+        private KirbyPose oldPose;
+        private int poseCounter;
         public bool attackIsActive{get; private set; } = false;
         public bool CollisionActive { get; private set;} = true;
         public bool DEAD = false;
@@ -52,6 +55,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             state = new PlayerStateMachine(playerIndex);
             movement = new NormalPlayerMovement(pos);
             oldState = null;
+            oldPose = state.GetPose();
+            poseCounter = 0;
             ObjectManager.Instance.RegisterDynamicObject(this);
             movement.ChangeKirbyLanded(false);
             UpdateTexture();
@@ -84,7 +89,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             if(!state.GetStateString().Equals(oldState)){
                 playerSprite = SpriteFactory.Instance.CreateSprite(state.GetSpriteParameters());
-                oldState = state.GetStateString();
             } 
         }
 
@@ -92,14 +96,22 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void ChangePose(KirbyPose pose)
         {
             state.ChangePose(pose);
+            if (oldPose != state.GetPose())
+            {
+                poseCounter = 0;
+            }
+            else
+            {
+                poseCounter++;
+            }
         }
         public void ChangeMovement()
         {
             movement = new NormalPlayerMovement(movement.GetPosition());
         }
-        public string GetKirbyPose()
+        public KirbyPose GetKirbyPose()
         {
-            return state.GetPose().ToString();
+            return state.GetPose();
         }
         public string GetKirbyType()
         {
@@ -352,6 +364,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             movement.Run(state.IsLeft());
             if (state.CanMove()){
                 ChangePose(KirbyPose.Running);
+                // Play dash sound and create particle accordingly
+                DashEffects();
             }
         }
         public void RunRight()
@@ -360,6 +374,22 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             movement.Run(state.IsLeft());
             if(state.CanMove()){
                 ChangePose(KirbyPose.Running);
+                // Play dash sound and create particle accordingly
+                DashEffects();
+            }
+        }
+
+        private void DashEffects()
+        {
+            // If on the first frame of the dash, play the dash sound
+            if (poseCounter == 0 && oldPose != KirbyPose.Running)
+            {
+                SoundManager.Play("dash");
+            }
+            // If on one of the first n multiples of the dash cloud animation length, create a new dash cloud particle (create three back-to-back)
+            if (poseCounter % Constants.Particle.DASH_CLOUD_FRAMES == 0 && poseCounter < Constants.Particle.DASH_CLOUD_FRAMES * Constants.Particle.DASH_CLOUD_LOOPS)
+            {
+                IParticle cloud = new DashCloud(this);
             }
         }
         #endregion
@@ -592,6 +622,14 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 starAttackOne?.Draw(spriteBatch, this);
                 starAttackTwo?.Draw(spriteBatch, this);
             }
+
+            UpdateOldStates();
+        }
+
+        private void UpdateOldStates()
+        {
+            oldState = state.GetStateString();
+            oldPose = state.GetPose();
         }
 
         private void DrawArrow(SpriteBatch spriteBatch)
