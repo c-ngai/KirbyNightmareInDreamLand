@@ -52,14 +52,14 @@ namespace KirbyNightmareInDreamLand.Projectiles
                     EndAttack();
                 }
             }
+            else
+            {
+                ObjectManager.Instance.RemoveDynamicObject(this);
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (!IsActive)
-            {
-                ObjectManager.Instance.RemoveDynamicObject(this); 
-            }
 
         }
 

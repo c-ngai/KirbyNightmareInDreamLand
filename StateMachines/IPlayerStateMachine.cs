@@ -1,6 +1,6 @@
 ﻿namespace KirbyNightmareInDreamLand.StateMachines
 {
-    public enum KirbyType { Normal, Beam, Spark, Fire, Mouthful };
+    public enum KirbyType { Normal, Beam, Spark, Fire, Professor, Mouthful };
     public enum KirbyPose
     {
         Standing, Crouching, Swimming, Attacking, ThrowEnemy, AttackingEnd,

@@ -44,5 +44,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState
         {
             _enemy.ToggleDirection();
         }
+
+        public void Dispose()
+        {
+
+        }
+
     }
 }

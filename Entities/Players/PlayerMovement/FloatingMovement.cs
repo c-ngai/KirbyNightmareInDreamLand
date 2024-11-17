@@ -111,7 +111,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //attack (or pressing z) undoes float
         public override void Attack(Player kirby)
         {
-            if (!kirby.GetKirbyPose().Equals("FloatingGrounded"))
+            if (kirby.GetKirbyPose() != KirbyPose.FloatingGrounded)
             {
                 //SoundManager.Play("spitair");
                 FloatingEndAnimation(kirby);

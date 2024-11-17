@@ -68,7 +68,7 @@ namespace KirbyNightmareInDreamLand.GameState
         {
             level.CurrentRoom.ForegroundSprite.Update();
             DoorStarsSprite.Update();
-            foreach (Enemy enemy in Game1.Instance.Level.enemyList)
+            foreach (Enemy enemy in _manager.Enemies)
             {
                 enemy.Update(_game.time);
             }
@@ -125,7 +125,7 @@ namespace KirbyNightmareInDreamLand.GameState
         // draws enemies and tomatoes
         public void DrawLevelObjects(SpriteBatch spriteBatch)
         {
-            foreach (Enemy enemy in Game1.Instance.Level.enemyList)
+            foreach (Enemy enemy in _manager.Enemies)
             {
                 enemy.Draw(spriteBatch);
             }
@@ -141,8 +141,11 @@ namespace KirbyNightmareInDreamLand.GameState
         {
             foreach (Door door in level.CurrentRoom.Doors)
             {
-                Vector2 doorPos = door.Bounds.Location.ToVector2();
-                DoorStarsSprite.Draw(doorPos, spriteBatch);
+                if (door.DrawDoorStars)
+                {
+                    Vector2 doorPos = door.Bounds.Location.ToVector2();
+                    DoorStarsSprite.Draw(doorPos, spriteBatch);
+                }
             }
         }
 
@@ -182,7 +185,7 @@ namespace KirbyNightmareInDreamLand.GameState
             Game1.Instance.DEBUG_SPRITE_MODE = false;
 
             Vector2 kirbyPos = level.CurrentRoom.SpawnPoint;
-            SpawnSprites["Kirby"].Draw(kirbyPos, spriteBatch, new Color(255, 255, 255, 0));
+            SpawnSprites["Kirby"].Draw(kirbyPos, spriteBatch, translucent);
 
             // Draw each enemy spawn point
             foreach (EnemyData enemy in level.CurrentRoom.Enemies)

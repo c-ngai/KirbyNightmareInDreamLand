@@ -47,5 +47,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState
             {
                 _hothead.ToggleDirection();
             }
+
+        public void Dispose()
+        {
+
+        }
+
         }
     }

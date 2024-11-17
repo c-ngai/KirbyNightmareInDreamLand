@@ -11,6 +11,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         protected float jumpVel = Constants.Physics.JUMP_VEL;
         protected float jumpHeight = Constants.Physics.JUMP_MAX_HEIGHT;
+        protected int jumpFrames = Constants.Physics.JUMP_MAX_FRAMES;
+        protected int frameCounter;
+        protected int lastFrameJumpCalled;
 
         private float startingY;
 
@@ -19,6 +22,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             landed = false;
             startingY = position.Y;
+            frameCounter = 0;
+            lastFrameJumpCalled = Game1.Instance.UpdateCounter;
         }
 
         public override void Walk(bool isLeft)
@@ -38,16 +43,27 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //checks if kirby is going down to start the falling animation
         public void JumpCheck(Player kirby)
         {
-            if (yVel > 0)
+            if (yVel > 0) // && kirby.GetKirbyPose() == KirbyPose.JumpRising)
             {
                 kirby.ChangePose(KirbyPose.JumpFalling);
             }
         }
         public override void Jump(bool isLeft)
         {
-            if (position.Y > startingY - jumpHeight && yVel < 0)
+            //if (position.Y > startingY - jumpHeight && yVel < 0)
+            //{ //makes it so kirby can only jump so high
+            //    yVel = jumpVel;
+            //}
+
+            int updateCounter = Game1.Instance.UpdateCounter;
+            // jump if:
+            //   1. haven't run out of frames yet
+            //   2. AND if jump was called no later than last frame. (if you let go of jump for even a single frame you stop rising)
+            if (frameCounter < jumpFrames && updateCounter <= lastFrameJumpCalled + 1)
             { //makes it so kirby can only jump so high
                 yVel = jumpVel;
+                frameCounter++;
+                lastFrameJumpCalled = updateCounter;
             }
         }
 
@@ -74,10 +90,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 //once he is back on the floor kirby is normal again
             }
             //dont go through the ceiling
-            if (position.Y < jumpCeiling)
+            if (position.Y < ceiling)
             {
-                yVel = 0;
-                position.Y = jumpCeiling;
+                //yVel = 0;
+                position.Y = ceiling;
             }
              if(position.Y > Game1.Instance.Level.CurrentRoom.Height)
             {

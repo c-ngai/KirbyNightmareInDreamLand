@@ -32,6 +32,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         void ChangeToBeam();
         void ChangeToFire();
         void ChangeToSpark();
+        void ChangeToProfessor();
         void BottomCollisionWithBlock(Rectangle intersection);
         void RightCollisionWithBlock(Rectangle intersection);
         void LeftCollisionWithBlock(Rectangle intersection);

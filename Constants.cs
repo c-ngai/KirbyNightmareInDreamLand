@@ -44,6 +44,11 @@ namespace KirbyNightmareInDreamLand
             public const int MAX_FRAME_RATE = 60;
             public const int MIN_FRAME_RATE = 5;
             public const float TIME_CONVERSION = 1000f;
+            public static Color INVINCIBLE_COLOR = new Color(255, 255, 0, 127);
+
+            public const int PLAYER_ARROW_VISIBILITY_BOUNDS_OUTSET = 10;
+            public const int PLAYER_ARROW_BOUNDS_INSET = 12;
+            public const int PLAYER_ARROW_BOUNDS_BOTTOM_INSET = 14;
         }
         #endregion
         #region  Physics
@@ -54,6 +59,7 @@ namespace KirbyNightmareInDreamLand
             public const float FLOAT_GRAVITY = 5f; //its 2f as the gravity times 0.01 as a "time elapsed" so float kirby falls at a constan rate
             public const float JUMP_VEL = -2f;
             public const float JUMP_MAX_HEIGHT = 45; // Slight misnomer, not the max height of the jump but the height that you can no longer accellerate upwards at by holding jump
+            public const int JUMP_MAX_FRAMES = 22;
             public const float FLOAT_VEL = 0.9F;
             public const float WALKING_VELOCITY = 1.3f;
             public const float RUNNING_VELOCITY = 1.75f;
@@ -173,7 +179,7 @@ namespace KirbyNightmareInDreamLand
             public static Vector2 FLAME_ATTACK_OFFSET_LEFT = new Vector2(-25, -10);
             public static Vector2 STAR_ATTACK_OFFSET_RIGHT= new Vector2(8, -10);
             public static Vector2 STAR_ATTACK_OFFSET_LEFT= new Vector2(-8, -10);
-            public static float SLIDE_TIME = 0.8f;
+            public static float SLIDE_TIME = 0.7f;
             public static float CEILING = 15;
             public static int BOUNDS = 10;
 
@@ -395,9 +401,8 @@ namespace KirbyNightmareInDreamLand
             public static int OFFSET8 = 8;
             public static int STAR_MAX_FRAMES = 14;
 
-            public static Vector2 CLOUD_OFFSET_LEFT = new Vector2(-2, 0);
-            public static Vector2 CLOUD_OFFSET_RIGHT = new Vector2(2, 0);
-            public static int CLOUD_MAX_FRAMES = 10;
+            public static int DASH_CLOUD_FRAMES = 10;
+            public static int DASH_CLOUD_LOOPS = 3;
         }
 
         public class HUD

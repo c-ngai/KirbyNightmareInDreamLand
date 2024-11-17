@@ -14,10 +14,14 @@ Images/Kirby/kirby0_fire
 Images/Kirby/kirby1_fire
 Images/Kirby/kirby2_fire
 Images/Kirby/kirby3_fire
+Images/Kirby/kirby0_professor
 Images/Misc/enemies
 Images/Misc/items
 Images/Misc/projectiles
 Images/Misc/particles
+Images/Misc/particle_dash
+Images/Misc/playerarrows
+Images/Misc/playerarrow_you
 Images/Level/doorstars
 Images/Level/backgrounds
 Images/Level/collisionTileset
