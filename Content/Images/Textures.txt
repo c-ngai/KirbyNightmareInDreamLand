@@ -20,6 +20,7 @@ Images/Misc/items
 Images/Misc/projectiles
 Images/Misc/particles
 Images/Misc/particle_dash
+Images/Misc/particle_starexplode
 Images/Misc/playerarrows
 Images/Misc/playerarrow_you
 Images/Level/doorstars

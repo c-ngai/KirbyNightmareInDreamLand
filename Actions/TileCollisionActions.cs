@@ -6,19 +6,20 @@ using KirbyNightmareInDreamLand.Collision;
 using System.Numerics;
 using KirbyNightmareInDreamLand.Levels;
 using System.Diagnostics;
+using System;
 namespace KirbyNightmareInDreamLand.Actions
 {
     public class TileCollisionActions
     {
         public static void BottomBlockCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            string type = object1.GetObjectType();
-            if (type.Equals("Player"))
+            CollisionType type = object1.GetCollisionType();
+            if (type == CollisionType.Player)
             {
                 Player player = (Player)object1;
                 player.BottomCollisionWithBlock(intersection);
             }
-            else if (type.Equals("Enemy"))
+            else if (type == CollisionType.Enemy)
             {
                 Enemy enemy = (Enemy)object1;
                 enemy.BottomCollisionWithBlock(intersection);
@@ -31,17 +32,22 @@ namespace KirbyNightmareInDreamLand.Actions
 
         public static void RightBlockCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            string type = object1.GetObjectType();
-            if (type.Equals("Player"))
+            CollisionType type = object1.GetCollisionType();
+            if (type == CollisionType.Player)
             {
                 Player player = (Player)object1;
                 player.RightCollisionWithBlock(intersection);
             }
-            else if (type.Equals("Enemy"))
+            else if (type == CollisionType.Enemy)
             {
                 Enemy enemy = (Enemy)object1;
                 enemy.ChangeDirection();
             }
+            //else if (type == CollisionType.KirbyStar)
+            //{
+            //    IProjectile projectile = (IProjectile)object1;
+            //    projectile.EndAttack();
+            //}
             else if (object1 is IExplodable projectile)
             {
                 projectile.EndAttack();
@@ -50,13 +56,13 @@ namespace KirbyNightmareInDreamLand.Actions
 
         public static void LeftBlockCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            string type = object1.GetObjectType();
-            if (type.Equals("Player"))
+            CollisionType type = object1.GetCollisionType();
+            if (type == CollisionType.Player)
             {
                 Player player = (Player)object1;
                 player.LeftCollisionWithBlock(intersection);
             }
-            else if (type.Equals("Enemy"))
+            else if (type == CollisionType.Enemy)
             {
                 Enemy enemy = (Enemy)object1;
                 enemy.ChangeDirection();
@@ -75,14 +81,14 @@ namespace KirbyNightmareInDreamLand.Actions
 
         public static void BottomAirCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            string type = object1.GetObjectType();
+            CollisionType type = object1.GetCollisionType();
 
-            if (type.Equals("Player"))
+            if (type == CollisionType.Player)
             {
                 Player currentPlayer = (Player)object1;
                 currentPlayer.BottomCollisionWithAir(intersection);
 
-            } else if (type.Equals("Enemy"))
+            } else if (type == CollisionType.Enemy)
 
             {
                 Enemy enemy = (Enemy)object1;
@@ -98,15 +104,15 @@ namespace KirbyNightmareInDreamLand.Actions
 
         public static void GentleLeftSlopeCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            string type = object1.GetObjectType();
+            CollisionType type = object1.GetCollisionType();
             Tile tile = (Tile)object2;
-            if (type.Equals("Player"))
+            if (type == CollisionType.Player)
             {
                 Player player = (Player)object1;
             
                 player.CollisionWithGentle1LeftSlope(tile);
             }
-            else if (type.Equals("Enemy"))
+            else if (type == CollisionType.Enemy)
             {
                 Enemy enemy = (Enemy)object1;
                 enemy.AdjustGentle1SlopeLeftCollision(tile);
@@ -115,15 +121,15 @@ namespace KirbyNightmareInDreamLand.Actions
 
         public static void GentleRightSlopeCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            string type = object1.GetObjectType();
+            CollisionType type = object1.GetCollisionType();
             Tile tile = (Tile)object2;
-            if (type.Equals("Player"))
+            if (type == CollisionType.Player)
             {
                 Player player = (Player)object1;
 
                 player.CollisionWithGentle1RightSlope(tile);
             }
-            else if (type.Equals("Enemy"))
+            else if (type == CollisionType.Enemy)
             {
                 Enemy enemy = (Enemy)object1;
                 enemy.AdjustGentle1SlopeRightCollision(tile);
@@ -132,15 +138,15 @@ namespace KirbyNightmareInDreamLand.Actions
 
         public static void MediumLeftSlopeCollison(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            string type = object1.GetObjectType();
+            CollisionType type = object1.GetCollisionType();
             Tile tile = (Tile)object2;
-            if (type.Equals("Player"))
+            if (type == CollisionType.Player)
             {
                 Player player = (Player)object1;
 
                 player.CollisionWithGentle2LeftSlope(tile);
             }
-            else if (type.Equals("Enemy"))
+            else if (type == CollisionType.Enemy)
             {
                 Enemy enemy = (Enemy)object1;
                 enemy.AdjustGentle2SlopeLeftCollision(tile);
@@ -149,15 +155,15 @@ namespace KirbyNightmareInDreamLand.Actions
 
         public static void MediumRightSlopeCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            string type = object1.GetObjectType();
+            CollisionType type = object1.GetCollisionType();
             Tile tile = (Tile)object2;
-            if (type.Equals("Player"))
+            if (type == CollisionType.Player)
             {
                 Player player = (Player)object1;
 
                 player.CollisionWithGentle2RightSlope(tile);
             }
-            else if (type.Equals("Enemy"))
+            else if (type == CollisionType.Enemy)
             {
                 Enemy enemy = (Enemy)object1;
                 enemy.AdjustGentle2SlopeRightCollision(tile);
@@ -166,15 +172,15 @@ namespace KirbyNightmareInDreamLand.Actions
 
         public static void SteepLeftSlopeCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            string type = object1.GetObjectType();
+            CollisionType type = object1.GetCollisionType();
             Tile tile = (Tile)object2;
-            if (type.Equals("Player"))
+            if (type == CollisionType.Player)
             {
                 Player player = (Player)object1;
 
                 player.CollisionWithSteepLeftSlope(tile);
             }
-            else if (type.Equals("Enemy"))
+            else if (type == CollisionType.Enemy)
             {
                 Enemy enemy = (Enemy)object1;
                 enemy.AdjustSteepSlopeLeftCollision(tile);
@@ -183,15 +189,15 @@ namespace KirbyNightmareInDreamLand.Actions
 
         public static void SteepRightSlopeCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            string type = object1.GetObjectType();
+            CollisionType type = object1.GetCollisionType();
             Tile tile = (Tile)object2;
-            if (type.Equals("Player"))
+            if (type == CollisionType.Player)
             {
                 Player player = (Player)object1;
 
                 player.CollisionWithSteepRightSlope(tile);
             }
-            else if (type.Equals("Enemy"))
+            else if (type == CollisionType.Enemy)
             {
                 Enemy enemy = (Enemy)object1;
                 enemy.AdjustSteepSlopeRightCollision(tile);

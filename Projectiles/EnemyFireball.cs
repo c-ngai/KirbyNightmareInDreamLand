@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
 using System;
+using KirbyNightmareInDreamLand.Actions;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
@@ -39,9 +40,9 @@ namespace KirbyNightmareInDreamLand.Projectiles
             projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_hothead_fireball");
             ObjectManager.Instance.RegisterDynamicObject(this);
         }
-        public string GetObjectType()
+        public CollisionType GetCollisionType()
         {
-            return "EnemyAttack";
+            return CollisionType.EnemyAttack;
         }
 
         public void Update()

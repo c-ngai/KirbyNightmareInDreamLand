@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using KirbyNightmareInDreamLand.Sprites;
+using KirbyNightmareInDreamLand.Actions;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
@@ -17,9 +18,9 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private bool IsLeft;
         public bool IsActive { get; private set; } // Expose IsActive for external checks
         public bool CollisionActive { get; private set;} = true;
-        public string GetObjectType()
+        public CollisionType GetCollisionType()
         {
-            return "PlayerAttack";
+            return CollisionType.PlayerAttack;
         }
         public Vector2 Position
         {

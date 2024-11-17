@@ -224,11 +224,6 @@ namespace KirbyNightmareInDreamLand
                 cameras[i].Update();
                 huds[i].Update();
             }
-
-            foreach (IParticle particle in manager.Particles) particle.Update();
-
-            manager.UpdateParticles();
-
             
             SoundManager.Update();
             //_transitioning.Update();
@@ -250,13 +245,15 @@ namespace KirbyNightmareInDreamLand
             // Draw level
             Level.Draw(_spriteBatch);
 
-            // Draw kirby
-            //foreach(IPlayer player in manager.Players) player.Draw(_spriteBatch);
+            // Draw objects
+            //manager.Draw(_spriteBatch);
 
             if (Level.IsCurrentState("KirbyNightmareInDreamLand.GameState.GameTransitioningState"))
             {
                 gameOverLay.DrawFade(_spriteBatch, Level.FadeAlpha);
             }
+
+
 
             // Draw particles
             foreach (IParticle particle in manager.Particles) particle.Draw(_spriteBatch);

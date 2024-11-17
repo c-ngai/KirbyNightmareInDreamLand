@@ -1,6 +1,7 @@
 
 using System;
 using System.Net;
+using KirbyNightmareInDreamLand.Actions;
 using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Entities.Players;
 using Microsoft.Xna.Framework;
@@ -21,6 +22,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
             IsLeft= isLeft;
             Position =pos;
             startingX = pos.X;
+            ObjectManager.Instance.AddProjectile(this);
             ObjectManager.Instance.RegisterDynamicObject(this);
             SoundManager.Play("slide");
         }
@@ -38,9 +40,9 @@ namespace KirbyNightmareInDreamLand.Projectiles
             }
             return false;
         }
-        public string GetObjectType()
+        public CollisionType GetCollisionType()
         {
-            return Constants.CollisionObjectType.PLAYER_ATTACK;
+            return CollisionType.PlayerAttack;
         }
         public void Update()
         {

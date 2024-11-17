@@ -259,6 +259,12 @@
 /processorParam:Quality=Best
 /build:Audio/spitbig.wav
 
+#begin Audio/starexplode.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/starexplode.wav
+
 #begin Audio/swallow.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -610,6 +616,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/Misc/particle_dash.png
+
+#begin Images/Misc/particle_starexplode.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Misc/particle_starexplode.png
 
 #begin Images/Misc/particles.png
 /importer:TextureImporter

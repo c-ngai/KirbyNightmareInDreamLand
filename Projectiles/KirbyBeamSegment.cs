@@ -4,6 +4,7 @@ using KirbyNightmareInDreamLand.Sprites;
 using System.Collections.Generic;
 using System;
 using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Actions;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
@@ -18,9 +19,9 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private ISprite sprite2;
         public bool CollisionActive { get; private set;} = true;
 
-        public string GetObjectType()
+        public CollisionType GetCollisionType()
         {
-            return "PlayerAttack";
+            return CollisionType.PlayerAttack;
         }
 
         public Vector2 Position

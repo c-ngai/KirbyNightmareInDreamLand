@@ -36,6 +36,8 @@ namespace KirbyNightmareInDreamLand.Projectiles
             flameSegments = new List<KirbyFlameSegment>();
             elapsedTime = 0f;
 
+            ObjectManager.Instance.AddProjectile(this);
+
             sound = SoundManager.CreateInstance("kirbyfireattack");
             sound.Play();
         }

@@ -11,6 +11,7 @@ using KirbyNightmareInDreamLand.Audio;
 using Microsoft.Xna.Framework.Input;
 using KirbyNightmareInDreamLand.Particles;
 using static KirbyNightmareInDreamLand.Constants;
+using KirbyNightmareInDreamLand.Actions;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -41,8 +42,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         private string oldState;
         private KirbyPose oldPose;
         private int poseCounter;
-        public bool attackIsActive{get; private set; } = false;
-        public bool CollisionActive { get; private set;} = true;
+        public bool attackIsActive{ get; private set; } = false;
+        public bool CollisionActive { get; private set; } = true;
         public bool DEAD = false;
         public bool lifeLost = false;
 
@@ -82,10 +83,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
         }
 
-        public string GetObjectType()
+        public CollisionType GetCollisionType()
         {
-            return Constants.CollisionObjectType.PLAYER;
+            return CollisionType.Player;
         }
+
         //changes kiry's texture if he is in a different state than before
         //only called by Draw
         private void UpdateTexture()
@@ -449,7 +451,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void Slide()
         {
-            if(!IsSliding() && attack != null){
+            if(!IsSliding()) // && attack != null)
+            {
                 ChangePose(KirbyPose.Sliding);
                 //await Task.Delay(Constants.Physics.DELAY);
             }
@@ -462,11 +465,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 ChangePose(KirbyPose.Crouching); //set back to crouching
                 //ChangeAttackBool(false);  //stop attack mode
                 
-                if(attack != null)// && attack.IsDone())
-                {
-                    attack.EndAttack();
-                    attack = null;
-                }
+                attack?.EndAttack();
+                attack = null;
             }
         }
         public void EndCrouch()
@@ -475,11 +475,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 EndSlide(); //if sliding changes to standin
                 ChangeMovement(); //change to normal
                 StopMoving(); //set vel to 0 and standing
-                if(attack != null)// && attack.IsDone())
-                {
-                    attack.EndAttack();
-                    attack = null;
-                }
+
+                attack?.EndAttack();
+                attack = null;
             //} 
         }
         #endregion
@@ -511,7 +509,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 //ChangeAttackBool(true);
             } else if (attack == null && state.ShortAttack()) { //slide beam float exhale 
                 attack = new PlayerAttack(this, AttackType());
-
                 if(!state.IsCrouching())AttackAnimation();
                 movement.Attack(this);
             }
@@ -587,13 +584,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             EndInvinciblility(gameTime);
             playerSprite.Update();
             spriteDamageCounter++;
-            GetHitBox();
-            if(attack != null || starAttackOne != null || starAttackTwo != null){
-                attack?.Update(gameTime, this);
-                starAttackOne?.Update(gameTime, this);
-                starAttackTwo?.Update(gameTime, this);
-            }
-            if(lifeLost)
+            //if (attack != null || starAttackOne != null || starAttackTwo != null)
+            //{
+            //    attack?.Update(gameTime, this);
+            //    starAttackOne?.Update(gameTime, this);
+            //    starAttackTwo?.Update(gameTime, this);
+            //}
+            if (lifeLost)
             {
                 Death();
                 lifeLost = false;
@@ -620,11 +617,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             // Draw an arrow pointing to this player if off screen
             DrawArrow(spriteBatch);
 
-            if(attack != null || starAttackOne != null || starAttackTwo != null){
-                attack?.Draw(spriteBatch, this);
-                starAttackOne?.Draw(spriteBatch, this);
-                starAttackTwo?.Draw(spriteBatch, this);
-            }
+            //if (attack != null || starAttackOne != null || starAttackTwo != null)
+            //{
+            //    attack?.Draw(spriteBatch, this);
+            //    starAttackOne?.Draw(spriteBatch, this);
+            //    starAttackTwo?.Draw(spriteBatch, this);
+            //}
 
             UpdateOldStates();
         }

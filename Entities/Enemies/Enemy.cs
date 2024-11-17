@@ -10,6 +10,7 @@ using KirbyNightmareInDreamLand.Levels;
 using System.Diagnostics;
 using KirbyNightmareInDreamLand.Audio;
 using System.Threading.Tasks;
+using KirbyNightmareInDreamLand.Actions;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -45,15 +46,16 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             stateMachine = new EnemyStateMachine(type);
             oldState = string.Empty;
             currentState = new WaddleDooWalkingState(this); // Initialize with the walking state
+            ObjectManager.Instance.AddEnemy(this);
             ObjectManager.Instance.RegisterDynamicObject(this);
             currentState.Enter();
             frameCounter = 0;
             UpdateTexture();
         }
 
-        public string GetObjectType()
+        public CollisionType GetCollisionType()
         {
-            return Constants.CollisionObjectType.ENEMY;
+            return CollisionType.Enemy;
         }
 
         public Vector2 Position
@@ -82,10 +84,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public int FrameCounter
         {
             get { return frameCounter; }
-        }
-        public static String GetCollisionType()
-        {
-            return "Enemy";
         }
         public void IncrementFrameCounter()
         {

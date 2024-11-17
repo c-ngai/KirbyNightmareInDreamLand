@@ -45,6 +45,8 @@ namespace KirbyNightmareInDreamLand.Projectiles
             frameCounter = 0;
             segmentsFired = 0;
             SoundManager.Play("kirbybeamattack");
+
+            ObjectManager.Instance.AddProjectile(this);
         }
 
         private float GetRotation()
