@@ -4,6 +4,7 @@ using KirbyNightmareInDreamLand.Sprites;
 using System.Net.NetworkInformation;
 using System;
 using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Actions;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
@@ -16,9 +17,9 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private bool isFacingRight;
         private int frameCount = 0;
         public bool isActive = true;
-        public string GetObjectType()
+        public CollisionType GetCollisionType()
         {
-            return "PlayerAttack";
+            return CollisionType.PlayerAttack;
         }
         public Vector2 Position
         {
@@ -50,6 +51,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 ? SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_right")
                 : SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_left");
 
+            ObjectManager.Instance.AddProjectile(this);
             ObjectManager.Instance.RegisterDynamicObject(this);
 
             SoundManager.Play("spitair");

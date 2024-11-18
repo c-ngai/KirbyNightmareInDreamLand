@@ -1,6 +1,7 @@
 
 using System;
 using System.Net;
+using KirbyNightmareInDreamLand.Actions;
 using KirbyNightmareInDreamLand.Audio;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,6 +19,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public ElectricAttack(Vector2 pos, bool isLeft)
         {
             Position = pos;
+            ObjectManager.Instance.AddProjectile(this);
             ObjectManager.Instance.RegisterDynamicObject(this);
             sound = SoundManager.CreateInstance("kirbysparkattack");
             sound.Play();
@@ -48,9 +50,9 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             //uneeded
         }
-        public string GetObjectType()
+        public CollisionType GetCollisionType()
         {
-            return Constants.CollisionObjectType.PLAYER_ATTACK;
+            return CollisionType.PlayerAttack;
         }
 
         public void EndAttack()

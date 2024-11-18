@@ -6,6 +6,7 @@ using KirbyNightmareInDreamLand.Projectiles;
 using System.Collections.Generic;
 using KirbyNightmareInDreamLand;
 using System;
+using System.Diagnostics;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -18,15 +19,41 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         private bool isLeft;
         public PlayerAttack(Player kirby, String attackType)
         {
-            InitializeAttackDictionary();
+            //InitializeAttackDictionary();
             position = kirby.GetKirbyPosition();
             isLeft = kirby.IsLeft();
             // Set the attack based on the string
-            currentAttack = attackFactories[attackType](kirby);
+            currentAttack = AttackFactory(kirby, attackType);
         }
+
+        // THIS METHOD SUCKS AND IS A BAND-AID REPAIR FOR THE METHOD BELOW
+        private IProjectile AttackFactory(Player kirby, string attackType)
+        {
+            switch (attackType)
+            {
+                case ("Beam"):
+                    return new KirbyBeam(position, !isLeft);
+                case ("Fire"):
+                    return new KirbyFlamethrower(position, !isLeft);
+                case ("Puff"):
+                    return new KirbyPuff(position, !isLeft);
+                case ("Normal"):
+                    return new Inhale(position, isLeft, kirby);
+                case ("Spark"):
+                    return new ElectricAttack(position, isLeft);
+                case ("Slide"):
+                    return new Slide(position, isLeft);
+                case ("Star"):
+                    return new KirbyStar(position, !isLeft);
+                default:
+                    Debug.WriteLine(" [ERROR] PlayerAttack: No attack for string \"" + attackType +"\"");
+                    return null;
+            }
+        }
+
         public void InitializeAttackDictionary()
         {
-            attackFactories  = new Dictionary<string, Func<Player, IProjectile>>
+            attackFactories = new Dictionary<string, Func<Player, IProjectile>>
             {
                 { "Beam", (k) => new KirbyBeam(position, !isLeft) },
                 { "Fire", (k) => new KirbyFlamethrower(position, !isLeft) },
@@ -40,6 +67,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void EndAttack()
         {
             currentAttack.EndAttack();
+            //currentAttack = null;
         }
         public bool IsDone()
         {

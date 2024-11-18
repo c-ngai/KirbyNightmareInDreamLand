@@ -3,10 +3,13 @@ using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
 using System;
 using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Actions;
+using System.Diagnostics;
+using KirbyNightmareInDreamLand.Particles;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class KirbyStar : IProjectile, ICollidable
+    public class KirbyStar : IProjectile, ICollidable, IExplodable
     {
         private Sprite projectileSprite;
         private Vector2 position;
@@ -38,14 +41,15 @@ namespace KirbyNightmareInDreamLand.Projectiles
             projectileSprite = isFacingRight
                 ? SpriteFactory.Instance.CreateSprite("projectile_kirby_star_right")
                 : SpriteFactory.Instance.CreateSprite("projectile_kirby_star_left");
-            
+
+            ObjectManager.Instance.AddProjectile(this);
             ObjectManager.Instance.RegisterDynamicObject(this);
 
             SoundManager.Play("spit");
         }
-        public string GetObjectType()
+        public CollisionType GetCollisionType()
         {
-            return "PlayerAttack";
+            return CollisionType.KirbyStar;
         }
 
         public void Update()
@@ -72,16 +76,23 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void EndAttack()
         {
-            CollisionActive = false;
+            if (CollisionActive)
+            {
+                CollisionActive = false;
+                SoundManager.Play("starexplode");
+                new StarExplode(position);
+            }
+            
         }
         public bool IsDone()
         {
-            if(!Camera.InAnyActiveCamera(position))
-            {
-                EndAttack();
-                return true;
-            }
-            return false;
+            //if(!Camera.InAnyActiveCamera(position))
+            //{
+            //    EndAttack();
+            //    return true;
+            //}
+            //return false;
+            return !CollisionActive;
         }
     
     }

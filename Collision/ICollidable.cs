@@ -1,4 +1,5 @@
 using System;
+using KirbyNightmareInDreamLand.Actions;
 using Microsoft.Xna.Framework;
 namespace KirbyNightmareInDreamLand
 {
@@ -7,7 +8,7 @@ namespace KirbyNightmareInDreamLand
         bool CollisionActive {get;}
         Rectangle GetHitBox();
         Vector2 GetPosition();
-        string GetObjectType();
+        CollisionType GetCollisionType();
 
     }
 }

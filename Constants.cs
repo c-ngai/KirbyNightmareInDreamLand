@@ -99,14 +99,6 @@ namespace KirbyNightmareInDreamLand
             public const float STEEP_SLOPE_RIGHT_M = -1;
             public const int STEEP_SLOPE_RIGHT_YINTERCEPT = 16;
         }
-        public class CollisionObjectType
-        {
-            //Constants.CollisionObjectType.
-            public const string PLAYER = "Player";
-            public const string PLAYER_ATTACK = "PlayerAttack";
-            public const string ENEMY_ATTACK = "EnemyAttack";
-            public const string ENEMY = "Enemy";
-        }
         #endregion
         #region  HitBoxes
         public static class HitBoxes
@@ -288,6 +280,7 @@ namespace KirbyNightmareInDreamLand
 
         public class Enemies
         {
+            public const int SPAWN_BOUNDS_OFFSET = 32; // 2 tiles wide/tall
             public const int DELAY = 400;
             public const int HEALTH = 1;
             public const int STRONG_ENEMY_POINTS = 600;
@@ -400,6 +393,7 @@ namespace KirbyNightmareInDreamLand
             public static int OFFSET1 = 0;
             public static int OFFSET8 = 8;
             public static int STAR_MAX_FRAMES = 14;
+            public static int STAREXPLODE_MAX_FRAMES = 14;
 
             public static int DASH_CLOUD_FRAMES = 10;
             public static int DASH_CLOUD_LOOPS = 3;

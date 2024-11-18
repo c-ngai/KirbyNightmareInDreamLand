@@ -5,6 +5,7 @@
     public interface IEnemyStateMachine : IStateMachine
     {
         public void ChangeDirection();
+        public void SetDirection(bool facingLeft);
         public void ChangePose(EnemyPose pose);
         public EnemyPose GetPose();
     }

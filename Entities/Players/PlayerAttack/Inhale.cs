@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using KirbyNightmareInDreamLand.Actions;
 using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Entities.Players;
 using Microsoft.Xna.Framework;
@@ -22,6 +23,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
             Position = pos;
             IsLeft = isLeft;
             player = kirby;
+            ObjectManager.Instance.AddProjectile(this);
             ObjectManager.Instance.RegisterDynamicObject(this);
             sound = SoundManager.CreateInstance("inhale");
             sound.Play();
@@ -47,9 +49,9 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             return pos + (IsLeft ? Constants.HitBoxes.NORMAL_OFFSET_LEFT: Constants.HitBoxes.NORMAL_OFFSET_RIGHT); 
         }
-        public string GetObjectType()
+        public CollisionType GetCollisionType()
         {
-            return Constants.CollisionObjectType.PLAYER_ATTACK;
+            return CollisionType.PlayerAttack;
         }
         public Rectangle GetHitBox()
         {

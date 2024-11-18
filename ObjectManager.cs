@@ -9,6 +9,9 @@ using System.Diagnostics;
 using System;
 using System.Linq;
 using KirbyNightmareInDreamLand.Particles;
+using KirbyNightmareInDreamLand.Actions;
+using KirbyNightmareInDreamLand.Entities.PowerUps;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -21,17 +24,13 @@ namespace KirbyNightmareInDreamLand
         public List<ICollidable> DebugStaticObjects { get; private set; }
 
         public List<IPlayer> Players { get; private set; }
-
         public List<IEnemy> Enemies { get; set; }
-
-        public Player kirby { get; private set; }
-
-        
-
+        public List<IProjectile> Projectiles { get; set; }
         public List<IParticle> Particles { get; private set; }
+
         public Sprite Item { get; set; }
 
-        public string[] tileTypes { get; private set; } = new string[Constants.Level.NUMBER_OF_TILE_TYPES];
+        //public string[] tileTypes { get; private set; } = new string[Constants.Level.NUMBER_OF_TILE_TYPES];
 
         // fields and methods for score
         public int Score { get; private set; }
@@ -51,19 +50,24 @@ namespace KirbyNightmareInDreamLand
             DynamicObjects = new List<ICollidable>();
             StaticObjects = new List<ICollidable>();
             DebugStaticObjects = new List<ICollidable>();
-            Particles = new List<IParticle>();
+
             Players = new List<IPlayer>();
             Enemies = new List<IEnemy>();
-            InitializeTileTypes();
+            Projectiles = new List<IProjectile>();
+            Particles = new List<IParticle>();
+            
+            //InitializeTileTypes();
         }
 
-        public void ClearEnemies()
+        public void ClearObjects()
         {
             foreach (IEnemy enemy in Enemies)
             {
                 enemy.Dispose();
             }
             Enemies.Clear();
+            Projectiles.Clear();
+            Particles.Clear();
         }
 
         public void UpdateScore(int points)
@@ -73,8 +77,7 @@ namespace KirbyNightmareInDreamLand
 
         public void AddKirby(IPlayer Kirby)
         {
-            kirby = (Player) Kirby;
-            Players.Add(Kirby);
+            Players.Add((Player)Kirby);
         }
         #region keyboard
         public void ChangeKeyboard()
@@ -82,6 +85,32 @@ namespace KirbyNightmareInDreamLand
             
         }
         #endregion
+
+        public void AddEnemy(IEnemy enemy)
+        {
+            Enemies.Add(enemy);
+        }
+
+        public void UpdateEnemies()
+        {
+            foreach (ICollidable enemy in Enemies)
+            {
+                if (enemy.CollisionActive && !DynamicObjects.Contains(enemy))
+                {
+                    RegisterDynamicObject(enemy);
+                }
+            }
+        }
+
+        public void AddProjectile(IProjectile projectile)
+        {
+            Projectiles.Add(projectile);
+        }
+
+        public void UpdateProjectiles()
+        {
+            Projectiles.RemoveAll(obj => obj.IsDone());
+        }
 
         public void AddParticle(IParticle particle)
         {
@@ -94,19 +123,19 @@ namespace KirbyNightmareInDreamLand
         }
 
         #region Collision
-        public void InitializeTileTypes()
-        {
-            tileTypes[(int)TileCollisionType.Air] = "Air";
-            tileTypes[(int)TileCollisionType.Block] = "Block";
-            tileTypes[(int)TileCollisionType.Platform] = "Platform";
-            tileTypes[(int)TileCollisionType.Water] = "Water";
-            tileTypes[(int)TileCollisionType.SlopeSteepLeft] = "SlopeSteepLeft";
-            tileTypes[(int)TileCollisionType.SlopeGentle1Left] = "SlopeGentle1Left";
-            tileTypes[(int)TileCollisionType.SlopeGentle2Left] = "SlopeGentle2Left";
-            tileTypes[(int)TileCollisionType.SlopeGentle2Right] = "SlopeGentle2Right";
-            tileTypes[(int)TileCollisionType.SlopeGentle1Right] = "SlopeGentle1Right";
-            tileTypes[(int)TileCollisionType.SlopeSteepRight] = "SlopeSteepRight";
-        }
+        //public void InitializeTileTypes()
+        //{
+        //    tileTypes[(int)TileCollisionType.Air] = "Air";
+        //    tileTypes[(int)TileCollisionType.Block] = "Block";
+        //    tileTypes[(int)TileCollisionType.Platform] = "Platform";
+        //    tileTypes[(int)TileCollisionType.Water] = "Water";
+        //    tileTypes[(int)TileCollisionType.SlopeSteepLeft] = "SlopeSteepLeft";
+        //    tileTypes[(int)TileCollisionType.SlopeGentle1Left] = "SlopeGentle1Left";
+        //    tileTypes[(int)TileCollisionType.SlopeGentle2Left] = "SlopeGentle2Left";
+        //    tileTypes[(int)TileCollisionType.SlopeGentle2Right] = "SlopeGentle2Right";
+        //    tileTypes[(int)TileCollisionType.SlopeGentle1Right] = "SlopeGentle1Right";
+        //    tileTypes[(int)TileCollisionType.SlopeSteepRight] = "SlopeSteepRight";
+        //}
         public void ResetDynamicCollisionBoxes()
         {
             DynamicObjects.Clear();
@@ -150,7 +179,7 @@ namespace KirbyNightmareInDreamLand
         }
         public void OrganizeList()
         {
-            DynamicObjects = DynamicObjects.OrderBy<ICollidable, String>(o => o.GetObjectType()).ToList();
+            DynamicObjects = DynamicObjects.OrderBy<ICollidable, CollisionType>(o => o.GetCollisionType()).ToList();
         }
 
         public void UpdateDynamicObjects()
@@ -160,7 +189,7 @@ namespace KirbyNightmareInDreamLand
 
         public void RemoveNonPlayers()
         {
-            DynamicObjects.RemoveAll(obj => !obj.GetObjectType().Equals("Player"));
+            DynamicObjects.RemoveAll(obj => !obj.GetCollisionType().Equals("Player"));
         }
 
         public void ClearPlayerList()
@@ -168,5 +197,76 @@ namespace KirbyNightmareInDreamLand
             Players.Clear();
         }
         #endregion
+
+        public bool NearestPlayerDirection(Vector2 position)
+        {
+            IPlayer nearestPlayer;
+            float minXDistance = float.MaxValue;
+            float closestPlayerX = 0;
+            foreach (IPlayer player in Players)
+            {
+                float playerX = player.GetKirbyPosition().X;
+                float xDistance = Math.Abs(playerX - position.X);
+                if (xDistance < minXDistance)
+                {
+                    minXDistance = xDistance;
+                    closestPlayerX = playerX;
+                    nearestPlayer = player;
+                }
+            }
+            bool isLeft = closestPlayerX < position.X;
+            return isLeft;
+        }
+
+        public void Update()
+        {
+            foreach (IPlayer player in Players)
+            {
+                player.Update(Game1.Instance.time);
+            }
+            foreach (Enemy enemy in Enemies)
+            {
+                enemy.Update(Game1.Instance.time);
+            }
+            UpdateEnemies();
+            foreach (PowerUp powerUp in Game1.Instance.Level.powerUpList)
+            {
+                powerUp.Update();
+            }
+            foreach (IProjectile projectile in Projectiles)
+            {
+                projectile.Update();
+            }
+            UpdateProjectiles();
+            foreach (IParticle particle in Particles)
+            {
+                particle.Update();
+            }
+            UpdateParticles();
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            foreach (IPlayer player in Players)
+            {
+                player.Draw(spriteBatch);
+            }
+            foreach (Enemy enemy in Enemies)
+            {
+                enemy.Draw(spriteBatch);
+            }
+            foreach (PowerUp powerUp in Game1.Instance.Level.powerUpList)
+            {
+                powerUp.Draw(spriteBatch);
+            }
+            foreach (IProjectile projectile in Projectiles)
+            {
+                projectile.Draw(spriteBatch);
+            }
+            foreach (IParticle particle in Particles)
+            {
+                particle.Draw(spriteBatch);
+            }
+        }
     }
 }
