@@ -37,7 +37,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState
 
                 if (_enemy.Health <= 0)
                 {
-                    _enemy.IsDead = true;
+                    _enemy.Active = false;
                     _enemy.CollisionActive = false;
                 }
             }

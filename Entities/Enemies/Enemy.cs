@@ -19,7 +19,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         protected Vector2 position; //Where enemy is drawn on screen
         protected Vector2 spawnPosition; //Where enemy is first drawn on screen
         protected int health; //Enemy health
-        protected bool isDead;  //If enemy is dead
+        protected bool active;  //If enemy is dead
         protected Sprite enemySprite;
         protected EnemyStateMachine stateMachine;
         protected IEnemyState currentState; // Current state of the enemy
@@ -38,7 +38,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             position = startPosition;
             spawnPosition = startPosition;
             health = Constants.Enemies.HEALTH;
-            isDead = false;
+            active = true;
             xVel = 0;
             yVel = 0;
             isFalling = true;
@@ -75,10 +75,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             set => health = value;
         }
 
-        public bool IsDead
+        public bool Active
         {
-            get => isDead;
-            set => isDead = value;
+            get => active;
+            set => active = value;
         }
 
         public int FrameCounter
@@ -171,23 +171,37 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             return stateMachine.GetStateString();
         }
 
+        private void Spawn()
+        {
+            CollisionActive = true;
+            active = true;
+            stateMachine.SetDirection(true);
+            health = Constants.Enemies.HEALTH;
+            position = spawnPosition;
+            frameCounter = 0;
+            UpdateTexture();
+        }
+
+        private void Despawn()
+        {
+            CollisionActive = false;
+            active = false;
+        }
+
         public virtual void Update(GameTime gameTime) 
         {
-            /* TO-DO: Should this be in Draw or update?
-             * 
-            //respawn enemy if dead but just outside camera bounds
-            if (IsDead && Game1.Instance.Camera.GetEnemyBounds().Contains(spawnPosition.ToPoint()))
-            {
-                // Respawn the enemy
-                CollisionActive = true;
-                IsDead = false;
-                health = Constants.Enemies.HEALTH;
-                position = spawnPosition;
-                frameCounter = 0;
-                UpdateTexture();
-            }*/
 
-            if (CollisionActive && !IsDead /*&& Game1.Instance.Camera.GetEnemyBounds().Contains(position.ToPoint())*/)
+            //respawn enemy if dead but just outside camera bounds
+            if (!active && Camera.InAnyEnemyRespawnBounds(spawnPosition))
+            {
+                Spawn();
+            }
+            else if (active && !Camera.InAnyActiveEnemyBounds(position))
+            {
+                Despawn();
+            }
+
+            if (active)
             {
                 IncrementFrameCounter();
                 currentState.Update();
@@ -195,35 +209,21 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 enemySprite.Update();
 
                 Fall();
-
-                GetHitBox(); // Ensure hitbox is updated
-            } else {
+            }
+            else
+            {
                 Dispose();
             }
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            //Draw if enemy is alive and 
-            if (CollisionActive && !IsDead /* && Game1.Instance.Camera.GetEnemyBounds().Contains(position.ToPoint())*/)
+            //Draw if enemy is alive 
+            if (active)
             {
                 enemySprite.Draw(position, spriteBatch);
-                //spriteBatch.DrawString(LevelLoader.Instance.Font, frameCounter.ToString(), position, Color.Black);
+                //spriteBatch.DrawString(LevelLoader.Instance.Font, frameCounter.ToString(), (position + new Vector2(-8, -32)), Color.Black);
             }
-
-            /*
-            // TO-DO: Should this be in Draw or update?
-            //respawn enemy if dead but just outside camera bounds
-            else if (IsDead && Game1.Instance.Camera.GetEnemyBounds().Contains(spawnPosition.ToPoint()))
-            {
-                //load at spawn point
-                CollisionActive = true;
-                IsDead = false;
-                health = Constants.Enemies.HEALTH;
-                position = spawnPosition;
-                frameCounter = 0;
-                UpdateTexture();
-            }          */
         }
 
         public virtual void Attack() { }

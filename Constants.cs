@@ -280,6 +280,7 @@ namespace KirbyNightmareInDreamLand
 
         public class Enemies
         {
+            public const int SPAWN_BOUNDS_OFFSET = 32; // 2 tiles wide/tall
             public const int DELAY = 400;
             public const int HEALTH = 1;
             public const int STRONG_ENEMY_POINTS = 600;

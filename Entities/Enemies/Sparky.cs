@@ -62,18 +62,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENEMY_WIDTH, Constants.HitBoxes.ENEMY_HEIGHT);
         }
         
-         public override void Update(GameTime gameTime)
-         {
-             if (!isDead)
-             {
-                 IncrementFrameCounter();
-                 currentState.Update();
-                 UpdateTexture();
-                 enemySprite.Update();
-
-                Fall();
-                GetHitBox();            
-                        
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime); 
+            
+            if (active)
+            {            
                  // Handle the beam if active
                  if (isPlasmaActive)
                  {
@@ -84,17 +78,17 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                         isPlasmaActive = false;
                      }
                  } 
-             }
+            }
         }
 
         public override void Attack()
-         {
+        {
              if (!isPlasmaActive)
              {
                 sparkyPlasma = new SparkyPlasma(position);
                 isPlasmaActive = true;
              }
-         }
+        }
 
         public override void BottomCollisionWithBlock(Rectangle intersection)
         {

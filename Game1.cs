@@ -59,8 +59,9 @@ namespace KirbyNightmareInDreamLand
         public bool DEBUG_TEXT_ENABLED { get; set; }
         public bool DEBUG_SPRITE_MODE { get; set; }
         public bool DEBUG_LEVEL_MODE { get; set; }
-        public bool CULLING_ENABLED { get; set; }
         public bool DEBUG_COLLISION_MODE { get; set; }
+        public bool DEBUG_ZOOM_MODE { get; set; }
+        public bool CULLING_ENABLED { get; set; }
         public bool SPLITSCREEN_MODE { get; set; }
         public bool IS_FULLSCREEN { get; set; }
         public int WINDOW_WIDTH { get; set; }
@@ -92,8 +93,9 @@ namespace KirbyNightmareInDreamLand
             DEBUG_TEXT_ENABLED = false;
             DEBUG_SPRITE_MODE = false;
             DEBUG_LEVEL_MODE = false; // TODO: Change to false by default later, currently no normal level draw behavior
-            CULLING_ENABLED = true;
             DEBUG_COLLISION_MODE = false;
+            DEBUG_ZOOM_MODE = false;
+            CULLING_ENABLED = true;
             SPLITSCREEN_MODE = false;
             IS_FULLSCREEN = false;
             WINDOW_WIDTH = Constants.Graphics.GAME_WIDTH * 4;
@@ -231,14 +233,14 @@ namespace KirbyNightmareInDreamLand
             UpdateCounter++;
         }
 
-        
-
+        bool stupidtest = true;
+        private RasterizerState[] rasterizerStates = { new RasterizerState { ScissorTestEnable = false } , new RasterizerState { ScissorTestEnable = true } };
         private void DrawView(Rectangle bounds)
         {
             // Level spritebatch
-            RasterizerState rasterizerState = new RasterizerState { ScissorTestEnable = true };
             GraphicsDevice.ScissorRectangle = bounds;
-            
+            RasterizerState rasterizerState = DEBUG_ZOOM_MODE ? rasterizerStates[0] : rasterizerStates[1];
+
             Matrix viewMatrix = Matrix.CreateScale((float)bounds.Width / Constants.Graphics.GAME_WIDTH) * Matrix.CreateTranslation(bounds.X, bounds.Y, 0);
             
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, rasterizerState, null, cameras[CurrentCamera].LevelMatrix * viewMatrix);
@@ -253,10 +255,8 @@ namespace KirbyNightmareInDreamLand
                 gameOverLay.DrawFade(_spriteBatch, Level.FadeAlpha);
             }
 
-
-
             // Draw particles
-            foreach (IParticle particle in manager.Particles) particle.Draw(_spriteBatch);
+            //foreach (IParticle particle in manager.Particles) particle.Draw(_spriteBatch);
 
             // Not currently using item
             // item.Draw(new Vector2(200, 150), spriteBatch);
@@ -268,6 +268,26 @@ namespace KirbyNightmareInDreamLand
             // Draws the debug position log
             GameDebug.Instance.DrawPositionLog(_spriteBatch, Color.Red, 1.0f);
 
+            if (DEBUG_ZOOM_MODE)
+            {
+                for (int i = 0; i < ActiveCameraCount; i++)
+                {
+                    GameDebug.Instance.DrawRectangle(_spriteBatch, cameras[i].GetBounds(), Color.Lime, 1f);
+                    GameDebug.Instance.DrawRectangle(_spriteBatch, cameras[i].GetEnemyBounds(), Color.Red, 1f);
+                }
+                //for (int x = cameras[CurrentCamera].bounds.Left - 120; x < cameras[CurrentCamera].bounds.Right + 120; x += 2)
+                //{
+                //    for (int y = cameras[CurrentCamera].bounds.Top - 80; y < cameras[CurrentCamera].bounds.Bottom + 80; y += 2)
+                //    {
+                //        Vector2 position = new Vector2(x, y);
+                //        bool test = Camera.InAnyEnemyRespawnBounds(position);
+                //        Color color = test ? Color.LawnGreen : Color.Red;
+                //        float alpha = test ? 1f : 0.25f;
+                //        GameDebug.Instance.DrawPoint(_spriteBatch, position, color, alpha);
+                //    }
+                //}
+            }
+
             _spriteBatch.End();
 
             // Static spritebatch
@@ -277,6 +297,7 @@ namespace KirbyNightmareInDreamLand
 
             _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, rasterizerState, null, viewMatrix);
             huds[CurrentCamera].Draw(_spriteBatch);
+            
             _spriteBatch.End();
             // Restore old culling mode
             CULLING_ENABLED = old_CULLING_ENABLED;
@@ -308,6 +329,16 @@ namespace KirbyNightmareInDreamLand
                         GameDebug.Instance.DrawEmptyPlayerScreen(_spriteBatch, bounds);
                     }
                 }
+            }
+            else if (DEBUG_ZOOM_MODE)
+            {
+                Rectangle bounds = new Rectangle(
+                    WINDOW_XOFFSET + WINDOW_WIDTH / 4,
+                    WINDOW_YOFFSET + WINDOW_HEIGHT / 4,
+                    WINDOW_WIDTH / 2,
+                    WINDOW_HEIGHT / 2);
+                CurrentCamera = 0;
+                DrawView(bounds);
             }
             else
             {

@@ -91,6 +91,17 @@ namespace KirbyNightmareInDreamLand
             Enemies.Add(enemy);
         }
 
+        public void UpdateEnemies()
+        {
+            foreach (ICollidable enemy in Enemies)
+            {
+                if (enemy.CollisionActive && !DynamicObjects.Contains(enemy))
+                {
+                    RegisterDynamicObject(enemy);
+                }
+            }
+        }
+
         public void AddProjectile(IProjectile projectile)
         {
             Projectiles.Add(projectile);
@@ -197,6 +208,7 @@ namespace KirbyNightmareInDreamLand
             {
                 enemy.Update(Game1.Instance.time);
             }
+            UpdateEnemies();
             foreach (PowerUp powerUp in Game1.Instance.Level.powerUpList)
             {
                 powerUp.Update();
@@ -205,6 +217,7 @@ namespace KirbyNightmareInDreamLand
             {
                 projectile.Update();
             }
+            UpdateProjectiles();
             foreach (IParticle particle in Particles)
             {
                 particle.Update();
@@ -230,12 +243,10 @@ namespace KirbyNightmareInDreamLand
             {
                 projectile.Draw(spriteBatch);
             }
-            UpdateProjectiles();
             foreach (IParticle particle in Particles)
             {
                 particle.Draw(spriteBatch);
             }
-            UpdateParticles();
         }
     }
 }

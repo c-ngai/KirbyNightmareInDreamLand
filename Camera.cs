@@ -25,6 +25,8 @@ namespace KirbyNightmareInDreamLand
         private Vector3 position;
         public Rectangle bounds;
         public Rectangle enemyBounds;
+        private Rectangle oldEnemyBounds;
+        public Rectangle enemyRespawnBounds;
 
         public Rectangle ScissorRectangle;
 
@@ -49,10 +51,10 @@ namespace KirbyNightmareInDreamLand
                 Constants.Graphics.GAME_HEIGHT
             );
             enemyBounds = new Rectangle(
-                (int)position.X - Constants.Level.TILE_SIZE,
-                (int)position.Y - Constants.Level.TILE_SIZE,
-                Constants.Graphics.GAME_WIDTH + 2 * Constants.Level.TILE_SIZE,
-                Constants.Graphics.GAME_HEIGHT + 2 * Constants.Level.TILE_SIZE
+                (int)position.X - Constants.Enemies.SPAWN_BOUNDS_OFFSET,
+                (int)position.Y - Constants.Enemies.SPAWN_BOUNDS_OFFSET,
+                Constants.Graphics.GAME_WIDTH + 2 * Constants.Enemies.SPAWN_BOUNDS_OFFSET,
+                Constants.Graphics.GAME_HEIGHT + 2 * Constants.Enemies.SPAWN_BOUNDS_OFFSET
             );
 
             ScissorRectangle = new Rectangle(_game.WINDOW_XOFFSET, _game.WINDOW_YOFFSET, _game.WINDOW_WIDTH, _game.WINDOW_HEIGHT);
@@ -123,8 +125,10 @@ namespace KirbyNightmareInDreamLand
             bounds.X = (int)position.X;
             bounds.Y = (int)position.Y;
 
-            enemyBounds.X = (int)position.X - Constants.Level.TILE_SIZE;
-            enemyBounds.Y = (int)position.Y - Constants.Level.TILE_SIZE;
+            oldEnemyBounds = enemyBounds;
+
+            enemyBounds.X = (int)position.X - Constants.Enemies.SPAWN_BOUNDS_OFFSET;
+            enemyBounds.Y = (int)position.Y - Constants.Enemies.SPAWN_BOUNDS_OFFSET;
 
             ScissorRectangle.X = _game.WINDOW_XOFFSET;
             ScissorRectangle.Y = _game.WINDOW_YOFFSET;
@@ -167,6 +171,25 @@ namespace KirbyNightmareInDreamLand
 
         public static bool InAnyActiveEnemyBounds(Vector2 position)
         {
+            for (int i = 0; i < Game1.Instance.ActiveCameraCount; i++)
+            {
+                if (Game1.Instance.cameras[i].enemyBounds.Contains(position))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static bool InAnyEnemyRespawnBounds(Vector2 position)
+        {
+            for (int i = 0; i < Game1.Instance.ActiveCameraCount; i++)
+            {
+                if (Game1.Instance.cameras[i].oldEnemyBounds.Contains(position))
+                {
+                    return false;
+                }
+            }
             for (int i = 0; i < Game1.Instance.ActiveCameraCount; i++)
             {
                 if (Game1.Instance.cameras[i].enemyBounds.Contains(position))

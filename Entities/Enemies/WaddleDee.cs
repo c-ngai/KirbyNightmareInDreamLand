@@ -16,5 +16,5 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             stateMachine.ChangeDirection();
             xVel = Constants.WaddleDee.MOVE_SPEED;
         } 
-        }
     }
+}

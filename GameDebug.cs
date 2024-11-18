@@ -184,8 +184,9 @@ namespace KirbyNightmareInDreamLand
             texts.Add("F1 : Toggle debug text");
             texts.Add("F2 : Toggle sprite debug mode");
             texts.Add("F3 : Toggle level debug mode");
-            texts.Add("F4 : Toggle sprite culling");
-            texts.Add("F5 : Toggle collision debug mode");
+            texts.Add("F4 : Toggle collision debug mode");
+            texts.Add("F5 : Toggle zoom-out debug mode");
+            texts.Add("F6 : Toggle sprite culling");
             texts.Add("[/] : Increase/decrease target framerate");
             texts.Add("Alt (hold) : Log player position to screen");
             texts.Add("Ctrl : Clear player position log");
