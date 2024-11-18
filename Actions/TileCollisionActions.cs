@@ -13,15 +13,12 @@ namespace KirbyNightmareInDreamLand.Actions
     {
         public static void BottomBlockCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            CollisionType type = object1.GetCollisionType();
-            if (type == CollisionType.Player)
+            if (object1 is IPlayer player) 
             {
-                Player player = (Player)object1;
                 player.BottomCollisionWithBlock(intersection);
             }
-            else if (type == CollisionType.Enemy)
+            else if (object1 is IEnemy enemy)
             {
-                Enemy enemy = (Enemy)object1;
                 enemy.BottomCollisionWithBlock(intersection);
             }
             else if (object1 is IExplodable projectile)
@@ -32,15 +29,12 @@ namespace KirbyNightmareInDreamLand.Actions
 
         public static void RightBlockCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            CollisionType type = object1.GetCollisionType();
-            if (type == CollisionType.Player)
+            if (object1 is IPlayer player)
             {
-                Player player = (Player)object1;
                 player.RightCollisionWithBlock(intersection);
             }
-            else if (type == CollisionType.Enemy)
+            else if (object1 is IEnemy enemy)
             {
-                Enemy enemy = (Enemy)object1;
                 enemy.ChangeDirection();
             }
             //else if (type == CollisionType.KirbyStar)
@@ -56,16 +50,29 @@ namespace KirbyNightmareInDreamLand.Actions
 
         public static void LeftBlockCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            CollisionType type = object1.GetCollisionType();
-            if (type == CollisionType.Player)
+            if (object1 is IPlayer player)
             {
-                Player player = (Player)object1;
                 player.LeftCollisionWithBlock(intersection);
             }
-            else if (type == CollisionType.Enemy)
+            else if (object1 is IEnemy enemy)
             {
-                Enemy enemy = (Enemy)object1;
                 enemy.ChangeDirection();
+            }
+            else if (object1 is IExplodable projectile)
+            {
+                projectile.EndAttack();
+            }
+        }
+
+        public static void TopBlockCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
+        {
+            if (object1 is IPlayer player)
+            {
+                player.TopCollisionWithBlock(intersection);
+            }
+            else if (object1 is IEnemy enemy)
+            {
+                enemy.TopCollisionWithBlock(intersection);
             }
             else if (object1 is IExplodable projectile)
             {
@@ -75,8 +82,15 @@ namespace KirbyNightmareInDreamLand.Actions
 
         public static void BottomPlatformCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            Player player = (Player)object1;
-            player.BottomCollisionWithPlatform(intersection);
+            if (object1 is IPlayer player)
+            {
+                player.BottomCollisionWithPlatform(intersection);
+            }
+            else if (object1 is IEnemy enemy)
+            {
+                enemy.BottomCollisionWithPlatform(intersection);
+            }
+
         }
 
         public static void BottomAirCollision(ICollidable object1, ICollidable object2, Rectangle intersection)

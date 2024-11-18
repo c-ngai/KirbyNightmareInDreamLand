@@ -3,6 +3,7 @@ using KirbyNightmareInDreamLand.Sprites;
 using System;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Levels;
+using Microsoft.VisualBasic;
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
     public interface IPlayer : IEntity
@@ -39,6 +40,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         void RightCollisionWithBlock(Rectangle intersection);
         void LeftCollisionWithBlock(Rectangle intersection);
         void BottomCollisionWithPlatform(Rectangle intersection);
+        void TopCollisionWithBlock(Rectangle intersection);
         void SwallowEnemy();
     
     }
