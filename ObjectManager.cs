@@ -198,6 +198,26 @@ namespace KirbyNightmareInDreamLand
         }
         #endregion
 
+        public bool NearestPlayerDirection(Vector2 position)
+        {
+            IPlayer nearestPlayer;
+            float minXDistance = float.MaxValue;
+            float closestPlayerX = 0;
+            foreach (IPlayer player in Players)
+            {
+                float playerX = player.GetKirbyPosition().X;
+                float xDistance = Math.Abs(playerX - position.X);
+                if (xDistance < minXDistance)
+                {
+                    minXDistance = xDistance;
+                    closestPlayerX = playerX;
+                    nearestPlayer = player;
+                }
+            }
+            bool isLeft = closestPlayerX < position.X;
+            return isLeft;
+        }
+
         public void Update()
         {
             foreach (IPlayer player in Players)

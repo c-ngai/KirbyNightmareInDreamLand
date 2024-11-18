@@ -175,7 +175,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             CollisionActive = true;
             active = true;
-            stateMachine.SetDirection(true);
+            bool isLeft = ObjectManager.Instance.NearestPlayerDirection(position);
+            stateMachine.SetDirection(isLeft);
             health = Constants.Enemies.HEALTH;
             position = spawnPosition;
             frameCounter = 0;
