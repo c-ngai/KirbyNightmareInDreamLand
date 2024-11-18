@@ -15,14 +15,14 @@ namespace KirbyNightmareInDreamLand.Actions
         //kirby and enemy collide with each other
         public static void KirbyEnemyCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            string type = object2.GetObjectType();
-            if (type.Equals("Player"))
+            CollisionType type = object2.GetCollisionType();
+            if (type == CollisionType.Player)
             {
                 Player player = (Player)object2;
                 player.TakeDamage(intersection);
             }
-            type = object1.GetObjectType();
-            if (type.Equals("Enemy"))
+            type = object1.GetCollisionType();
+            if (type == CollisionType.Enemy)
             {
                 Enemy enemy = (Enemy)object1;
                 enemy.TakeDamage(intersection);
@@ -44,8 +44,13 @@ namespace KirbyNightmareInDreamLand.Actions
         //enemy collides with kirby attack --check for inhale
         public static void EnemyKirbyAttackCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            string type = object1.GetObjectType();
-            if (type.Equals("Enemy"))
+            if (object2 is IExplodable projectile)
+            {
+                projectile.EndAttack();
+            }
+
+            CollisionType type = object1.GetCollisionType();
+            if (type == CollisionType.Enemy)
             {
                 Enemy enemy = (Enemy)object1;
                 enemy.GetSwallowed(intersection);
@@ -57,7 +62,6 @@ namespace KirbyNightmareInDreamLand.Actions
                 attack.OnCollide(); //change skirby to mouthful
             }
         }
-        
 
         //kirby intercats with item
         public static void KirbyItemCollision(ICollidable object1, ICollidable object2, Rectangle intersection)

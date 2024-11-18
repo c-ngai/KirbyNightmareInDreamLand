@@ -18,6 +18,10 @@
         {
             facingLeft = !facingLeft;
         }
+        public void SetDirection(bool facingLeft)
+        {
+            this.facingLeft = facingLeft;
+        }
         public void FaceRight()
         {
             facingLeft = false;

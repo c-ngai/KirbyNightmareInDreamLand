@@ -59,8 +59,7 @@ namespace KirbyNightmareInDreamLand.GameState
                 DrawBackground(spriteBatch, camera);
                 DrawForeground(spriteBatch);
                 DrawDoorStars(spriteBatch);
-                DrawLevelObjects(spriteBatch);
-                foreach (IPlayer player in _manager.Players) player.Draw(spriteBatch);
+                _manager.Draw(spriteBatch);
             }
         }
 
@@ -68,15 +67,7 @@ namespace KirbyNightmareInDreamLand.GameState
         {
             level.CurrentRoom.ForegroundSprite.Update();
             DoorStarsSprite.Update();
-            foreach (Enemy enemy in _manager.Enemies)
-            {
-                enemy.Update(_game.time);
-            }
-            foreach (PowerUp powerUp in Game1.Instance.Level.powerUpList)
-            {
-                powerUp.Update();
-            }
-            foreach (IPlayer player in _manager.Players) player.Update(Game1.Instance.time);
+            _manager.Update();
         }
 
         public void DrawBackground(SpriteBatch spriteBatch, Camera _camera)
@@ -157,8 +148,7 @@ namespace KirbyNightmareInDreamLand.GameState
             DrawDoorStars(spriteBatch);
             DrawDoors(spriteBatch);
             DrawSpawnPoints(spriteBatch);
-            DrawLevelObjects(spriteBatch);
-            foreach (IPlayer player in _manager.Players) player.Draw(spriteBatch);
+            _manager.Draw(spriteBatch);
         }
 
         // Draws a rectangle at every door with its destination room written above

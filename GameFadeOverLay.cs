@@ -19,7 +19,7 @@ namespace KirbyNightmareInDreamLand
         public void DrawFade(SpriteBatch spriteBatch, float alphaFade)
         {
             Camera camera = _game.cameras[_game.CurrentCamera];
-            System.Diagnostics.Debug.WriteLine("Current alpha fade value = " + alphaFade);
+            //System.Diagnostics.Debug.WriteLine("Current alpha fade value = " + alphaFade);
             GameDebug.Instance.DrawSolidRectangle(spriteBatch, camera.bounds, Color.White, alphaFade);
         }
 

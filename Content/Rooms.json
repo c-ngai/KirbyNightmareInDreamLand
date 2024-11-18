@@ -24,44 +24,48 @@
         ],
         "Enemies": [
             {
+                "EnemyType": "WaddleDoo",
+                "SpawnTileX": 19,
+                "SpawnTileY": 6
+            },
+            {
                 "EnemyType": "WaddleDee",
-                "SpawnTileX": 30,
-                "SpawnTileY": 1
-            },
-            {
-                "EnemyType": "WaddleDoo",
-                "SpawnTileX": 15,
-                "SpawnTileY": 7
-            },
-            {
-                "EnemyType": "WaddleDoo",
-                "SpawnTileX": 25,
+                "SpawnTileX": 23,
                 "SpawnTileY": 7
             },
             {
                 "EnemyType": "BrontoBurt",
-                "SpawnTileX": 26,
-                "SpawnTileY": 3
+                "SpawnTileX": 27,
+                "SpawnTileY": 4
             },
-
+            {
+                "EnemyType": "WaddleDoo",
+                "SpawnTileX": 30,
+                "SpawnTileY": 7
+            },
             {
                 "EnemyType": "BrontoBurt",
                 "SpawnTileX": 35,
-                "SpawnTileY": 5
-            },
-            {
-                "EnemyType": "WaddleDee",
-                "SpawnTileX": 48,
                 "SpawnTileY": 6
             },
             {
                 "EnemyType": "Sparky",
-                "SpawnTileX": 37,
+                "SpawnTileX": 38,
                 "SpawnTileY": 6
             },
             {
+                "EnemyType": "WaddleDee",
+                "SpawnTileX": 46,
+                "SpawnTileY": 6
+            },
+            {
+                "EnemyType": "BrontoBurt",
+                "SpawnTileX": 49,
+                "SpawnTileY": 3
+            },
+            {
                 "EnemyType": "Hothead",
-                "SpawnTileX": 35,
+                "SpawnTileX": 59,
                 "SpawnTileY": 6
             }
         ]
@@ -93,7 +97,7 @@
         "Enemies": [
             {
                 "EnemyType": "WaddleDee",
-                "SpawnTileX": 18,
+                "SpawnTileX": 15,
                 "SpawnTileY": 7
             },
             {
@@ -103,8 +107,8 @@
             },
             {
                 "EnemyType": "BrontoBurt",
-                "SpawnTileX": 27,
-                "SpawnTileY": 9
+                "SpawnTileX": 24,
+                "SpawnTileY": 8
             },
             {
                 "EnemyType": "WaddleDee",
@@ -113,23 +117,18 @@
             },
             {
                 "EnemyType": "Hothead",
-                "SpawnTileX": 37,
-                "SpawnTileY": 7
+                "SpawnTileX": 42,
+                "SpawnTileY": 5
             },
             {
                 "EnemyType": "BrontoBurt",
-                "SpawnTileX": 46,
-                "SpawnTileY": 4
-            },
-            {
-                "EnemyType": "Sparky",
                 "SpawnTileX": 50,
-                "SpawnTileY": 4
+                "SpawnTileY": 2
             },
             {
                 "EnemyType": "Sparky",
-                "SpawnTileX": 60,
-                "SpawnTileY": 5
+                "SpawnTileX": 57,
+                "SpawnTileY": 7
             }
         ]
     },
@@ -166,13 +165,8 @@
         "Enemies": [
             {
                 "EnemyType": "Hothead",
-                "SpawnTileX": 12,
+                "SpawnTileX": 16,
                 "SpawnTileY": 3
-            },
-            {
-                "EnemyType": "WaddleDee",
-                "SpawnTileX": 20,
-                "SpawnTileY": 2
             },
             {
                 "EnemyType": "PoppyBrosJr",
@@ -181,27 +175,37 @@
             },
             {
                 "EnemyType": "WaddleDee",
+                "SpawnTileX": 21,
+                "SpawnTileY": 2
+            },
+            {
+                "EnemyType": "WaddleDoo",
                 "SpawnTileX": 28,
                 "SpawnTileY": 4
             },
             {
                 "EnemyType": "BrontoBurt",
-                "SpawnTileX": 35,
-                "SpawnTileY": 2
+                "SpawnTileX": 34,
+                "SpawnTileY": 3
             },
             {
-                "EnemyType": "WaddleDoo",
-                "SpawnTileX": 42,
+                "EnemyType": "Hothead",
+                "SpawnTileX": 44,
                 "SpawnTileY": 5
             },
             {
                 "EnemyType": "PoppyBrosJr",
-                "SpawnTileX": 48,
+                "SpawnTileX": 50,
                 "SpawnTileY": 2
             },
             {
+                "EnemyType": "WaddleDee",
+                "SpawnTileX": 54,
+                "SpawnTileY": 7
+            },
+            {
                 "EnemyType": "BrontoBurt",
-                "SpawnTileX": 55,
+                "SpawnTileX": 59,
                 "SpawnTileY": 7
             }
         ],
@@ -242,7 +246,7 @@
                 "DestinationRoom": "room2",
                 "DestinationTileX": 2,
                 "DestinationTileY": 7,
-                "DrawDoorStars": false
+                "DrawDoorStars": true
             },
             {
                 "TileX": 51,

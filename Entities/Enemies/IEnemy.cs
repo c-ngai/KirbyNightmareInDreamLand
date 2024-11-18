@@ -12,12 +12,16 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         void Move();
         Sprite EnemySprite { set; }
         int Health { get; }
-        bool IsDead { get; }
+        bool Active { get; }
         void IncrementFrameCounter();
         void ResetFrameCounter();
         void UpdateTexture();
         string GetStateString();
         void ChangePose(EnemyPose pose);
         void Dispose();
+
+        void BottomCollisionWithBlock(Rectangle intersection);
+        void TopCollisionWithBlock(Rectangle intersection);
+        void BottomCollisionWithPlatform(Rectangle intersection);
     }
 }

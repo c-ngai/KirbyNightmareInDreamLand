@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using KirbyNightmareInDreamLand.Actions;
+using Microsoft.Xna.Framework;
 
 namespace KirbyNightmareInDreamLand.Levels
 {
@@ -16,7 +17,7 @@ namespace KirbyNightmareInDreamLand.Levels
         SlopeSteepRight
     }
 
-    public struct Tile :ICollidable
+    public struct Tile : ICollidable
     {
         public TileCollisionType type;
         public Rectangle rectangle;
@@ -41,9 +42,13 @@ namespace KirbyNightmareInDreamLand.Levels
             return rectangle.Location.ToVector2();
         }
 
-        public string GetObjectType()
+        //public string GetCollisionType()
+        //{
+        //    return ObjectManager.Instance.tileTypes[(int)type];
+        //}
+        public CollisionType GetCollisionType()
         {
-            return ObjectManager.Instance.tileTypes[(int)type];
+            return (CollisionType)type;
         }
     }
 

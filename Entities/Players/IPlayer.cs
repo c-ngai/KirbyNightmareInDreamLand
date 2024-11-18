@@ -3,12 +3,15 @@ using KirbyNightmareInDreamLand.Sprites;
 using System;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Levels;
+using Microsoft.VisualBasic;
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
     public interface IPlayer : IEntity
     {
         public PlayerStateMachine state { get; }
         public PlayerMovement movement { get; }
+        public int health { get; }
+        public int lives { get; }
         void Crouch();
         void EndCrouch();
         void AttackPressed();
@@ -37,6 +40,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         void RightCollisionWithBlock(Rectangle intersection);
         void LeftCollisionWithBlock(Rectangle intersection);
         void BottomCollisionWithPlatform(Rectangle intersection);
+        void TopCollisionWithBlock(Rectangle intersection);
         void SwallowEnemy();
     
     }

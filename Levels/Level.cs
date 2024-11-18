@@ -212,7 +212,7 @@ namespace KirbyNightmareInDreamLand.Levels
             if (LevelLoader.Instance.Rooms.ContainsKey(RoomName))
             {
                 // Sets it up so players are the only thing remaining in the object lists when rooms change
-                _manager.RemoveNonPlayers();
+                //_manager.RemoveNonPlayers();
                 _manager.ResetStaticObjects();
                 CurrentRoom = LevelLoader.Instance.Rooms[RoomName];
                 // Debug.WriteLine("current room is " + CurrentRoom);
@@ -244,7 +244,7 @@ namespace KirbyNightmareInDreamLand.Levels
         public void LoadLevelObjects()
         {
             // Clear all existing enemies from the previous room before loading new ones
-            _manager.ClearEnemies();
+            _manager.ClearObjects();
 
             foreach (EnemyData enemy in CurrentRoom.Enemies)
             {
@@ -262,7 +262,7 @@ namespace KirbyNightmareInDreamLand.Levels
                     {
                         // Create an instance of the enemy
                         Enemy enemyObject = (Enemy)constructor.Invoke(new object[] { enemy.SpawnPoint });
-                        _manager.Enemies.Add(enemyObject);
+                        //_manager.Enemies.Add(enemyObject);
                     }
                 }
             }

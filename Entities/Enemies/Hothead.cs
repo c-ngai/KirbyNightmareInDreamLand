@@ -34,17 +34,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public override void Update(GameTime gameTime)
         {
-            if (!isDead)
+            base.Update(gameTime);
+            
+            if (active)
             {
-                IncrementFrameCounter();
-                currentState.Update();
-                UpdateTexture();
-                // Update the sprite and fireballs
-                Fall();
-
-                enemySprite.Update();
                 UpdateFireballs();
-                GetHitBox();
 
                 // Update flamethrower if active
                 if (isFlamethrowerActive)
@@ -109,7 +103,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public override void Draw(SpriteBatch spriteBatch)
         {
             //Draw enemy, flamethrower, and projectile depending if alive or active
-            if (!isDead)
+            if (active)
             {
                 if (isFlamethrowerActive)
                 {

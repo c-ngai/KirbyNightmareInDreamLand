@@ -240,12 +240,17 @@
 		{
 			"Key": "F4",
 			"ExecutionType": "StartingPress",
-			"Command": "GraphicsToggleCullingCommand"
+			"Command": "GraphicsToggleDebugCollisionCommand"
 		},
 		{
 			"Key": "F5",
 			"ExecutionType": "StartingPress",
-			"Command": "GraphicsToggleDebugCollisionCommand"
+			"Command": "GraphicsToggleDebugZoomCommand"
+		},
+		{
+			"Key": "F6",
+			"ExecutionType": "StartingPress",
+			"Command": "GraphicsToggleCullingCommand"
 		},
 		{
 			"Key": "F",

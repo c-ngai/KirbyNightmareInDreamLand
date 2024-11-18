@@ -207,6 +207,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             xVel = 0;
         }
 
+        public virtual void AdjustFromTopCollisionBlock(Rectangle intersection)
+        {
+            position.Y += intersection.Height;
+        }
+
         public void AdjustFromBottomCollisionPlatform(Rectangle intersection, IPlayerStateMachine state)
         {
             // Only adjust if kirby was moving downwards during the collision
