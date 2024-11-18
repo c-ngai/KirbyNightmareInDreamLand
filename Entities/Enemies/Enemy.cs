@@ -10,6 +10,7 @@ using KirbyNightmareInDreamLand.Levels;
 using System.Diagnostics;
 using KirbyNightmareInDreamLand.Audio;
 using System.Threading.Tasks;
+using Microsoft.VisualBasic;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -276,11 +277,24 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             yVel = 0;
             isFalling = false;
         }
+
+        public virtual void TopCollisionWithBlock(Rectangle intersection)
+        {
+            position.Y += intersection.Height;
+        }
         // Commented out the inside for now. Is this necessary? -Mark
         public void BottomCollisionWithAir(Rectangle intersection)
         {
             //isFalling = true;
             //Fall();
+        }
+
+        public void BottomCollisionWithPlatform(Rectangle intersection)
+        {
+
+            position.Y = intersection.Y;
+            yVel = 0;
+            isFalling = false;
         }
         public virtual void AdjustOnSlopeCollision(Tile tile, float slope, float yIntercept)
         {

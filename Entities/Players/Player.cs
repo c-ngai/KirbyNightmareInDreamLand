@@ -745,6 +745,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             movement.AdjustFromLeftCollisionBlock(intersection);
         }
+
+        public void TopCollisionWithBlock(Rectangle intersection)
+        {
+            movement.AdjustFromTopCollisionBlock(intersection);
+        }
         //kirby collides with the bottom of a plataform
         public void BottomCollisionWithPlatform(Rectangle intersection)
         {
