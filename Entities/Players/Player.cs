@@ -371,7 +371,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if (state.CanMove())
             {
                 // transitions from a brief state of standing that is not seen by the user to running
-                if (state.GetPose() == KirbyPose.Standing)
+                if (state.GetPose() == KirbyPose.Standing || poseCounter != 0)
                 {
                     // Play dash sound and create particle accordingly
                     DashEffects();
@@ -386,7 +386,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if(state.CanMove())
             {
                 // transitions from a brief state of standing that is not seen by the user to running
-                if (state.GetPose() == KirbyPose.Standing)
+                if (state.GetPose() == KirbyPose.Standing || poseCounter != 0)
                 {
                     // Play dash sound and create particle accordingly
                     DashEffects();
