@@ -168,6 +168,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             return movement.GetPosition();
         }
+        public Vector2 GetKirbyVelocity()
+        {
+            return movement.GetVelocity();
+        }
         #endregion
 
         #region Power-Up
@@ -526,7 +530,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void StopAttacking() //long attacks
         {
-            if(attack != null && attack.IsDone())
+            if(attack != null && (attack.IsDone() || state.LongAttack()))
             {
                 StopMoving();
                 attack.EndAttack();

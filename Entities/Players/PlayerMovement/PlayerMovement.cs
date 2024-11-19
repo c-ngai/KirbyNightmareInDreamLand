@@ -41,6 +41,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             return position;
         }
+        public Vector2 GetVelocity()
+        {
+            return new Vector2(xVel, yVel);
+        }
 
         public void StopMovement()
         {

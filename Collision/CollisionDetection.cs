@@ -152,8 +152,6 @@ namespace KirbyNightmareInDreamLand
                         response.ExecuteCollision(manager.DynamicObjects[i], manager.DynamicObjects[j], side);
                     }
                 }
-                // Removes dynamic objects that are no longer active after checking a dynamic object with all other possibilies
-                manager.UpdateDynamicObjects();
             }
         }
 

@@ -164,8 +164,8 @@ namespace KirbyNightmareInDreamLand
             public const int MAX_HEALTH = 6;
             public const int MAX_LIVES = 3;
             public const int STARTINGXPOSITION = 30;
-            public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(13, -7);
-            public static Vector2 BEAM_ATTACK_OFFSET_LEFT = new Vector2(-13, -7);
+            public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(11, -9);
+            public static Vector2 BEAM_ATTACK_OFFSET_LEFT = new Vector2(-11, -9);
             public static Vector2 PUFF_ATTACK_OFFSET = new Vector2(15, 0);
             public static Vector2 FLAME_ATTACK_OFFSET_RIGHT = new Vector2(30, -10);
             public static Vector2 FLAME_ATTACK_OFFSET_LEFT = new Vector2(-25, -10);
@@ -236,7 +236,7 @@ namespace KirbyNightmareInDreamLand
         public class KirbyFire
         {
             // For flamethrower
-            public const float FIRE_RATE = 0.35f; // Time between each segment spawn
+            public const int FIRE_RATE = 21; // FRAMES between each segment spawn (used to be seconds)
             public const float MIN_SPEED = 1f;
             public const float MAX_SPEED = 4f;
             public const float MIN_DELAY = 0f;

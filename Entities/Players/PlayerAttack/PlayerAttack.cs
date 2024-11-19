@@ -32,9 +32,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             switch (attackType)
             {
                 case ("Beam"):
-                    return new KirbyBeam(position, !isLeft);
+                    return new KirbyBeam(kirby, !isLeft);
                 case ("Fire"):
-                    return new KirbyFlamethrower(position, !isLeft);
+                    return new KirbyFlamethrower(kirby, !isLeft);
                 case ("Puff"):
                     return new KirbyPuff(position, !isLeft);
                 case ("Normal"):
@@ -42,7 +42,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 case ("Spark"):
                     return new ElectricAttack(position, isLeft);
                 case ("Slide"):
-                    return new Slide(position, isLeft);
+                    return new Slide(position, isLeft, kirby);
                 case ("Star"):
                     return new KirbyStar(position, !isLeft);
                 default:
@@ -51,42 +51,25 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
         }
 
-        public void InitializeAttackDictionary()
-        {
-            attackFactories = new Dictionary<string, Func<Player, IProjectile>>
-            {
-                { "Beam", (k) => new KirbyBeam(position, !isLeft) },
-                { "Fire", (k) => new KirbyFlamethrower(position, !isLeft) },
-                { "Puff", (k) => new KirbyPuff(position, !isLeft) },
-                { "Normal", (k) => new Inhale(position, isLeft, k) },
-                { "Spark", (k) => new ElectricAttack(position, isLeft) },
-                { "Slide", (k) => new Slide(position, isLeft) },
-                { "Star", (k) => new KirbyStar(position, !isLeft) }
-            };
-        }
         public void EndAttack()
         {
             currentAttack.EndAttack();
-            //currentAttack = null;
+            currentAttack = null;
         }
+
         public bool IsDone()
         {
             return currentAttack.IsDone();
         }
-        public void Update(GameTime gameTime, Player kirby)
-        {
-            if(currentAttack is Slide attack)
-            {
-                attack.Update(kirby);
-            } else {
-                currentAttack.Update();
-            }
-            
-        }
-        public void Draw(SpriteBatch spriteBatch, Player kirby)
-        {
-           currentAttack.Draw(spriteBatch);
-        }
+
+        //public void Update(GameTime gameTime, Player kirby)
+        //{
+        //    currentAttack.Update(); 
+        //}
+        //public void Draw(SpriteBatch spriteBatch, Player kirby)
+        //{
+        //   currentAttack.Draw(spriteBatch);
+        //}
 
 
     }

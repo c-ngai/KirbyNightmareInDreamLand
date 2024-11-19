@@ -1,17 +1,22 @@
 ﻿using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Entities.Players;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class KirbyFlamethrower : IProjectile
+    public class KirbyFlamethrower : IProjectile, ICollidable
     {
+
+        private IPlayer player;
         private Vector2 position;
         private Vector2 velocity;
         private List<KirbyFlameSegment> flameSegments;
-        private float elapsedTime;
+        private int frameCounter;
+        private bool IsActive;
         private bool isFacingRight; // Boolean to determine the direction Kirby is facing
         private SoundInstance sound;
 
@@ -27,14 +32,17 @@ namespace KirbyNightmareInDreamLand.Projectiles
             set => velocity = value;
         }
 
-        public KirbyFlamethrower(Vector2 kirbyPosition, bool isFacingRight)
+        public KirbyFlamethrower(IPlayer player, bool isFacingRight)
         {
+            this.player = player;
+            
             this.isFacingRight = isFacingRight;
             Vector2 offset = isFacingRight ? Constants.Kirby.FLAME_ATTACK_OFFSET_RIGHT : Constants.Kirby.FLAME_ATTACK_OFFSET_LEFT;
-            this.position = kirbyPosition + offset;
+            this.position = player.GetKirbyPosition() + offset;
+            IsActive = true;
 
             flameSegments = new List<KirbyFlameSegment>();
-            elapsedTime = 0f;
+            frameCounter = 0;
 
             ObjectManager.Instance.AddProjectile(this);
 
@@ -44,36 +52,46 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public void EndAttack()
         {
             sound.Stop();
-            foreach (var segment in flameSegments)
-            {
-                segment.EndAttack();
-            }
+            IsActive = false;
+            //foreach (var segment in flameSegments)
+            //{
+            //    segment.EndAttack();
+            //}
         }
         public bool IsDone()
         {
+            if (frameCounter < 10)
+            {
+                return false;
+            }
             foreach (var segment in flameSegments)
             {
-                segment.IsDone();
+                if (!segment.IsDone())
+                {
+                    return false;
+                }
             }
             return true;
         }
         public void Update()
         {
-            // Use a static reference to Game1 to access the game time.
-            elapsedTime += (float)Game1.GameTime.ElapsedGameTime.TotalSeconds;
+            Vector2 offset = isFacingRight ? Constants.Kirby.FLAME_ATTACK_OFFSET_RIGHT : Constants.Kirby.FLAME_ATTACK_OFFSET_LEFT;
+            this.position = player.GetKirbyPosition() + offset;
 
             // Check if it's time to spawn new flame segments
-            if (elapsedTime >= Constants.KirbyFire.FIRE_RATE)
+            if (IsActive && frameCounter % 1 == 0)
             {
-                SpawnFlameSegments();
-                elapsedTime = 0f; // Reset elapsed time
+                SpawnFlameSegment();
             }
+            frameCounter++;
 
             // Update all flame segments
             foreach (var segment in flameSegments)
             {
                 segment.Update();
             }
+            //This line below doesn't work because the flame segments start out as inactive and then wait to become active.
+            flameSegments.RemoveAll(obj => obj.IsDone());
         }
 
         private void SpawnFlameSegments()
@@ -98,20 +116,65 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
                 // Generate a random speed and delay for each segment
                 float randomSpeed = (float)(random.NextDouble() * (Constants.KirbyFire.MAX_SPEED - Constants.KirbyFire.MIN_SPEED) + Constants.KirbyFire.MIN_SPEED);
-                float randomDelay = (float)(random.NextDouble() * (Constants.KirbyFire.MAX_DELAY - Constants.KirbyFire.MIN_DELAY) + Constants.KirbyFire.MIN_DELAY);
 
-                KirbyFlameSegment newSegment = new KirbyFlameSegment(position, direction, randomSpeed, randomDelay, !isFacingRight);
+                KirbyFlameSegment newSegment = new KirbyFlameSegment(position, direction, randomSpeed, !isFacingRight);
                 flameSegments.Add(newSegment);
             }
         }
 
+        private void SpawnFlameSegment()
+        {
+            Random random = new Random();
+            float angleOffset = isFacingRight ? 0f : (float)Math.PI; // Adjust angle based on direction
+
+            float totalAngleRange = Constants.KirbyFire.MAX_ANGLE - Constants.KirbyFire.MIN_ANGLE;
+
+            // Calculate the angle offset based on the number of segments
+            float angle = Constants.KirbyFire.MIN_ANGLE + (float)random.NextDouble() * totalAngleRange;
+
+            // Generate a random speed and delay for each segment
+            float randomSpeed = (float)(random.NextDouble() * (Constants.KirbyFire.MAX_SPEED - Constants.KirbyFire.MIN_SPEED) + Constants.KirbyFire.MIN_SPEED);
+
+            // Rotate the direction vector by the calculated angle, adjusting for facing direction
+            Vector2 velocity = randomSpeed * Vector2.Transform(new Vector2(1, 0), Matrix.CreateRotationZ(angle + angleOffset));
+
+            velocity += player.GetKirbyVelocity();
+            
+            KirbyFlameSegment newSegment = new KirbyFlameSegment(position, velocity, randomSpeed, !isFacingRight);
+            flameSegments.Add(newSegment);
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
-            // Draw all flame segments
-            foreach (var segment in flameSegments)
+            //Draw all flame segments
+            for (int i = 0; i < flameSegments.Count / 2; i++)
             {
-                segment.Draw(spriteBatch);
+                flameSegments[i].Draw(spriteBatch);
             }
+            for (int i = flameSegments.Count - 1; i >= flameSegments.Count / 2; i--)
+            {
+                flameSegments[i].Draw(spriteBatch);
+            }
+            //spriteBatch.DrawString(LevelLoader.Instance.Font, flameSegments.Count + ", " + IsDone(), position, Color.Black);
         }
+
+
+        // THESE METHODS NEVER CALLED, ObjectManager just needs all IProjectiles to be
+        // ICollidables. This class is a non-colliding projectile, so it's basically
+        // just an ICollidable that always says no when asked if its collision is active.
+        public bool CollisionActive { get; private set; } = false;
+        public Rectangle GetHitBox()
+        {
+            return Rectangle.Empty;
+        }
+        public Vector2 GetPosition()
+        {
+            return Vector2.Zero;
+        }
+        public CollisionType GetCollisionType()
+        {
+            return CollisionType.PlayerAttack;
+        }
+
     }
 }

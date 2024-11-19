@@ -179,7 +179,12 @@ namespace KirbyNightmareInDreamLand
             texts.Add("SpriteBatch.Draw calls: " + NumOfSpriteBatchDrawCalls);
             texts.Add("Static ExecuteCollision calls: " + NumOfStaticExecuteCollisionCalls);
             texts.Add("Dynamic ExecuteCollision calls: " + NumOfDynamicExecuteCollisionCalls);
-            texts.Add("ObjectManager.DynamicObjects.Count: " + ObjectManager.Instance.DynamicObjects.Count);
+            texts.Add("");
+            texts.Add("Dynamic Objects: " + ObjectManager.Instance.DynamicObjects.Count);
+            texts.Add("Players: " + ObjectManager.Instance.Players.Count);
+            texts.Add("Enemies: " + ObjectManager.Instance.Enemies.Count);
+            texts.Add("Projectiles: " + ObjectManager.Instance.Projectiles.Count);
+            texts.Add("Particles: " + ObjectManager.Instance.Particles.Count);
             texts.Add("");
             texts.Add("F1 : Toggle debug text");
             texts.Add("F2 : Toggle sprite debug mode");
@@ -190,6 +195,15 @@ namespace KirbyNightmareInDreamLand
             texts.Add("[/] : Increase/decrease target framerate");
             texts.Add("Alt (hold) : Log player position to screen");
             texts.Add("Ctrl : Clear player position log");
+
+            //if (Game1.Instance.UpdateCounter % 120 == 0)
+            //{
+            //    Debug.WriteLine("##### DYNAMIC OBJECTS #####");
+            //    foreach (ICollidable obj in ObjectManager.Instance.DynamicObjects)
+            //    {
+            //        Debug.WriteLine("   Object: " + obj.GetType());
+            //    }
+            //}
 
             //texts.Add("Alt (hold) : Record Kirby position");
             //texts.Add("Ctrl : Clear Kirby position log");

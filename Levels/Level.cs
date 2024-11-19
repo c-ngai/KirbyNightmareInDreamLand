@@ -221,7 +221,7 @@ namespace KirbyNightmareInDreamLand.Levels
                 foreach (IPlayer player in _manager.Players)
                 {
                     player?.GoToRoomSpawn();
-                    _manager.RegisterDynamicObject((Player)player);
+                    //_manager.RegisterDynamicObject((Player)player);
                 }
             }
             else

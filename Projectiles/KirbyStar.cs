@@ -56,6 +56,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             Position += Velocity;
             projectileSprite.Update();
+            if (position.X < -16 || position.X > Game1.Instance.Level.CurrentRoom.Width + 16)
+            {
+                CollisionActive = false;
+            }
         }
         public Vector2 CalculateRectanglePoint(Vector2 pos)
         {
