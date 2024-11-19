@@ -501,6 +501,8 @@ namespace KirbyNightmareInDreamLand
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
             action1 = TileCollisionActions.LeftBlockCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+            action1 = TileCollisionActions.TopBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Top, action1, null);
 
             key2 = CollisionType.SlopeGentle1Left;
             action1 = TileCollisionActions.GentleLeftSlopeCollision;
@@ -537,6 +539,9 @@ namespace KirbyNightmareInDreamLand
 
             #region Enemy-Tile Collisions
             key1 = CollisionType.Enemy;
+            key2 = CollisionType.Platform;
+            action1 = TileCollisionActions.BottomPlatformCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             // Is this necessary? Enemies already fall every update, I don't think we need to check for air. Either way, fall should only be called once per update. -Mark
             key2 = CollisionType.Air;
             action1 = TileCollisionActions.BottomAirCollision;
@@ -587,8 +592,59 @@ namespace KirbyNightmareInDreamLand
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
             #endregion
 
+            #region BouncingStar-Tile Collisons
+            key1 = CollisionType.BouncingStar;
+            key2 = CollisionType.Platform;
+            action1 = TileCollisionActions.BottomPlatformCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+
+            key2 = CollisionType.Block;
+            action1 = TileCollisionActions.BottomBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            action1 = TileCollisionActions.RightBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+            action1 = TileCollisionActions.LeftBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+
+            key2 = CollisionType.SlopeGentle1Left;
+            action1 = TileCollisionActions.GentleLeftSlopeCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null); // Register opposite side for gentle1 bc kirby registers that side when near the top
+
+            key2 = CollisionType.SlopeGentle2Left;
+            action1 = TileCollisionActions.MediumLeftSlopeCollison;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+
+            key2 = CollisionType.SlopeSteepLeft;
+            action1 = TileCollisionActions.SteepLeftSlopeCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+
+            key2 = CollisionType.SlopeGentle1Right;
+            action1 = TileCollisionActions.GentleRightSlopeCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null); // Register opposite side for gentle1 bc kirby registers that side when near the top
+
+            key2 = CollisionType.SlopeGentle2Right;
+            action1 = TileCollisionActions.MediumRightSlopeCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+
+            key2 = CollisionType.SlopeSteepRight;
+            action1 = TileCollisionActions.SteepRightSlopeCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+            #endregion
             
             #region Projectile Collisions
+            key2 = CollisionType.PlayerAttack;
+            action1 = DynamicCollisionActions.KirbyBouncingStarCollision;
+                collisionResponse.RegisterCollision(key1, key2, action1, null);
+
+                
             key1 = CollisionType.EnemyAttack;
             key2 = CollisionType.Block;
             action1 = TileCollisionActions.BottomBlockCollision;

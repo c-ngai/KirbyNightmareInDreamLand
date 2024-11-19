@@ -76,5 +76,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
             }
         }
+
     }
 }

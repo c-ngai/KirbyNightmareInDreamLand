@@ -17,7 +17,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         private Dictionary<string, Func<Player, IProjectile>> attackFactories;
         private Vector2 position;
         private bool isLeft;
-        public PlayerAttack(Player kirby, String attackType)
+        public PlayerAttack(Player kirby, string attackType)
         {
             //InitializeAttackDictionary();
             position = kirby.GetKirbyPosition();
@@ -45,6 +45,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     return new Slide(position, isLeft, kirby);
                 case ("Star"):
                     return new KirbyStar(position, !isLeft);
+                case ("BouncingStar"):
+                    return new KirbyBouncingStar(position, !isLeft, kirby.GetPowerUp());
                 default:
                     Debug.WriteLine(" [ERROR] PlayerAttack: No attack for string \"" + attackType +"\"");
                     return null;

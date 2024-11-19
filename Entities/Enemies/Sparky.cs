@@ -153,5 +153,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             ObjectManager.Instance.RemoveDynamicObject(sparkyPlasma);
         }
 
+        public override KirbyType PowerType()
+        {
+            return KirbyType.Spark;
+        }
+
     }
 }
