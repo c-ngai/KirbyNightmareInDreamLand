@@ -43,11 +43,6 @@ namespace KirbyNightmareInDreamLand.Collision
             }
         }
 
-        private bool ShouldCollide(CollisionType obj1, CollisionType obj2)
-        {
-            return obj1 != obj2;
-        }
-
         public void ExecuteCollision(ICollidable object1, ICollidable object2, CollisionSide side)
         {
             CollisionType key1 = object1.GetCollisionType();

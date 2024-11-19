@@ -8,7 +8,7 @@ using KirbyNightmareInDreamLand.Actions;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class KirbyPuff : IProjectile, ICollidable
+    public class KirbyPuff : IProjectile, ICollidable, IExplodable
     {
         private Sprite projectileSprite;
         private Vector2 position;
@@ -71,6 +71,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void EndAttack()
         {
+            isActive = false;
             CollisionActive = false;
         }
         public bool IsDone()

@@ -58,8 +58,22 @@ namespace KirbyNightmareInDreamLand.Actions
 
             if(object2 is Inhale)
             {
+                Enemy enemy = (Enemy)object1;
                 Inhale attack = (Inhale)object2;
-                attack.OnCollide(); //change skirby to mouthful
+                attack.OnCollide(enemy.PowerType()); //change skirby to mouthful
+            }
+        }
+
+        //boincing star collides with inhale attack
+        public static void KirbyBouncingStarCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
+        {
+            if(object1 is KirbyBouncingStar star)
+            {
+                if (object2 is Inhale attack)
+                {
+                    attack.OnCollide(star.PowerUp());
+                    star.EndAttack();
+                }
             }
         }
 

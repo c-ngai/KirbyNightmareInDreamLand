@@ -355,7 +355,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             CollisionActive = false;
             currentState.Dispose();
         }
-       
 
+        public virtual KirbyType PowerType()
+        {
+            return KirbyType.Normal;
+        }
     }
 }

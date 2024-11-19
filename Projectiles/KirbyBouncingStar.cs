@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
 using System;
 using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.StateMachines;
+using KirbyNightmareInDreamLand.Particles;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
@@ -12,6 +14,11 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private Vector2 position;
         private Vector2 velocity;
         public bool CollisionActive { get; private set;} = true;
+        public bool IsFacingRight;
+        private float ceiling = Constants.Kirby.CEILING;
+        public bool PowerType; 
+        private KirbyType powerUp;
+        private double timer ;
 
         public Vector2 Position
         {
@@ -25,35 +32,44 @@ namespace KirbyNightmareInDreamLand.Projectiles
             set => velocity = value;    // Set the velocity of the star to the given value
         }
 
-        public KirbyBouncingStar(Vector2 kirbyPosition, bool isFacingRight)
+        public KirbyBouncingStar(Vector2 kirbyPosition, bool isFacingRight, KirbyType power)
         {
+            powerUp = power;
             Position = kirbyPosition + (isFacingRight ? Constants.Kirby.BOUNCING_STAR_OFFSET_RIGHT: Constants.Kirby.BOUNCING_STAR_OFFSET_LEFT);
 
-            // Set the initial velocity based on the direction Kirby is facing
-            Velocity = isFacingRight
-                ? Constants.Star.BOUNCING_STAR_VEL_RIGHT
-                : Constants.Star.BOUNCING_STAR_VEL_LEFT;
+            Velocity = Constants.Star.BOUNCING_STAR_VEL_LEFT;
 
             // Assign the appropriate sprite based on the direction
             projectileSprite = isFacingRight
                 ? SpriteFactory.Instance.CreateSprite("projectile_kirby_star_right")
                 : SpriteFactory.Instance.CreateSprite("projectile_kirby_star_left");
-            
+
+            ObjectManager.Instance.AddProjectile(this);
             ObjectManager.Instance.RegisterDynamicObject(this);
 
             //SoundManager.Play("spit");
+            IsFacingRight = isFacingRight;
         }
         public CollisionType GetCollisionType()
         {
-            return CollisionType.PlayerAttack;
+            return CollisionType.BouncingStar;
         }
 
+        public void Adjust(){
+            if (position.Y < ceiling)
+            {
+                velocity.Y = 0;
+                position.Y = ceiling;
+            }
+        }
         public void Update()
         {
+            velocity.Y += Constants.Physics.GRAVITY *  Constants.Physics.DT;
             Position += Velocity;
             projectileSprite.Update();
+            Adjust();
         }
-        public Vector2 CalculateRectanglePoint(Vector2 pos)
+        private Vector2 CalculateRectanglePoint(Vector2 pos)
         {
             return pos + Constants.HitBoxes.PUFF_OFFSET; 
         }
@@ -76,13 +92,36 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public bool IsDone()
         {
-            if(!Camera.InAnyActiveCamera(position))
+            timer+= Game1.GameTime.ElapsedGameTime.TotalSeconds;
+            if(timer > Constants.Star.BOUNCING_TIMER)
             {
-                EndAttack();
+                CollisionActive = false;
+                SoundManager.Play("starexplode");
+                new StarExplode(position);
                 return true;
             }
             return false;
         }
-    
+
+        public void WallLeftBounce()
+        {
+            IsFacingRight = !IsFacingRight;
+            velocity = Constants.Star.BOUNCING_STAR_VEL_RIGHT;
+        }
+        public void WallRightBounce()
+        {
+            IsFacingRight = !IsFacingRight;
+            velocity = Constants.Star.BOUNCING_STAR_VEL_LEFT;
+        }
+
+        public void FloorBounce()
+        {
+            velocity.Y = Constants.Star.BOUNCING_STAR_VEL_RIGHT.Y ;
+        }
+
+        public KirbyType PowerUp()
+        {
+            return powerUp;
+        }
     }
 }

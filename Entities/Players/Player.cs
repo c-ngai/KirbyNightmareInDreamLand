@@ -18,10 +18,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
     public class Player : IPlayer, ICollidable
     {
         private Game1 _game;
-        //BSP trees for collision optimization
-        //make a seperate class to hold all the objects --singleton
-        //this class will be refactored in next sprint to make another class: State management
-        // and movement management so it is not doing this much
         public PlayerStateMachine state { get; private set; }
         public PlayerMovement movement { get; private set; }
         private int playerIndex;
@@ -32,7 +28,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public PlayerAttack starAttackOne {get; private set;}
         public PlayerAttack starAttackTwo {get; private set;}
 
-        //health stuffs -- will be taken to another class connected to kirby in next sprint
         public int health { get; private set; }
         public int lives { get; private set; }
         private bool invincible = false;
@@ -46,6 +41,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public bool CollisionActive { get; private set; } = true;
         public bool DEAD = false;
         public bool lifeLost = false;
+        private KirbyType powerUp = KirbyType.Normal;
 
         //collision stuffs
 
@@ -182,6 +178,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void ChangeToFire()
         {
+            powerUp = KirbyType.Fire;
             state.ChangeType(KirbyType.Fire);
         }
         public void ChangeToSpark()
@@ -195,6 +192,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void ChangeToMouthful()
         {
             state.ChangeType(KirbyType.Mouthful);
+        }
+        public KirbyType GetPowerUp()
+        {
+            return powerUp;
         }
         #endregion
         #region direction
@@ -286,7 +287,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if(invincible){
                 if(state.HasPowerUp())
                 {
-                    starAttackTwo = new PlayerAttack(this, "Star");
+                    starAttackTwo = new PlayerAttack(this, "BouncingStar");
                     if(!state.IsCrouching())AttackAnimation();
                     movement.Attack(this);
                 }
@@ -557,8 +558,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             await Task.Delay(10000);
         }
-        public void SwallowEnemy()
+        public void SwallowEnemy(KirbyType kirbyType) //changes to mouthful state
         {
+            powerUp = kirbyType;
             SmallWait();
             SoundManager.Play("catch");
             StopAttacking();
@@ -568,11 +570,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             state.ChangePose(KirbyPose.Swallow);
         }
-        private void EndSwallow()
+        private void EndSwallow() //swallows enemy
         {
             SwallowAnimation();
             ChangePose(KirbyPose.Standing);
-            ChangeToNormal();
+            state.ChangeType(powerUp);
         }
         #endregion
 
@@ -584,12 +586,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             EndInvinciblility(gameTime);
             playerSprite.Update();
             spriteDamageCounter++;
-            //if (attack != null || starAttackOne != null || starAttackTwo != null)
-            //{
-            //    attack?.Update(gameTime, this);
-            //    starAttackOne?.Update(gameTime, this);
-            //    starAttackTwo?.Update(gameTime, this);
-            //}
+            if (attack != null || starAttackOne != null || starAttackTwo != null)
+            {
+               attack?.Update(gameTime, this);
+               starAttackOne?.Update(gameTime, this);
+               starAttackTwo?.Update(gameTime, this);
+            }
             if (lifeLost)
             {
                 Death();
@@ -617,12 +619,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             // Draw an arrow pointing to this player if off screen
             DrawArrow(spriteBatch);
 
-            //if (attack != null || starAttackOne != null || starAttackTwo != null)
-            //{
-            //    attack?.Draw(spriteBatch, this);
-            //    starAttackOne?.Draw(spriteBatch, this);
-            //    starAttackTwo?.Draw(spriteBatch, this);
-            //}
+            if (attack != null || starAttackOne != null || starAttackTwo != null)
+            {
+               attack?.Draw(spriteBatch, this);
+               starAttackOne?.Draw(spriteBatch, this);
+               starAttackTwo?.Draw(spriteBatch, this);
+            }
 
             UpdateOldStates();
         }
@@ -632,7 +634,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             oldState = state.GetStateString();
             oldPose = state.GetPose();
         }
+        public  Vector2 GetPosition()
+        {
+            return GetKirbyPosition();
+        }
+        #endregion
 
+        #region Arrow
         private void DrawArrow(SpriteBatch spriteBatch)
         {
             // Get camera bounds
@@ -710,7 +718,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 playerarrows[spriteX][spriteY].Draw(arrowposition, spriteBatch);
             }
         }
+        #endregion
 
+        #region Collisions
+        //kirby collides with the top of a block
         public Vector2 CalculateRectanglePoint(Vector2 pos)
         {
             float x = pos.X - Constants.HitBoxes.ENTITY_WIDTH/2;
@@ -723,15 +734,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             Vector2 rectPoint = CalculateRectanglePoint(GetKirbyPosition());
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
         }
-
-        public  Vector2 GetPosition()
-        {
-            return GetKirbyPosition();
-        }
-        #endregion
-
-        #region Collisions
-        //kirby collides with the top of a block
         public void BottomCollisionWithBlock(Rectangle intersection)
         {
             movement.AdjustFromBottomCollisionBlock(intersection);
