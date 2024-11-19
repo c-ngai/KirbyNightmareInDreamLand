@@ -171,6 +171,8 @@ namespace KirbyNightmareInDreamLand
             public static Vector2 FLAME_ATTACK_OFFSET_LEFT = new Vector2(-25, -10);
             public static Vector2 STAR_ATTACK_OFFSET_RIGHT= new Vector2(8, -10);
             public static Vector2 STAR_ATTACK_OFFSET_LEFT= new Vector2(-8, -10);
+            public static Vector2 BOUNCING_STAR_OFFSET_RIGHT= new Vector2(8, -10);
+            public static Vector2 BOUNCING_STAR_OFFSET_LEFT= new Vector2(-8, -10);
             public static float SLIDE_TIME = 0.7f;
             public static float CEILING = 15;
             public static int BOUNDS = 10;
@@ -220,7 +222,6 @@ namespace KirbyNightmareInDreamLand
             // For fireball
             public const float SPEED = 1f; // Constant speed of the fireball
         }
-
         public class WaddleDooBeam
         {
             // For enemy beam
@@ -262,6 +263,8 @@ namespace KirbyNightmareInDreamLand
         public class Star
         {
             public const float SPEED = 4f; // Constant speed of the star
+            public static Vector2  BOUNCING_STAR_VEL_LEFT = new Vector2 (2f, -2f);
+            public static Vector2  BOUNCING_STAR_VEL_RIGHT = new Vector2 (-2f, -2f);
 
         }
 

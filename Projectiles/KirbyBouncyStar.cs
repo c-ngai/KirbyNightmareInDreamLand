@@ -6,7 +6,7 @@ using KirbyNightmareInDreamLand.Audio;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class KirbyStar : IProjectile, ICollidable
+    public class KirbyBouncingStar : IProjectile, ICollidable
     {
         private Sprite projectileSprite;
         private Vector2 position;
@@ -25,14 +25,14 @@ namespace KirbyNightmareInDreamLand.Projectiles
             set => velocity = value;    // Set the velocity of the star to the given value
         }
 
-        public KirbyStar(Vector2 kirbyPosition, bool isFacingRight)
+        public KirbyBouncingStar(Vector2 kirbyPosition, bool isFacingRight)
         {
-            Position = kirbyPosition + (isFacingRight ? Constants.Kirby.STAR_ATTACK_OFFSET_RIGHT: Constants.Kirby.STAR_ATTACK_OFFSET_LEFT);
+            Position = kirbyPosition + (isFacingRight ? Constants.Kirby.BOUNCING_STAR_OFFSET_RIGHT: Constants.Kirby.BOUNCING_STAR_OFFSET_LEFT);
 
             // Set the initial velocity based on the direction Kirby is facing
             Velocity = isFacingRight
-                ? new Vector2(Constants.Star.SPEED, 0)
-                : new Vector2(-Constants.Star.SPEED, 0);
+                ? Constants.Star.BOUNCING_STAR_VEL_RIGHT
+                : Constants.Star.BOUNCING_STAR_VEL_LEFT;
 
             // Assign the appropriate sprite based on the direction
             projectileSprite = isFacingRight
@@ -41,11 +41,11 @@ namespace KirbyNightmareInDreamLand.Projectiles
             
             ObjectManager.Instance.RegisterDynamicObject(this);
 
-            SoundManager.Play("spit");
+            //SoundManager.Play("spit");
         }
-        public string GetObjectType()
+        public CollisionType GetCollisionType()
         {
-            return "PlayerAttack";
+            return CollisionType.PlayerAttack;
         }
 
         public void Update()
