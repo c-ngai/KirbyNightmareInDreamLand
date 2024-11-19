@@ -138,6 +138,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             }
         }
 
+        public override KirbyType PowerType()
+        {
+            return KirbyType.Beam;
+        }
+
     }
 
 }

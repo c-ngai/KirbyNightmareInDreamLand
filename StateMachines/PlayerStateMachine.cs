@@ -60,7 +60,8 @@ namespace KirbyNightmareInDreamLand.StateMachines
 
         public bool HasPowerUp()
         {
-            return GetKirbyType() == KirbyType.Beam || GetKirbyType() == KirbyType.Fire || GetKirbyType() == KirbyType.Spark;
+            return GetKirbyType() == KirbyType.Beam || GetKirbyType() == KirbyType.Fire 
+                || GetKirbyType() == KirbyType.Spark || GetKirbyType() == KirbyType.Professor;
         }
         public bool IsJumping()
         {
