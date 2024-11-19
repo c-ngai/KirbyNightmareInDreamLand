@@ -259,6 +259,12 @@
 /processorParam:Quality=Best
 /build:Audio/spitbig.wav
 
+#begin Audio/starbounce.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/starbounce.wav
+
 #begin Audio/starexplode.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

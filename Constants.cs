@@ -398,6 +398,7 @@ namespace KirbyNightmareInDreamLand
             public static int OFFSET8 = 8;
             public static int STAR_MAX_FRAMES = 14;
             public static int STAREXPLODE_MAX_FRAMES = 14;
+            public static int DROPABILITY_MAX_FRAMES = 8;
 
             public static int DASH_CLOUD_FRAMES = 10;
             public static int DASH_CLOUD_LOOPS = 3;

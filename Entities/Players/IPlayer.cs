@@ -32,6 +32,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         void StopAttacking();
         void SetDirectionLeft();
         void SetDirectionRight();
+        void DropAbility();
+        void ManualDropAbility();
         void ChangeToNormal();
         void ChangeToBeam();
         void ChangeToFire();

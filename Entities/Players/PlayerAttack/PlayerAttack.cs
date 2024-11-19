@@ -56,7 +56,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void EndAttack()
         {
             currentAttack.EndAttack();
-            currentAttack = null;
+            //currentAttack = null;
         }
 
         public bool IsDone()
@@ -64,14 +64,14 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             return currentAttack.IsDone();
         }
 
-        //public void Update(GameTime gameTime, Player kirby)
-        //{
-        //    currentAttack.Update(); 
-        //}
-        //public void Draw(SpriteBatch spriteBatch, Player kirby)
-        //{
-        //   currentAttack.Draw(spriteBatch);
-        //}
+        public void Update(GameTime gameTime, Player kirby)
+        {
+            currentAttack.Update();
+        }
+        public void Draw(SpriteBatch spriteBatch, Player kirby)
+        {
+            currentAttack.Draw(spriteBatch);
+        }
 
 
     }

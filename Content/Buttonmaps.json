@@ -65,6 +65,11 @@
             "Button": "A",
             "ExecutionType": "Pressed",
             "Command": "KirbyAttackPressedCommand"
+        },
+        {
+            "Button": "Back",
+            "ExecutionType": "StartingPress",
+            "Command": "KirbyDropAbilityCommand"
         }
     ]
 

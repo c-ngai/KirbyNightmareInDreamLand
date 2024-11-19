@@ -12,6 +12,8 @@ using Microsoft.Xna.Framework.Input;
 using KirbyNightmareInDreamLand.Particles;
 using static KirbyNightmareInDreamLand.Constants;
 using KirbyNightmareInDreamLand.Actions;
+using KirbyNightmareInDreamLand.Projectiles;
+using System.Collections.Generic;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -288,21 +290,52 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //calls method to drecease health & changes kirby pose
         private async void TakeDamageAnimation()
         {
-            if(invincible){
-                if(state.HasPowerUp())
+            if (invincible)
+            {
+                if (state.HasPowerUp())
                 {
-                    starAttackTwo = new PlayerAttack(this, "BouncingStar");
-                    if(!state.IsCrouching())AttackAnimation();
+                    //starAttackTwo = new PlayerAttack(this, "BouncingStar");
+                    DropAbility();
+                    if (!state.IsCrouching())
+                    {
+                        AttackAnimation();
+                    }
                     movement.Attack(this);
                 }
-                if(!IsWithEnemy())ChangeToNormal();
-                if(IsFloating()) movement = new NormalPlayerMovement(GetKirbyPosition());
+                
+                if (IsFloating())
+                {
+                    movement = new NormalPlayerMovement(GetKirbyPosition());
+                }
                 ChangePose(KirbyPose.Hurt);
                 SoundManager.Play("kirbyhurt1");
                 await Task.Delay(Constants.WaitTimes.DELAY_400);
                 StopMoving();
             }
         }
+
+        public void DropAbility()
+        {
+            if (true || state.HasPowerUp())
+            {
+                if (!IsWithEnemy())
+                {
+                    new KirbyBouncingStar(GetKirbyPosition(), IsLeft(), GetPowerUp());
+                    new DropAbility(GetKirbyPosition());
+                    ChangeToNormal();
+                }
+            }
+        }
+
+        public void ManualDropAbility()
+        {
+            if (true || state.HasPowerUp())
+            {
+                SoundManager.Play("dropability");
+                DropAbility();
+            }
+        }
+
         private void EndInvinciblility(GameTime gameTime)
         {
             if(invincible){
@@ -501,20 +534,36 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             } else {  //float and mouthful exhale
                 await Task.Delay(Constants.WaitTimes.DELAY_200);
             }
-            if(!state.IsFloating()) ChangePose(KirbyPose.Standing);
-            if(IsWithEnemy())ChangeToNormal();
+            if (!state.IsFloating())
+            {
+                ChangePose(KirbyPose.Standing);
+            }
+            if (IsWithEnemy())
+            {
+                ChangeToNormal();
+            }
         }
         public void Attack()
         {
             //mouthful exhale -- spits out star
-            if(IsWithEnemy() && state.ShortAttack()){
+            if(IsWithEnemy() && state.ShortAttack())
+            {
                 starAttackOne = new PlayerAttack(this, "Star");
-                if(!state.IsCrouching())AttackAnimation();
+                if (!state.IsCrouching())
+                {
+                    AttackAnimation();
+                }
                 movement.Attack(this);
                 //ChangeAttackBool(true);
-            } else if (attack == null && state.ShortAttack()) { //slide beam float exhale 
+            }
+            //slide beam float exhale
+            else if (attack == null && state.ShortAttack())
+            {
                 attack = new PlayerAttack(this, AttackType());
-                if(!state.IsCrouching())AttackAnimation();
+                if (!state.IsCrouching())
+                {
+                    AttackAnimation();
+                }
                 movement.Attack(this);
             }
         }
@@ -592,9 +641,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             spriteDamageCounter++;
             if (attack != null || starAttackOne != null || starAttackTwo != null)
             {
-               attack?.Update(gameTime, this);
-               starAttackOne?.Update(gameTime, this);
-               starAttackTwo?.Update(gameTime, this);
+               //attack?.Update(gameTime, this);
+               //starAttackOne?.Update(gameTime, this);
+               //starAttackTwo?.Update(gameTime, this);
             }
             if (lifeLost)
             {
@@ -625,9 +674,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
             if (attack != null || starAttackOne != null || starAttackTwo != null)
             {
-               attack?.Draw(spriteBatch, this);
-               starAttackOne?.Draw(spriteBatch, this);
-               starAttackTwo?.Draw(spriteBatch, this);
+               //attack?.Draw(spriteBatch, this);
+               //starAttackOne?.Draw(spriteBatch, this);
+               //starAttackTwo?.Draw(spriteBatch, this);
             }
 
             UpdateOldStates();
