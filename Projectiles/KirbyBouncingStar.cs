@@ -40,7 +40,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
             powerUp = power;
             Position = kirbyPosition + (IsLeft ? Constants.Kirby.BOUNCING_STAR_OFFSET_RIGHT : Constants.Kirby.BOUNCING_STAR_OFFSET_LEFT);
 
-            Velocity = IsLeft ? Constants.Star.BOUNCING_STAR_VEL_LEFT : Constants.Star.BOUNCING_STAR_VEL_RIGHT;
+            Velocity = IsLeft ? Constants.Star.BOUNCING_STAR_VEL_RIGHT : Constants.Star.BOUNCING_STAR_VEL_LEFT;
 
             // Assign the appropriate sprite based on the direction
             projectileSprite = IsLeft
@@ -111,13 +111,15 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public void WallLeftBounce()
         {
             IsLeft = !IsLeft;
-            velocity = Constants.Star.BOUNCING_STAR_VEL_RIGHT;
+            //velocity = Constants.Star.BOUNCING_STAR_VEL_RIGHT;
+            velocity.X *= -1;
             SoundManager.Play("starbounce");
         }
         public void WallRightBounce()
         {
             IsLeft = !IsLeft;
-            velocity = Constants.Star.BOUNCING_STAR_VEL_LEFT;
+            //velocity = Constants.Star.BOUNCING_STAR_VEL_LEFT;
+            velocity.X *= -1;
             SoundManager.Play("starbounce");
         }
 

@@ -19,7 +19,8 @@
                 "DestinationRoom": "room2",
                 "DestinationTileX": 2,
                 "DestinationTileY": 7,
-                "DrawDoorStars": true
+                "DrawDoorStars": true,
+                "IsBigDoor": false
             }
         ],
         "Enemies": [
@@ -91,7 +92,8 @@
                 "DestinationRoom": "room3",
                 "DestinationTileX": 2,
                 "DestinationTileY": 7,
-                "DrawDoorStars": true
+                "DrawDoorStars": true,
+                "IsBigDoor": false
             }
         ],
         "Enemies": [
@@ -152,13 +154,15 @@
                 "DestinationRoom": "room2",
                 "DestinationTileX": 61,
                 "DestinationTileY": 7,
-                "DrawDoorStars": true
+                "DrawDoorStars": true,
+                "IsBigDoor": false
             },
             {
                 "TileX": 60,
                 "TileY": 3,
                 "DestinationRoom": "winner_room",
-                "DrawDoorStars": true
+                "DrawDoorStars": true,
+                "IsBigDoor": false
             }
 
         ],
@@ -238,7 +242,8 @@
                 "DestinationRoom": "room1",
                 "DestinationTileX": 2,
                 "DestinationTileY": 7,
-                "DrawDoorStars": true
+                "DrawDoorStars": true,
+                "IsBigDoor": true
             },
             {
                 "TileX": 48,
@@ -246,7 +251,8 @@
                 "DestinationRoom": "room2",
                 "DestinationTileX": 2,
                 "DestinationTileY": 7,
-                "DrawDoorStars": true
+                "DrawDoorStars": true,
+                "IsBigDoor": false
             },
             {
                 "TileX": 51,
@@ -254,7 +260,8 @@
                 "DestinationRoom": "room3",
                 "DestinationTileX": 6,
                 "DestinationTileY": 7,
-                "DrawDoorStars": true
+                "DrawDoorStars": true,
+                "IsBigDoor": false
             }
         ],
         "Enemies": [
@@ -374,7 +381,8 @@
                 "DestinationRoom": "room1",
                 "DestinationTileX": 2,
                 "DestinationTileY": 7,
-                "DrawDoorStars": true
+                "DrawDoorStars": true,
+                "IsBigDoor": false
             },
             {
                 "TileX": 3,
@@ -382,7 +390,8 @@
                 "DestinationRoom": "room2",
                 "DestinationTileX": 2,
                 "DestinationTileY": 7,
-                "DrawDoorStars": true
+                "DrawDoorStars": true,
+                "IsBigDoor": false
             },
             {
                 "TileX": 5,
@@ -390,7 +399,8 @@
                 "DestinationRoom": "room3",
                 "DestinationTileX": 6,
                 "DestinationTileY": 7,
-                "DrawDoorStars": true
+                "DrawDoorStars": true,
+                "IsBigDoor": false
             }
         ],
         "Enemies": [

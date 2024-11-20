@@ -263,8 +263,8 @@ namespace KirbyNightmareInDreamLand
         public class Star
         {
             public const float SPEED = 4f; // Constant speed of the star
-            public static Vector2  BOUNCING_STAR_VEL_LEFT = new Vector2 (1f, -5f);
-            public static Vector2  BOUNCING_STAR_VEL_RIGHT = new Vector2 (-1f, -5f);
+            public static Vector2  BOUNCING_STAR_VEL_LEFT = new Vector2 (-1f, -5f);
+            public static Vector2  BOUNCING_STAR_VEL_RIGHT = new Vector2 (1f, -5f);
             public static double BOUNCING_TIMER = 7;
 
         }
