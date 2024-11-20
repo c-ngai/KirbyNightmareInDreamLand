@@ -48,6 +48,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if (landed)
             {   
                 kirby.ChangePose(KirbyPose.FloatingGrounded);
+            } else if(yVel > 0)
+            {
+                kirby.ChangePose(KirbyPose.FloatingFalling);
+            } else {
+                kirby.ChangePose(KirbyPose.FloatingRising);
             }
         }
         public void AdjustYPositionWhileNotFloating(Player kirby)

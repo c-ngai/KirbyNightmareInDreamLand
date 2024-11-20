@@ -14,25 +14,26 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public Vector2 Position {get; private set;}
         public Vector2 Velocity {get; private set;}
         public bool CollisionActive { get; private set;} = true;
+        private bool IsActive;
         private SoundInstance sound;
 
         public ElectricAttack(Vector2 pos, bool isLeft)
         {
             Position = pos;
+            IsActive = true;
             ObjectManager.Instance.AddProjectile(this);
-            ObjectManager.Instance.RegisterDynamicObject(this);
             sound = SoundManager.CreateInstance("kirbysparkattack");
             sound.Play();
         }
         public bool IsDone()
         {
-            return true;
+            return !IsActive;
         }
 
         public void Update()
         {
-            GetHitBox();
         }
+
         public Vector2 CalculateRectanglePoint(Vector2 pos)
         {
             return pos + Constants.HitBoxes.SPARK_OFFSET; 
@@ -58,6 +59,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public void EndAttack()
         {
             CollisionActive = false;
+            IsActive = false;
             sound.Stop();
         }
     }

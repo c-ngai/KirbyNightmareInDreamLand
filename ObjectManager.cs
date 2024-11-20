@@ -68,6 +68,8 @@ namespace KirbyNightmareInDreamLand
             Enemies.Clear();
             Projectiles.Clear();
             Particles.Clear();
+
+            DynamicObjects.Clear();
         }
 
         public void UpdateScore(int points)
@@ -90,26 +92,9 @@ namespace KirbyNightmareInDreamLand
         {
             Enemies.Add(enemy);
         }
-
-        public void UpdateEnemies()
-        {
-            foreach (ICollidable enemy in Enemies)
-            {
-                if (enemy.CollisionActive && !DynamicObjects.Contains(enemy))
-                {
-                    RegisterDynamicObject(enemy);
-                }
-            }
-        }
-
         public void AddProjectile(IProjectile projectile)
         {
             Projectiles.Add(projectile);
-        }
-
-        public void UpdateProjectiles()
-        {
-            Projectiles.RemoveAll(obj => obj.IsDone());
         }
 
         public void AddParticle(IParticle particle)
@@ -117,30 +102,7 @@ namespace KirbyNightmareInDreamLand
             Particles.Add(particle);
         }
 
-        public void UpdateParticles()
-        {
-            Particles.RemoveAll(obj => obj.IsDone());
-        }
-
         #region Collision
-        //public void InitializeTileTypes()
-        //{
-        //    tileTypes[(int)TileCollisionType.Air] = "Air";
-        //    tileTypes[(int)TileCollisionType.Block] = "Block";
-        //    tileTypes[(int)TileCollisionType.Platform] = "Platform";
-        //    tileTypes[(int)TileCollisionType.Water] = "Water";
-        //    tileTypes[(int)TileCollisionType.SlopeSteepLeft] = "SlopeSteepLeft";
-        //    tileTypes[(int)TileCollisionType.SlopeGentle1Left] = "SlopeGentle1Left";
-        //    tileTypes[(int)TileCollisionType.SlopeGentle2Left] = "SlopeGentle2Left";
-        //    tileTypes[(int)TileCollisionType.SlopeGentle2Right] = "SlopeGentle2Right";
-        //    tileTypes[(int)TileCollisionType.SlopeGentle1Right] = "SlopeGentle1Right";
-        //    tileTypes[(int)TileCollisionType.SlopeSteepRight] = "SlopeSteepRight";
-        //}
-        public void ResetDynamicCollisionBoxes()
-        {
-            DynamicObjects.Clear();
-        }
-
         // Note this removes all static objects which will be an issue if there are other non-tile ones
         public void ResetStaticObjects()
         {
@@ -182,10 +144,38 @@ namespace KirbyNightmareInDreamLand
             DynamicObjects = DynamicObjects.OrderBy<ICollidable, CollisionType>(o => o.GetCollisionType()).ToList();
         }
 
-        public void UpdateDynamicObjects()
+        private void UpdateDynamicObjects()
         {
+            foreach (ICollidable player in Players)
+            {
+                if (player.CollisionActive && !DynamicObjects.Contains(player))
+                {
+                    RegisterDynamicObject(player);
+                }
+            }
+            foreach (ICollidable enemy in Enemies)
+            {
+                if (enemy.CollisionActive && !DynamicObjects.Contains(enemy))
+                {
+                    RegisterDynamicObject(enemy);
+                }
+            }
+            foreach (ICollidable projectile in Projectiles)
+            {
+                if (projectile.CollisionActive && !DynamicObjects.Contains(projectile))
+                {
+                    RegisterDynamicObject(projectile);
+                }
+            }
             DynamicObjects.RemoveAll(obj => !obj.CollisionActive);
         }
+
+        private void EmptyLists()
+        {
+            Projectiles.RemoveAll(obj => obj.IsDone());
+            Particles.RemoveAll(obj => obj.IsDone());
+        }
+
 
         public void RemoveNonPlayers()
         {
@@ -228,7 +218,7 @@ namespace KirbyNightmareInDreamLand
             {
                 enemy.Update(Game1.Instance.time);
             }
-            UpdateEnemies();
+            //UpdateEnemies();
             foreach (PowerUp powerUp in Game1.Instance.Level.powerUpList)
             {
                 powerUp.Update();
@@ -237,12 +227,14 @@ namespace KirbyNightmareInDreamLand
             {
                 projectile.Update();
             }
-            UpdateProjectiles();
+            //UpdateProjectiles();
             foreach (IParticle particle in Particles)
             {
                 particle.Update();
             }
-            UpdateParticles();
+            //UpdateParticles();
+            UpdateDynamicObjects();
+            EmptyLists();
         }
 
         public void Draw(SpriteBatch spriteBatch)

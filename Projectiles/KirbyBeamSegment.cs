@@ -15,8 +15,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private int frameCount = 0;
         public bool IsActive {get; private set;}= true;
         private int maxFrames = 6; // Segment disappears after 6 frames
-        private ISprite sprite1;
-        private ISprite sprite2;
+        private ISprite sprite;
         public bool CollisionActive { get; private set;} = true;
 
         public CollisionType GetCollisionType()
@@ -36,12 +35,13 @@ namespace KirbyNightmareInDreamLand.Projectiles
             set => velocity = value;
         }
 
-        public KirbyBeamSegment(Vector2 startPosition, Vector2 beamVelocity, bool isLeft)
+        public KirbyBeamSegment(Vector2 startPosition, Vector2 beamVelocity, bool odd)
         {
             Position = startPosition;
             Velocity = beamVelocity;
-            sprite1 = SpriteFactory.Instance.CreateSprite("projectile_kirby_beam1");
-            sprite2 = SpriteFactory.Instance.CreateSprite("projectile_kirby_beam2");
+            sprite = odd ?
+                SpriteFactory.Instance.CreateSprite("projectile_kirby_beam1")
+              : SpriteFactory.Instance.CreateSprite("projectile_kirby_beam2");
             ObjectManager.Instance.RegisterDynamicObject(this);
         }
 
@@ -52,18 +52,8 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 // Update position based on velocity
                 Position += Velocity;
             } 
-            
 
-            // Update animation Chandled internally by sprite)
-            if (frameCount % 2 == 0)
-            {
-                sprite2.Update();
-
-            }
-            else
-            {
-                sprite1.Update();
-            }
+            sprite.Update();
 
             // Increment frame count and check if the segment should disappear
             frameCount++;
@@ -99,14 +89,9 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (frameCount % 2 == 0 && IsActive)
+            if (IsActive)
             {
-                sprite2.Draw(Position, spriteBatch);
-
-            }
-            else if (IsActive)
-            {
-                sprite1.Draw(Position, spriteBatch);
+                sprite.Draw(Position, spriteBatch);
             }
         }
     }

@@ -24,6 +24,10 @@ namespace KirbyNightmareInDreamLand.Actions
             else if (object1 is IExplodable projectile)
             {
                 projectile.EndAttack();
+            } 
+            else if (object1 is KirbyBouncingStar star) 
+            {
+                star.FloorBounce();
             }
         }
 
@@ -37,17 +41,15 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 enemy.ChangeDirection();
             }
-            //else if (type == CollisionType.KirbyStar)
-            //{
-            //    IProjectile projectile = (IProjectile)object1;
-            //    projectile.EndAttack();
-            //}
             else if (object1 is IExplodable projectile)
             {
                 projectile.EndAttack();
+            }   
+            else if (object1 is KirbyBouncingStar star) 
+            {
+                star.WallRightBounce();
             }
         }
-
         public static void LeftBlockCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
             if (object1 is IPlayer player)
@@ -61,6 +63,10 @@ namespace KirbyNightmareInDreamLand.Actions
             else if (object1 is IExplodable projectile)
             {
                 projectile.EndAttack();
+            }
+            else if (object1 is KirbyBouncingStar star) 
+            {
+                star.WallLeftBounce();
             }
         }
 
@@ -89,6 +95,10 @@ namespace KirbyNightmareInDreamLand.Actions
             else if (object1 is IEnemy enemy)
             {
                 enemy.BottomCollisionWithPlatform(intersection);
+            }
+            else if (object1 is KirbyBouncingStar star) 
+            {
+                star.FloorBounce();
             }
 
         }
@@ -130,6 +140,10 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 Enemy enemy = (Enemy)object1;
                 enemy.AdjustGentle1SlopeLeftCollision(tile);
+            } 
+            else if (object1 is KirbyBouncingStar star) 
+            {
+                star.FloorBounce();
             }
         }
 
@@ -147,6 +161,10 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 Enemy enemy = (Enemy)object1;
                 enemy.AdjustGentle1SlopeRightCollision(tile);
+            } 
+            else if (object1 is KirbyBouncingStar star) 
+            {
+                star.FloorBounce();
             }
         }
 
@@ -165,6 +183,10 @@ namespace KirbyNightmareInDreamLand.Actions
                 Enemy enemy = (Enemy)object1;
                 enemy.AdjustGentle2SlopeLeftCollision(tile);
             }
+            else if (object1 is KirbyBouncingStar star) 
+            {
+                star.FloorBounce();
+            }
         }
 
         public static void MediumRightSlopeCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
@@ -181,6 +203,10 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 Enemy enemy = (Enemy)object1;
                 enemy.AdjustGentle2SlopeRightCollision(tile);
+            }
+            else if (object1 is KirbyBouncingStar star) 
+            {
+                star.FloorBounce();
             }
         }
 
@@ -199,6 +225,10 @@ namespace KirbyNightmareInDreamLand.Actions
                 Enemy enemy = (Enemy)object1;
                 enemy.AdjustSteepSlopeLeftCollision(tile);
             }
+            else if (object1 is KirbyBouncingStar star) 
+            {
+                star.FloorBounce();
+            }
         }
 
         public static void SteepRightSlopeCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
@@ -215,6 +245,10 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 Enemy enemy = (Enemy)object1;
                 enemy.AdjustSteepSlopeRightCollision(tile);
+            }
+            else if (object1 is KirbyBouncingStar star) 
+            {
+                star.FloorBounce();
             }
         }
     }

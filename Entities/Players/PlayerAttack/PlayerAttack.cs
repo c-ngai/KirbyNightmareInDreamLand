@@ -17,7 +17,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         private Dictionary<string, Func<Player, IProjectile>> attackFactories;
         private Vector2 position;
         private bool isLeft;
-        public PlayerAttack(Player kirby, String attackType)
+        public PlayerAttack(Player kirby, string attackType)
         {
             //InitializeAttackDictionary();
             position = kirby.GetKirbyPosition();
@@ -32,9 +32,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             switch (attackType)
             {
                 case ("Beam"):
-                    return new KirbyBeam(position, !isLeft);
+                    return new KirbyBeam(kirby, !isLeft);
                 case ("Fire"):
-                    return new KirbyFlamethrower(position, !isLeft);
+                    return new KirbyFlamethrower(kirby, !isLeft);
                 case ("Puff"):
                     return new KirbyPuff(position, !isLeft);
                 case ("Normal"):
@@ -42,50 +42,35 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 case ("Spark"):
                     return new ElectricAttack(position, isLeft);
                 case ("Slide"):
-                    return new Slide(position, isLeft);
+                    return new Slide(position, isLeft, kirby);
                 case ("Star"):
                     return new KirbyStar(position, !isLeft);
+                case ("BouncingStar"):
+                    return new KirbyBouncingStar(position, !isLeft, kirby.GetPowerUp());
                 default:
                     Debug.WriteLine(" [ERROR] PlayerAttack: No attack for string \"" + attackType +"\"");
                     return null;
             }
         }
 
-        public void InitializeAttackDictionary()
-        {
-            attackFactories = new Dictionary<string, Func<Player, IProjectile>>
-            {
-                { "Beam", (k) => new KirbyBeam(position, !isLeft) },
-                { "Fire", (k) => new KirbyFlamethrower(position, !isLeft) },
-                { "Puff", (k) => new KirbyPuff(position, !isLeft) },
-                { "Normal", (k) => new Inhale(position, isLeft, k) },
-                { "Spark", (k) => new ElectricAttack(position, isLeft) },
-                { "Slide", (k) => new Slide(position, isLeft) },
-                { "Star", (k) => new KirbyStar(position, !isLeft) }
-            };
-        }
         public void EndAttack()
         {
             currentAttack.EndAttack();
             //currentAttack = null;
         }
+
         public bool IsDone()
         {
             return currentAttack.IsDone();
         }
+
         public void Update(GameTime gameTime, Player kirby)
         {
-            if(currentAttack is Slide attack)
-            {
-                attack.Update(kirby);
-            } else {
-                currentAttack.Update();
-            }
-            
+            currentAttack.Update();
         }
         public void Draw(SpriteBatch spriteBatch, Player kirby)
         {
-           currentAttack.Draw(spriteBatch);
+            currentAttack.Draw(spriteBatch);
         }
 
 

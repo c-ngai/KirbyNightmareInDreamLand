@@ -22,7 +22,7 @@ namespace KirbyNightmareInDreamLand
         SlopeGentle2Right,
         SlopeGentle1Right,
         SlopeSteepRight,
-         Enemy, EnemyAttack, Player, PlayerAttack, KirbyStar, PowerUp
+        BouncingStar, Enemy, EnemyAttack, Player, PlayerAttack, KirbyStar, PowerUp
     }
     public sealed class CollisionDetection
     {
@@ -152,8 +152,6 @@ namespace KirbyNightmareInDreamLand
                         response.ExecuteCollision(manager.DynamicObjects[i], manager.DynamicObjects[j], side);
                     }
                 }
-                // Removes dynamic objects that are no longer active after checking a dynamic object with all other possibilies
-                manager.UpdateDynamicObjects();
             }
         }
 

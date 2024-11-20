@@ -56212,6 +56212,308 @@
             }
         ]
     },
+    "projectile_kirby_bouncingstar_right": {
+        "Source texture": "projectiles",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 42,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 76,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 110,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 144,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 178,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 212,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 246,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 280,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 314,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 348,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 382,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 416,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 450,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 484,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 518,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            }
+        ]
+    },
+    "projectile_kirby_bouncingstar_left": {
+        "Source texture": "projectiles",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 42,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 76,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 110,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 144,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 178,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 212,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 246,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 280,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 314,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 348,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 382,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 416,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 450,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 484,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            },
+            {
+                "X": 518,
+                "Y": 392,
+                "Width": 32,
+                "Height": 32,
+                "CenterX": 16,
+                "CenterY": 16,
+                "Time": 2
+            }
+        ]
+    },
     "projectile_kirby_airpuff_right": {
         "Source texture": "projectiles",
         "Loop point": 0,
@@ -56936,6 +57238,94 @@
                 "Height": 44,
                 "CenterX": 22,
                 "CenterY": 22,
+                "Time": 1
+            }
+        ]
+    },
+    "particle_dropability": {
+        "Source texture": "particles",
+        "Loop point": 8,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 24,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 58,
+                "Y": 24,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 108,
+                "Y": 24,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 158,
+                "Y": 24,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 208,
+                "Y": 24,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 258,
+                "Y": 24,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 308,
+                "Y": 24,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 358,
+                "Y": 24,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 24,
+                "Time": 1
+            },
+            {
+                "X": 408,
+                "Y": 24,
+                "Width": 48,
+                "Height": 48,
+                "CenterX": 24,
+                "CenterY": 24,
                 "Time": 1
             }
         ]

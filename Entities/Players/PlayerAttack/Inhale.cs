@@ -5,6 +5,7 @@ using System.Net;
 using KirbyNightmareInDreamLand.Actions;
 using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Entities.Players;
+using KirbyNightmareInDreamLand.StateMachines;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -28,9 +29,9 @@ namespace KirbyNightmareInDreamLand.Projectiles
             sound = SoundManager.CreateInstance("inhale");
             sound.Play();
         }
-        public void OnCollide()
+        public void OnCollide(KirbyType kirbyType)
         {
-           player.SwallowEnemy();
+           player.SwallowEnemy(kirbyType);
         }
         public void EndAttack()
         {
