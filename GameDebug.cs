@@ -179,20 +179,32 @@ namespace KirbyNightmareInDreamLand
             texts.Add("SpriteBatch.Draw calls: " + NumOfSpriteBatchDrawCalls);
             texts.Add("Static ExecuteCollision calls: " + NumOfStaticExecuteCollisionCalls);
             texts.Add("Dynamic ExecuteCollision calls: " + NumOfDynamicExecuteCollisionCalls);
-            texts.Add("ObjectManager.DynamicObjects.Count: " + ObjectManager.Instance.DynamicObjects.Count);
-            //texts.Add("");
-            //texts.Add("+/- : Resize window");
-            //texts.Add("Q : Toggle fullscreen");
-            //texts.Add("W : Toggle splitscreen");
-            //texts.Add("Insert/Delete: Add/remove players");
-            //texts.Add("M : Mute audio");
+            texts.Add("");
+            texts.Add("Dynamic Objects: " + ObjectManager.Instance.DynamicObjects.Count);
+            texts.Add("Players: " + ObjectManager.Instance.Players.Count);
+            texts.Add("Enemies: " + ObjectManager.Instance.Enemies.Count);
+            texts.Add("Projectiles: " + ObjectManager.Instance.Projectiles.Count);
+            texts.Add("Particles: " + ObjectManager.Instance.Particles.Count);
             texts.Add("");
             texts.Add("F1 : Toggle debug text");
             texts.Add("F2 : Toggle sprite debug mode");
             texts.Add("F3 : Toggle level debug mode");
-            texts.Add("F4 : Toggle sprite culling");
-            texts.Add("F5 : Toggle collision debug mode");
-            
+            texts.Add("F4 : Toggle collision debug mode");
+            texts.Add("F5 : Toggle zoom-out debug mode");
+            texts.Add("F6 : Toggle sprite culling");
+            texts.Add("[/] : Increase/decrease target framerate");
+            texts.Add("Alt (hold) : Log player position to screen");
+            texts.Add("Ctrl : Clear player position log");
+
+            //if (Game1.Instance.UpdateCounter % 120 == 0)
+            //{
+            //    Debug.WriteLine("##### DYNAMIC OBJECTS #####");
+            //    foreach (ICollidable obj in ObjectManager.Instance.DynamicObjects)
+            //    {
+            //        Debug.WriteLine("   Object: " + obj.GetType());
+            //    }
+            //}
+
             //texts.Add("Alt (hold) : Record Kirby position");
             //texts.Add("Ctrl : Clear Kirby position log");
 

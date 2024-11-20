@@ -10,6 +10,20 @@ using System.Linq;
 
 namespace KirbyNightmareInDreamLand
 {
+    public enum CollisionType
+    {
+        Air,
+        Block,
+        Platform,
+        Water,
+        SlopeSteepLeft,
+        SlopeGentle1Left,
+        SlopeGentle2Left,
+        SlopeGentle2Right,
+        SlopeGentle1Right,
+        SlopeSteepRight,
+        BouncingStar, Enemy, EnemyAttack, Player, PlayerAttack, KirbyStar, PowerUp
+    }
     public sealed class CollisionDetection
     {
         private ObjectManager manager { get; }
@@ -92,10 +106,10 @@ namespace KirbyNightmareInDreamLand
 
                         CollisionSide side = DetectCollisionSide(dynamicObj.GetHitBox(), intersection);
 
-                        string type1 = dynamicObj.GetObjectType();
+                        CollisionType type1 = dynamicObj.GetCollisionType();
 
-                        string type2 = staticObj.GetObjectType();
-                        Tuple<string, string, CollisionSide> key = new Tuple<string, string, CollisionSide>(type1, type2, side);
+                        CollisionType type2 = staticObj.GetCollisionType();
+                        Tuple<CollisionType, CollisionType, CollisionSide> key = new Tuple<CollisionType, CollisionType, CollisionSide>(type1, type2, side);
                         // Collision detection does not care about the response dictionary but debug does to accurately keep track of dynamic execution calls
                         if (response.collisionMapping.ContainsKey(key))
                         {
@@ -125,10 +139,10 @@ namespace KirbyNightmareInDreamLand
 
                         CollisionSide side = DetectCollisionSide(manager.DynamicObjects[i].GetHitBox(), intersection);
 
-                        string type1 = manager.DynamicObjects[i].GetObjectType();
-                        string type2 = manager.DynamicObjects[j].GetObjectType();
+                        CollisionType type1 = manager.DynamicObjects[i].GetCollisionType();
+                        CollisionType type2 = manager.DynamicObjects[j].GetCollisionType();
                         
-                        Tuple<string, string, CollisionSide> key = new Tuple<string, string, CollisionSide>(type1, type2, side);
+                        Tuple<CollisionType, CollisionType, CollisionSide> key = new Tuple<CollisionType, CollisionType, CollisionSide>(type1, type2, side);
 
                         // Collision detection does not care about the response dictionary but debug does to accurately keep track of dynamic execution calls
                         if (response.collisionMapping.ContainsKey(key))
@@ -138,8 +152,6 @@ namespace KirbyNightmareInDreamLand
                         response.ExecuteCollision(manager.DynamicObjects[i], manager.DynamicObjects[j], side);
                     }
                 }
-                // Removes dynamic objects that are no longer active after checking a dynamic object with all other possibilies
-                manager.UpdateDynamicObjects();
             }
         }
 

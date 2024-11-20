@@ -2,40 +2,39 @@
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
 using System;
+using System.Diagnostics;
 
 namespace KirbyNightmareInDreamLand.Particles
 {
-    public class Cloud : IParticle
+    public class CollisionStar : IParticle
     {
         private Sprite sprite;
         private Vector2 position;
+        private int randomIndex;
         private int frameCount = 0;
-        private Vector2 offset;
+        private Random randomGenerator;
         private bool completed;
 
-        public Cloud(Vector2 kirbyPosition, bool isLeft)
+        public CollisionStar(Vector2 kirbyPosition)
         {
-            // assign the appropriate sprite based on direction
-            sprite = isLeft
-                ? SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_right")
-                : SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_left");
+            randomGenerator = new Random();
 
-            // assign appropriate animation location and direction 
-            offset = isLeft
-                ? Constants.Particle.CLOUD_OFFSET_RIGHT
-                : Constants.Particle.CLOUD_OFFSET_LEFT;
+            // Randomly generates the star at one of the 8 possible offsets 
+            randomIndex = randomGenerator.Next(Constants.Particle.OFFSET1, Constants.Particle.OFFSET8);
 
-            position = kirbyPosition + offset;
+            position = kirbyPosition + Constants.Particle.startingLocations[randomIndex];
+            sprite = SpriteFactory.Instance.CreateSprite("particle_bumpstar");
             ObjectManager.Instance.AddParticle(this);
             completed = false;
         }
 
         public void Update()
         {
-            if (frameCount < Constants.Particle.CLOUD_MAX_FRAMES)
+            if (frameCount < Constants.Particle.STAR_MAX_FRAMES)
             {
                 sprite.Update();
-                position += offset;
+                position += Constants.Particle.offsets[randomIndex];
+                //Debug.WriteLine(Constants.Particle.offsets[randomIndex]);
                 frameCount++;
             }
             else
@@ -54,6 +53,5 @@ namespace KirbyNightmareInDreamLand.Particles
         {
             return completed;
         }
-
     }
 }

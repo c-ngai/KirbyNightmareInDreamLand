@@ -36,6 +36,10 @@ namespace KirbyNightmareInDreamLand.Levels
         public Vector2 NextSpawn;
 
 
+        // Fields for detecting if a door is being opened and which one (index in CurrentRoom.Doors[])
+        public bool IsDoorBeingOpened;
+        public int DoorBeingOpened;
+
 
         public IGameState _currentState { get; set; }
         private string oldGameState;
@@ -57,6 +61,9 @@ namespace KirbyNightmareInDreamLand.Levels
             _game = Game1.Instance;
             _manager = Game1.Instance.manager;
             _currentState = new GamePlayingState(this);
+
+            IsDoorBeingOpened = false;
+            DoorBeingOpened = 0;
 
             _playingState = new GamePlayingState(this);
             _pausedState = new GamePausedState();
@@ -195,14 +202,18 @@ namespace KirbyNightmareInDreamLand.Levels
         // go to the next room, called because a player wants to go through a door 
         public void EnterDoorAt(Vector2 playerPos)
         {
-            int door_num = 0;
-            foreach (Door door in CurrentRoom.Doors)
+            for (int i = 0; i < CurrentRoom.Doors.Count; i++)
             {
-                if (door.Bounds.Contains(playerPos))
+                if (CurrentRoom.Doors[i].Bounds.Contains(playerPos))
                 {
-                    NextRoom = door.DestinationRoom;
-                    NextSpawn = door.DestinationPoint;
+                    NextRoom = CurrentRoom.Doors[i].DestinationRoom;
+                    NextSpawn = CurrentRoom.Doors[i].DestinationPoint;
+
+                    IsDoorBeingOpened = true;
+                    DoorBeingOpened = i;
+
                     _currentState = new GameTransitioningState(this);
+                    break;
                 }
                 door_num++;
             }
@@ -214,7 +225,7 @@ namespace KirbyNightmareInDreamLand.Levels
             if (LevelLoader.Instance.Rooms.ContainsKey(RoomName))
             {
                 // Sets it up so players are the only thing remaining in the object lists when rooms change
-                _manager.RemoveNonPlayers();
+                //_manager.RemoveNonPlayers();
                 _manager.ResetStaticObjects();
                 CurrentRoom = LevelLoader.Instance.Rooms[RoomName];
                 // Debug.WriteLine("current room is " + CurrentRoom);
@@ -223,7 +234,7 @@ namespace KirbyNightmareInDreamLand.Levels
                 foreach (IPlayer player in _manager.Players)
                 {
                     player?.GoToRoomSpawn();
-                    _manager.RegisterDynamicObject((Player)player);
+                    //_manager.RegisterDynamicObject((Player)player);
                 }
             }
             else
@@ -246,7 +257,7 @@ namespace KirbyNightmareInDreamLand.Levels
         public void LoadLevelObjects()
         {
             // Clear all existing enemies from the previous room before loading new ones
-            _manager.ClearEnemies();
+            _manager.ClearObjects();
 
             foreach (EnemyData enemy in CurrentRoom.Enemies)
             {
@@ -264,7 +275,7 @@ namespace KirbyNightmareInDreamLand.Levels
                     {
                         // Create an instance of the enemy
                         Enemy enemyObject = (Enemy)constructor.Invoke(new object[] { enemy.SpawnPoint });
-                        _manager.Enemies.Add(enemyObject);
+                        //_manager.Enemies.Add(enemyObject);
                     }
                 }
             }

@@ -1,7 +1,5 @@
-
 using System;
 using System.Net;
-using KirbyNightmareInDreamLand.Actions;
 using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Entities.Players;
 using Microsoft.Xna.Framework;
@@ -9,22 +7,19 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class Slide : IProjectile, ICollidable
+    public class Suitcase : IProjectile, ICollidable
     {
-        IPlayer player;
         public bool CollisionActive { get; private set;} = true;
         public Vector2 Position {get; private set;}
         public Vector2 Velocity {get; private set;}
         private float startingX;
         private static int slideDistance = 70;
         private bool IsLeft;
-        public Slide(Vector2 pos, bool isLeft, IPlayer player)
+        public Suitcase(Vector2 pos, bool isLeft)
         {
-            this.player = player;
             IsLeft= isLeft;
             Position =pos;
             startingX = pos.X;
-            ObjectManager.Instance.AddProjectile(this);
             ObjectManager.Instance.RegisterDynamicObject(this);
             SoundManager.Play("slide");
         }
@@ -48,7 +43,12 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void Update()
         {
-            Position = player.GetKirbyPosition();
+            GetHitBox();
+        }
+        public void Update(Player kirby)
+        {
+            Position = kirby.GetKirbyPosition();
+            GetHitBox();
         }
 
         public Vector2 CalculateRectanglePoint(Vector2 pos)

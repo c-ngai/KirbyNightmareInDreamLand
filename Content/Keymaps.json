@@ -111,6 +111,12 @@
 			"PlayerIndex": 0
 		},
 		{
+			"Key": "Q",
+			"ExecutionType": "StartingPress",
+			"Command": "KirbyDropAbilityCommand",
+			"PlayerIndex": 0
+		},
+		{
 			"Key": "Right",
 			"ExecutionType": "Pressed",
 			"Command": "KirbyMoveRightCommand",
@@ -183,6 +189,12 @@
 			"PlayerIndex": 1
 		},
 		{
+			"Key": "L",
+			"ExecutionType": "StartingPress",
+			"Command": "KirbyDropAbilityCommand",
+			"PlayerIndex": 1
+		},
+		{
 			"Key": "Enter",
 			"ExecutionType": "StartingPress",
 			"Command": "PauseCommand"
@@ -208,14 +220,9 @@
 			"Command": "KirbyChangeSparkCommand"
 		},
 		{
-			"Key": "O",
+			"Key": "D5",
 			"ExecutionType": "StartingPress",
-			"Command": "PreviousEnemyCommand"
-		},
-		{
-			"Key": "P",
-			"ExecutionType": "StartingPress",
-			"Command": "NextEnemyCommand"
+			"Command": "KirbyChangeProfessorCommand"
 		},
 		{
 			"Key": "Escape",
@@ -245,12 +252,17 @@
 		{
 			"Key": "F4",
 			"ExecutionType": "StartingPress",
-			"Command": "GraphicsToggleCullingCommand"
+			"Command": "GraphicsToggleDebugCollisionCommand"
 		},
 		{
 			"Key": "F5",
 			"ExecutionType": "StartingPress",
-			"Command": "GraphicsToggleDebugCollisionCommand"
+			"Command": "GraphicsToggleDebugZoomCommand"
+		},
+		{
+			"Key": "F6",
+			"ExecutionType": "StartingPress",
+			"Command": "GraphicsToggleCullingCommand"
 		},
 		{
 			"Key": "F",

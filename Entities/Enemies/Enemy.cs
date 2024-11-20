@@ -10,6 +10,8 @@ using KirbyNightmareInDreamLand.Levels;
 using System.Diagnostics;
 using KirbyNightmareInDreamLand.Audio;
 using System.Threading.Tasks;
+using KirbyNightmareInDreamLand.Actions;
+using Microsoft.VisualBasic;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -18,7 +20,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         protected Vector2 position; //Where enemy is drawn on screen
         protected Vector2 spawnPosition; //Where enemy is first drawn on screen
         protected int health; //Enemy health
-        protected bool isDead;  //If enemy is dead
+        protected bool active;  //If enemy is dead
         protected Sprite enemySprite;
         protected EnemyStateMachine stateMachine;
         protected IEnemyState currentState; // Current state of the enemy
@@ -37,7 +39,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             position = startPosition;
             spawnPosition = startPosition;
             health = Constants.Enemies.HEALTH;
-            isDead = false;
+            active = true;
             xVel = 0;
             yVel = 0;
             isFalling = true;
@@ -45,15 +47,16 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             stateMachine = new EnemyStateMachine(type);
             oldState = string.Empty;
             currentState = new WaddleDooWalkingState(this); // Initialize with the walking state
+            ObjectManager.Instance.AddEnemy(this);
             ObjectManager.Instance.RegisterDynamicObject(this);
             currentState.Enter();
             frameCounter = 0;
             UpdateTexture();
         }
 
-        public string GetObjectType()
+        public CollisionType GetCollisionType()
         {
-            return Constants.CollisionObjectType.ENEMY;
+            return CollisionType.Enemy;
         }
 
         public Vector2 Position
@@ -73,19 +76,15 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             set => health = value;
         }
 
-        public bool IsDead
+        public bool Active
         {
-            get => isDead;
-            set => isDead = value;
+            get => active;
+            set => active = value;
         }
 
         public int FrameCounter
         {
             get { return frameCounter; }
-        }
-        public static String GetCollisionType()
-        {
-            return "Enemy";
         }
         public void IncrementFrameCounter()
         {
@@ -173,23 +172,38 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             return stateMachine.GetStateString();
         }
 
+        private void Spawn()
+        {
+            CollisionActive = true;
+            active = true;
+            bool isLeft = ObjectManager.Instance.NearestPlayerDirection(position);
+            stateMachine.SetDirection(isLeft);
+            health = Constants.Enemies.HEALTH;
+            position = spawnPosition;
+            frameCounter = 0;
+            UpdateTexture();
+        }
+
+        private void Despawn()
+        {
+            CollisionActive = false;
+            active = false;
+        }
+
         public virtual void Update(GameTime gameTime) 
         {
-            /* TO-DO: Should this be in Draw or update?
-             * 
-            //respawn enemy if dead but just outside camera bounds
-            if (IsDead && Game1.Instance.Camera.GetEnemyBounds().Contains(spawnPosition.ToPoint()))
-            {
-                // Respawn the enemy
-                CollisionActive = true;
-                IsDead = false;
-                health = Constants.Enemies.HEALTH;
-                position = spawnPosition;
-                frameCounter = 0;
-                UpdateTexture();
-            }*/
 
-            if (CollisionActive && !IsDead /*&& Game1.Instance.Camera.GetEnemyBounds().Contains(position.ToPoint())*/)
+            //respawn enemy if dead but just outside camera bounds
+            if (!active && Camera.InAnyEnemyRespawnBounds(spawnPosition))
+            {
+                Spawn();
+            }
+            else if (active && !Camera.InAnyActiveEnemyBounds(position))
+            {
+                Despawn();
+            }
+
+            if (active)
             {
                 IncrementFrameCounter();
                 currentState.Update();
@@ -197,35 +211,21 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 enemySprite.Update();
 
                 Fall();
-
-                GetHitBox(); // Ensure hitbox is updated
-            } else {
+            }
+            else
+            {
                 Dispose();
             }
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            //Draw if enemy is alive and 
-            if (CollisionActive && !IsDead /* && Game1.Instance.Camera.GetEnemyBounds().Contains(position.ToPoint())*/)
+            //Draw if enemy is alive 
+            if (active)
             {
                 enemySprite.Draw(position, spriteBatch);
-                //spriteBatch.DrawString(LevelLoader.Instance.Font, frameCounter.ToString(), position, Color.Black);
+                //spriteBatch.DrawString(LevelLoader.Instance.Font, frameCounter.ToString(), (position + new Vector2(-8, -32)), Color.Black);
             }
-
-            /*
-            // TO-DO: Should this be in Draw or update?
-            //respawn enemy if dead but just outside camera bounds
-            else if (IsDead && Game1.Instance.Camera.GetEnemyBounds().Contains(spawnPosition.ToPoint()))
-            {
-                //load at spawn point
-                CollisionActive = true;
-                IsDead = false;
-                health = Constants.Enemies.HEALTH;
-                position = spawnPosition;
-                frameCounter = 0;
-                UpdateTexture();
-            }          */
         }
 
         public virtual void Attack() { }
@@ -276,11 +276,24 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             yVel = 0;
             isFalling = false;
         }
+
+        public virtual void TopCollisionWithBlock(Rectangle intersection)
+        {
+            position.Y += intersection.Height;
+        }
         // Commented out the inside for now. Is this necessary? -Mark
         public void BottomCollisionWithAir(Rectangle intersection)
         {
             //isFalling = true;
             //Fall();
+        }
+
+        public void BottomCollisionWithPlatform(Rectangle intersection)
+        {
+
+            position.Y = intersection.Y;
+            yVel = 0;
+            isFalling = false;
         }
         public virtual void AdjustOnSlopeCollision(Tile tile, float slope, float yIntercept)
         {
@@ -342,7 +355,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             CollisionActive = false;
             currentState.Dispose();
         }
-       
 
+        public virtual KirbyType PowerType()
+        {
+            return KirbyType.Normal;
+        }
     }
 }

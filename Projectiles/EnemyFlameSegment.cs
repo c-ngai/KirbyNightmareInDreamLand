@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using KirbyNightmareInDreamLand.Sprites;
+using KirbyNightmareInDreamLand.Actions;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
@@ -45,9 +46,9 @@ namespace KirbyNightmareInDreamLand.Projectiles
             ObjectManager.Instance.RegisterDynamicObject(this);
 
         }
-        public string GetObjectType()
+        public CollisionType GetCollisionType()
         {
-            return "EnemyAttack";
+            return CollisionType.EnemyAttack;
         }
 
         public void Update()

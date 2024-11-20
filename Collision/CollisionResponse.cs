@@ -8,7 +8,7 @@ namespace KirbyNightmareInDreamLand.Collision
     public enum CollisionSide { Top, Left, Right, Bottom };
     public sealed class CollisionResponse
     {
-        public Dictionary<Tuple<string, string, CollisionSide>, Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>>> collisionMapping { get; private set; }
+        public Dictionary<Tuple<CollisionType, CollisionType, CollisionSide>, Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>>> collisionMapping { get; private set; }
         private static CollisionResponse instance = new CollisionResponse();
         public static CollisionResponse Instance
         {
@@ -28,29 +28,29 @@ namespace KirbyNightmareInDreamLand.Collision
 
         // Creates string mappings of object types and collision side to determine object reactions 
         // gets called by level loader
-        public void RegisterCollision(string object1, string object2, CollisionSide side, Action<ICollidable, ICollidable, Rectangle> object1Command, Action<ICollidable, ICollidable, Rectangle> object2Command)
+        public void RegisterCollision(CollisionType object1Type, CollisionType object2Type, CollisionSide side, Action<ICollidable, ICollidable, Rectangle> object1Command, Action<ICollidable, ICollidable, Rectangle> object2Command)
         {
-            Tuple<string, string, CollisionSide> objects = new Tuple<string, string, CollisionSide>(object1, object2, side);
+            Tuple<CollisionType, CollisionType, CollisionSide> objects = new Tuple<CollisionType, CollisionType, CollisionSide>(object1Type, object2Type, side);
             Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>> commands = new Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>>(object1Command, object2Command);
             collisionMapping.Add(objects, commands);
         }
-        private bool ShouldCollide(String obj1, String obj2)
+        // Overflow method, don't specify a side to register it for all sides
+        public void RegisterCollision(CollisionType object1Type, CollisionType object2Type, Action<ICollidable, ICollidable, Rectangle> object1Command, Action<ICollidable, ICollidable, Rectangle> object2Command)
         {
-            if(obj2.Contains(obj1) || obj1.Contains(obj2) || obj1.Equals(obj2))
+            foreach (CollisionSide side in Enum.GetValues(typeof(CollisionSide)))
             {
-                return false;
+                RegisterCollision(object1Type, object2Type, side, object1Command, object2Command);
             }
-            return true;
         }
 
         public void ExecuteCollision(ICollidable object1, ICollidable object2, CollisionSide side)
         {
-            String key1 = object1.GetObjectType();
-            String key2 = object2.GetObjectType();
-            if(ShouldCollide(key1, key2))
+            CollisionType key1 = object1.GetCollisionType();
+            CollisionType key2 = object2.GetCollisionType();
+            if(true) //ShouldCollide(key1, key2))
             {   
                 //hand side that is being collided
-                Tuple<String, String, CollisionSide> objects = new Tuple<String, String, CollisionSide>(key1, key2, side);
+                Tuple<CollisionType, CollisionType, CollisionSide> objects = new Tuple<CollisionType, CollisionType, CollisionSide>(key1, key2, side);
 
                 if (collisionMapping.ContainsKey(objects))
                 {

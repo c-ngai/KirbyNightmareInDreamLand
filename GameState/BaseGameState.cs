@@ -78,8 +78,7 @@ namespace KirbyNightmareInDreamLand.GameState
                 DrawBackground(spriteBatch, camera);
                 DrawForeground(spriteBatch);
                 DrawDoorStars(spriteBatch);
-                DrawLevelObjects(spriteBatch);
-                foreach (IPlayer player in _manager.Players) player.Draw(spriteBatch);
+                _manager.Draw(spriteBatch);
             }
         }
 
@@ -87,15 +86,7 @@ namespace KirbyNightmareInDreamLand.GameState
         {
             level.CurrentRoom.ForegroundSprite.Update();
             DoorStarsSprite.Update();
-            foreach (Enemy enemy in _manager.Enemies)
-            {
-                enemy.Update(_game.time);
-            }
-            foreach (PowerUp powerUp in Game1.Instance.Level.powerUpList)
-            {
-                powerUp.Update();
-            }
-            foreach (IPlayer player in _manager.Players) player.Update(Game1.Instance.time);
+            _manager.Update();
         }
 
         public void DrawBackground(SpriteBatch spriteBatch, Camera _camera)
@@ -158,24 +149,19 @@ namespace KirbyNightmareInDreamLand.GameState
         // Draws the stars around each door
         public void DrawDoorStars(SpriteBatch spriteBatch)
         {
-            int door_num = 0;
-            foreach (Door door in level.CurrentRoom.Doors)
+            for (int i = 0; i < level.CurrentRoom.Doors.Count; i++)
             {
-                Vector2 doorPos = door.Bounds.Location.ToVector2();
-                if (door.DrawDoorStars)
+                if (level.CurrentRoom.Doors[i].DrawDoorStars)
                 {
+                    Vector2 doorPos = level.CurrentRoom.Doors[i].Bounds.Location.ToVector2();
                     DoorStarsSprite.Draw(doorPos, spriteBatch);
                 }
                 else
                 {
                     // add behavior for drawing hub doors
-                    if(door_num % 2 == 0)
-                    {
-                        DrawHubDoor(doorPos, door_num, spriteBatch);
-                        DrawDoorSign(doorPos, door_num, spriteBatch);
-                    }
+                    DrawHubDoor(doorPos, door_num, spriteBatch);
+                    DrawDoorSign(doorPos, door_num, spriteBatch);
                 }
-                door_num++;
             }
         }
 
@@ -199,26 +185,36 @@ namespace KirbyNightmareInDreamLand.GameState
         public void DebugDraw(SpriteBatch spriteBatch, Camera camera)
         {
             DrawBackground(spriteBatch, camera);
-            DrawTiles(spriteBatch, camera);
+            DrawCollisionTiles(spriteBatch, camera);
+            DrawDebugDoors(spriteBatch);
             DrawDoorStars(spriteBatch);
-            DrawDoors(spriteBatch);
             DrawSpawnPoints(spriteBatch);
-            DrawLevelObjects(spriteBatch);
-            foreach (IPlayer player in _manager.Players) player.Draw(spriteBatch);
+            _manager.Draw(spriteBatch);
         }
 
         // Draws a rectangle at every door with its destination room written above
-        private void DrawDoors(SpriteBatch spriteBatch)
+        private void DrawDebugDoors(SpriteBatch spriteBatch)
         {
-            foreach (Door door in level.CurrentRoom.Doors)
+            for (int i = 0; i < level.CurrentRoom.Doors.Count; i++)
             {
-                Vector2 doorPos = door.Bounds.Location.ToVector2();
-                Vector2 textSize = LevelLoader.Instance.Font.MeasureString(door.DestinationRoom);
+                Color color;
+                // If this is the door being opened
+                if (level.IsDoorBeingOpened && level.DoorBeingOpened == i)
+                {
+                    color = Color.Green;
+                }
+                else
+                {
+                    color = Color.Red;
+                }
+                
+                Vector2 doorPos = level.CurrentRoom.Doors[i].Bounds.Location.ToVector2();
+                Vector2 textSize = LevelLoader.Instance.Font.MeasureString(level.CurrentRoom.Doors[i].DestinationRoom);
                 Vector2 textPos = doorPos - new Vector2(-9 + textSize.X / 2, -1 + textSize.Y);
                 textPos.Floor();
 
-                GameDebug.Instance.DrawSolidRectangle(spriteBatch, door.Bounds, Color.Red, 0.5f);
-                spriteBatch.DrawString(LevelLoader.Instance.Font, door.DestinationRoom, textPos, Color.Red);
+                GameDebug.Instance.DrawSolidRectangle(spriteBatch, level.CurrentRoom.Doors[i].Bounds, color, 0.5f);
+                spriteBatch.DrawString(LevelLoader.Instance.Font, level.CurrentRoom.Doors[i].DestinationRoom, textPos, color);
             }
         }
 
@@ -245,7 +241,7 @@ namespace KirbyNightmareInDreamLand.GameState
         }
 
         // Draw visualizations of all the usually-invisible collision tiles.
-        private void DrawTiles(SpriteBatch spriteBatch, Camera _camera)
+        private void DrawCollisionTiles(SpriteBatch spriteBatch, Camera _camera)
         {
             // Temporarily disable sprite debug mode if it's on. Sprite debug with debug tiles makes the screen look very messy, it's not useful information. This feels like a sloppy solution but it works for now.
             bool old_DEBUG_SPRITE_MODE = Game1.Instance.DEBUG_SPRITE_MODE;

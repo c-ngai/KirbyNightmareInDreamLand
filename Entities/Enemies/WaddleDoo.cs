@@ -35,14 +35,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public override void Update(GameTime gameTime)
         {
-            if (!isDead)
-            {
-                IncrementFrameCounter();
-                currentState.Update();
-                enemySprite.Update();
-                GetHitBox();
-                 Fall();
+            base.Update(gameTime);
 
+            if (active)
+            {
                 // Handle the beam if active
                 if (isBeamActive)
                 {
@@ -86,15 +82,14 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (!isDead)
+            base.Draw(spriteBatch);
+            if (active)
             {
                 // Draw the beam if it's active
                 if (isBeamActive)
                 {
                     beam.Draw(spriteBatch);
                 }
-                //draw enemy
-                enemySprite.Draw(position, spriteBatch);
                 //spriteBatch.DrawString(LevelLoader.Instance.Font, isJumping.ToString(), position + new Vector2(-24, -30), Color.Black);
             }
         }
@@ -141,6 +136,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 }
                 //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
             }
+        }
+
+        public override KirbyType PowerType()
+        {
+            return KirbyType.Beam;
         }
 
     }

@@ -19,13 +19,15 @@ namespace KirbyNightmareInDreamLand.Levels
         public string DestinationRoom;
         public Vector2 DestinationPoint;
         public bool DrawDoorStars;
+        public bool IsBigDoor;
 
-        public Door(Rectangle bounds, string destinationRoom, Vector2 destinationPoint, bool drawDoorStars)
+        public Door(Rectangle bounds, string destinationRoom, Vector2 destinationPoint, bool drawDoorStars, bool isBigDoor)
         {
             Bounds = bounds;
             DestinationRoom = destinationRoom;
             DestinationPoint = destinationPoint;
             DrawDoorStars = drawDoorStars;
+            IsBigDoor = isBigDoor;
         }
     }
     public struct EnemyData
@@ -102,18 +104,20 @@ namespace KirbyNightmareInDreamLand.Levels
             Doors = new List<Door>();
             foreach (DoorJsonData doorJsonData in roomJsonData.Doors)
             {
+                
                 Rectangle Bounds = new Rectangle(
                     doorJsonData.TileX * Constants.Level.TILE_SIZE,
                     doorJsonData.TileY * Constants.Level.TILE_SIZE,
-                    Constants.Level.TILE_SIZE,
-                    Constants.Level.TILE_SIZE + 2); // Plus one for now because when standing on the ground, kirby's position is right at the bottom edge of the door rectangle normally, which isn't counted as "inside" it. Door hitbox goes 1 pixel into the ground.
+                    doorJsonData.IsBigDoor ? Constants.Level.TILE_SIZE * 2 : Constants.Level.TILE_SIZE,
+                    Constants.Level.TILE_SIZE + 1); // Plus one for now because when standing on the ground, kirby's position is right at the bottom edge of the door rectangle normally, which isn't counted as "inside" it. Door hitbox goes 1 pixel into the ground.
                 string DestinationRoom = doorJsonData.DestinationRoom;
                 Vector2 DestinationPoint = new Vector2(
                     doorJsonData.DestinationTileX, doorJsonData.DestinationTileY)
                     * Constants.Level.TILE_SIZE
                     + Constants.Level.BOTTOM_MIDDLE_OF_TILE;
                 bool DrawDoorStars = doorJsonData.DrawDoorStars;
-                Door door = new Door(Bounds, DestinationRoom, DestinationPoint, DrawDoorStars);
+                bool IsBigDoor = doorJsonData.IsBigDoor;
+                Door door = new Door(Bounds, DestinationRoom, DestinationPoint, DrawDoorStars, IsBigDoor);
                 Doors.Add(door);
             }
 

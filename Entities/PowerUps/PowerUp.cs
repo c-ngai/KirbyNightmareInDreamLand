@@ -6,6 +6,7 @@ using KirbyNightmareInDreamLand.StateMachines;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Actions;
 
 
 namespace KirbyNightmareInDreamLand.Entities.PowerUps
@@ -28,9 +29,9 @@ namespace KirbyNightmareInDreamLand.Entities.PowerUps
             powerUpSprite = SpriteFactory.Instance.CreateSprite(powerUpType);
             ObjectManager.Instance.RegisterDynamicObject(this);
         }
-        public string GetObjectType()
+        public CollisionType GetCollisionType()
         {
-            return "PowerUp";
+            return CollisionType.PowerUp;
         }
 
         public Vector2 CalculateRectanglePoint(Vector2 pos)

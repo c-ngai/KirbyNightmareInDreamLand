@@ -41,6 +41,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             return position;
         }
+        public Vector2 GetVelocity()
+        {
+            return new Vector2(xVel, yVel);
+        }
 
         public void StopMovement()
         {
@@ -205,6 +209,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             position.X += intersection.Width;
             xVel = 0;
+        }
+
+        public virtual void AdjustFromTopCollisionBlock(Rectangle intersection)
+        {
+            position.Y += intersection.Height;
         }
 
         public void AdjustFromBottomCollisionPlatform(Rectangle intersection, IPlayerStateMachine state)

@@ -259,6 +259,18 @@
 /processorParam:Quality=Best
 /build:Audio/spitbig.wav
 
+#begin Audio/starbounce.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/starbounce.wav
+
+#begin Audio/starexplode.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/starexplode.wav
+
 #begin Audio/swallow.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -331,6 +343,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/Kirby/kirby0_normal.png
+
+#begin Images/Kirby/kirby0_professor.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=0,219,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Kirby/kirby0_professor.png
 
 #begin Images/Kirby/kirby0_spark.png
 /importer:TextureImporter
@@ -599,6 +623,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/Misc/items.png
+
+#begin Images/Misc/particle_dash.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Misc/particle_dash.png
+
+#begin Images/Misc/particle_starexplode.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Misc/particle_starexplode.png
 
 #begin Images/Misc/particles.png
 /importer:TextureImporter

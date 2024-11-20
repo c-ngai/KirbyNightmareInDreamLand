@@ -489,67 +489,69 @@ namespace KirbyNightmareInDreamLand
         public void SetCollisionResponses()
         {
             #region Player-Tile Collisons
-            String key1 = "Player";
-            String key2 = "Platform";
+            CollisionType key1 = CollisionType.Player;
+            CollisionType key2 = CollisionType.Platform;
             Action<ICollidable, ICollidable, Rectangle> action1 = TileCollisionActions.BottomPlatformCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
 
-            key2 = "Block";
+            key2 = CollisionType.Block;
             action1 = TileCollisionActions.BottomBlockCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             action1 = TileCollisionActions.RightBlockCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
             action1 = TileCollisionActions.LeftBlockCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+            action1 = TileCollisionActions.TopBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Top, action1, null);
 
-            key2 = "SlopeGentle1Left";
+            key2 = CollisionType.SlopeGentle1Left;
             action1 = TileCollisionActions.GentleLeftSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null); // Register opposite side for gentle1 bc kirby registers that side when near the top
 
-            key2 = "SlopeGentle2Left";
+            key2 = CollisionType.SlopeGentle2Left;
             action1 = TileCollisionActions.MediumLeftSlopeCollison;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
 
-            key2 = "SlopeSteepLeft";
+            key2 = CollisionType.SlopeSteepLeft;
             action1 = TileCollisionActions.SteepLeftSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
 
-            key2 = "SlopeGentle1Right";
+            key2 = CollisionType.SlopeGentle1Right;
             action1 = TileCollisionActions.GentleRightSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null); // Register opposite side for gentle1 bc kirby registers that side when near the top
 
-            key2 = "SlopeGentle2Right";
+            key2 = CollisionType.SlopeGentle2Right;
             action1 = TileCollisionActions.MediumRightSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
 
-            key2 = "SlopeSteepRight";
+            key2 = CollisionType.SlopeSteepRight;
             action1 = TileCollisionActions.SteepRightSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
             #endregion
 
             #region Enemy-Tile Collisions
-            key1 = "Enemy";
+            key1 = CollisionType.Enemy;
+            key2 = CollisionType.Platform;
+            action1 = TileCollisionActions.BottomPlatformCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             // Is this necessary? Enemies already fall every update, I don't think we need to check for air. Either way, fall should only be called once per update. -Mark
-            key2 = "Air";
+            key2 = CollisionType.Air;
             action1 = TileCollisionActions.BottomAirCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
 
-            key2 = "Water";
+            key2 = CollisionType.Water;
             action1 = TileCollisionActions.WaterCollision;
-            for (int j = 0; j < Constants.HitBoxes.SIDES; j++)
-            {
-                collisionResponse.RegisterCollision(key1, key2, (CollisionSide)j, action1, null);
-            }
+            collisionResponse.RegisterCollision(key1, key2, action1, null);
 
-            key2 = "Block";
+            key2 = CollisionType.Block;
             action1 = TileCollisionActions.BottomBlockCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             action1 = TileCollisionActions.RightBlockCollision;
@@ -557,43 +559,103 @@ namespace KirbyNightmareInDreamLand
             action1 = TileCollisionActions.LeftBlockCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
 
-            key2 = "SlopeGentle1Left";
+            key2 = CollisionType.SlopeGentle1Left;
             action1 = TileCollisionActions.GentleLeftSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null); // Register opposite side for gentle1 bc enemy registers that side when near the top
 
-            key2 = "SlopeGentle2Left";
+            key2 = CollisionType.SlopeGentle2Left;
             action1 = TileCollisionActions.MediumLeftSlopeCollison;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
 
-            key2 = "SlopeSteepLeft";
+            key2 = CollisionType.SlopeSteepLeft;
             action1 = TileCollisionActions.SteepLeftSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
 
-            key2 = "SlopeGentle1Right";
+            key2 = CollisionType.SlopeGentle1Right;
             action1 = TileCollisionActions.GentleRightSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null); // Register opposite side for gentle1 bc enemy registers that side when near the top
 
-            key2 = "SlopeGentle2Right";
+            key2 = CollisionType.SlopeGentle2Right;
             action1 = TileCollisionActions.MediumRightSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
 
-            key2 = "SlopeSteepRight";
+            key2 = CollisionType.SlopeSteepRight;
             action1 = TileCollisionActions.SteepRightSlopeCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
             #endregion
 
+            #region BouncingStar-Tile Collisons
+            key1 = CollisionType.BouncingStar;
+            key2 = CollisionType.Platform;
+            action1 = TileCollisionActions.BottomPlatformCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+
+            key2 = CollisionType.Block;
+            action1 = TileCollisionActions.BottomBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            action1 = TileCollisionActions.RightBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+            action1 = TileCollisionActions.LeftBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+
+            key2 = CollisionType.SlopeGentle1Left;
+            action1 = TileCollisionActions.GentleLeftSlopeCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null); // Register opposite side for gentle1 bc kirby registers that side when near the top
+
+            key2 = CollisionType.SlopeGentle2Left;
+            action1 = TileCollisionActions.MediumLeftSlopeCollison;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+
+            key2 = CollisionType.SlopeSteepLeft;
+            action1 = TileCollisionActions.SteepLeftSlopeCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+
+            key2 = CollisionType.SlopeGentle1Right;
+            action1 = TileCollisionActions.GentleRightSlopeCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null); // Register opposite side for gentle1 bc kirby registers that side when near the top
+
+            key2 = CollisionType.SlopeGentle2Right;
+            action1 = TileCollisionActions.MediumRightSlopeCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+
+            key2 = CollisionType.SlopeSteepRight;
+            action1 = TileCollisionActions.SteepRightSlopeCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+            #endregion
             
             #region Projectile Collisions
-            key1 = "EnemyAttack";
-            key2 = "Block";
+            key2 = CollisionType.PlayerAttack;
+            action1 = DynamicCollisionActions.KirbyBouncingStarCollision;
+                collisionResponse.RegisterCollision(key1, key2, action1, null);
+
+                
+            key1 = CollisionType.EnemyAttack;
+            key2 = CollisionType.Block;
+            action1 = TileCollisionActions.BottomBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            action1 = TileCollisionActions.RightBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
+            action1 = TileCollisionActions.LeftBlockCollision;
+            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
+
+            key1 = CollisionType.KirbyStar;
+            key2 = CollisionType.Block;
             action1 = TileCollisionActions.BottomBlockCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             action1 = TileCollisionActions.RightBlockCollision;
@@ -601,39 +663,31 @@ namespace KirbyNightmareInDreamLand
             action1 = TileCollisionActions.LeftBlockCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
             #endregion
-            
+
 
             #region Player-Enemy Collisions
-            key1 = "Enemy";
-            key2 = "Player";
-            action1 = DynamicCollisionActions.KirbyEnemyCollision;
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Top, action1, null);
+            key1 = CollisionType.Enemy;
+                key2 = CollisionType.Player;
+                    action1 = DynamicCollisionActions.KirbyEnemyCollision;
+                    collisionResponse.RegisterCollision(key1, key2, action1, null);
 
-            key2 = "PlayerAttack";
-            action1 = DynamicCollisionActions.EnemyKirbyAttackCollision;
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Top, action1, null);
+                key2 = CollisionType.PlayerAttack;
+                    action1 = DynamicCollisionActions.EnemyKirbyAttackCollision;
+                    collisionResponse.RegisterCollision(key1, key2, action1, null);
 
-            key1 = "EnemyAttack";
-            key2 = "Player";
-            action1 = DynamicCollisionActions.KirbyEnemyAttackCollision;
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, action1, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, action1, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Top, action1, null);
+                key2 = CollisionType.KirbyStar;
+                    action1 = DynamicCollisionActions.EnemyKirbyAttackCollision;
+                    collisionResponse.RegisterCollision(key1, key2, action1, null);
 
-            key1 = "Player";
-            key2 = "PowerUp";
-            action1 = DynamicCollisionActions.KirbyItemCollision;
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Left, null, action1);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Right, null, action1);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, null, action1);
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Top, null, action1);
+            key1 = CollisionType.EnemyAttack;
+                key2 = CollisionType.Player;
+                    action1 = DynamicCollisionActions.KirbyEnemyAttackCollision;
+                    collisionResponse.RegisterCollision(key1, key2, action1, null);
+
+            key1 = CollisionType.Player;
+                key2 = CollisionType.PowerUp;
+                    action1 = DynamicCollisionActions.KirbyItemCollision;
+                    collisionResponse.RegisterCollision(key1, key2, null, action1);
 
             
             #endregion
