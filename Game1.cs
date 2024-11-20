@@ -170,7 +170,7 @@ namespace KirbyNightmareInDreamLand
 
             // Create level instance and load initial room
             Level = new Level();
-            Level.LoadRoom("room1");
+            Level.LoadRoom("hub");
 
             // Load the desired keymap by name
             LevelLoader.Instance.LoadKeymap("keymap1");

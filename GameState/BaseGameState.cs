@@ -23,6 +23,25 @@ namespace KirbyNightmareInDreamLand.GameState
         public Vector2 SpawnPoint { get; set; }
         private List<Sprite> TileSprites;
 
+        private static Dictionary<int, string> HubDoors = new Dictionary<int, string> 
+        {
+            { 0 , "hub_door_1_and_2"},
+            { 2, "hub_door_1_and_2"},
+            { 4, "hub_door3"},
+            { 6, "hub_door4" }
+        };
+
+        private static Dictionary<int, ISprite> HubDoorAnimations = new Dictionary<int, ISprite>
+        {
+            { 1 , SpriteFactory.Instance.CreateSprite("hub_door_1_and_2_animation")},
+            { 2 , SpriteFactory.Instance.CreateSprite("hub_door_1_and_2_animation")},
+            { 3 , SpriteFactory.Instance.CreateSprite("hub_door3_animation")},
+            { 4 , SpriteFactory.Instance.CreateSprite("hub_door4_animation")}
+        };
+
+        private static Vector2 drawHubDoorOffset = new Vector2(0, -8);
+
+        private static Vector2 drawHubSignOffset = new Vector2(2, -24);
 
         // Holds a sprite for kirby and each enemy type to draw at their spawn points in level debug mode.
         private Dictionary<string, Sprite> SpawnSprites = new Dictionary<string, Sprite>()
@@ -139,16 +158,43 @@ namespace KirbyNightmareInDreamLand.GameState
         // Draws the stars around each door
         public void DrawDoorStars(SpriteBatch spriteBatch)
         {
+            int door_num = 0;
             foreach (Door door in level.CurrentRoom.Doors)
             {
+                Vector2 doorPos = door.Bounds.Location.ToVector2();
                 if (door.DrawDoorStars)
                 {
-                    Vector2 doorPos = door.Bounds.Location.ToVector2();
                     DoorStarsSprite.Draw(doorPos, spriteBatch);
                 }
+                else
+                {
+                    // add behavior for drawing hub doors
+                    if(door_num % 2 == 0)
+                    {
+                        DrawHubDoor(doorPos, door_num, spriteBatch);
+                        DrawDoorSign(doorPos, door_num, spriteBatch);
+                    }
+                }
+                door_num++;
             }
         }
 
+        private void DrawDoorSign(Vector2 position, int door_number, SpriteBatch spriteBatch)
+        {
+            ISprite signSprite = SpriteFactory.Instance.CreateSprite("door_sign_number" + door_number);
+            signSprite.Draw(position + drawHubSignOffset, spriteBatch);
+        }
+
+        public void DrawHubDoor(Vector2 position, int door_num, SpriteBatch spriteBatch)
+        {
+            ISprite doorSprite = SpriteFactory.Instance.CreateSprite(HubDoors[door_num]);
+            doorSprite.Draw(position + drawHubDoorOffset, spriteBatch);
+        }
+
+        public void UpdateHubDoor()
+        {
+            
+        }
 
         public void DebugDraw(SpriteBatch spriteBatch, Camera camera)
         {

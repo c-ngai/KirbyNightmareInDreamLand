@@ -54902,7 +54902,7 @@
     ]
   },
 
-  "door_sign_number1": {
+  "door_sign_number0": {
     "Source texture": "hub_spritesheet",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -54936,7 +54936,7 @@
     ]
   },
 
-  "door_sign_number3": {
+  "door_sign_number4": {
     "Source texture": "hub_spritesheet",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -54953,7 +54953,7 @@
     ]
   },
 
-  "door_sign_pink": {
+  "door_sign_number6": {
     "Source texture": "hub_spritesheet",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -54961,8 +54961,8 @@
       {
         "X": 450,
         "Y": 42,
-        "Width": 98,
-        "Height": 46,
+        "Width": 28,
+        "Height": 15,
         "CenterX": 0,
         "CenterY": 0,
         "Time": 1

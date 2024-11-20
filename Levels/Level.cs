@@ -195,6 +195,7 @@ namespace KirbyNightmareInDreamLand.Levels
         // go to the next room, called because a player wants to go through a door 
         public void EnterDoorAt(Vector2 playerPos)
         {
+            int door_num = 0;
             foreach (Door door in CurrentRoom.Doors)
             {
                 if (door.Bounds.Contains(playerPos))
@@ -203,6 +204,7 @@ namespace KirbyNightmareInDreamLand.Levels
                     NextSpawn = door.DestinationPoint;
                     _currentState = new GameTransitioningState(this);
                 }
+                door_num++;
             }
         }
 
