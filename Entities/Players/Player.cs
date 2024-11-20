@@ -648,6 +648,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         // makes state changes by calling other player methods, calls state.Update(), and finally calls Draw last?
         public void Update(GameTime gameTime)
         {
+            if (movement.GetVelocity().Y > 0)
+            {
+                ChangePose(KirbyPose.FreeFall);
+            }
             movement.MovePlayer(this, gameTime);
             EndInvinciblility(gameTime);
             playerSprite.Update();
@@ -810,13 +814,21 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             movement.AdjustFromBottomCollisionBlock(intersection);
             TEMP = true;
+            if (oldPose == KirbyPose.FreeFall)
+            {
+                ChangePose(KirbyPose.Standing);
+            }
         }
         //kirby collides with the right side of a block
         public void RightCollisionWithBlock(Rectangle intersection)
         {
-            ChangePose(KirbyPose.Standing);
+            // ensures Kirby pose is unchanged when floating and jumping
+            if (!state.IsFloating() && !state.IsJumping())
+            {
+                ChangePose(KirbyPose.Standing);
+            }
             // detects initial collision
-            if ((oldPose == KirbyPose.Walking || oldPose == KirbyPose.Running) && state.GetPose() == KirbyPose.Standing)
+            if ((oldPose == KirbyPose.Walking || oldPose == KirbyPose.Running) && state.GetPose() == KirbyPose.Standing )
             {
                 IParticle star = new CollisionStar(movement.GetPosition());
                 ChangePose(KirbyPose.WallSquish);
@@ -826,7 +838,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //kirby collides with the left side of a block
         public void LeftCollisionWithBlock(Rectangle intersection)
         {
-            ChangePose(KirbyPose.Standing);
+            // ensures Kirby pose is unchanged when floating and jumping
+            if (!state.IsFloating() && !state.IsJumping())
+            {
+                ChangePose(KirbyPose.Standing);
+            }
             // detects initial collision
             if ((oldPose == KirbyPose.Walking || oldPose == KirbyPose.Running) && state.GetPose() == KirbyPose.Standing)
             {
@@ -849,12 +865,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //kirby collision with air so he falls
         public void BottomCollisionWithAir(Rectangle intersection)
         {
-           //checking if kirby should be falling 
-           if (!state.IsInAir() || state.ShouldFallThroughAirTile())
-           {
-                movement.ChangeKirbyLanded(false);
-           }
-           movement.ChangeKirbyLanded(false);
+            if (oldPose == KirbyPose.FreeFall)
+            {
+                ChangePose(KirbyPose.Standing);
+            }
         }
 
         //slope collision
