@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace KirbyNightmareInDreamLand.Particles
 {
-    public class Star : IParticle
+    public class CollisionStar : IParticle
     {
         private Sprite sprite;
         private Vector2 position;
@@ -15,7 +15,7 @@ namespace KirbyNightmareInDreamLand.Particles
         private Random randomGenerator;
         private bool completed;
 
-        public Star(Vector2 kirbyPosition)
+        public CollisionStar(Vector2 kirbyPosition)
         {
             randomGenerator = new Random();
 
