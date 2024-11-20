@@ -646,6 +646,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         // makes state changes by calling other player methods, calls state.Update(), and finally calls Draw last?
         public void Update(GameTime gameTime)
         {
+            if (movement.GetVelocity().Y > 0)
+            {
+                ChangePose(KirbyPose.FreeFall);
+            }
             movement.MovePlayer(this, gameTime);
             EndInvinciblility(gameTime);
             playerSprite.Update();
@@ -801,6 +805,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void BottomCollisionWithBlock(Rectangle intersection)
         {
             movement.AdjustFromBottomCollisionBlock(intersection);
+            if (oldPose == KirbyPose.FreeFall)
+            {
+                ChangePose(KirbyPose.Standing);
+            }
         }
         //kirby collides with the right side of a block
         public void RightCollisionWithBlock(Rectangle intersection)
@@ -843,16 +851,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void BottomCollisionWithPlatform(Rectangle intersection)
         {
             movement.AdjustFromBottomCollisionPlatform(intersection, state);
-        }
-        //kirby collision with air so he falls
-        public void BottomCollisionWithAir(Rectangle intersection)
-        {
-           //checking if kirby should be falling 
-           if (!state.IsInAir() || state.ShouldFallThroughAirTile())
-           {
-                movement.ChangeKirbyLanded(false);
-           }
-           movement.ChangeKirbyLanded(false);
+            if (oldPose == KirbyPose.FreeFall)
+            {
+                ChangePose(KirbyPose.Standing);
+            }
         }
 
         //slope collision

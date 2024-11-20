@@ -7,6 +7,7 @@ using KirbyNightmareInDreamLand.Levels;
 using System.Diagnostics;
 using System;
 using KirbyNightmareInDreamLand.Particles;
+using static KirbyNightmareInDreamLand.Constants;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -195,7 +196,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public virtual void AdjustFromBottomCollisionBlock(Rectangle intersection)
         {
             yVel = 0;
-            position.Y = intersection.Y;
+            position.Y = intersection.Y + 1;
             ChangeKirbyLanded(true);
         }
 
@@ -221,7 +222,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             // Only adjust if kirby was moving downwards during the collision
             if (yVel > 0 || state.GetPose() == KirbyPose.FreeFall || state.GetPose() == KirbyPose.JumpFalling)
             {
-                position.Y = intersection.Y;
+                position.Y = intersection.Y + 1;
                 yVel = 0;
                 ChangeKirbyLanded(true);
             }
@@ -234,7 +235,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 float offset = position.X - intersection.X;
 
-                float kirbyAdjustment = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
+                float kirbyAdjustment = (intersection.Y + Constants.Level.TILE_SIZE + 0.5f) - (offset * slope) - yIntercept;
                 if (position.Y > kirbyAdjustment || state.CanMove() ) // "is kirby moving on the ground in a way where we want him to stay locked on the ground"
                 {
                     position.Y = kirbyAdjustment;

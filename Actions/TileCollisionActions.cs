@@ -106,13 +106,7 @@ namespace KirbyNightmareInDreamLand.Actions
         public static void BottomAirCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
             CollisionType type = object1.GetCollisionType();
-
-            if (type == CollisionType.Player)
-            {
-                Player currentPlayer = (Player)object1;
-                currentPlayer.BottomCollisionWithAir(intersection);
-
-            } else if (type == CollisionType.Enemy)
+            if (type == CollisionType.Enemy)
 
             {
                 Enemy enemy = (Enemy)object1;
