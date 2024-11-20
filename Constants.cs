@@ -42,7 +42,7 @@ namespace KirbyNightmareInDreamLand
             public const int FLOOR = 128;
             public const float PARALLAX_FACTOR = 0.85f;
             public const int MAX_FRAME_RATE = 60;
-            public const int MIN_FRAME_RATE = 5;
+            public const int MIN_FRAME_RATE = 2;
             public const float TIME_CONVERSION = 1000f;
             public static Color INVINCIBLE_COLOR = new Color(255, 255, 0, 127);
 

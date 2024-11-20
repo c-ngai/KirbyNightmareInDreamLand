@@ -631,6 +631,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         #endregion
 
+
+        bool TEMP = false;
         #region MoveKirby
         // makes state changes by calling other player methods, calls state.Update(), and finally calls Draw last?
         public void Update(GameTime gameTime)
@@ -650,6 +652,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 Death();
                 lifeLost = false;
             }
+
+            TEMP = false;
         }
 
         
@@ -678,6 +682,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                //starAttackOne?.Draw(spriteBatch, this);
                //starAttackTwo?.Draw(spriteBatch, this);
             }
+
+            // TEMPORARY, WILL DELETE SOON
+            //Vector2 position = GetKirbyPosition() + new Vector2(-24, -32);
+            //spriteBatch.DrawString(LevelLoader.Instance.Font, TEMP.ToString() + GetKirbyVelocity().X.ToString(), position, Color.Black);
 
             UpdateOldStates();
         }
@@ -790,6 +798,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void BottomCollisionWithBlock(Rectangle intersection)
         {
             movement.AdjustFromBottomCollisionBlock(intersection);
+            TEMP = true;
         }
         //kirby collides with the right side of a block
         public void RightCollisionWithBlock(Rectangle intersection)
@@ -810,6 +819,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void BottomCollisionWithPlatform(Rectangle intersection)
         {
             movement.AdjustFromBottomCollisionPlatform(intersection, state);
+            TEMP = true;
         }
         //kirby collision with air so he falls
         public void BottomCollisionWithAir(Rectangle intersection)
@@ -828,6 +838,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             float slope = Constants.Collision.GENTLE1_SLOPE_LEFT_M;
             float yIntercept = Constants.Collision.GENTLE1_SLOPE_LEFT_YINTERCEPT;
             movement.AdjustOnSlopeCollision(state, tile, slope, yIntercept);
+            TEMP = true;
         }
         //slope collision
         public void CollisionWithGentle2LeftSlope(Tile tile)
@@ -835,6 +846,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             float slope = Constants.Collision.GENTLE2_SLOPE_LEFT_M;
             float yIntercept = Constants.Collision.GENTLE2_SLOPE_LEFT_YINTERCEPT;
             movement.AdjustOnSlopeCollision(state, tile, slope, yIntercept);
+            TEMP = true;
         }
         //slope collision
         public void CollisionWithSteepLeftSlope(Tile tile)
@@ -842,6 +854,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             float slope = Constants.Collision.STEEP_SLOPE_LEFT_M;
             float yIntercept = Constants.Collision.STEEP_SLOPE_LEFT_YINTERCEPT;
             movement.AdjustOnSlopeCollision(state, tile, slope, yIntercept);
+            TEMP = true;
         }
         //slope collision
         public void CollisionWithGentle1RightSlope(Tile tile)
@@ -849,6 +862,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             float slope = Constants.Collision.GENTLE1_SLOPE_RIGHT_M;
             float yIntercept = Constants.Collision.GENTLE1_SLOPE_RIGHT_YINTERCEPT;
             movement.AdjustOnSlopeCollision(state, tile, slope, yIntercept);
+            TEMP = true;
         }
         //slope collision
         public void CollisionWithGentle2RightSlope(Tile tile)
@@ -856,6 +870,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             float slope = Constants.Collision.GENTLE2_SLOPE_RIGHT_M;
             float yIntercept = Constants.Collision.GENTLE2_SLOPE_RIGHT_YINTERCEPT;
             movement.AdjustOnSlopeCollision(state, tile, slope, yIntercept);
+            TEMP = true;
         }
         //slope collision
         public void CollisionWithSteepRightSlope(Tile tile)
@@ -863,6 +878,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             float slope = Constants.Collision.STEEP_SLOPE_RIGHT_M;
             float yIntercept = Constants.Collision.STEEP_SLOPE_RIGHT_YINTERCEPT;
             movement.AdjustOnSlopeCollision(state, tile, slope, yIntercept);
+            TEMP = true;
         }
         #endregion
     }
