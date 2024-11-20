@@ -23,6 +23,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         protected float runningVel = Constants.Physics.RUNNING_VELOCITY;
         protected float gravity = Constants.Physics.GRAVITY;
         protected float dt = Constants.Physics.DT;
+        protected float groundCollisionOffset = 1 - Constants.Physics.FLOAT_GRAVITY * Constants.Physics.DT;
         protected float damageVel = Constants.Physics.DAMAGE_VELOCITY;
         protected float ceiling = Constants.Kirby.CEILING;
         public ITimeCalculator timer;
@@ -196,7 +197,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public virtual void AdjustFromBottomCollisionBlock(Rectangle intersection)
         {
             yVel = 0;
-            position.Y = intersection.Y + 1;
+            position.Y = (float)intersection.Y + groundCollisionOffset;
             ChangeKirbyLanded(true);
         }
 
@@ -220,10 +221,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void AdjustFromBottomCollisionPlatform(Rectangle intersection, IPlayerStateMachine state)
         {
             // Only adjust if kirby was moving downwards during the collision
-            if (yVel > 0 || state.GetPose() == KirbyPose.FreeFall || state.GetPose() == KirbyPose.JumpFalling)
+            if (yVel > 0)
             {
-                position.Y = intersection.Y + 1;
                 yVel = 0;
+                position.Y = (float)intersection.Y + groundCollisionOffset;
                 ChangeKirbyLanded(true);
             }
         }
