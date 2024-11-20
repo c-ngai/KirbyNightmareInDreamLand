@@ -22,7 +22,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         protected int health; //Enemy health
         protected bool active;  //If enemy is dead
         protected Sprite enemySprite;
-        protected EnemyStateMachine stateMachine;
+        public EnemyStateMachine stateMachine { get;  private set; }
         protected IEnemyState currentState; // Current state of the enemy
         protected string oldState; //Previous state
         protected int frameCounter; // Frame counter for tracking state duration
@@ -155,6 +155,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public virtual void ChangeDirection()
         {
             currentState.ChangeDirection();
+        }
+
+        public void SetDirection(bool facingLeft)
+        {
+            stateMachine.SetDirection(facingLeft);
         }
 
         public void ChangePose(EnemyPose pose)
