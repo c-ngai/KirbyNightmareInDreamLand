@@ -805,9 +805,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //kirby collides with the right side of a block
         public void RightCollisionWithBlock(Rectangle intersection)
         {
-            ChangePose(KirbyPose.Standing);
+            // ensures Kirby pose is unchanged when floating and jumping
+            if (!state.IsFloating() && !state.IsJumping())
+            {
+                ChangePose(KirbyPose.Standing);
+            }
             // detects initial collision
-            if ((oldPose == KirbyPose.Walking || oldPose == KirbyPose.Running) && state.GetPose() == KirbyPose.Standing)
+            if ((oldPose == KirbyPose.Walking || oldPose == KirbyPose.Running) && state.GetPose() == KirbyPose.Standing )
             {
                 IParticle star = new CollisionStar(movement.GetPosition());
                 ChangePose(KirbyPose.WallSquish);
@@ -817,7 +821,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //kirby collides with the left side of a block
         public void LeftCollisionWithBlock(Rectangle intersection)
         {
-            ChangePose(KirbyPose.Standing);
+            // ensures Kirby pose is unchanged when floating and jumping
+            if (!state.IsFloating() && !state.IsJumping())
+            {
+                ChangePose(KirbyPose.Standing);
+            }
             // detects initial collision
             if ((oldPose == KirbyPose.Walking || oldPose == KirbyPose.Running) && state.GetPose() == KirbyPose.Standing)
             {
