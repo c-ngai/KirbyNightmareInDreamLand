@@ -14,6 +14,7 @@ using static KirbyNightmareInDreamLand.Constants;
 using KirbyNightmareInDreamLand.Actions;
 using KirbyNightmareInDreamLand.Projectiles;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -405,20 +406,30 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             SetDirectionLeft();
             movement.Run(state.IsLeft());
-            if (state.CanMove()){
+            if (state.CanMove())
+            {
+                // transitions from a brief state of standing that is not seen by the user to running
+                if (state.GetPose() == KirbyPose.Standing || poseCounter != 0)
+                {
+                    // Play dash sound and create particle accordingly
+                    DashEffects();
+                }
                 ChangePose(KirbyPose.Running);
-                // Play dash sound and create particle accordingly
-                DashEffects();
             }
         }
         public void RunRight()
         {
             SetDirectionRight();
             movement.Run(state.IsLeft());
-            if(state.CanMove()){
+            if(state.CanMove())
+            {
+                // transitions from a brief state of standing that is not seen by the user to running
+                if (state.GetPose() == KirbyPose.Standing || poseCounter != 0)
+                {
+                    // Play dash sound and create particle accordingly
+                    DashEffects();
+                }
                 ChangePose(KirbyPose.Running);
-                // Play dash sound and create particle accordingly
-                DashEffects();
             }
         }
 
@@ -794,11 +805,25 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //kirby collides with the right side of a block
         public void RightCollisionWithBlock(Rectangle intersection)
         {
+            ChangePose(KirbyPose.Standing);
+            // detects initial collision
+            if ((oldPose == KirbyPose.Walking || oldPose == KirbyPose.Running) && state.GetPose() == KirbyPose.Standing)
+            {
+                IParticle star = new CollisionStar(movement.GetPosition());
+                ChangePose(KirbyPose.WallSquish);
+            }
             movement.AdjustFromRightCollisionBlock(intersection);
         }
         //kirby collides with the left side of a block
         public void LeftCollisionWithBlock(Rectangle intersection)
         {
+            ChangePose(KirbyPose.Standing);
+            // detects initial collision
+            if ((oldPose == KirbyPose.Walking || oldPose == KirbyPose.Running) && state.GetPose() == KirbyPose.Standing)
+            {
+                IParticle star = new CollisionStar(movement.GetPosition());
+                ChangePose(KirbyPose.WallSquish);
+            }
             movement.AdjustFromLeftCollisionBlock(intersection);
         }
 
@@ -814,8 +839,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //kirby collision with air so he falls
         public void BottomCollisionWithAir(Rectangle intersection)
         {
-            //checking if kirby should be falling 
-            if (!state.IsInAir() || state.ShouldFallThroughAirTile())
+           //checking if kirby should be falling 
+           if (!state.IsInAir() || state.ShouldFallThroughAirTile())
            {
                 movement.ChangeKirbyLanded(false);
            }
