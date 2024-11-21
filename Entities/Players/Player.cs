@@ -649,8 +649,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         // makes state changes by calling other player methods, calls state.Update(), and finally calls Draw last?
         public void Update(GameTime gameTime)
         {
-            // change Kirby pose if he's not on a slope, he's falling, and he's not dead
-            if (movement.GetVelocity().Y > 0 && !movement.onSlope && !DEAD)
+            // change Kirby pose if he's not on a slope, he's falling, he's not dead, and he's not floating
+            if (movement.GetVelocity().Y > 0 && !movement.onSlope && !DEAD && !state.IsFloating())
             {
                 ChangePose(KirbyPose.FreeFall);
                 movement.ChangeKirbyLanded(false);

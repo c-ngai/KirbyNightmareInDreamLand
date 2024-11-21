@@ -72,7 +72,7 @@ namespace KirbyNightmareInDreamLand.StateMachines
             //checks if any of the float poses are active
             bool checkOne = (GetPose() == KirbyPose.FloatingStart) || (GetPose() == KirbyPose.FloatingRising);
             bool checkTwo = (GetPose() == KirbyPose.FloatingFalling) || (GetPose() ==KirbyPose.FloatingGrounded);
-            bool checkThree = (GetPose() == KirbyPose.FloatingEnd) || (GetPose() == KirbyPose.FreeFall);
+            bool checkThree = (GetPose() == KirbyPose.FloatingEnd);
             return checkOne || checkTwo || checkThree;
 
         }
