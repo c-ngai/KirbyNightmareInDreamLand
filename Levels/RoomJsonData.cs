@@ -54,6 +54,7 @@ namespace KirbyNightmareInDreamLand.Levels
         public int DestinationTileX { get; set; }
         public int DestinationTileY { get; set; }
         public bool DrawDoorStars { get; set; }
+        public bool IsBigDoor { get; set; }
     }
 
     // Class for deserializing each enemy in RoomJsonData.

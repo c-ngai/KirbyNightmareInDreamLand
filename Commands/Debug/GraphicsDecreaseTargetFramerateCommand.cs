@@ -17,7 +17,7 @@ namespace KirbyNightmareInDreamLand.Commands
         {
             if (game.TARGET_FRAMERATE > Constants.Graphics.MIN_FRAME_RATE) // If not fullscreen and the window size isn't 
             {
-                game.TARGET_FRAMERATE -= Constants.Graphics.MIN_FRAME_RATE;
+                game.TARGET_FRAMERATE -= 1;
                 game.TargetElapsedTime = TimeSpan.FromMilliseconds(Constants.Graphics.TIME_CONVERSION / game.TARGET_FRAMERATE);
             }
         }

@@ -11,14 +11,16 @@ namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class Slide : IProjectile, ICollidable
     {
+        IPlayer player;
         public bool CollisionActive { get; private set;} = true;
         public Vector2 Position {get; private set;}
         public Vector2 Velocity {get; private set;}
         private float startingX;
         private static int slideDistance = 70;
         private bool IsLeft;
-        public Slide(Vector2 pos, bool isLeft)
+        public Slide(Vector2 pos, bool isLeft, IPlayer player)
         {
+            this.player = player;
             IsLeft= isLeft;
             Position =pos;
             startingX = pos.X;
@@ -46,12 +48,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void Update()
         {
-            GetHitBox();
-        }
-        public void Update(Player kirby)
-        {
-            Position = kirby.GetKirbyPosition();
-            GetHitBox();
+            Position = player.GetKirbyPosition();
         }
 
         public Vector2 CalculateRectanglePoint(Vector2 pos)

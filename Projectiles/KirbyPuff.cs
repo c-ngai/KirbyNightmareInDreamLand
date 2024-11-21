@@ -14,6 +14,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private Vector2 position;
         public bool CollisionActive { get; private set;} = true;
         private Vector2 velocity;
+        private Vector2 deceleration;
         private bool isFacingRight;
         private int frameCount = 0;
         public bool isActive = true;
@@ -38,6 +39,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
             this.isFacingRight = isFacingRight;
             Vector2 offset = isFacingRight ? Constants.Kirby.PUFF_ATTACK_OFFSET : -Constants.Kirby.PUFF_ATTACK_OFFSET;
 
+            deceleration = new Vector2(0.2f, 0);
 
             Position = kirbyPosition + offset;
 
@@ -56,7 +58,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
             SoundManager.Play("spitair");
         }
-         public Vector2 CalculateRectanglePoint(Vector2 pos)
+
+
+
+        public Vector2 CalculateRectanglePoint(Vector2 pos)
         {
             return pos + Constants.HitBoxes.PUFF_OFFSET; 
         }
@@ -71,12 +76,13 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void EndAttack()
         {
-            isActive = false;
-            CollisionActive = false;
+            // nothing for now, you never really want a puff to be cut short
+            //isActive = false;
+            //CollisionActive = false;
         }
         public bool IsDone()
         {
-            return isActive;
+            return !isActive;
         }
         public void Update()
         {
@@ -85,8 +91,13 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 // Decelerate the puff by reducing its velocity
                 if (Velocity.Length() > 0)
                 {
-                    Vector2 deceleration = Vector2.Normalize(Velocity) * Constants.Puff.DECELERATION_RATE;
-                    Velocity -= deceleration;
+                    //Vector2 deceleration = Vector2.Normalize(Velocity) * Constants.Puff.DECELERATION_RATE;
+                    //Velocity -= deceleration;
+                    
+                    Velocity -= Velocity.X > 0
+                        ? deceleration
+                        : -deceleration;
+                    
 
                     // Make the velocity zero if it becomes negative or close to zero
                     if (Velocity.Length() < Constants.Puff.SMALL_VELOCITY)
@@ -102,6 +113,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 if (frameCount >= Constants.Puff.MAX_FRAMES || Velocity == Vector2.Zero)
                 {
                     isActive = false;
+                    CollisionActive = false;
                     projectileSprite = null; // Remove the sprite to avoid memory leaks
                     EndAttack();
                 }
@@ -112,7 +124,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
                     projectileSprite?.Update();
                 }
             }
-            GetHitBox();
         }
         
 

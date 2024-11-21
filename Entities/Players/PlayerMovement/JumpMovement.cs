@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Particles;
+using System.Diagnostics;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -15,15 +16,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         protected int frameCounter;
         protected int lastFrameJumpCalled;
 
-        private float startingY;
-
-        public new float yVel = Constants.Physics.JUMP_VEL;
         public JumpMovement(Vector2 pos) : base(pos)
         {
             landed = false;
-            startingY = position.Y;
             frameCounter = 0;
             lastFrameJumpCalled = Game1.Instance.UpdateCounter;
+            yVel = Constants.Physics.JUMP_VEL;
         }
 
         public override void Walk(bool isLeft)
@@ -37,7 +35,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             yVel = 0;
             kirby.ChangeMovement();
             SoundManager.Play("land");
-            IParticle star = new Star(position);
+            IParticle star = new CollisionStar(position);
 
         }
         //checks if kirby is going down to start the falling animation
@@ -73,13 +71,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             //does nothing
         }
         #region Move Sprite
-        //update kirby position in UI
-        public override void UpdatePosition(GameTime gameTime)
-        {
-            yVel += gravity * dt;
-            position.X += xVel;
-            position.Y += yVel ;//+ gravity * dt *dt *.5f;
-        }
 
         public override void AdjustY(Player kirby)
         {

@@ -42,7 +42,7 @@ namespace KirbyNightmareInDreamLand
             public const int FLOOR = 128;
             public const float PARALLAX_FACTOR = 0.85f;
             public const int MAX_FRAME_RATE = 60;
-            public const int MIN_FRAME_RATE = 5;
+            public const int MIN_FRAME_RATE = 2;
             public const float TIME_CONVERSION = 1000f;
             public static Color INVINCIBLE_COLOR = new Color(255, 255, 0, 127);
 
@@ -164,8 +164,8 @@ namespace KirbyNightmareInDreamLand
             public const int MAX_HEALTH = 6;
             public const int MAX_LIVES = 3;
             public const int STARTINGXPOSITION = 30;
-            public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(13, -7);
-            public static Vector2 BEAM_ATTACK_OFFSET_LEFT = new Vector2(-13, -7);
+            public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(11, -9);
+            public static Vector2 BEAM_ATTACK_OFFSET_LEFT = new Vector2(-11, -9);
             public static Vector2 PUFF_ATTACK_OFFSET = new Vector2(15, 0);
             public static Vector2 FLAME_ATTACK_OFFSET_RIGHT = new Vector2(30, -10);
             public static Vector2 FLAME_ATTACK_OFFSET_LEFT = new Vector2(-25, -10);
@@ -237,7 +237,7 @@ namespace KirbyNightmareInDreamLand
         public class KirbyFire
         {
             // For flamethrower
-            public const float FIRE_RATE = 0.35f; // Time between each segment spawn
+            public const int FIRE_RATE = 21; // FRAMES between each segment spawn (used to be seconds)
             public const float MIN_SPEED = 1f;
             public const float MAX_SPEED = 4f;
             public const float MIN_DELAY = 0f;
@@ -263,8 +263,8 @@ namespace KirbyNightmareInDreamLand
         public class Star
         {
             public const float SPEED = 4f; // Constant speed of the star
-            public static Vector2  BOUNCING_STAR_VEL_LEFT = new Vector2 (1f, -5f);
-            public static Vector2  BOUNCING_STAR_VEL_RIGHT = new Vector2 (-1f, -5f);
+            public static Vector2  BOUNCING_STAR_VEL_LEFT = new Vector2 (-1f, -5f);
+            public static Vector2  BOUNCING_STAR_VEL_RIGHT = new Vector2 (1f, -5f);
             public static double BOUNCING_TIMER = 7;
 
         }
@@ -398,6 +398,7 @@ namespace KirbyNightmareInDreamLand
             public static int OFFSET8 = 8;
             public static int STAR_MAX_FRAMES = 14;
             public static int STAREXPLODE_MAX_FRAMES = 14;
+            public static int DROPABILITY_MAX_FRAMES = 8;
 
             public static int DASH_CLOUD_FRAMES = 10;
             public static int DASH_CLOUD_LOOPS = 3;

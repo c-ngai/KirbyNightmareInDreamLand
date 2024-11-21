@@ -14,7 +14,8 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private Vector2 position;
         private Vector2 velocity;
         public bool CollisionActive { get; private set;} = true;
-        public bool IsFacingRight;
+        public bool IsActive;
+        public bool IsLeft;
         private float ceiling = Constants.Kirby.CEILING;
         public bool PowerType; 
         private KirbyType powerUp;
@@ -32,23 +33,25 @@ namespace KirbyNightmareInDreamLand.Projectiles
             set => velocity = value;    // Set the velocity of the star to the given value
         }
 
-        public KirbyBouncingStar(Vector2 kirbyPosition, bool isFacingRight, KirbyType power)
+        public KirbyBouncingStar(Vector2 kirbyPosition, bool IsLeft, KirbyType power)
         {
+            IsActive = true;
+            
             powerUp = power;
-            Position = kirbyPosition + (isFacingRight ? Constants.Kirby.BOUNCING_STAR_OFFSET_RIGHT: Constants.Kirby.BOUNCING_STAR_OFFSET_LEFT);
+            Position = kirbyPosition + (IsLeft ? Constants.Kirby.BOUNCING_STAR_OFFSET_RIGHT : Constants.Kirby.BOUNCING_STAR_OFFSET_LEFT);
 
-            Velocity = Constants.Star.BOUNCING_STAR_VEL_LEFT;
+            Velocity = IsLeft ? Constants.Star.BOUNCING_STAR_VEL_RIGHT : Constants.Star.BOUNCING_STAR_VEL_LEFT;
 
             // Assign the appropriate sprite based on the direction
-            projectileSprite = isFacingRight
-                ? SpriteFactory.Instance.CreateSprite("projectile_kirby_star_right")
-                : SpriteFactory.Instance.CreateSprite("projectile_kirby_star_left");
+            projectileSprite = IsLeft
+                ? SpriteFactory.Instance.CreateSprite("projectile_kirby_bouncingstar_right")
+                : SpriteFactory.Instance.CreateSprite("projectile_kirby_bouncingstar_left");
 
             ObjectManager.Instance.AddProjectile(this);
             ObjectManager.Instance.RegisterDynamicObject(this);
 
             //SoundManager.Play("spit");
-            IsFacingRight = isFacingRight;
+            this.IsLeft = IsLeft;
         }
         public CollisionType GetCollisionType()
         {
@@ -68,6 +71,15 @@ namespace KirbyNightmareInDreamLand.Projectiles
             Position += Velocity;
             projectileSprite.Update();
             Adjust();
+
+            timer += Game1.GameTime.ElapsedGameTime.TotalSeconds;
+            if (timer > Constants.Star.BOUNCING_TIMER)
+            {
+                CollisionActive = false;
+                IsActive = false;
+                SoundManager.Play("starexplode");
+                new StarExplode(position);
+            }
         }
         private Vector2 CalculateRectanglePoint(Vector2 pos)
         {
@@ -89,34 +101,32 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public void EndAttack()
         {
             CollisionActive = false;
+            IsActive = false;
         }
         public bool IsDone()
         {
-            timer+= Game1.GameTime.ElapsedGameTime.TotalSeconds;
-            if(timer > Constants.Star.BOUNCING_TIMER)
-            {
-                CollisionActive = false;
-                SoundManager.Play("starexplode");
-                new StarExplode(position);
-                return true;
-            }
-            return false;
+            return !IsActive;
         }
 
         public void WallLeftBounce()
         {
-            IsFacingRight = !IsFacingRight;
-            velocity = Constants.Star.BOUNCING_STAR_VEL_RIGHT;
+            IsLeft = !IsLeft;
+            //velocity = Constants.Star.BOUNCING_STAR_VEL_RIGHT;
+            velocity.X *= -1;
+            SoundManager.Play("starbounce");
         }
         public void WallRightBounce()
         {
-            IsFacingRight = !IsFacingRight;
-            velocity = Constants.Star.BOUNCING_STAR_VEL_LEFT;
+            IsLeft = !IsLeft;
+            //velocity = Constants.Star.BOUNCING_STAR_VEL_LEFT;
+            velocity.X *= -1;
+            SoundManager.Play("starbounce");
         }
 
         public void FloorBounce()
         {
-            velocity.Y = Constants.Star.BOUNCING_STAR_VEL_RIGHT.Y ;
+            velocity.Y = Constants.Star.BOUNCING_STAR_VEL_RIGHT.Y;
+            SoundManager.Play("starbounce");
         }
 
         public KirbyType PowerUp()

@@ -111,6 +111,12 @@
 			"PlayerIndex": 0
 		},
 		{
+			"Key": "Q",
+			"ExecutionType": "StartingPress",
+			"Command": "KirbyDropAbilityCommand",
+			"PlayerIndex": 0
+		},
+		{
 			"Key": "Right",
 			"ExecutionType": "Pressed",
 			"Command": "KirbyMoveRightCommand",
@@ -180,6 +186,12 @@
 			"Key": "OemPeriod",
 			"ExecutionType": "Pressed",
 			"Command": "KirbyAttackPressedCommand",
+			"PlayerIndex": 1
+		},
+		{
+			"Key": "L",
+			"ExecutionType": "StartingPress",
+			"Command": "KirbyDropAbilityCommand",
 			"PlayerIndex": 1
 		},
 		{
@@ -274,12 +286,12 @@
 		},
 		{
 			"Key": "OemCloseBrackets",
-			"ExecutionType": "StartingPress",
+			"ExecutionType": "Pressed",
 			"Command": "GraphicsIncreaseTargetFramerateCommand"
 		},
 		{
 			"Key": "OemOpenBrackets",
-			"ExecutionType": "StartingPress",
+			"ExecutionType": "Pressed",
 			"Command": "GraphicsDecreaseTargetFramerateCommand"
 		},
 		{
