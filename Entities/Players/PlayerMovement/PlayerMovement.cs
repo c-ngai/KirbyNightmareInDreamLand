@@ -249,6 +249,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if (!landed && !state.IsJumping())
             {
                 state.ChangePose(KirbyPose.Standing);
+                IParticle star = new CollisionStar(position);
             }
             onSlope = true;
         }

@@ -229,6 +229,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             ChangePose(KirbyPose.Standing);
             invincible = false;
             timer = 0;
+            DEAD = false;
         } 
         public async void Death()
         {
@@ -648,8 +649,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         // makes state changes by calling other player methods, calls state.Update(), and finally calls Draw last?
         public void Update(GameTime gameTime)
         {
-            // change Kirby pose if he's not on a slope and he's falling
-            if (movement.GetVelocity().Y > 0 && !movement.onSlope)
+            // change Kirby pose if he's not on a slope, he's falling, and he's not dead
+            if (movement.GetVelocity().Y > 0 && !movement.onSlope && !DEAD)
             {
                 ChangePose(KirbyPose.FreeFall);
                 movement.ChangeKirbyLanded(false);
@@ -821,6 +822,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if (state.GetPose() == KirbyPose.FreeFall)
             {
                 ChangePose(KirbyPose.Standing);
+                IParticle star = new CollisionStar(movement.GetPosition());
             }
         }
         //kirby collides with the right side of a block
@@ -881,13 +883,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public void HandleSlopeFreeFall()
         {
-            Debug.Write("Xvel: " + movement.GetVelocity().X + "\n");
-            Debug.Write("CurrentPose: " + state.GetPose() + "\n");
             if (state.GetPose() == KirbyPose.FreeFall && movement.GetVelocity().X == 0)
             {
                 ChangePose(KirbyPose.Standing);
-                Debug.Write("Xvel: " + movement.GetVelocity().X + "\n");
-                Debug.Write("CurrentPose: " + state.GetPose() + "\n");
             }
         }
 
