@@ -648,9 +648,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         // makes state changes by calling other player methods, calls state.Update(), and finally calls Draw last?
         public void Update(GameTime gameTime)
         {
-            if (movement.GetVelocity().Y > 0)
+            // change Kirby pose if he's not on a slope and he's falling
+            if (movement.GetVelocity().Y > 0 && !movement.onSlope)
             {
                 ChangePose(KirbyPose.FreeFall);
+                movement.ChangeKirbyLanded(false);
             }
             movement.MovePlayer(this, gameTime);
             EndInvinciblility(gameTime);
@@ -667,6 +669,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 Death();
                 lifeLost = false;
             }
+
+            movement.onSlope = false;
 
             TEMP = false;
         }
@@ -814,7 +818,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             movement.AdjustFromBottomCollisionBlock(intersection);
             TEMP = true;
-            if (oldPose == KirbyPose.FreeFall)
+            if (state.GetPose() == KirbyPose.FreeFall)
             {
                 ChangePose(KirbyPose.Standing);
             }
@@ -860,6 +864,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void BottomCollisionWithPlatform(Rectangle intersection)
         {
             movement.AdjustFromBottomCollisionPlatform(intersection, state);
+            if (state.GetPose() == KirbyPose.FreeFall)
+            {
+                ChangePose(KirbyPose.Standing);
+            }
             TEMP = true;
         }
         //kirby collision with air so he falls
@@ -871,6 +879,18 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
         }
 
+        public void HandleSlopeFreeFall()
+        {
+            Debug.Write("Xvel: " + movement.GetVelocity().X + "\n");
+            Debug.Write("CurrentPose: " + state.GetPose() + "\n");
+            if (state.GetPose() == KirbyPose.FreeFall && movement.GetVelocity().X == 0)
+            {
+                ChangePose(KirbyPose.Standing);
+                Debug.Write("Xvel: " + movement.GetVelocity().X + "\n");
+                Debug.Write("CurrentPose: " + state.GetPose() + "\n");
+            }
+        }
+
         //slope collision
         public void CollisionWithGentle1LeftSlope(Tile tile)
         {
@@ -878,6 +898,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             float yIntercept = Constants.Collision.GENTLE1_SLOPE_LEFT_YINTERCEPT;
             movement.AdjustOnSlopeCollision(state, tile, slope, yIntercept);
             TEMP = true;
+            HandleSlopeFreeFall();
         }
         //slope collision
         public void CollisionWithGentle2LeftSlope(Tile tile)
@@ -886,6 +907,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             float yIntercept = Constants.Collision.GENTLE2_SLOPE_LEFT_YINTERCEPT;
             movement.AdjustOnSlopeCollision(state, tile, slope, yIntercept);
             TEMP = true;
+            HandleSlopeFreeFall();
         }
         //slope collision
         public void CollisionWithSteepLeftSlope(Tile tile)
@@ -894,6 +916,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             float yIntercept = Constants.Collision.STEEP_SLOPE_LEFT_YINTERCEPT;
             movement.AdjustOnSlopeCollision(state, tile, slope, yIntercept);
             TEMP = true;
+            HandleSlopeFreeFall();
         }
         //slope collision
         public void CollisionWithGentle1RightSlope(Tile tile)
@@ -902,6 +925,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             float yIntercept = Constants.Collision.GENTLE1_SLOPE_RIGHT_YINTERCEPT;
             movement.AdjustOnSlopeCollision(state, tile, slope, yIntercept);
             TEMP = true;
+            HandleSlopeFreeFall();
         }
         //slope collision
         public void CollisionWithGentle2RightSlope(Tile tile)
@@ -910,6 +934,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             float yIntercept = Constants.Collision.GENTLE2_SLOPE_RIGHT_YINTERCEPT;
             movement.AdjustOnSlopeCollision(state, tile, slope, yIntercept);
             TEMP = true;
+            HandleSlopeFreeFall();
         }
         //slope collision
         public void CollisionWithSteepRightSlope(Tile tile)
@@ -918,6 +943,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             float yIntercept = Constants.Collision.STEEP_SLOPE_RIGHT_YINTERCEPT;
             movement.AdjustOnSlopeCollision(state, tile, slope, yIntercept);
             TEMP = true;
+            HandleSlopeFreeFall();
         }
         #endregion
     }

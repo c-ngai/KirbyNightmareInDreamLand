@@ -28,6 +28,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         protected float ceiling = Constants.Kirby.CEILING;
         public ITimeCalculator timer;
         protected bool landed = true;
+        public bool onSlope { get; set; }
 
         private int levelBoundsLeft =  Constants.Kirby.BOUNDS;
         private int levelBoundsRight = Constants.Kirby.BOUNDS * -1;
@@ -38,6 +39,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             timer = new TimeCalculator();
             position = pos;
+            onSlope = false;
         }
         public Vector2 GetPosition()
         {
@@ -229,14 +231,14 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
         }
 
-        public void AdjustOnSlopeCollision(IPlayerStateMachine state, Tile tile, float slope, float yIntercept)
+        public void AdjustOnSlopeCollision(PlayerStateMachine state, Tile tile, float slope, float yIntercept)
         {
             Rectangle intersection = tile.rectangle;
             if (position.X > intersection.Left && position.X < intersection.Right)
             {
                 float offset = position.X - intersection.X;
 
-                float kirbyAdjustment = (intersection.Y + Constants.Level.TILE_SIZE + 0.5f) - (offset * slope) - yIntercept;
+                float kirbyAdjustment = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
                 if (position.Y > kirbyAdjustment || state.CanMove() ) // "is kirby moving on the ground in a way where we want him to stay locked on the ground"
                 {
                     position.Y = kirbyAdjustment;
@@ -244,6 +246,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     ChangeKirbyLanded(true);
                 }
             }
+            if (!landed && !state.IsJumping())
+            {
+                state.ChangePose(KirbyPose.Standing);
+            }
+            onSlope = true;
         }
         #endregion
     }
