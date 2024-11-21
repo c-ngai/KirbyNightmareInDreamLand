@@ -286,6 +286,19 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             position.Y += intersection.Height;
         }
+        public virtual void RightCollisionWithBlock(Rectangle intersection)
+        {
+            position.X -= intersection.Width;
+            bool left = true;
+            SetDirection(left);
+        }
+
+        public virtual void LeftCollisionWithBlock(Rectangle intersection)
+        {
+            position.X += intersection.Width;
+            bool left = false;
+            SetDirection(left);
+        }
         // Commented out the inside for now. Is this necessary? -Mark
         public void BottomCollisionWithAir(Rectangle intersection)
         {

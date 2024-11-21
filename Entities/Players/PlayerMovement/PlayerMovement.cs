@@ -236,7 +236,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 float offset = position.X - intersection.X;
 
-                float kirbyAdjustment = (intersection.Y + Constants.Level.TILE_SIZE + groundCollisionOffset) - (offset * slope) - yIntercept;
+                float kirbyAdjustment = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
                 if (position.Y > kirbyAdjustment || state.CanMove() ) // "is kirby moving on the ground in a way where we want him to stay locked on the ground"
                 {
                     position.Y = kirbyAdjustment;
@@ -244,6 +244,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     ChangeKirbyLanded(true);
                 }
             }
+            
         }
         #endregion
     }

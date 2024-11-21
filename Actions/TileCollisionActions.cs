@@ -39,8 +39,7 @@ namespace KirbyNightmareInDreamLand.Actions
             }
             else if (object1 is IEnemy enemy)
             {
-                bool faceLeft = true;
-                enemy.SetDirection(faceLeft);
+                enemy.RightCollisionWithBlock(intersection);
             }
             else if (object1 is IExplodable projectile)
             {
@@ -59,8 +58,7 @@ namespace KirbyNightmareInDreamLand.Actions
             }
             else if (object1 is IEnemy enemy)
             {
-                bool faceLeft = false;
-                enemy.SetDirection(faceLeft);
+                enemy.LeftCollisionWithBlock(intersection);
             }
             else if (object1 is IExplodable projectile)
             {
