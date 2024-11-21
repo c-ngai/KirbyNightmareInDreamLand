@@ -229,6 +229,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 position.Y = (float)intersection.Y + groundCollisionOffset;
                 ChangeKirbyLanded(true);
             }
+            if (state.GetPose() == KirbyPose.FreeFall)
+            {
+                IParticle star = new CollisionStar(position);
+            }
         }
 
         public void AdjustOnSlopeCollision(PlayerStateMachine state, Tile tile, float slope, float yIntercept)
@@ -246,7 +250,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     ChangeKirbyLanded(true);
                 }
             }
-            if (!landed && !state.IsJumping())
+            if (state.GetPose() == KirbyPose.FreeFall && !state.IsJumping())
             {
                 state.ChangePose(KirbyPose.Standing);
                 IParticle star = new CollisionStar(position);
