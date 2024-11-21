@@ -45,6 +45,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         void BottomCollisionWithPlatform(Rectangle intersection);
         void TopCollisionWithBlock(Rectangle intersection);
         void SwallowEnemy(KirbyType kirbyType);
+        void ChangePose(KirbyPose pose);
     
     }
 }
