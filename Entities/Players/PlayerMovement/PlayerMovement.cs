@@ -28,6 +28,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         protected float ceiling = Constants.Kirby.CEILING;
         public ITimeCalculator timer;
         protected bool landed = true;
+        public bool onSlope { get; set; }
 
         private int levelBoundsLeft =  Constants.Kirby.BOUNDS;
         private int levelBoundsRight = Constants.Kirby.BOUNDS * -1;
@@ -38,6 +39,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             timer = new TimeCalculator();
             position = pos;
+            onSlope = false;
         }
         public Vector2 GetPosition()
         {
@@ -229,7 +231,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
         }
 
-        public void AdjustOnSlopeCollision(IPlayerStateMachine state, Tile tile, float slope, float yIntercept)
+        public void AdjustOnSlopeCollision(PlayerStateMachine state, Tile tile, float slope, float yIntercept)
         {
             Rectangle intersection = tile.rectangle;
             if (position.X > intersection.Left && position.X < intersection.Right)
@@ -244,7 +246,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     ChangeKirbyLanded(true);
                 }
             }
-            
+            if (!landed && !state.IsJumping())
+            {
+                state.ChangePose(KirbyPose.Standing);
+            }
+            onSlope = true;
         }
         #endregion
     }

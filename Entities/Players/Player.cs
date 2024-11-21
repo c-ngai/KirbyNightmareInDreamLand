@@ -648,9 +648,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         // makes state changes by calling other player methods, calls state.Update(), and finally calls Draw last?
         public void Update(GameTime gameTime)
         {
-            if (movement.GetVelocity().Y > 0)
+            // change Kirby pose if he's not on a slope and he's falling
+            if (movement.GetVelocity().Y > 0 && !movement.onSlope)
             {
                 ChangePose(KirbyPose.FreeFall);
+                movement.ChangeKirbyLanded(false);
             }
             movement.MovePlayer(this, gameTime);
             EndInvinciblility(gameTime);
@@ -667,6 +669,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 Death();
                 lifeLost = false;
             }
+
+            movement.onSlope = false;
 
             TEMP = false;
         }
@@ -877,9 +881,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public void HandleSlopeFreeFall()
         {
+            Debug.Write("Xvel: " + movement.GetVelocity().X + "\n");
+            Debug.Write("CurrentPose: " + state.GetPose() + "\n");
             if (state.GetPose() == KirbyPose.FreeFall && movement.GetVelocity().X == 0)
             {
                 ChangePose(KirbyPose.Standing);
+                Debug.Write("Xvel: " + movement.GetVelocity().X + "\n");
+                Debug.Write("CurrentPose: " + state.GetPose() + "\n");
             }
         }
 
