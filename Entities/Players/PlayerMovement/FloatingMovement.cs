@@ -93,7 +93,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public override void UpdatePosition(GameTime gameTime)
         {
-            yVel += floatGravity * dt;
+            yVel += floatGravity;
             position.X += xVel;
             position.Y += yVel;
         }

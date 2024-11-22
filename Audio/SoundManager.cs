@@ -21,6 +21,8 @@ namespace KirbyNightmareInDreamLand.Audio
         public static Dictionary<string, Sound> Sounds = new Dictionary<string, Sound>();
         // List of all currently active SoundInstances
         public static List<SoundInstance> SoundInstances = new List<SoundInstance>();
+        // Pitch to play sounds at based on target framerate
+        public static float pitch;
 
         public static void Play(string name)
         {
@@ -62,6 +64,9 @@ namespace KirbyNightmareInDreamLand.Audio
 
         public static void Update()
         {
+            // Update pitch
+            pitch = (float)(Game1.Instance.TARGET_FRAMERATE - 60) / 60;
+
             List<SoundInstance> OldSoundInstances = new List<SoundInstance>(SoundInstances);
             // Update each SoundInstance
             foreach (SoundInstance soundInstance in OldSoundInstances)

@@ -31,6 +31,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             stateMachine.ChangeDirection();
             yVel = 0;
             xVel = Constants.WaddleDoo.MOVE_SPEED;
+            affectedByGravity = true;
         }
 
         public override void Update(GameTime gameTime)

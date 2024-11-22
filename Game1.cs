@@ -233,13 +233,12 @@ namespace KirbyNightmareInDreamLand
             UpdateCounter++;
         }
 
-        bool stupidtest = true;
         private RasterizerState[] rasterizerStates = { new RasterizerState { ScissorTestEnable = false } , new RasterizerState { ScissorTestEnable = true } };
         private void DrawView(Rectangle bounds)
         {
             // Level spritebatch
             GraphicsDevice.ScissorRectangle = bounds;
-            RasterizerState rasterizerState = DEBUG_ZOOM_MODE ? rasterizerStates[0] : rasterizerStates[1];
+            RasterizerState rasterizerState = DEBUG_ZOOM_MODE && !SPLITSCREEN_MODE ? rasterizerStates[0] : rasterizerStates[1];
 
             Matrix viewMatrix = Matrix.CreateScale((float)bounds.Width / Constants.Graphics.GAME_WIDTH) * Matrix.CreateTranslation(bounds.X, bounds.Y, 0);
             

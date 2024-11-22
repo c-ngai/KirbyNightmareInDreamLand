@@ -73,6 +73,13 @@ namespace KirbyNightmareInDreamLand.Audio
                     DELETE_ME = true;
                 }
             }
+
+            // Update pitch
+            soundEffectInstance.Pitch = SoundManager.pitch;
+            if (nextSound != null)
+            {
+                nextSound.Pitch = SoundManager.pitch;
+            }
         }
 
 

@@ -15,6 +15,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             currentState = new WaddleDeeWalkingState(this);
             stateMachine.ChangeDirection();
             xVel = Constants.WaddleDee.MOVE_SPEED;
+            affectedByGravity = true;
         } 
 
     }

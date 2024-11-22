@@ -21,8 +21,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         protected float walkingVel = Constants.Physics.WALKING_VELOCITY;
         protected float runningVel = Constants.Physics.RUNNING_VELOCITY;
         protected float gravity = Constants.Physics.GRAVITY;
-        protected float dt = Constants.Physics.DT;
-        protected float groundCollisionOffset = 1 - Constants.Physics.FLOAT_GRAVITY * Constants.Physics.DT;
+        protected float groundCollisionOffset = 1 - Constants.Physics.FLOAT_GRAVITY;
         protected float damageVel = Constants.Physics.DAMAGE_VELOCITY;
         protected float ceiling = Constants.Kirby.CEILING;
         public ITimeCalculator timer;
@@ -122,7 +121,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //update kirby position in UI
         public virtual void UpdatePosition(GameTime gameTime)
         {
-            yVel += gravity * dt;
+            yVel += gravity;
             
             position.X += xVel;
             position.Y += yVel; // + gravity * dt *dt *.5f;

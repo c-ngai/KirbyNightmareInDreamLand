@@ -8,7 +8,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
     {
         void ChangeDirection();
         void Jump();
-        void Fall();
         void Move();
         Sprite EnemySprite { set; }
         int Health { get; }

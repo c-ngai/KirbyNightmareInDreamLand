@@ -30,6 +30,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             //TO-DO: spawn facing the direction kirby is in
             yVel = 0;
             xVel = Constants.Hothead.MOVE_SPEED;
+            affectedByGravity = true;
         }
 
         public override void Update(GameTime gameTime)

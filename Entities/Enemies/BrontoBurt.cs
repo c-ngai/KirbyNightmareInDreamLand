@@ -19,6 +19,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
             yVel = 0;
             xVel = Constants.BrontoBurt.MOVE_SPEED;
+            affectedByGravity = false;
         }
 
         public override void Move()
@@ -42,11 +43,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
             // Update texture if needed
             UpdateTexture();
-        }
-
-        public override void Fall()
-        {
-            //empty- no falling
         }
 
     }

@@ -12,6 +12,7 @@ using KirbyNightmareInDreamLand.Audio;
 using System.Threading.Tasks;
 using KirbyNightmareInDreamLand.Actions;
 using Microsoft.VisualBasic;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -29,7 +30,9 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         protected float xVel;
         protected float yVel;
         protected float gravity;
+        protected bool affectedByGravity;
         protected Boolean isFalling;
+        protected bool isBeingInhaled;
 
         public bool CollisionActive { get; set; } = true;
 
@@ -43,6 +46,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             xVel = 0;
             yVel = 0;
             isFalling = true;
+            isBeingInhaled = false;
             gravity = Constants.Physics.GRAVITY;
             stateMachine = new EnemyStateMachine(type);
             oldState = string.Empty;
@@ -145,6 +149,14 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             SoundManager.Play("enemyexplode");
         }
 
+
+        public void GetInhaled(Rectangle intersection, IPlayer player)
+        {
+            //isBeingInhaled = true;
+            ChangeState(new EnemyInhaledState(this, player));
+        }
+
+
         public void GetSwallowed(Rectangle intersection)
         {
             currentState.TakeDamage();
@@ -176,6 +188,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             CollisionActive = true;
             active = true;
+            isBeingInhaled = false;
             bool isLeft = ObjectManager.Instance.NearestPlayerDirection(position);
             stateMachine.SetDirection(isLeft);
             health = Constants.Enemies.HEALTH;
@@ -188,6 +201,16 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             CollisionActive = false;
             active = false;
+        }
+
+        public void UpdatePosition()
+        {
+            if (affectedByGravity)
+            {
+                yVel += gravity;  // Increase vertical velocity by gravity
+            }
+            
+            position.Y += yVel;  // Apply the updated velocity to the enemy's Y position
         }
 
         public virtual void Update(GameTime gameTime) 
@@ -210,7 +233,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 UpdateTexture();
                 enemySprite.Update();
 
-                Fall();
+                UpdatePosition();
             }
             else
             {
@@ -231,12 +254,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public virtual void Attack() { }
 
         public virtual void Jump() { }
-
-        public virtual void Fall()
-        {
-            yVel += gravity / Constants.Enemies.GRAVITY_OFFSET;  // Increase vertical velocity by gravity
-            position.Y += yVel;  // Apply the updated velocity to the enemy's Y position
-        }
 
         public virtual void Move()
         {

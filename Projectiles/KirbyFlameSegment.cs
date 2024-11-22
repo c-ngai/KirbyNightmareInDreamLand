@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using KirbyNightmareInDreamLand.Sprites;
 using KirbyNightmareInDreamLand.Actions;
+using Microsoft.Xna.Framework.Input;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
@@ -67,7 +68,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
                     projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_fire1_right");
                 }
             }
-            ObjectManager.Instance.RegisterDynamicObject(this);
+            ObjectManager.Instance.AddProjectile(this);
         }
 
         public void Update()

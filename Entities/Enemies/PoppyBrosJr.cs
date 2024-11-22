@@ -20,6 +20,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             ChangeState(new PoppyBrosJrHopState(this));
             yVel = 0;
             xVel = Constants.PoppyBrosJr.MOVE_SPEED;
+            affectedByGravity = true;
         }
 
         public override void Jump()

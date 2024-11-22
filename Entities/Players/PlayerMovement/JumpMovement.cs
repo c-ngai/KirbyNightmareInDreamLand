@@ -11,7 +11,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public const float jumpCeiling = Constants.Physics.JUMP_CEILING;
 
         protected float jumpVel = Constants.Physics.JUMP_VEL;
-        protected float jumpHeight = Constants.Physics.JUMP_MAX_HEIGHT;
         protected int jumpFrames = Constants.Physics.JUMP_MAX_FRAMES;
         protected int frameCounter;
         protected int lastFrameJumpCalled;

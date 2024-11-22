@@ -27,6 +27,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             ChangeState(new SparkyPause1State(this)); // Set initial state
             yVel = 0;
             xVel = Constants.Sparky.HOP_SPEED;
+            affectedByGravity = true;
         }
 
         public override void Jump()
