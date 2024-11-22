@@ -31,7 +31,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState
             if (_enemy.FrameCounter >= Constants.PoppyBrosJr.HURT_FRAMES)
             {
                 _enemy.ChangeState(new PoppyBrosJrHopState(_enemy));
-                _enemy.UpdateTexture();
 
                 if (_enemy.Health <= 0)
                 {

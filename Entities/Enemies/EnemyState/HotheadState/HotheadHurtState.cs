@@ -33,7 +33,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState
             if (_hothead.FrameCounter >= Constants.Hothead.HURT_FRAMES)
             {
                 _hothead.ChangeState(new HotheadWalkingState(_hothead));
-                _hothead.UpdateTexture();
 
                 if (_hothead.Health <= 0)
                 {

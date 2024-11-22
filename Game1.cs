@@ -22,7 +22,7 @@ namespace KirbyNightmareInDreamLand
 {
     public sealed class Game1 : Game
     {
-        public SpriteBatch _spriteBatch { get; private set; }
+        private SpriteBatch _spriteBatch;
         public ObjectManager manager;
         
         public GraphicsDeviceManager Graphics { get; private set; }

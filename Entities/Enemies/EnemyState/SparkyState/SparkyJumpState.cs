@@ -32,14 +32,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
                 if (!jumpableEnemy.IsJumping)
                 {
                     _enemy.ChangeState(new SparkyPause2State(_enemy));
-                    _enemy.UpdateTexture();
                 }
             }
             else
             {
                 // If the enemy cannot jump, transition back to walking
                 _enemy.ChangeState(new SparkyPause2State(_enemy));
-                _enemy.UpdateTexture();
             }
         }
 
@@ -48,7 +46,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
         public void TakeDamage()
         {
             _enemy.ChangeState(new SparkyHurtState(_enemy));
-            _enemy.UpdateTexture();
         }
 
         public void ChangeDirection()

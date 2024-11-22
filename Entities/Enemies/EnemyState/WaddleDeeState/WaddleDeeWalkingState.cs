@@ -37,7 +37,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState
         public void TakeDamage()
         {
             _enemy.ChangeState(new WaddleDeeHurtState(_enemy));
-            _enemy.UpdateTexture();
         }
 
         public void ChangeDirection()

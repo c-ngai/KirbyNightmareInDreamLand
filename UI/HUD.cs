@@ -28,7 +28,7 @@ namespace KirbyNightmareInDreamLand.UI
                 { "ui_power_beam", SpriteFactory.Instance.CreateSprite("ui_power_beam") },
                 { "ui_power_spark", SpriteFactory.Instance.CreateSprite("ui_power_spark") },
                 { "ui_power_fire", SpriteFactory.Instance.CreateSprite("ui_power_fire") },
-                { "ui_lives", SpriteFactory.Instance.CreateSprite("ui_lives") },
+                { "ui_lives", SpriteFactory.Instance.CreateSprite("ui_lives" + playerIndex) },
                 { "ui_healthbar_1", SpriteFactory.Instance.CreateSprite("ui_healthbar_1") },
                 { "ui_healthbar_0", SpriteFactory.Instance.CreateSprite("ui_healthbar_0") },
                 { "ui_0", SpriteFactory.Instance.CreateSprite("ui_0") },

@@ -15,17 +15,23 @@ namespace KirbyNightmareInDreamLand.Actions
         //kirby and enemy collide with each other
         public static void KirbyEnemyCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            CollisionType type = object2.GetCollisionType();
-            if (type == CollisionType.Player)
-            {
-                Player player = (Player)object2;
-                player.TakeDamage(intersection);
-            }
-            type = object1.GetCollisionType();
-            if (type == CollisionType.Enemy)
+            CollisionType type1 = object1.GetCollisionType();
+            CollisionType type2 = object2.GetCollisionType();
+            if (type1 == CollisionType.Enemy && type2 == CollisionType.Player)
             {
                 Enemy enemy = (Enemy)object1;
-                enemy.TakeDamage(intersection);
+                Player player = (Player)object2;
+                
+                if (enemy.IsBeingInhaled)
+                {
+                    enemy.GetSwallowed(intersection);
+                    player.SwallowEnemy(enemy.PowerType());
+                }
+                else
+                {
+                    enemy.TakeDamage(intersection);
+                    player.TakeDamage(intersection);
+                }
             }
         }
 
@@ -53,15 +59,20 @@ namespace KirbyNightmareInDreamLand.Actions
             if (type == CollisionType.Enemy)
             {
                 Enemy enemy = (Enemy)object1;
-                enemy.GetSwallowed(intersection);
+
+                if (object2 is Inhale)
+                {
+                    Inhale attack = (Inhale)object2;
+                    //attack.OnCollide(enemy.PowerType()); //change skirby to mouthful
+                    enemy.GetInhaled(intersection, attack.player);
+                }
+                else
+                {
+                    enemy.TakeDamage(intersection);
+                }
             }
 
-            if(object2 is Inhale)
-            {
-                Enemy enemy = (Enemy)object1;
-                Inhale attack = (Inhale)object2;
-                attack.OnCollide(enemy.PowerType()); //change skirby to mouthful
-            }
+            
         }
 
         //boincing star collides with inhale attack

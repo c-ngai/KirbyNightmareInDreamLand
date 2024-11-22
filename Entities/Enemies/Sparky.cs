@@ -25,8 +25,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             //initialize to hop
             stateMachine.ChangePose(EnemyPose.Hop);
             ChangeState(new SparkyPause1State(this)); // Set initial state
-            yVel = 0;
-            xVel = Constants.Sparky.HOP_SPEED;
+            velocity.Y = 0;
+            velocity.X = Constants.Sparky.HOP_SPEED;
             affectedByGravity = true;
         }
 
@@ -38,10 +38,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
                 if (isTallJump)
                 {
-                    yVel = -Constants.Sparky.TALL_JUMP_VELOCITY;
+                    velocity.Y = -Constants.Sparky.TALL_JUMP_VELOCITY;
                 } else
                 {
-                    yVel = -Constants.Sparky.SHORT_JUMP_VELOCITY;
+                    velocity.Y = -Constants.Sparky.SHORT_JUMP_VELOCITY;
                 }
                 isTallJump = !isTallJump;
             }
@@ -109,7 +109,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                     ChangeState(new SparkyPause2State(this));
                 }
             }
-            yVel = 0;
+            velocity.Y = 0;
         }
 
         public override void AdjustOnSlopeCollision(Tile tile, float slope, float yIntercept)
@@ -142,7 +142,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                             ChangeState(new SparkyPause2State(this));
                         }
                     }
-                    yVel = 0;
+                    velocity.Y = 0;
                 }
                 //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
             }

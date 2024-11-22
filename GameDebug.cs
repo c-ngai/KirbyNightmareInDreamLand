@@ -306,6 +306,26 @@ namespace KirbyNightmareInDreamLand
             // Bottom side
             spriteBatch.Draw(LevelLoader.Instance.Borders, new Rectangle(0, _game.WINDOW_YOFFSET + _game.WINDOW_HEIGHT, _game.WINDOW_WIDTH + 2 * _game.WINDOW_XOFFSET, _game.WINDOW_YOFFSET), color);
 
+            if (_game.SPLITSCREEN_MODE)
+            {
+                int scale = _game.WINDOW_HEIGHT / Constants.Graphics.GAME_HEIGHT / 2;
+                Rectangle line = new Rectangle(
+                        _game.WINDOW_XOFFSET + _game.WINDOW_WIDTH / 2,
+                        _game.WINDOW_YOFFSET,
+                        scale,
+                        _game.WINDOW_HEIGHT
+                    );
+                GameDebug.Instance.DrawSolidRectangle(spriteBatch, line, Color.Black, 1f);
+                line = new Rectangle(
+                        _game.WINDOW_XOFFSET,
+                        _game.WINDOW_YOFFSET + _game.WINDOW_HEIGHT / 2,
+                        _game.WINDOW_WIDTH,
+                        scale
+                    );
+                GameDebug.Instance.DrawSolidRectangle(spriteBatch, line, Color.Black, 1f);
+            }
+
+
             // weird color blendstate test: mouse X on screen determines opacity of a red rectangle covering the whole screen
             //byte alpha = (byte)((Mouse.GetState().X * 255 / Game1.Instance.GraphicsDevice.Viewport.Width - Game1.Instance.GraphicsDevice.Viewport.X));
             //DrawSolidRectangle(spriteBatch, new Rectangle(_game.WINDOW_XOFFSET, _game.WINDOW_YOFFSET, _game.WINDOW_WIDTH, _game.WINDOW_HEIGHT), Color.Red, (float)alpha / 255);

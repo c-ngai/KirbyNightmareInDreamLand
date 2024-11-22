@@ -28,8 +28,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             flamethrowerFrameCounter = 0;
             currentState = new HotheadWalkingState(this);
             //TO-DO: spawn facing the direction kirby is in
-            yVel = 0;
-            xVel = Constants.Hothead.MOVE_SPEED;
+            velocity.Y = 0;
+            velocity.X = Constants.Hothead.MOVE_SPEED;
             affectedByGravity = true;
         }
 

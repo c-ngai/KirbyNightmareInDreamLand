@@ -9,9 +9,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         void ChangeDirection();
         void Jump();
         void Move();
+        void AccellerateTowards(Vector2 position);
         Sprite EnemySprite { set; }
         int Health { get; }
         bool Active { get; }
+        bool IsBeingInhaled { get; }
         void IncrementFrameCounter();
         void ResetFrameCounter();
         void UpdateTexture();
