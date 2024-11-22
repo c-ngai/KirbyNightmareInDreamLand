@@ -20,9 +20,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         void ChangePose(EnemyPose pose);
         void Dispose();
         KirbyType PowerType();
-
+        void SetDirection(bool facingLeft);
         void BottomCollisionWithBlock(Rectangle intersection);
         void TopCollisionWithBlock(Rectangle intersection);
+        void LeftCollisionWithBlock(Rectangle intersection);
+        void RightCollisionWithBlock(Rectangle intersection);
         void BottomCollisionWithPlatform(Rectangle intersection);
     }
 }

@@ -39,7 +39,7 @@ namespace KirbyNightmareInDreamLand.Actions
             }
             else if (object1 is IEnemy enemy)
             {
-                enemy.ChangeDirection();
+                enemy.RightCollisionWithBlock(intersection);
             }
             else if (object1 is IExplodable projectile)
             {
@@ -58,7 +58,7 @@ namespace KirbyNightmareInDreamLand.Actions
             }
             else if (object1 is IEnemy enemy)
             {
-                enemy.ChangeDirection();
+                enemy.LeftCollisionWithBlock(intersection);
             }
             else if (object1 is IExplodable projectile)
             {
@@ -107,7 +107,6 @@ namespace KirbyNightmareInDreamLand.Actions
         {
             CollisionType type = object1.GetCollisionType();
             if (type == CollisionType.Enemy)
-
             {
                 Enemy enemy = (Enemy)object1;
                 enemy.BottomCollisionWithAir(intersection);
