@@ -543,9 +543,9 @@ namespace KirbyNightmareInDreamLand
             action1 = TileCollisionActions.BottomPlatformCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
             // Is this necessary? Enemies already fall every update, I don't think we need to check for air. Either way, fall should only be called once per update. -Mark
-            key2 = CollisionType.Air;
-            action1 = TileCollisionActions.BottomAirCollision;
-            collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
+            //key2 = CollisionType.Air;
+            //action1 = TileCollisionActions.BottomAirCollision;
+            //collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
 
             key2 = CollisionType.Water;
             action1 = TileCollisionActions.WaterCollision;

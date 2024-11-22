@@ -286,12 +286,12 @@
 		},
 		{
 			"Key": "OemCloseBrackets",
-			"ExecutionType": "StartingPress",
+			"ExecutionType": "Pressed",
 			"Command": "GraphicsIncreaseTargetFramerateCommand"
 		},
 		{
 			"Key": "OemOpenBrackets",
-			"ExecutionType": "StartingPress",
+			"ExecutionType": "Pressed",
 			"Command": "GraphicsDecreaseTargetFramerateCommand"
 		},
 		{

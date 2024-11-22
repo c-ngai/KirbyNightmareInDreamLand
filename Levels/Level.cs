@@ -97,7 +97,8 @@ namespace KirbyNightmareInDreamLand.Levels
             {"KirbyNightmareInDreamLand.GameState.GameDebugState", "keymap1"},
             {"KirbyNightmareInDreamLand.GameState.GameTransitioningState", "PauseKeyMap"},
             {"KirbyNightmareInDreamLand.GameState.GameLifeLostState", "PauseKeyMap"},
-            {"KirbyNightmareInDreamLand.GameState.GameWinningState", "keymap_winning"}
+            {"KirbyNightmareInDreamLand.GameState.GameWinningState", "keymap_winning"},
+            {"KirbyNightmareInDreamLand.GameState.GamePowerChangeState", "PauseKeyMap"}
         };
         
         private void UpdateKeymap()
@@ -170,6 +171,10 @@ namespace KirbyNightmareInDreamLand.Levels
         public void ChangeToTransitionState()
         {
             _currentState = new GameTransitioningState(this);
+        }
+        public void ChangeToPowerChangeState()
+        {
+            _currentState = new GamePowerChangeState(this);
         }
 
         public void GameOver()

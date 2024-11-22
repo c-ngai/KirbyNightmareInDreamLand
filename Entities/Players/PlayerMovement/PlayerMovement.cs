@@ -7,6 +7,7 @@ using KirbyNightmareInDreamLand.Levels;
 using System.Diagnostics;
 using System;
 using KirbyNightmareInDreamLand.Particles;
+using static KirbyNightmareInDreamLand.Constants;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -22,10 +23,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         protected float runningVel = Constants.Physics.RUNNING_VELOCITY;
         protected float gravity = Constants.Physics.GRAVITY;
         protected float dt = Constants.Physics.DT;
+        protected float groundCollisionOffset = 1 - Constants.Physics.FLOAT_GRAVITY * Constants.Physics.DT;
         protected float damageVel = Constants.Physics.DAMAGE_VELOCITY;
         protected float ceiling = Constants.Kirby.CEILING;
         public ITimeCalculator timer;
         protected bool landed = true;
+        public bool onSlope { get; set; }
 
         private int levelBoundsLeft =  Constants.Kirby.BOUNDS;
         private int levelBoundsRight = Constants.Kirby.BOUNDS * -1;
@@ -36,6 +39,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             timer = new TimeCalculator();
             position = pos;
+            onSlope = false;
         }
         public Vector2 GetPosition()
         {
@@ -195,7 +199,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public virtual void AdjustFromBottomCollisionBlock(Rectangle intersection)
         {
             yVel = 0;
-            position.Y = intersection.Y;
+            position.Y = (float)intersection.Y + groundCollisionOffset;
             ChangeKirbyLanded(true);
         }
 
@@ -219,15 +223,15 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void AdjustFromBottomCollisionPlatform(Rectangle intersection, IPlayerStateMachine state)
         {
             // Only adjust if kirby was moving downwards during the collision
-            if (yVel > 0 || state.GetPose() == KirbyPose.FreeFall || state.GetPose() == KirbyPose.JumpFalling)
+            if (yVel > 0)
             {
-                position.Y = intersection.Y;
                 yVel = 0;
+                position.Y = (float)intersection.Y + groundCollisionOffset;
                 ChangeKirbyLanded(true);
             }
         }
 
-        public void AdjustOnSlopeCollision(IPlayerStateMachine state, Tile tile, float slope, float yIntercept)
+        public void AdjustOnSlopeCollision(PlayerStateMachine state, Tile tile, float slope, float yIntercept)
         {
             Rectangle intersection = tile.rectangle;
             if (position.X > intersection.Left && position.X < intersection.Right)
@@ -242,6 +246,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     ChangeKirbyLanded(true);
                 }
             }
+            if (!landed && !state.IsJumping())
+            {
+                state.ChangePose(KirbyPose.Standing);
+            }
+            onSlope = true;
         }
         #endregion
     }

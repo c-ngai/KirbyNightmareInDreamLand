@@ -14,7 +14,7 @@ namespace KirbyNightmareInDreamLand.StateMachines
         {
             colorIndex = playerIndex % 4;
             facingLeft = false;
-            pose = KirbyPose.Standing;
+            pose = KirbyPose.FreeFall;
             type = KirbyType.Normal;
 
         }

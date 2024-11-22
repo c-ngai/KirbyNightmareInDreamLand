@@ -148,7 +148,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         private String AttackType()
         {
-            if(IsFloating()&& !IsFalling()){
+            if(IsFloating() && !IsFalling()){
                 return "Puff";
             } else if (state.IsCrouching()){
                 return "Slide";
@@ -323,6 +323,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 {
                     new KirbyBouncingStar(GetKirbyPosition(), IsLeft(), GetPowerUp());
                     new DropAbility(GetKirbyPosition());
+                    powerUp = KirbyType.Normal;
                     ChangeToNormal();
                 }
             }
@@ -551,6 +552,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
             if (IsWithEnemy())
             {
+                powerUp =KirbyType.Normal;
                 ChangeToNormal();
             }
         }
@@ -637,15 +639,29 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         private void EndSwallow() //swallows enemy
         {
             SwallowAnimation();
-            ChangePose(KirbyPose.Standing);
+            //ChangePose(KirbyPose.Standing);
             state.ChangeType(powerUp);
+            if(powerUp != KirbyType.Normal)
+            {
+                state.ChangePose(KirbyPose.Attacking);
+                attack = new PlayerAttack(this, AttackType());
+                Game1.Instance.Level.ChangeToPowerChangeState();
+            }
         }
         #endregion
 
+
+        bool TEMP = false;
         #region MoveKirby
         // makes state changes by calling other player methods, calls state.Update(), and finally calls Draw last?
         public void Update(GameTime gameTime)
         {
+            // change Kirby pose if he's not on a slope and he's falling
+            if (movement.GetVelocity().Y > 0 && !movement.onSlope)
+            {
+                ChangePose(KirbyPose.FreeFall);
+                movement.ChangeKirbyLanded(false);
+            }
             movement.MovePlayer(this, gameTime);
             EndInvinciblility(gameTime);
             playerSprite.Update();
@@ -661,6 +677,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 Death();
                 lifeLost = false;
             }
+
+            movement.onSlope = false;
+
+            TEMP = false;
         }
 
         
@@ -689,6 +709,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                //starAttackOne?.Draw(spriteBatch, this);
                //starAttackTwo?.Draw(spriteBatch, this);
             }
+
+            // TEMPORARY, WILL DELETE SOON
+            //Vector2 position = GetKirbyPosition() + new Vector2(-24, -32);
+            //spriteBatch.DrawString(LevelLoader.Instance.Font, TEMP.ToString() + GetKirbyVelocity().X.ToString(), position, Color.Black);
 
             UpdateOldStates();
         }
@@ -801,13 +825,22 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void BottomCollisionWithBlock(Rectangle intersection)
         {
             movement.AdjustFromBottomCollisionBlock(intersection);
+            TEMP = true;
+            if (state.GetPose() == KirbyPose.FreeFall)
+            {
+                ChangePose(KirbyPose.Standing);
+            }
         }
         //kirby collides with the right side of a block
         public void RightCollisionWithBlock(Rectangle intersection)
         {
-            ChangePose(KirbyPose.Standing);
+            // ensures Kirby pose is unchanged when floating and jumping
+            if (!state.IsFloating() && !state.IsJumping())
+            {
+                ChangePose(KirbyPose.Standing);
+            }
             // detects initial collision
-            if ((oldPose == KirbyPose.Walking || oldPose == KirbyPose.Running) && state.GetPose() == KirbyPose.Standing)
+            if ((oldPose == KirbyPose.Walking || oldPose == KirbyPose.Running) && state.GetPose() == KirbyPose.Standing )
             {
                 IParticle star = new CollisionStar(movement.GetPosition());
                 ChangePose(KirbyPose.WallSquish);
@@ -817,7 +850,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //kirby collides with the left side of a block
         public void LeftCollisionWithBlock(Rectangle intersection)
         {
-            ChangePose(KirbyPose.Standing);
+            // ensures Kirby pose is unchanged when floating and jumping
+            if (!state.IsFloating() && !state.IsJumping())
+            {
+                ChangePose(KirbyPose.Standing);
+            }
             // detects initial collision
             if ((oldPose == KirbyPose.Walking || oldPose == KirbyPose.Running) && state.GetPose() == KirbyPose.Standing)
             {
@@ -835,16 +872,31 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void BottomCollisionWithPlatform(Rectangle intersection)
         {
             movement.AdjustFromBottomCollisionPlatform(intersection, state);
+            if (state.GetPose() == KirbyPose.FreeFall)
+            {
+                ChangePose(KirbyPose.Standing);
+            }
+            TEMP = true;
         }
         //kirby collision with air so he falls
         public void BottomCollisionWithAir(Rectangle intersection)
         {
-           //checking if kirby should be falling 
-           if (!state.IsInAir() || state.ShouldFallThroughAirTile())
-           {
-                movement.ChangeKirbyLanded(false);
-           }
-           movement.ChangeKirbyLanded(false);
+            if (oldPose == KirbyPose.FreeFall)
+            {
+                ChangePose(KirbyPose.Standing);
+            }
+        }
+
+        public void HandleSlopeFreeFall()
+        {
+            Debug.Write("Xvel: " + movement.GetVelocity().X + "\n");
+            Debug.Write("CurrentPose: " + state.GetPose() + "\n");
+            if (state.GetPose() == KirbyPose.FreeFall && movement.GetVelocity().X == 0)
+            {
+                ChangePose(KirbyPose.Standing);
+                Debug.Write("Xvel: " + movement.GetVelocity().X + "\n");
+                Debug.Write("CurrentPose: " + state.GetPose() + "\n");
+            }
         }
 
         //slope collision
@@ -853,6 +905,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             float slope = Constants.Collision.GENTLE1_SLOPE_LEFT_M;
             float yIntercept = Constants.Collision.GENTLE1_SLOPE_LEFT_YINTERCEPT;
             movement.AdjustOnSlopeCollision(state, tile, slope, yIntercept);
+            TEMP = true;
+            HandleSlopeFreeFall();
         }
         //slope collision
         public void CollisionWithGentle2LeftSlope(Tile tile)
@@ -860,6 +914,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             float slope = Constants.Collision.GENTLE2_SLOPE_LEFT_M;
             float yIntercept = Constants.Collision.GENTLE2_SLOPE_LEFT_YINTERCEPT;
             movement.AdjustOnSlopeCollision(state, tile, slope, yIntercept);
+            TEMP = true;
+            HandleSlopeFreeFall();
         }
         //slope collision
         public void CollisionWithSteepLeftSlope(Tile tile)
@@ -867,6 +923,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             float slope = Constants.Collision.STEEP_SLOPE_LEFT_M;
             float yIntercept = Constants.Collision.STEEP_SLOPE_LEFT_YINTERCEPT;
             movement.AdjustOnSlopeCollision(state, tile, slope, yIntercept);
+            TEMP = true;
+            HandleSlopeFreeFall();
         }
         //slope collision
         public void CollisionWithGentle1RightSlope(Tile tile)
@@ -874,6 +932,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             float slope = Constants.Collision.GENTLE1_SLOPE_RIGHT_M;
             float yIntercept = Constants.Collision.GENTLE1_SLOPE_RIGHT_YINTERCEPT;
             movement.AdjustOnSlopeCollision(state, tile, slope, yIntercept);
+            TEMP = true;
+            HandleSlopeFreeFall();
         }
         //slope collision
         public void CollisionWithGentle2RightSlope(Tile tile)
@@ -881,6 +941,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             float slope = Constants.Collision.GENTLE2_SLOPE_RIGHT_M;
             float yIntercept = Constants.Collision.GENTLE2_SLOPE_RIGHT_YINTERCEPT;
             movement.AdjustOnSlopeCollision(state, tile, slope, yIntercept);
+            TEMP = true;
+            HandleSlopeFreeFall();
         }
         //slope collision
         public void CollisionWithSteepRightSlope(Tile tile)
@@ -888,6 +950,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             float slope = Constants.Collision.STEEP_SLOPE_RIGHT_M;
             float yIntercept = Constants.Collision.STEEP_SLOPE_RIGHT_YINTERCEPT;
             movement.AdjustOnSlopeCollision(state, tile, slope, yIntercept);
+            TEMP = true;
+            HandleSlopeFreeFall();
         }
         #endregion
     }
