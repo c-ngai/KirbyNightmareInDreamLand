@@ -145,7 +145,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void FallOffScreenOne(Player kirby)
         {
-            if(kirby.DEAD == true) // game over 
+            if(kirby.lives == 0) // game over 
             {
                 Game1.Instance.Level.GameOver();
                 kirby.FillFullHealth();

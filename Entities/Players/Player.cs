@@ -233,6 +233,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         } 
         public async void Death()
         {
+            DEAD = true;
             state.ChangePose(KirbyPose.Standing);
             StopMoving(); 
             ChangeToNormal();
@@ -257,11 +258,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             Game1.Instance.Level.ChangeToLifeLost();
             movement.DeathMovement();
             DeathSpin();
-            if(lives == 0){
-                //go to game over
-                //Game1.Instance.Level.GameOver();
-                DEAD = true;
-            }else {
+            if(lives != 0)
+            {
                 FillHealth();
             }
         }
@@ -275,11 +273,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 Game1.Instance.Level.ChangeToLifeLost();
                 movement.DeathMovement();
                 Death();
-                if(lives == 0){
-                    //go to game over
-                    //Game1.Instance.Level.GameOver();
-                    DEAD = true;
-                }else {
+                if(lives != 0)
+                {
                     FillHealth();
                 }
             } else { //health decreased,  but didnt loose life
