@@ -75,6 +75,7 @@ namespace KirbyNightmareInDreamLand
             public const int NUMBER_OF_TILE_TYPES = 10;
             public static Vector2 BOTTOM_MIDDLE_OF_TILE = new Vector2(TILE_SIZE / 2, TILE_SIZE);
             public static Vector2 ROOM1_SPAWN_POINT = new Vector2(2, 4);
+            public static Vector2 HUB_SPAWN_POINT = new Vector2(2, 7);
             public static Vector2 GAME_OVER_SPAWN_POINT = new Vector2(2, 7);
 
         }
@@ -438,7 +439,7 @@ namespace KirbyNightmareInDreamLand
 
         public class Transition
         {
-            public const float FADE_SPEED = 0.05f;
+            public const float FADE_SPEED = 0.03f;
             public const float FADE_OUT_START = 0.0f;
             public const float FADE_VALUE_OPAQUE = 1.0f;
             public const float FADE_VALUE_TRANSPARENT = 0.05f;

@@ -215,7 +215,6 @@ namespace KirbyNightmareInDreamLand.Levels
                     _currentState = new GameTransitioningState(this);
                     break;
                 }
-                door_num++;
             }
         }
 

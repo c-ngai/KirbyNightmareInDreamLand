@@ -489,15 +489,8 @@
         "DestinationRoom": "room1",
         "DestinationTileX": 2,
         "DestinationTileY": 4,
-        "DrawDoorStars": false
-      },
-      {
-        "TileX": 7,
-        "TileY": 16,
-        "DestinationRoom": "room1",
-        "DestinationTileX": 2,
-        "DestinationTileY": 4,
-        "DrawDoorStars": false
+        "DrawDoorStars": false,
+        "IsBigDoor": true
       },
       {
         "TileX": 10,
@@ -505,15 +498,8 @@
         "DestinationRoom": "room2",
         "DestinationTileX": 3,
         "DestinationTileY": 7,
-        "DrawDoorStars": false
-      },
-      {
-        "TileX": 11,
-        "TileY": 13,
-        "DestinationRoom": "room2",
-        "DestinationTileX": 3,
-        "DestinationTileY": 7,
-        "DrawDoorStars": false
+        "DrawDoorStars": false,
+        "IsBigDoor": true
       },
       {
         "TileX": 14,
@@ -521,15 +507,8 @@
         "DestinationRoom": "room3",
         "DestinationTileX": 3,
         "DestinationTileY": 7,
-        "DrawDoorStars": false
-      },
-      {
-        "TileX": 15,
-        "TileY": 18,
-        "DestinationRoom": "room3",
-        "DestinationTileX": 3,
-        "DestinationTileY": 7,
-        "DrawDoorStars": false
+        "DrawDoorStars": false,
+        "IsBigDoor": true
       },
       {
         "TileX": 19,
@@ -537,15 +516,8 @@
         "DestinationRoom": "treasureroom",
         "DestinationTileX": 48,
         "DestinationTileY": 5,
-        "DrawDoorStars": false
-      },
-      {
-        "TileX": 20,
-        "TileY": 12,
-        "DestinationRoom": "treasureroom",
-        "DestinationTileX": 48,
-        "DestinationTileY": 5,
-        "DrawDoorStars": false
+        "DrawDoorStars": false,
+        "IsBigDoor": true
       }
     ]
   }
