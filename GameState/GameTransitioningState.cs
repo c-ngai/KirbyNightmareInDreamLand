@@ -65,7 +65,8 @@ namespace KirbyNightmareInDreamLand.GameState
                     }
                     else
                     {
-                        level.ChangeState(Game1.Instance.Level._playingState); // We are done transitioning so set game state to playing 
+                        level.ChangeState(Game1.Instance.Level._playingState); // We are done transitioning so set game state to playing
+                        level.IsDoorBeingOpened = false;
                     }
                 }
             }

@@ -85,7 +85,7 @@ namespace KirbyNightmareInDreamLand.GameState
         {
             level.CurrentRoom.ForegroundSprite.Update();
             DoorStarsSprite.Update();
-            UpdateHubDoor();
+            UpdateHubDoors();
             _manager.Update();
         }
 
@@ -174,8 +174,6 @@ namespace KirbyNightmareInDreamLand.GameState
 
         public void DrawHubDoor(Vector2 position, int door_num, SpriteBatch spriteBatch)
         {
-            Debug.WriteLine("Trying to draw door number " + door_num);
-
             if (level.IsDoorBeingOpened && level.DoorBeingOpened == door_num)
             {
                 HubDoorAnimations[door_num].Draw(position + drawHubDoorOffset, spriteBatch);
@@ -186,18 +184,20 @@ namespace KirbyNightmareInDreamLand.GameState
             }
         }
 
-        public void UpdateHubDoor()
+        public void UpdateHubDoors()
         {
             if (level.IsDoorBeingOpened)
             {
                 foreach (KeyValuePair<int, ISprite> door_animation in HubDoorAnimations)
                 {
-                    if(level.DoorBeingOpened == door_animation.Key)
+                    if (level.DoorBeingOpened == door_animation.Key)
                     {
                         door_animation.Value.Update();
                     }
                 }
             }
+
+
         }
 
         public void DebugDraw(SpriteBatch spriteBatch, Camera camera)

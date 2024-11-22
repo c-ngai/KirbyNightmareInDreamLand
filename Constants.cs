@@ -162,8 +162,8 @@ namespace KirbyNightmareInDreamLand
         public class Kirby
         {
             public const float INVINCIBLE_TIME = 3;
-            public const int MAX_HEALTH = 6;
-            public const int MAX_LIVES = 3;
+            public const int MAX_HEALTH = 1;
+            public const int MAX_LIVES = 1;
             public const int STARTINGXPOSITION = 30;
             public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(11, -9);
             public static Vector2 BEAM_ATTACK_OFFSET_LEFT = new Vector2(-11, -9);
@@ -442,6 +442,7 @@ namespace KirbyNightmareInDreamLand
             public const float FADE_SPEED = 0.03f;
             public const float FADE_OUT_START = 0.0f;
             public const float FADE_VALUE_OPAQUE = 1.0f;
+            public const float FADE_VALUE_HALF_OPAQUE = 0.5f;
             public const float FADE_VALUE_TRANSPARENT = 0.05f;
             public const double ATTACK_STATE_TIMER = 1.2;
 
