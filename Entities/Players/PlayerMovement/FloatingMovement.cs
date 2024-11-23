@@ -60,7 +60,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             //dont go through the floor but floating was ended
             if (landed)
             {
-                kirby.ChangePose(KirbyPose.Standing);
                 kirby.ChangeMovement();
             }
         }

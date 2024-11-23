@@ -76,41 +76,40 @@ namespace KirbyNightmareInDreamLand.UI
 
             if (targetPlayer != null)
             {
-                var keyboardState = Keyboard.GetState();
-
-                // Handle key inputs for powerups
-                if (keyboardState.IsKeyDown(Keys.D8))
+                if(Game1.Instance.Level.IsCurrentState("KirbyNightmareInDreamLand.GameState.GamePowerChangeState"))
                 {
-                    ActivatePowerup("ui_power_beam");
+                    Console.WriteLine("here2");
+                    string power = targetPlayer.GetPowerUp().ToString().ToLower();
+                    ActivatePowerup("ui_power_" + power);
                 }
-                else if (keyboardState.IsKeyDown(Keys.D9))
-                {
-                    ActivatePowerup("ui_power_spark");
-                }
-                else if (keyboardState.IsKeyDown(Keys.D0))
-                {
-                    ActivatePowerup("ui_power_fire");
-                }
-
-                // Update powerup positions and timers
-                foreach (var powerupKey in powerupPositions.Keys)
-                {
-                    UpdatePowerupPosition(powerupKey);
-                }
+               
             }
         }
 
-        private void ActivatePowerup(string powerupKey)
+        public void ActivatePowerup(string powerupKey)
         {
-            // Deactivate all powerups first
+            string oldPowerUp = "nor";
             foreach (var key in powerupActive.Keys)
             {
-                powerupActive[key] = false;
+                if (powerupActive[key] == true)
+                {
+                    oldPowerUp = key;
+                }
             }
 
-            // Activate the selected powerup and reset timer for new powerup
-            powerupActive[powerupKey] = true;
-            powerupTimers[powerupKey] = Constants.HUD.POWERUP_INIT_TIMER;
+            if(!powerupKey.Equals(oldPowerUp))
+            {
+                // Deactivate all powerups first
+                foreach (var key in powerupActive.Keys)
+                {
+                    powerupActive[key] = false;
+                }
+
+                // Activate the selected powerup and reset timer for new powerup
+                powerupActive[powerupKey] = true;
+                powerupTimers[powerupKey] = Constants.HUD.POWERUP_INIT_TIMER;
+            }
+            
         }
 
         private void UpdatePowerupPosition(string powerupKey)

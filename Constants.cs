@@ -174,7 +174,9 @@ namespace KirbyNightmareInDreamLand
             public static float SLIDE_TIME = 0.7f;
             public static float CEILING = 15;
             public static int BOUNDS = 10;
-
+            public static int MINFREEFALLFARFRAMES = 15;
+            public static int BOUNCEJUMPFRAME = 9;
+            public static int STOPBOUNCEFRAME = 22;
 
         }
         #endregion
@@ -439,6 +441,7 @@ namespace KirbyNightmareInDreamLand
             public const float FADE_OUT_START = 0.0f;
             public const float FADE_VALUE_OPAQUE = 1.0f;
             public const float FADE_VALUE_TRANSPARENT = 0.05f;
+            public const double ATTACK_STATE_TIMER = 1.2;
 
         }
         #endregion
