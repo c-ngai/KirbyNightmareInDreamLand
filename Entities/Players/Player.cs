@@ -148,7 +148,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         private String AttackType()
         {
-            if(IsFloating()&& !IsFalling()){
+            if(IsFloating() && !IsFalling()){
                 return "Puff";
             } else if (state.IsCrouching()){
                 return "Slide";
@@ -319,6 +319,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 {
                     new KirbyBouncingStar(GetKirbyPosition(), IsLeft(), GetPowerUp());
                     new DropAbility(GetKirbyPosition());
+                    powerUp = KirbyType.Normal;
                     ChangeToNormal();
                 }
             }
@@ -573,6 +574,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
             if (IsWithEnemy())
             {
+                powerUp =KirbyType.Normal;
                 ChangeToNormal();
             }
         }
@@ -659,8 +661,14 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         private void EndSwallow() //swallows enemy
         {
             SwallowAnimation();
-            ChangePose(KirbyPose.Standing);
+            //ChangePose(KirbyPose.Standing);
             state.ChangeType(powerUp);
+            if(powerUp != KirbyType.Normal)
+            {
+                state.ChangePose(KirbyPose.Attacking);
+                attack = new PlayerAttack(this, AttackType());
+                Game1.Instance.Level.ChangeToPowerChangeState();
+            }
         }
         #endregion
 
