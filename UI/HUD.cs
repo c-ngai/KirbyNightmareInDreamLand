@@ -82,7 +82,13 @@ namespace KirbyNightmareInDreamLand.UI
                     string power = targetPlayer.GetPowerUp().ToString().ToLower();
                     ActivatePowerup("ui_power_" + power);
                 }
-               
+
+                // Update positions for active powerup cards
+                foreach (var powerupKey in powerupActive.Keys)
+                {
+                    UpdatePowerupPosition(powerupKey);
+                }
+
             }
         }
 
