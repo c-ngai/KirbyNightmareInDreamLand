@@ -374,6 +374,21 @@ namespace KirbyNightmareInDreamLand
             public const float FORWARD_MOVEMENT = 0.5f;
             public const float DEAD_FRAMES = 20;
         }
+
+        public class ProfessorKirby
+        {
+            public const int HEALTH = 10;
+            public const float MOVE_SPEED = 0.5f;
+            public const int WALK_FRAMES = 250;
+            public const int STOP_FRAMES = 120;
+            public const int ATTACK_FRAMES = 50;
+            public const int HURT_FRAMES = 50;
+            public const int JUMPING_FRAMES = 50;
+            public const float JUMP_VELOCITY = 2.5f;
+            public const float FORWARD_MOVEMENT = 0.5f;
+            public const float DEAD_FRAMES = 20;
+        }
+
         #endregion
         #region  Particle+HUD
 

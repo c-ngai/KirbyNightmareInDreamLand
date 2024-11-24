@@ -76,6 +76,10 @@ namespace KirbyNightmareInDreamLand.StateMachines
             return checkOne || checkTwo || checkThree;
 
         }
+        public bool IsFreeFalling()
+        {
+            return GetPose() == KirbyPose.FreeFall || GetPose() == KirbyPose.FreeFallFar || GetPose() == KirbyPose.Bounce;
+        }
         public bool IsCrouching()
         {
             return (GetPose() == KirbyPose.Crouching) || (GetPose() == KirbyPose.Sliding);

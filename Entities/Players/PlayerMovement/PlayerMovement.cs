@@ -284,7 +284,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
         }
 
-        public void AdjustOnSlopeCollision(PlayerStateMachine state, Tile tile, float slope, float yIntercept)
+        public void AdjustOnSlopeCollision(PlayerStateMachine state, Tile tile, float slope, float yIntercept, Player kirby)
         {
             Rectangle intersection = tile.rectangle;
             if (position.X > intersection.Left && position.X < intersection.Right)
@@ -296,6 +296,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 {
                     position.Y = kirbyAdjustment;
                     velocity.Y = Math.Abs(velocity.X); // If on a slope, set velocity.Y to the absolute value of velocity.X so that kirby magnetizes down to the slope
+                    ChangeKirbyLanded(true);
+                    kirby.HandleFreeFall();
                 }
             }
             onSlope = true;

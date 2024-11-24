@@ -76,13 +76,25 @@ namespace KirbyNightmareInDreamLand.UI
 
             if (targetPlayer != null)
             {
-                if(Game1.Instance.Level.IsCurrentState("KirbyNightmareInDreamLand.GameState.GamePowerChangeState"))
+                // Check Kirby's powerup state
+                string currentPower = targetPlayer.GetPowerUp().ToString().ToLower();
+
+                if (string.IsNullOrEmpty(currentPower) || currentPower == "normal")
                 {
-                    Console.WriteLine("here2");
-                    string power = targetPlayer.GetPowerUp().ToString().ToLower();
-                    ActivatePowerup("ui_power_" + power);
+                    // No powerup, deactivate all cards
+                    DeactivateAllPowerups();
                 }
-               
+                else if (Game1.Instance.Level.IsCurrentState("KirbyNightmareInDreamLand.GameState.GamePowerChangeState"))
+                {
+                    // Kirby has an active powerup
+                    ActivatePowerup("ui_power_" + currentPower);
+                }
+
+                // Update positions for active powerup cards
+                foreach (var powerupKey in powerupActive.Keys)
+                {
+                    UpdatePowerupPosition(powerupKey);
+                }
             }
         }
 
@@ -110,6 +122,14 @@ namespace KirbyNightmareInDreamLand.UI
                 powerupTimers[powerupKey] = Constants.HUD.POWERUP_INIT_TIMER;
             }
             
+        }
+
+        private void DeactivateAllPowerups()
+        {
+            foreach (var key in powerupActive.Keys)
+            {
+                powerupActive[key] = false;
+            }
         }
 
         private void UpdatePowerupPosition(string powerupKey)
