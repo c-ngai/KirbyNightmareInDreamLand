@@ -35,7 +35,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState
             if (_enemy.FrameCounter >= Constants.WaddleDee.HURT_FRAMES )
             {
                  _enemy.ChangeState(new WaddleDeeWalkingState(_enemy));
-                 _enemy.UpdateTexture();
 
                 if (_enemy.Health <= 0)
                 {

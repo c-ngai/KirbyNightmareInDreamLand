@@ -5,7 +5,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 {
     public class CrouchingMovement : PlayerMovement
     {
-        public CrouchingMovement(Vector2 pos) : base(pos){}
+        public CrouchingMovement(Vector2 pos, Vector2 vel) : base(pos, vel) { }
 
         private double timer = 0;
 
@@ -24,7 +24,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             kirby.Slide();
             if(kirby.IsSliding())
             {   
-                xVel = kirby.IsLeft() ? runningVel * -1 :runningVel;
+                velocity.X = kirby.IsLeft() ? runningVel * -1 :runningVel;
             }
         }
 
@@ -62,14 +62,14 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public override void AdjustFromRightCollisionBlock(Rectangle intersection)
         {
             position.X -= intersection.Width;
-            xVel = 0;
+            velocity.X = 0;
             
         }
 
         public override void AdjustFromLeftCollisionBlock(Rectangle intersection)
         {
             position.X += intersection.Width;
-            xVel = 0;
+            velocity.X = 0;
         }
 
     }

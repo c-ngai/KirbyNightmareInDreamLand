@@ -26,7 +26,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState
             if (_enemy.FrameCounter >= Constants.BrontoBurt.FAST_FLY_FRAMES)
             {
                 _enemy.ChangeState(new BrontoBurtFlyingSlowState(_enemy));
-                _enemy.UpdateTexture();
             }
         }
 
@@ -36,7 +35,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState
         {
             // Handle damage logic, e.g., transition to hurt state
             _enemy.ChangeState(new BrontoBurtHurtState(_enemy));
-            _enemy.UpdateTexture(); // Update texture on state change
         }
 
         public void ChangeDirection()

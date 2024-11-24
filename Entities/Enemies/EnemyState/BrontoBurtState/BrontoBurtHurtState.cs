@@ -33,7 +33,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState
             if (_enemy.FrameCounter >= Constants.BrontoBurt.HURT_FRAMES)
             {
                 _enemy.ChangeState(new BrontoBurtStandingState(_enemy));
-                _enemy.UpdateTexture();
 
                 if (_enemy.Health <= 0)
                 {

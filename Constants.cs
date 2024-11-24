@@ -54,15 +54,24 @@ namespace KirbyNightmareInDreamLand
         #region  Physics
         public static class Physics
         {
-            public const float GRAVITY = 10f;
-            public const float DT = 0.0166666f;
-            public const float FLOAT_GRAVITY = 5f; //its 2f as the gravity times 0.01 as a "time elapsed" so float kirby falls at a constan rate
-            public const float JUMP_VEL = -2f;
-            public const float JUMP_MAX_HEIGHT = 45; // Slight misnomer, not the max height of the jump but the height that you can no longer accellerate upwards at by holding jump
-            public const int JUMP_MAX_FRAMES = 22;
+            public const float GRAVITY = 10f / 60;
+            public const float FLOAT_GRAVITY = 5f / 60; //its 2f as the gravity times 0.01 as a "time elapsed" so float kirby falls at a constan rate
+            public const float TERMINAL_VELOCITY = 2.5f;
+            public const float X_DECELERATION = 0.05f;
+
+            public const float JUMP_VEL = -3f;
+            public const int JUMP_MAX_FRAMES = 12;
             public const float FLOAT_VEL = 0.9F;
+
             public const float WALKING_VELOCITY = 1.3f;
+            public const float WALKING_ACCELLERATION = 0.1f;
+
             public const float RUNNING_VELOCITY = 1.75f;
+            public const float RUNNING_ACCELLERATION = 0.15f;
+
+            public const float JUMPING_XVELOCITY = 1.85f;
+            public const float JUMPING_XACCELLERATION = 0.1f;
+
             public const float DAMAGE_VELOCITY =2f;
             public const float JUMP_CEILING = 38.4f;
 
@@ -194,8 +203,8 @@ namespace KirbyNightmareInDreamLand
         public class Controller
         {
             // determines max time that can elapse for double button presses to register as a command
-            public const double RESPONSE_TIME = 250;
-            public const double SLIDE_TIME = 250;
+            public const double RESPONSE_FRAMES = 15;
+            //public const double SLIDE_TIME = 250;
         }
 
         public class GamePad
@@ -291,7 +300,6 @@ namespace KirbyNightmareInDreamLand
             public const int HEALTH = 1;
             public const int STRONG_ENEMY_POINTS = 600;
             public const int WEAK_ENEMY_POINTS = 400;
-            public const int GRAVITY_OFFSET = 100;
             public const int DAMAGE_TAKEN = 1;
         }
 
@@ -362,7 +370,7 @@ namespace KirbyNightmareInDreamLand
             public const int ATTACK_FRAMES = 50;
             public const int HURT_FRAMES = 50;
             public const int JUMPING_FRAMES = 50;
-            public const float JUMP_VELOCITY = 2.5f;
+            public const float JUMP_VELOCITY = 3.5f;
             public const float FORWARD_MOVEMENT = 0.5f;
             public const float DEAD_FRAMES = 20;
         }

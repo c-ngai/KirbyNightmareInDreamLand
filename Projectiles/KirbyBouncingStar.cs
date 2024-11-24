@@ -67,7 +67,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void Update()
         {
-            velocity.Y += Constants.Physics.GRAVITY *  Constants.Physics.DT;
+            velocity.Y += Constants.Physics.GRAVITY;
             Position += Velocity;
             projectileSprite.Update();
             Adjust();

@@ -18,8 +18,9 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             stateMachine.ChangePose(EnemyPose.Hop);
             ChangeState(new PoppyBrosJrHopState(this));
-            yVel = 0;
-            xVel = Constants.PoppyBrosJr.MOVE_SPEED;
+            velocity.Y = 0;
+            velocity.X = Constants.PoppyBrosJr.MOVE_SPEED;
+            affectedByGravity = true;
         }
 
         public override void Jump()
@@ -28,7 +29,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             {
                 // Start jumping and store initial y
                 isJumping = true;
-                yVel = -Constants.PoppyBrosJr.JUMP_VELOCITY;
+                velocity.Y = -Constants.PoppyBrosJr.JUMP_VELOCITY;
             }
             Move();
         }
@@ -45,7 +46,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             {
                 ChangeState(new PoppyBrosJrLandState(this));
             }
-            yVel = 0;
+            velocity.Y = 0;
         }
 
         public override void AdjustOnSlopeCollision(Tile tile, float slope, float yIntercept)
@@ -71,7 +72,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                     {
                         ChangeState(new PoppyBrosJrLandState(this));
                     }
-                    yVel = 0;
+                    velocity.Y = 0;
                 }
                 //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
             }

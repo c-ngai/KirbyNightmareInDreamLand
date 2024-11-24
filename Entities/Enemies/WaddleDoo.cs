@@ -29,8 +29,31 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             ChangeState(new WaddleDooWalkingState(this));
             //TO-DO: spawn facing the direction kirby is in
             stateMachine.ChangeDirection();
-            yVel = 0;
-            xVel = Constants.WaddleDoo.MOVE_SPEED;
+            velocity.Y = 0;
+            velocity.X = Constants.WaddleDoo.MOVE_SPEED;
+            affectedByGravity = true;
+        }
+
+        public override void Spawn()
+        {
+            base.Spawn();
+            stateMachine.ChangePose(EnemyPose.Walking);
+            ChangeState(new WaddleDooWalkingState(this));
+            velocity.Y = 0;
+            velocity.X = Constants.WaddleDoo.MOVE_SPEED;
+        }
+
+        public override void Move()
+        {
+            base.Move();
+            if (stateMachine.IsLeft())
+            {
+                velocity.X = -Constants.WaddleDee.MOVE_SPEED;
+            }
+            else
+            {
+                velocity.X = Constants.WaddleDee.MOVE_SPEED;
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -63,7 +86,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             {
                 // Start jumping and store initial y
                 isJumping = true;
-                yVel = -Constants.WaddleDoo.JUMP_VELOCITY;
+                velocity.Y = -Constants.WaddleDoo.JUMP_VELOCITY;
             }
 
             Move();
@@ -106,7 +129,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             {
                 ChangeState(new WaddleDooWalkingState(this));
             }
-            yVel = 0;
+            velocity.Y = 0;
         }
 
         public override void AdjustOnSlopeCollision(Tile tile, float slope, float yIntercept)
@@ -132,7 +155,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                     {
                         ChangeState(new WaddleDooWalkingState(this));
                     }
-                    yVel = 0;
+                    velocity.Y = 0;
                 }
                 //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
             }
