@@ -102,7 +102,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if (position.Y < floatFallingWindow)
             {
                 kirby.ChangePose(KirbyPose.FreeFall);
-
             }
         }
 

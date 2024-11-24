@@ -237,6 +237,7 @@ namespace KirbyNightmareInDreamLand
             EmptyLists();
         }
 
+
         public void Draw(SpriteBatch spriteBatch)
         {
             foreach (IPlayer player in Players)

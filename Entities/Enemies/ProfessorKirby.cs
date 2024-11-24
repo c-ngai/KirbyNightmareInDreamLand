@@ -28,8 +28,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             UpdateTexture();
             currentState = new ProfessorKirbyWalkingState(this);
             stateMachine.ChangeDirection();
-            yVel = 0;
-            xVel = Constants.ProfessorKirby.MOVE_SPEED;
+            velocity.Y = 0;
+            velocity.X = Constants.ProfessorKirby.MOVE_SPEED;
             health = Constants.ProfessorKirby.HEALTH;
         }
 
@@ -64,7 +64,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             {
                 // Start jumping and store initial y
                 isJumping = true;
-                yVel = -Constants.ProfessorKirby.JUMP_VELOCITY;
+                velocity.Y = -Constants.ProfessorKirby.JUMP_VELOCITY;
             }
 
             Move();
@@ -106,7 +106,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             {
                 ChangeState(new ProfessorKirbyWalkingState(this));
             }
-            yVel = 0;
+            velocity.Y = 0;
         }
 
         public override void AdjustOnSlopeCollision(Tile tile, float slope, float yIntercept)
@@ -129,7 +129,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                     {
                         ChangeState(new ProfessorKirbyWalkingState(this));
                     }
-                    yVel = 0;
+                    velocity.Y = 0;
                 }
             }
         }

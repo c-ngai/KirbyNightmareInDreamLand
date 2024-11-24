@@ -98,7 +98,7 @@ namespace KirbyNightmareInDreamLand.StateMachines
         }
         public bool IsFalling()
         {
-            return GetPose() == KirbyPose.FreeFall || GetPose() == KirbyPose.FreeFallFar;
+            return GetPose() == KirbyPose.FreeFall || GetPose() == KirbyPose.FreeFallFar || GetPose() == KirbyPose.JumpFalling;
         }
 
         public bool CanMove()
@@ -106,7 +106,7 @@ namespace KirbyNightmareInDreamLand.StateMachines
             //walk and running cannot override jumping, floating, crouching, and attack
             bool checkOne = !IsJumping() && !IsFloating();
             bool checkTwo = !IsCrouching() && !IsAttacking();
-            return checkOne && checkTwo && !IsFalling();
+            return checkOne && checkTwo && !IsFalling() && GetPose() != KirbyPose.Bounce;
         }
 
         public bool CanJump(){

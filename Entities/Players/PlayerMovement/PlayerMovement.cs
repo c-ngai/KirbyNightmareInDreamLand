@@ -294,7 +294,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 float kirbyAdjustment = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
                 if (position.Y > kirbyAdjustment || state.CanMove() ) // "is kirby moving on the ground in a way where we want him to stay locked on the ground"
                 {
-                    position.Y = kirbyAdjustment;
+                    position.Y = kirbyAdjustment + groundCollisionOffset;
                     velocity.Y = Math.Abs(velocity.X); // If on a slope, set velocity.Y to the absolute value of velocity.X so that kirby magnetizes down to the slope
                     ChangeKirbyLanded(true);
                     kirby.HandleFreeFall();

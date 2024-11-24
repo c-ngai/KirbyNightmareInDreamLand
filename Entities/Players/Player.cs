@@ -104,10 +104,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 poseCounter = 0;
             }
-            else
-            {
-                poseCounter++;
-            }
+            //else
+            //{
+            //    poseCounter++;
+            //}
         }
         public void ChangeMovement()
         {
@@ -404,19 +404,29 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if (movement.GetVelocity().Y > 0 && !movement.onSlope && !DEAD && !state.IsFloating())
             {
                 // if kirby was not falling or has not reached counter for freefallfar, enter freefall
-                if (!state.IsFalling() || poseCounter < Constants.Kirby.MINFREEFALLFARFRAMES || state.GetKirbyType() == KirbyType.Mouthful)
+                if (!state.IsFalling())
                 {
                     ChangePose(KirbyPose.FreeFall);
                 }
-                else
+                if (state.GetPose() == KirbyPose.FreeFall && poseCounter > 16 && state.GetKirbyType() != KirbyType.Mouthful)
                 {
                     ChangePose(KirbyPose.FreeFallFar);
                     // changes counter to freefall to account for counter reset at pose transition
-                    if (oldPose == KirbyPose.FreeFall)
-                    {
-                        poseCounter = Constants.Kirby.MINFREEFALLFARFRAMES;
-                    } 
+                    //if (oldPose == KirbyPose.FreeFall)
+                    //{
+                    //    poseCounter = Constants.Kirby.MINFREEFALLFARFRAMES;
+                    //}
                 }
+
+                if (state.GetPose() == KirbyPose.JumpFalling && poseCounter > 12)
+                {
+                    ChangePose(KirbyPose.FreeFall);
+                }
+                if (state.GetPose() == KirbyPose.Bounce && poseCounter > 16)
+                {
+                    ChangePose(KirbyPose.FreeFall);
+                }
+
                 movement.ChangeKirbyLanded(false);
             }
         }
@@ -711,14 +721,17 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
             movement.SetOnSlope(false);
 
-            //if (oldPose != state.GetPose())
-            //{
-            //    poseCounter = 0;
-            //}
-            //else
-            //{
-            //    poseCounter++;
-            //}
+            
+
+            // Update pose counter (number of updates since last pose change)
+            if (oldPose != state.GetPose())
+            {
+                poseCounter = 0;
+            }
+            else
+            {
+                poseCounter++;
+            }
 
             testint = 0;
             TEMP = false;
@@ -766,7 +779,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 spriteBatch.DrawString(LevelLoader.Instance.Font, state.GetPose().ToString(), position2, Color.Black);
                 //spriteBatch.DrawString(LevelLoader.Instance.Font, GetKirbyVelocity().X.ToString(), position1, Color.Black);
                 //spriteBatch.DrawString(LevelLoader.Instance.Font, GetKirbyVelocity().Y.ToString(), position2, Color.Black);
-                GameDebug.Instance.DrawPoint(spriteBatch, GetKirbyPosition() + GetKirbyVelocity(), Color.Blue, 1f);
+                GameDebug.Instance.DrawPoint(spriteBatch, GetKirbyPosition() + GetKirbyVelocity() * 8, Color.Magenta, 1f);
             }
             
 
@@ -904,12 +917,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             else if (state.GetPose() == KirbyPose.FreeFallFar)
             {
                 ChangePose(KirbyPose.Bounce);
+                new CollisionStar(movement.GetPosition());
             }
             // if Kirby was falling
             else if (state.GetPose() == KirbyPose.FreeFall || state.GetPose() == KirbyPose.JumpFalling)
             {
                 ChangePose(KirbyPose.Standing);
-                IParticle star = new CollisionStar(movement.GetPosition());
+                new CollisionStar(movement.GetPosition());
                 movement.ChangeKirbyLanded(true);
             }
         }
