@@ -76,10 +76,7 @@ namespace KirbyNightmareInDreamLand.StateMachines
             return checkOne || checkTwo || checkThree;
 
         }
-        public bool IsFreeFalling()
-        {
-            return GetPose() == KirbyPose.FreeFall || GetPose() == KirbyPose.FreeFallFar || GetPose() == KirbyPose.Bounce;
-        }
+
         public bool IsCrouching()
         {
             return (GetPose() == KirbyPose.Crouching) || (GetPose() == KirbyPose.Sliding);
@@ -98,7 +95,8 @@ namespace KirbyNightmareInDreamLand.StateMachines
         }
         public bool IsFalling()
         {
-            return GetPose() == KirbyPose.FreeFall || GetPose() == KirbyPose.FreeFallFar || GetPose() == KirbyPose.JumpFalling;
+            return GetPose() == KirbyPose.FreeFall || GetPose() == KirbyPose.FreeFallFar || GetPose() == KirbyPose.JumpFalling || GetPose() == KirbyPose.Bounce;
+
         }
 
         public bool CanMove()
@@ -120,7 +118,7 @@ namespace KirbyNightmareInDreamLand.StateMachines
         }
         public bool CanCrouch() //crouch does not overwrite jump and floating
         {
-            return !IsJumping() && !IsFloating() && !IsAttacking() && !IsWithEnemy();
+            return !IsJumping() && !IsFloating() && !IsAttacking() && !IsWithEnemy() && !IsFalling();
         }
         public bool CanStand()
         {
