@@ -76,6 +76,10 @@ namespace KirbyNightmareInDreamLand.StateMachines
             return checkOne || checkTwo || checkThree;
 
         }
+        public bool IsFreeFalling()
+        {
+            return GetPose() == KirbyPose.FreeFall || GetPose() == KirbyPose.FreeFallFar || GetPose() == KirbyPose.Bounce;
+        }
         public bool IsCrouching()
         {
             return (GetPose() == KirbyPose.Crouching) || (GetPose() == KirbyPose.Sliding);
@@ -107,7 +111,7 @@ namespace KirbyNightmareInDreamLand.StateMachines
 
         public bool CanJump(){
             //not floating, not jumping, not crouching
-            return !IsJumping() && !IsCrouching() && !IsFloating()  && !IsAttacking();
+            return !IsJumping() && !IsCrouching() && !IsFloating()  && !IsAttacking() && !IsFreeFalling();
         }
 
         public bool CanFloat() //crouching and sliding cannot be overwritten by float 

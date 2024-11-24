@@ -35,7 +35,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             yVel = 0;
             kirby.ChangeMovement();
             SoundManager.Play("land");
-            IParticle star = new CollisionStar(position);
 
         }
         //checks if kirby is going down to start the falling animation
