@@ -6,7 +6,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 {   
     public class NormalPlayerMovement : PlayerMovement
     {
-        public NormalPlayerMovement(Vector2 pos) : base(pos) {}
+        public NormalPlayerMovement(Vector2 pos, Vector2 vel) : base(pos, vel) {}
 
         //puff is a whole nother thing
         public override void Attack(Player kirby)

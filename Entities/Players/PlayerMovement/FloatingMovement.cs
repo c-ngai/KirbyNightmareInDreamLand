@@ -12,7 +12,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //protected new float gravity = Constants.Physics.FLOAT_GRAVITY2;
         private float floatFallingWindow = Constants.Graphics.FLOOR + 50;
         protected bool endFloat = false;
-        public FloatingMovement(Vector2 pos) : base(pos)
+        public FloatingMovement(Vector2 pos, Vector2 vel) : base(pos, vel)
         {
             landed = false;
         }
@@ -20,11 +20,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             if (isLeft)
             {
-                xVel = floatVel * -1; // times -1 to go in opposite direction
+                velocity.X = floatVel * -1; // times -1 to go in opposite direction
             }
             else
             {
-                xVel = floatVel;
+                velocity.X = floatVel;
             }
         }
 
@@ -38,7 +38,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             endFloat = false;
             landed = false;
-            yVel = floatVel * -1; //go up
+            velocity.Y = floatVel * -1; //go up
             
         }
 
@@ -48,7 +48,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if (landed)
             {   
                 kirby.ChangePose(KirbyPose.FloatingGrounded);
-            } else if(yVel > 0)
+            } else if(velocity.Y > 0)
             {
                 kirby.ChangePose(KirbyPose.FloatingFalling);
             } else {
@@ -77,7 +77,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             //dont go through the ceiling
             if (position.Y < Constants.Kirby.CEILING)
             {
-                yVel = 0;
+                velocity.Y = 0;
                 position.Y = Constants.Kirby.CEILING;
             }
              if(position.Y > Game1.Instance.Level.CurrentRoom.Height)
@@ -90,12 +90,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
         }
 
-        public override void UpdatePosition(GameTime gameTime)
-        {
-            yVel += floatGravity;
-            position.X += xVel;
-            position.Y += yVel;
-        }
         //the animation of kirby letting air go
         public void FloatingEndAnimation(Player kirby)
         {
@@ -121,7 +115,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 FloatingEndAnimation(kirby);
                 floatGravity = gravity;
                 endFloat = true;
-                yVel = floatVel;
+                velocity.Y = floatVel;
                 FloatingFallingAnimation(kirby);
             }
             else

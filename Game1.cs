@@ -181,7 +181,7 @@ namespace KirbyNightmareInDreamLand
             LevelLoader.Instance.LoadButtonmap("buttonmap1");
 
             music = SoundManager.CreateInstance("song_vegetablevalley");
-            music?.Play();
+            //music?.Play();
 
             
         }
