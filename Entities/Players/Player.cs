@@ -54,7 +54,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             _game = Game1.Instance;
             this.playerIndex = playerIndex;
             state = new PlayerStateMachine(playerIndex);
-            movement = new NormalPlayerMovement(pos);
+            movement = new NormalPlayerMovement(pos, Vector2.Zero);
             oldState = null;
             oldPose = state.GetPose();
             poseCounter = 0;
@@ -111,7 +111,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void ChangeMovement()
         {
-            movement = new NormalPlayerMovement(movement.GetPosition());
+            movement = new NormalPlayerMovement(movement.GetPosition(), movement.GetVelocity());
         }
         public KirbyPose GetKirbyPose()
         {
@@ -302,7 +302,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 
                 if (IsFloating())
                 {
-                    movement = new NormalPlayerMovement(GetKirbyPosition());
+                    movement = new NormalPlayerMovement(GetKirbyPosition(), movement.GetVelocity());
                 }
                 ChangePose(KirbyPose.Hurt);
                 SoundManager.Play("kirbyhurt1");
@@ -372,7 +372,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         
         public void MoveLeft()
-        {   
+        {
             SetDirectionLeft();
             movement.Walk(state.IsLeft());
             //check if kirby should change pose
@@ -392,11 +392,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void StopMoving() 
         {
-            movement.StopMovement();
-            if(state.CanStand())
-            {
-                ChangePose(KirbyPose.Standing);
-            }
+            //movement.StopMovement();
+            //if(state.CanStand())
+            //{
+            //    ChangePose(KirbyPose.Standing);
+            //}
         }
 
         public void Fall()
@@ -404,7 +404,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             // change Kirby pose if he's not on a slope, he's falling, he's not dead, and he's not floating
             if (movement.GetVelocity().Y > 0 && !movement.onSlope && !DEAD && !state.IsFloating())
             {
-                if (!state.IsFalling() || poseCounter < Constants.Kirby.MINFREEFALLFARFRAMES)
+                if (!state.IsFalling() || poseCounter < Constants.Kirby.MINFREEFALLFARFRAMES || state.GetKirbyType() == KirbyType.Mouthful)
                 {
                     ChangePose(KirbyPose.FreeFall);
                 }
@@ -418,7 +418,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     else
                     {
                         poseCounter++;
-                    }    
+                    }
                 }
                 movement.ChangeKirbyLanded(false);
             }
@@ -430,12 +430,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             movement.Run(state.IsLeft());
             if (state.CanMove())
             {
-                // transitions from a brief state of standing that is not seen by the user to running
-                if (state.GetPose() == KirbyPose.Standing || poseCounter != 0)
-                {
-                    // Play dash sound and create particle accordingly
-                    DashEffects();
-                }
+                //// transitions from a brief state of standing that is not seen by the user to running
+                //if (state.GetPose() == KirbyPose.Standing || state.GetPose() == KirbyPose.Walking || poseCounter != 0)
+                //{
+                    
+                //}
+                // Play dash sound and create particle accordingly
+                DashEffects();
                 ChangePose(KirbyPose.Running);
             }
         }
@@ -445,12 +446,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             movement.Run(state.IsLeft());
             if(state.CanMove())
             {
-                // transitions from a brief state of standing that is not seen by the user to running
-                if (state.GetPose() == KirbyPose.Standing || poseCounter != 0)
-                {
-                    // Play dash sound and create particle accordingly
-                    DashEffects();
-                }
+                //// transitions from a brief state of standing that is not seen by the user to running
+                //if (state.GetPose() == KirbyPose.Standing || state.GetPose() == KirbyPose.Walking || poseCounter != 0)
+                //{
+                    
+                //}
+                // Play dash sound and create particle accordingly
+                DashEffects();
                 ChangePose(KirbyPose.Running);
             }
         }
@@ -458,7 +460,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         private void DashEffects()
         {
             // If on the first frame of the dash, play the dash sound
-            if (poseCounter == 0 && oldPose != KirbyPose.Running)
+            if (poseCounter == 0) // && oldPose != KirbyPose.Running)
             {
                 SoundManager.Play("dash");
             }
@@ -474,7 +476,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void Jump()
         {
             if(state.CanJump()){ //not floating, not jumping, not crouching
-                movement = new JumpMovement(movement.GetPosition());
+                Debug.WriteLine(state.GetPose());
+                movement = new JumpMovement(movement.GetPosition(), movement.GetVelocity());
                 ChangePose(KirbyPose.JumpRising);
                 SoundManager.Play("jump");
             }else if (state.IsJumping() && !state.IsFloating()){ //if jumping and x is pressed again
@@ -500,9 +503,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 movement.Jump(state.IsLeft());
                 ChangePose(KirbyPose.FloatingRising);
             } else if (state.CanFloat()){
-                if(!movement.GetType().Equals(new FloatingMovement(movement.GetPosition())))
+                if(!movement.GetType().Equals(typeof(FloatingMovement)))
                 {
-                    movement = new FloatingMovement(movement.GetPosition());
+                    movement = new FloatingMovement(movement.GetPosition(), movement.GetVelocity());
                 }
                 StartFloating();
                 ChangePose(KirbyPose.FloatingRising);
@@ -515,7 +518,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             if(state.CanCrouch() && !state.IsCrouching() && !state.IsWithEnemy()){ //crouch does not overwrite jump and floating
                 ChangePose(KirbyPose.Crouching);
-                movement = new CrouchingMovement(movement.GetPosition());
+                movement = new CrouchingMovement(movement.GetPosition(), movement.GetVelocity());
             } 
             if(state.IsWithEnemy())
             {
@@ -620,7 +623,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             if(attack != null && (attack.IsDone() || state.LongAttack()))
             {
-                StopMoving();
+                //StopMoving();
+                if (state.CanStand())
+                {
+                    ChangePose(KirbyPose.Standing);
+                }
                 attack.EndAttack();
                 attack = null;
             }
@@ -686,6 +693,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             EndInvinciblility(gameTime);
             playerSprite.Update();
             spriteDamageCounter++;
+
+            // If Kirby is walking or running and has slowed all the way to a stop, then switch pose to standing. (this if check is messy, tidy up later)
+            if ((state.GetPose() == KirbyPose.Walking || state.GetPose() == KirbyPose.Running) && GetKirbyVelocity().X == 0)
+            {
+                ChangePose(KirbyPose.Standing);
+            }
+
             if (attack != null || starAttackOne != null || starAttackTwo != null)
             {
                //attack?.Update(gameTime, this);
@@ -700,6 +714,16 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
             movement.SetOnSlope(false);
 
+            //if (oldPose != state.GetPose())
+            //{
+            //    poseCounter = 0;
+            //}
+            //else
+            //{
+            //    poseCounter++;
+            //}
+
+            testint = 0;
             TEMP = false;
         }
 
@@ -725,14 +749,29 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
             if (attack != null || starAttackOne != null || starAttackTwo != null)
             {
-               //attack?.Draw(spriteBatch, this);
-               //starAttackOne?.Draw(spriteBatch, this);
-               //starAttackTwo?.Draw(spriteBatch, this);
+                //attack?.Draw(spriteBatch, this);
+                //starAttackOne?.Draw(spriteBatch, this);
+                //starAttackTwo?.Draw(spriteBatch, this);
             }
 
             // TEMPORARY, WILL DELETE SOON
-            //Vector2 position = GetKirbyPosition() + new Vector2(-24, -32);
-            //spriteBatch.DrawString(LevelLoader.Instance.Font, TEMP.ToString() + GetKirbyVelocity().X.ToString(), position, Color.Black);
+            if (_game.DEBUG_TEXT_ENABLED)
+            {
+                Vector2 position1 = GetKirbyPosition() + new Vector2(-24, -42);
+                Vector2 position2 = GetKirbyPosition() + new Vector2(-24, -32);
+                Vector2 position3 = GetKirbyPosition() + new Vector2(-24, -52);
+                position1.Floor();
+                position2.Floor();
+                position3.Floor();
+
+                spriteBatch.DrawString(LevelLoader.Instance.Font, movement.GetType().ToString().Substring(43), position3, Color.Black);
+                spriteBatch.DrawString(LevelLoader.Instance.Font, testint + ", " + poseCounter, position1, Color.Black);
+                spriteBatch.DrawString(LevelLoader.Instance.Font, state.GetPose().ToString(), position2, Color.Black);
+                //spriteBatch.DrawString(LevelLoader.Instance.Font, GetKirbyVelocity().X.ToString(), position1, Color.Black);
+                //spriteBatch.DrawString(LevelLoader.Instance.Font, GetKirbyVelocity().Y.ToString(), position2, Color.Black);
+                GameDebug.Instance.DrawPoint(spriteBatch, GetKirbyPosition() + GetKirbyVelocity(), Color.Blue, 1f);
+            }
+            
 
             UpdateOldStates();
         }
@@ -843,6 +882,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENTITY_WIDTH, Constants.HitBoxes.ENTITY_HEIGHT);
         }
 
+        public int testint = 0;
         public void HandleFreeFall()
         {
             // ensures the right animation of bounce, freefallfar, or freefall is executed
@@ -850,6 +890,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 if (poseCounter == Constants.Kirby.BOUNCEJUMPFRAME)
                 {
+                    testint = poseCounter;
                     movement.bounceJump();
                     ChangePose(KirbyPose.Bounce);
                 }

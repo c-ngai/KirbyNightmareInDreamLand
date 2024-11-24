@@ -17,7 +17,7 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 player.BottomCollisionWithBlock(intersection);
             }
-            else if (object1 is IEnemy enemy)
+            else if (object1 is IEnemy enemy && !enemy.IsBeingInhaled)
             {
                 enemy.BottomCollisionWithBlock(intersection);
             }
@@ -37,7 +37,7 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 player.RightCollisionWithBlock(intersection);
             }
-            else if (object1 is IEnemy enemy)
+            else if (object1 is IEnemy enemy && !enemy.IsBeingInhaled)
             {
                 enemy.RightCollisionWithBlock(intersection);
             }
@@ -56,7 +56,7 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 player.LeftCollisionWithBlock(intersection);
             }
-            else if (object1 is IEnemy enemy)
+            else if (object1 is IEnemy enemy && !enemy.IsBeingInhaled)
             {
                 enemy.LeftCollisionWithBlock(intersection);
             }
@@ -76,7 +76,7 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 player.TopCollisionWithBlock(intersection);
             }
-            else if (object1 is IEnemy enemy)
+            else if (object1 is IEnemy enemy && !enemy.IsBeingInhaled)
             {
                 enemy.TopCollisionWithBlock(intersection);
             }
@@ -92,7 +92,7 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 player.BottomCollisionWithPlatform(intersection);
             }
-            else if (object1 is IEnemy enemy)
+            else if (object1 is IEnemy enemy && !enemy.IsBeingInhaled)
             {
                 enemy.BottomCollisionWithPlatform(intersection);
             }
@@ -129,9 +129,8 @@ namespace KirbyNightmareInDreamLand.Actions
             
                 player.CollisionWithGentle1LeftSlope(tile);
             }
-            else if (type == CollisionType.Enemy)
+            else if (object1 is Enemy enemy && !enemy.IsBeingInhaled)
             {
-                Enemy enemy = (Enemy)object1;
                 enemy.AdjustGentle1SlopeLeftCollision(tile);
             } 
             else if (object1 is KirbyBouncingStar star) 
@@ -150,9 +149,8 @@ namespace KirbyNightmareInDreamLand.Actions
 
                 player.CollisionWithGentle1RightSlope(tile);
             }
-            else if (type == CollisionType.Enemy)
+            else if (object1 is Enemy enemy && !enemy.IsBeingInhaled)
             {
-                Enemy enemy = (Enemy)object1;
                 enemy.AdjustGentle1SlopeRightCollision(tile);
             } 
             else if (object1 is KirbyBouncingStar star) 
@@ -171,9 +169,8 @@ namespace KirbyNightmareInDreamLand.Actions
 
                 player.CollisionWithGentle2LeftSlope(tile);
             }
-            else if (type == CollisionType.Enemy)
+            else if (object1 is Enemy enemy && !enemy.IsBeingInhaled)
             {
-                Enemy enemy = (Enemy)object1;
                 enemy.AdjustGentle2SlopeLeftCollision(tile);
             }
             else if (object1 is KirbyBouncingStar star) 
@@ -192,9 +189,8 @@ namespace KirbyNightmareInDreamLand.Actions
 
                 player.CollisionWithGentle2RightSlope(tile);
             }
-            else if (type == CollisionType.Enemy)
+            else if (object1 is Enemy enemy && !enemy.IsBeingInhaled)
             {
-                Enemy enemy = (Enemy)object1;
                 enemy.AdjustGentle2SlopeRightCollision(tile);
             }
             else if (object1 is KirbyBouncingStar star) 
@@ -213,9 +209,8 @@ namespace KirbyNightmareInDreamLand.Actions
 
                 player.CollisionWithSteepLeftSlope(tile);
             }
-            else if (type == CollisionType.Enemy)
+            else if (object1 is Enemy enemy && !enemy.IsBeingInhaled)
             {
-                Enemy enemy = (Enemy)object1;
                 enemy.AdjustSteepSlopeLeftCollision(tile);
             }
             else if (object1 is KirbyBouncingStar star) 
@@ -234,9 +229,8 @@ namespace KirbyNightmareInDreamLand.Actions
 
                 player.CollisionWithSteepRightSlope(tile);
             }
-            else if (type == CollisionType.Enemy)
+            else if (object1 is Enemy enemy && !enemy.IsBeingInhaled)
             {
-                Enemy enemy = (Enemy)object1;
                 enemy.AdjustSteepSlopeRightCollision(tile);
             }
             else if (object1 is KirbyBouncingStar star) 
