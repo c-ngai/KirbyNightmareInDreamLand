@@ -107,7 +107,7 @@ namespace KirbyNightmareInDreamLand.StateMachines
 
         public bool CanJump(){
             //not floating, not jumping, not crouching
-            return !IsJumping() && !IsCrouching() && !IsFloating()  && !IsAttacking() && GetPose() != KirbyPose.FreeFall;
+            return !IsJumping() && !IsCrouching() && !IsFloating()  && !IsAttacking();
         }
 
         public bool CanFloat() //crouching and sliding cannot be overwritten by float 
