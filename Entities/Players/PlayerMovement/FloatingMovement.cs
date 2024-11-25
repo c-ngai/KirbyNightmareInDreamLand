@@ -48,10 +48,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if (landed)
             {   
                 kirby.ChangePose(KirbyPose.FloatingGrounded);
-            } else if(velocity.Y > 0)
+            }
+            else if(velocity.Y > 0 && kirby.state.GetPose() != KirbyPose.FloatingStart)
             {
                 kirby.ChangePose(KirbyPose.FloatingFalling);
-            } else {
+            }
+            else if (kirby.state.GetPose() != KirbyPose.FloatingStart)
+            {
                 kirby.ChangePose(KirbyPose.FloatingRising);
             }
         }

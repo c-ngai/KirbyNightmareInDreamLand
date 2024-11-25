@@ -235,7 +235,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             DEAD = true;
             state.ChangePose(KirbyPose.Standing);
-            StopMoving(); 
             ChangeToNormal();
             ChangeMovement();
             SoundManager.Play("kirbydeath");
@@ -307,7 +306,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 ChangePose(KirbyPose.Hurt);
                 SoundManager.Play("kirbyhurt1");
                 await Task.Delay(Constants.WaitTimes.DELAY_400);
-                StopMoving();
             }
         }
 
@@ -389,14 +387,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if(state.CanMove()){
                 ChangePose(KirbyPose.Walking);
             }
-        }
-        public void StopMoving() 
-        {
-            //movement.StopMovement();
-            //if(state.CanStand())
-            //{
-            //    ChangePose(KirbyPose.Standing);
-            //}
         }
 
         public void Fall()
@@ -495,10 +485,16 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #endregion
 
         #region float
-        private async void StartFloating()
+        private void StartFloating()
         {
-            ChangePose(KirbyPose.FloatingStart);
-            await Task.Delay(Constants.WaitTimes.DELAY_800);
+            if (state.GetPose() != KirbyPose.FloatingStart)
+            {
+                ChangePose(KirbyPose.FloatingStart);
+            }
+            else if (state.GetPose() == KirbyPose.FloatingStart && poseCounter >= 8)
+            {
+                ChangePose(KirbyPose.FloatingRising);
+            }
         }
         public void Float()
         {
@@ -506,16 +502,18 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             //2 go up 
             //3 float again if its fallign
             //crouching and sliding cannot be overwritten by float 
-            if (IsFloating() && !IsFalling()){ //covers 
+            if (IsFloating() && state.GetPose() != KirbyPose.FloatingStart && !IsFalling())
+            { 
                 movement.Jump(state.IsLeft());
                 ChangePose(KirbyPose.FloatingRising);
-            } else if (state.CanFloat()){
-                if(!movement.GetType().Equals(typeof(FloatingMovement)))
+            }
+            else if (state.CanFloat())
+            {
+                if (!movement.GetType().Equals(typeof(FloatingMovement)))
                 {
                     movement = new FloatingMovement(movement.GetPosition(), movement.GetVelocity());
                 }
                 StartFloating();
-                ChangePose(KirbyPose.FloatingRising);
             }
         }
         #endregion
@@ -559,7 +557,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 EndSlide(); //if sliding changes to standin
                 ChangeMovement(); //change to normal
-                StopMoving(); //set vel to 0 and standing
+                ChangePose(KirbyPose.Standing);
 
                 attack?.EndAttack();
                 attack = null;
@@ -695,6 +693,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         // makes state changes by calling other player methods, calls state.Update(), and finally calls Draw last?
         public void Update(GameTime gameTime)
         {
+            // If kirby was still in the starting float sequence and the user stops pressing up, finish the sequence
+            if (state.GetPose() == KirbyPose.FloatingStart)
+            {
+                StartFloating();
+            }
             Fall();
             movement.MovePlayer(this, gameTime);
             EndInvinciblility(gameTime);

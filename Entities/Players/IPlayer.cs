@@ -28,7 +28,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         void MoveLeft();
         void RunRight();
         void RunLeft();
-        void StopMoving();
         void StopAttacking();
         void SetDirectionLeft();
         void SetDirectionRight();
