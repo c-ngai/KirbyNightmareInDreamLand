@@ -1,3 +1,4 @@
+Images/Spritesheets/hub_spritesheet
 Images/Kirby/kirby0_normal
 Images/Kirby/kirby1_normal
 Images/Kirby/kirby2_normal

@@ -43,10 +43,12 @@ namespace KirbyNightmareInDreamLand.GameState
                 }
             }
 
+            Vector2 doorPositionForNextRoom = level.NextSpawn;
+
             // if we are transitioning and not fading out we want to use the opaque screen to load the new room 
             if (!CurrentlyFadingOut && !CurrentlyFadingIn)
             {
-                level.LoadRoom(level.NextRoom, level.NextSpawn); // load new room
+                level.LoadRoom(level.NextRoom, doorPositionForNextRoom); // load new room
                 //System.Diagnostics.Debug.WriteLine("Next room is ..." + level.NextRoom);
                 CurrentlyFadingIn = true; //  Que the fade in
             }
@@ -63,9 +65,16 @@ namespace KirbyNightmareInDreamLand.GameState
                     {
                         level.ChangeState(Game1.Instance.Level._gameOverState);
                     }
+                    else if (level.NextRoom == "winner_room")
+                    {
+                        level.ChangeState(Game1.Instance.Level._winningState);
+                    }
                     else
                     {
-                        level.ChangeState(Game1.Instance.Level._playingState); // We are done transitioning so set game state to playing 
+                        level.ChangeState(Game1.Instance.Level._playingState); // We are done transitioning so set game state to playing
+                        level.IsDoorBeingOpened = false;
+                        level.IsDoorBeingExited = true;
+                        level.ExitDoorAt(doorPositionForNextRoom);
                     }
                 }
             }

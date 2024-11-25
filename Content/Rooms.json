@@ -17,8 +17,8 @@
                 "TileX": 61,
                 "TileY": 6,
                 "DestinationRoom": "room2",
-                "DestinationTileX": 2,
-                "DestinationTileY": 7,
+                "DestinationTileX": 6,
+                "DestinationTileY": 16,
                 "DrawDoorStars": true,
                 "IsBigDoor": false
             }
@@ -470,7 +470,60 @@
         "Locked camera X": 0,
         "Lock camera Y?": true,
         "Locked camera Y": 0,
-
+    
         "Doors": []
-    }
+  },
+
+  "hub": {
+    "Foreground sprite": "hub_foreground",
+    "Background sprite": "",
+    "Tilemap": "hub_tileset",
+
+    "Spawn tile X": 2,
+    "Spawn tile Y": 7,
+
+    "Lock camera X?": false,
+    "Locked camera X": 0,
+    "Lock camera Y?": false,
+    "Locked camera Y": 0,
+
+    "Doors": [
+      {
+        "TileX": 6,
+        "TileY": 16,
+        "DestinationRoom": "room1",
+        "DestinationTileX": 2,
+        "DestinationTileY": 4,
+        "DrawDoorStars": false,
+        "IsBigDoor": true
+      },
+      {
+        "TileX": 10,
+        "TileY": 13,
+        "DestinationRoom": "room2",
+        "DestinationTileX": 3,
+        "DestinationTileY": 7,
+        "DrawDoorStars": false,
+        "IsBigDoor": true
+      },
+      {
+        "TileX": 14,
+        "TileY": 18,
+        "DestinationRoom": "room3",
+        "DestinationTileX": 3,
+        "DestinationTileY": 7,
+        "DrawDoorStars": false,
+        "IsBigDoor": true
+      },
+      {
+        "TileX": 19,
+        "TileY": 12,
+        "DestinationRoom": "treasureroom",
+        "DestinationTileX": 48,
+        "DestinationTileY": 5,
+        "DrawDoorStars": false,
+        "IsBigDoor": true
+      }
+    ]
+  }
 }

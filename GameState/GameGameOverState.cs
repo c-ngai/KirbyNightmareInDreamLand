@@ -12,9 +12,9 @@ namespace KirbyNightmareInDreamLand.GameState
 	public class GameGameOverState : BaseGameState
 	{
         private ObjectManager _manager;
-        private Sprite currentButtonSprite;
-        private Sprite selectQuitScreen;
-        private Sprite selectContinueScreen;
+        private ISprite currentButtonSprite;
+        private ISprite selectQuitScreen;
+        private ISprite selectContinueScreen;
         private Vector2 kirbyStartRoomSpawn = Constants.Level.ROOM1_SPAWN_POINT;
         private string room1String = Constants.RoomStrings.ROOM_1;
         private Vector2 buttonPosition = Constants.ButtonLocations.GAMEOVER_BUTTONS;
@@ -60,10 +60,9 @@ namespace KirbyNightmareInDreamLand.GameState
             }
             else
             {
-                level.NextRoom = room1String;
-                level.NextSpawn = kirbyStartRoomSpawn;
-                level.LoadRoom(level.NextRoom, level.NextSpawn); // load new room
-                level.ChangeToPlaying();
+                level.NextRoom = level.PreviousRoom;
+                level.NextSpawn = level.CurrentRoom.SpawnPoint;
+                level.ChangeToTransitionState();
             }
         }
 
