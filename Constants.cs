@@ -188,6 +188,7 @@ namespace KirbyNightmareInDreamLand
             public static int MINFREEFALLFARFRAMES = 15;
             public static int BOUNCEJUMPFRAME = 9;
             public static int STOPBOUNCEFRAME = 22;
+            public static int STOPFLOATINGSTARTFRAME = 8;
 
         }
         #endregion

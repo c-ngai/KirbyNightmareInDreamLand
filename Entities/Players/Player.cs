@@ -491,7 +491,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 ChangePose(KirbyPose.FloatingStart);
             }
-            else if (state.GetPose() == KirbyPose.FloatingStart && poseCounter >= 8)
+            else if (state.GetPose() == KirbyPose.FloatingStart && poseCounter >= Constants.Kirby.STOPFLOATINGSTARTFRAME)
             {
                 ChangePose(KirbyPose.FloatingRising);
             }
