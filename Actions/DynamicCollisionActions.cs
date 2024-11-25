@@ -29,8 +29,8 @@ namespace KirbyNightmareInDreamLand.Actions
                 }
                 else
                 {
-                    enemy.TakeDamage(intersection, player.GetKirbyPosition());
-                    player.TakeDamage(intersection, enemy.GetPosition());
+                    enemy.TakeDamage(intersection, player.GetHitBox().Center.ToVector2());
+                    player.TakeDamage(intersection, enemy.GetHitBox().Center.ToVector2());
                 }
             }
         }
@@ -68,7 +68,7 @@ namespace KirbyNightmareInDreamLand.Actions
                 }
                 else
                 {
-                    enemy.TakeDamage(intersection, object2.GetPosition());
+                    enemy.TakeDamage(intersection, object2.GetHitBox().Center.ToVector2());
                 }
             }
 

@@ -54,14 +54,16 @@ namespace KirbyNightmareInDreamLand
         #region  Physics
         public static class Physics
         {
-            public const float GRAVITY = 10f / 60;
+            public const float GRAVITY = 10f / 60; // 0.1666...
             public const float FLOAT_GRAVITY = 5f / 60; //its 2f as the gravity times 0.01 as a "time elapsed" so float kirby falls at a constan rate
             public const float TERMINAL_VELOCITY = 2.5f;
+            public const float FLOATING_TERMINAL_VELOCITY = 1f;
             public const float X_DECELERATION = 0.05f;
 
             public const float JUMP_VEL = -3f;
             public const int JUMP_MAX_FRAMES = 12;
-            public const float FLOAT_VEL = 0.9F;
+            public const float FLOAT_YACCELLERATION = -0.15f;
+            public const float FLOAT_MIN_YVEL = -1.3f;
 
             public const float WALKING_VELOCITY = 1.3f;
             public const float WALKING_ACCELLERATION = 0.1f;
@@ -71,6 +73,9 @@ namespace KirbyNightmareInDreamLand
 
             public const float JUMPING_XVELOCITY = 1.85f;
             public const float JUMPING_XACCELLERATION = 0.15f;
+
+            public const float FLOATING_XVELOCITY = 1f;
+            public const float FLOATING_XACCELLERATION = 0.1f;
 
             public const float DAMAGE_VELOCITY =2f;
             public const float JUMP_CEILING = 38.4f;
@@ -303,6 +308,7 @@ namespace KirbyNightmareInDreamLand
             public const int WEAK_ENEMY_POINTS = 400;
             public const int DAMAGE_TAKEN = 1;
             public const int HURT_FRAMES = 50;
+            public const int HURT_VIBRATE_MAX_MAGNITUDE = 4;
         }
 
             public class BrontoBurt

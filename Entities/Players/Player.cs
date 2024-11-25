@@ -491,6 +491,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void Float()
         {
+            // Play the floating sound every time the FloatingRising sprite loops
+            if (state.GetPose() == KirbyPose.FloatingRising && poseCounter % 16 == 0)
+            {
+                SoundManager.Play("float");
+            }
+
             //1 start floating
             //2 go up 
             //3 float again if its fallign
@@ -768,7 +774,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 position3.Floor();
 
                 spriteBatch.DrawString(LevelLoader.Instance.Font, movement.GetType().ToString().Substring(43), position3, Color.Black);
-                spriteBatch.DrawString(LevelLoader.Instance.Font, testint + ", " + poseCounter, position1, Color.Black);
+                spriteBatch.DrawString(LevelLoader.Instance.Font, "poseCounter = " + poseCounter, position1, Color.Black);
                 spriteBatch.DrawString(LevelLoader.Instance.Font, GetKirbyPose().ToString(), position2, Color.Black);
                 //spriteBatch.DrawString(LevelLoader.Instance.Font, GetKirbyVelocity().X.ToString(), position1, Color.Black);
                 //spriteBatch.DrawString(LevelLoader.Instance.Font, GetKirbyVelocity().Y.ToString(), position2, Color.Black);
@@ -907,6 +913,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 ChangePose(KirbyPose.Bounce);
                 new CollisionStar(movement.GetPosition());
+                SoundManager.Play("bounce");
             }
             // if Kirby was falling
             else if (GetKirbyPose() == KirbyPose.FreeFall || GetKirbyPose() == KirbyPose.JumpFalling)

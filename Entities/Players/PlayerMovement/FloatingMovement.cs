@@ -8,28 +8,30 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 {
     public class FloatingMovement : PlayerMovement
     {
-        protected float floatVel = Constants.Physics.FLOAT_VEL;
-        protected float floatGravity = Constants.Physics.FLOAT_GRAVITY;
         //protected new float gravity = Constants.Physics.FLOAT_GRAVITY2;
         protected bool endFloat = false;
         public FloatingMovement(Vector2 pos, Vector2 vel) : base(pos, vel)
         {
             landed = false;
+            gravity = Constants.Physics.FLOAT_GRAVITY;
+            terminalVelocity = Constants.Physics.FLOATING_TERMINAL_VELOCITY;
         }
         public override void Walk(bool isLeft)
         {
-            if (isLeft)
+            velocity.X += isLeft ? Constants.Physics.FLOATING_XACCELLERATION * -1 : Constants.Physics.FLOATING_XACCELLERATION;
+            if (velocity.X > Constants.Physics.FLOATING_XVELOCITY)
             {
-                velocity.X = floatVel * -1; // times -1 to go in opposite direction
+                velocity.X = Constants.Physics.FLOATING_XVELOCITY;
             }
-            else
+            else if (velocity.X < -Constants.Physics.FLOATING_XVELOCITY)
             {
-                velocity.X = floatVel;
+                velocity.X = -Constants.Physics.FLOATING_XVELOCITY;
             }
         }
 
         public override void Run(bool isLeft)
         {
+            // Horizontal movement in midair while running is identical to walking
             Walk(isLeft);
         }
 
@@ -38,8 +40,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             endFloat = false;
             landed = false;
-            velocity.Y = floatVel * -1; //go up
-            
+            velocity.Y += -0.3f; //go up
+            if (velocity.Y < Constants.Physics.FLOAT_MIN_YVEL)
+            {
+                velocity.Y = Constants.Physics.FLOAT_MIN_YVEL;
+            }
+            gravity = Constants.Physics.FLOAT_GRAVITY;
+            terminalVelocity = Constants.Physics.FLOATING_TERMINAL_VELOCITY;
         }
 
         public void AdjustYPositionWhileFloating(Player kirby)
@@ -99,9 +106,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //attack (or pressing z) undoes float
         public override void Attack(Player kirby)
         {
-            //SoundManager.Play("spitair");
-            floatGravity = gravity;
-            velocity.Y = floatVel;
+            gravity = Constants.Physics.GRAVITY;
+            terminalVelocity = Constants.Physics.TERMINAL_VELOCITY;
             kirby.ChangePose(KirbyPose.FloatingEnd);
             endFloat = true;
          

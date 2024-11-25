@@ -28,10 +28,6 @@ namespace KirbyNightmareInDreamLand.Commands
                     SoundManager.Play("enterdoor");
                     _players[playerIndex].ChangePose(StateMachines.KirbyPose.EnterDoor);
                 }
-                else
-                {
-                    SoundManager.Play("float");
-                }
                 _game.Level.EnterDoorAt(_players[playerIndex].GetKirbyPosition());
             } 
         }
