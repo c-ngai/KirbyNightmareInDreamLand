@@ -28,8 +28,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         protected float groundCollisionOffset = 1 - Constants.Physics.FLOAT_GRAVITY;
         protected float damageVel = Constants.Physics.DAMAGE_VELOCITY;
         protected float ceiling = Constants.Kirby.CEILING;
-        public double startingFallingTime { get; private set; }
-        public double startingBounceTime { get; private set; }
         private ITimeCalculator timer;
         protected bool landed = true;
         public bool onSlope { get; private set; }
@@ -43,7 +41,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             position = pos;
             velocity = vel;
             onSlope = false;
-            startingFallingTime = 0;
         }
         public Vector2 GetPosition()
         {
@@ -294,7 +291,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 float kirbyAdjustment = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
                 if (position.Y > kirbyAdjustment || state.CanMove() ) // "is kirby moving on the ground in a way where we want him to stay locked on the ground"
                 {
-                    position.Y = kirbyAdjustment + groundCollisionOffset;
+                    position.Y = kirbyAdjustment;
+                    // needs this adjustment to ensure proper collision when non floating, if this is added when floating Kirby cannot float directly up when he's landed on the slope
+                    if (!kirby.state.IsFloating())
+                    {
+                        position.Y += groundCollisionOffset;
+                    }
                     velocity.Y = Math.Abs(velocity.X); // If on a slope, set velocity.Y to the absolute value of velocity.X so that kirby magnetizes down to the slope
                     ChangeKirbyLanded(true);
                     kirby.HandleFreeFall();

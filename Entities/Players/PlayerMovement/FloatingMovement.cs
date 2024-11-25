@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Audio;
+using System.Diagnostics;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -10,7 +11,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         protected float floatVel = Constants.Physics.FLOAT_VEL;
         protected float floatGravity = Constants.Physics.FLOAT_GRAVITY;
         //protected new float gravity = Constants.Physics.FLOAT_GRAVITY2;
-        private float floatFallingWindow = Constants.Graphics.FLOOR + 50;
         protected bool endFloat = false;
         public FloatingMovement(Vector2 pos, Vector2 vel) : base(pos, vel)
         {
@@ -45,14 +45,20 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void AdjustYPositionWhileFloating(Player kirby)
         {
             //dont go through the floor but float state as not been terminated
-            if (landed)
-            {   
-                kirby.ChangePose(KirbyPose.FloatingGrounded);
-            } else if(velocity.Y > 0)
+            if (kirby.state.GetPose() != KirbyPose.FloatingStart)
             {
-                kirby.ChangePose(KirbyPose.FloatingFalling);
-            } else {
-                kirby.ChangePose(KirbyPose.FloatingRising);
+                if (landed)
+                {
+                    kirby.ChangePose(KirbyPose.FloatingGrounded);
+                }
+                else if (velocity.Y > 0)
+                {
+                    kirby.ChangePose(KirbyPose.FloatingFalling);
+                }
+                else
+                {
+                    kirby.ChangePose(KirbyPose.FloatingRising);
+                }
             }
         }
         public void AdjustYPositionWhileNotFloating(Player kirby)
@@ -90,38 +96,15 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
         }
 
-        //the animation of kirby letting air go
-        public void FloatingEndAnimation(Player kirby)
-        {
-            kirby.ChangePose(KirbyPose.FloatingEnd);
-        }
-
-        public void FloatingFallingAnimation(Player kirby)
-        {
-            //floating doesnt go into the falling animation within a certain distance from floor
-            if (position.Y < floatFallingWindow)
-            {
-                kirby.ChangePose(KirbyPose.FreeFall);
-            }
-        }
-
         //attack (or pressing z) undoes float
         public override void Attack(Player kirby)
         {
-            if (kirby.GetKirbyPose() != KirbyPose.FloatingGrounded)
-            {
-                //SoundManager.Play("spitair");
-                FloatingEndAnimation(kirby);
-                floatGravity = gravity;
-                endFloat = true;
-                velocity.Y = floatVel;
-                FloatingFallingAnimation(kirby);
-            }
-            else
-            {
-                FloatingEndAnimation(kirby);
-                endFloat = true;
-            }
+            //SoundManager.Play("spitair");
+            floatGravity = gravity;
+            velocity.Y = floatVel;
+            kirby.ChangePose(KirbyPose.FloatingEnd);
+            endFloat = true;
+         
         }
 
     }

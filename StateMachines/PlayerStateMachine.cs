@@ -16,7 +16,6 @@ namespace KirbyNightmareInDreamLand.StateMachines
             facingLeft = false;
             pose = KirbyPose.FreeFall;
             type = KirbyType.Normal;
-
         }
         #region Direction
         public void SetDirectionRight()
@@ -150,19 +149,6 @@ namespace KirbyNightmareInDreamLand.StateMachines
             string posing = pose.ToString().ToLower();
             string facing = facingLeft ? "left" : "right";
             return "kirby" + colorIndex + "_" + power + "_" + posing + "_" + facing;
-        }
-
-        public bool IsInAir()
-        {
-            bool checkOne = GetPose() == KirbyPose.FloatingStart || GetPose() == KirbyPose.FloatingRising;
-            bool checkTwo = GetPose() == KirbyPose.FloatingFalling;
-            bool checkThree = GetPose() == KirbyPose.FloatingEnd || GetPose() == KirbyPose.FreeFall;
-            return checkOne || checkTwo || checkThree;
-        }
-
-        public bool ShouldFallThroughAirTile()
-        {
-            return !IsJumping() && !IsFloating();
         }
     }
 }

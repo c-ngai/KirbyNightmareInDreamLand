@@ -185,9 +185,10 @@ namespace KirbyNightmareInDreamLand
             public static float SLIDE_TIME = 0.7f;
             public static float CEILING = 15;
             public static int BOUNDS = 10;
-            public static int MINFREEFALLFARFRAMES = 15;
+            public static int MINFREEFALLFARFRAMES = 16;
             public static int BOUNCEJUMPFRAME = 9;
             public static int STOPBOUNCEFRAME = 22;
+            public static int STOPFLOATINGTRANSITIONFRAME = 8;
 
         }
         #endregion

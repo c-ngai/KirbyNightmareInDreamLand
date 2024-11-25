@@ -46,11 +46,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #region Jumping
         public void FinishJump(Player kirby)
         {
-            kirby.ChangePose(KirbyPose.Standing);
-            velocity.Y = 0;
             kirby.ChangeMovement();
             SoundManager.Play("land");
-
         }
         //checks if kirby is going down to start the falling animation
         public void JumpCheck(Player kirby)
