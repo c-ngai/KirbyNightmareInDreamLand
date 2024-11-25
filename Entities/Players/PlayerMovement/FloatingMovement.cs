@@ -45,17 +45,20 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void AdjustYPositionWhileFloating(Player kirby)
         {
             //dont go through the floor but float state as not been terminated
-            if (landed)
-            {   
-                kirby.ChangePose(KirbyPose.FloatingGrounded);
-            }
-            else if(velocity.Y > 0 && kirby.state.GetPose() != KirbyPose.FloatingStart)
+            if (kirby.state.GetPose() != KirbyPose.FloatingStart)
             {
-                kirby.ChangePose(KirbyPose.FloatingFalling);
-            }
-            else if (kirby.state.GetPose() != KirbyPose.FloatingStart)
-            {
-                kirby.ChangePose(KirbyPose.FloatingRising);
+                if (landed)
+                {
+                    kirby.ChangePose(KirbyPose.FloatingGrounded);
+                }
+                else if (velocity.Y > 0)
+                {
+                    kirby.ChangePose(KirbyPose.FloatingFalling);
+                }
+                else
+                {
+                    kirby.ChangePose(KirbyPose.FloatingRising);
+                }
             }
         }
         public void AdjustYPositionWhileNotFloating(Player kirby)

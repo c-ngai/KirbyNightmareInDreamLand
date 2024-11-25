@@ -473,7 +473,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void Jump()
         {
             if(state.CanJump()){ //not floating, not jumping, not crouching
-                Debug.WriteLine(state.GetPose());
                 movement = new JumpMovement(movement.GetPosition(), movement.GetVelocity());
                 ChangePose(KirbyPose.JumpRising);
                 SoundManager.Play("jump");
@@ -503,16 +502,16 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             //3 float again if its fallign
             //crouching and sliding cannot be overwritten by float 
             if (IsFloating() && state.GetPose() != KirbyPose.FloatingStart && !IsFalling())
-            { 
-                movement.Jump(state.IsLeft());
-                ChangePose(KirbyPose.FloatingRising);
-            }
-            else if (state.CanFloat())
             {
                 if (!movement.GetType().Equals(typeof(FloatingMovement)))
                 {
                     movement = new FloatingMovement(movement.GetPosition(), movement.GetVelocity());
                 }
+                movement.Jump(state.IsLeft());
+                ChangePose(KirbyPose.FloatingRising);
+            }
+            else if (state.CanFloat())
+            {
                 StartFloating();
             }
         }
