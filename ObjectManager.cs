@@ -208,6 +208,22 @@ namespace KirbyNightmareInDreamLand
             return isLeft;
         }
 
+        public void UpdatePlayers()
+        {
+            foreach (IPlayer player in Players)
+            {
+                player.Update(Game1.Instance.time);
+            }
+        }
+
+        public void UpdateProjectiles()
+        {
+            for (int i = 0; i < Projectiles.Count; i++)
+            {
+                Projectiles[i].Update();
+            }
+        }
+
         public void Update()
         {
             foreach (IPlayer player in Players)
@@ -237,6 +253,13 @@ namespace KirbyNightmareInDreamLand
             EmptyLists();
         }
 
+        public void DrawPlayers(SpriteBatch spriteBatch)
+        {
+            foreach (IPlayer player in Players)
+            {
+                player.Draw(spriteBatch);
+            }
+        }
 
         public void Draw(SpriteBatch spriteBatch)
         {

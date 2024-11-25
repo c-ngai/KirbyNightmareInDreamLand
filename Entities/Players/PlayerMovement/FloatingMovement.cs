@@ -92,6 +92,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     FallOffScreenTwo(kirby);
                 } else {
                     FallOffScreenOne(kirby);
+                    // Debug.WriteLine("FallOffScreenOne called by floating movement");
+
                 }
             }
         }

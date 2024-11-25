@@ -102,6 +102,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 if(kirby.CollisionActive){
                     FallOffScreenTwo(kirby);
                 } else {
+                    // Debug.WriteLine("FallOffScreenOne called by jump movement");
                     FallOffScreenOne(kirby);
                 }
             }
