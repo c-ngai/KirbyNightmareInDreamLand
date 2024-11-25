@@ -159,16 +159,24 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 position.X = Game1.Instance.Level.CurrentRoom.Width + levelBoundsRight;
             }
         }
+
+        public static int callCount = 0;
         public void FallOffScreenOne(Player kirby)
         {
-            if(kirby.lives == 0) // game over 
+            callCount++;
+            if (kirby.lives == 0) // game over 
             {
                 Game1.Instance.Level.GameOver();
                 kirby.FillFullHealth();
-            } else {
+            }
+            else {
                 kirby.RestartKirby();
-                Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
-                Game1.Instance.Level.ChangeToPlaying();
+                //Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
+                //Game1.Instance.Level.ChangeToPlaying();
+
+                Game1.Instance.Level.NextRoom = Game1.Instance.Level.CurrentRoom.Name;
+                Game1.Instance.Level.NextSpawn = Game1.Instance.Level.CurrentRoom.SpawnPoint;
+                Game1.Instance.Level.ChangeToTransitionState();
             }
         }
         public void FallOffScreenTwo(Player kirby)

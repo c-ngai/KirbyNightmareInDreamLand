@@ -57649,7 +57649,7 @@
     ]
   },
 
-  "hub_door_1_animation": {
+  "hub_door_1_animation_open": {
     "Source texture": "hub_spritesheet",
     "Loop point": 2,
     "Flip horizontally?": false,
@@ -57684,7 +57684,51 @@
     ]
   },
 
-  "hub_door_2_animation": {
+  "hub_door_1_animation_close": {
+    "Source texture": "hub_spritesheet",
+    "Loop point": 3,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 516,
+        "Y": 83,
+        "Width": 55,
+        "Height": 24,
+        "CenterX": 12,
+        "CenterY": 0,
+        "Time": 5
+      },
+      {
+        "X": 462,
+        "Y": 83,
+        "Width": 36,
+        "Height": 24,
+        "CenterX": 2,
+        "CenterY": 0,
+        "Time": 5
+      },
+      {
+        "X": 416,
+        "Y": 83,
+        "Width": 32,
+        "Height": 24,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 5
+      },
+      {
+        "X": 416,
+        "Y": 18,
+        "Width": 32,
+        "Height": 24,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      }
+    ]
+  },
+
+  "hub_door_2_animation_open": {
     "Source texture": "hub_spritesheet",
     "Loop point": 2,
     "Flip horizontally?": false,
@@ -57715,6 +57759,41 @@
         "CenterX": 12,
         "CenterY": 0,
         "Time": 6
+      }
+    ]
+  },
+
+  "hub_door_2_animation_close": {
+    "Source texture": "hub_spritesheet",
+    "Loop point": 2,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 516,
+        "Y": 83,
+        "Width": 55,
+        "Height": 24,
+        "CenterX": 12,
+        "CenterY": 0,
+        "Time": 5
+      },
+      {
+        "X": 416,
+        "Y": 83,
+        "Width": 32,
+        "Height": 24,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 5
+      },
+      {
+        "X": 462,
+        "Y": 83,
+        "Width": 36,
+        "Height": 24,
+        "CenterX": 2,
+        "CenterY": 0,
+        "Time": 5
       }
     ]
   },
@@ -57736,7 +57815,7 @@
     ]
   },
 
-  "hub_door3_animation": {
+  "hub_door3_animation_open": {
     "Source texture": "hub_spritesheet",
     "Loop point": 2,
     "Flip horizontally?": false,
@@ -57765,6 +57844,41 @@
         "Width": 55,
         "Height": 24,
         "CenterX": 12,
+        "CenterY": 0,
+        "Time": 6
+      }
+    ]
+  },
+
+  "hub_door3_animation_close": {
+    "Source texture": "hub_spritesheet",
+    "Loop point": 2,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 516,
+        "Y": 114,
+        "Width": 55,
+        "Height": 24,
+        "CenterX": 12,
+        "CenterY": 0,
+        "Time": 6
+      },
+      {
+        "X": 416,
+        "Y": 114,
+        "Width": 32,
+        "Height": 24,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 6
+      },
+      {
+        "X": 462,
+        "Y": 114,
+        "Width": 32,
+        "Height": 24,
+        "CenterX": 2,
         "CenterY": 0,
         "Time": 6
       }
@@ -57788,7 +57902,7 @@
     ]
   },
 
-  "hub_door4_animation": {
+  "hub_door4_animation_open": {
     "Source texture": "hub_spritesheet",
     "Loop point": 2,
     "Flip horizontally?": false,
@@ -57817,6 +57931,41 @@
         "Width": 55,
         "Height": 24,
         "CenterX": 12,
+        "CenterY": 0,
+        "Time": 6
+      }
+    ]
+  },
+
+  "hub_door4_animation_close": {
+    "Source texture": "hub_spritesheet",
+    "Loop point": 2,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 516,
+        "Y": 146,
+        "Width": 55,
+        "Height": 24,
+        "CenterX": 12,
+        "CenterY": 0,
+        "Time": 6
+      },
+      {
+        "X": 416,
+        "Y": 146,
+        "Width": 32,
+        "Height": 24,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 6
+      },
+      {
+        "X": 462,
+        "Y": 146,
+        "Width": 32,
+        "Height": 24,
+        "CenterX": 2,
         "CenterY": 0,
         "Time": 6
       }

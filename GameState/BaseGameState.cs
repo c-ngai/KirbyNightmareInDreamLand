@@ -31,12 +31,20 @@ namespace KirbyNightmareInDreamLand.GameState
             { 3, SpriteFactory.Instance.CreateSprite("hub_door4")}
         };
 
-        private static Dictionary<int, ISprite> HubDoorAnimations = new Dictionary<int, ISprite>
+        private static Dictionary<int, ISprite> OpenHubDoorAnimations = new Dictionary<int, ISprite>
         {
-            { 0 , SpriteFactory.Instance.CreateSprite("hub_door_1_animation")},
-            { 1 , SpriteFactory.Instance.CreateSprite("hub_door_2_animation")},
-            { 2 , SpriteFactory.Instance.CreateSprite("hub_door3_animation")},
-            { 3 , SpriteFactory.Instance.CreateSprite("hub_door4_animation")}
+            { 0 , SpriteFactory.Instance.CreateSprite("hub_door_1_animation_open")},
+            { 1 , SpriteFactory.Instance.CreateSprite("hub_door_2_animation_open")},
+            { 2 , SpriteFactory.Instance.CreateSprite("hub_door3_animation_open")},
+            { 3 , SpriteFactory.Instance.CreateSprite("hub_door4_animation_open")}
+        };
+
+        private static Dictionary<int, ISprite> CloseHubDoorAnimations = new Dictionary<int, ISprite>
+        {
+            { 0 , SpriteFactory.Instance.CreateSprite("hub_door_1_animation_close")},
+            { 1 , SpriteFactory.Instance.CreateSprite("hub_door_2_animation_close")},
+            { 2 , SpriteFactory.Instance.CreateSprite("hub_door3_animation_close")},
+            { 3 , SpriteFactory.Instance.CreateSprite("hub_door4_animation_close")}
         };
 
         private static Vector2 drawHubDoorOffset = new Vector2(0, -8);
@@ -162,7 +170,6 @@ namespace KirbyNightmareInDreamLand.GameState
                     DrawHubDoor(doorPos, i, spriteBatch);
                     DrawDoorSign(doorPos, i, spriteBatch);
                 }
-                Debug.WriteLine("door number" + i);
             }
         }
 
@@ -176,7 +183,11 @@ namespace KirbyNightmareInDreamLand.GameState
         {
             if (level.IsDoorBeingOpened && level.DoorBeingOpened == door_num)
             {
-                HubDoorAnimations[door_num].Draw(position + drawHubDoorOffset, spriteBatch);
+                OpenHubDoorAnimations[door_num].Draw(position + drawHubDoorOffset, spriteBatch);
+            }
+            else if (level.IsDoorBeingExited && level.DoorBeingExited == door_num)
+            {
+                CloseHubDoorAnimations[door_num].Draw(position + drawHubDoorOffset, spriteBatch);
             }
             else
             {
@@ -188,7 +199,7 @@ namespace KirbyNightmareInDreamLand.GameState
         {
             if (level.IsDoorBeingOpened)
             {
-                foreach (KeyValuePair<int, ISprite> door_animation in HubDoorAnimations)
+                foreach (KeyValuePair<int, ISprite> door_animation in OpenHubDoorAnimations)
                 {
                     if (level.DoorBeingOpened == door_animation.Key)
                     {
@@ -196,8 +207,16 @@ namespace KirbyNightmareInDreamLand.GameState
                     }
                 }
             }
-
-
+            if (level.IsDoorBeingExited)
+            {
+                foreach (KeyValuePair<int, ISprite> door_animation in CloseHubDoorAnimations)
+                {
+                    if (level.DoorBeingExited == door_animation.Key)
+                    {
+                        door_animation.Value.Update();
+                    }
+                }
+            }
         }
 
         public void DebugDraw(SpriteBatch spriteBatch, Camera camera)

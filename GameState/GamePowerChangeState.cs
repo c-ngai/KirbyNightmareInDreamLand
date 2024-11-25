@@ -11,7 +11,7 @@ namespace KirbyNightmareInDreamLand.GameState
 
         private bool CurrentlyFadingOut;
         private bool CurrentlyFadingIn;
-        private float FadeSpeed = 0.01f;
+        private float FadeSpeed = 0.05f;
         private float opaqueAlpha = 0.25f;
         private float transparentAlpha = 0.05f;
         private float startFade = 0.0f;
@@ -31,12 +31,14 @@ namespace KirbyNightmareInDreamLand.GameState
             base.Draw(spriteBatch);
             Camera camera = _game.cameras[_game.CurrentCamera];
             GameDebug.Instance.DrawSolidRectangle(spriteBatch, camera.bounds, Color.Black, FadeAlpha);
-
+            Game1.Instance.manager.DrawPlayers(spriteBatch);
         }
 
         public override void Update()
         {
-            base.Update();
+            Game1.Instance.manager.UpdatePlayers();
+
+            Game1.Instance.manager.UpdateProjectiles();
 
             timer += Game1.Instance.time.ElapsedGameTime.TotalSeconds;
 

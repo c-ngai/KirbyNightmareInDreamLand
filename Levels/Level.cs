@@ -26,6 +26,8 @@ namespace KirbyNightmareInDreamLand.Levels
         public float FadeAlpha;
 
         public Room CurrentRoom { get; private set; }
+        public String PreviousRoom;
+        public Vector2 PreviousSpawn;
 
         private ObjectManager manager = ObjectManager.Instance;
         public List<PowerUp> powerUpList;
@@ -39,6 +41,8 @@ namespace KirbyNightmareInDreamLand.Levels
         // Fields for detecting if a door is being opened and which one (index in CurrentRoom.Doors[])
         public bool IsDoorBeingOpened;
         public int DoorBeingOpened;
+        public bool IsDoorBeingExited;
+        public int DoorBeingExited;
 
 
         public IGameState _currentState { get; set; }
@@ -48,7 +52,7 @@ namespace KirbyNightmareInDreamLand.Levels
         private readonly IGameState _pausedState;
         public readonly IGameState _gameOverState;
         private readonly IGameState _debugState;
-        private readonly IGameState _winningState;
+        public readonly IGameState _winningState;
         private readonly IGameState _transitionState;
         private readonly BaseGameState _lifeLost;
 
@@ -121,15 +125,6 @@ namespace KirbyNightmareInDreamLand.Levels
         public void UpdateLevel()
         {
             UpdateKeymap();
-
-            if(CurrentRoom.Name == winningRoomString)
-            {
-                ChangeState(_winningState);
-            }
-            if (CurrentRoom.Name == gameOverRoomString)
-            {
-                ChangeState(_gameOverState);
-            }
             _currentState.Update();
         }
 
@@ -179,8 +174,11 @@ namespace KirbyNightmareInDreamLand.Levels
 
         public void GameOver()
         {
-            NextRoom = gameOverRoomString;
+            NextRoom = "game_over";
             NextSpawn = gameOverSpawnPoint;
+            PreviousRoom = CurrentRoom.Name;
+            PreviousSpawn = CurrentRoom.SpawnPoint;
+            System.Diagnostics.Debug.WriteLine("next room to load is - " + NextRoom);
             _currentState = new GameTransitioningState(this);
         }
 
@@ -213,12 +211,24 @@ namespace KirbyNightmareInDreamLand.Levels
                 {
                     NextRoom = CurrentRoom.Doors[i].DestinationRoom;
                     NextSpawn = CurrentRoom.Doors[i].DestinationPoint;
+                    PreviousRoom = CurrentRoom.Name;
+                    PreviousSpawn = CurrentRoom.SpawnPoint;
 
                     IsDoorBeingOpened = true;
                     DoorBeingOpened = i;
-
                     _currentState = new GameTransitioningState(this);
                     break;
+                }
+            }
+        }
+
+        public void ExitDoorAt(Vector2 doorPosition)
+        {
+            for (int i = 0; i < CurrentRoom.Doors.Count; i++)
+            {
+                if (CurrentRoom.Doors[i].Bounds.Contains(doorPosition))
+                {
+                    DoorBeingExited = i;
                 }
             }
         }
