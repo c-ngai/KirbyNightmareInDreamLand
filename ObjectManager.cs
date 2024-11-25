@@ -261,6 +261,14 @@ namespace KirbyNightmareInDreamLand
             }
         }
 
+        public void DrawProjectiles(SpriteBatch spriteBatch)
+        {
+            foreach (IProjectile projectile in Projectiles)
+            {
+                projectile.Draw(spriteBatch);
+            }
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             foreach (IPlayer player in Players)
