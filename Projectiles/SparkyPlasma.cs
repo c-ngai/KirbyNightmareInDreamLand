@@ -10,7 +10,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class SparkyPlasma : IProjectile, ICollidable
     {
-        private readonly Sprite projectileSprite;
+        //private readonly Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;
         private int framesActive;
@@ -32,7 +32,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             Position = startPosition;
             framesActive = 0;
-            projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_sparky_plasma");
+            //projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_sparky_plasma");
             ObjectManager.Instance.RegisterDynamicObject(this);
         }
 
@@ -45,7 +45,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             if (IsActive)
             {
-                projectileSprite.Update();
+                //projectileSprite.Update();
                 framesActive++;
 
                 if (IsDone())

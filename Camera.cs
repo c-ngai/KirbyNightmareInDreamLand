@@ -34,8 +34,6 @@ namespace KirbyNightmareInDreamLand
         public Matrix LevelMatrix { get; set; }
         // Matrix for the screen, everything drawn here is directly in screen space. For HUD, etc. Things not part of the actual "game world".
         public Matrix ScreenMatrix { get; set; }
-        public Matrix backgroundMatrix { get; set; }
-
 
         public Camera(int playerIndex)
         {

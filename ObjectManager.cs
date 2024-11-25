@@ -239,9 +239,9 @@ namespace KirbyNightmareInDreamLand
             {
                 powerUp.Update();
             }
-            foreach (IProjectile projectile in Projectiles)
+            for (int i = 0; i < Projectiles.Count; i++)
             {
-                projectile.Update();
+                Projectiles[i].Update();
             }
             //UpdateProjectiles();
             foreach (IParticle particle in Particles)
@@ -279,6 +279,11 @@ namespace KirbyNightmareInDreamLand
             {
                 projectile.Draw(spriteBatch);
             }
+            //Random r = new Random();
+            //foreach (int i in Enumerable.Range(0, Projectiles.Count).OrderBy(x => r.Next()))
+            //{
+            //    Projectiles[i].Draw(spriteBatch);
+            //}
             foreach (IParticle particle in Particles)
             {
                 particle.Draw(spriteBatch);

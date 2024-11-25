@@ -12,6 +12,7 @@ using KirbyNightmareInDreamLand.Audio;
 using System.Threading.Tasks;
 using KirbyNightmareInDreamLand.Actions;
 using Microsoft.VisualBasic;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -19,39 +20,43 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
     {
         protected Vector2 position; //Where enemy is drawn on screen
         protected Vector2 spawnPosition; //Where enemy is first drawn on screen
+        protected Vector2 velocity;
+        protected float vibrate;
+
         protected int health; //Enemy health
         protected bool active;  //If enemy is dead
         protected Sprite enemySprite;
+        protected Random random;
         public EnemyStateMachine stateMachine { get;  private set; }
         protected IEnemyState currentState; // Current state of the enemy
         protected string oldState; //Previous state
         protected int frameCounter; // Frame counter for tracking state duration
-        protected float xVel;
-        protected float yVel;
         protected float gravity;
+        protected bool affectedByGravity;
         protected Boolean isFalling;
+        protected bool isBeingInhaled;
 
-        public bool CollisionActive { get; set; } = true;
+        public bool CollisionActive { get; set; }
 
         protected Enemy(Vector2 startPosition, EnemyType type)
         {
             //Initialize all variables
-            position = startPosition;
             spawnPosition = startPosition;
-            health = Constants.Enemies.HEALTH;
-            active = true;
-            xVel = 0;
-            yVel = 0;
-            isFalling = true;
+            //position = spawnPosition;
+            //health = Constants.Enemies.HEALTH;
+            //active = true;
+            //velocity = Vector2.Zero;
+            //isFalling = true;
+            //isBeingInhaled = false;
             gravity = Constants.Physics.GRAVITY;
             stateMachine = new EnemyStateMachine(type);
-            oldState = string.Empty;
-            currentState = new WaddleDooWalkingState(this); // Initialize with the walking state
+            random = new Random();
+            //oldState = string.Empty;
+            //currentState = new WaddleDooWalkingState(this); // Initialize with the walking state
             ObjectManager.Instance.AddEnemy(this);
-            ObjectManager.Instance.RegisterDynamicObject(this);
-            currentState.Enter();
-            frameCounter = 0;
-            UpdateTexture();
+            //currentState.Enter();
+            //frameCounter = 0;
+            //UpdateTexture();
         }
 
         public CollisionType GetCollisionType()
@@ -80,6 +85,18 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             get => active;
             set => active = value;
+        }
+
+        public bool IsBeingInhaled
+        {
+            get => isBeingInhaled;
+            set => isBeingInhaled = value;
+        }
+
+        public float Vibrate
+        {
+            get => vibrate;
+            set => vibrate = value;
         }
 
         public int FrameCounter
@@ -120,7 +137,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             currentState.Enter();
         }
 
-        public async void TakeDamage(Rectangle intersection)
+        public void TakeDamage(Rectangle intersection, Vector2 positionOfDamageSource)
         {
 
             int points = 0;
@@ -139,16 +156,24 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             Game1.Instance.manager.UpdateScore(points);
 
             currentState.TakeDamage();
-            Dispose();
+            velocity = (position - positionOfDamageSource) / 8;
+            CollisionActive = false;
             SoundManager.Play("enemydamage");
-            await Task.Delay(Constants.Enemies.DELAY);
-            SoundManager.Play("enemyexplode");
+            
         }
+
+
+        public void GetInhaled(Rectangle intersection, IPlayer player)
+        {
+            isBeingInhaled = true;
+            ChangeState(new EnemyInhaledState(this, player));
+        }
+
 
         public void GetSwallowed(Rectangle intersection)
         {
-            currentState.TakeDamage();
-            this.TakeDamage(intersection);
+            //currentState.TakeDamage();
+            //this.TakeDamage(intersection);
             Dispose();
         }
 
@@ -177,22 +202,35 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             return stateMachine.GetStateString();
         }
 
-        private void Spawn()
+        public virtual void Spawn()
         {
             CollisionActive = true;
             active = true;
+            isBeingInhaled = false;
+            position = spawnPosition;
+            velocity = Vector2.Zero;
+            vibrate = 0;
             bool isLeft = ObjectManager.Instance.NearestPlayerDirection(position);
             stateMachine.SetDirection(isLeft);
             health = Constants.Enemies.HEALTH;
-            position = spawnPosition;
             frameCounter = 0;
-            UpdateTexture();
         }
 
         private void Despawn()
         {
             CollisionActive = false;
             active = false;
+        }
+
+        public void UpdatePosition()
+        {
+            if (affectedByGravity && !isBeingInhaled && health > 0)
+            {
+                velocity.Y += gravity;  // Increase vertical velocity by gravity
+            }
+
+            position.X += velocity.X;
+            position.Y += velocity.Y;  // Apply the updated velocity to the enemy's Y position
         }
 
         public virtual void Update(GameTime gameTime) 
@@ -215,12 +253,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 UpdateTexture();
                 enemySprite.Update();
 
-                Fall();
+                UpdatePosition();
             }
-            else
-            {
-                Dispose();
-            }
+            //else
+            //{
+            //    Dispose();
+            //}
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
@@ -228,7 +266,9 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             //Draw if enemy is alive 
             if (active)
             {
-                enemySprite.Draw(position, spriteBatch);
+                Vector2 vibratePos = new Vector2((float)random.NextDouble(), (float)random.NextDouble());
+                vibratePos.Normalize();
+                enemySprite.Draw(position + vibratePos * vibrate, spriteBatch);
                 //spriteBatch.DrawString(LevelLoader.Instance.Font, frameCounter.ToString(), (position + new Vector2(-8, -32)), Color.Black);
             }
         }
@@ -237,24 +277,28 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void Jump() { }
 
-        public virtual void Fall()
-        {
-            yVel += gravity / Constants.Enemies.GRAVITY_OFFSET;  // Increase vertical velocity by gravity
-            position.Y += yVel;  // Apply the updated velocity to the enemy's Y position
-        }
-
         public virtual void Move()
         {
-            // Walking back and forth in X axis 
-            if (stateMachine.IsLeft())
-            {
-                position.X -= xVel;
-            }
-            else
-            {
-                position.X += xVel;
-            }
-            UpdateTexture();
+            //// Walking back and forth in X axis 
+            //if (stateMachine.IsLeft())
+            //{
+            //    position.X -= velocity.X;
+            //}
+            //else
+            //{
+            //    position.X += velocity.X;
+            //}
+            //UpdateTexture();
+        }
+
+        public void AccellerateTowards(Vector2 _position)
+        {
+            float magnitude = velocity.Length();
+            velocity = _position - position;
+            velocity.Normalize();
+            velocity *= magnitude * 1.1f;
+            //velocity.X += (_position.X - position.X) / 200;
+            //velocity.Y += (_position.Y - position.Y) / 200;
         }
 
         public virtual Vector2 CalculateRectanglePoint(Vector2 pos)
@@ -278,7 +322,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public virtual void BottomCollisionWithBlock(Rectangle intersection)
         {
             position.Y = intersection.Y; // Note: +1 removed because in Game1.Update I made level update before collision is called. This makes collisions happen after preexisting momentum is applied -Mark
-            yVel = 0;
+            velocity.Y = 0;
             isFalling = false;
         }
 
@@ -310,7 +354,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
 
             position.Y = intersection.Y;
-            yVel = 0;
+            velocity.Y = 0;
             isFalling = false;
         }
         public virtual void AdjustOnSlopeCollision(Tile tile, float slope, float yIntercept)
@@ -325,7 +369,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 if (position.Y > slopeY)
                 {
                     position.Y = slopeY;
-                    yVel = 0;
+                    velocity.Y = 0;
                 }
                 //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
             }
@@ -371,7 +415,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public virtual void Dispose()
         {
             CollisionActive = false;
-            currentState.Dispose();
+            Active = false;
+            currentState?.Dispose();
         }
 
         public virtual KirbyType PowerType()

@@ -16,6 +16,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private Vector2 velocity;
         private List<KirbyFlameSegment> flameSegments;
         private int frameCounter;
+        private int wait = 16; // constant later
         private bool IsActive;
         private bool isFacingRight; // Boolean to determine the direction Kirby is facing
         private SoundInstance sound;
@@ -60,7 +61,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public bool IsDone()
         {
-            if (frameCounter < 10)
+            if (frameCounter <= wait)
             {
                 return false;
             }
@@ -79,7 +80,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
             this.position = player.GetKirbyPosition() + offset;
 
             // Check if it's time to spawn new flame segments
-            if (IsActive && frameCounter % 1 == 0)
+            if (IsActive && frameCounter % 1 == 0 && frameCounter >= wait)
             {
                 SpawnFlameSegment();
             }
@@ -88,7 +89,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
             // Update all flame segments
             foreach (var segment in flameSegments)
             {
-                segment.Update();
+                //segment.Update();
             }
             //This line below doesn't work because the flame segments start out as inactive and then wait to become active.
             flameSegments.RemoveAll(obj => obj.IsDone());
@@ -147,14 +148,14 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public void Draw(SpriteBatch spriteBatch)
         {
             //Draw all flame segments
-            for (int i = 0; i < flameSegments.Count / 2; i++)
-            {
-                flameSegments[i].Draw(spriteBatch);
-            }
-            for (int i = flameSegments.Count - 1; i >= flameSegments.Count / 2; i--)
-            {
-                flameSegments[i].Draw(spriteBatch);
-            }
+            //for (int i = 0; i < flameSegments.Count / 2; i++)
+            //{
+            //    flameSegments[i].Draw(spriteBatch);
+            //}
+            //for (int i = flameSegments.Count - 1; i >= flameSegments.Count / 2; i--)
+            //{
+            //    flameSegments[i].Draw(spriteBatch);
+            //}
             //spriteBatch.DrawString(LevelLoader.Instance.Font, flameSegments.Count + ", " + IsDone(), position, Color.Black);
         }
 

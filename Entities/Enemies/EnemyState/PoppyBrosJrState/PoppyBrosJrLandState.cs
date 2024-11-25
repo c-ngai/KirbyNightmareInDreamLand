@@ -30,7 +30,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState
             if (_enemy.FrameCounter >= Constants.PoppyBrosJr.PAUSE_TIME)
             {
                 _enemy.ChangeState(new PoppyBrosJrHopState(_enemy));
-                _enemy.UpdateTexture();
             }
         }
 
@@ -38,8 +37,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState
 
         public void TakeDamage()
         {
-            _enemy.ChangeState(new PoppyBrosJrHurtState(_enemy));
-            _enemy.UpdateTexture();
+            _enemy.ChangeState(new EnemyHurtState(_enemy));
         }
 
         public void ChangeDirection()

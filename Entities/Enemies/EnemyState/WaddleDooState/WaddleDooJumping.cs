@@ -28,14 +28,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
                 if (!jumpableEnemy.IsJumping)
                 {
                     _enemy.ChangeState(new WaddleDooWalkingState(_enemy));
-                    _enemy.UpdateTexture();
                 }
             }
             else
             {
                 // If the enemy cannot jump, transition back to walking
                 _enemy.ChangeState(new WaddleDooWalkingState(_enemy));
-                _enemy.UpdateTexture();
             }
         }
 
@@ -46,8 +44,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
 
         public void TakeDamage()
         {
-            _enemy.ChangeState(new WaddleDooHurtState(_enemy));
-            _enemy.UpdateTexture();
+            _enemy.ChangeState(new EnemyHurtState(_enemy));
         }
 
         public void ChangeDirection()

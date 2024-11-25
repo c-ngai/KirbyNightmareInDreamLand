@@ -1,68 +1,55 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Graphics;
-using KirbyNightmareInDreamLand.Projectiles;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
-using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState;
-using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Levels;
+using KirbyNightmareInDreamLand.Projectiles;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
-    public class WaddleDoo : Enemy
+    public class ProfessorKirby : Enemy
     {
+
         // Jump variables
         private bool isJumping = false;
 
-        // Beam ability
-        private EnemyBeam beam;
-        private bool isBeamActive = false;
+        // Briefcase ability
+        //TO-DO: SWITCH FROM ENEMY BEAM TO BRIEFCASE PROJECTILE
+         private EnemyBeam briefcase;
+         private bool isBriefcaseActive = false;
 
         public bool IsJumping => isJumping;
 
-        public WaddleDoo(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDoo)
+        public ProfessorKirby(Vector2 startPosition) : base(startPosition, EnemyType.ProfessorKirby)
         {
-            affectedByGravity = true;
+            UpdateTexture();
+            currentState = new ProfessorKirbyWalkingState(this);
+            stateMachine.ChangeDirection();
+            velocity.Y = 0;
+            velocity.X = Constants.ProfessorKirby.MOVE_SPEED;
+            health = Constants.ProfessorKirby.HEALTH;
         }
 
-        public override void Spawn()
-        {
-            base.Spawn();
-            stateMachine.ChangePose(EnemyPose.Walking);
-            ChangeState(new WaddleDooWalkingState(this));
-        }
-
-        public override void Move()
-        {
-            base.Move();
-            if (stateMachine.IsLeft())
-            {
-                velocity.X = -Constants.WaddleDee.MOVE_SPEED;
-            }
-            else
-            {
-                velocity.X = Constants.WaddleDee.MOVE_SPEED;
-            }
-        }
-
+        
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
             if (active)
             {
-                // Handle the beam if active
-                if (isBeamActive)
+                if (isBriefcaseActive)
                 {
-                    beam.Update();
-                    if (!beam.IsBeamActive())
+                    briefcase.Update();
+                    //TO-DO - CHANGE TO BRIEFCASE IS BRIEFCASE ACTIVE
+                    if (!briefcase.IsBeamActive())
                     {
-                        isBeamActive = false;
+                        isBriefcaseActive = false;
                     }
                 }
-            }
+            } 
         }
 
         private Vector2 ProjectilePosition()
@@ -77,7 +64,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             {
                 // Start jumping and store initial y
                 isJumping = true;
-                velocity.Y = -Constants.WaddleDoo.JUMP_VELOCITY;
+                velocity.Y = -Constants.ProfessorKirby.JUMP_VELOCITY;
             }
 
             Move();
@@ -85,12 +72,15 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public override void Attack()
         {
-            SoundManager.Play("waddledooattack");
+            //TO-DO - INPUT PROFESSORKIRBYATTACK SOUND
+            //SoundManager.Play("professorkirbyattack");
+
             //If active, create a new beam using the current position and direction
-            if (!isBeamActive)
+            if (!isBriefcaseActive)
             {
-                beam = new EnemyBeam(ProjectilePosition(), !stateMachine.IsLeft());
-                isBeamActive = true;
+                //TO-DO- CHANGE TO NEW BRIEFCASE ATTACK
+                briefcase = new EnemyBeam(ProjectilePosition(), !stateMachine.IsLeft());
+                isBriefcaseActive = true;
             }
         }
 
@@ -99,12 +89,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             base.Draw(spriteBatch);
             if (active)
             {
-                // Draw the beam if it's active
-                if (isBeamActive)
+                // Draw the briefcase if it's active
+                if (isBriefcaseActive)
                 {
-                    beam.Draw(spriteBatch);
+                    briefcase.Draw(spriteBatch);
                 }
-                //spriteBatch.DrawString(LevelLoader.Instance.Font, isJumping.ToString(), position + new Vector2(-24, -30), Color.Black);
             }
         }
 
@@ -113,21 +102,15 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             isFalling = false;
             isJumping = false;
             position.Y = intersection.Y;
-            
-            // Note (Mark) THIS IS A BIT JANK
-            // Basically: if colliding with a block from above, change to walking state if jumping
-            if (currentState.GetType().Equals(typeof(WaddleDooJumpingState)))
+            if (currentState.GetType().Equals(typeof(ProfessorKirbyJumpingState)))
             {
-                ChangeState(new WaddleDooWalkingState(this));
+                ChangeState(new ProfessorKirbyWalkingState(this));
             }
             velocity.Y = 0;
         }
 
         public override void AdjustOnSlopeCollision(Tile tile, float slope, float yIntercept)
         {
-
-            //GameDebug.Instance.LogPosition(position);
-
             Rectangle intersection = tile.rectangle;
             if (position.X > intersection.Left && position.X < intersection.Right)
             {
@@ -138,25 +121,24 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 if (position.Y > slopeY)
                 {
                     position.Y = slopeY;
-                    
+
                     isFalling = false;
                     isJumping = false;
                     // TODO: remove band-aid. waddle doo is always still inside the slope on the first frame of his jump, but he shouldn't be. check the order that velocity and position changes happen. position should change by velocity ONCE at the end of an update
-                    if (currentState.GetType().Equals(typeof(WaddleDooJumpingState)) && frameCounter > 0)
+                    if (currentState.GetType().Equals(typeof(ProfessorKirbyJumpingState)) && frameCounter > 0)
                     {
-                        ChangeState(new WaddleDooWalkingState(this));
+                        ChangeState(new ProfessorKirbyWalkingState(this));
                     }
                     velocity.Y = 0;
                 }
-                //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
             }
         }
 
         public override KirbyType PowerType()
         {
+            //TO-DO - CHANGE TO PROFESSOR WHEN IMPLEMENTED
             return KirbyType.Beam;
         }
 
     }
-
 }

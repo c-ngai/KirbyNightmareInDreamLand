@@ -3,11 +3,11 @@ using System;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
 {
-    public class WaddleDooWalkingState : IEnemyState
+    public class ProfessorKirbyWalkingState : IEnemyState
     {
         private readonly Enemy _enemy;
 
-        public WaddleDooWalkingState(Enemy enemy)
+        public ProfessorKirbyWalkingState(Enemy enemy)
         {
             _enemy = enemy ?? throw new ArgumentNullException(nameof(enemy));
         }
@@ -22,9 +22,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
         {
             _enemy.Move(); // Execute walking movement logic
 
-                if (_enemy.FrameCounter >= Constants.WaddleDoo.WALK_FRAMES)
+                if (_enemy.FrameCounter >= Constants.ProfessorKirby.WALK_FRAMES)
                 {
-                    _enemy.ChangeState(new WaddleDooChargingState(_enemy));
+                    _enemy.ChangeState(new ProfessorKirbyChargingState(_enemy));
+                    _enemy.UpdateTexture();
                 }
         }
 
@@ -36,6 +37,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
         public void TakeDamage()
         {
             _enemy.ChangeState(new EnemyHurtState(_enemy));
+            _enemy.UpdateTexture();
         }
 
         public void ChangeDirection()

@@ -35,7 +35,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
             if (_enemy.FrameCounter >= Constants.Sparky.ATTACK_TIME)
             {
                 _enemy.ChangeState(new SparkyPause1State(_enemy));
-                _enemy.UpdateTexture();
             }
         }
 
@@ -45,8 +44,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
 
         public void TakeDamage()
         {
-            _enemy.ChangeState(new SparkyHurtState(_enemy));
-            _enemy.UpdateTexture();
+            _enemy.ChangeState(new EnemyHurtState(_enemy));
             sound.Stop();
         }
 

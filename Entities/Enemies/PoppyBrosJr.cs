@@ -6,6 +6,7 @@ using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState;
 using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -16,19 +17,23 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public PoppyBrosJr(Vector2 startPosition) : base(startPosition, EnemyType.PoppyBrosJr)
         {
-            stateMachine.ChangePose(EnemyPose.Hop);
-            ChangeState(new PoppyBrosJrHopState(this));
-            yVel = 0;
-            xVel = Constants.PoppyBrosJr.MOVE_SPEED;
+            affectedByGravity = true;
         }
 
-        public override void Jump()
+    public override void Spawn()
+    {
+        base.Spawn();
+        stateMachine.ChangePose(EnemyPose.Hop);
+        currentState = new PoppyBrosJrHopState(this);
+    }
+
+    public override void Jump()
         {
             if (!isJumping)
             {
                 // Start jumping and store initial y
                 isJumping = true;
-                yVel = -Constants.PoppyBrosJr.JUMP_VELOCITY;
+                velocity.Y = -Constants.PoppyBrosJr.JUMP_VELOCITY;
             }
             Move();
         }
@@ -45,7 +50,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             {
                 ChangeState(new PoppyBrosJrLandState(this));
             }
-            yVel = 0;
+            velocity.Y = 0;
         }
 
         public override void AdjustOnSlopeCollision(Tile tile, float slope, float yIntercept)
@@ -71,7 +76,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                     {
                         ChangeState(new PoppyBrosJrLandState(this));
                     }
-                    yVel = 0;
+                    velocity.Y = 0;
                 }
                 //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
             }

@@ -17,7 +17,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public Vector2 Velocity {get; private set;}
         public bool CollisionActive { get; private set;} = true;
         private bool IsLeft;
-        private Player player;
+        public Player player { get; private set; }
         private SoundInstance sound;
         public Inhale(Vector2 pos, bool isLeft, Player kirby)
         {

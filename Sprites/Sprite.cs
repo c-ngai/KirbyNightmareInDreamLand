@@ -62,7 +62,7 @@ namespace KirbyNightmareInDreamLand.Sprites
         }
 
         // Draws the sprite to the spriteBatch.
-        public void Draw(Vector2 position, SpriteBatch spriteBatch, Color color)
+        public void Draw(Vector2 position, SpriteBatch spriteBatch, Color color, float layerDepth)
         {
             _camera = _game.cameras[_game.CurrentCamera];
             // Floor the position
@@ -94,7 +94,7 @@ namespace KirbyNightmareInDreamLand.Sprites
             if (!cull)
             {
                 // Draw the sprite to the spriteBatch.
-                spriteBatch.Draw(texture, position, sourceRectangle, color, 0, frameCenter, 1, _spriteAnimation.SpriteEffects, 0);
+                spriteBatch.Draw(texture, position, sourceRectangle, color, 0, frameCenter, 1, _spriteAnimation.SpriteEffects, layerDepth);
                 GameDebug.Instance.NumOfSpriteBatchDrawCalls++;
                 // DEBUG VISUALS, TIDY UP LATER
                 if (_game.DEBUG_SPRITE_MODE == true)
@@ -106,10 +106,16 @@ namespace KirbyNightmareInDreamLand.Sprites
             GameDebug.Instance.NumOfSpriteDrawCalls++;
         }
 
-        // Draws the sprite to the spriteBatch. With unspecified color mask, uses white (no change to source image).
+        // Draws the sprite to the spriteBatch. With unspecified layer depth, uses 0.
+        public void Draw(Vector2 position, SpriteBatch spriteBatch, Color color)
+        {
+            Draw(position, spriteBatch, color, 0);
+        }
+
+        // Draws the sprite to the spriteBatch. With unspecified color mask and layer depth, uses white (no change to source image) and 0.
         public void Draw(Vector2 position, SpriteBatch spriteBatch)
         {
-            Draw(position, spriteBatch, Color.White);
+            Draw(position, spriteBatch, Color.White, 0);
         }
 
 

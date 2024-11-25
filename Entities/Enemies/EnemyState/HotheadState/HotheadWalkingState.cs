@@ -31,7 +31,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState
             {
                 _hothead.UpdateDirection();
                 _hothead.ChangeState(new HotheadChargingState(_hothead));
-                _hothead.UpdateTexture();
             }
         }
 
@@ -42,8 +41,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState
 
         public void TakeDamage()
         {
-            _hothead.ChangeState(new HotheadHurtState(_hothead));
-            _hothead.UpdateTexture();
+            _hothead.ChangeState(new EnemyHurtState(_hothead));
         }
 
         public void ChangeDirection()
