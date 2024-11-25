@@ -28,8 +28,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         protected float groundCollisionOffset = 1 - Constants.Physics.FLOAT_GRAVITY;
         protected float damageVel = Constants.Physics.DAMAGE_VELOCITY;
         protected float ceiling = Constants.Kirby.CEILING;
-        public double startingFallingTime { get; private set; }
-        public double startingBounceTime { get; private set; }
         private ITimeCalculator timer;
         protected bool landed = true;
         public bool onSlope { get; private set; }
@@ -43,7 +41,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             position = pos;
             velocity = vel;
             onSlope = false;
-            startingFallingTime = 0;
         }
         public Vector2 GetPosition()
         {
