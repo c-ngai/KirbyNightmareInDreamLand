@@ -374,7 +374,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             SetDirectionLeft();
             movement.Walk(state.IsLeft());
             //check if kirby should change pose
-            if(state.CanMove()){
+            if(state.CanMove())
+            {
                 ChangePose(KirbyPose.Walking);
             }
         }
@@ -384,30 +385,30 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             SetDirectionRight();
             movement.Walk(state.IsLeft());
             //walk connot override walking, jumping, floating, crouching, and attack
-            if(state.CanMove()){
+            if (state.CanMove())
+            {
                 ChangePose(KirbyPose.Walking);
             }
         }
 
+        // TODO: clean up how ugly this method is
         public void Fall()
         {
+            // sould kirby exhibit falling behavior
             if (movement.GetVelocity().Y > 0 && !movement.onSlope && !DEAD && !state.IsFloating())
             {
-                // if kirby was not falling or has not reached counter for freefallfar, enter freefall
+                // if kirby was not falling enter freefall
                 if (!state.IsFalling())
                 {
                     ChangePose(KirbyPose.FreeFall);
                 }
-                if (state.GetPose() == KirbyPose.FreeFall && poseCounter > 16 && state.GetKirbyType() != KirbyType.Mouthful)
+                // should kirby enter free fall far
+                if (state.GetPose() == KirbyPose.FreeFall && poseCounter > Constants.Kirby.MINFREEFALLFARFRAMES && state.GetKirbyType() != KirbyType.Mouthful)
                 {
                     ChangePose(KirbyPose.FreeFallFar);
-                    // changes counter to freefall to account for counter reset at pose transition
-                    //if (oldPose == KirbyPose.FreeFall)
-                    //{
-                    //    poseCounter = Constants.Kirby.MINFREEFALLFARFRAMES;
-                    //}
                 }
 
+                // changes bounce and falling poses to be named the same pose (they are the same)
                 if (state.GetPose() == KirbyPose.JumpFalling && poseCounter > 12)
                 {
                     ChangePose(KirbyPose.FreeFall);
@@ -419,6 +420,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
                 movement.ChangeKirbyLanded(false);
             }
+
+            // changes kirby to freefall once stop floating should end
+            if (state.GetPose() == KirbyPose.FloatingEnd && poseCounter > Constants.Kirby.STOPFLOATINGTRANSITIONFRAME)
+            {
+                ChangePose(KirbyPose.FreeFall);
+                movement.ChangeKirbyLanded(false);
+            }
         }
         #region running
         public void RunLeft()
@@ -427,12 +435,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             movement.Run(state.IsLeft());
             if (state.CanMove())
             {
-                //// transitions from a brief state of standing that is not seen by the user to running
-                //if (state.GetPose() == KirbyPose.Standing || state.GetPose() == KirbyPose.Walking || poseCounter != 0)
-                //{
-                    
-                //}
-                // Play dash sound and create particle accordingly
                 DashEffects();
                 ChangePose(KirbyPose.Running);
             }
@@ -441,14 +443,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             SetDirectionRight();
             movement.Run(state.IsLeft());
-            if(state.CanMove())
+            if (state.CanMove())
             {
-                //// transitions from a brief state of standing that is not seen by the user to running
-                //if (state.GetPose() == KirbyPose.Standing || state.GetPose() == KirbyPose.Walking || poseCounter != 0)
-                //{
-                    
-                //}
-                // Play dash sound and create particle accordingly
                 DashEffects();
                 ChangePose(KirbyPose.Running);
             }
@@ -472,12 +468,14 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #region jumping
         public void Jump()
         {
-            if(state.CanJump()){ //not floating, not jumping, not crouching
+            if (state.CanJump()){ //not floating, not jumping, not crouching
                 movement = new JumpMovement(movement.GetPosition(), movement.GetVelocity());
                 ChangePose(KirbyPose.JumpRising);
                 SoundManager.Play("jump");
-            }else if (state.IsJumping() && !state.IsFloating()){ //if jumping and x is pressed again
-                //Float();
+            
+            }
+            else if (state.IsJumping() && !state.IsFloating()) //if jumping and x is pressed again
+            { 
                 movement.Jump(state.IsLeft());
             }
         }
@@ -490,7 +488,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 ChangePose(KirbyPose.FloatingStart);
             }
-            else if (state.GetPose() == KirbyPose.FloatingStart && poseCounter >= Constants.Kirby.STOPFLOATINGSTARTFRAME)
+            else if (state.GetPose() == KirbyPose.FloatingStart && poseCounter >= Constants.Kirby.STOPFLOATINGTRANSITIONFRAME)
             {
                 ChangePose(KirbyPose.FloatingRising);
             }
@@ -501,7 +499,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             //2 go up 
             //3 float again if its fallign
             //crouching and sliding cannot be overwritten by float 
-            if (IsFloating() && state.GetPose() != KirbyPose.FloatingStart && !IsFalling())
+            if (IsFloating() && state.GetPose() != KirbyPose.FloatingStart && state.GetPose() != KirbyPose.FloatingEnd && !IsFalling())
             {
                 if (!movement.GetType().Equals(typeof(FloatingMovement)))
                 {
@@ -692,7 +690,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         // makes state changes by calling other player methods, calls state.Update(), and finally calls Draw last?
         public void Update(GameTime gameTime)
         {
-            // If kirby was still in the starting float sequence and the user stops pressing up, finish the sequence
+            // if kirby was still in the starting float sequence and the user stops pressing up, finish the sequence
             if (state.GetPose() == KirbyPose.FloatingStart)
             {
                 StartFloating();
