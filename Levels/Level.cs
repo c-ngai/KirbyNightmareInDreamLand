@@ -73,7 +73,6 @@ namespace KirbyNightmareInDreamLand.Levels
             _pausedState = new GamePausedState();
             _gameOverState = new GameGameOverState(this);
             _transitionState = new GameTransitioningState(this);
-            _lifeLost = new GameLifeLostState(this);
             _winningState = new GameWinningState(this);
             oldGameState = _currentState.ToString();
         }

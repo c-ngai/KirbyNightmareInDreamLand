@@ -250,7 +250,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             health = 0;
             lives --;
-            Game1.Instance.Level.ChangeToLifeLost();
             movement.DeathMovement();
             DeathSpin();
             if(lives != 0)
@@ -265,7 +264,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 lifeLost = true;
                 lives--;
-                Game1.Instance.Level.ChangeToLifeLost();
                 movement.DeathMovement();
                 Death();
                 if(lives != 0)
@@ -713,7 +711,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 Death();
                 lifeLost = false;
-            }     
+            }
+
             movement.SetOnSlope(false);
 
             // Update pose counter (number of updates since last pose change)

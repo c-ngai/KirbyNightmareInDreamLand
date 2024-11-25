@@ -207,12 +207,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
             else {
                 kirby.RestartKirby();
-                //Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
-                //Game1.Instance.Level.ChangeToPlaying();
+                Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
+                Game1.Instance.Level.ChangeToPlaying();
 
-                Game1.Instance.Level.NextRoom = Game1.Instance.Level.CurrentRoom.Name;
-                Game1.Instance.Level.NextSpawn = Game1.Instance.Level.CurrentRoom.SpawnPoint;
-                Game1.Instance.Level.ChangeToTransitionState();
+                //Game1.Instance.Level.NextRoom = Game1.Instance.Level.CurrentRoom.Name;
+                //Game1.Instance.Level.NextSpawn = Game1.Instance.Level.CurrentRoom.SpawnPoint;
+                //Game1.Instance.Level.ChangeToTransitionState();
             }
         }
         public void FallOffScreenTwo(Player kirby)
@@ -234,6 +234,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     FallOffScreenTwo(kirby);
                 } else {
                     FallOffScreenOne(kirby);
+                    // Debug.WriteLine("FallOffScreenOne called by player movement");
                 }
             }
         }

@@ -171,7 +171,7 @@ namespace KirbyNightmareInDreamLand
         public class Kirby
         {
             public const float INVINCIBLE_TIME = 3;
-            public const int MAX_HEALTH = 2;
+            public const int MAX_HEALTH = 6;
             public const int MAX_LIVES = 3;
             public const int STARTINGXPOSITION = 30;
             public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(11, -9);

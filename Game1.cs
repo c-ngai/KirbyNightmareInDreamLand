@@ -230,6 +230,8 @@ namespace KirbyNightmareInDreamLand
             SoundManager.Update();
             //_transitioning.Update();
 
+            Debug.WriteLine("CurrentCamera game state = " + Level._currentState);
+
             UpdateCounter++;
         }
 
