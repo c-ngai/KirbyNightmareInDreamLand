@@ -928,6 +928,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 new CollisionStar(movement.GetPosition());
                 movement.ChangeKirbyLanded(true);
             }
+            else if (state.GetPose() == KirbyPose.FloatingFalling)
+            {
+                movement.ChangeKirbyLanded(true);
+            }
         }
 
         public void BottomCollisionWithBlock(Rectangle intersection)
