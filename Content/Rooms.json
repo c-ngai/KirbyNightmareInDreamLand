@@ -16,7 +16,7 @@
             {
                 "TileX": 61,
                 "TileY": 6,
-                "DestinationRoom": "hub",
+                "DestinationRoom": "room2",
                 "DestinationTileX": 6,
                 "DestinationTileY": 16,
                 "DrawDoorStars": true,

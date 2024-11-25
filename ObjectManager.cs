@@ -218,9 +218,9 @@ namespace KirbyNightmareInDreamLand
 
         public void UpdateProjectiles()
         {
-            foreach (IProjectile projectile in Projectiles)
+            for (int i = 0; i < Projectiles.Count; i++)
             {
-                projectile.Update();
+                Projectiles[i].Update();
             }
         }
 
