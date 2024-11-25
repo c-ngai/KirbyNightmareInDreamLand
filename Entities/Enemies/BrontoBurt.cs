@@ -13,12 +13,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public BrontoBurt(Vector2 startPosition) : base(startPosition, EnemyType.BrontoBurt)
         {
-            //Initialize starting Y position,
-            stateMachine.ChangePose(EnemyPose.FlyingSlow);
-            ChangeState(new BrontoBurtFlyingSlowState(this)); // Set initial state
-
-            velocity.Y = 0;
-            velocity.X = Constants.BrontoBurt.MOVE_SPEED;
             affectedByGravity = false;
         }
 
@@ -28,8 +22,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             stateMachine.ChangePose(EnemyPose.FlyingSlow);
             ChangeState(new BrontoBurtFlyingSlowState(this)); // Set initial state
 
-            velocity.Y = 0;
-            velocity.X = Constants.BrontoBurt.MOVE_SPEED;
+            //velocity.Y = 0;
+            //velocity.X = Constants.BrontoBurt.MOVE_SPEED;
         }
 
         public override void Move()

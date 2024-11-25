@@ -8,6 +8,7 @@ using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 using KirbyNightmareInDreamLand.Projectiles;
 using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -23,12 +24,20 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public Sparky(Vector2 startPosition) : base(startPosition, EnemyType.Sparky)
         {
             //initialize to hop
-            stateMachine.ChangePose(EnemyPose.Hop);
-            ChangeState(new SparkyPause1State(this)); // Set initial state
-            velocity.Y = 0;
-            velocity.X = Constants.Sparky.HOP_SPEED;
+            //stateMachine.ChangePose(EnemyPose.Hop);
+            //ChangeState(new SparkyPause1State(this)); // Set initial state
+            //velocity.Y = 0;
+            //velocity.X = Constants.Sparky.HOP_SPEED;
             affectedByGravity = true;
         }
+
+        public override void Spawn()
+        {
+            base.Spawn();
+            stateMachine.ChangePose(EnemyPose.Hop);
+            currentState = new SparkyPause1State(this);
+        }
+
 
         public override void Jump()
         {

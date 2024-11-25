@@ -43,7 +43,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState
 
         public void TakeDamage()
         {
-            _hothead.ChangeState(new HotheadHurtState(_hothead));
+            _hothead.ChangeState(new EnemyHurtState(_hothead));
             sound.Stop();
         }
 

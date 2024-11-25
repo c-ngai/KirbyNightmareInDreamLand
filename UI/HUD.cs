@@ -186,39 +186,44 @@ namespace KirbyNightmareInDreamLand.UI
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (targetPlayer != null)
+            // Only draw the HUD if the level is not paused
+            if (!Game1.Instance.Level.IsCurrentState("KirbyNightmareInDreamLand.GameState.GamePausedState"))
             {
-                foreach (var powerupKey in powerupPositions.Keys)
+                if (targetPlayer != null)
                 {
-                    if (powerupActive[powerupKey])
+                    foreach (var powerupKey in powerupPositions.Keys)
                     {
-                        hudElements[powerupKey].Draw(powerupPositions[powerupKey], spriteBatch);
+                        if (powerupActive[powerupKey])
+                        {
+                            hudElements[powerupKey].Draw(powerupPositions[powerupKey], spriteBatch);
+                        }
                     }
+
+                    // Draw lives
+                    hudElements["ui_lives"].Draw(Constants.HUD.LIVES_ICON_POS, spriteBatch);
+
+                    int displayLives = targetPlayer.lives; // Adjust to show 02 for 3 lives, 01 for 2 lives, etc.
+                    string displayLivesText = displayLives.ToString().PadLeft(Constants.HUD.LIVES_PAD, '0'); // Format as two digits
+
+                    int livesTens = int.Parse(displayLivesText[0].ToString());
+                    int livesOnes = int.Parse(displayLivesText[1].ToString());
+
+                    hudElements[$"ui_{livesTens}"].Draw(Constants.HUD.LIVES_TENS_POS, spriteBatch);
+                    hudElements[$"ui_{livesOnes}"].Draw(Constants.HUD.LIVES_ONES_POS, spriteBatch);
+
+                    // Draw health bar based on player.health
+                    int healthX = Constants.HUD.HEALTH_INIT_X;
+                    for (int i = 0; i < Constants.Kirby.MAX_HEALTH; i++)
+                    {
+                        string healthSprite = i < targetPlayer.health ? "ui_healthbar_1" : "ui_healthbar_0";
+                        hudElements[healthSprite].Draw(new Vector2(healthX, Constants.HUD.HEALTH_Y), spriteBatch);
+                        healthX += Constants.HUD.HEALTH_NEXT_X;
+                    }
+
+                    DrawScore(spriteBatch);
                 }
-
-                // Draw lives
-                hudElements["ui_lives"].Draw(Constants.HUD.LIVES_ICON_POS, spriteBatch);
-
-                int displayLives = targetPlayer.lives; // Adjust to show 02 for 3 lives, 01 for 2 lives, etc.
-                string displayLivesText = displayLives.ToString().PadLeft(Constants.HUD.LIVES_PAD, '0'); // Format as two digits
-
-                int livesTens = int.Parse(displayLivesText[0].ToString());
-                int livesOnes = int.Parse(displayLivesText[1].ToString());
-
-                hudElements[$"ui_{livesTens}"].Draw(Constants.HUD.LIVES_TENS_POS, spriteBatch);
-                hudElements[$"ui_{livesOnes}"].Draw(Constants.HUD.LIVES_ONES_POS, spriteBatch);
-
-                // Draw health bar based on player.health
-                int healthX = Constants.HUD.HEALTH_INIT_X;
-                for (int i = 0; i < Constants.Kirby.MAX_HEALTH; i++)
-                {
-                    string healthSprite = i < targetPlayer.health ? "ui_healthbar_1" : "ui_healthbar_0";
-                    hudElements[healthSprite].Draw(new Vector2(healthX, Constants.HUD.HEALTH_Y), spriteBatch);
-                    healthX += Constants.HUD.HEALTH_NEXT_X;
-                }
-
-                DrawScore(spriteBatch);
             }
         }
+
     }
 }

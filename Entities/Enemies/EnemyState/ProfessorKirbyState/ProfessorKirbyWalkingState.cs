@@ -36,7 +36,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
 
         public void TakeDamage()
         {
-            _enemy.ChangeState(new ProfessorKirbyHurtState(_enemy));
+            _enemy.ChangeState(new EnemyHurtState(_enemy));
             _enemy.UpdateTexture();
         }
 

@@ -21,9 +21,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         protected Vector2 position; //Where enemy is drawn on screen
         protected Vector2 spawnPosition; //Where enemy is first drawn on screen
         protected Vector2 velocity;
+        protected float vibrate;
+
         protected int health; //Enemy health
         protected bool active;  //If enemy is dead
         protected Sprite enemySprite;
+        protected Random random;
         public EnemyStateMachine stateMachine { get;  private set; }
         protected IEnemyState currentState; // Current state of the enemy
         protected string oldState; //Previous state
@@ -47,6 +50,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             //isBeingInhaled = false;
             gravity = Constants.Physics.GRAVITY;
             stateMachine = new EnemyStateMachine(type);
+            random = new Random();
             //oldState = string.Empty;
             //currentState = new WaddleDooWalkingState(this); // Initialize with the walking state
             ObjectManager.Instance.AddEnemy(this);
@@ -89,6 +93,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             set => isBeingInhaled = value;
         }
 
+        public float Vibrate
+        {
+            get => vibrate;
+            set => vibrate = value;
+        }
+
         public int FrameCounter
         {
             get { return frameCounter; }
@@ -127,7 +137,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             currentState.Enter();
         }
 
-        public async void TakeDamage(Rectangle intersection)
+        public void TakeDamage(Rectangle intersection, Vector2 positionOfDamageSource)
         {
 
             int points = 0;
@@ -146,10 +156,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             Game1.Instance.manager.UpdateScore(points);
 
             currentState.TakeDamage();
+            velocity = (position - positionOfDamageSource) / 8;
             CollisionActive = false;
             SoundManager.Play("enemydamage");
-            await Task.Delay(Constants.Enemies.DELAY);
-            SoundManager.Play("enemyexplode");
+            
         }
 
 
@@ -199,6 +209,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             isBeingInhaled = false;
             position = spawnPosition;
             velocity = Vector2.Zero;
+            vibrate = 0;
             bool isLeft = ObjectManager.Instance.NearestPlayerDirection(position);
             stateMachine.SetDirection(isLeft);
             health = Constants.Enemies.HEALTH;
@@ -213,7 +224,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public void UpdatePosition()
         {
-            if (affectedByGravity && !isBeingInhaled)
+            if (affectedByGravity && !isBeingInhaled && health > 0)
             {
                 velocity.Y += gravity;  // Increase vertical velocity by gravity
             }
@@ -244,10 +255,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
                 UpdatePosition();
             }
-            else
-            {
-                Dispose();
-            }
+            //else
+            //{
+            //    Dispose();
+            //}
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
@@ -255,7 +266,9 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             //Draw if enemy is alive 
             if (active)
             {
-                enemySprite.Draw(position, spriteBatch);
+                Vector2 vibratePos = new Vector2((float)random.NextDouble(), (float)random.NextDouble());
+                vibratePos.Normalize();
+                enemySprite.Draw(position + vibratePos * vibrate, spriteBatch);
                 //spriteBatch.DrawString(LevelLoader.Instance.Font, frameCounter.ToString(), (position + new Vector2(-8, -32)), Color.Black);
             }
         }
@@ -403,7 +416,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             CollisionActive = false;
             Active = false;
-            currentState.Dispose();
+            currentState?.Dispose();
         }
 
         public virtual KirbyType PowerType()

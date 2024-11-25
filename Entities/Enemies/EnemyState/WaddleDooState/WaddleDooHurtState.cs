@@ -1,5 +1,4 @@
-﻿using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
-using KirbyNightmareInDreamLand.StateMachines;
+﻿using KirbyNightmareInDreamLand.StateMachines;
 using System;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
@@ -17,6 +16,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
         {
             _enemy.ChangePose(EnemyPose.Hurt);
             _enemy.ResetFrameCounter();
+
             _enemy.Health -= Constants.Enemies.DAMAGE_TAKEN; 
         }
 
@@ -44,6 +44,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
         {
             //handled in update
         }
+
         public void ChangeDirection()
         {
             //won't change direction while hurt

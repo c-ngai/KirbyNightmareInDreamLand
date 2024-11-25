@@ -24,13 +24,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public WaddleDoo(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDoo)
         {
-            //Initialize pose
-            stateMachine.ChangePose(EnemyPose.Walking);
-            ChangeState(new WaddleDooWalkingState(this));
-            //TO-DO: spawn facing the direction kirby is in
-            stateMachine.ChangeDirection();
-            velocity.Y = 0;
-            velocity.X = Constants.WaddleDoo.MOVE_SPEED;
             affectedByGravity = true;
         }
 
@@ -39,8 +32,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             base.Spawn();
             stateMachine.ChangePose(EnemyPose.Walking);
             ChangeState(new WaddleDooWalkingState(this));
-            velocity.Y = 0;
-            velocity.X = Constants.WaddleDoo.MOVE_SPEED;
         }
 
         public override void Move()

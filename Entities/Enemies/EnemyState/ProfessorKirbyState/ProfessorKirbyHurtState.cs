@@ -1,5 +1,4 @@
-﻿using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
-using KirbyNightmareInDreamLand.StateMachines;
+﻿using KirbyNightmareInDreamLand.StateMachines;
 using System;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState

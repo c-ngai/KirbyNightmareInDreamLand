@@ -1,13 +1,15 @@
-﻿using KirbyNightmareInDreamLand.StateMachines;
+﻿using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Particles;
+using KirbyNightmareInDreamLand.StateMachines;
 using System;
 
-namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState
+namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState
 {
-    public class WaddleDeeHurtState : IEnemyState
+    public class EnemyHurtState : IEnemyState
     {
         private readonly Enemy _enemy;
 
-        public WaddleDeeHurtState(Enemy enemy)
+        public EnemyHurtState(Enemy enemy)
         {
             _enemy = enemy ?? throw new ArgumentNullException(nameof(enemy));
         }
@@ -25,17 +27,19 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState
 
             _enemy.IncrementFrameCounter();
 
-            //TO-DO: CHANGE TO WHEN KIRBY + ENEMY COLLIDE
-            if (_enemy.FrameCounter >= Constants.WaddleDee.HURT_FRAMES )
-            {
-                //_enemy.ChangeState(new WaddleDeeWalkingState(_enemy));
+            _enemy.Vibrate = (float)(Constants.Enemies.HURT_FRAMES - _enemy.FrameCounter) / Constants.Enemies.HURT_FRAMES * 8;
 
+            //TO-DO: CHANGE TO WHEN KIRBY + ENEMY COLLIDE
+            if (_enemy.FrameCounter >= Constants.Enemies.HURT_FRAMES)
+            {
                 if (_enemy.Health <= 0)
                 {
                     _enemy.Active = false;
                     _enemy.CollisionActive = false;
+                    new StarExplode(_enemy.GetPosition());
+                    SoundManager.Play("enemyexplode");
                 }
-            }  
+            }
         }
 
         public void Exit() { }
