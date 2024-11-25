@@ -6,6 +6,7 @@ using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState;
 using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -16,14 +17,17 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public PoppyBrosJr(Vector2 startPosition) : base(startPosition, EnemyType.PoppyBrosJr)
         {
-            stateMachine.ChangePose(EnemyPose.Hop);
-            ChangeState(new PoppyBrosJrHopState(this));
-            velocity.Y = 0;
-            velocity.X = Constants.PoppyBrosJr.MOVE_SPEED;
             affectedByGravity = true;
         }
 
-        public override void Jump()
+    public override void Spawn()
+    {
+        base.Spawn();
+        stateMachine.ChangePose(EnemyPose.Hop);
+        currentState = new PoppyBrosJrHopState(this);
+    }
+
+    public override void Jump()
         {
             if (!isJumping)
             {

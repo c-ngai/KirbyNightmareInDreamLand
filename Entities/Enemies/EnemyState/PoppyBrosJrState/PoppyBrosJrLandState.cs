@@ -37,7 +37,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState
 
         public void TakeDamage()
         {
-            _enemy.ChangeState(new PoppyBrosJrHurtState(_enemy));
+            _enemy.ChangeState(new EnemyHurtState(_enemy));
         }
 
         public void ChangeDirection()

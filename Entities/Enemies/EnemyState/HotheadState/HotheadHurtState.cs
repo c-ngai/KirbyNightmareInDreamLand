@@ -1,10 +1,5 @@
-﻿using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
-using KirbyNightmareInDreamLand.StateMachines;
+﻿using KirbyNightmareInDreamLand.StateMachines;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState
 {

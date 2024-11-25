@@ -33,7 +33,17 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState
 
             _enemy.IncrementFrameCounter();
 
+            // PROBABLY SUPER TIGHT OF COUPLING, FIX LATER
+            //if (_player.state.GetPose() == KirbyPose.Inhaling)
+            //{
             _enemy.AccellerateTowards(_player.GetKirbyPosition());
+            //}
+            //else
+            //{
+            //    _enemy.ChangeState(new EnemyHurtState(_enemy));
+            //}
+
+            
 
             //if (_enemy.FrameCounter >= Constants.WaddleDee.HURT_FRAMES)
             //{

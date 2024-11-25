@@ -26,11 +26,21 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public override void Walk(bool isLeft)
         {
-            velocity.X = isLeft ? jumpXVel * -1 : jumpXVel;
+            velocity.X += isLeft ? Constants.Physics.JUMPING_XACCELLERATION * -1 : Constants.Physics.JUMPING_XACCELLERATION;
+            if (velocity.X > Constants.Physics.JUMPING_XVELOCITY)
+            {
+                velocity.X = Constants.Physics.JUMPING_XVELOCITY;
+            }
+            else if (velocity.X < -Constants.Physics.JUMPING_XVELOCITY)
+            {
+                velocity.X = -Constants.Physics.JUMPING_XVELOCITY;
+            }
         }
+
         public override void Run(bool isLeft)
         {
-            velocity.X = isLeft ? jumpXVel * -1 : jumpXVel;
+            // Horizontal movement in midair while running is identical to walking
+            Walk(isLeft);
         }
 
         #region Jumping

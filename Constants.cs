@@ -70,7 +70,7 @@ namespace KirbyNightmareInDreamLand
             public const float RUNNING_ACCELLERATION = 0.15f;
 
             public const float JUMPING_XVELOCITY = 1.85f;
-            public const float JUMPING_XACCELLERATION = 0.1f;
+            public const float JUMPING_XACCELLERATION = 0.15f;
 
             public const float DAMAGE_VELOCITY =2f;
             public const float JUMP_CEILING = 38.4f;
@@ -301,6 +301,7 @@ namespace KirbyNightmareInDreamLand
             public const int STRONG_ENEMY_POINTS = 600;
             public const int WEAK_ENEMY_POINTS = 400;
             public const int DAMAGE_TAKEN = 1;
+            public const int HURT_FRAMES = 50;
         }
 
             public class BrontoBurt

@@ -344,7 +344,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 }
             }
         }
-        public void TakeDamage(Rectangle intersection)
+        public void TakeDamage(Rectangle intersection, Vector2 positionOfDamageSource)
         {
             if(!invincible)
             {

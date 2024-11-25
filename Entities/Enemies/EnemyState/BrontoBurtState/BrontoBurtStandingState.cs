@@ -37,7 +37,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState
             public void TakeDamage()
             {
                 // Transition to hurt state on taking damage
-                _enemy.ChangeState(new BrontoBurtHurtState(_enemy));
+                _enemy.ChangeState(new EnemyHurtState(_enemy));
             }
 
             public void ChangeDirection()

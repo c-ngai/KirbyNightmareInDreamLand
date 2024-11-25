@@ -116,7 +116,7 @@ namespace KirbyNightmareInDreamLand.Actions
         public static void WaterCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
             Enemy enemy = (Enemy)object1;
-            enemy.TakeDamage(intersection);
+            enemy.TakeDamage(intersection, intersection.Center.ToVector2());
         }
 
         public static void GentleLeftSlopeCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
