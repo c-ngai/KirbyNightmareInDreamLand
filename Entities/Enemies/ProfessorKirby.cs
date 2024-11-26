@@ -25,6 +25,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public ProfessorKirby(Vector2 startPosition) : base(startPosition, EnemyType.ProfessorKirby)
         {
+
+
             UpdateTexture();
             currentState = new ProfessorKirbyWalkingState(this);
             stateMachine.ChangeDirection();
@@ -136,8 +138,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public override KirbyType PowerType()
         {
-            //TO-DO - CHANGE TO PROFESSOR WHEN IMPLEMENTED
-            return KirbyType.Beam;
+            return KirbyType.Professor;
         }
 
     }
