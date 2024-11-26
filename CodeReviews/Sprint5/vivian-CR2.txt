@@ -1,0 +1,30 @@
+﻿Sprint 3 Readabilty Code Review     11/4/2024
+
+Author of Code Review: Vivian Ferrigni
+Name of .cs file being reviewed: HUD.cs
+Author of .cs file being reivewed: Payton Murphy
+
+Time taken to complete review:
+
+################################################################################
+
+10 Code Smells:
+
+1. God class 
+2. Duplicated code
+3. TooManyParameters
+4. WhileTrueLoop
+5. LongMethodSmell 
+6. ParallelInheritanceHierarchies
+7. SameNameDifferentMeaning
+8. SwitchCaseSmell
+9. VariableNameSameAsType
+10.DataClumps
+
+################################################################################
+
+Comments:
+
+
+
+

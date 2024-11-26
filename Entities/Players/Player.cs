@@ -243,8 +243,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             //wait a beat
             SoundManager.Play("deathjingle");
             state.ChangePose(KirbyPose.DeathSpin);
-            movement.DeathSpin();
             CollisionActive = false;
+            movement.DeathSpin();
         }
         public void FallOffScreenDeath()
         {
