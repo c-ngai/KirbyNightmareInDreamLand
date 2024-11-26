@@ -210,6 +210,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 kirby.FillLives();
             }
             else {
+                //Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
+                //Game1.Instance.Level.ChangeToPlaying();
+
+                Game1.Instance.Level.NextRoom = Game1.Instance.Level.CurrentRoom.Name;
+                Game1.Instance.Level.NextSpawn = Game1.Instance.Level.CurrentRoom.SpawnPoint;
+                Game1.Instance.Level.ChangeToTransitionState();
                 kirby.RestartKirby();
                 //Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
                 //Game1.Instance.Level.ChangeToPlaying();

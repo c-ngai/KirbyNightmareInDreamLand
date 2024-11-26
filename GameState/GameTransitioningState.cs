@@ -27,9 +27,6 @@ namespace KirbyNightmareInDreamLand.GameState
 
         public override void Update()
         {
-
-            
-
             //System.Diagnostics.Debug.WriteLine($"FadeAlpha: {FadeAlpha}, CurrentlyFadingOut: {CurrentlyFadingOut}, CurrentlyFadingIn: {CurrentlyFadingIn}");
 
             // if we are currently fading out we want to keep fading out
@@ -48,8 +45,18 @@ namespace KirbyNightmareInDreamLand.GameState
             // if we are transitioning and not fading out we want to use the opaque screen to load the new room 
             if (!CurrentlyFadingOut && !CurrentlyFadingIn)
             {
-                level.LoadRoom(level.NextRoom, doorPositionForNextRoom); // load new room
-                //System.Diagnostics.Debug.WriteLine("Next room is ..." + level.NextRoom);
+                if (level.NextRoom == "winner_room")
+                {
+                    level.LoadRoom(level.NextRoom, new Vector2 (100, 100));
+                }
+                else if (level.CurrentRoom.Name == "winner_room" && level.PreviousRoom == "room3")
+                {
+                    level.LoadRoom(level.NextRoom, new Vector2(120, 270));
+                }
+                else
+                {
+                    level.LoadRoom(level.NextRoom, doorPositionForNextRoom); // load new room
+                }
                 CurrentlyFadingIn = true; //  Que the fade in
             }
 
@@ -61,19 +68,28 @@ namespace KirbyNightmareInDreamLand.GameState
                 {
                     level.FadeAlpha = startFade; // reset fadeAlpha so fade-out is ready to go
                     CurrentlyFadingIn = false; // Fade-in complete
+
+                    level.IsDoorBeingOpened = false;
+                    level.IsDoorBeingExited = true;
+
                     if (level.NextRoom == gameOverString)
                     {
                         level.ChangeState(Game1.Instance.Level._gameOverState);
+                        level.ExitDoorAt(doorPositionForNextRoom);
                     }
                     else if (level.NextRoom == "winner_room")
                     {
                         level.ChangeState(Game1.Instance.Level._winningState);
+                        level.ExitDoorAt(doorPositionForNextRoom);
+                    }
+                    else if (level.CurrentRoom.Name == "winner_room" && level.PreviousRoom == "room3")
+                    {
+                        level.ChangeState(Game1.Instance.Level._playingState); // We are done transitioning so set game state to playing
+                        level.ExitDoorAt(new Vector2(6, 16));
                     }
                     else
                     {
                         level.ChangeState(Game1.Instance.Level._playingState); // We are done transitioning so set game state to playing
-                        level.IsDoorBeingOpened = false;
-                        level.IsDoorBeingExited = true;
                         level.ExitDoorAt(doorPositionForNextRoom);
                     }
                 }

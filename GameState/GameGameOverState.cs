@@ -31,7 +31,6 @@ namespace KirbyNightmareInDreamLand.GameState
             DrawBackground(spriteBatch, camera);
             DrawForeground(spriteBatch);
             currentButtonSprite.Draw(buttonPosition, spriteBatch);
-            foreach (IPlayer player in _manager.Players) player.Draw(spriteBatch);
         }
 
         public override void Update()
@@ -57,7 +56,7 @@ namespace KirbyNightmareInDreamLand.GameState
             }
             else
             {
-                _manager.FillAllPlayerLives();
+                Game1.Instance.manager.FillAllPlayerLives();
                 level.NextRoom = "hub";//level.PreviousRoom;
                 level.NextSpawn = null;//level.CurrentRoom.SpawnPoint;
                 level.ChangeToTransitionState();

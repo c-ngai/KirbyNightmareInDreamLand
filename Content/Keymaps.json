@@ -349,12 +349,12 @@
 
 	"winning": [
 		{
-			"Key": "Up",
+			"Key": "W",
 			"ExecutionType": "StartingPress",
 			"Command": "SelectContinueCommand"
 		},
 		{
-			"Key": "Down",
+			"Key": "S",
 			"ExecutionType": "StartingPress",
 			"Command": "SelectQuitCommand"
 		},
@@ -372,6 +372,36 @@
 			"Key": "F",
 			"ExecutionType": "StartingPress",
 			"Command": "GraphicsToggleFullscreenCommand"
+		},
+		{
+			"Key": "F1",
+			"ExecutionType": "StartingPress",
+			"Command": "GraphicsToggleDebugTextCommand"
+		},
+		{
+			"Key": "F2",
+			"ExecutionType": "StartingPress",
+			"Command": "GraphicsToggleDebugSpriteCommand"
+		},
+		{
+			"Key": "F3",
+			"ExecutionType": "StartingPress",
+			"Command": "GraphicsToggleDebugLevelCommand"
+		},
+		{
+			"Key": "F4",
+			"ExecutionType": "StartingPress",
+			"Command": "GraphicsToggleDebugCollisionCommand"
+		},
+		{
+			"Key": "F5",
+			"ExecutionType": "StartingPress",
+			"Command": "GraphicsToggleDebugZoomCommand"
+		},
+		{
+			"Key": "F6",
+			"ExecutionType": "StartingPress",
+			"Command": "GraphicsToggleCullingCommand"
 		}
 	]
 }
