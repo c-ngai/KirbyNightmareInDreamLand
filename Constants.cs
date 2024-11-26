@@ -189,6 +189,7 @@ namespace KirbyNightmareInDreamLand
             public static int BOUNCEJUMPFRAME = 9;
             public static int STOPBOUNCEFRAME = 22;
             public static int STOPFLOATINGTRANSITIONFRAME = 8;
+            public static int STOPHURTFRAME = 20;
 
         }
         #endregion

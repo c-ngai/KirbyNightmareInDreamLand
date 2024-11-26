@@ -280,7 +280,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
 
         //calls method to drecease health & changes kirby pose
-        private async void TakeDamageAnimation()
+        private void TakeDamageAnimation()
         {
             if (invincible)
             {
@@ -301,7 +301,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 }
                 ChangePose(KirbyPose.Hurt);
                 SoundManager.Play("kirbyhurt1");
-                await Task.Delay(Constants.WaitTimes.DELAY_400);
             }
         }
 
@@ -683,25 +682,36 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         bool TEMP = false;
         #region MoveKirby
-        // makes state changes by calling other player methods, calls state.Update(), and finally calls Draw last?
-        public void Update(GameTime gameTime)
+        public void HandleMovementTransitions()
         {
             // if kirby was still in the starting float sequence and the user stops pressing up, finish the sequence
             if (GetKirbyPose() == KirbyPose.FloatingStart)
             {
                 StartFloating();
             }
-            Fall();
-            movement.MovePlayer(this, gameTime);
-            EndInvinciblility(gameTime);
-            playerSprite.Update();
-            spriteDamageCounter++;
 
+            // end Kirby's hurt animation
+            if (GetKirbyPose() == KirbyPose.Hurt && poseCounter >= Constants.Kirby.STOPHURTFRAME)
+            {
+                ChangePose(KirbyPose.Standing);
+            }
+            
             // If Kirby is walking or running and has slowed all the way to a stop, then switch pose to standing. (this if check is messy, tidy up later)
             if ((GetKirbyPose() == KirbyPose.Walking || GetKirbyPose() == KirbyPose.Running) && GetKirbyVelocity().X == 0)
             {
                 ChangePose(KirbyPose.Standing);
             }
+        }
+
+        // makes state changes by calling other player methods, calls state.Update(), and finally calls Draw last?
+        public void Update(GameTime gameTime)
+        {
+            HandleMovementTransitions();
+            Fall();
+            movement.MovePlayer(this, gameTime);
+            EndInvinciblility(gameTime);
+            playerSprite.Update();
+            spriteDamageCounter++;
 
             if (attack != null || starAttackOne != null || starAttackTwo != null)
             {
