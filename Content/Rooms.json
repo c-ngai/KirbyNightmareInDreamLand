@@ -463,7 +463,7 @@
         "Background sprite": "",
         "Tilemap": "room1_tileset",
 
-        "Spawn tile X": 2,
+        "Spawn tile X": 10,
         "Spawn tile Y": 7,
 
         "Lock camera X?": true,

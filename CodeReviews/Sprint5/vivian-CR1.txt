@@ -1,0 +1,68 @@
+﻿Sprint 5 Readabilty Code Review     11/26/2024
+
+Author of Code Review: Vivian Ferrigni
+Name of .cs file being reviewed: player.cs -  fall(), handleFreeFall(), and collision related methods 
+Author of .cs file being reivewed: Carmen Ngai
+
+Time taken to complete review: 30 minutes 
+
+################################################################################
+
+10 Code Smells:
+
+1. God class 
+2. Duplicated code  ***
+3. TooManyParameters
+4. WhileTrueLoop
+5. LongMethodSmell ***
+6. ParallelInheritanceHierarchies
+7. SameNameDifferentMeaning
+8. SwitchCaseSmell
+9. VariableNameSameAsType
+10.DataClumps 
+
+################################################################################
+
+Comments:
+
+While this file has lots of helpful comments, the complex nature of the logic makes this
+file not very readable. My main suggestions to help improve readability are too avoid
+redunant/reptitive checks by creating helper methods. For example a method named
+
+    ShouldKirbyEnterFreeFall();
+
+could encapsulte the logic:
+
+    if (GetKirbyPose() == KirbyPose.FreeFall && poseCounter > Constants.Kirby.MINFREEFALLFARFRAMES
+            && state.GetKirbyType() != KirbyType.Mouthful)
+
+
+There is also a lot of repetitive code in the slope collision handling for steep, gentle,
+left and right slopes. Instead of different methods for each of these cases you could
+consolidate these methods into one generic slope collision handler, passing parameters
+for slope type and direction.
+
+To improve readability, try to reduce magic numbers and follow the naming convention in the
+Constants.cs file, ( ALL_CAPS_WITH_UNDERSCORE_BETWEEN_WORDS ).
+
+The use of the bool TEMP is unclear, if only used for debugging purposes, it should be
+commented out or replaced with System.Diagnostic.Debug commands. If it does serve a purpose
+within the collision logic, rename it something more meaningful than TEMP. 
+
+Maintainablilty issues: SoundManager.Play("bounce") is hardcoded, making it difficult to
+manage or change sounds in the future. Consider using constants or enums to manage sound effects.
+
+    SoundManager.Play(Constants.SoundEffects.BOUNCE);
+
+instead of
+
+    SoundManager.Play("bounce")
+
+This way, changes are centralized to one location when we what to change sound effects.
+
+
+
+In general, the long methods with multiple conditional blocks this code harder to read.
+To help with this issue, break down methods into smaller helper functions with descriptive names.
+
+This is difficult code and you've done a great job helping debug and improve it, thanks Carman!!!

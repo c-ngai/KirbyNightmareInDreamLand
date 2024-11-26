@@ -1,17 +1,17 @@
-﻿Sprint 3 Readabilty Code Review     11/4/2024
+﻿Sprint 5 Quality Code Review     11/26/2024
 
 Author of Code Review: Vivian Ferrigni
 Name of .cs file being reviewed: HUD.cs
 Author of .cs file being reivewed: Payton Murphy
 
-Time taken to complete review:
+Time taken to complete review: 25  minutes 
 
 ################################################################################
 
 10 Code Smells:
 
 1. God class 
-2. Duplicated code
+2. Duplicated code  *** 
 3. TooManyParameters
 4. WhileTrueLoop
 5. LongMethodSmell 
@@ -19,12 +19,42 @@ Time taken to complete review:
 7. SameNameDifferentMeaning
 8. SwitchCaseSmell
 9. VariableNameSameAsType
-10.DataClumps
+10.DataClumps *** 
 
 ################################################################################
 
 Comments:
 
+This class does a good job of encapsulating HUD-specific logic and keeping it
+separate from other game components. The management of power-up activation/deactivation
+and timers is clear and adheres to the single-responsibility principle.
 
 
+Places for improvement:
 
+Power-up keys ("ui_power_beam", "ui_power_fire", etc.) and health bar states
+("ui_healthbar_1", "ui_healthbar_0") are hard-coded.
+
+Magic numbers appear in the code without explanation, replace these with position
+informative names in Constants.HUD to make the file more readable. 
+
+DeactivateAllPowerups is called in multiple places but could potentially deactivate
+an already active power-up before reactivation. To fix this, refactor logic to avoid
+redundant calls by checking the state first.
+
+The UpdatePowerupPosition method updates positions even for inactive power-ups,
+skip updates for inactive power-ups to improve performance.
+
+
+Potential Game Change:
+
+If we were to add more power ups and utilize hud power ups graphics in multiplayer,
+this file would probably require some refactoring. 
+
+Due to the hard coded dictionaries, adding new power-ups, health states, or UI
+elements requires changes in multiple places. Consider a data-driven approach,
+where HUD elements and their properties are loaded similar to other data in the game. 
+
+playerIndex assumes players are always available in ObjectManager.Instance.Players,
+ to avoid potential issues with multiplayer, add null-checks to handle cases where
+players might not exist.
