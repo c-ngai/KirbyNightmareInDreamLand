@@ -658,7 +658,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     movement.Attack(this);
                     //ChangeAttackBool(true);
                 }
-                //slide beam float exhale
+                //slide beam & float exhale
                 else if (attack == null && state.ShortAttack())
                 {
                     attack = new PlayerAttack(this, AttackType());
@@ -721,14 +721,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             return state.IsWithEnemy();
         }
-        private async void SmallWait()
-        {
-            await Task.Delay(10000);
-        }
         public void SwallowEnemy(KirbyType kirbyType) //changes to mouthful state
         {
             powerUp = kirbyType;
-            SmallWait();
             SoundManager.Play("catch");
             StopAttacking();
             ChangeToMouthful();
@@ -796,18 +791,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     deathCounter++;
                 }
 
-                if (attack != null || starAttackOne != null || starAttackTwo != null)
-                {
-                    //attack?.Update(gameTime, this);
-                    //starAttackOne?.Update(gameTime, this);
-                    //starAttackTwo?.Update(gameTime, this);
-                }
-                //if (lifeLost)
-                //{
-                //    Die();
-                //    lifeLost = false;
-                //}
-
                 movement.SetOnSlope(false);
 
                 // Update pose counter (number of updates since last pose change)
@@ -851,13 +834,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 if (playerIndex != _game.CurrentCamera)
                 {
                     DrawArrow(spriteBatch);
-                }
-
-                if (attack != null || starAttackOne != null || starAttackTwo != null)
-                {
-                    //attack?.Draw(spriteBatch, this);
-                    //starAttackOne?.Draw(spriteBatch, this);
-                    //starAttackTwo?.Draw(spriteBatch, this);
                 }
 
                 // TEMPORARY, WILL DELETE SOON

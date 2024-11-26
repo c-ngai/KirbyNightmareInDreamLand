@@ -7,6 +7,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
     {
         public CrouchingMovement(Vector2 pos, Vector2 vel) : base(pos, vel) { }
 
+        private float slideVel = Constants.Kirby.SLIDE_VEL;
         private double timer = 0;
 
         public override void Walk(bool isLeft)
@@ -24,7 +25,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             kirby.Slide();
             if(kirby.IsSliding())
             {   
-                velocity.X = kirby.IsLeft() ? runningVel * -1 :runningVel;
+                velocity.X = kirby.IsLeft() ? slideVel * -1 : slideVel;
             }
         }
 

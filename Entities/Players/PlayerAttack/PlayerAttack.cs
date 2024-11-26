@@ -13,8 +13,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
     public class PlayerAttack
     {
         public IProjectile currentAttack {get; private set;}
-
-        private Dictionary<string, Func<Player, IProjectile>> attackFactories;
         private Vector2 position;
         private bool isLeft;
         public PlayerAttack(Player kirby, string attackType)
@@ -45,6 +43,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     return new Slide(position, isLeft, kirby);
                 case ("Star"):
                     return new KirbyStar(position, !isLeft);
+                case ("Professor"):
+                    return new Suitcase(position, isLeft);
                 case ("BouncingStar"):
                     return new KirbyBouncingStar(position, !isLeft, kirby.GetPowerUp());
                 default:
@@ -56,7 +56,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void EndAttack()
         {
             currentAttack.EndAttack();
-            //currentAttack = null;
         }
 
         public bool IsDone()
