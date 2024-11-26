@@ -26,7 +26,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
             if (_enemy.FrameCounter >= Constants.ProfessorKirby.STOP_FRAMES)
             {
                 _enemy.ChangeState(new ProfessorKirbyAttackingState(_enemy));
-                _enemy.UpdateTexture();
             }
         }
 
@@ -38,7 +37,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
         public void TakeDamage()
         {
             _enemy.ChangeState(new EnemyHurtState(_enemy));
-            _enemy.UpdateTexture();
         }
 
         public void ChangeDirection()
