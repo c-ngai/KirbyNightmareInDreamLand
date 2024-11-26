@@ -1,7 +1,7 @@
 ﻿using KirbyNightmareInDreamLand.StateMachines;
 using System;
 
-namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
+namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.ProfessorKirbyState
 {
     public class ProfessorKirbyWalkingState : IEnemyState
     {
@@ -25,7 +25,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
                 if (_enemy.FrameCounter >= Constants.ProfessorKirby.WALK_FRAMES)
                 {
                     _enemy.ChangeState(new ProfessorKirbyChargingState(_enemy));
-                    _enemy.UpdateTexture();
                 }
         }
 
@@ -37,7 +36,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
         public void TakeDamage()
         {
             _enemy.ChangeState(new EnemyHurtState(_enemy));
-            _enemy.UpdateTexture();
         }
 
         public void ChangeDirection()

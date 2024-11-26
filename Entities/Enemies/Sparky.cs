@@ -38,6 +38,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             currentState = new SparkyPause1State(this);
         }
 
+        public override void TakeDamage(Rectangle intersection, Vector2 positionOfDamageSource)
+        {
+            base.TakeDamage(intersection, positionOfDamageSource);
+            sparkyPlasma?.EndAttack();
+        }
+
 
         public override void Jump()
         {

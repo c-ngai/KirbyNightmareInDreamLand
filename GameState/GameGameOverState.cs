@@ -11,7 +11,6 @@ namespace KirbyNightmareInDreamLand.GameState
 {
 	public class GameGameOverState : BaseGameState
 	{
-        private ObjectManager _manager;
         private ISprite currentButtonSprite;
         private ISprite selectQuitScreen;
         private ISprite selectContinueScreen;
@@ -21,8 +20,6 @@ namespace KirbyNightmareInDreamLand.GameState
 
         public GameGameOverState(Level _level) : base(_level)
         {
-            _manager = Game1.Instance.manager;
-
             selectContinueScreen = SpriteFactory.Instance.CreateSprite("button_continue");
             selectQuitScreen = SpriteFactory.Instance.CreateSprite("button_quit");
             currentButtonSprite = selectContinueScreen;
@@ -60,12 +57,12 @@ namespace KirbyNightmareInDreamLand.GameState
             }
             else
             {
-                level.NextRoom = level.PreviousRoom;
-                level.NextSpawn = level.CurrentRoom.SpawnPoint;
+                _manager.FillAllPlayerLives();
+                level.NextRoom = "hub";//level.PreviousRoom;
+                level.NextSpawn = null;//level.CurrentRoom.SpawnPoint;
                 level.ChangeToTransitionState();
             }
         }
 
     }
 }
-

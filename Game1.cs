@@ -177,8 +177,8 @@ namespace KirbyNightmareInDreamLand
             Level.LoadRoom("hub");
 
             // Load the desired keymap by name
-            LevelLoader.Instance.LoadKeymap("keymap1");
-            LevelLoader.Instance.LoadButtonmap("buttonmap1");
+            LevelLoader.Instance.LoadKeymap("main");
+            LevelLoader.Instance.LoadButtonmap("main");
 
             music = SoundManager.CreateInstance("song_vegetablevalley");
             //music?.Play();
@@ -230,7 +230,7 @@ namespace KirbyNightmareInDreamLand
             SoundManager.Update();
             //_transitioning.Update();
 
-            Debug.WriteLine("CurrentCamera game state = " + Level._currentState);
+            //Debug.WriteLine("CurrentCamera game state = " + Level._currentState);
 
             UpdateCounter++;
         }

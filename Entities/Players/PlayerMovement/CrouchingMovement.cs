@@ -54,10 +54,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public override void MovePlayer(Player kirby, GameTime gameTime)
         {
-            UpdatePosition(gameTime);
+            UpdatePosition(kirby);
             AdjustX(kirby);
             AdjustY(kirby);
             AdjustSlide(kirby, gameTime);
+            DeathBarrierCheck(kirby);
         }
         public override void AdjustFromRightCollisionBlock(Rectangle intersection)
         {

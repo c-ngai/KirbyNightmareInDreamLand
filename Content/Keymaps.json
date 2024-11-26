@@ -1,43 +1,5 @@
 {
-    "AttackMaping": [
-        {
-            "Key": "Space",
-            "ExecutionType": "StartingPress",
-            "Command": "PauseCommand"
-        },
-        {
-            "Key": "Z",
-            "ExecutionType": "StartingPress",
-            "Command": "KirbyAttackCommand",
-            "PlayerIndex": 0
-        },
-        {
-            "Key": "Z",
-            "ExecutionType": "StoppingPress",
-            "Command": "KirbyStopAttackingCommand",
-            "PlayerIndex": 0
-        }
-
-    ], 
-    "PauseKeyMap": [
-        {
-            "Key": "Enter",
-            "ExecutionType": "StartingPress",
-            "Command": "PauseCommand"
-        },
-        {
-            "Key": "Escape",
-            "ExecutionType": "StartingPress",
-            "Command": "QuitCommand"
-        },
-        {
-            "Key": "R",
-            "ExecutionType": "StartingPress",
-            "Command": "ResetCommand"
-        }
-    ],
-
-	"keymap1": [
+	"main": [
 		{
 			"Key": "D",
 			"ExecutionType": "Pressed",
@@ -321,19 +283,55 @@
 		}
 	],
 
-	"keymap_gameover": [
+	"no_control": [
 		{
-			"Key": "Up",
+			"Key": "F",
+			"ExecutionType": "StartingPress",
+			"Command": "GraphicsToggleFullscreenCommand"
+		},
+		{
+			"Key": "Escape",
+			"ExecutionType": "StartingPress",
+			"Command": "QuitCommand"
+		}
+	],
+
+	"paused": [
+		{
+			"Key": "Enter",
+			"ExecutionType": "StartingPress",
+			"Command": "PauseCommand"
+		},
+		{
+			"Key": "F",
+			"ExecutionType": "StartingPress",
+			"Command": "GraphicsToggleFullscreenCommand"
+		},
+		{
+			"Key": "Escape",
+			"ExecutionType": "StartingPress",
+			"Command": "QuitCommand"
+		}
+	],
+
+	"gameover": [
+		{
+			"Key": "W",
 			"ExecutionType": "StartingPress",
 			"Command": "SelectContinueCommand"
 		},
 		{
-			"Key": "Down",
+			"Key": "S",
 			"ExecutionType": "StartingPress",
 			"Command": "SelectQuitCommand"
 		},
 		{
-			"Key": "Space",
+			"Key": "B",
+			"ExecutionType": "StartingPress",
+			"Command": "SelectButtonCommand"
+		},
+		{
+			"Key": "Enter",
 			"ExecutionType": "StartingPress",
 			"Command": "SelectButtonCommand"
 		},
@@ -341,10 +339,15 @@
 			"Key": "F",
 			"ExecutionType": "StartingPress",
 			"Command": "GraphicsToggleFullscreenCommand"
+		},
+		{
+			"Key": "Escape",
+			"ExecutionType": "StartingPress",
+			"Command": "QuitCommand"
 		}
 	],
 
-	"keymap_winning": [
+	"winning": [
 		{
 			"Key": "Up",
 			"ExecutionType": "StartingPress",
@@ -356,7 +359,12 @@
 			"Command": "SelectQuitCommand"
 		},
 		{
-			"Key": "Space",
+			"Key": "B",
+			"ExecutionType": "StartingPress",
+			"Command": "SelectButtonCommand"
+		},
+		{
+			"Key": "Enter",
 			"ExecutionType": "StartingPress",
 			"Command": "SelectButtonCommand"
 		},

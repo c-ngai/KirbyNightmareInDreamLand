@@ -5,6 +5,8 @@ using System;
 using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Particles;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
@@ -21,6 +23,9 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private KirbyType powerUp;
         private double timer ;
 
+        public bool isBeingInhaled;
+        private IPlayer playerInhalingMe;
+
         public Vector2 Position
         {
             get => position;            // Return position of star
@@ -36,6 +41,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public KirbyBouncingStar(Vector2 kirbyPosition, bool IsLeft, KirbyType power)
         {
             IsActive = true;
+            isBeingInhaled = false;
             
             powerUp = power;
             Position = kirbyPosition + (IsLeft ? Constants.Kirby.BOUNCING_STAR_OFFSET_RIGHT : Constants.Kirby.BOUNCING_STAR_OFFSET_LEFT);
@@ -67,20 +73,44 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void Update()
         {
-            velocity.Y += Constants.Physics.GRAVITY;
+            if (isBeingInhaled)
+            {
+                AccellerateTowards(playerInhalingMe.GetKirbyPosition());
+            }
+            else
+            {
+                velocity.Y += Constants.Physics.GRAVITY;
+                
+                timer += Game1.GameTime.ElapsedGameTime.TotalSeconds;
+                if (timer > Constants.Star.BOUNCING_TIMER)
+                {
+                    CollisionActive = false;
+                    IsActive = false;
+                    SoundManager.Play("starexplode");
+                    new StarExplode(position);
+                }
+            }
             Position += Velocity;
-            projectileSprite.Update();
-            Adjust();
-
-            timer += Game1.GameTime.ElapsedGameTime.TotalSeconds;
-            if (timer > Constants.Star.BOUNCING_TIMER)
+            // If the star is below the death barrier, despawn it silently
+            if (position.Y > Game1.Instance.Level.CurrentRoom.DeathBarrier)
             {
                 CollisionActive = false;
                 IsActive = false;
-                SoundManager.Play("starexplode");
-                new StarExplode(position);
             }
+
+            projectileSprite.Update();
+            Adjust();
         }
+        public void AccellerateTowards(Vector2 _position)
+        {
+            float magnitude = velocity.Length();
+            velocity = _position - position;
+            velocity.Normalize();
+            velocity *= magnitude + 0.2f;
+            //velocity.X += (_position.X - position.X) / 200;
+            //velocity.Y += (_position.Y - position.Y) / 200;
+        }
+
         private Vector2 CalculateRectanglePoint(Vector2 pos)
         {
             return pos + Constants.HitBoxes.PUFF_OFFSET; 
@@ -97,6 +127,19 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public void Draw(SpriteBatch spriteBatch)
         {
             projectileSprite.Draw(Position, spriteBatch);
+        }
+        public void GetInhaled(Rectangle intersection, IPlayer player)
+        {
+            if (!isBeingInhaled)
+            {
+                velocity = Vector2.Zero;
+                isBeingInhaled = true;
+                playerInhalingMe = player;
+            }
+        }
+        public void GetSwallowed(Rectangle intersection)
+        {
+            EndAttack();
         }
         public void EndAttack()
         {
@@ -126,6 +169,11 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public void FloorBounce()
         {
             velocity.Y = Constants.Star.BOUNCING_STAR_VEL_RIGHT.Y;
+            SoundManager.Play("starbounce");
+        }
+        public void CeilingBounce()
+        {
+            velocity.Y *= -1;
             SoundManager.Play("starbounce");
         }
 

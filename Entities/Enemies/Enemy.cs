@@ -137,7 +137,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             currentState.Enter();
         }
 
-        public void TakeDamage(Rectangle intersection, Vector2 positionOfDamageSource)
+        public virtual void TakeDamage(Rectangle intersection, Vector2 positionOfDamageSource)
         {
 
             int points = 0;
@@ -156,7 +156,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             Game1.Instance.manager.UpdateScore(points);
 
             currentState.TakeDamage();
-            velocity = (position - positionOfDamageSource) / 8;
+            //positionOfDamageSource.Y += 8; // I like to shift the position of the damage source used to calculate the velocity down a little, otherwise hitting things straight on usually sends them down into the ground
+            velocity = (GetHitBox().Center.ToVector2() - positionOfDamageSource) / 8;
             CollisionActive = false;
             SoundManager.Play("enemydamage");
             
@@ -218,8 +219,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         private void Despawn()
         {
-            CollisionActive = false;
-            active = false;
+            Dispose();
         }
 
         public void UpdatePosition()
@@ -266,7 +266,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             //Draw if enemy is alive 
             if (active)
             {
-                Vector2 vibratePos = new Vector2((float)random.NextDouble(), (float)random.NextDouble());
+                Vector2 vibratePos = new Vector2((float)random.NextDouble() - 0.5f, (float)random.NextDouble() - 0.5f);
                 vibratePos.Normalize();
                 enemySprite.Draw(position + vibratePos * vibrate, spriteBatch);
                 //spriteBatch.DrawString(LevelLoader.Instance.Font, frameCounter.ToString(), (position + new Vector2(-8, -32)), Color.Black);
@@ -296,7 +296,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             float magnitude = velocity.Length();
             velocity = _position - position;
             velocity.Normalize();
-            velocity *= magnitude * 1.1f;
+            velocity *= magnitude + 0.2f;
             //velocity.X += (_position.X - position.X) / 200;
             //velocity.Y += (_position.Y - position.Y) / 200;
         }

@@ -5,7 +5,7 @@ namespace KirbyNightmareInDreamLand
 {
     public static class Constants
     {
-        public static readonly List<string> ValidEnemyNames = new List<string> { "WaddleDee", "WaddleDoo", "BrontoBurt", "PoppyBrosJr", "Sparky", "Hothead" };
+        public static readonly List<string> ValidEnemyNames = new List<string> { "WaddleDee", "WaddleDoo", "BrontoBurt", "PoppyBrosJr", "Sparky", "Hothead", "ProfessorKirby" };
 
         public static class Game
         {
@@ -54,14 +54,16 @@ namespace KirbyNightmareInDreamLand
         #region  Physics
         public static class Physics
         {
-            public const float GRAVITY = 10f / 60;
+            public const float GRAVITY = 10f / 60; // 0.1666...
             public const float FLOAT_GRAVITY = 5f / 60; //its 2f as the gravity times 0.01 as a "time elapsed" so float kirby falls at a constan rate
             public const float TERMINAL_VELOCITY = 2.5f;
+            public const float FLOATING_TERMINAL_VELOCITY = 1f;
             public const float X_DECELERATION = 0.05f;
 
             public const float JUMP_VEL = -3f;
             public const int JUMP_MAX_FRAMES = 12;
-            public const float FLOAT_VEL = 0.9F;
+            public const float FLOAT_YACCELLERATION = -0.15f;
+            public const float FLOAT_MIN_YVEL = -1.3f;
 
             public const float WALKING_VELOCITY = 1.3f;
             public const float WALKING_ACCELLERATION = 0.1f;
@@ -72,10 +74,13 @@ namespace KirbyNightmareInDreamLand
             public const float JUMPING_XVELOCITY = 1.85f;
             public const float JUMPING_XACCELLERATION = 0.15f;
 
+            public const float FLOATING_XVELOCITY = 1f;
+            public const float FLOATING_XACCELLERATION = 0.1f;
+
             public const float DAMAGE_VELOCITY =2f;
             public const float JUMP_CEILING = 38.4f;
 
-            public const float DEATH_VELOCITY = -8;
+            public const float DEATH_VELOCITY = -6;
         }
         #endregion
         public static class Level
@@ -170,9 +175,9 @@ namespace KirbyNightmareInDreamLand
         #region  Kirby
         public class Kirby
         {
-            public const float INVINCIBLE_TIME = 3;
-            public const int MAX_HEALTH = 1;
-            public const int MAX_LIVES = 2;
+            public const float INVINCIBLE_TIME = 1.5f;
+            public const int MAX_HEALTH = 6; //6
+            public const int MAX_LIVES = 3; //3
             public const int STARTINGXPOSITION = 30;
             public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(11, -9);
             public static Vector2 BEAM_ATTACK_OFFSET_LEFT = new Vector2(-11, -9);
@@ -190,6 +195,7 @@ namespace KirbyNightmareInDreamLand
             public static int BOUNCEJUMPFRAME = 9;
             public static int STOPBOUNCEFRAME = 22;
             public static int STOPFLOATINGTRANSITIONFRAME = 8;
+            public static int HURT_STUN_FRAMES = 24;
 
         }
         #endregion
@@ -304,6 +310,7 @@ namespace KirbyNightmareInDreamLand
             public const int WEAK_ENEMY_POINTS = 400;
             public const int DAMAGE_TAKEN = 1;
             public const int HURT_FRAMES = 50;
+            public const int HURT_VIBRATE_MAX_MAGNITUDE = 4;
         }
 
             public class BrontoBurt
