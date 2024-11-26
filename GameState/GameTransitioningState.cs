@@ -28,7 +28,7 @@ namespace KirbyNightmareInDreamLand.GameState
         public override void Update()
         {
 
-            base.Update();
+            
 
             //System.Diagnostics.Debug.WriteLine($"FadeAlpha: {FadeAlpha}, CurrentlyFadingOut: {CurrentlyFadingOut}, CurrentlyFadingIn: {CurrentlyFadingIn}");
 
@@ -43,7 +43,7 @@ namespace KirbyNightmareInDreamLand.GameState
                 }
             }
 
-            Vector2 doorPositionForNextRoom = level.NextSpawn;
+            Vector2? doorPositionForNextRoom = level.NextSpawn;
 
             // if we are transitioning and not fading out we want to use the opaque screen to load the new room 
             if (!CurrentlyFadingOut && !CurrentlyFadingIn)
@@ -78,7 +78,11 @@ namespace KirbyNightmareInDreamLand.GameState
                     }
                 }
             }
+
+            base.Update();
         }
+
+
     }
 }
 

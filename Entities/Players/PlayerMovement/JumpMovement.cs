@@ -85,26 +85,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public override void AdjustY(Player kirby)
         {
+            base.AdjustY(kirby);
+            
             //dont go through the floor
             if (landed)
             {
                 FinishJump(kirby);
                 //once he is back on the floor kirby is normal again
-            }
-            //dont go through the ceiling
-            if (position.Y < ceiling)
-            {
-                //velocity.Y = 0;
-                position.Y = ceiling;
-            }
-             if(position.Y > Game1.Instance.Level.CurrentRoom.Height)
-            {
-                if(kirby.CollisionActive){
-                    FallOffScreenTwo(kirby);
-                } else {
-                    // Debug.WriteLine("FallOffScreenOne called by jump movement");
-                    FallOffScreenOne(kirby);
-                }
             }
         }
         //ensures sprite does not leave the window
@@ -117,8 +104,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //updates position and adjusts frame. 
         public override void MovePlayer(Player kirby, GameTime gameTime)
         {
-            UpdatePosition(gameTime);
+            UpdatePosition(kirby);
             Adjust(kirby);
+            DeathBarrierCheck(kirby);
         }
         #endregion
 

@@ -17,8 +17,8 @@
                 "TileX": 61,
                 "TileY": 6,
                 "DestinationRoom": "room2",
-                "DestinationTileX": 6,
-                "DestinationTileY": 16,
+                "DestinationTileX": 2,
+                "DestinationTileY": 7,
                 "DrawDoorStars": true,
                 "IsBigDoor": false
             }

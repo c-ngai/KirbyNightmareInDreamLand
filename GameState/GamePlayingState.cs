@@ -10,7 +10,6 @@ using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static KirbyNightmareInDreamLand.Levels.Level;
 
 namespace KirbyNightmareInDreamLand.GameState
 {
@@ -19,6 +18,27 @@ namespace KirbyNightmareInDreamLand.GameState
 
         public GamePlayingState(Level _level) : base(_level)
         {
+        }
+
+        public override void Update()
+        {
+            base.Update();
+            // If all players are dead and inactive...
+            if (_manager.AllPlayersInactive())
+            {
+                // ...and if they were all out of extra lives, then game over.
+                if (_manager.AllPlayersOutOfLives())
+                {
+                    level.GameOver();
+                }
+                // If at least one of them had at least one extra life, restart the room
+                else
+                {
+                    level.NextRoom = level.CurrentRoom.Name;
+                    level.NextSpawn = level.SpawnPoint;
+                    level.ChangeToTransitionState();
+                }
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)

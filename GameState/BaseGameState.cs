@@ -17,7 +17,7 @@ namespace KirbyNightmareInDreamLand.GameState
     public abstract class BaseGameState : IGameState
     {
         public readonly Game1 _game;
-        private readonly ObjectManager _manager;
+        public readonly ObjectManager _manager;
         public Level level;
         private readonly Sprite DoorStarsSprite;
         public Vector2 SpawnPoint { get; set; }

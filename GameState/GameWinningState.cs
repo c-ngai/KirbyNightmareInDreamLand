@@ -79,7 +79,7 @@ namespace KirbyNightmareInDreamLand.GameState
                 if(level.PreviousRoom == "room3")
                 {
                     level.NextRoom = "hub";
-                    level.NextSpawn = new Vector2(112, 270);
+                    level.NextSpawn = null; //new Vector2(112, 270);
                     // level.LoadRoom(level.NextRoom, level.NextSpawn); // load new room
                     level.ChangeToTransitionState();
                 }

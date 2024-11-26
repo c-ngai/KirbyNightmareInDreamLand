@@ -76,14 +76,24 @@ namespace KirbyNightmareInDreamLand.Actions
         }
 
         //boincing star collides with inhale attack
-        public static void KirbyBouncingStarCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
+        public static void PlayerAttackBouncingStarCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
             if(object1 is KirbyBouncingStar star)
             {
                 if (object2 is Inhale attack)
                 {
-                    attack.OnCollide(star.PowerUp());
-                    star.EndAttack();
+                    star.GetInhaled(intersection, attack.player);
+                }
+            }
+        }
+        public static void KirbyBouncingStarCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
+        {
+            if (object1 is KirbyBouncingStar star && object2 is Player player)
+            {
+                if (star.isBeingInhaled)
+                {
+                    star.GetSwallowed(intersection);
+                    player.SwallowEnemy(star.PowerUp());
                 }
             }
         }

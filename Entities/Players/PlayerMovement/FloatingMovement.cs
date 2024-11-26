@@ -49,7 +49,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             terminalVelocity = Constants.Physics.FLOATING_TERMINAL_VELOCITY;
         }
 
-        public void AdjustYPositionWhileFloating(Player kirby)
+        public void AdjustPoseWhileFloating(Player kirby)
         {
             //dont go through the floor but float state as not been terminated
             if (kirby.state.GetPose() != KirbyPose.FloatingStart)
@@ -68,7 +68,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 }
             }
         }
-        public void AdjustYPositionWhileNotFloating(Player kirby)
+        public void LandIfOnGround(Player kirby)
         {
             //dont go through the floor but floating was ended
             if (landed)
@@ -79,29 +79,15 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public override void AdjustY(Player kirby)
         {
+            base.AdjustY(kirby);
+
             if (endFloat)
             {
-                AdjustYPositionWhileNotFloating(kirby);
+                LandIfOnGround(kirby);
             }
             else
             {
-                AdjustYPositionWhileFloating(kirby);
-            }
-            //dont go through the ceiling
-            if (position.Y < Constants.Kirby.CEILING)
-            {
-                velocity.Y = 0;
-                position.Y = Constants.Kirby.CEILING;
-            }
-             if(position.Y > Game1.Instance.Level.CurrentRoom.Height)
-            {
-                if(kirby.CollisionActive){
-                    FallOffScreenTwo(kirby);
-                } else {
-                    FallOffScreenOne(kirby);
-                    // Debug.WriteLine("FallOffScreenOne called by floating movement");
-
-                }
+                AdjustPoseWhileFloating(kirby);
             }
         }
 

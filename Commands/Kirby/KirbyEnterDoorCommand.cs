@@ -23,12 +23,7 @@ namespace KirbyNightmareInDreamLand.Commands
             // If a player of this index exists
             if (playerIndex < _players.Count)
             {
-                if (_game.Level.atDoor(_players[playerIndex].GetKirbyPosition()))
-                {
-                    SoundManager.Play("enterdoor");
-                    _players[playerIndex].ChangePose(StateMachines.KirbyPose.EnterDoor);
-                }
-                _game.Level.EnterDoorAt(_players[playerIndex].GetKirbyPosition());
+                _players[playerIndex].EnterDoor();
             } 
         }
     }

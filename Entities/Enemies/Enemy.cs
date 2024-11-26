@@ -137,7 +137,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             currentState.Enter();
         }
 
-        public void TakeDamage(Rectangle intersection, Vector2 positionOfDamageSource)
+        public virtual void TakeDamage(Rectangle intersection, Vector2 positionOfDamageSource)
         {
 
             int points = 0;
@@ -219,8 +219,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         private void Despawn()
         {
-            CollisionActive = false;
-            active = false;
+            Dispose();
         }
 
         public void UpdatePosition()
@@ -297,7 +296,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             float magnitude = velocity.Length();
             velocity = _position - position;
             velocity.Normalize();
-            velocity *= magnitude * 1.1f;
+            velocity *= magnitude + 0.2f;
             //velocity.X += (_position.X - position.X) / 200;
             //velocity.Y += (_position.Y - position.Y) / 200;
         }
