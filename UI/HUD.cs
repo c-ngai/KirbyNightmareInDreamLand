@@ -81,6 +81,7 @@ namespace KirbyNightmareInDreamLand.UI
 
                 if (string.IsNullOrEmpty(currentPower) || currentPower == "normal")
                 {
+<<<<<<< HEAD
                     // No powerup, deactivate all cards
                     DeactivateAllPowerups();
                 }
@@ -94,6 +95,10 @@ namespace KirbyNightmareInDreamLand.UI
                 foreach (var powerupKey in powerupActive.Keys)
                 {
                     UpdatePowerupPosition(powerupKey);
+=======
+                    string power = targetPlayer.GetPowerUp().ToString().ToLower();
+                    ActivatePowerup("ui_power_" + power);
+>>>>>>> c3f9992 (small chnages)
                 }
             }
         }
