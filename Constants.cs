@@ -5,7 +5,7 @@ namespace KirbyNightmareInDreamLand
 {
     public static class Constants
     {
-        public static readonly List<string> ValidEnemyNames = new List<string> { "WaddleDee", "WaddleDoo", "BrontoBurt", "PoppyBrosJr", "Sparky", "Hothead" };
+        public static readonly List<string> ValidEnemyNames = new List<string> { "WaddleDee", "WaddleDoo", "BrontoBurt", "PoppyBrosJr", "Sparky", "Hothead", "ProfessorKirby" };
 
         public static class Game
         {
