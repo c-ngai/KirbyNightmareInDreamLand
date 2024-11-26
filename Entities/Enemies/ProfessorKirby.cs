@@ -2,8 +2,7 @@
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.StateMachines;
-using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
-using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.ProfessorKirbyState;
 using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Projectiles;

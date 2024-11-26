@@ -1,7 +1,7 @@
 ﻿using KirbyNightmareInDreamLand.StateMachines;
 using System;
 
-namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
+namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.ProfessorKirbyState
 {
     public class ProfessorKirbyChargingState : IEnemyState
     {
