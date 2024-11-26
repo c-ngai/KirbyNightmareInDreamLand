@@ -5,6 +5,7 @@ using KirbyNightmareInDreamLand.Projectiles;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState;
 using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -26,10 +27,19 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             flamethrower = new EnemyFlamethrower();
             isFlamethrowerActive = false;
             flamethrowerFrameCounter = 0;
-            currentState = new HotheadWalkingState(this);
+            //currentState = new HotheadWalkingState(this);
             //TO-DO: spawn facing the direction kirby is in
-            yVel = 0;
-            xVel = Constants.Hothead.MOVE_SPEED;
+            //velocity.Y = 0;
+            //velocity.X = Constants.Hothead.MOVE_SPEED;
+
+            affectedByGravity = true;
+        }
+
+        public override void Spawn()
+        {
+            base.Spawn();
+            stateMachine.ChangePose(EnemyPose.Walking);
+            currentState = new HotheadWalkingState(this);
         }
 
         public override void Update(GameTime gameTime)

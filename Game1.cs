@@ -22,7 +22,7 @@ namespace KirbyNightmareInDreamLand
 {
     public sealed class Game1 : Game
     {
-        public SpriteBatch _spriteBatch { get; private set; }
+        private SpriteBatch _spriteBatch;
         public ObjectManager manager;
         
         public GraphicsDeviceManager Graphics { get; private set; }
@@ -174,14 +174,14 @@ namespace KirbyNightmareInDreamLand
 
             // Create level instance and load initial room
             Level = new Level();
-            Level.LoadRoom("room1");
+            Level.LoadRoom("hub");
 
             // Load the desired keymap by name
-            LevelLoader.Instance.LoadKeymap("keymap1");
-            LevelLoader.Instance.LoadButtonmap("buttonmap1");
+            LevelLoader.Instance.LoadKeymap("main");
+            LevelLoader.Instance.LoadButtonmap("main");
 
             music = SoundManager.CreateInstance("song_vegetablevalley");
-            music?.Play();
+            //music?.Play();
 
             
         }
@@ -230,16 +230,17 @@ namespace KirbyNightmareInDreamLand
             SoundManager.Update();
             //_transitioning.Update();
 
+            //Debug.WriteLine("CurrentCamera game state = " + Level._currentState);
+
             UpdateCounter++;
         }
 
-        bool stupidtest = true;
         private RasterizerState[] rasterizerStates = { new RasterizerState { ScissorTestEnable = false } , new RasterizerState { ScissorTestEnable = true } };
         private void DrawView(Rectangle bounds)
         {
             // Level spritebatch
             GraphicsDevice.ScissorRectangle = bounds;
-            RasterizerState rasterizerState = DEBUG_ZOOM_MODE ? rasterizerStates[0] : rasterizerStates[1];
+            RasterizerState rasterizerState = DEBUG_ZOOM_MODE && !SPLITSCREEN_MODE ? rasterizerStates[0] : rasterizerStates[1];
 
             Matrix viewMatrix = Matrix.CreateScale((float)bounds.Width / Constants.Graphics.GAME_WIDTH) * Matrix.CreateTranslation(bounds.X, bounds.Y, 0);
             

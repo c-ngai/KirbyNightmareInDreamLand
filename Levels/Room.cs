@@ -66,6 +66,7 @@ namespace KirbyNightmareInDreamLand.Levels
         public int TileHeight { get; private set; }
         public int Width { get; private set; }
         public int Height { get; private set; }
+        public int DeathBarrier { get; private set; }
 
         public Vector2 SpawnTile { get; private set; }
         public Vector2 SpawnPoint { get; private set; }
@@ -92,6 +93,7 @@ namespace KirbyNightmareInDreamLand.Levels
             TileHeight = TileMap.Length;
             Width = TileWidth * Constants.Level.TILE_SIZE;
             Height = TileHeight * Constants.Level.TILE_SIZE;
+            DeathBarrier = Height + Constants.Level.TILE_SIZE;
 
             SpawnTile = new Vector2(roomJsonData.SpawnTileX, roomJsonData.SpawnTileY);
             SpawnPoint = SpawnTile * Constants.Level.TILE_SIZE + Constants.Level.BOTTOM_MIDDLE_OF_TILE;

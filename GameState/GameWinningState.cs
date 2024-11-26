@@ -14,7 +14,7 @@ namespace KirbyNightmareInDreamLand.GameState
         public Sprite selectQuitScreen;
         public Sprite selectContinueScreen;
 
-        private Vector2 kirbyStartRoomSpawn = Constants.Level.ROOM1_SPAWN_POINT;
+        private Vector2 kirbyHubRoomSpawn = Constants.Level.HUB_SPAWN_POINT;
         private string room1String = Constants.RoomStrings.ROOM_1;
         private Vector2 buttonPosition = Constants.ButtonLocations.LEVEL_COMPLETE_BUTTONS;
 
@@ -75,11 +75,15 @@ namespace KirbyNightmareInDreamLand.GameState
 
             }
             else
-            {        
-                level.NextRoom = room1String;
-                level.NextSpawn = kirbyStartRoomSpawn;
-                level.LoadRoom(level.NextRoom, level.NextSpawn); // load new room
-                level.ChangeToPlaying();
+            {
+                if(level.PreviousRoom == "room3")
+                {
+                    level.NextRoom = "hub";
+                    level.NextSpawn = null; //new Vector2(112, 270);
+                    // level.LoadRoom(level.NextRoom, level.NextSpawn); // load new room
+                    level.ChangeToTransitionState();
+                }
+                
             }
         }
 

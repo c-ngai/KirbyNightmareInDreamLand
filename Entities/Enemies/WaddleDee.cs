@@ -11,11 +11,28 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
     {
         public WaddleDee(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDee)
         {
-            UpdateTexture();
+            affectedByGravity = true;
+        }
+
+        public override void Spawn()
+        {
+            base.Spawn();
+            stateMachine.ChangePose(EnemyPose.Walking);
             currentState = new WaddleDeeWalkingState(this);
-            stateMachine.ChangeDirection();
-            xVel = Constants.WaddleDee.MOVE_SPEED;
-        } 
+        }
+
+        public override void Move()
+        {
+            base.Move();
+            if (stateMachine.IsLeft())
+            {
+                velocity.X = -Constants.WaddleDee.MOVE_SPEED;
+            }
+            else
+            {
+                velocity.X = Constants.WaddleDee.MOVE_SPEED;
+            }
+        }
 
     }
 }

@@ -10,10 +10,11 @@ namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class SparkyPlasma : IProjectile, ICollidable
     {
-        private readonly Sprite projectileSprite;
+        //private readonly Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;
         private int framesActive;
+        public bool CollisionActive { get; set; } = true;
         public bool IsActive { get; private set; } = true;
 
         public Vector2 Position
@@ -32,8 +33,8 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             Position = startPosition;
             framesActive = 0;
-            projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_sparky_plasma");
-            ObjectManager.Instance.RegisterDynamicObject(this);
+            //projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_sparky_plasma");
+            ObjectManager.Instance.AddProjectile(this);
         }
 
         public CollisionType GetCollisionType()
@@ -45,17 +46,17 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             if (IsActive)
             {
-                projectileSprite.Update();
+                //projectileSprite.Update();
                 framesActive++;
 
-                if (IsDone())
+                if (framesActive >= Constants.Sparky.ATTACK_TIME)
                 {
                     EndAttack();
                 }
             }
             else
             {
-                ObjectManager.Instance.RemoveDynamicObject(this);
+                CollisionActive = false;
             }
         }
 
@@ -66,10 +67,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
         public bool IsDone()
         {
-            return framesActive >= Constants.Sparky.ATTACK_TIME;
+            return !IsActive;
         }
 
-        public bool CollisionActive { get; set; } = true;
+        
 
         public virtual Vector2 CalculateRectanglePoint(Vector2 pos)
         {
@@ -92,8 +93,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public void EndAttack()
         {
             IsActive = false;  
-            CollisionActive = false;
-            ObjectManager.Instance.RemoveDynamicObject(this);         
+            CollisionActive = false;    
         }
     }
 }

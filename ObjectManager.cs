@@ -208,6 +208,54 @@ namespace KirbyNightmareInDreamLand
             return isLeft;
         }
 
+        public bool AllPlayersInactive()
+        {
+            foreach (IPlayer player in Players)
+            {
+                if (player.IsActive)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public bool AllPlayersOutOfLives()
+        {
+            foreach (IPlayer player in Players)
+            {
+                if (player.lives > 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public void FillAllPlayerLives()
+        {
+            foreach (IPlayer player in Players)
+            {
+                player.FillLives();
+            }
+        }
+
+        public void UpdatePlayers()
+        {
+            foreach (IPlayer player in Players)
+            {
+                player.Update(Game1.Instance.time);
+            }
+        }
+
+        public void UpdateProjectiles()
+        {
+            for (int i = 0; i < Projectiles.Count; i++)
+            {
+                Projectiles[i].Update();
+            }
+        }
+
         public void Update()
         {
             foreach (IPlayer player in Players)
@@ -223,9 +271,9 @@ namespace KirbyNightmareInDreamLand
             {
                 powerUp.Update();
             }
-            foreach (IProjectile projectile in Projectiles)
+            for (int i = 0; i < Projectiles.Count; i++)
             {
-                projectile.Update();
+                Projectiles[i].Update();
             }
             //UpdateProjectiles();
             foreach (IParticle particle in Particles)
@@ -235,6 +283,22 @@ namespace KirbyNightmareInDreamLand
             //UpdateParticles();
             UpdateDynamicObjects();
             EmptyLists();
+        }
+
+        public void DrawPlayers(SpriteBatch spriteBatch)
+        {
+            foreach (IPlayer player in Players)
+            {
+                player.Draw(spriteBatch);
+            }
+        }
+
+        public void DrawProjectiles(SpriteBatch spriteBatch)
+        {
+            foreach (IProjectile projectile in Projectiles)
+            {
+                projectile.Draw(spriteBatch);
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -255,6 +319,11 @@ namespace KirbyNightmareInDreamLand
             {
                 projectile.Draw(spriteBatch);
             }
+            //Random r = new Random();
+            //foreach (int i in Enumerable.Range(0, Projectiles.Count).OrderBy(x => r.Next()))
+            //{
+            //    Projectiles[i].Draw(spriteBatch);
+            //}
             foreach (IParticle particle in Particles)
             {
                 particle.Draw(spriteBatch);

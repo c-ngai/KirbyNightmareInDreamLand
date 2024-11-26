@@ -28,7 +28,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState
             {
                 jumpableEnemy.Jump(); // Perform jump action
                 _enemy.IncrementFrameCounter();
-                _enemy.UpdateTexture();
 
                 if (!jumpableEnemy.IsJumping)
                 {
@@ -49,8 +48,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState
 
         public void TakeDamage()
         {
-            _enemy.ChangeState(new PoppyBrosJrHurtState(_enemy));
-            _enemy.UpdateTexture();
+            _enemy.ChangeState(new EnemyHurtState(_enemy));
         }
 
         public void ChangeDirection()

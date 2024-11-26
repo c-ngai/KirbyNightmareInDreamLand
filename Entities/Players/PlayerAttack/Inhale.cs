@@ -16,16 +16,18 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public Vector2 Position {get; private set;}
         public Vector2 Velocity {get; private set;}
         public bool CollisionActive { get; private set;} = true;
+        private bool IsActive;
         private bool IsLeft;
-        private Player player;
+        public Player player { get; private set; }
         private SoundInstance sound;
         public Inhale(Vector2 pos, bool isLeft, Player kirby)
         {
             Position = pos;
             IsLeft = isLeft;
             player = kirby;
+            IsActive = true;
             ObjectManager.Instance.AddProjectile(this);
-            ObjectManager.Instance.RegisterDynamicObject(this);
+            //ObjectManager.Instance.RegisterDynamicObject(this);
             sound = SoundManager.CreateInstance("inhale");
             sound.Play();
         }
@@ -36,15 +38,16 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public void EndAttack()
         {
             CollisionActive = false;
+            IsActive = false;
             sound.Stop();
         }
         public bool IsDone()
         {
-            return true;
+            return !IsActive;
         }
         public void Update()
         {
-            GetHitBox();
+            Position = player.GetPosition();
         }
         public Vector2 CalculateRectanglePoint(Vector2 pos)
         {

@@ -13,40 +13,38 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public BrontoBurt(Vector2 startPosition) : base(startPosition, EnemyType.BrontoBurt)
         {
-            //Initialize starting Y position,
+            affectedByGravity = false;
+        }
+
+        public override void Spawn()
+        {
+            base.Spawn();
             stateMachine.ChangePose(EnemyPose.FlyingSlow);
             ChangeState(new BrontoBurtFlyingSlowState(this)); // Set initial state
 
-            yVel = 0;
-            xVel = Constants.BrontoBurt.MOVE_SPEED;
+            //velocity.Y = 0;
+            //velocity.X = Constants.BrontoBurt.MOVE_SPEED;
         }
 
         public override void Move()
         {
+            base.Move();
             // Increment the time counter to maintain oscillation
             timeCounter += Constants.BrontoBurt.WAVE_FREQUENCY;
 
             // Oscillate vertically using a sine wave pattern
-            yVel = Constants.BrontoBurt.WAVE_AMPLITUDE * (float)Math.Sin(timeCounter);
-            position.Y += yVel; // Apply the Y-axis oscillation
+            velocity.Y = Constants.BrontoBurt.WAVE_AMPLITUDE * (float)Math.Sin(timeCounter);
+            position.Y += velocity.Y; // Apply the Y-axis oscillation
 
             // Move horizontally according to direction and speed
             if (stateMachine.IsLeft())
             {
-                position.X -= xVel;
+                velocity.X = -Constants.BrontoBurt.MOVE_SPEED;
             }
             else
             {
-                position.X += xVel;
+                velocity.X = Constants.BrontoBurt.MOVE_SPEED;
             }
-
-            // Update texture if needed
-            UpdateTexture();
-        }
-
-        public override void Fall()
-        {
-            //empty- no falling
         }
 
     }

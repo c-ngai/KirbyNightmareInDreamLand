@@ -6,7 +6,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 {   
     public class NormalPlayerMovement : PlayerMovement
     {
-        public NormalPlayerMovement(Vector2 pos) : base(pos) {}
+        public NormalPlayerMovement(Vector2 pos, Vector2 vel) : base(pos, vel) {}
 
         //puff is a whole nother thing
         public override void Attack(Player kirby)
@@ -16,7 +16,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             //puff is one time
 
             //attacks are stationary
-            if(!kirby.IsWithEnemy()) StopMovement();
+            // No they're not? commented out this line
+            //if(!kirby.IsWithEnemy()) StopMovement();
         }
 
         public override void MovePlayer(Player kirby, GameTime gameTime)
@@ -25,9 +26,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             //or in the case he is it doesnt apply for the star attack
             if((kirby.attack == null) || kirby.starAttackOne != null || kirby.starAttackTwo != null )// if he is not attacking or is spweing an enemey
             {
-                UpdatePosition(gameTime);
+                UpdatePosition(kirby);
             }
             Adjust(kirby);
+            DeathBarrierCheck(kirby);
         }
 
     }

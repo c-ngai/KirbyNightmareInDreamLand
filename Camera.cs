@@ -34,8 +34,6 @@ namespace KirbyNightmareInDreamLand
         public Matrix LevelMatrix { get; set; }
         // Matrix for the screen, everything drawn here is directly in screen space. For HUD, etc. Things not part of the actual "game world".
         public Matrix ScreenMatrix { get; set; }
-        public Matrix backgroundMatrix { get; set; }
-
 
         public Camera(int playerIndex)
         {
@@ -183,11 +181,15 @@ namespace KirbyNightmareInDreamLand
 
         public static bool InAnyEnemyRespawnBounds(Vector2 position)
         {
-            for (int i = 0; i < Game1.Instance.ActiveCameraCount; i++)
+            // If level is in a new room this update, it doesn't matter where the cameras were last update.
+            if (!Game1.Instance.Level.NewRoom)
             {
-                if (Game1.Instance.cameras[i].oldEnemyBounds.Contains(position))
+                for (int i = 0; i < Game1.Instance.ActiveCameraCount; i++)
                 {
-                    return false;
+                    if (Game1.Instance.cameras[i].oldEnemyBounds.Contains(position))
+                    {
+                        return false;
+                    }
                 }
             }
             for (int i = 0; i < Game1.Instance.ActiveCameraCount; i++)
