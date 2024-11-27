@@ -25,44 +25,52 @@ namespace KirbyNightmareInDreamLand.UI
             // Initialize HUD elements
             hudElements = new Dictionary<string, Sprite>
             {
-                { "ui_power_beam", SpriteFactory.Instance.CreateSprite("ui_power_beam") },
-                { "ui_power_spark", SpriteFactory.Instance.CreateSprite("ui_power_spark") },
-                { "ui_power_fire", SpriteFactory.Instance.CreateSprite("ui_power_fire") },
-                { "ui_lives", SpriteFactory.Instance.CreateSprite("ui_lives" + playerIndex) },
-                { "ui_healthbar_1", SpriteFactory.Instance.CreateSprite("ui_healthbar_1") },
-                { "ui_healthbar_0", SpriteFactory.Instance.CreateSprite("ui_healthbar_0") },
-                { "ui_0", SpriteFactory.Instance.CreateSprite("ui_0") },
-                { "ui_1", SpriteFactory.Instance.CreateSprite("ui_1") },
-                { "ui_2", SpriteFactory.Instance.CreateSprite("ui_2") },
-                { "ui_3", SpriteFactory.Instance.CreateSprite("ui_3") },
-                { "ui_4", SpriteFactory.Instance.CreateSprite("ui_4") },
-                { "ui_5", SpriteFactory.Instance.CreateSprite("ui_5") },
-                { "ui_6", SpriteFactory.Instance.CreateSprite("ui_6") },
-                { "ui_7", SpriteFactory.Instance.CreateSprite("ui_7") },
-                { "ui_8", SpriteFactory.Instance.CreateSprite("ui_8") },
-                { "ui_9", SpriteFactory.Instance.CreateSprite("ui_9") }
+                { "hud_card_beam", SpriteFactory.Instance.CreateSprite("hud_card_beam") },
+                { "hud_card_spark", SpriteFactory.Instance.CreateSprite("hud_card_spark") },
+                { "hud_card_fire", SpriteFactory.Instance.CreateSprite("hud_card_fire") },
+                { "hud_card_professor", SpriteFactory.Instance.CreateSprite("hud_card_professor") },
+                { "hud_card_wait", SpriteFactory.Instance.CreateSprite("hud_card_wait") },
+                { "hud_lives", SpriteFactory.Instance.CreateSprite("hud_lives" + playerIndex) },
+                { "hud_healthbar_1", SpriteFactory.Instance.CreateSprite("hud_healthbar_1") },
+                { "hud_healthbar_0", SpriteFactory.Instance.CreateSprite("hud_healthbar_0") },
+                { "hud_0", SpriteFactory.Instance.CreateSprite("hud_0") },
+                { "hud_1", SpriteFactory.Instance.CreateSprite("hud_1") },
+                { "hud_2", SpriteFactory.Instance.CreateSprite("hud_2") },
+                { "hud_3", SpriteFactory.Instance.CreateSprite("hud_3") },
+                { "hud_4", SpriteFactory.Instance.CreateSprite("hud_4") },
+                { "hud_5", SpriteFactory.Instance.CreateSprite("hud_5") },
+                { "hud_6", SpriteFactory.Instance.CreateSprite("hud_6") },
+                { "hud_7", SpriteFactory.Instance.CreateSprite("hud_7") },
+                { "hud_8", SpriteFactory.Instance.CreateSprite("hud_8") },
+                { "hud_9", SpriteFactory.Instance.CreateSprite("hud_9") }
             };
 
             // Initialize powerup positions and active states
             powerupPositions = new Dictionary<string, Vector2>
             {
-                { "ui_power_beam", Constants.HUD.POWERUP_INIT_POS },
-                { "ui_power_spark", Constants.HUD.POWERUP_INIT_POS },
-                { "ui_power_fire", Constants.HUD.POWERUP_INIT_POS }
+                { "hud_card_beam", Constants.HUD.POWERUP_INIT_POS },
+                { "hud_card_spark", Constants.HUD.POWERUP_INIT_POS },
+                { "hud_card_fire", Constants.HUD.POWERUP_INIT_POS },
+                { "hud_card_professor", Constants.HUD.POWERUP_INIT_POS },
+                { "hud_card_wait", Constants.HUD.POWERUP_INIT_POS }
             };
 
             powerupActive = new Dictionary<string, bool>
             {
-                { "ui_power_beam", false },
-                { "ui_power_spark", false },
-                { "ui_power_fire", false }
+                { "hud_card_beam", false },
+                { "hud_card_spark", false },
+                { "hud_card_fire", false },
+                { "hud_card_professor", false },
+                { "hud_card_wait", false }
             };
 
             powerupTimers = new Dictionary<string, float>
             {
-                { "ui_power_beam", Constants.HUD.POWERUP_INIT_TIMER },
-                { "ui_power_spark", Constants.HUD.POWERUP_INIT_TIMER },
-                { "ui_power_fire", Constants.HUD.POWERUP_INIT_TIMER }
+                { "hud_card_beam", Constants.HUD.POWERUP_INIT_TIMER },
+                { "hud_card_spark", Constants.HUD.POWERUP_INIT_TIMER },
+                { "hud_card_fire", Constants.HUD.POWERUP_INIT_TIMER },
+                { "hud_card_professor", Constants.HUD.POWERUP_INIT_TIMER },
+                { "hud_card_wait", Constants.HUD.POWERUP_INIT_TIMER }
             };
         }
 
@@ -79,7 +87,12 @@ namespace KirbyNightmareInDreamLand.UI
                 // Check Kirby's powerup state
                 string currentPower = targetPlayer.GetPowerUp().ToString().ToLower();
 
-                if (string.IsNullOrEmpty(currentPower) || currentPower == "normal")
+                // If this player has died and at least one other player is still alive
+                if (!targetPlayer.IsActive && !ObjectManager.Instance.AllPlayersInactive())
+                {
+                    ActivatePowerup("hud_card_wait");
+                }
+                else if (targetPlayer.IsActive && (string.IsNullOrEmpty(currentPower) || currentPower == "normal"))
                 {
                     // No powerup, deactivate all cards
                     DeactivateAllPowerups();
@@ -87,7 +100,7 @@ namespace KirbyNightmareInDreamLand.UI
                 else if (Game1.Instance.Level.IsCurrentState("KirbyNightmareInDreamLand.GameState.GamePowerChangeState"))
                 {
                     // Kirby has an active powerup
-                    ActivatePowerup("ui_power_" + currentPower);
+                    ActivatePowerup("hud_card_" + currentPower);
                 }
 
                 // Update positions for active powerup cards
@@ -179,7 +192,7 @@ namespace KirbyNightmareInDreamLand.UI
                 int digit = int.Parse(digitChar.ToString());
 
                 float xPosition = 176 + i * Constants.HUD.SPRITE_GAP;
-                hudElements[$"ui_{digit}"].Draw(new Vector2(xPosition, Constants.HUD.SPRITES_Y), spriteBatch);
+                hudElements[$"hud_{digit}"].Draw(new Vector2(xPosition, Constants.HUD.SPRITES_Y), spriteBatch);
             }
         }
 
@@ -200,7 +213,7 @@ namespace KirbyNightmareInDreamLand.UI
                     }
 
                     // Draw lives
-                    hudElements["ui_lives"].Draw(Constants.HUD.LIVES_ICON_POS, spriteBatch);
+                    hudElements["hud_lives"].Draw(Constants.HUD.LIVES_ICON_POS, spriteBatch);
 
                     int displayLives = targetPlayer.lives; // Adjust to show 02 for 3 lives, 01 for 2 lives, etc.
                     string displayLivesText = displayLives.ToString().PadLeft(Constants.HUD.LIVES_PAD, '0'); // Format as two digits
@@ -208,14 +221,14 @@ namespace KirbyNightmareInDreamLand.UI
                     int livesTens = int.Parse(displayLivesText[0].ToString());
                     int livesOnes = int.Parse(displayLivesText[1].ToString());
 
-                    hudElements[$"ui_{livesTens}"].Draw(Constants.HUD.LIVES_TENS_POS, spriteBatch);
-                    hudElements[$"ui_{livesOnes}"].Draw(Constants.HUD.LIVES_ONES_POS, spriteBatch);
+                    hudElements[$"hud_{livesTens}"].Draw(Constants.HUD.LIVES_TENS_POS, spriteBatch);
+                    hudElements[$"hud_{livesOnes}"].Draw(Constants.HUD.LIVES_ONES_POS, spriteBatch);
 
                     // Draw health bar based on player.health
                     int healthX = Constants.HUD.HEALTH_INIT_X;
                     for (int i = 0; i < Constants.Kirby.MAX_HEALTH; i++)
                     {
-                        string healthSprite = i < targetPlayer.health ? "ui_healthbar_1" : "ui_healthbar_0";
+                        string healthSprite = i < targetPlayer.health ? "hud_healthbar_1" : "hud_healthbar_0";
                         hudElements[healthSprite].Draw(new Vector2(healthX, Constants.HUD.HEALTH_Y), spriteBatch);
                         healthX += Constants.HUD.HEALTH_NEXT_X;
                     }

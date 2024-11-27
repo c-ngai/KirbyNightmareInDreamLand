@@ -78,5 +78,21 @@ namespace KirbyNightmareInDreamLand.Audio
             SoundInstances.RemoveAll(x => x.DELETE_ME);
         }
 
+        public static void PauseAllSounds()
+        {
+            foreach(SoundInstance soundInstance in SoundInstances)
+            {
+                soundInstance.Pause();
+            }
+        }
+
+        public static void ResumeAllSounds()
+        {
+            foreach (SoundInstance soundInstance in SoundInstances)
+            {
+                soundInstance.Resume();
+            }
+        }
+
     }
 }

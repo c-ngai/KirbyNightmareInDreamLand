@@ -71,7 +71,7 @@ namespace KirbyNightmareInDreamLand.Levels
             DoorBeingOpened = 0;
 
             _playingState = new GamePlayingState(this);
-            _pausedState = new GamePausedState();
+            _pausedState = new GamePausedState(this);
             _gameOverState = new GameGameOverState(this);
             _transitionState = new GameTransitioningState(this);
             _winningState = new GameWinningState(this);
