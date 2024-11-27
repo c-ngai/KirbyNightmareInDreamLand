@@ -1,0 +1,51 @@
+﻿Sprint 5 Readabilty Code Review     11/26/2024
+
+Author of Code Review: Payton Murphy
+Name of .cs file being reviewed: Game1.cs (Specifically the code dealing with splitscreen rendering)
+Author of .cs file being reivewed: Mark DeLeo
+
+Time taken to complete review: 30 minutes
+
+################################################################################
+
+10 Code Smells:
+
+1. SwitchStatementsSmell
+2. SameNameDifferentMeaning
+3. TooManyParameters ***
+4. InappropriateIntimacy ***
+5. VagueIdentifiers
+6. Middleman
+7. VariableNameSameAsType
+8. WhileNotDoneLoop
+9. DataClumps ***
+10. InstanceofInConditionals
+
+################################################################################
+
+Comments on code smells:
+
+TooManyParameters:
+The _spriteBatch.Begin call looks like it uses 7 parameters. Usually the TooManyParameters code smell raises a flag when 
+there are around three or more parameters, so this one definitely caught my eye. I'm not 100% familiar with the context of
+this call or the logic behind it, but potentially consider simplifying the call for simplicity. If this is unavoidable, then
+it's understandable.
+
+InappropriateIntimacy:
+The DrawView method interacts with several class members such as cameras and level. This creates tight coupling, however I 
+recognize that this might be necessary. Just wanted to point out that the code smell does pop up.
+
+DataClumps:
+The cameras array and other related data such as CurrentCamera and ActiveCameraCount are often used togehter. This might
+benefit from encapsulation in their own class to group related functionality.
+
+No other major code smells were detected. Nice!
+
+
+Readability comments:
+
+THe code uses meaningul identifiers, which do a lot for readability and undersrtandability. The comments that exist are effective,
+but they are a bit sparse. I think that the code could use some more thoughful comments to explain complicated methods and/or 
+choices. There are quite a few lines of code that seem to be commented out, too. I'm not sure if these are just commented out for
+the time being and have a plan to be used later or if they are meant to be removed. I would recommend going back and cleaning up 
+these comments to improve readability.
