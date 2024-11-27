@@ -51,7 +51,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 Position += Velocity; 
 
                 frameCount++;
-                
                 projectileSprite?.Update();
                 // Mark the segment as inactive after a certain number of frames
                 if (IsDone())
@@ -59,14 +58,12 @@ namespace KirbyNightmareInDreamLand.Projectiles
                     EndAttack();
                 }
             }
-            
-            
             GetHitBox();
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (isActive && projectileSprite != null)
+            if (isActive && projectileSprite != null )
             {
                 projectileSprite.Draw(Position, spriteBatch);
             }
@@ -86,8 +83,8 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
         public virtual Vector2 CalculateRectanglePoint(Vector2 pos)
         {
-            float x = pos.X - Constants.HitBoxes.FLAME_WIDTH / 2;
-            float y = pos.Y - Constants.HitBoxes.FLAME_HEIGHT;
+            float x = pos.X - Constants.HitBoxes.FLAME_WIDTH /2;
+            float y = pos.Y - Constants.HitBoxes.FLAME_HEIGHT + 6;
             Vector2 rectPoint = new Vector2(x, y);
             return rectPoint;
         }

@@ -315,10 +315,12 @@ namespace KirbyNightmareInDreamLand
             {
                 powerUp.Draw(spriteBatch);
             }
+            Projectiles.Reverse();
             foreach (IProjectile projectile in Projectiles)
             {
                 projectile.Draw(spriteBatch);
             }
+            Projectiles.Reverse();
             //Random r = new Random();
             //foreach (int i in Enumerable.Range(0, Projectiles.Count).OrderBy(x => r.Next()))
             //{
