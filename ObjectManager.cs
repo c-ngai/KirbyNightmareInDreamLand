@@ -301,7 +301,7 @@ namespace KirbyNightmareInDreamLand
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void DrawAllObjects(SpriteBatch spriteBatch)
         {
             foreach (IPlayer player in Players)
             {
