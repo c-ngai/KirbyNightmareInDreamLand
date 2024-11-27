@@ -14,23 +14,19 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         // All fireballs and flamethrower
         private readonly List<IProjectile> fireballs;
-        private readonly EnemyFlamethrower flamethrower;
+        private EnemyFlamethrower flamethrower;
 
         //Checks if flamethrower attack is active
-         private bool isFlamethrowerActive;
-         private int flamethrowerFrameCounter;
+        private bool isFlamethrowerActive;
+        private int flamethrowerFrameCounter;
 
         public Hothead(Vector2 startPosition) : base(startPosition, EnemyType.Hothead)
         {
             //Initializes attacks and pose for enemy
             fireballs = new List<IProjectile>();
-            flamethrower = new EnemyFlamethrower();
+            //stateMachine.IsLeft() ? Constants.Hothead.FLAMETHROWER_LEFT : Constants.Hothead.FLAMETHROWER_RIGHT
             isFlamethrowerActive = false;
             flamethrowerFrameCounter = 0;
-            //currentState = new HotheadWalkingState(this);
-            //TO-DO: spawn facing the direction kirby is in
-            //velocity.Y = 0;
-            //velocity.X = Constants.Hothead.MOVE_SPEED;
 
             affectedByGravity = true;
         }
@@ -53,7 +49,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 // Update flamethrower if active
                 if (isFlamethrowerActive)
                 {
-                    flamethrower.Update(gameTime, ProjectilePosition(), stateMachine.IsLeft() ? Constants.Hothead.FLAMETHROWER_LEFT : Constants.Hothead.FLAMETHROWER_RIGHT);
+                    flamethrower.Update(gameTime);
                     flamethrowerFrameCounter++;
 
                     if (flamethrowerFrameCounter >= Constants.Hothead.ATTACK_FRAMES)
@@ -64,7 +60,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 }
                 else
                 {
-                    flamethrower.ClearSegments(); // Clear segments when not active
+                    flamethrower?.ClearSegments(); // Clear segments when not active
                 }
             }
         }
@@ -81,13 +77,13 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             //Shoots flamethrower if called while inactive
             if (!isFlamethrowerActive)
             {
+                flamethrower = new EnemyFlamethrower(ProjectilePosition(), stateMachine.IsLeft());
                 isFlamethrowerActive = true;
 
                 //need to loop
                 //SoundManager.Play("hotheadflamethrowerattack");
 
                 // Set the start position for the flamethrower
-                Vector2 flameDirection = stateMachine.IsLeft() ? Constants.Hothead.FLAMETHROWER_LEFT : Constants.Hothead.FLAMETHROWER_RIGHT;
                 flamethrowerFrameCounter = 0; 
             }
         }

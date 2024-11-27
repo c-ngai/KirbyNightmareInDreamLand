@@ -36,6 +36,9 @@ namespace KirbyNightmareInDreamLand
         public int Score { get; private set; }
 
 
+        private Random random;
+
+
         private static ObjectManager instance = new ObjectManager();
         public static ObjectManager Instance
         {
@@ -56,6 +59,7 @@ namespace KirbyNightmareInDreamLand
             Projectiles = new List<IProjectile>();
             Particles = new List<IParticle>();
             
+            random = new Random();
             //InitializeTileTypes();
         }
 
@@ -208,6 +212,54 @@ namespace KirbyNightmareInDreamLand
             return isLeft;
         }
 
+        public bool AllPlayersInactive()
+        {
+            foreach (IPlayer player in Players)
+            {
+                if (player.IsActive)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public bool AllPlayersOutOfLives()
+        {
+            foreach (IPlayer player in Players)
+            {
+                if (player.lives > 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public void FillAllPlayerLives()
+        {
+            foreach (IPlayer player in Players)
+            {
+                player.FillLives();
+            }
+        }
+
+        public void UpdatePlayers()
+        {
+            foreach (IPlayer player in Players)
+            {
+                player.Update(Game1.Instance.time);
+            }
+        }
+
+        public void UpdateProjectiles()
+        {
+            for (int i = 0; i < Projectiles.Count; i++)
+            {
+                Projectiles[i].Update();
+            }
+        }
+
         public void Update()
         {
             foreach (IPlayer player in Players)
@@ -237,34 +289,58 @@ namespace KirbyNightmareInDreamLand
             EmptyLists();
         }
 
-
-        public void Draw(SpriteBatch spriteBatch)
+        public void DrawPlayers(SpriteBatch spriteBatch)
         {
             foreach (IPlayer player in Players)
             {
                 player.Draw(spriteBatch);
             }
+        }
+
+        public void DrawEnemies(SpriteBatch spriteBatch)
+        {
             foreach (Enemy enemy in Enemies)
             {
                 enemy.Draw(spriteBatch);
             }
+        }
+
+        public void DrawPowerups(SpriteBatch spriteBatch)
+        {
             foreach (PowerUp powerUp in Game1.Instance.Level.powerUpList)
             {
                 powerUp.Draw(spriteBatch);
             }
-            foreach (IProjectile projectile in Projectiles)
-            {
-                projectile.Draw(spriteBatch);
-            }
-            //Random r = new Random();
-            //foreach (int i in Enumerable.Range(0, Projectiles.Count).OrderBy(x => r.Next()))
+        }
+
+        public void DrawProjectiles(SpriteBatch spriteBatch)
+        {
+            //for (int i = Projectiles.Count - 1; i >= 0; i--)
             //{
             //    Projectiles[i].Draw(spriteBatch);
             //}
+            // Draw projectiles in random order, makes effects like fire look a lot better
+            foreach (int i in Enumerable.Range(0, Projectiles.Count).OrderBy(x => random.Next()))
+            {
+                Projectiles[i].Draw(spriteBatch);
+            }
+        }
+
+        public void DrawParticles(SpriteBatch spriteBatch)
+        {
             foreach (IParticle particle in Particles)
             {
                 particle.Draw(spriteBatch);
             }
+        }
+
+        public void DrawAllObjects(SpriteBatch spriteBatch)
+        {
+            DrawPlayers(spriteBatch);
+            DrawEnemies(spriteBatch);
+            DrawPowerups(spriteBatch);
+            DrawProjectiles(spriteBatch);
+            DrawParticles(spriteBatch);
         }
     }
 }

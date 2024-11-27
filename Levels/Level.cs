@@ -26,6 +26,9 @@ namespace KirbyNightmareInDreamLand.Levels
         public float FadeAlpha;
 
         public Room CurrentRoom { get; private set; }
+        public String PreviousRoom;
+        public Vector2 PreviousSpawn;
+        public bool NewRoom; // Is level in a new room this update? i.e. Is the currentRoom of this update different from the last one?
 
         private ObjectManager manager = ObjectManager.Instance;
         public List<PowerUp> powerUpList;
@@ -33,12 +36,14 @@ namespace KirbyNightmareInDreamLand.Levels
         public string PowerUpNamespace = Constants.Namespaces.POWERUP_NAMESPACE;
 
         public string NextRoom;
-        public Vector2 NextSpawn;
+        public Vector2? NextSpawn;
 
 
         // Fields for detecting if a door is being opened and which one (index in CurrentRoom.Doors[])
         public bool IsDoorBeingOpened;
         public int DoorBeingOpened;
+        public bool IsDoorBeingExited;
+        public int DoorBeingExited;
 
 
         public IGameState _currentState { get; set; }
@@ -48,7 +53,7 @@ namespace KirbyNightmareInDreamLand.Levels
         private readonly IGameState _pausedState;
         public readonly IGameState _gameOverState;
         private readonly IGameState _debugState;
-        private readonly IGameState _winningState;
+        public readonly IGameState _winningState;
         private readonly IGameState _transitionState;
         private readonly BaseGameState _lifeLost;
 
@@ -66,10 +71,9 @@ namespace KirbyNightmareInDreamLand.Levels
             DoorBeingOpened = 0;
 
             _playingState = new GamePlayingState(this);
-            _pausedState = new GamePausedState();
+            _pausedState = new GamePausedState(this);
             _gameOverState = new GameGameOverState(this);
             _transitionState = new GameTransitioningState(this);
-            _lifeLost = new GameLifeLostState(this);
             _winningState = new GameWinningState(this);
             oldGameState = _currentState.ToString();
         }
@@ -89,30 +93,29 @@ namespace KirbyNightmareInDreamLand.Levels
             _currentState.Draw(spriteBatch);
         }
 
-        private static Dictionary<string, string> gameStateKeymaps = new  Dictionary<string, string> 
+        private static Dictionary<string, string> gameStateControllermaps = new  Dictionary<string, string> 
         {
-            {"KirbyNightmareInDreamLand.GameState.GamePlayingState", "keymap1"},
-            {"KirbyNightmareInDreamLand.GameState.GamePausedState", "PauseKeyMap"},
-            {"KirbyNightmareInDreamLand.GameState.GameGameOverState", "keymap_gameover"},
-            {"KirbyNightmareInDreamLand.GameState.GameDebugState", "keymap1"},
-            {"KirbyNightmareInDreamLand.GameState.GameTransitioningState", "PauseKeyMap"},
-            {"KirbyNightmareInDreamLand.GameState.GameLifeLostState", "PauseKeyMap"},
-            {"KirbyNightmareInDreamLand.GameState.GameWinningState", "keymap_winning"},
-            {"KirbyNightmareInDreamLand.GameState.GamePowerChangeState", "PauseKeyMap"}
+            {"KirbyNightmareInDreamLand.GameState.GamePlayingState", "main"},
+            {"KirbyNightmareInDreamLand.GameState.GamePausedState", "paused"},
+            {"KirbyNightmareInDreamLand.GameState.GameGameOverState", "gameover"},
+            {"KirbyNightmareInDreamLand.GameState.GameWinningState", "winning"},
+            {"KirbyNightmareInDreamLand.GameState.GameTransitioningState", "no_control"},
+            {"KirbyNightmareInDreamLand.GameState.GamePowerChangeState", "no_control"}
         };
-        
-        private void UpdateKeymap()
+
+        private void UpdateControllerMaps()
         {
             string currentGameState = _currentState.ToString();
             if(currentGameState != oldGameState)
             {
-                if (gameStateKeymaps.ContainsKey(currentGameState))
+                if (gameStateControllermaps.ContainsKey(currentGameState))
                 {
-                    LevelLoader.Instance.LoadKeymap(gameStateKeymaps[currentGameState]);
+                    LevelLoader.Instance.LoadKeymap(gameStateControllermaps[currentGameState]);
+                    LevelLoader.Instance.LoadButtonmap(gameStateControllermaps[currentGameState]);
                 }
                 else
                 {
-                    Debug.WriteLine(" [ERROR] Level.UpdateKeymap(): gameStateKepmaps does not contain key \"" + currentGameState + "\"");
+                    Debug.WriteLine(" [ERROR] Level.UpdateControllerMaps(): gameStateControllermaps does not contain key \"" + currentGameState + "\"");
                 }
             }
             oldGameState = _currentState.ToString();
@@ -120,17 +123,9 @@ namespace KirbyNightmareInDreamLand.Levels
 
         public void UpdateLevel()
         {
-            UpdateKeymap();
-
-            if(CurrentRoom.Name == winningRoomString)
-            {
-                ChangeState(_winningState);
-            }
-            if (CurrentRoom.Name == gameOverRoomString)
-            {
-                ChangeState(_gameOverState);
-            }
+            UpdateControllerMaps();
             _currentState.Update();
+            NewRoom = false;
         }
 
         public void PauseLevel()
@@ -179,8 +174,11 @@ namespace KirbyNightmareInDreamLand.Levels
 
         public void GameOver()
         {
-            NextRoom = gameOverRoomString;
-            NextSpawn = gameOverSpawnPoint;
+            NextRoom = "game_over";
+            NextSpawn = null; // gameOverSpawnPoint;
+            PreviousRoom = CurrentRoom.Name;
+            PreviousSpawn = CurrentRoom.SpawnPoint;
+            System.Diagnostics.Debug.WriteLine("next room to load is - " + NextRoom);
             _currentState = new GameTransitioningState(this);
         }
 
@@ -213,12 +211,25 @@ namespace KirbyNightmareInDreamLand.Levels
                 {
                     NextRoom = CurrentRoom.Doors[i].DestinationRoom;
                     NextSpawn = CurrentRoom.Doors[i].DestinationPoint;
+                    PreviousRoom = CurrentRoom.Name;
+                    PreviousSpawn = CurrentRoom.SpawnPoint;
 
                     IsDoorBeingOpened = true;
                     DoorBeingOpened = i;
-
                     _currentState = new GameTransitioningState(this);
                     break;
+                }
+            }
+        }
+
+        public void ExitDoorAt(Vector2? _doorPosition)
+        {
+            Vector2 doorPosition = _doorPosition ?? CurrentRoom.SpawnPoint;
+            for (int i = 0; i < CurrentRoom.Doors.Count; i++)
+            {
+                if (CurrentRoom.Doors[i].Bounds.Contains(doorPosition))
+                {
+                    DoorBeingExited = i;
                 }
             }
         }
@@ -240,6 +251,7 @@ namespace KirbyNightmareInDreamLand.Levels
                     player?.GoToRoomSpawn();
                     //_manager.RegisterDynamicObject((Player)player);
                 }
+                NewRoom = true;
             }
             else
             {

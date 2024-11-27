@@ -17,12 +17,39 @@ namespace KirbyNightmareInDreamLand.GameState
     public abstract class BaseGameState : IGameState
     {
         public readonly Game1 _game;
-        private readonly ObjectManager _manager;
+        public readonly ObjectManager _manager;
         public Level level;
         private readonly Sprite DoorStarsSprite;
         public Vector2 SpawnPoint { get; set; }
         private List<Sprite> TileSprites;
 
+        private static Dictionary<int, ISprite> HubDoors = new Dictionary<int, ISprite> 
+        {
+            { 0 , SpriteFactory.Instance.CreateSprite("hub_door_1")},
+            { 1, SpriteFactory.Instance.CreateSprite("hub_door_2")},
+            { 2, SpriteFactory.Instance.CreateSprite("hub_door3")},
+            { 3, SpriteFactory.Instance.CreateSprite("hub_door4")}
+        };
+
+        private static Dictionary<int, ISprite> OpenHubDoorAnimations = new Dictionary<int, ISprite>
+        {
+            { 0 , SpriteFactory.Instance.CreateSprite("hub_door_1_animation_open")},
+            { 1 , SpriteFactory.Instance.CreateSprite("hub_door_2_animation_open")},
+            { 2 , SpriteFactory.Instance.CreateSprite("hub_door3_animation_open")},
+            { 3 , SpriteFactory.Instance.CreateSprite("hub_door4_animation_open")}
+        };
+
+        private static Dictionary<int, ISprite> CloseHubDoorAnimations = new Dictionary<int, ISprite>
+        {
+            { 0 , SpriteFactory.Instance.CreateSprite("hub_door_1_animation_close")},
+            { 1 , SpriteFactory.Instance.CreateSprite("hub_door_2_animation_close")},
+            { 2 , SpriteFactory.Instance.CreateSprite("hub_door3_animation_close")},
+            { 3 , SpriteFactory.Instance.CreateSprite("hub_door4_animation_close")}
+        };
+
+        private static Vector2 drawHubDoorOffset = new Vector2(0, -8);
+
+        private static Vector2 drawHubSignOffset = new Vector2(2, -24);
 
         // Holds a sprite for kirby and each enemy type to draw at their spawn points in level debug mode.
         private Dictionary<string, Sprite> SpawnSprites = new Dictionary<string, Sprite>()
@@ -44,13 +71,12 @@ namespace KirbyNightmareInDreamLand.GameState
             DoorStarsSprite = SpriteFactory.Instance.CreateSprite("doorstars");
             TileSprites = LoadTileSprites(Constants.Filepaths.TileSpriteList);
             // LevelLoader.Instance.LoadKeymap("keymap1");
-
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             Camera camera = _game.cameras[_game.CurrentCamera];
-            if (Game1.Instance.DEBUG_LEVEL_MODE)
+            if (Game1.Instance.DEBUG_LEVEL_MODE || level.CurrentRoom.Name == "treasureroom")
             {
                 DebugDraw(spriteBatch, camera);
             }
@@ -59,7 +85,7 @@ namespace KirbyNightmareInDreamLand.GameState
                 DrawBackground(spriteBatch, camera);
                 DrawForeground(spriteBatch);
                 DrawDoorStars(spriteBatch);
-                _manager.Draw(spriteBatch);
+                _manager.DrawAllObjects(spriteBatch);
             }
         }
 
@@ -67,6 +93,7 @@ namespace KirbyNightmareInDreamLand.GameState
         {
             level.CurrentRoom.ForegroundSprite.Update();
             DoorStarsSprite.Update();
+            UpdateHubDoors();
             _manager.Update();
         }
 
@@ -132,14 +159,65 @@ namespace KirbyNightmareInDreamLand.GameState
         {
             for (int i = 0; i < level.CurrentRoom.Doors.Count; i++)
             {
+                Vector2 doorPos = level.CurrentRoom.Doors[i].Bounds.Location.ToVector2();
                 if (level.CurrentRoom.Doors[i].DrawDoorStars)
                 {
-                    Vector2 doorPos = level.CurrentRoom.Doors[i].Bounds.Location.ToVector2();
                     DoorStarsSprite.Draw(doorPos, spriteBatch);
+                }
+                else
+                {
+                    // add behavior for drawing hub doors
+                    DrawHubDoor(doorPos, i, spriteBatch);
+                    DrawDoorSign(doorPos, i, spriteBatch);
                 }
             }
         }
 
+        private void DrawDoorSign(Vector2 position, int door_number, SpriteBatch spriteBatch)
+        {
+            ISprite signSprite = SpriteFactory.Instance.CreateSprite("door_sign_number" + door_number);
+            signSprite.Draw(position + drawHubSignOffset, spriteBatch);
+        }
+
+        public void DrawHubDoor(Vector2 position, int door_num, SpriteBatch spriteBatch)
+        {
+            if (level.IsDoorBeingOpened && level.DoorBeingOpened == door_num)
+            {
+                OpenHubDoorAnimations[door_num].Draw(position + drawHubDoorOffset, spriteBatch);
+            }
+            else if (level.IsDoorBeingExited && level.DoorBeingExited == door_num)
+            {
+                CloseHubDoorAnimations[door_num].Draw(position + drawHubDoorOffset, spriteBatch);
+            }
+            else
+            {
+                HubDoors[door_num].Draw(position + drawHubDoorOffset, spriteBatch);
+            }
+        }
+
+        public void UpdateHubDoors()
+        {
+            if (level.IsDoorBeingOpened)
+            {
+                foreach (KeyValuePair<int, ISprite> door_animation in OpenHubDoorAnimations)
+                {
+                    if (level.DoorBeingOpened == door_animation.Key)
+                    {
+                        door_animation.Value.Update();
+                    }
+                }
+            }
+            if (level.IsDoorBeingExited)
+            {
+                foreach (KeyValuePair<int, ISprite> door_animation in CloseHubDoorAnimations)
+                {
+                    if (level.DoorBeingExited == door_animation.Key)
+                    {
+                        door_animation.Value.Update();
+                    }
+                }
+            }
+        }
 
         public void DebugDraw(SpriteBatch spriteBatch, Camera camera)
         {
@@ -148,7 +226,7 @@ namespace KirbyNightmareInDreamLand.GameState
             DrawDebugDoors(spriteBatch);
             DrawDoorStars(spriteBatch);
             DrawSpawnPoints(spriteBatch);
-            _manager.Draw(spriteBatch);
+            _manager.DrawAllObjects(spriteBatch);
         }
 
         // Draws a rectangle at every door with its destination room written above
@@ -205,8 +283,6 @@ namespace KirbyNightmareInDreamLand.GameState
             // Temporarily disable sprite debug mode if it's on. Sprite debug with debug tiles makes the screen look very messy, it's not useful information. This feels like a sloppy solution but it works for now.
             bool old_DEBUG_SPRITE_MODE = Game1.Instance.DEBUG_SPRITE_MODE;
             Game1.Instance.DEBUG_SPRITE_MODE = false;
-
-            Game1.Instance.DEBUG_LEVEL_MODE = true;
 
             // Set bounds on the TileMap to iterate from
             int TopY, BottomY, LeftX, RightX;

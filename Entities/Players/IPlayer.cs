@@ -12,12 +12,15 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public PlayerMovement movement { get; }
         public int health { get; }
         public int lives { get; }
+        public bool IsActive { get; }
         void Crouch();
         void EndCrouch();
         void AttackPressed();
         Vector2 GetKirbyPosition();
         Vector2 GetKirbyVelocity();
         string GetKirbyType();
+        string GetKirbyTypePause();
+        void FillLives();
         void GoToRoomSpawn();
         bool IsLeft();
         bool IsFloating();
@@ -28,6 +31,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         void MoveLeft();
         void RunRight();
         void RunLeft();
+        void EnterDoor();
         void StopAttacking();
         void SetDirectionLeft();
         void SetDirectionRight();

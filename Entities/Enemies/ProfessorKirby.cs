@@ -2,8 +2,7 @@
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.StateMachines;
-using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
-using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.ProfessorKirbyState;
 using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Projectiles;
@@ -25,15 +24,29 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public ProfessorKirby(Vector2 startPosition) : base(startPosition, EnemyType.ProfessorKirby)
         {
-            UpdateTexture();
-            currentState = new ProfessorKirbyWalkingState(this);
-            stateMachine.ChangeDirection();
-            velocity.Y = 0;
-            velocity.X = Constants.ProfessorKirby.MOVE_SPEED;
+            affectedByGravity = true;
             health = Constants.ProfessorKirby.HEALTH;
         }
 
-        
+        public override void Spawn()
+        {
+            base.Spawn();
+            stateMachine.ChangePose(EnemyPose.Walking);
+            ChangeState(new ProfessorKirbyWalkingState(this));
+        }
+        public override void Move()
+        {
+            base.Move();
+            if (stateMachine.IsLeft())
+            {
+                velocity.X = -Constants.ProfessorKirby.MOVE_SPEED;
+            }
+            else
+            {
+                velocity.X = Constants.ProfessorKirby.MOVE_SPEED;
+            }
+        }
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
@@ -136,8 +149,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public override KirbyType PowerType()
         {
-            //TO-DO - CHANGE TO PROFESSOR WHEN IMPLEMENTED
-            return KirbyType.Beam;
+            return KirbyType.Professor;
         }
 
     }

@@ -1,3 +1,4 @@
+Images/Spritesheets/hub_spritesheet
 Images/Kirby/kirby0_normal
 Images/Kirby/kirby1_normal
 Images/Kirby/kirby2_normal
@@ -34,6 +35,5 @@ Images/UI/game_over_spritesheet
 Images/UI/winning_screen
 Images/UI/buttons
 Images/UI/hud
-Images/UI/pause
 Images/UI/emptyplayerscreen
 Images/invalidspritename

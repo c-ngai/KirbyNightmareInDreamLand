@@ -55,7 +55,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             velocity.X = 0;
         }
-        public void DeathMovement()
+        public void CancelVelocity()
         {
             velocity.X = 0;
             velocity.Y = 0;
@@ -151,11 +151,15 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         #region Move Sprite
         //update kirby position in UI
-        public virtual void UpdatePosition(GameTime gameTime)
+        public virtual void UpdatePosition(Player kirby)
         {
-            velocity.Y += gravity;
+            // Apply gravity unless in DeathStun pose
+            if (kirby.state.GetPose() != KirbyPose.DeathStun)
+            {
+                velocity.Y += gravity;
+            }
 
-            if (velocity.Y > terminalVelocity)
+            if (velocity.Y > terminalVelocity && !kirby.DEAD)
             {
                 velocity.Y = terminalVelocity;
             }
@@ -195,38 +199,40 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 position.X = Game1.Instance.Level.CurrentRoom.Width + levelBoundsRight;
             }
         }
-        public void FallOffScreenOne(Player kirby)
+
+        public static int callCount = 0;
+        public void FallOffScreenCollisionInactive(Player kirby)
         {
-            if(kirby.lives == 0) // game over 
+            callCount++;
+            if (kirby.lives == 0) // game over 
             {
                 Game1.Instance.Level.GameOver();
-                kirby.FillFullHealth();
-            } else {
+                kirby.FillLives();
+            }
+            else {
+                //Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
+                //Game1.Instance.Level.ChangeToPlaying();
+
+                Game1.Instance.Level.NextRoom = Game1.Instance.Level.CurrentRoom.Name;
+                Game1.Instance.Level.NextSpawn = Game1.Instance.Level.CurrentRoom.SpawnPoint;
+                Game1.Instance.Level.ChangeToTransitionState();
                 kirby.RestartKirby();
-                Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
-                Game1.Instance.Level.ChangeToPlaying();
+                //Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
+                //Game1.Instance.Level.ChangeToPlaying();
+
+                Game1.Instance.Level.NextRoom = Game1.Instance.Level.CurrentRoom.Name;
+                Game1.Instance.Level.NextSpawn = Game1.Instance.Level.SpawnPoint;
+                Game1.Instance.Level.ChangeToTransitionState();
             }
         }
-        public void FallOffScreenTwo(Player kirby)
-        {
-            kirby.FallOffScreenDeath();
-
-        }
+   
         public virtual void AdjustY(Player kirby)
         {
             //dont go through the ceiling
-            if (position.Y < ceiling)
+            if (position.Y < ceiling && !kirby.DEAD)
             {
-                velocity.Y = 0;
+                //velocity.Y = 0;
                 position.Y = ceiling;
-            }
-            if(position.Y > Game1.Instance.Level.CurrentRoom.Height)
-            {
-                if(kirby.CollisionActive){
-                    FallOffScreenTwo(kirby);
-                } else {
-                    FallOffScreenOne(kirby);
-                }
             }
         }
         //ensures sprite does not leave the window
@@ -235,11 +241,26 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             AdjustX(kirby);
             AdjustY(kirby);
         }
+
+        // Checks if Kirby has fallen below the death barrier (1 block below bottom of stage)
+        public void DeathBarrierCheck(Player kirby)
+        {
+            if (position.Y > Game1.Instance.Level.CurrentRoom.DeathBarrier)
+            {
+                // If Kirby was (previously) alive, kill him
+                if (!kirby.DEAD)
+                {
+                    kirby.Die();
+                }
+            }
+        }
+
         //updates position and adjusts frame. 
         public virtual void MovePlayer(Player kirby, GameTime gameTime)
         {
-            UpdatePosition(gameTime);
+            UpdatePosition(kirby);
             Adjust(kirby);
+            DeathBarrierCheck(kirby);
         }
         #endregion
         public void ChangeKirbyLanded(bool land)

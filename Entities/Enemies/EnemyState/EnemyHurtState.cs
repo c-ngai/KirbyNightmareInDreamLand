@@ -27,7 +27,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState
 
             _enemy.IncrementFrameCounter();
 
-            _enemy.Vibrate = (float)(Constants.Enemies.HURT_FRAMES - _enemy.FrameCounter) / Constants.Enemies.HURT_FRAMES * 8;
+            _enemy.Vibrate = (float)(Constants.Enemies.HURT_FRAMES - _enemy.FrameCounter) / Constants.Enemies.HURT_FRAMES * Constants.Enemies.HURT_VIBRATE_MAX_MAGNITUDE;
 
             //TO-DO: CHANGE TO WHEN KIRBY + ENEMY COLLIDE
             if (_enemy.FrameCounter >= Constants.Enemies.HURT_FRAMES)

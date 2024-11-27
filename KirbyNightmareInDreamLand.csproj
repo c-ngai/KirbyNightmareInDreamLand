@@ -20,6 +20,7 @@
     <None Remove="Levels\Transition\" />
     <None Remove="GameState\" />
     <None Remove="Commands\GameOver\" />
+    <None Remove="CodeReviews\Sprint5\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon.ico" />
@@ -28,6 +29,7 @@
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
+    <PackageReference Include="Markdown" Version="2.2.1" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entities\PowerUps\" />

@@ -1,6 +1,6 @@
 {
 
-    "buttonmap1": [
+    "main": [
         {
             "Button": "DPadRight",
             "ExecutionType": "Pressed",
@@ -70,6 +70,63 @@
             "Button": "Back",
             "ExecutionType": "StartingPress",
             "Command": "KirbyDropAbilityCommand"
+        }
+    ],
+
+    "no_control": [
+    ],
+
+    "paused": [
+        {
+            "Button": "Start",
+            "ExecutionType": "StartingPress",
+            "Command": "PauseCommand"
+        }
+    ],
+
+    "gameover": [
+        {
+            "Button": "DPadUp",
+            "ExecutionType": "StartingPress",
+            "Command": "SelectContinueCommand"
+        },
+        {
+            "Button": "DPadDown",
+            "ExecutionType": "StartingPress",
+            "Command": "SelectQuitCommand"
+        },
+        {
+            "Button": "B",
+            "ExecutionType": "StartingPress",
+            "Command": "SelectButtonCommand"
+        },
+        {
+            "Button": "Start",
+            "ExecutionType": "StartingPress",
+            "Command": "SelectButtonCommand"
+        }
+    ],
+
+    "winning": [
+        {
+            "Button": "DPadUp",
+            "ExecutionType": "StartingPress",
+            "Command": "SelectContinueCommand"
+        },
+        {
+            "Button": "DPadDown",
+            "ExecutionType": "StartingPress",
+            "Command": "SelectQuitCommand"
+        },
+        {
+            "Button": "B",
+            "ExecutionType": "StartingPress",
+            "Command": "SelectButtonCommand"
+        },
+        {
+            "Button": "Start",
+            "ExecutionType": "StartingPress",
+            "Command": "SelectButtonCommand"
         }
     ]
 

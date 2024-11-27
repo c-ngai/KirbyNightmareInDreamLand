@@ -25,7 +25,7 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 projectile.EndAttack();
             } 
-            else if (object1 is KirbyBouncingStar star) 
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.FloorBounce();
             }
@@ -45,7 +45,7 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 projectile.EndAttack();
             }   
-            else if (object1 is KirbyBouncingStar star) 
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.WallRightBounce();
             }
@@ -64,9 +64,12 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 projectile.EndAttack();
             }
-            else if (object1 is KirbyBouncingStar star) 
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.WallLeftBounce();
+            }else if (object1 is Suitcase sc)
+            {
+                sc.Explode();
             }
         }
 
@@ -84,6 +87,10 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 projectile.EndAttack();
             }
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled)
+            {
+                star.CeilingBounce();
+            }
         }
 
         public static void BottomPlatformCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
@@ -96,9 +103,12 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 enemy.BottomCollisionWithPlatform(intersection);
             }
-            else if (object1 is KirbyBouncingStar star) 
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.FloorBounce();
+            }else if (object1 is Suitcase sc)
+            {
+                sc.EndAttack();
             }
 
         }
@@ -133,9 +143,12 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 enemy.AdjustGentle1SlopeLeftCollision(tile);
             } 
-            else if (object1 is KirbyBouncingStar star) 
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.FloorBounce();
+            }else if (object1 is Suitcase sc)
+            {
+                sc.EndAttack();
             }
         }
 
@@ -153,9 +166,12 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 enemy.AdjustGentle1SlopeRightCollision(tile);
             } 
-            else if (object1 is KirbyBouncingStar star) 
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.FloorBounce();
+            }else if (object1 is Suitcase sc)
+            {
+                sc.EndAttack();
             }
         }
 
@@ -173,9 +189,12 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 enemy.AdjustGentle2SlopeLeftCollision(tile);
             }
-            else if (object1 is KirbyBouncingStar star) 
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.FloorBounce();
+            }else if (object1 is Suitcase sc)
+            {
+                sc.Explode();
             }
         }
 
@@ -193,9 +212,12 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 enemy.AdjustGentle2SlopeRightCollision(tile);
             }
-            else if (object1 is KirbyBouncingStar star) 
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.FloorBounce();
+            }else if (object1 is Suitcase sc)
+            {
+                sc.EndAttack();
             }
         }
 
@@ -213,9 +235,12 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 enemy.AdjustSteepSlopeLeftCollision(tile);
             }
-            else if (object1 is KirbyBouncingStar star) 
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.FloorBounce();
+            }else if (object1 is Suitcase sc)
+            {
+                sc.EndAttack();
             }
         }
 
@@ -233,9 +258,13 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 enemy.AdjustSteepSlopeRightCollision(tile);
             }
-            else if (object1 is KirbyBouncingStar star) 
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.FloorBounce();
+            } 
+            else if (object1 is Suitcase sc)
+            {
+                sc.EndAttack();
             }
         }
     }

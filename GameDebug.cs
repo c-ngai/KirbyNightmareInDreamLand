@@ -173,7 +173,12 @@ namespace KirbyNightmareInDreamLand
             texts.Add("Current Max FPS: " + Math.Round(maxFrameRate));
             texts.Add("Average Max FPS: " + Math.Round(maxfpsLog.Average()));
             texts.Add("Current room: " + _game.Level.CurrentRoom.Name);
+
+            // texts.Add("Previous room: " + _game.Level.PreviousRoom);
             texts.Add("Game state: " + _game.Level._currentState.ToString().Substring(36));
+            // texts.Add("Next room: " + _game.Level.NextRoom);
+            // texts.Add("Next spawn point " + _game.Level.NextSpawn);
+            texts.Add("Calls to FallOffScreenOne:" + Entities.Players.PlayerMovement.callCount);
             texts.Add("");
             texts.Add("Sprite.Draw calls: " + NumOfSpriteDrawCalls);
             texts.Add("SpriteBatch.Draw calls: " + NumOfSpriteBatchDrawCalls);

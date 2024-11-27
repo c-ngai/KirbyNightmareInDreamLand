@@ -137,9 +137,32 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             currentState.Enter();
         }
 
-        public void TakeDamage(Rectangle intersection, Vector2 positionOfDamageSource)
+        public virtual void TakeDamage(Rectangle intersection, Vector2 positionOfDamageSource)
         {
+            UpdateScore();
 
+            currentState.TakeDamage();
+            //positionOfDamageSource.Y += 8; // I like to shift the position of the damage source used to calculate the velocity down a little, otherwise hitting things straight on usually sends them down into the ground
+            velocity = (GetHitBox().Center.ToVector2() - positionOfDamageSource) / 8;
+            CollisionActive = false;
+            SoundManager.Play("enemydamage");
+        }
+
+        public void GetInhaled(Rectangle intersection, IPlayer player)
+        {
+            isBeingInhaled = true;
+            ChangeState(new EnemyInhaledState(this, player));
+        }
+
+
+        public void GetSwallowed(Rectangle intersection)
+        {
+            UpdateScore();
+            Dispose();
+        }
+
+        private void UpdateScore()
+        {
             int points = 0;
 
             // Determine points based on the type of enemy
@@ -154,27 +177,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
             // Update the score in ObjectManager
             Game1.Instance.manager.UpdateScore(points);
-
-            currentState.TakeDamage();
-            velocity = (position - positionOfDamageSource) / 8;
-            CollisionActive = false;
-            SoundManager.Play("enemydamage");
-            
-        }
-
-
-        public void GetInhaled(Rectangle intersection, IPlayer player)
-        {
-            isBeingInhaled = true;
-            ChangeState(new EnemyInhaledState(this, player));
-        }
-
-
-        public void GetSwallowed(Rectangle intersection)
-        {
-            //currentState.TakeDamage();
-            //this.TakeDamage(intersection);
-            Dispose();
         }
 
         public virtual void ChangeDirection()
@@ -218,8 +220,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         private void Despawn()
         {
-            CollisionActive = false;
-            active = false;
+            Dispose();
         }
 
         public void UpdatePosition()
@@ -266,7 +267,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             //Draw if enemy is alive 
             if (active)
             {
-                Vector2 vibratePos = new Vector2((float)random.NextDouble(), (float)random.NextDouble());
+                Vector2 vibratePos = new Vector2((float)random.NextDouble() - 0.5f, (float)random.NextDouble() - 0.5f);
                 vibratePos.Normalize();
                 enemySprite.Draw(position + vibratePos * vibrate, spriteBatch);
                 //spriteBatch.DrawString(LevelLoader.Instance.Font, frameCounter.ToString(), (position + new Vector2(-8, -32)), Color.Black);
@@ -296,7 +297,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             float magnitude = velocity.Length();
             velocity = _position - position;
             velocity.Normalize();
-            velocity *= magnitude * 1.1f;
+            velocity *= magnitude + 0.2f;
             //velocity.X += (_position.X - position.X) / 200;
             //velocity.Y += (_position.Y - position.Y) / 200;
         }

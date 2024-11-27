@@ -1,0 +1,50 @@
+﻿﻿Sprint 5 Readabilty Code Review     11/26/2024
+
+Author of Code Review: Payton Murphy
+Name of .cs file being reviewed: GamePausedState.cs
+Author of .cs file being reivewed: Vivian Ferrigni
+
+Time taken to complete review: 30 minutes
+
+################################################################################
+
+10 Code Smells:
+
+1. SwitchStatementsSmell
+2. SameNameDifferentMeaning
+3. TooManyParameters
+4. InappropriateIntimacy ***
+5. VagueIdentifiers
+6. Middleman
+7. VariableNameSameAsType
+8. WhileNotDoneLoop
+9. DataClumps ***
+10. InstanceofInConditionals
+
+################################################################################
+
+Comments on code smells:
+
+InappropriateIntimacy:
+The GamePausedState class accesses internal properties of _game such as cameras, CurrentCamera, and manager.Players. This suggests
+that the class has a high dependency on the internal working of Game1. Refactoring to use abstractions or interfaces could potentially
+reduce coupling. Honesly, I don't see this as anything inappropriate, but I wanted to address the code smell.
+
+DataClumps:
+_camera.bounds.X and _camera.bounds.Y are always used together. Maybe it could be beneficial to extract them into a Vector2 or Point
+to make the code more concise.
+
+No other major code smells were detected. Nice!
+
+
+Quality/Maintainability comments:
+
+
+GamePausedState is straightforward and adheres to the single responsibility rule by focusing solely on behavior for paused state.
+However, a few aspects could potentially be improved. For example, the class is highly depencdent on _game, which introduces tight
+coupling. This could limit flexibility. 
+
+As a hypothetical change, consider a situation in which we wanted to add a feature to display a summary of all active players on the pause
+screen. The current implementation seems to hardcode fetching the Kirby type for the first player. Adapting this to display information for
+all players would probably require changes to both the list initialization and sprite creation logic. A more modular approach that separates
+getting player data from redering the pause screen would allow the new feature to be implemented easier.

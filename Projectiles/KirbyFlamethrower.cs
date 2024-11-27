@@ -54,10 +54,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             sound.Stop();
             IsActive = false;
-            //foreach (var segment in flameSegments)
-            //{
-            //    segment.EndAttack();
-            //}
         }
         public bool IsDone()
         {
@@ -95,34 +91,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
             flameSegments.RemoveAll(obj => obj.IsDone());
         }
 
-        private void SpawnFlameSegments()
-        {
-            Random random = new Random();
-            float angleOffset = isFacingRight ? 0f : (float)Math.PI; // Adjust angle based on direction
-
-            // Create multiple flame segments with varying angles and delays
-            for (int i = -Constants.KirbyFire.NUMBER_OF_SEGMENTS / 2; i <= Constants.KirbyFire.NUMBER_OF_SEGMENTS / 2; i++)
-            {
-                float totalAngleRange = Constants.KirbyFire.MAX_ANGLE - Constants.KirbyFire.MIN_ANGLE;
-
-                // Calculate the angle offset based on the number of segments
-                float angle = Constants.KirbyFire.MIN_ANGLE + (i + (Constants.KirbyFire.NUMBER_OF_SEGMENTS / 2)) * (totalAngleRange / Constants.KirbyFire.NUMBER_OF_SEGMENTS);
-
-                // Ensure the angle stays within the minAngle and maxAngle range
-                if (angle < Constants.KirbyFire.MIN_ANGLE) angle = Constants.KirbyFire.MIN_ANGLE;
-                if (angle > Constants.KirbyFire.MAX_ANGLE) angle = Constants.KirbyFire.MAX_ANGLE;
-
-                // Rotate the direction vector by the calculated angle, adjusting for facing direction
-                Vector2 direction = Vector2.Transform(new Vector2(1, 0), Matrix.CreateRotationZ(angle + angleOffset));
-
-                // Generate a random speed and delay for each segment
-                float randomSpeed = (float)(random.NextDouble() * (Constants.KirbyFire.MAX_SPEED - Constants.KirbyFire.MIN_SPEED) + Constants.KirbyFire.MIN_SPEED);
-
-                KirbyFlameSegment newSegment = new KirbyFlameSegment(position, direction, randomSpeed, !isFacingRight);
-                flameSegments.Add(newSegment);
-            }
-        }
-
         private void SpawnFlameSegment()
         {
             Random random = new Random();
@@ -147,16 +115,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            //Draw all flame segments
-            //for (int i = 0; i < flameSegments.Count / 2; i++)
-            //{
-            //    flameSegments[i].Draw(spriteBatch);
-            //}
-            //for (int i = flameSegments.Count - 1; i >= flameSegments.Count / 2; i--)
-            //{
-            //    flameSegments[i].Draw(spriteBatch);
-            //}
-            //spriteBatch.DrawString(LevelLoader.Instance.Font, flameSegments.Count + ", " + IsDone(), position, Color.Black);
+            //not needed
         }
 
 
