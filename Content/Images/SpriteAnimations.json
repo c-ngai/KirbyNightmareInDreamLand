@@ -58267,310 +58267,310 @@
     ]
   },
 
-    "ui_0": {
-        "Source texture": "hud",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 0,
-                "Y": 0,
-                "Width": 8,
-                "Height": 11,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-    "ui_1": {
-        "Source texture": "hud",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 8,
-                "Y": 0,
-                "Width": 8,
-                "Height": 11,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-    "ui_2": {
-        "Source texture": "hud",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 16,
-                "Y": 0,
-                "Width": 8,
-                "Height": 11,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-    "ui_3": {
-        "Source texture": "hud",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 24,
-                "Y": 0,
-                "Width": 8,
-                "Height": 11,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-    "ui_4": {
-        "Source texture": "hud",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 32,
-                "Y": 0,
-                "Width": 8,
-                "Height": 11,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-    "ui_5": {
-        "Source texture": "hud",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 40,
-                "Y": 0,
-                "Width": 8,
-                "Height": 11,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-    "ui_6": {
-        "Source texture": "hud",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 48,
-                "Y": 0,
-                "Width": 8,
-                "Height": 11,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-    "ui_7": {
-        "Source texture": "hud",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 56,
-                "Y": 0,
-                "Width": 8,
-                "Height": 11,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-    "ui_8": {
-        "Source texture": "hud",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 64,
-                "Y": 0,
-                "Width": 8,
-                "Height": 11,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-    "ui_9": {
-        "Source texture": "hud",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 72,
-                "Y": 0,
-                "Width": 8,
-                "Height": 11,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-    "ui_lives0": {
-        "Source texture": "hud",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 0,
-                "Y": 11,
-                "Width": 22,
-                "Height": 11,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-    "ui_lives1": {
-        "Source texture": "hud",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 22,
-                "Y": 11,
-                "Width": 22,
-                "Height": 11,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-    "ui_lives2": {
-        "Source texture": "hud",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 44,
-                "Y": 11,
-                "Width": 22,
-                "Height": 11,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-    "ui_lives3": {
-        "Source texture": "hud",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 66,
-                "Y": 11,
-                "Width": 22,
-                "Height": 11,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-    "ui_healthbar_1": {
-        "Source texture": "hud",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 0,
-                "Y": 22,
-                "Width": 8,
-                "Height": 13,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-    "ui_healthbar_0": {
-        "Source texture": "hud",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 8,
-                "Y": 22,
-                "Width": 8,
-                "Height": 13,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-    "ui_power_beam": {
-        "Source texture": "hud",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 0,
-                "Y": 35,
-                "Width": 40,
-                "Height": 45,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-    "ui_power_spark": {
-        "Source texture": "hud",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 40,
-                "Y": 35,
-                "Width": 40,
-                "Height": 45,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-    "ui_power_fire": {
-        "Source texture": "hud",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 80,
-                "Y": 35,
-                "Width": 40,
-                "Height": 45,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
+  "ui_0": {
+    "Source texture": "hud",
+    "Loop point": 0,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 0,
+        "Y": 0,
+        "Width": 8,
+        "Height": 11,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      }
+    ]
+  },
+  "ui_1": {
+    "Source texture": "hud",
+    "Loop point": 0,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 8,
+        "Y": 0,
+        "Width": 8,
+        "Height": 11,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      }
+    ]
+  },
+  "ui_2": {
+    "Source texture": "hud",
+    "Loop point": 0,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 16,
+        "Y": 0,
+        "Width": 8,
+        "Height": 11,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      }
+    ]
+  },
+  "ui_3": {
+    "Source texture": "hud",
+    "Loop point": 0,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 24,
+        "Y": 0,
+        "Width": 8,
+        "Height": 11,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      }
+    ]
+  },
+  "ui_4": {
+    "Source texture": "hud",
+    "Loop point": 0,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 32,
+        "Y": 0,
+        "Width": 8,
+        "Height": 11,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      }
+    ]
+  },
+  "ui_5": {
+    "Source texture": "hud",
+    "Loop point": 0,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 40,
+        "Y": 0,
+        "Width": 8,
+        "Height": 11,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      }
+    ]
+  },
+  "ui_6": {
+    "Source texture": "hud",
+    "Loop point": 0,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 48,
+        "Y": 0,
+        "Width": 8,
+        "Height": 11,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      }
+    ]
+  },
+  "ui_7": {
+    "Source texture": "hud",
+    "Loop point": 0,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 56,
+        "Y": 0,
+        "Width": 8,
+        "Height": 11,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      }
+    ]
+  },
+  "ui_8": {
+    "Source texture": "hud",
+    "Loop point": 0,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 64,
+        "Y": 0,
+        "Width": 8,
+        "Height": 11,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      }
+    ]
+  },
+  "ui_9": {
+    "Source texture": "hud",
+    "Loop point": 0,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 72,
+        "Y": 0,
+        "Width": 8,
+        "Height": 11,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      }
+    ]
+  },
+  "ui_lives0": {
+    "Source texture": "hud",
+    "Loop point": 0,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 0,
+        "Y": 11,
+        "Width": 22,
+        "Height": 11,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      }
+    ]
+  },
+  "ui_lives1": {
+    "Source texture": "hud",
+    "Loop point": 0,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 22,
+        "Y": 11,
+        "Width": 22,
+        "Height": 11,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      }
+    ]
+  },
+  "ui_lives2": {
+    "Source texture": "hud",
+    "Loop point": 0,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 44,
+        "Y": 11,
+        "Width": 22,
+        "Height": 11,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      }
+    ]
+  },
+  "ui_lives3": {
+    "Source texture": "hud",
+    "Loop point": 0,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 66,
+        "Y": 11,
+        "Width": 22,
+        "Height": 11,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      }
+    ]
+  },
+  "ui_healthbar_1": {
+    "Source texture": "hud",
+    "Loop point": 0,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 0,
+        "Y": 22,
+        "Width": 8,
+        "Height": 13,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      }
+    ]
+  },
+  "ui_healthbar_0": {
+    "Source texture": "hud",
+    "Loop point": 0,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 8,
+        "Y": 22,
+        "Width": 8,
+        "Height": 13,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      }
+    ]
+  },
+  "ui_power_beam": {
+    "Source texture": "hud",
+    "Loop point": 0,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 0,
+        "Y": 35,
+        "Width": 40,
+        "Height": 45,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      }
+    ]
+  },
+  "ui_power_spark": {
+    "Source texture": "hud",
+    "Loop point": 0,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 40,
+        "Y": 35,
+        "Width": 40,
+        "Height": 45,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      }
+    ]
+  },
+  "ui_power_fire": {
+    "Source texture": "hud",
+    "Loop point": 0,
+    "Flip horizontally?": false,
+    "Frames": [
+      {
+        "X": 80,
+        "Y": 35,
+        "Width": 40,
+        "Height": 45,
+        "CenterX": 0,
+        "CenterY": 0,
+        "Time": 1
+      }
+    ]
+  },
 
   "playerarrow_you": {
     "Source texture": "playerarrow_you",
@@ -59628,7 +59628,7 @@
         "Height": 46,
         "CenterX": 0,
         "CenterY": 0,
-        "Time": 1
+        "Time": 1 
       }
     ]
   },
@@ -59649,7 +59649,6 @@
       }
     ]
   },
-
   "invalidspritename": {
     "Source texture": "invalidspritename",
     "Loop point": 0,
