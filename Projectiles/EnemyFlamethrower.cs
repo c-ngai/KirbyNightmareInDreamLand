@@ -11,31 +11,56 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private Vector2 startPosition;
         private float elapsedTime;
         private Vector2 flameDirection; 
+        private bool isLeft;
+        private int frameCounter;
 
-        public EnemyFlamethrower()
-        {
-            flameSegments = new List<EnemyFlameSegment>();
-            elapsedTime = 0f;
-        }
-
-        public void Update(GameTime gameTime, Vector2 startPosition, Vector2 flameDirection)
+        public EnemyFlamethrower(Vector2 startPosition, bool isLeft)
         {
             this.startPosition = startPosition;
-            this.flameDirection = flameDirection;
-            elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            this.flameDirection = isLeft ? Constants.Hothead.FLAMETHROWER_LEFT : Constants.Hothead.FLAMETHROWER_RIGHT;
+            this.isLeft = isLeft;
+            flameSegments = new List<EnemyFlameSegment>();
+            elapsedTime = 0f;
+            frameCounter = 0;
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            Vector2 offset = !isLeft ? Constants.Kirby.FLAME_ATTACK_OFFSET_RIGHT : Constants.Kirby.FLAME_ATTACK_OFFSET_LEFT;
+            //this.position = player.GetKirbyPosition() + offset;
 
             // Check if it's time to spawn new flame segments
-            if (elapsedTime >= Constants.EnemyFire.FIRE_RATE)
+            if (frameCounter % 1 == 0)
             {
-                SpawnFlameSegments();
-                elapsedTime = 0f; // Reset elapsed time
+                SpawnFlameSegment();
             }
+            frameCounter++;
 
             // Update all flame segments
             foreach (var segment in flameSegments)
             {
-                segment.Update();
+                //segment.Update();
             }
+            flameSegments.RemoveAll(obj => obj.IsDone());
+        }
+         private void SpawnFlameSegment()
+        {
+            Random random = new Random();
+            float angleOffset = !isLeft ? 0f : (float)Math.PI; // Adjust angle based on direction
+
+            float totalAngleRange = Constants.KirbyFire.MAX_ANGLE - Constants.KirbyFire.MIN_ANGLE;
+
+            // Calculate the angle offset based on the number of segments
+            float angle = Constants.KirbyFire.MIN_ANGLE + (float)random.NextDouble() * totalAngleRange;
+
+           // Rotate the direction vector by the calculated angle
+            Vector2 direction = Vector2.Transform(flameDirection, Matrix.CreateRotationZ(angle));
+
+            float randomSpeed = (float)(random.NextDouble() * (Constants.EnemyFire.MAX_SPEED - Constants.EnemyFire.MIN_SPEED) + Constants.EnemyFire.MIN_SPEED);
+            Vector2 velocity = randomSpeed * Vector2.Transform(new Vector2(1, 0), Matrix.CreateRotationZ(angle + angleOffset));
+
+            EnemyFlameSegment newSegment = new EnemyFlameSegment(startPosition, velocity, randomSpeed);
+            flameSegments.Add(newSegment);
         }
 
         private void SpawnFlameSegments()
@@ -61,7 +86,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 float randomSpeed = (float)(random.NextDouble() * (Constants.EnemyFire.MAX_SPEED - Constants.EnemyFire.MIN_SPEED) + Constants.EnemyFire.MIN_SPEED);
                 float randomDelay = (float)(random.NextDouble() * (Constants.EnemyFire.MAX_DELAY - Constants.EnemyFire.MIN_DELAY) + Constants.EnemyFire.MIN_DELAY);
 
-                EnemyFlameSegment newSegment = new EnemyFlameSegment(startPosition, direction, randomSpeed, randomDelay);
+                EnemyFlameSegment newSegment = new EnemyFlameSegment(startPosition, direction, randomSpeed);
                 flameSegments.Add(newSegment);
             }
         }

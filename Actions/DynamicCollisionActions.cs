@@ -71,8 +71,6 @@ namespace KirbyNightmareInDreamLand.Actions
                     enemy.TakeDamage(intersection, object2.GetHitBox().Center.ToVector2());
                 }
             }
-
-            
         }
 
         //boincing star collides with inhale attack
