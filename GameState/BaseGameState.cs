@@ -76,7 +76,7 @@ namespace KirbyNightmareInDreamLand.GameState
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             Camera camera = _game.cameras[_game.CurrentCamera];
-            if (Game1.Instance.DEBUG_LEVEL_MODE || )
+            if (Game1.Instance.DEBUG_LEVEL_MODE || level.CurrentRoom.Name == "treasureroom")
             {
                 DebugDraw(spriteBatch, camera);
             }
@@ -283,8 +283,6 @@ namespace KirbyNightmareInDreamLand.GameState
             // Temporarily disable sprite debug mode if it's on. Sprite debug with debug tiles makes the screen look very messy, it's not useful information. This feels like a sloppy solution but it works for now.
             bool old_DEBUG_SPRITE_MODE = Game1.Instance.DEBUG_SPRITE_MODE;
             Game1.Instance.DEBUG_SPRITE_MODE = false;
-
-            Game1.Instance.DEBUG_LEVEL_MODE = true;
 
             // Set bounds on the TileMap to iterate from
             int TopY, BottomY, LeftX, RightX;
