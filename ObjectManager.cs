@@ -315,9 +315,9 @@ namespace KirbyNightmareInDreamLand
             {
                 powerUp.Draw(spriteBatch);
             }
-            foreach (IProjectile projectile in Projectiles)
+            for (int i = Projectiles.Count - 1; i >=0; i--)
             {
-                projectile.Draw(spriteBatch);
+                Projectiles[i].Draw(spriteBatch);
             }
             //Random r = new Random();
             //foreach (int i in Enumerable.Range(0, Projectiles.Count).OrderBy(x => r.Next()))

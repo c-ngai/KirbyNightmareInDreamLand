@@ -313,6 +313,8 @@ namespace KirbyNightmareInDreamLand
             public static int SUITCASE_EXPLODE_HEIGHT = 36;
             public static Vector2 SUITCASE_OFFSET_RIGHT = new Vector2(7, -12);
             public static Vector2 SUITCASE_OFFSET_LEFT = new Vector2(-19, -12);
+            public static Vector2 SUITCASE_EXPLODE_OFFSET_RIGHT = new Vector2(14, -12);
+            public static Vector2 SUITCASE_EXPLODE_OFFSET_LEFT = new Vector2(-19, -12);
         }
         #endregion
         #region enemies
@@ -352,6 +354,7 @@ namespace KirbyNightmareInDreamLand
             public static Vector2 FLAMETHROWER_RIGHT = new Vector2(1, 0);
             public const int FLAMETHROWER_X_OFFSET = 18;
             public const int FLAMETHROWER_Y_OFFSET = 7;
+            public static Vector2 FLAMETHROWER_OFFSET = new Vector2(18,7);
             public static Vector2 FIREBALL_LEFT = new Vector2(-1, -0.5f);
             public static Vector2 FIREBALL_RIGHT = new Vector2(1, -0.5f);
             public const int FRAME_1 = 1;

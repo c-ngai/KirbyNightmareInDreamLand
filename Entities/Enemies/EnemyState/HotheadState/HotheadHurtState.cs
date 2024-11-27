@@ -45,10 +45,10 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState
         }
 
 
-            public void ChangeDirection()
-            {
-                _hothead.ToggleDirection();
-            }
+        public void ChangeDirection()
+        {
+            _hothead.ToggleDirection();
+        }
 
         public void Dispose()
         {
