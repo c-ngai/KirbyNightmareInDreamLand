@@ -131,7 +131,7 @@ namespace KirbyNightmareInDreamLand.StateMachines
         }
         public bool ShortAttack()
         {
-            return (GetKirbyType() == KirbyType.Beam) || (GetKirbyType() == KirbyType.Mouthful) || IsFloating() || IsCrouching(); //&& !IsFalling());
+            return (GetKirbyType() == KirbyType.Beam) || (GetKirbyType() == KirbyType.Mouthful) || !IsJumping() || IsCrouching(); //&& !IsFalling());
         }
         public string[] GetSpriteParameters()
         {
