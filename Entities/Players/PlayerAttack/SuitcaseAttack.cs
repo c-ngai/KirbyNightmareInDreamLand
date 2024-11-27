@@ -83,7 +83,13 @@ namespace KirbyNightmareInDreamLand.Projectiles
         
         public Vector2 CalculateRectanglePoint(Vector2 pos)
         {
-            return pos + (IsLeft ? Constants.HitBoxes.SLIDE_OFFSET_LEFT: Constants.HitBoxes.SLIDE_OFFSET_RIGHT); 
+            if(stage==3)
+            {
+                return pos + (IsLeft ? Constants.KirbySuitcase.SUITCASE_EXPLODE_OFFSET_LEFT: Constants.KirbySuitcase.SUITCASE_EXPLODE_OFFSET_RIGHT); 
+            } else {
+                return pos + (IsLeft ? Constants.KirbySuitcase.SUITCASE_OFFSET_LEFT: Constants.KirbySuitcase.SUITCASE_OFFSET_RIGHT); 
+            }
+            
         }
         public Rectangle GetHitBox()
         {
