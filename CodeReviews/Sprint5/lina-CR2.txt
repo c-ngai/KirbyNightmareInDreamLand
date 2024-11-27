@@ -1,0 +1,40 @@
+Author of Review: Lina Ordonez Aguiar
+Date: 11.27.24
+Sprint #5
+Reviewing: ALl Prof Kirby related files
+Author of file: Gwyn
+Time: 15 minutes
+
+Chosen code smells:
+    1. Long Functions 
+    2. same name different meaning
+    3. long parameters
+    4. god Objects
+    5. Duplicate code 
+    6. Long method
+    7. Data clumps 
+    8. Comments 
+    9. Switch Case
+    10. Large Class
+
+Code Quality:
+- currently has magic numbers which is not ideal
+- There are a lot of To-Do's at the moment which makes it easier to understand what you
+will be doing
+- well organized
+- all state code is easy to understand and straight forward, since its a copy paste from
+ waddle dee it still needs some changes regarding certain class checks that are not relevant
+ for the professor
+ - currently using waddle dee methods, not ideal
+
+ - overall the states are (mostly) good, but it is hard to critique the main class while it 
+ still has so many todo's
+
+ Hypothetical change:
+ - clear out magic naumbers -- easily implemented
+ - finish clearing out the waddle dee leftovers
+
+Code Smells:
+- clear to do comments 
+- more comments on state logic would be nice 
+- no other obvious code smells
