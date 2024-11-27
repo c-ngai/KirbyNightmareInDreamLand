@@ -35,7 +35,6 @@
     <Folder Include="Entities\PowerUps\" />
     <Folder Include="Levels\Transition\" />
     <Folder Include="Commands\GameOver\" />
-    <Folder Include="CodeReviews\Sprint5\" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />

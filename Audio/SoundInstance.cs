@@ -23,6 +23,7 @@ namespace KirbyNightmareInDreamLand.Audio
 
         public bool isPlaying;
         public bool inLoopSection;
+        public bool paused;
         public bool DELETE_ME;
         public bool temp;
 
@@ -36,6 +37,7 @@ namespace KirbyNightmareInDreamLand.Audio
             // Initialize booleans
             isPlaying = false;
             inLoopSection = false;
+            paused = false;
             DELETE_ME = false;
             temp = _temp;
 
@@ -98,6 +100,36 @@ namespace KirbyNightmareInDreamLand.Audio
             soundEffectInstance.Stop();
             nextSound?.Stop();
             isPlaying = false;
+        }
+
+
+
+        public void Pause()
+        {
+            if (isPlaying)
+            {
+                soundEffectInstance.Pause();
+                nextSound?.Pause();
+                paused = true;
+            }
+        }
+
+
+
+        public void Resume()
+        {
+            if (paused)
+            {
+                if (inLoopSection)
+                {
+                    nextSound?.Resume();
+                }
+                else
+                {
+                    soundEffectInstance.Resume();
+                }
+                paused = false;
+            }
         }
 
 

@@ -452,19 +452,6 @@
 /processorParam:TextureFormat=Color
 /build:Images/Kirby/kirby2_normal.png
 
-#begin Images/Spritesheets/hub_spritesheet.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/Spritesheets/hub_spritesheet.png
-
-
 #begin Images/Kirby/kirby2_spark.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -699,6 +686,18 @@
 #begin Images/SpriteAnimations.json
 /copy:Images/SpriteAnimations.json
 
+#begin Images/Spritesheets/hub_spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Spritesheets/hub_spritesheet.png
+
 #begin Images/Textures.txt
 /copy:Images/Textures.txt
 
@@ -761,18 +760,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/UI/pause_screen_spritesheet.png
-
-#begin Images/UI/pause.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/UI/pause.png
 
 #begin Images/UI/winning_screen.png
 /importer:TextureImporter

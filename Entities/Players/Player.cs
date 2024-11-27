@@ -123,10 +123,16 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public string GetKirbyTypePause()
         {
-            if(GetKirbyType().Equals("Mouthful"))
+            if (DEAD)
+            {
+                return "Dead";
+            }
+            else if (GetKirbyType().Equals("Mouthful"))
             {
                 return "Normal";
-            } else {
+            }
+            else
+            {
                 return state.GetKirbyType().ToString();
             }
             
