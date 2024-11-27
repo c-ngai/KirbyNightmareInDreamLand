@@ -67,6 +67,9 @@ namespace KirbyNightmareInDreamLand.Actions
             else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.WallLeftBounce();
+            }else if (object1 is Suitcase sc)
+            {
+                sc.Explode();
             }
         }
 
@@ -103,6 +106,9 @@ namespace KirbyNightmareInDreamLand.Actions
             else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.FloorBounce();
+            }else if (object1 is Suitcase sc)
+            {
+                sc.EndAttack();
             }
 
         }
@@ -140,6 +146,9 @@ namespace KirbyNightmareInDreamLand.Actions
             else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.FloorBounce();
+            }else if (object1 is Suitcase sc)
+            {
+                sc.EndAttack();
             }
         }
 
@@ -160,6 +169,9 @@ namespace KirbyNightmareInDreamLand.Actions
             else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.FloorBounce();
+            }else if (object1 is Suitcase sc)
+            {
+                sc.EndAttack();
             }
         }
 
@@ -180,6 +192,9 @@ namespace KirbyNightmareInDreamLand.Actions
             else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.FloorBounce();
+            }else if (object1 is Suitcase sc)
+            {
+                sc.Explode();
             }
         }
 
@@ -200,6 +215,9 @@ namespace KirbyNightmareInDreamLand.Actions
             else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.FloorBounce();
+            }else if (object1 is Suitcase sc)
+            {
+                sc.EndAttack();
             }
         }
 
@@ -220,6 +238,9 @@ namespace KirbyNightmareInDreamLand.Actions
             else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.FloorBounce();
+            }else if (object1 is Suitcase sc)
+            {
+                sc.EndAttack();
             }
         }
 
@@ -240,6 +261,10 @@ namespace KirbyNightmareInDreamLand.Actions
             else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.FloorBounce();
+            } 
+            else if (object1 is Suitcase sc)
+            {
+                sc.EndAttack();
             }
         }
     }

@@ -16,8 +16,8 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public Vector2 Position {get; private set;}
         public Vector2 Velocity {get; private set;}
         private float startingX;
-        private static int slideDistance = 70;
         private bool IsLeft;
+        private double timer = 0;
         public Slide(Vector2 pos, bool isLeft, IPlayer player)
         {
             this.player = player;
@@ -34,12 +34,11 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public bool IsDone()
         {
-            float distanceMoved = Math.Abs(Position.X - startingX);
-            if(distanceMoved > slideDistance || !CollisionActive)
+            timer += Game1.Instance.time.ElapsedGameTime.TotalSeconds; 
+            if(timer > Constants.Kirby.SLIDE_TIME)
             {
-                EndAttack();
                 return true;
-            }
+            } 
             return false;
         }
         public CollisionType GetCollisionType()

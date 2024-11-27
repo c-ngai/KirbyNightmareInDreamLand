@@ -1,0 +1,31 @@
+Author of Review: Lina Ordonez Aguiar
+Date: 11.27.24
+Sprint #5
+Reviewing: HUD.cs
+Author of file: Payton
+Time: 20 minutes
+
+Chosen code smells:
+    1. Long Functions 
+    2. same name different meaning
+    3. long parameters
+    4. god Objects
+    5. Duplicate code **
+    6. Long method **
+    7. Data clumps ***
+    8. Comments *
+    9. Switch Case
+    10. Large Class
+
+Readability:
+- the code could definitly use more comments to explain what is happening
+- the dictionary is pretty big and overly complicated, theresprobably a better way
+    to access all the lives since it's repetetive code (a for loop would work)
+- on the lives, they probably don't need to be initialized like so
+- the dictionaries are repetitive, many dictionaries using the same key could be all
+    joined into one guided by power up key and then do something else with live
+- lives to text code is overengineered
+
+Code Smells:
+- duplicate code and data clumps on dictionary implementations: has not been fixed since last Sprint
+- prtty long methods throughout that could be broken down
