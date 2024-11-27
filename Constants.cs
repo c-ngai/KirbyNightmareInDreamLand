@@ -199,7 +199,7 @@ namespace KirbyNightmareInDreamLand
             public static int STOPBOUNCEFRAME = 22;
             public static int STOPFLOATINGTRANSITIONFRAME = 8;
             public static int HURT_STUN_FRAMES = 24;
-
+            public static int STOPHURTFRAME = 20;
         }
         #endregion
         public class WaitTimes
