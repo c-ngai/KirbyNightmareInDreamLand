@@ -101,8 +101,16 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
 
         #region KirbyState
+        //private int lastFramePoseChanged = 0;
         public void ChangePose(KirbyPose pose)
         {
+            //if (_game.UpdateCounter > lastFramePoseChanged)
+            //{
+            //    lastFramePoseChanged = _game.UpdateCounter;
+            //    Debug.WriteLine("\n##### UPDATE " + _game.UpdateCounter);
+            //}
+            //Debug.WriteLine("  ChangePose: " + pose.ToString());
+
             state.ChangePose(pose);
             if (oldPose != state.GetPose())
             {
@@ -328,7 +336,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public void DropAbility()
         {
-            if (true || state.HasPowerUp())
+            if (state.HasPowerUp())
             {
                 if (!IsWithEnemy())
                 {
@@ -342,7 +350,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public void ManualDropAbility()
         {
-            if (true || state.HasPowerUp())
+            if (state.HasPowerUp())
             {
                 SoundManager.Play("dropability");
                 DropAbility();
@@ -376,6 +384,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void GoToRoomSpawn()
         {
             movement.GoToRoomSpawn();
+            ChangePose(KirbyPose.Standing);
             if (!IsActive && (lives > 0 || _game.Level.CurrentRoom.Name == "hub"))
             {
                 if (DEAD && lives > 0)

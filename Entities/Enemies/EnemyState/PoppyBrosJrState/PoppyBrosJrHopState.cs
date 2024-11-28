@@ -1,5 +1,6 @@
 ﻿using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
+using KirbyNightmareInDreamLand.Entities.Players;
 using KirbyNightmareInDreamLand.StateMachines;
 using System;
 using System.Collections.Generic;
@@ -19,29 +20,13 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState
         public void Enter()
         {
             _enemy.ChangePose(EnemyPose.Hop);
-            _enemy.ResetFrameCounter(); 
+            _enemy.Jump();
         }
 
         public void Update()
         {
-            if (_enemy is PoppyBrosJr jumpableEnemy)
-            {
-                jumpableEnemy.Jump(); // Perform jump action
-                _enemy.IncrementFrameCounter();
-
-                if (!jumpableEnemy.IsJumping)
-                {
-                    _enemy.ChangeState(new PoppyBrosJrLandState(_enemy));
-                   // _enemy.UpdateTexture();
-                }
-            }
-            else
-            {
-                // If the enemy cannot jump, transition back to walking
-                _enemy.ChangeState(new PoppyBrosJrLandState(_enemy));
-                //_enemy.UpdateTexture();
-            }
-
+            // Perform jump action
+            _enemy.Move();
         }
 
         public void Exit() { }

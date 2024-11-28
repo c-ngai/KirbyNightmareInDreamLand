@@ -72,8 +72,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             { //makes it so kirby can only jump so high
                 velocity.Y = jumpYVel;
                 frameCounter++;
-                lastFrameJumpCalled = updateCounter;
+                
             }
+            lastFrameJumpCalled = updateCounter;
         }
 
         #endregion
@@ -104,9 +105,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //updates position and adjusts frame. 
         public override void MovePlayer(Player kirby, GameTime gameTime)
         {
-            UpdatePosition(kirby);
-            Adjust(kirby);
-            DeathBarrierCheck(kirby);
+            base.MovePlayer(kirby, gameTime);
+
+            // If Kirby has just let go of jump and is still rising, cut his vertical velocity off a bit. This is a subtle feature in the actual game that makes jumping feel snappier and easier to control
+            if (Game1.Instance.UpdateCounter == lastFrameJumpCalled + 1 && velocity.Y < Constants.Physics.JUMP_RELEASE_VEL)
+            {
+                velocity.Y = Constants.Physics.JUMP_RELEASE_VEL;
+            }
         }
         #endregion
 

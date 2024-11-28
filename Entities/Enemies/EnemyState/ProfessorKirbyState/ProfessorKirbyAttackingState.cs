@@ -15,13 +15,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.ProfessorKirbySt
         public void Enter()
         {
             _enemy.ChangePose(EnemyPose.Attacking);
-            _enemy.ResetFrameCounter();
             _enemy.Attack(); // Perform attack action immediately upon entering
         }
 
         public void Update()
         {
-            _enemy.IncrementFrameCounter();
+            
 
             if (_enemy.FrameCounter >= Constants.ProfessorKirby.ATTACK_FRAMES)
             {

@@ -25,11 +25,6 @@
         ],
         "Enemies": [
             {
-                "EnemyType": "WaddleDee",
-                "SpawnTileX": 10,
-                "SpawnTileY": 4
-            },
-            {
                 "EnemyType": "WaddleDoo",
                 "SpawnTileX": 19,
                 "SpawnTileY": 6
@@ -113,9 +108,9 @@
                 "SpawnTileY": 3
             },
             {
-                "EnemyType": "BrontoBurt",
+                "EnemyType": "WaddleDee",
                 "SpawnTileX": 24,
-                "SpawnTileY": 8
+                "SpawnTileY": 9
             },
             {
                 "EnemyType": "WaddleDee",

@@ -15,13 +15,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.ProfessorKirbySt
         public void Enter()
         {
             _enemy.ChangePose(EnemyPose.Charging);
-            _enemy.ResetFrameCounter();
         }
 
         public void Update()
         {
             // Implement charging behavior, e.g., increased speed or special attacks
-            _enemy.IncrementFrameCounter();
+            
 
             if (_enemy.FrameCounter >= Constants.ProfessorKirby.STOP_FRAMES)
             {

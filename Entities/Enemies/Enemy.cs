@@ -26,37 +26,25 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         protected int health; //Enemy health
         protected bool active;  //If enemy is dead
         protected Sprite enemySprite;
-        protected Random random;
+        public Random random;
         public EnemyStateMachine stateMachine { get;  private set; }
         protected IEnemyState currentState; // Current state of the enemy
         protected string oldState; //Previous state
         protected int frameCounter; // Frame counter for tracking state duration
         protected float gravity;
         protected bool affectedByGravity;
-        protected Boolean isFalling;
+        protected bool isFalling;
         protected bool isBeingInhaled;
 
         public bool CollisionActive { get; set; }
 
         protected Enemy(Vector2 startPosition, EnemyType type)
         {
-            //Initialize all variables
             spawnPosition = startPosition;
-            //position = spawnPosition;
-            //health = Constants.Enemies.HEALTH;
-            //active = true;
-            //velocity = Vector2.Zero;
-            //isFalling = true;
-            //isBeingInhaled = false;
             gravity = Constants.Physics.GRAVITY;
             stateMachine = new EnemyStateMachine(type);
             random = new Random();
-            //oldState = string.Empty;
-            //currentState = new WaddleDooWalkingState(this); // Initialize with the walking state
             ObjectManager.Instance.AddEnemy(this);
-            //currentState.Enter();
-            //frameCounter = 0;
-            //UpdateTexture();
         }
 
         public CollisionType GetCollisionType()
@@ -103,22 +91,13 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             get { return frameCounter; }
         }
-        public void IncrementFrameCounter()
-        {
-            frameCounter++;
-        }
-        public void UpdateDirection()
-        {
-            if(ObjectManager.Instance.Players[0].GetKirbyPosition().X < this.position.X){
-                stateMachine.FaceLeft();
-            } else {
-                stateMachine.FaceRight();
-            }
-        }
 
-        public void ResetFrameCounter()
+        public void FaceNearestPlayer()
         {
-            frameCounter = 0;
+            IPlayer nearestPlayer = ObjectManager.Instance.NearestPlayer(position);
+            float nearestPlayerX = nearestPlayer.GetKirbyPosition().X;
+            bool isLeft = nearestPlayerX < position.X;
+            SetDirection(isLeft);
         }
 
         public void UpdateTexture()
@@ -132,9 +111,14 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public void ChangeState(IEnemyState newState)
         {
+            // Call exit on the current state, if there is one, so that it may take care of any final business if it needs (stopping sounds, ending attacks, deallocating resources, etc)
             currentState?.Exit();
+            currentState?.Dispose();
+            // Set the current state to the given new state and call Enter on it
             currentState = newState;
             currentState.Enter();
+            // Reset the state update counter
+            frameCounter = 0;
         }
 
         public virtual void TakeDamage(Rectangle intersection, Vector2 positionOfDamageSource)
@@ -148,7 +132,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             SoundManager.Play("enemydamage");
         }
 
-        public void GetInhaled(Rectangle intersection, IPlayer player)
+        public virtual void GetInhaled(Rectangle intersection, IPlayer player)
         {
             isBeingInhaled = true;
             ChangeState(new EnemyInhaledState(this, player));
@@ -212,8 +196,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             position = spawnPosition;
             velocity = Vector2.Zero;
             vibrate = 0;
-            bool isLeft = ObjectManager.Instance.NearestPlayerDirection(position);
-            stateMachine.SetDirection(isLeft);
+            FaceNearestPlayer();
             health = Constants.Enemies.HEALTH;
             frameCounter = 0;
         }
@@ -234,6 +217,22 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             position.Y += velocity.Y;  // Apply the updated velocity to the enemy's Y position
         }
 
+        public void DecelerateX(float deceleration)
+        {
+            if (velocity.X > 0)
+            {
+                velocity.X -= deceleration;
+            }
+            else if (velocity.X < 0)
+            {
+                velocity.X += deceleration;
+            }
+            if (velocity.X < deceleration / 2 && velocity.X > -deceleration / 2)
+            {
+                velocity.X = 0;
+            }
+        }
+
         public virtual void Update(GameTime gameTime) 
         {
 
@@ -249,7 +248,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
             if (active)
             {
-                IncrementFrameCounter();
+                frameCounter++;
                 currentState.Update();
                 UpdateTexture();
                 enemySprite.Update();
@@ -270,7 +269,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 Vector2 vibratePos = new Vector2((float)random.NextDouble() - 0.5f, (float)random.NextDouble() - 0.5f);
                 vibratePos.Normalize();
                 enemySprite.Draw(position + vibratePos * vibrate, spriteBatch);
-                //spriteBatch.DrawString(LevelLoader.Instance.Font, frameCounter.ToString(), (position + new Vector2(-8, -32)), Color.Black);
+
+                if (Game1.Instance.DEBUG_TEXT_ENABLED)
+                {
+                    spriteBatch.DrawString(LevelLoader.Instance.Font, frameCounter.ToString(), (position + new Vector2(-8, -32)), Color.Black);
+                }
+                
             }
         }
 
@@ -278,18 +282,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void Jump() { }
 
-        public virtual void Move()
+        public virtual void Move() { }
+
+        public virtual void StopMoving()
         {
-            //// Walking back and forth in X axis 
-            //if (stateMachine.IsLeft())
-            //{
-            //    position.X -= velocity.X;
-            //}
-            //else
-            //{
-            //    position.X += velocity.X;
-            //}
-            //UpdateTexture();
+            velocity.X = 0;
         }
 
         public void AccellerateTowards(Vector2 _position)
@@ -322,7 +319,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void BottomCollisionWithBlock(Rectangle intersection)
         {
-            position.Y = intersection.Y; // Note: +1 removed because in Game1.Update I made level update before collision is called. This makes collisions happen after preexisting momentum is applied -Mark
+            position.Y = intersection.Y + Constants.Collision.GROUND_COLLISION_OFFSET;
             velocity.Y = 0;
             isFalling = false;
         }
@@ -344,17 +341,11 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             bool left = false;
             SetDirection(left);
         }
-        // Commented out the inside for now. Is this necessary? -Mark
-        public void BottomCollisionWithAir(Rectangle intersection)
-        {
-            //isFalling = true;
-            //Fall();
-        }
 
-        public void BottomCollisionWithPlatform(Rectangle intersection)
+        public virtual void BottomCollisionWithPlatform(Rectangle intersection)
         {
 
-            position.Y = intersection.Y;
+            position.Y = intersection.Y + Constants.Collision.GROUND_COLLISION_OFFSET;
             velocity.Y = 0;
             isFalling = false;
         }
@@ -369,43 +360,43 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 //GameDebug.Instance.LogPosition(new Vector2(position.X, position.Y));
                 if (position.Y > slopeY)
                 {
-                    position.Y = slopeY;
+                    position.Y = slopeY + Constants.Collision.GROUND_COLLISION_OFFSET;
                     velocity.Y = 0;
                 }
                 //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
             }
         }
-        public void AdjustGentle1SlopeLeftCollision(Tile tile)
+        public void CollisionWithGentle1LeftSlope(Tile tile)
         {
             float slope = Constants.Collision.GENTLE1_SLOPE_LEFT_M;
             float yIntercept = Constants.Collision.GENTLE1_SLOPE_LEFT_YINTERCEPT;
             AdjustOnSlopeCollision(tile, slope, yIntercept);
         }
-        public void AdjustGentle2SlopeLeftCollision(Tile tile)
+        public void CollisionWithGentle2LeftSlope(Tile tile)
         {
             float slope = Constants.Collision.GENTLE2_SLOPE_LEFT_M;
             float yIntercept = Constants.Collision.GENTLE2_SLOPE_LEFT_YINTERCEPT;
             AdjustOnSlopeCollision(tile, slope, yIntercept);
         }
-        public void AdjustSteepSlopeLeftCollision(Tile tile)
+        public void CollisionWithSteepLeftSlope(Tile tile)
         {
             float slope = Constants.Collision.STEEP_SLOPE_LEFT_M;
             float yIntercept = Constants.Collision.STEEP_SLOPE_LEFT_YINTERCEPT;
             AdjustOnSlopeCollision(tile, slope, yIntercept);
         }
-        public void AdjustGentle1SlopeRightCollision(Tile tile)
+        public void CollisionWithGentle1RightSlope(Tile tile)
         {
             float slope = Constants.Collision.GENTLE1_SLOPE_RIGHT_M;
             float yIntercept = Constants.Collision.GENTLE1_SLOPE_RIGHT_YINTERCEPT;
             AdjustOnSlopeCollision(tile, slope, yIntercept);
         }
-        public void AdjustGentle2SlopeRightCollision(Tile tile)
+        public void CollisionWithGentle2RightSlope(Tile tile)
         {
             float slope = Constants.Collision.GENTLE2_SLOPE_RIGHT_M;
             float yIntercept = Constants.Collision.GENTLE2_SLOPE_RIGHT_YINTERCEPT;
             AdjustOnSlopeCollision(tile, slope, yIntercept);
         }
-        public void AdjustSteepSlopeRightCollision(Tile tile)
+        public void CollisionWithSteepRightSlope(Tile tile)
         {
             float slope = Constants.Collision.STEEP_SLOPE_RIGHT_M;
             float yIntercept = Constants.Collision.STEEP_SLOPE_RIGHT_YINTERCEPT;

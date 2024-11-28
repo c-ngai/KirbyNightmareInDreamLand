@@ -15,13 +15,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
         public void Enter()
         {
             _enemy.ChangePose(EnemyPose.Charging);
-            _enemy.ResetFrameCounter();
+            _enemy.StopMoving();
         }
 
         public void Update()
         {
             // Implement charging behavior, e.g., increased speed or special attacks
-            _enemy.IncrementFrameCounter();
 
             if (_enemy.FrameCounter >= Constants.WaddleDoo.STOP_FRAMES)
             {

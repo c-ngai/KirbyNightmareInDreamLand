@@ -280,7 +280,6 @@ namespace KirbyNightmareInDreamLand
                 //}
                 #endregion
             }
-
             _spriteBatch.End();
 
             // Static spritebatch
@@ -340,7 +339,31 @@ namespace KirbyNightmareInDreamLand
                 DrawView(bounds);
             }
 
-            
+
+            //Rectangle bounds1 = new Rectangle(
+            //        WINDOW_XOFFSET,
+            //        WINDOW_YOFFSET,
+            //        WINDOW_WIDTH,
+            //        WINDOW_HEIGHT);
+            //int x = Mouse.GetState().X * 255 / WINDOW_WIDTH;
+
+            //BlendState blendState = new BlendState
+            //{
+            //    ColorSourceBlend = Blend.One,
+            //    AlphaSourceBlend = Blend.One,
+                
+            //    ColorDestinationBlend = Blend.InverseSourceAlpha,
+            //    AlphaDestinationBlend = Blend.InverseSourceAlpha,
+
+            //    ColorBlendFunction = BlendFunction.ReverseSubtract,
+            //    AlphaBlendFunction = BlendFunction.Add
+            //};
+
+            //_spriteBatch.Begin(SpriteSortMode.Deferred, blendState, SamplerState.PointClamp, null, null, null, null);
+            ////GameDebug.Instance.DrawSolidRectangle(_spriteBatch, bounds1, new Color(x, x, x, 0), 1f);
+            //GameDebug.Instance.DrawSolidRectangle(_spriteBatch, bounds1, new Color(x, x, x, 0), 1f);
+            //_spriteBatch.End();
+
             // Draw Debug Text
             if (DEBUG_TEXT_ENABLED)
             {
@@ -353,6 +376,8 @@ namespace KirbyNightmareInDreamLand
             // Stop timer for calculating max fps
             TickStopwatch.Stop();
         }
+
+        
 
     }
 

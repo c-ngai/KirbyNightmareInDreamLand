@@ -52,6 +52,13 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 Position += Velocity;
 
                 projectileSprite.Update();
+
+                // Despawn if outside room
+                if (position.X < -16 || position.X > Game1.Instance.Level.CurrentRoom.Width + 16)
+                {
+                    IsActive = false;
+                    CollisionActive = false;
+                }
             }
 
         }
@@ -66,7 +73,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
     
         public bool IsDone()
         {
-            return true;
+            return !IsActive;
         }
 
         public bool CollisionActive { get; set; } = true;

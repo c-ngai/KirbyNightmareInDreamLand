@@ -30789,7 +30789,7 @@
     },
     "kirby0_spark_freefallfar_right": {
         "Source texture": "kirby0_spark",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": false,
         "Frames": [
             {
@@ -30832,7 +30832,7 @@
     },
     "kirby0_spark_freefallfar_left": {
         "Source texture": "kirby0_spark",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": true,
         "Frames": [
             {
@@ -33572,7 +33572,7 @@
     },
     "kirby1_spark_freefallfar_right": {
         "Source texture": "kirby1_spark",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": false,
         "Frames": [
             {
@@ -33615,7 +33615,7 @@
     },
     "kirby1_spark_freefallfar_left": {
         "Source texture": "kirby1_spark",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": true,
         "Frames": [
             {
@@ -36355,7 +36355,7 @@
     },
     "kirby2_spark_freefallfar_right": {
         "Source texture": "kirby2_spark",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": false,
         "Frames": [
             {
@@ -36398,7 +36398,7 @@
     },
     "kirby2_spark_freefallfar_left": {
         "Source texture": "kirby2_spark",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": true,
         "Frames": [
             {
@@ -39138,7 +39138,7 @@
     },
     "kirby3_spark_freefallfar_right": {
         "Source texture": "kirby3_spark",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": false,
         "Frames": [
             {
@@ -39181,7 +39181,7 @@
     },
     "kirby3_spark_freefallfar_left": {
         "Source texture": "kirby3_spark",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": true,
         "Frames": [
             {
@@ -41921,7 +41921,7 @@
     },
     "kirby0_fire_freefallfar_right": {
         "Source texture": "kirby0_fire",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": false,
         "Frames": [
             {
@@ -41964,7 +41964,7 @@
     },
     "kirby0_fire_freefallfar_left": {
         "Source texture": "kirby0_fire",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": true,
         "Frames": [
             {
@@ -44668,7 +44668,7 @@
     },
     "kirby1_fire_freefallfar_right": {
         "Source texture": "kirby1_fire",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": false,
         "Frames": [
             {
@@ -44711,7 +44711,7 @@
     },
     "kirby1_fire_freefallfar_left": {
         "Source texture": "kirby1_fire",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": true,
         "Frames": [
             {
@@ -47415,7 +47415,7 @@
     },
     "kirby2_fire_freefallfar_right": {
         "Source texture": "kirby2_fire",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": false,
         "Frames": [
             {
@@ -47458,7 +47458,7 @@
     },
     "kirby2_fire_freefallfar_left": {
         "Source texture": "kirby2_fire",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": true,
         "Frames": [
             {
@@ -50162,7 +50162,7 @@
     },
     "kirby3_fire_freefallfar_right": {
         "Source texture": "kirby3_fire",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": false,
         "Frames": [
             {
@@ -50205,7 +50205,7 @@
     },
     "kirby3_fire_freefallfar_left": {
         "Source texture": "kirby3_fire",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": true,
         "Frames": [
             {
