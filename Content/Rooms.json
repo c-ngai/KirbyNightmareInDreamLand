@@ -3,20 +3,10 @@
     "Foreground sprite": "foreground_room1",
     "Background sprite": "background_lake",
     "Tilemap": "room1_tileset",
-  "room1": {
-    "Foreground sprite": "foreground_room1",
-    "Background sprite": "background_lake",
-    "Tilemap": "room1_tileset",
 
     "Spawn tile X": 2,
     "Spawn tile Y": 4,
-    "Spawn tile X": 2,
-    "Spawn tile Y": 4,
 
-    "Lock camera X?": false,
-    "Locked camera X": 0,
-    "Lock camera Y?": true,
-    "Locked camera Y": 8,
     "Lock camera X?": false,
     "Locked camera X": 0,
     "Lock camera Y?": true,
@@ -86,75 +76,7 @@
       }
     ]
   },
-    "Doors": [
-      {
-        "TileX": 61,
-        "TileY": 6,
-        "DestinationRoom": "room2",
-        "DestinationTileX": 2,
-        "DestinationTileY": 7,
-        "DrawDoorStars": true,
-        "IsBigDoor": false
-      }
-    ],
-    "Enemies": [
-      {
-        "EnemyType": "WaddleDee",
-        "SpawnTileX": 10,
-        "SpawnTileY": 4
-      },
-      {
-        "EnemyType": "WaddleDoo",
-        "SpawnTileX": 19,
-        "SpawnTileY": 6
-      },
-      {
-        "EnemyType": "WaddleDee",
-        "SpawnTileX": 23,
-        "SpawnTileY": 7
-      },
-      {
-        "EnemyType": "BrontoBurt",
-        "SpawnTileX": 27,
-        "SpawnTileY": 4
-      },
-      {
-        "EnemyType": "WaddleDoo",
-        "SpawnTileX": 30,
-        "SpawnTileY": 7
-      },
-      {
-        "EnemyType": "BrontoBurt",
-        "SpawnTileX": 35,
-        "SpawnTileY": 6
-      },
-      {
-        "EnemyType": "Sparky",
-        "SpawnTileX": 38,
-        "SpawnTileY": 6
-      },
-      {
-        "EnemyType": "WaddleDee",
-        "SpawnTileX": 46,
-        "SpawnTileY": 6
-      },
-      {
-        "EnemyType": "BrontoBurt",
-        "SpawnTileX": 49,
-        "SpawnTileY": 3
-      },
-      {
-        "EnemyType": "Hothead",
-        "SpawnTileX": 59,
-        "SpawnTileY": 6
-      }
-    ]
-  },
 
-  "room2": {
-    "Foreground sprite": "foreground_room2",
-    "Background sprite": "background_mountains",
-    "Tilemap": "room2_tileset",
   "room2": {
     "Foreground sprite": "foreground_room2",
     "Background sprite": "background_mountains",
@@ -162,13 +84,7 @@
 
     "Spawn tile X": 3,
     "Spawn tile Y": 7,
-    "Spawn tile X": 3,
-    "Spawn tile Y": 7,
 
-    "Lock camera X?": false,
-    "Locked camera X": 0,
-    "Lock camera Y?": true,
-    "Locked camera Y": 8,
     "Lock camera X?": false,
     "Locked camera X": 0,
     "Lock camera Y?": true,
@@ -223,59 +139,7 @@
       }
     ]
   },
-  "room3": {
-    "Foreground sprite": "foreground_room3",
-    "Background sprite": "background_mountains",
-    "Tilemap": "room3_tileset",
-    "Doors": [
-      {
-        "TileX": 61,
-        "TileY": 7,
-        "DestinationRoom": "room3",
-        "DestinationTileX": 2,
-        "DestinationTileY": 7,
-        "DrawDoorStars": true,
-        "IsBigDoor": false
-      }
-    ],
-    "Enemies": [
-      {
-        "EnemyType": "WaddleDee",
-        "SpawnTileX": 15,
-        "SpawnTileY": 7
-      },
-      {
-        "EnemyType": "Sparky",
-        "SpawnTileX": 24,
-        "SpawnTileY": 3
-      },
-      {
-        "EnemyType": "WaddleDee",
-        "SpawnTileX": 24,
-        "SpawnTileY": 9
-      },
-      {
-        "EnemyType": "WaddleDee",
-        "SpawnTileX": 31,
-        "SpawnTileY": 7
-      },
-      {
-        "EnemyType": "Hothead",
-        "SpawnTileX": 42,
-        "SpawnTileY": 5
-      },
-      {
-        "EnemyType": "BrontoBurt",
-        "SpawnTileX": 50,
-        "SpawnTileY": 2
-      },
-      {
-        "EnemyType": "Sparky",
-        "SpawnTileX": 57,
-        "SpawnTileY": 7
-      }
-    ]
-  },
+
   "room3": {
     "Foreground sprite": "foreground_room3",
     "Background sprite": "background_mountains",
@@ -283,13 +147,8 @@
 
     "Spawn tile X": 3,
     "Spawn tile Y": 7,
-    "Spawn tile X": 3,
-    "Spawn tile Y": 7,
 
-    "Lock camera X?": false,
-    "Locked camera X": 0,
-    "Lock camera Y?": true,
-    "Locked camera Y": 8,
+
     "Lock camera X?": false,
     "Locked camera X": 0,
     "Lock camera Y?": true,
@@ -312,80 +171,6 @@
         "DrawDoorStars": true,
         "IsBigDoor": false
       }
-    "Doors": [
-      {
-        "TileX": 2,
-        "TileY": 7,
-        "DestinationRoom": "room2",
-        "DestinationTileX": 61,
-        "DestinationTileY": 7,
-        "DrawDoorStars": true,
-        "IsBigDoor": false
-      },
-      {
-        "TileX": 60,
-        "TileY": 3,
-        "DestinationRoom": "winner_room",
-        "DrawDoorStars": true,
-        "IsBigDoor": false
-      }
-
-    ],
-    "Enemies": [
-      {
-        "EnemyType": "Hothead",
-        "SpawnTileX": 16,
-        "SpawnTileY": 3
-      },
-      {
-        "EnemyType": "PoppyBrosJr",
-        "SpawnTileX": 18,
-        "SpawnTileY": 6
-      },
-      {
-        "EnemyType": "WaddleDee",
-        "SpawnTileX": 21,
-        "SpawnTileY": 2
-      },
-      {
-        "EnemyType": "WaddleDoo",
-        "SpawnTileX": 28,
-        "SpawnTileY": 4
-      },
-      {
-        "EnemyType": "BrontoBurt",
-        "SpawnTileX": 34,
-        "SpawnTileY": 3
-      },
-      {
-        "EnemyType": "Hothead",
-        "SpawnTileX": 44,
-        "SpawnTileY": 5
-      },
-      {
-        "EnemyType": "PoppyBrosJr",
-        "SpawnTileX": 50,
-        "SpawnTileY": 2
-      },
-      {
-        "EnemyType": "WaddleDee",
-        "SpawnTileX": 54,
-        "SpawnTileY": 7
-      },
-      {
-        "EnemyType": "BrontoBurt",
-        "SpawnTileX": 59,
-        "SpawnTileY": 7
-      }
-    ],
-    "PowerUps": [
-      {
-        "PowerUpType": "maximtomato",
-        "SpawnTileX": 32,
-        "SpawnTileY": 8
-      }
-    ]
-  },
     ],
     "Enemies": [
       {
@@ -447,13 +232,7 @@
     "Foreground sprite": "oogabooga",
     "Background sprite": "background_stars",
     "Tilemap": "treasureroom",
-  "treasureroom": {
-    "Foreground sprite": "oogabooga",
-    "Background sprite": "background_stars",
-    "Tilemap": "treasureroom",
 
-    "Spawn tile X": 48,
-    "Spawn tile Y": 5,
     "Spawn tile X": 48,
     "Spawn tile Y": 5,
 
@@ -461,71 +240,7 @@
     "Locked camera X": 0,
     "Lock camera Y?": false,
     "Locked camera Y": 0,
-    "Lock camera X?": false,
-    "Locked camera X": 0,
-    "Lock camera Y?": false,
-    "Locked camera Y": 0,
 
-    "Doors": [
-      {
-        "TileX": 45,
-        "TileY": 11,
-        "DestinationRoom": "room1",
-        "DestinationTileX": 2,
-        "DestinationTileY": 7,
-        "DrawDoorStars": true,
-        "IsBigDoor": true
-      },
-      {
-        "TileX": 48,
-        "TileY": 11,
-        "DestinationRoom": "room2",
-        "DestinationTileX": 2,
-        "DestinationTileY": 7,
-        "DrawDoorStars": true,
-        "IsBigDoor": false
-      },
-      {
-        "TileX": 51,
-        "TileY": 11,
-        "DestinationRoom": "room3",
-        "DestinationTileX": 6,
-        "DestinationTileY": 7,
-        "DrawDoorStars": true,
-        "IsBigDoor": false
-      }
-    ],
-    "Enemies": [
-      {
-        "EnemyType": "WaddleDee",
-        "SpawnTileX": 29,
-        "SpawnTileY": 19
-      },
-      {
-        "EnemyType": "WaddleDoo",
-        "SpawnTileX": 25,
-        "SpawnTileY": 19
-      },
-      {
-        "EnemyType": "BrontoBurt",
-        "SpawnTileX": 21,
-        "SpawnTileY": 19
-      },
-      {
-        "EnemyType": "PoppyBrosJr",
-        "SpawnTileX": 17,
-        "SpawnTileY": 19
-      },
-      {
-        "EnemyType": "Sparky",
-        "SpawnTileX": 13,
-        "SpawnTileY": 19
-      },
-      {
-        "EnemyType": "Hothead",
-        "SpawnTileX": 9,
-        "SpawnTileY": 19
-      },
     "Doors": [
       {
         "TileX": 45,
@@ -678,7 +393,6 @@
         "SpawnTileX": 19,
         "SpawnTileY": 10
       }
-
     ]
   },
 
@@ -686,20 +400,10 @@
     "Foreground sprite": "oogabooga",
     "Background sprite": "background_lake",
     "Tilemap": "testroom1",
-  "testroom1": {
-    "Foreground sprite": "oogabooga",
-    "Background sprite": "background_lake",
-    "Tilemap": "testroom1",
 
     "Spawn tile X": 2,
     "Spawn tile Y": 7,
-    "Spawn tile X": 2,
-    "Spawn tile Y": 7,
 
-    "Lock camera X?": false,
-    "Locked camera X": 0,
-    "Lock camera Y?": false,
-    "Locked camera Y": 0,
     "Lock camera X?": false,
     "Locked camera X": 0,
     "Lock camera Y?": false,
@@ -767,7 +471,9 @@
       }
     ]
   },
+
   "level2_room1": {
+
     "Foreground sprite": "level2_room1_foreground",
     "Background sprite": "beach_background",
     "Tilemap": "level2_room1_tileset",
@@ -863,9 +569,10 @@
         "SpawnTileY": 4
       }
     ]
-},
+  },
 
   "level2_room2": {
+
     "Foreground sprite": "level2_room2_foreground",
     "Background sprite": "orange_meadow_background",
     "Tilemap": "level2_room2_tileset",
@@ -1018,6 +725,7 @@
   },
 
   "level2_room3": {
+
     "Foreground sprite": "level2_room3_foreground",
     "Background sprite": "blue_rocks_background",
     "Tilemap": "level2_room3_tileset",
@@ -1141,16 +849,11 @@
 
 
   "game_over": {
-    "Foreground sprite": "Game_over_foreground",
-    "Background sprite": "Game_over_background",
-    "Tilemap": "room1_tileset",
-  "game_over": {
+
     "Foreground sprite": "Game_over_foreground",
     "Background sprite": "Game_over_background",
     "Tilemap": "room1_tileset",
 
-    "Spawn tile X": 2,
-    "Spawn tile Y": 7,
     "Spawn tile X": 2,
     "Spawn tile Y": 7,
 
@@ -1158,36 +861,19 @@
     "Locked camera X": 0,
     "Lock camera Y?": true,
     "Locked camera Y": 0,
-    "Lock camera X?": true,
-    "Locked camera X": 0,
-    "Lock camera Y?": true,
-    "Locked camera Y": 0,
 
-    "Doors": []
-  },
     "Doors": []
   },
 
   "winner_room": {
-    "Foreground sprite": "Winning_background",
-    "Background sprite": "",
-    "Tilemap": "room1_tileset",
-  "winner_room": {
+
     "Foreground sprite": "Winning_background",
     "Background sprite": "",
     "Tilemap": "room1_tileset",
 
     "Spawn tile X": 10,
     "Spawn tile Y": 7,
-    "Spawn tile X": 10,
-    "Spawn tile Y": 7,
 
-    "Lock camera X?": true,
-    "Locked camera X": 0,
-    "Lock camera Y?": true,
-    "Locked camera Y": 0,
-
-    "Doors": []
     "Lock camera X?": true,
     "Locked camera X": 0,
     "Lock camera Y?": true,
@@ -1197,6 +883,7 @@
   },
 
   "hub": {
+
     "Foreground sprite": "hub_foreground",
     "Background sprite": "",
     "Tilemap": "hub_tileset",

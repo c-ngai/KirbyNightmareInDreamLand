@@ -58267,7 +58267,7 @@
         ]
     },
 
-  "ui_0": {
+  "hud_0": {
     "Source texture": "hud",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -58283,7 +58283,7 @@
       }
     ]
   },
-  "ui_1": {
+  "hud_1": {
     "Source texture": "hud",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -58299,7 +58299,7 @@
       }
     ]
   },
-  "ui_2": {
+  "hud_2": {
     "Source texture": "hud",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -58315,7 +58315,7 @@
       }
     ]
   },
-  "ui_3": {
+  "hud_3": {
     "Source texture": "hud",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -58331,7 +58331,7 @@
       }
     ]
   },
-  "ui_4": {
+  "hud_4": {
     "Source texture": "hud",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -58347,7 +58347,7 @@
       }
     ]
   },
-  "ui_5": {
+  "hud_5": {
     "Source texture": "hud",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -58363,7 +58363,7 @@
       }
     ]
   },
-  "ui_6": {
+  "hud_6": {
     "Source texture": "hud",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -58379,7 +58379,7 @@
       }
     ]
   },
-  "ui_7": {
+  "hud_7": {
     "Source texture": "hud",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -58395,7 +58395,7 @@
       }
     ]
   },
-  "ui_8": {
+  "hud_8": {
     "Source texture": "hud",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -58411,7 +58411,7 @@
       }
     ]
   },
-  "ui_9": {
+  "hud_9": {
     "Source texture": "hud",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -58427,7 +58427,7 @@
       }
     ]
   },
-  "ui_lives0": {
+  "hud_lives0": {
     "Source texture": "hud",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -58443,7 +58443,7 @@
       }
     ]
   },
-  "ui_lives1": {
+  "hud_lives1": {
     "Source texture": "hud",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -58459,7 +58459,7 @@
       }
     ]
   },
-  "ui_lives2": {
+  "hud_lives2": {
     "Source texture": "hud",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -58475,7 +58475,7 @@
       }
     ]
   },
-  "ui_lives3": {
+  "hud_lives3": {
     "Source texture": "hud",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -58491,7 +58491,7 @@
       }
     ]
   },
-  "ui_healthbar_1": {
+  "hud_healthbar_1": {
     "Source texture": "hud",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -58507,7 +58507,7 @@
       }
     ]
   },
-  "ui_healthbar_0": {
+  "hud_healthbar_0": {
     "Source texture": "hud",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -58523,7 +58523,7 @@
       }
     ]
   },
-  "ui_power_beam": {
+  "hud_power_beam": {
     "Source texture": "hud",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -58539,7 +58539,7 @@
       }
     ]
   },
-  "ui_power_spark": {
+  "hud_power_spark": {
     "Source texture": "hud",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -58555,7 +58555,7 @@
       }
     ]
   },
-  "ui_power_fire": {
+  "hud_power_fire": {
     "Source texture": "hud",
     "Loop point": 0,
     "Flip horizontally?": false,
