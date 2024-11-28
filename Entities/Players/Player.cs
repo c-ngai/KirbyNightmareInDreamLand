@@ -88,6 +88,16 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
         }
 
+        public void ResetAfterDoor()
+        {
+            if (state.IsFloating())
+            {
+                ChangePose(KirbyPose.FreeFall);
+            }
+            SetDirectionRight();
+            ChangeMovement();
+            attack = null;
+        }
         public CollisionType GetCollisionType()
         {
             return CollisionType.Player;
@@ -514,6 +524,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 {
                     movement.Jump(state.IsLeft());
                 }
+                else if (state.IsFloating())
+                {
+                    Float();
+                }
             }
         }
         #endregion
@@ -680,7 +694,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     attack = new PlayerAttack(this, AttackType());
                     ChangePose(KirbyPose.Attacking);
                     movement.Attack(this);
-                    //ChangeAttackBool(true);
                 }
             }
         }
