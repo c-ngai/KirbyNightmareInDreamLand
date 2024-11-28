@@ -28,7 +28,7 @@ Images/Level/doorstars
 Images/Level/backgrounds
 Images/Level/collisionTileset
 Images/Level/room1_level
-Images/Level/room2_level
+Images/Level/room2_levelm
 Images/Level/room3_level
 Images/Level/level2_foreground_spritesheet
 Images/Level/level2_background_spritesheet
