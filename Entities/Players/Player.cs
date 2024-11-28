@@ -88,6 +88,16 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
         }
 
+        public void ResetAfterDoor()
+        {
+            if (state.IsFloating())
+            {
+                ChangePose(KirbyPose.FreeFall);
+            }
+            SetDirectionRight();
+            ChangeMovement();
+            attack = null;
+        }
         public CollisionType GetCollisionType()
         {
             return CollisionType.Player;
@@ -513,6 +523,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 else if (state.IsJumping() && !state.IsFloating()) //if jumping and x is pressed again
                 {
                     movement.Jump(state.IsLeft());
+                }
+                else if (state.IsFloating())
+                {
+                    Float();
                 }
             }
         }

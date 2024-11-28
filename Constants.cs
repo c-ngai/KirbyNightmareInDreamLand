@@ -215,7 +215,6 @@ namespace KirbyNightmareInDreamLand
         {
             // determines max time that can elapse for double button presses to register as a command
             public const double RESPONSE_FRAMES = 15;
-            //public const double SLIDE_TIME = 250;
         }
 
         public class GamePad
