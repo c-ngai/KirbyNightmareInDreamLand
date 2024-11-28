@@ -680,7 +680,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     attack = new PlayerAttack(this, AttackType());
                     ChangePose(KirbyPose.Attacking);
                     movement.Attack(this);
-                    //ChangeAttackBool(true);
                 }
             }
         }
