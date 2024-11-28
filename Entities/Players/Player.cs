@@ -96,6 +96,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
             SetDirectionRight();
             ChangeMovement();
+            attack?.EndAttack();
             attack = null;
         }
         public CollisionType GetCollisionType()
@@ -790,6 +791,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 {
                     ChangePose(KirbyPose.Standing);
                 }
+                attack?.EndAttack();
                 attack = null;
             }
 
