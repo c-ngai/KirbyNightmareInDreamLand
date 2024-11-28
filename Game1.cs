@@ -182,8 +182,6 @@ namespace KirbyNightmareInDreamLand
 
             music = SoundManager.CreateInstance("song_vegetablevalley");
             //music?.Play();
-
-            
         }
 
 

@@ -452,19 +452,6 @@
 /processorParam:TextureFormat=Color
 /build:Images/Kirby/kirby2_normal.png
 
-#begin Images/Spritesheets/hub_spritesheet.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/Spritesheets/hub_spritesheet.png
-
-
 #begin Images/Kirby/kirby2_spark.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -560,6 +547,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/Level/doorstars.png
+
+#begin Images/Level/level2_background_spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Level/level2_background_spritesheet.png
+
+#begin Images/Level/level2_foreground_spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Level/level2_foreground_spritesheet.png
 
 #begin Images/Level/room1_level.png
 /importer:TextureImporter
@@ -699,6 +710,18 @@
 #begin Images/SpriteAnimations.json
 /copy:Images/SpriteAnimations.json
 
+#begin Images/Spritesheets/hub_spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Spritesheets/hub_spritesheet.png
+
 #begin Images/Textures.txt
 /copy:Images/Textures.txt
 
@@ -800,6 +823,15 @@
 
 #begin Tilemaps/hub_tileset.csv
 /copy:Tilemaps/hub_tileset.csv
+
+#begin Tilemaps/level2_room1_tileset.csv
+/copy:Tilemaps/level2_room1_tileset.csv
+
+#begin Tilemaps/level2_room2_tileset.csv
+/copy:Tilemaps/level2_room2_tileset.csv
+
+#begin Tilemaps/level2_room3_tileset.csv
+/copy:Tilemaps/level2_room3_tileset.csv
 
 #begin Tilemaps/room1_tileset.csv
 /copy:Tilemaps/room1_tileset.csv
