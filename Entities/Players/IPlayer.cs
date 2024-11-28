@@ -32,6 +32,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         void RunRight();
         void RunLeft();
         void EnterDoor();
+        void ResetAfterDoor();
         void StopAttacking();
         void SetDirectionLeft();
         void SetDirectionRight();

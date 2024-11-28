@@ -202,9 +202,9 @@ namespace KirbyNightmareInDreamLand
             public static int MINFREEFALLFARFRAMES = 16;
             public static int BOUNCEJUMPFRAME = 2;
             public static int STOPBOUNCEFRAME = 22;
-            public static int STOPFLOATINGTRANSITIONFRAME = 8;
+            public static int STOPFLOATINGTRANSITIONFRAME = 4;
             public static int HURT_STUN_FRAMES = 24;
-
+            public static int STOPHURTFRAME = 20;
         }
         #endregion
         public class WaitTimes
@@ -220,7 +220,6 @@ namespace KirbyNightmareInDreamLand
         {
             // determines max time that can elapse for double button presses to register as a command
             public const double RESPONSE_FRAMES = 15;
-            //public const double SLIDE_TIME = 250;
         }
 
         public class GamePad
