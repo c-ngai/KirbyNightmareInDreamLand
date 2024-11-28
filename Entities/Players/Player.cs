@@ -762,6 +762,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if(powerUp != KirbyType.Normal)
             {
                 state.ChangePose(KirbyPose.Attacking);
+                attack?.EndAttack();
                 attack = new PlayerAttack(this, AttackType());
                 Game1.Instance.Level.ChangeToPowerChangeState();
             }

@@ -94,5 +94,13 @@ namespace KirbyNightmareInDreamLand.Audio
             }
         }
 
+        public static void StopAllSounds()
+        {
+            foreach (SoundInstance soundInstance in SoundInstances)
+            {
+                soundInstance.Stop();
+            }
+        }
+
     }
 }
