@@ -113,9 +113,9 @@
         "SpawnTileY": 3
       },
       {
-        "EnemyType": "BrontoBurt",
+        "EnemyType": "WaddleDee",
         "SpawnTileX": 24,
-        "SpawnTileY": 8
+        "SpawnTileY": 9
       },
       {
         "EnemyType": "WaddleDee",

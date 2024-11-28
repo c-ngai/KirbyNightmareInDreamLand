@@ -19,6 +19,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         Vector2 GetKirbyPosition();
         Vector2 GetKirbyVelocity();
         string GetKirbyType();
+        string GetKirbyTypePause();
         void FillLives();
         void GoToRoomSpawn();
         bool IsLeft();
@@ -31,6 +32,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         void RunRight();
         void RunLeft();
         void EnterDoor();
+        void ResetAfterDoor();
         void StopAttacking();
         void SetDirectionLeft();
         void SetDirectionRight();

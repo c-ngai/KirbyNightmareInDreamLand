@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Audio;
+﻿using KirbyNightmareInDreamLand.Audio;
+using Microsoft.Xna.Framework.Audio;
 
 namespace KirbyNightmareInDreamLand.Commands
 {
@@ -19,6 +20,7 @@ namespace KirbyNightmareInDreamLand.Commands
             else
             {
                 SoundEffect.MasterVolume = 0;
+                SoundManager.StopAllSounds();
             }
             
         }

@@ -25,13 +25,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState
         public void Enter()
         {
             _enemy.ChangePose(EnemyPose.Hurt);
-            _enemy.ResetFrameCounter();
         }
 
         public void Update()
         {
 
-            _enemy.IncrementFrameCounter();
+            
 
             // PROBABLY SUPER TIGHT OF COUPLING, FIX LATER
             //if (_player.state.GetPose() == KirbyPose.Inhaling)

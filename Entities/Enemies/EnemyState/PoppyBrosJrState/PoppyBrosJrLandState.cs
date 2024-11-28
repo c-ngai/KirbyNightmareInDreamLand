@@ -18,14 +18,13 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState
         }
         public void Enter()
         {
-            _enemy.ChangePose(EnemyPose.Hop);
-            _enemy.ResetFrameCounter(); 
+            _enemy.StopMoving();
         }
 
         public void Update()
         {
             // Wait for a defined period of time
-            _enemy.IncrementFrameCounter();
+            
 
             if (_enemy.FrameCounter >= Constants.PoppyBrosJr.PAUSE_TIME)
             {

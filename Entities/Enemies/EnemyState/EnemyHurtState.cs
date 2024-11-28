@@ -17,16 +17,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState
         public void Enter()
         {
             _enemy.ChangePose(EnemyPose.Hurt);
-            _enemy.ResetFrameCounter();
 
             _enemy.Health -= Constants.Enemies.DAMAGE_TAKEN;
         }
 
         public void Update()
         {
-
-            _enemy.IncrementFrameCounter();
-
             _enemy.Vibrate = (float)(Constants.Enemies.HURT_FRAMES - _enemy.FrameCounter) / Constants.Enemies.HURT_FRAMES * Constants.Enemies.HURT_VIBRATE_MAX_MAGNITUDE;
 
             //TO-DO: CHANGE TO WHEN KIRBY + ENEMY COLLIDE

@@ -97,6 +97,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             gravity = Constants.Physics.GRAVITY;
             terminalVelocity = Constants.Physics.TERMINAL_VELOCITY;
             kirby.ChangePose(KirbyPose.FloatingEnd);
+            kirby.ChangeMovement();
             endFloat = true;
          
         }

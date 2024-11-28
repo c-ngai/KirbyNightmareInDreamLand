@@ -18,27 +18,14 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
 
         public void Enter()
         {
-            _enemy.ChangePose(EnemyPose.Hop);
-            _enemy.ResetFrameCounter(); // Reset frame counter on entering the state
+            _enemy.FaceNearestPlayer();
+            _enemy.ChangePose(EnemyPose.Hop); // Reset frame counter on entering the state
+            _enemy.Jump(); // Perform jump action
         }
 
         public void Update()
         {
-            if (_enemy is Sparky jumpableEnemy)
-            {
-                jumpableEnemy.Jump(); // Perform jump action
-                _enemy.IncrementFrameCounter();
-
-                if (!jumpableEnemy.IsJumping)
-                {
-                    _enemy.ChangeState(new SparkyPause2State(_enemy));
-                }
-            }
-            else
-            {
-                // If the enemy cannot jump, transition back to walking
-                _enemy.ChangeState(new SparkyPause2State(_enemy));
-            }
+            _enemy.Move();
         }
 
         public void Exit() { }

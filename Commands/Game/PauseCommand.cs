@@ -11,16 +11,17 @@ namespace KirbyNightmareInDreamLand.Commands
         {
             if (Game1.Instance.Level.IsCurrentState("KirbyNightmareInDreamLand.GameState.GamePausedState"))
             {
+                SoundManager.ResumeAllSounds();
+                SoundManager.Play("select");
                 Game1.Instance.Level.UnpauseLevel();
             }
             else
             {
+                SoundManager.PauseAllSounds();
                 SoundManager.Play("pause");
                 Game1.Instance.Level.PauseLevel();
-                //Game1.Instance.Level.PauseLevel();
             }           
-            //Game1.Instance.PAUSED = !Game1.Instance.PAUSED;
-            
         }
+
     }
 }

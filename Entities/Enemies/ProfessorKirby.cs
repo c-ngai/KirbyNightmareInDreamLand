@@ -112,14 +112,13 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public override void BottomCollisionWithBlock(Rectangle intersection)
         {
-            isFalling = false;
+            base.BottomCollisionWithBlock(intersection);
+
             isJumping = false;
-            position.Y = intersection.Y;
             if (currentState.GetType().Equals(typeof(ProfessorKirbyJumpingState)))
             {
                 ChangeState(new ProfessorKirbyWalkingState(this));
             }
-            velocity.Y = 0;
         }
 
         public override void AdjustOnSlopeCollision(Tile tile, float slope, float yIntercept)

@@ -3,30 +3,23 @@ using System;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState
 {
-    public class BrontoBurtFlyingFastState : IEnemyState
+    public class BrontoBurtFlyingState : IEnemyState
     {
         private readonly Enemy _enemy;
 
-        public BrontoBurtFlyingFastState(Enemy enemy)
+        public BrontoBurtFlyingState(Enemy enemy)
         {
             _enemy = enemy ?? throw new ArgumentNullException(nameof(enemy));
         }
 
         public void Enter()
         {
-            _enemy.ChangePose(EnemyPose.FlyingFast);
-            _enemy.ResetFrameCounter(); // Reset frame counter when entering the state
+            
         }
 
         public void Update()
         {
             _enemy.Move(); // Move logic
-
-            // Transition to Hurt state after fast fly frames
-            if (_enemy.FrameCounter >= Constants.BrontoBurt.FAST_FLY_FRAMES)
-            {
-                _enemy.ChangeState(new BrontoBurtFlyingSlowState(_enemy));
-            }
         }
 
         public void Exit() { }
@@ -39,6 +32,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState
 
         public void ChangeDirection()
         {
+            // Implement direction change logic, if applicable
             _enemy.ToggleDirection();
         }
 

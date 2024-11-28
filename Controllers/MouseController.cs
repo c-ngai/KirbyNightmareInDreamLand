@@ -13,7 +13,6 @@ namespace KirbyNightmareInDreamLand.Controllers
 
         private readonly Game1 game;
         private readonly List<string> roomList;
-        private int currentRoomIndex;
 
         private int updatesSinceLastMovement;
 
@@ -22,8 +21,7 @@ namespace KirbyNightmareInDreamLand.Controllers
         public MouseController()
         {
             this.game = Game1.Instance;
-            roomList = new List<string> { "room1", "room2", "room3", "hub", "treasureroom", "game_over", "winner_room"}; // Make sure names align with what's in Rooms.json
-            currentRoomIndex = 0;
+            roomList = new List<string> { "hub", "room1", "room2", "room3", "treasureroom", "game_over", "winner_room"}; // Make sure names align with what's in Rooms.json
             previousMouseState = Mouse.GetState();
             updatesSinceLastMovement = 0;
         }
@@ -87,7 +85,10 @@ namespace KirbyNightmareInDreamLand.Controllers
 
         private void GoToPreviousRoom()
         {
-            if (currentRoomIndex > 0)
+            // Find the index of the current room in the roomList (-1 if not present)
+            int currentRoomIndex = roomList.IndexOf(game.Level.CurrentRoom.Name);
+            // If the current room exists in roomList and is not the first room, load the previous room
+            if (currentRoomIndex > 0 && currentRoomIndex != -1)
             {
                 currentRoomIndex--;
                 LoadRoom(roomList[currentRoomIndex]);
@@ -96,7 +97,10 @@ namespace KirbyNightmareInDreamLand.Controllers
 
         private void GoToNextRoom()
         {
-            if (currentRoomIndex < roomList.Count - 1)
+            // Find the index of the current room in the roomList (-1 if not present)
+            int currentRoomIndex = roomList.IndexOf(game.Level.CurrentRoom.Name);
+            // If the current room exists in roomList and is not the last room, load the next room
+            if (currentRoomIndex < roomList.Count - 1 && currentRoomIndex != -1)
             {
                 currentRoomIndex++;
                 LoadRoom(roomList[currentRoomIndex]);

@@ -17,17 +17,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
             //attacks are stationary
             // No they're not? commented out this line
-            //if(!kirby.IsWithEnemy()) StopMovement();
+            //if (!kirby.IsWithEnemy()) StopMovement();
         }
 
         public override void MovePlayer(Player kirby, GameTime gameTime)
         {
-            //if kirby is not attacking
-            //or in the case he is it doesnt apply for the star attack
-            if((kirby.attack == null) || kirby.starAttackOne != null || kirby.starAttackTwo != null )// if he is not attacking or is spweing an enemey
-            {
-                UpdatePosition(kirby);
-            }
+            UpdatePosition(kirby);
             Adjust(kirby);
             DeathBarrierCheck(kirby);
         }

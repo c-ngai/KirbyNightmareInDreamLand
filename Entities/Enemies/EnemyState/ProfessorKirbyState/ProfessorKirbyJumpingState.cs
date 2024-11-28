@@ -15,7 +15,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.ProfessorKirbySt
         public void Enter()
         {
             _enemy.ChangePose(EnemyPose.Jumping);
-            _enemy.ResetFrameCounter();
         }
 
         public void Update()
@@ -23,7 +22,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.ProfessorKirbySt
             if (_enemy is WaddleDoo jumpableEnemy)
             {
                 jumpableEnemy.Jump(); // Perform jump action
-                _enemy.IncrementFrameCounter();
+                
 
                 if (!jumpableEnemy.IsJumping)
                 {

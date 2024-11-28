@@ -25,7 +25,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         protected float runningVel = Constants.Physics.RUNNING_VELOCITY;
         protected float gravity = Constants.Physics.GRAVITY;
         protected float terminalVelocity = Constants.Physics.TERMINAL_VELOCITY;
-        protected float groundCollisionOffset = 1 - Constants.Physics.FLOAT_GRAVITY;
+        protected float groundCollisionOffset = Constants.Collision.GROUND_COLLISION_OFFSET;
         protected float damageVel = Constants.Physics.DAMAGE_VELOCITY;
         protected float ceiling = Constants.Kirby.CEILING;
         private ITimeCalculator timer;
@@ -64,6 +64,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void GoToRoomSpawn()
         {
             position = Game1.Instance.Level.SpawnPoint;
+            CancelVelocity();
         }
 
         public void SetOnSlope(bool isOnSlope)
@@ -147,7 +148,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void bounceJump()
         {
             landed = false;
-            velocity.Y = Constants.Physics.JUMP_VEL;
+            velocity.Y = Constants.Physics.BOUNCE_VEL;
         }
         #region Move Sprite
         //update kirby position in UI
@@ -164,13 +165,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 velocity.Y = terminalVelocity;
             }
 
-            Decelerate(Constants.Physics.X_DECELERATION);
+            DecelerateX(Constants.Physics.X_DECELERATION);
 
             position.X += velocity.X;
             position.Y += velocity.Y; // + gravity * dt *dt *.5f;
         }
 
-        public void Decelerate(float deceleration)
+        public void DecelerateX(float deceleration)
         {
             if (velocity.X > 0)
             {
@@ -180,7 +181,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 velocity.X += deceleration;
             }
-            if (velocity.X < deceleration && velocity.X > -deceleration)
+            if (velocity.X < deceleration / 2 && velocity.X > -deceleration / 2)
             {
                 velocity.X = 0;
             }

@@ -54,16 +54,19 @@ namespace KirbyNightmareInDreamLand
         #region  Physics
         public static class Physics
         {
-            public const float GRAVITY = 10f / 60; // 0.1666...
-            public const float FLOAT_GRAVITY = 5f / 60; //its 2f as the gravity times 0.01 as a "time elapsed" so float kirby falls at a constan rate
+            public const float GRAVITY = 1/8f; // pixel units per frame per frame (pixel/frame^2)
+            public const float FLOAT_GRAVITY = 1/16f;
             public const float TERMINAL_VELOCITY = 2.5f;
             public const float FLOATING_TERMINAL_VELOCITY = 1f;
             public const float X_DECELERATION = 0.05f;
 
             public const float JUMP_VEL = -3f;
-            public const int JUMP_MAX_FRAMES = 12;
+            public const float JUMP_RELEASE_VEL = -1f;
+            public const int JUMP_MAX_FRAMES = 7;
             public const float FLOAT_YACCELLERATION = -0.15f;
             public const float FLOAT_MIN_YVEL = -1.3f;
+
+            public const float BOUNCE_VEL = -2.25f;
 
             public const float WALKING_VELOCITY = 1.3f;
             public const float WALKING_ACCELLERATION = 0.1f;
@@ -96,6 +99,8 @@ namespace KirbyNightmareInDreamLand
         #region  Collision
         public static class Collision
         {
+            public const float GROUND_COLLISION_OFFSET = 1 - Constants.Physics.FLOAT_GRAVITY; // Use the lowest gravity can ever be. In this case, Kirby floating experiences the lowest gravity anything can experience
+            
             public const float GENTLE1_SLOPE_LEFT_M = 0.5F;
             public const int GENTLE1_SLOPE_LEFT_YINTERCEPT = 0;
 
@@ -191,15 +196,15 @@ namespace KirbyNightmareInDreamLand
             public static Vector2 BOUNCING_STAR_OFFSET_LEFT= new Vector2(-8, -10);
             public static Vector2 SUITCASE_OFFSET_LEFT= new Vector2(-8, -10);
             public static float SLIDE_TIME = 0.7f;
-            public static float SLIDE_VEL = 2.2f;
+            public static float SLIDE_VEL = 3f;
             public static float CEILING = 15;
             public static int BOUNDS = 10;
             public static int MINFREEFALLFARFRAMES = 16;
-            public static int BOUNCEJUMPFRAME = 9;
+            public static int BOUNCEJUMPFRAME = 2;
             public static int STOPBOUNCEFRAME = 22;
-            public static int STOPFLOATINGTRANSITIONFRAME = 8;
+            public static int STOPFLOATINGTRANSITIONFRAME = 4;
             public static int HURT_STUN_FRAMES = 24;
-
+            public static int STOPHURTFRAME = 20;
         }
         #endregion
         public class WaitTimes
@@ -215,7 +220,6 @@ namespace KirbyNightmareInDreamLand
         {
             // determines max time that can elapse for double button presses to register as a command
             public const double RESPONSE_FRAMES = 15;
-            //public const double SLIDE_TIME = 250;
         }
 
         public class GamePad
@@ -313,6 +317,8 @@ namespace KirbyNightmareInDreamLand
             public static int SUITCASE_EXPLODE_HEIGHT = 36;
             public static Vector2 SUITCASE_OFFSET_RIGHT = new Vector2(7, -12);
             public static Vector2 SUITCASE_OFFSET_LEFT = new Vector2(-19, -12);
+            public static Vector2 SUITCASE_EXPLODE_OFFSET_RIGHT = new Vector2(14, -12);
+            public static Vector2 SUITCASE_EXPLODE_OFFSET_LEFT = new Vector2(-19, -12);
         }
         #endregion
         #region enemies
@@ -325,82 +331,78 @@ namespace KirbyNightmareInDreamLand
             public const int STRONG_ENEMY_POINTS = 600;
             public const int WEAK_ENEMY_POINTS = 400;
             public const int DAMAGE_TAKEN = 1;
-            public const int HURT_FRAMES = 50;
             public const int HURT_VIBRATE_MAX_MAGNITUDE = 4;
-        }
-
-            public class BrontoBurt
-        {
-            public const float MOVE_SPEED = 0.5f;
-            public const float WAVE_AMPLITUDE = 0.5f; // height of wave
-            public const float WAVE_FREQUENCY = 0.05f; // wave speed
-            public const int HURT_FRAMES = 50;
-            public const int SLOW_FLY_FRAMES = 100;
-            public const int FAST_FLY_FRAMES = 100;
-            public const int STANDING_FRAMES = 100;
-        }
-
-        public class Hothead
-        {
-            public const float MOVE_SPEED = 0.5f; // Move speed of Hothead
-            public const int WALK_FRAMES = 180;
-            public const int STOP_FRAMES = 60;
-            public const int ATTACK_FRAMES = 100;
-            public const int SHOOT_FRAMES = 100;
-            public const int HURT_FRAMES = 50;
-            public static Vector2 FLAMETHROWER_LEFT = new Vector2(-1, 0);
-            public static Vector2 FLAMETHROWER_RIGHT = new Vector2(1, 0);
-            public const int FLAMETHROWER_X_OFFSET = 18;
-            public const int FLAMETHROWER_Y_OFFSET = 7;
-            public static Vector2 FIREBALL_LEFT = new Vector2(-1, -0.5f);
-            public static Vector2 FIREBALL_RIGHT = new Vector2(1, -0.5f);
-            public const int FRAME_1 = 1;
-        }
-
-        public class PoppyBrosJr
-        {
-            public const float MOVE_SPEED = 0.5f;
-            public const float JUMP_VELOCITY = 1.5f;
-            public const int HURT_FRAMES = 50;
-            public const int PAUSE_TIME = 1;
-
-        }
-
-        public class Sparky
-        {
-            public const int HOP_FREQUENCY = 60; // frames between hops
-            public const float SHORT_HOP_HEIGHT = 1f;
-            public const float TALL_HOP_HEIGHT = 2f;
-            public const float HOP_SPEED = 0.4f; // speed
-            public const float TALL_JUMP_VELOCITY = 2.1f;
-            public const float SHORT_JUMP_VELOCITY = 1.5f;
-            public const int HITBOX_RECTANGLE_OFFSET = 2;
-
-            public const int PAUSE_TIME = 30;
-            public const int ATTACK_TIME = 120;
-            public const int HURT_FRAMES = 50;
+            public const int HURT_FRAMES = 24;
         }
 
         public class WaddleDee
         {
             public const float MOVE_SPEED = 0.5f;
             public const int WALK_FRAMES = 180;
-            public const int HURT_FRAMES = 50;
         }
 
         public class WaddleDoo
         {
             public const float MOVE_SPEED = 0.5f;
-            public const int WALK_FRAMES = 250;
-            public const int STOP_FRAMES = 120;
-            public const int ATTACK_FRAMES = 50;
-            public const int HURT_FRAMES = 50;
-            public const int JUMPING_FRAMES = 50;
-            public const float JUMP_VELOCITY = 3.5f;
+            public const int WALK_MIN_FRAMES = 60;
+            public const int WALK_MAX_FRAMES = 180;
+            public const int STOP_FRAMES = 60;
+            public const int ATTACK_FRAMES = 25;
+            public const float JUMP_VELOCITY = 3.25f;
             public const float FORWARD_MOVEMENT = 0.5f;
             public const float DEAD_FRAMES = 20;
         }
 
+        public class BrontoBurt
+        {
+            public const float MOVE_SPEED = 0.75f;
+            public const float WAVE_AMPLITUDE = 0.75f; // height of wave
+            public const float WAVE_FREQUENCY = 0.075f; // wave speed
+            public const int STANDING_FRAMES = 100;
+        }
+
+        public class PoppyBrosJr
+        {
+            public const float MOVE_SPEED = 0.5f;
+            public const float JUMP_VELOCITY = -1f;
+            public const int PAUSE_TIME = 4;
+            public const float GRAVITY = 1 / 16f; // poppy bros jr has half gravity
+        }
+
+        public class Sparky
+        {
+            public const int HOP_FREQUENCY = 60; // frames between hops
+            public const float HOP_SPEED = 1f; // speed
+            public const float TALL_JUMP_VELOCITY = 3.5f;
+            public const float SHORT_JUMP_VELOCITY = 1.5f;
+            public const int HITBOX_RECTANGLE_OFFSET = 2;
+
+            public const int PAUSE_TIME = 30;
+            public const int ATTACK_TIME = 120;
+
+            public const float GRAVITY = 1 / 4f; // sparky has double gravity
+
+        }
+
+        public class Hothead
+        {
+            public const float MOVE_SPEED = 0.5f; // Move speed of Hothead
+            public const int WALK_MIN_FRAMES = 60;
+            public const int WALK_MAX_FRAMES = 180;
+            public const int FLAMETHROWER_ATTACK_FRAMES = 100;
+            public const int FIREBALL_ATTACK_FRAMES = 24;
+            public const int CHARGE_FRAMES = 24;
+            public const float FLAMETHROWER_RANGE = 80;
+            public static Vector2 FLAMETHROWER_LEFT = new Vector2(-1, 0);
+            public static Vector2 FLAMETHROWER_RIGHT = new Vector2(1, 0);
+            public const int FLAMETHROWER_X_OFFSET = 18;
+            public const int FLAMETHROWER_Y_OFFSET = 7;
+            public static Vector2 FLAMETHROWER_OFFSET = new Vector2(18,7);
+            public static Vector2 FIREBALL_LEFT = new Vector2(-1, -0.5f);
+            public static Vector2 FIREBALL_RIGHT = new Vector2(1, -0.5f);
+            public const int FRAME_1 = 1;
+        }
+        
         public class ProfessorKirby
         {
             public const int HEALTH = 10;
@@ -408,7 +410,6 @@ namespace KirbyNightmareInDreamLand
             public const int WALK_FRAMES = 250;
             public const int STOP_FRAMES = 120;
             public const int ATTACK_FRAMES = 50;
-            public const int HURT_FRAMES = 50;
             public const int JUMPING_FRAMES = 50;
             public const float JUMP_VELOCITY = 2.5f;
             public const float FORWARD_MOVEMENT = 0.5f;
@@ -457,7 +458,7 @@ namespace KirbyNightmareInDreamLand
 
         public class HUD
         {
-            public const float SLIDE_SPEED = 1f; // Speed at which sprites slide up/down
+            public const float SLIDE_SPEED = 8f; // Speed at which sprites slide up/down
             public const float STAY_TIME = 2f; // Time in seconds to stay at position (0, 115)
             public static Vector2 POWERUP_INIT_POS = new Vector2(0, 147);
             public const float POWERUP_INIT_TIMER = 0f; 

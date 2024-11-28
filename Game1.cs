@@ -239,26 +239,16 @@ namespace KirbyNightmareInDreamLand
             // Level spritebatch
             GraphicsDevice.ScissorRectangle = bounds;
             RasterizerState rasterizerState = DEBUG_ZOOM_MODE && !SPLITSCREEN_MODE ? rasterizerStates[0] : rasterizerStates[1];
-
             Matrix viewMatrix = Matrix.CreateScale((float)bounds.Width / Constants.Graphics.GAME_WIDTH) * Matrix.CreateTranslation(bounds.X, bounds.Y, 0);
-            
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, rasterizerState, null, cameras[CurrentCamera].LevelMatrix * viewMatrix);
-            // Draw level
+            
             Level.Draw(_spriteBatch);
-
-            // Draw objects
-            //manager.Draw(_spriteBatch);
 
             if (Level.IsCurrentState("KirbyNightmareInDreamLand.GameState.GameTransitioningState"))
             {
                 gameOverLay.DrawFade(_spriteBatch, Level.FadeAlpha);
             }
 
-            // Draw particles
-            //foreach (IParticle particle in manager.Particles) particle.Draw(_spriteBatch);
-
-            // Not currently using item
-            // item.Draw(new Vector2(200, 150), spriteBatch);
             if (DEBUG_COLLISION_MODE)
             {
                 CollisionDetection.Instance.DebugDraw(_spriteBatch);
@@ -274,6 +264,7 @@ namespace KirbyNightmareInDreamLand
                     GameDebug.Instance.DrawRectangle(_spriteBatch, cameras[i].GetBounds(), Color.Lime, 1f);
                     GameDebug.Instance.DrawRectangle(_spriteBatch, cameras[i].GetEnemyBounds(), Color.Red, 1f);
                 }
+                #region Debug code to draw enemy respawn bounds
                 //for (int x = cameras[CurrentCamera].bounds.Left - 120; x < cameras[CurrentCamera].bounds.Right + 120; x += 2)
                 //{
                 //    for (int y = cameras[CurrentCamera].bounds.Top - 80; y < cameras[CurrentCamera].bounds.Bottom + 80; y += 2)
@@ -285,16 +276,16 @@ namespace KirbyNightmareInDreamLand
                 //        GameDebug.Instance.DrawPoint(_spriteBatch, position, color, alpha);
                 //    }
                 //}
+                #endregion
             }
-
             _spriteBatch.End();
 
             // Static spritebatch
             // Temporarily disable culling for the static spritebatch, LAZY FIX, WILL IMPLEMENT PROPER FIX LATER -Mark
             bool old_CULLING_ENABLED = CULLING_ENABLED;
             CULLING_ENABLED = false;
-
             _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, rasterizerState, null, viewMatrix);
+
             huds[CurrentCamera].Draw(_spriteBatch);
             
             _spriteBatch.End();
@@ -346,7 +337,31 @@ namespace KirbyNightmareInDreamLand
                 DrawView(bounds);
             }
 
-            
+
+            //Rectangle bounds1 = new Rectangle(
+            //        WINDOW_XOFFSET,
+            //        WINDOW_YOFFSET,
+            //        WINDOW_WIDTH,
+            //        WINDOW_HEIGHT);
+            //int x = Mouse.GetState().X * 255 / WINDOW_WIDTH;
+
+            //BlendState blendState = new BlendState
+            //{
+            //    ColorSourceBlend = Blend.One,
+            //    AlphaSourceBlend = Blend.One,
+                
+            //    ColorDestinationBlend = Blend.InverseSourceAlpha,
+            //    AlphaDestinationBlend = Blend.InverseSourceAlpha,
+
+            //    ColorBlendFunction = BlendFunction.ReverseSubtract,
+            //    AlphaBlendFunction = BlendFunction.Add
+            //};
+
+            //_spriteBatch.Begin(SpriteSortMode.Deferred, blendState, SamplerState.PointClamp, null, null, null, null);
+            ////GameDebug.Instance.DrawSolidRectangle(_spriteBatch, bounds1, new Color(x, x, x, 0), 1f);
+            //GameDebug.Instance.DrawSolidRectangle(_spriteBatch, bounds1, new Color(x, x, x, 0), 1f);
+            //_spriteBatch.End();
+
             // Draw Debug Text
             if (DEBUG_TEXT_ENABLED)
             {
@@ -359,6 +374,8 @@ namespace KirbyNightmareInDreamLand
             // Stop timer for calculating max fps
             TickStopwatch.Stop();
         }
+
+        
 
     }
 

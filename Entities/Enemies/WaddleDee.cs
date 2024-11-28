@@ -24,14 +24,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public override void Move()
         {
             base.Move();
-            if (stateMachine.IsLeft())
-            {
-                velocity.X = -Constants.WaddleDee.MOVE_SPEED;
-            }
-            else
-            {
-                velocity.X = Constants.WaddleDee.MOVE_SPEED;
-            }
+            velocity.X = stateMachine.IsLeft() ? - Constants.WaddleDee.MOVE_SPEED : Constants.WaddleDee.MOVE_SPEED;
         }
 
     }

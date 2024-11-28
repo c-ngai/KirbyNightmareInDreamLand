@@ -8,30 +8,39 @@ using System.Threading.Tasks;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
 {
-    public class SparkyPause1State : IEnemyState
+    public class SparkyPauseState : IEnemyState
     {
         private readonly Enemy _enemy;
 
-        public SparkyPause1State(Enemy enemy)
+        private bool nextActionAttack; // true: attack next, false: jump next
+
+        public SparkyPauseState(Enemy enemy)
         {
             _enemy = enemy ?? throw new ArgumentNullException(nameof(enemy));
+            nextActionAttack = _enemy.random.Next(0, 4) == 0; // 1 in 4 chance for the next action to be an attack
         }
 
         public void Enter()
         {
-            _enemy.UpdateDirection();
             _enemy.ChangePose(EnemyPose.Standing);
-            _enemy.ResetFrameCounter();
         }
 
         public void Update()
         {
             // Wait for a defined period of time
-            _enemy.IncrementFrameCounter();
+            _enemy.DecelerateX(Constants.Physics.X_DECELERATION);
 
             if (_enemy.FrameCounter >= Constants.Sparky.PAUSE_TIME)
             {
-                _enemy.ChangeState(new SparkyJumpState(_enemy));
+                // If the next action is an attack
+                if (nextActionAttack)
+                {
+                    _enemy.ChangeState(new SparkyAttackingState(_enemy));
+                }
+                else
+                {
+                    _enemy.ChangeState(new SparkyJumpState(_enemy));
+                }
             }
         }
 

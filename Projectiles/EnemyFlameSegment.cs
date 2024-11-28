@@ -15,7 +15,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private float delay; // Delay before this segment becomes active
         private bool isActive; 
         private static Random random = new Random(); // Random instance for sprite selection
-        private int frameCount;
+        private int frameCount = -1;
 
         public Vector2 Position
         {
@@ -28,23 +28,15 @@ namespace KirbyNightmareInDreamLand.Projectiles
             get => velocity;
             set => velocity = value;
         }
-        public EnemyFlameSegment(Vector2 startPosition, Vector2 flameDirection, float speed, float delay)
+        public EnemyFlameSegment(Vector2 startPosition, Vector2 flameDirection, float speed)
         {
             Position = startPosition;
-            this.speed = speed;
-            this.delay = delay;
-            isActive = false;
+            //this.speed = speed;
+            isActive = true;
+            this.velocity = flameDirection;
 
-            if (flameDirection != Vector2.Zero)
-            {
-                flameDirection.Normalize();
-            }
-
-            Velocity = flameDirection * speed;
-
+            ObjectManager.Instance.AddProjectile(this);
             projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_hothead_fire");
-            ObjectManager.Instance.RegisterDynamicObject(this);
-
         }
         public CollisionType GetCollisionType()
         {
@@ -53,63 +45,46 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
         public void Update()
         {
-            // Reduce delay over time
-            if (delay > 0)
-            {
-                delay -= Constants.EnemyFire.SECONDS_PER_FRAME;
-            }
-            else
-            {
-                isActive = true;
-            }
-
             // Only update position if the flame segment is active
             if (isActive)
             {
                 Position += Velocity; 
 
                 frameCount++;
-
+                projectileSprite?.Update();
                 // Mark the segment as inactive after a certain number of frames
-                if (frameCount >= Constants.EnemyFire.MAX_FRAMES)
+                if (IsDone())
                 {
-                    isActive = false;
-                    projectileSprite = null; // Set sprite to null to avoid further drawing
-                    CollisionActive = false;
-                }
-                else
-                {
-                    projectileSprite?.Update();
+                    EndAttack();
                 }
             }
+            GetHitBox();
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (isActive)
+            if (isActive && projectileSprite != null )
             {
                 projectileSprite.Draw(Position, spriteBatch);
-            }
-            else
-            {
-                ObjectManager.Instance.RemoveDynamicObject(this); // Deregister if dead
             }
         }
         public void EndAttack()
         {
-            //
+            isActive = false;
+            projectileSprite = null; // Set sprite to null to avoid further drawing
+            CollisionActive = false;
         }
         public bool IsDone()
         {
-            return true;
+            return frameCount >= Constants.EnemyFire.MAX_FRAMES;
         }
 
         public bool CollisionActive { get; set; } = true;
 
         public virtual Vector2 CalculateRectanglePoint(Vector2 pos)
         {
-            float x = pos.X - Constants.HitBoxes.FLAME_WIDTH / 2;
-            float y = pos.Y - Constants.HitBoxes.FLAME_HEIGHT;
+            float x = pos.X - Constants.HitBoxes.FLAME_WIDTH /2;
+            float y = pos.Y - Constants.HitBoxes.FLAME_HEIGHT + 6;
             Vector2 rectPoint = new Vector2(x, y);
             return rectPoint;
         }

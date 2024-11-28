@@ -15,7 +15,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.ProfessorKirbySt
         public void Enter()
         {
             _enemy.ChangePose(EnemyPose.Walking);
-            _enemy.ResetFrameCounter();
         }
 
         public void Update()
