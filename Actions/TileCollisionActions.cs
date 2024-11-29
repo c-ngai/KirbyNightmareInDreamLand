@@ -113,16 +113,6 @@ namespace KirbyNightmareInDreamLand.Actions
 
         }
 
-        public static void BottomAirCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
-        {
-            CollisionType type = object1.GetCollisionType();
-            if (type == CollisionType.Enemy)
-            {
-                Enemy enemy = (Enemy)object1;
-                enemy.BottomCollisionWithAir(intersection);
-            }
-        }
-
         public static void WaterCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
             Enemy enemy = (Enemy)object1;
@@ -141,7 +131,7 @@ namespace KirbyNightmareInDreamLand.Actions
             }
             else if (object1 is Enemy enemy && !enemy.IsBeingInhaled)
             {
-                enemy.AdjustGentle1SlopeLeftCollision(tile);
+                enemy.CollisionWithGentle1LeftSlope(tile);
             } 
             else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
@@ -164,7 +154,7 @@ namespace KirbyNightmareInDreamLand.Actions
             }
             else if (object1 is Enemy enemy && !enemy.IsBeingInhaled)
             {
-                enemy.AdjustGentle1SlopeRightCollision(tile);
+                enemy.CollisionWithGentle1RightSlope(tile);
             } 
             else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
@@ -187,7 +177,7 @@ namespace KirbyNightmareInDreamLand.Actions
             }
             else if (object1 is Enemy enemy && !enemy.IsBeingInhaled)
             {
-                enemy.AdjustGentle2SlopeLeftCollision(tile);
+                enemy.CollisionWithGentle2LeftSlope(tile);
             }
             else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
@@ -210,7 +200,7 @@ namespace KirbyNightmareInDreamLand.Actions
             }
             else if (object1 is Enemy enemy && !enemy.IsBeingInhaled)
             {
-                enemy.AdjustGentle2SlopeRightCollision(tile);
+                enemy.CollisionWithGentle2RightSlope(tile);
             }
             else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
@@ -233,7 +223,7 @@ namespace KirbyNightmareInDreamLand.Actions
             }
             else if (object1 is Enemy enemy && !enemy.IsBeingInhaled)
             {
-                enemy.AdjustSteepSlopeLeftCollision(tile);
+                enemy.CollisionWithSteepLeftSlope(tile);
             }
             else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
@@ -256,7 +246,7 @@ namespace KirbyNightmareInDreamLand.Actions
             }
             else if (object1 is Enemy enemy && !enemy.IsBeingInhaled)
             {
-                enemy.AdjustSteepSlopeRightCollision(tile);
+                enemy.CollisionWithSteepRightSlope(tile);
             }
             else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {

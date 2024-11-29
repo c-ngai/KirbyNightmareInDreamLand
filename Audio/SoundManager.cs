@@ -24,6 +24,8 @@ namespace KirbyNightmareInDreamLand.Audio
         // Pitch to play sounds at based on target framerate
         public static float pitch;
 
+        private static SoundInstance song;
+
         public static void Play(string name)
         {
             // If the Sounds dictionary contains a sound for the given name, generate a temporary instance of it
@@ -33,6 +35,10 @@ namespace KirbyNightmareInDreamLand.Audio
                 if (Sounds[name].soundEndBehavior == SoundEndBehavior.Nothing)
                 {
                     SoundInstance newSoundInstance = new SoundInstance(Sounds[name], true);
+
+                    // Add reference to the sound instances list
+                    SoundInstances.Add(newSoundInstance);
+
                     newSoundInstance.Play();
                 }
                 else
@@ -46,12 +52,33 @@ namespace KirbyNightmareInDreamLand.Audio
             }
         }
 
+        public static void PlaySong(string name)
+        {
+            if (song?.name != name)
+            {
+                song?.Dispose();
+                if (name != "" && name != null)
+                {
+                    song = new SoundInstance(Sounds[name], false);
+                    song.Play();
+                }
+                else
+                {
+                    song = null;
+                }
+            }
+        }
+
         public static SoundInstance CreateInstance(string name)
         {
             // If the Sounds dictionary contains a sound for the given name, return an instance of it.
             if (Sounds.ContainsKey(name))
             {
                 SoundInstance newSoundInstance = new SoundInstance(Sounds[name], false);
+
+                // Add reference to the sound instances list
+                SoundInstances.Add(newSoundInstance);
+
                 return newSoundInstance;
             }
             // Otherwise, return an error.
@@ -74,6 +101,8 @@ namespace KirbyNightmareInDreamLand.Audio
                 soundInstance.Update();
             }
 
+            song?.Update();
+
             // Remove all sound instances flagged for deletion
             SoundInstances.RemoveAll(x => x.DELETE_ME);
         }
@@ -91,6 +120,14 @@ namespace KirbyNightmareInDreamLand.Audio
             foreach (SoundInstance soundInstance in SoundInstances)
             {
                 soundInstance.Resume();
+            }
+        }
+
+        public static void StopAllSounds()
+        {
+            foreach (SoundInstance soundInstance in SoundInstances)
+            {
+                soundInstance.Stop();
             }
         }
 

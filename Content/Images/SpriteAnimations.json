@@ -30789,7 +30789,7 @@
     },
     "kirby0_spark_freefallfar_right": {
         "Source texture": "kirby0_spark",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": false,
         "Frames": [
             {
@@ -30832,7 +30832,7 @@
     },
     "kirby0_spark_freefallfar_left": {
         "Source texture": "kirby0_spark",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": true,
         "Frames": [
             {
@@ -33572,7 +33572,7 @@
     },
     "kirby1_spark_freefallfar_right": {
         "Source texture": "kirby1_spark",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": false,
         "Frames": [
             {
@@ -33615,7 +33615,7 @@
     },
     "kirby1_spark_freefallfar_left": {
         "Source texture": "kirby1_spark",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": true,
         "Frames": [
             {
@@ -36355,7 +36355,7 @@
     },
     "kirby2_spark_freefallfar_right": {
         "Source texture": "kirby2_spark",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": false,
         "Frames": [
             {
@@ -36398,7 +36398,7 @@
     },
     "kirby2_spark_freefallfar_left": {
         "Source texture": "kirby2_spark",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": true,
         "Frames": [
             {
@@ -39138,7 +39138,7 @@
     },
     "kirby3_spark_freefallfar_right": {
         "Source texture": "kirby3_spark",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": false,
         "Frames": [
             {
@@ -39181,7 +39181,7 @@
     },
     "kirby3_spark_freefallfar_left": {
         "Source texture": "kirby3_spark",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": true,
         "Frames": [
             {
@@ -41921,7 +41921,7 @@
     },
     "kirby0_fire_freefallfar_right": {
         "Source texture": "kirby0_fire",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": false,
         "Frames": [
             {
@@ -41964,7 +41964,7 @@
     },
     "kirby0_fire_freefallfar_left": {
         "Source texture": "kirby0_fire",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": true,
         "Frames": [
             {
@@ -44668,7 +44668,7 @@
     },
     "kirby1_fire_freefallfar_right": {
         "Source texture": "kirby1_fire",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": false,
         "Frames": [
             {
@@ -44711,7 +44711,7 @@
     },
     "kirby1_fire_freefallfar_left": {
         "Source texture": "kirby1_fire",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": true,
         "Frames": [
             {
@@ -47415,7 +47415,7 @@
     },
     "kirby2_fire_freefallfar_right": {
         "Source texture": "kirby2_fire",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": false,
         "Frames": [
             {
@@ -47458,7 +47458,7 @@
     },
     "kirby2_fire_freefallfar_left": {
         "Source texture": "kirby2_fire",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": true,
         "Frames": [
             {
@@ -50162,7 +50162,7 @@
     },
     "kirby3_fire_freefallfar_right": {
         "Source texture": "kirby3_fire",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": false,
         "Frames": [
             {
@@ -50205,7 +50205,7 @@
     },
     "kirby3_fire_freefallfar_left": {
         "Source texture": "kirby3_fire",
-        "Loop point": 0,
+        "Loop point": 2,
         "Flip horizontally?": true,
         "Frames": [
             {
@@ -58523,7 +58523,7 @@
             }
         ]
     },
-    "hud_card_beam": {
+    "hud_power_beam": {
         "Source texture": "hud",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -58539,7 +58539,7 @@
             }
         ]
     },
-    "hud_card_spark": {
+    "hud_power_spark": {
         "Source texture": "hud",
         "Loop point": 0,
         "Flip horizontally?": false,
@@ -58555,45 +58555,13 @@
             }
         ]
     },
-    "hud_card_fire": {
+    "hud_power_fire": {
         "Source texture": "hud",
         "Loop point": 0,
         "Flip horizontally?": false,
         "Frames": [
             {
                 "X": 80,
-                "Y": 35,
-                "Width": 40,
-                "Height": 45,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-    "hud_card_professor": {
-        "Source texture": "hud",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 120,
-                "Y": 35,
-                "Width": 40,
-                "Height": 45,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-    "hud_card_wait": {
-        "Source texture": "hud",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 160,
                 "Y": 35,
                 "Width": 40,
                 "Height": 45,
@@ -59577,6 +59545,189 @@
                 "X": 0,
                 "Y": 0,
                 "Width": 240,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
+        ]
+    },
+
+    "level2_room2_foreground": {
+        "Source texture": "level2_foreground_spritesheet",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 0,
+                "Width": 1438,
+                "Height": 330,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
+        ]
+    },
+
+
+    "level2_room1_foreground": {
+        "Source texture": "level2_foreground_spritesheet",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 784,
+                "Width": 1280,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 5
+            },
+            {
+                "X": 0,
+                "Y": 980,
+                "Width": 1280,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 5
+            },
+            {
+                "X": 0,
+                "Y": 1176,
+                "Width": 1280,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 5
+            },
+            {
+                "X": 0,
+                "Y": 1372,
+                "Width": 1280,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 5
+            }
+
+        ]
+    },
+
+    "level2_room3_foreground": {
+        "Source texture": "level2_foreground_spritesheet",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 332,
+                "Width": 783,
+                "Height": 416,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
+        ]
+    },
+
+    "orange_meadow_background": {
+        "Source texture": "level2_background_spritesheet",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 0,
+                "Width": 360,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
+        ]
+    },
+
+    "space_background": {
+        "Source texture": "level2_background_spritesheet",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 160,
+                "Width": 360,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
+        ]
+    },
+
+    "blue_rocks_background": {
+        "Source texture": "level2_background_spritesheet",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 320,
+                "Width": 360,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
+        ]
+    },
+
+    "blue_sky_background": {
+        "Source texture": "level2_background_spritesheet",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 480,
+                "Width": 360,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
+        ]
+    },
+
+    "beach_background": {
+        "Source texture": "level2_background_spritesheet",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 640,
+                "Width": 512,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
+        ]
+    },
+
+
+    "pink_mountain_background": {
+        "Source texture": "level2_background_spritesheet",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 800,
+                "Width": 360,
                 "Height": 160,
                 "CenterX": 0,
                 "CenterY": 0,

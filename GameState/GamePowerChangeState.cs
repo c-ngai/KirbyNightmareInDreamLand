@@ -31,6 +31,8 @@ namespace KirbyNightmareInDreamLand.GameState
             base.Draw(spriteBatch);
             Camera camera = _game.cameras[_game.CurrentCamera];
             GameDebug.Instance.DrawSolidRectangle(spriteBatch, camera.bounds, Color.Black, FadeAlpha);
+            //GameDebug.Instance.DrawSolidRectangle(spriteBatch, camera.bounds, new Color(), 1f);
+            //GameDebug.Instance.DrawSolidRectangle(spriteBatch, camera.bounds, Color.Black, 1f);
             Game1.Instance.manager.DrawPlayers(spriteBatch);
             Game1.Instance.manager.DrawProjectiles(spriteBatch);
         }

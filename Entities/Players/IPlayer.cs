@@ -13,6 +13,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public int health { get; }
         public int lives { get; }
         public bool IsActive { get; }
+        public bool DEAD { get; }
         void Crouch();
         void EndCrouch();
         void AttackPressed();

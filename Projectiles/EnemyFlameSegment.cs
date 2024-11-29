@@ -15,7 +15,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private float delay; // Delay before this segment becomes active
         private bool isActive; 
         private static Random random = new Random(); // Random instance for sprite selection
-        private int frameCount =0;
+        private int frameCount = -1;
 
         public Vector2 Position
         {

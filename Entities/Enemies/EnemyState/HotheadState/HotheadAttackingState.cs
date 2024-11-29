@@ -1,60 +1,51 @@
 ﻿using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.StateMachines;
-using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState
 {
     public class HotheadAttackingState : IEnemyState
     {
-        private readonly Hothead _hothead;
-        private SoundInstance sound;
+        private readonly Enemy _enemy;
+        
 
-        public HotheadAttackingState(Hothead hothead)
+        public HotheadAttackingState(Enemy enemy)
         {
-            _hothead = hothead ?? throw new ArgumentNullException(nameof(hothead));
+            _enemy = enemy ?? throw new ArgumentNullException(nameof(enemy));
         }
 
         public void Enter()
         {
-            _hothead.ChangePose(EnemyPose.Attacking);
-            _hothead.ResetFrameCounter();
-            sound = SoundManager.CreateInstance("hotheadflamethrowerattack");
-            sound.Play();
+            _enemy.ChangePose(EnemyPose.Attacking);
+            _enemy.Attack(); //flamethrower
         }
 
         public void Update()
         {
-            _hothead.Flamethrower();
-
-            if (_hothead.FrameCounter >= Constants.Hothead.ATTACK_FRAMES)
-            {
-                _hothead.ChangeState(new HotheadWalkingState(_hothead));
-            }
+            //if (_enemy.FrameCounter >= Constants.Hothead.ATTACK_FRAMES)
+            //{
+            //    _enemy.ChangeState(new HotheadWalkingState(_enemy));
+            //}
         }
 
-        public void Exit() {
-            sound.Stop();
+        public void Exit()
+        {
+
         }
 
         public void TakeDamage()
         {
-            _hothead.ChangeState(new EnemyHurtState(_hothead));
-            sound.Stop();
+            _enemy.ChangeState(new EnemyHurtState(_enemy));
         }
 
         public void ChangeDirection()
         {
-            _hothead.ToggleDirection();
+            _enemy.ToggleDirection();
         }
 
         public void Dispose()
         {
-            sound.Dispose();
         }
+
     }
 }
