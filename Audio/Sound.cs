@@ -24,12 +24,14 @@ namespace KirbyNightmareInDreamLand.Audio
         public SoundEffect soundEffect;
         public SoundEndBehavior soundEndBehavior;
         public SoundEffect nextSound;
+        public string name;
 
-        public Sound(SoundEffect _soundEffect, SoundEndBehavior _soundEndBehavior, SoundEffect _nextSound)
+        public Sound(SoundEffect _soundEffect, SoundEndBehavior _soundEndBehavior, SoundEffect _nextSound, string _name)
         {
             soundEffect = _soundEffect;
             soundEndBehavior = _soundEndBehavior;
             nextSound = _nextSound;
+            name = _name;
         }
     }
 }

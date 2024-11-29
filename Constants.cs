@@ -83,7 +83,7 @@ namespace KirbyNightmareInDreamLand
             public const float DAMAGE_VELOCITY =2f;
             public const float JUMP_CEILING = 38.4f;
 
-            public const float DEATH_VELOCITY = -6;
+            public const float DEATH_VELOCITY = -5;
         }
         #endregion
         public static class Level
@@ -182,7 +182,7 @@ namespace KirbyNightmareInDreamLand
         public class Kirby
         {
             public const float INVINCIBLE_TIME = 1.5f;
-            public const int MAX_HEALTH = 6; //6
+            public const int MAX_HEALTH = 1; //6
             public const int MAX_LIVES = 3; //3
             public const int STARTINGXPOSITION = 30;
             public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(11, -9);

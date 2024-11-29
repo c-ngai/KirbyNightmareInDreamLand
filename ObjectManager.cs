@@ -220,6 +220,18 @@ namespace KirbyNightmareInDreamLand
             return true;
         }
 
+        public bool AllPlayersDead()
+        {
+            foreach (IPlayer player in Players)
+            {
+                if (!player.DEAD)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public bool AllPlayersOutOfLives()
         {
             foreach (IPlayer player in Players)

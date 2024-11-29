@@ -83,15 +83,18 @@ namespace KirbyNightmareInDreamLand
             }
             else
             {
-                position.X = _targetPlayer?.GetKirbyPosition().X - Constants.Graphics.GAME_WIDTH / 2 ?? position.X;
-                // Bound camera X by room width
-                if (position.X < 0 || Constants.Graphics.GAME_WIDTH > _game.Level.CurrentRoom.Width)
+                if (_targetPlayer != null && !_targetPlayer.DEAD)
                 {
-                    position.X = 0;
-                }
-                else if (position.X > _game.Level.CurrentRoom.Width - Constants.Graphics.GAME_WIDTH)
-                {
-                    position.X = _game.Level.CurrentRoom.Width - Constants.Graphics.GAME_WIDTH;
+                    position.X = _targetPlayer.GetKirbyPosition().X - Constants.Graphics.GAME_WIDTH / 2;
+                    // Bound camera X by room width
+                    if (position.X < 0 || Constants.Graphics.GAME_WIDTH > _game.Level.CurrentRoom.Width)
+                    {
+                        position.X = 0;
+                    }
+                    else if (position.X > _game.Level.CurrentRoom.Width - Constants.Graphics.GAME_WIDTH)
+                    {
+                        position.X = _game.Level.CurrentRoom.Width - Constants.Graphics.GAME_WIDTH;
+                    }
                 }
             }
 
@@ -102,15 +105,18 @@ namespace KirbyNightmareInDreamLand
             }
             else
             {
-                position.Y = _targetPlayer?.GetKirbyPosition().Y - Constants.Graphics.GAME_HEIGHT / 2 ?? position.Y;
-                // Bound camera Y by room height
-                if (position.Y < 0 || Constants.Graphics.GAME_HEIGHT > _game.Level.CurrentRoom.Height)
+                if (_targetPlayer != null && !_targetPlayer.DEAD)
                 {
-                    position.Y = 0;
-                }
-                else if (position.Y > _game.Level.CurrentRoom.Height - Constants.Graphics.GAME_HEIGHT)
-                {
-                    position.Y = _game.Level.CurrentRoom.Height - Constants.Graphics.GAME_HEIGHT;
+                    position.Y = _targetPlayer.GetKirbyPosition().Y - Constants.Graphics.GAME_HEIGHT / 2;
+                    // Bound camera Y by room height
+                    if (position.Y < 0 || Constants.Graphics.GAME_HEIGHT > _game.Level.CurrentRoom.Height)
+                    {
+                        position.Y = 0;
+                    }
+                    else if (position.Y > _game.Level.CurrentRoom.Height - Constants.Graphics.GAME_HEIGHT)
+                    {
+                        position.Y = _game.Level.CurrentRoom.Height - Constants.Graphics.GAME_HEIGHT;
+                    }
                 }
             }
 

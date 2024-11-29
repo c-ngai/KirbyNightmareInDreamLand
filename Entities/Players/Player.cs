@@ -27,8 +27,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         private Sprite playerSprite;
         private Sprite[][] playerarrows;
         public PlayerAttack attack {get; private set;}
-        public PlayerAttack starAttackOne {get; private set;}
-        public PlayerAttack starAttackTwo {get; private set;}
 
         public int health { get; private set; }
         public int lives { get; private set; }
@@ -45,7 +43,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public int poseCounter { get; private set; }
         public bool attackIsActive{ get; private set; } = false;
         public bool CollisionActive { get; private set; } = true;
-        public bool DEAD = false;
+        public bool DEAD { get; private set; } = false;
         private int deathCounter = 0;
         // IsActive is false after a player's death animation finishes, and is true again any time they respawn
         public bool IsActive { get; private set; } = true;
@@ -278,9 +276,17 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             ChangeToNormal();
             ChangeMovement();
             movement.CancelVelocity();
-            
+
             //state.ChangePose(KirbyPose.Standing);
-            
+
+            Debug.WriteLine("DEAD");
+            // if all players are dead, stop the music
+            if (ObjectManager.Instance.AllPlayersDead())
+            {
+                Debug.WriteLine("STOP SONG");
+                SoundManager.PlaySong("");
+            }
+
             SoundManager.Play("kirbydeath");
             state.ChangePose(KirbyPose.DeathStun);
         }
@@ -329,7 +335,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 if (state.HasPowerUp())
                 {
-                    //starAttackTwo = new PlayerAttack(this, "BouncingStar");
                     DropAbility();
                     if (!state.IsCrouching())
                     {
@@ -674,7 +679,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 //mouthful exhale -- spits out star
                 if (IsWithEnemy() && state.ShortAttack())
                 {
-                    starAttackOne = new PlayerAttack(this, "Star");
+                    new PlayerAttack(this, "Star");
                     if (!state.IsCrouching())
                     {
                         AttackAnimation();
@@ -721,18 +726,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     attack.EndAttack();
                     attack = null;
                 }
-                if (starAttackOne != null && starAttackOne.IsDone())
-                {
-                    //StopMoving();
-                    starAttackOne.EndAttack();
-                    starAttackOne = null;
-                }
-                if (starAttackTwo != null && starAttackTwo.IsDone())
-                {
-                    //StopMoving();
-                    starAttackTwo.EndAttack();
-                    starAttackTwo = null;
-                }
             }
         }
        
@@ -764,6 +757,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 state.ChangePose(KirbyPose.Attacking);
                 attack?.EndAttack();
+                SoundManager.Play("powerup");
                 attack = new PlayerAttack(this, AttackType());
                 Game1.Instance.Level.ChangeToPowerChangeState();
             }
@@ -832,7 +826,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     ChangePose(KirbyPose.FreeFall); // THIS IS DUMB AND WRONG CHANGE IT LATER
                 }
 
-                // If Kirby has been in DeathStun for 90 frames
                 if (DEAD)
                 {
                     if (deathCounter == 90)
@@ -842,6 +835,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     else if (deathCounter == 240)
                     {
                         IsActive = false;
+                    }
+                    if (GetKirbyPose() == KirbyPose.DeathSpin && deathCounter % 8 == 0)
+                    {
+                        new CollisionStar(GetPosition());
                     }
                     deathCounter++;
                 }

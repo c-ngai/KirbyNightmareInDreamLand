@@ -20,6 +20,7 @@ namespace KirbyNightmareInDreamLand.Audio
         public SoundEffectInstance soundEffectInstance;
         public SoundEndBehavior soundEndBehavior;
         public SoundEffectInstance nextSound;
+        public string name;
 
         public bool isPlaying;
         public bool inLoopSection;
@@ -33,6 +34,7 @@ namespace KirbyNightmareInDreamLand.Audio
             soundEffectInstance = sound.soundEffect.CreateInstance();
             soundEndBehavior = sound.soundEndBehavior;
             nextSound = sound.nextSound?.CreateInstance();
+            name = sound.name;
 
             // Initialize booleans
             isPlaying = false;
@@ -51,9 +53,6 @@ namespace KirbyNightmareInDreamLand.Audio
             {
                 nextSound.IsLooped = true;
             }
-
-            // Add reference to self to the sound instances list in SoundManager
-            SoundManager.SoundInstances.Add(this);
         }
 
 

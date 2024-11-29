@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Entities.Players;
 using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Sprites;
@@ -40,16 +41,19 @@ namespace KirbyNightmareInDreamLand.GameState
 
         public override void SelectQuitButton()
         {
-            currentButtonSprite = selectQuitScreen;            
+            currentButtonSprite = selectQuitScreen;
+            SoundManager.Play("movecursor");
         }
 
         public override void SelectContinueButton()
         {
             currentButtonSprite = selectContinueScreen;
+            SoundManager.Play("movecursor");
         }
 
         public override void SelectButton()
         {
+            SoundManager.Play("select");
             if (currentButtonSprite == selectQuitScreen)
             {
                 Game1.Instance.Exit();
