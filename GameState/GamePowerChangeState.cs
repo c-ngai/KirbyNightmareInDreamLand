@@ -17,7 +17,7 @@ namespace KirbyNightmareInDreamLand.GameState
         private float startFade = 0.0f;
         private float FadeAlpha;
 
-        private double timer = 0;
+        private int timer = 0;
 
         public GamePowerChangeState(Level _level) : base( _level)
         {
@@ -43,7 +43,7 @@ namespace KirbyNightmareInDreamLand.GameState
 
             Game1.Instance.manager.UpdateProjectiles();
 
-            timer += Game1.Instance.time.ElapsedGameTime.TotalSeconds;
+            timer ++;
 
             // if we are currently fading out we want to keep fading out
             if (CurrentlyFadingOut)
@@ -57,7 +57,7 @@ namespace KirbyNightmareInDreamLand.GameState
             }
 
             // if we are transitioning and not fading out we want wait until the attack state timer ends to fade in
-            if (!CurrentlyFadingOut && !CurrentlyFadingIn  && timer > Constants.Transition.ATTACK_STATE_TIMER)
+            if (!CurrentlyFadingOut && !CurrentlyFadingIn  && timer > Constants.Transition.ATTACK_STATE_FRAMES)
             {
                 CurrentlyFadingIn = true; //  Que the fade in
             }

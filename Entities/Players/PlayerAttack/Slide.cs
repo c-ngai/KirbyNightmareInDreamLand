@@ -35,7 +35,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public bool IsDone()
         {
             timer += Game1.Instance.time.ElapsedGameTime.TotalSeconds; 
-            if(timer > Constants.Kirby.SLIDE_TIME)
+            if(timer > Constants.Kirby.SLIDE_FRAMES)
             {
                 return true;
             } 

@@ -195,14 +195,14 @@ namespace KirbyNightmareInDreamLand
             public static Vector2 BOUNCING_STAR_OFFSET_RIGHT= new Vector2(8, -10);
             public static Vector2 BOUNCING_STAR_OFFSET_LEFT= new Vector2(-8, -10);
             public static Vector2 SUITCASE_OFFSET_LEFT= new Vector2(-8, -10);
-            public static float SLIDE_TIME = 0.7f;
-            public static float SLIDE_VEL = 3f;
+            public static int SLIDE_FRAMES = 40;
+            public static float SLIDE_VEL = 2.5f;
             public static float CEILING = 15;
             public static int BOUNDS = 10;
             public static int MINFREEFALLFARFRAMES = 16;
             public static int BOUNCEJUMPFRAME = 2;
             public static int STOPBOUNCEFRAME = 22;
-            public static int STOPFLOATINGTRANSITIONFRAME = 4;
+            public static int STOPFLOATINGTRANSITIONFRAME = 9;
             public static int HURT_STUN_FRAMES = 24;
             public static int STOPHURTFRAME = 20;
         }
@@ -495,7 +495,7 @@ namespace KirbyNightmareInDreamLand
             public const float FADE_VALUE_OPAQUE = 1.0f;
             public const float FADE_VALUE_HALF_OPAQUE = 0.5f;
             public const float FADE_VALUE_TRANSPARENT = 0.05f;
-            public const double ATTACK_STATE_TIMER = 1.2;
+            public const int ATTACK_STATE_FRAMES = 80;
 
         }
         #endregion

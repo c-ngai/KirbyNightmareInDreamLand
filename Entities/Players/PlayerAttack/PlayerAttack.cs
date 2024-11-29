@@ -12,16 +12,19 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 {
     public class PlayerAttack
     {
+
+        public string attackType;
         public IProjectile currentAttack {get; private set;}
         private Vector2 position;
         private bool isLeft;
-        public PlayerAttack(Player kirby, string attackType)
+        public PlayerAttack(Player kirby, string _attackType)
         {
             //InitializeAttackDictionary();
             position = kirby.GetKirbyPosition();
             isLeft = kirby.IsLeft();
             // Set the attack based on the string
-            currentAttack = AttackFactory(kirby, attackType);
+            currentAttack = AttackFactory(kirby, _attackType);
+            attackType = _attackType;
         }
 
         // THIS METHOD SUCKS AND IS A BAND-AID REPAIR FOR THE METHOD BELOW
@@ -29,24 +32,22 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             switch (attackType)
             {
-                case ("Beam"):
-                    return new KirbyBeam(kirby, !isLeft);
-                case ("Fire"):
-                    return new KirbyFlamethrower(kirby, !isLeft);
-                case ("Puff"):
-                    return new KirbyPuff(position, !isLeft);
                 case ("Normal"):
                     return new Inhale(position, isLeft, kirby);
+                case ("Beam"):
+                    return new KirbyBeam(kirby, !isLeft);
                 case ("Spark"):
-                    return new ElectricAttack(position, isLeft);
-                case ("Slide"):
-                    return new Slide(position, isLeft, kirby);
-                case ("Star"):
-                    return new KirbyStar(position, !isLeft);
+                    return new ElectricAttack(kirby, position, isLeft);
+                case ("Fire"):
+                    return new KirbyFlamethrower(kirby, !isLeft);
                 case ("Professor"):
                     return new Suitcase(position, isLeft);
-                case ("BouncingStar"):
-                    return new KirbyBouncingStar(position, !isLeft, kirby.GetPowerUp());
+                case ("Star"):
+                    return new KirbyStar(position, !isLeft);
+                case ("Puff"):
+                    return new KirbyPuff(position, !isLeft);
+                case ("Slide"):
+                    return new Slide(position, isLeft, kirby);
                 default:
                     Debug.WriteLine(" [ERROR] PlayerAttack: No attack for string \"" + attackType +"\"");
                     return null;
@@ -55,7 +56,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public void EndAttack()
         {
-            currentAttack.EndAttack();
+            if (attackType != "Star") // this is dumb fix later if time -mark at 1am
+            {
+                currentAttack.EndAttack();
+            }
         }
 
         public bool IsDone()
