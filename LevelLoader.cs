@@ -200,6 +200,10 @@ namespace KirbyNightmareInDreamLand
             SoundManager.Sounds["song_vegetablevalley"].nextSound = SoundManager.Sounds["song_vegetablevalley_loop"].soundEffect;
             SoundManager.Sounds["song_vegetablevalley_loop"].soundEndBehavior = SoundEndBehavior.Loop;
 
+            SoundManager.Sounds["song_icecreamisland"].soundEndBehavior = SoundEndBehavior.LoopNext;
+            SoundManager.Sounds["song_icecreamisland"].nextSound = SoundManager.Sounds["song_icecreamisland_loop"].soundEffect;
+            SoundManager.Sounds["song_icecreamisland_loop"].soundEndBehavior = SoundEndBehavior.Loop;
+
             SoundManager.Sounds["song_hub"].soundEndBehavior = SoundEndBehavior.Loop;
 
             SoundManager.Sounds["song_treasureroom"].soundEndBehavior = SoundEndBehavior.Loop;

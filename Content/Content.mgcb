@@ -235,6 +235,18 @@
 /processorParam:Quality=Best
 /build:Audio/song_hub.wav
 
+#begin Audio/song_icecreamisland_loop.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/song_icecreamisland_loop.wav
+
+#begin Audio/song_icecreamisland.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/song_icecreamisland.wav
+
 #begin Audio/song_treasureroom.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
