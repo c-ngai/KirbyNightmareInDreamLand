@@ -27,11 +27,6 @@
         ],
         "Enemies": [
             {
-                "EnemyType": "WaddleDee",
-                "SpawnTileX": 10,
-                "SpawnTileY": 4
-            },
-            {
                 "EnemyType": "WaddleDoo",
                 "SpawnTileX": 19,
                 "SpawnTileY": 6

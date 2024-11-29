@@ -73,7 +73,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             //dont go through the floor but floating was ended
             if (landed)
             {
-                kirby.ChangeMovement();
+                kirby.ChangeToNormalMovement();
             }
         }
 
@@ -96,8 +96,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             gravity = Constants.Physics.GRAVITY;
             terminalVelocity = Constants.Physics.TERMINAL_VELOCITY;
-            kirby.ChangePose(KirbyPose.FloatingEnd);
-            kirby.ChangeMovement();
+            //kirby.ChangePose(KirbyPose.FloatingEnd);
+            kirby.ChangeToNormalMovement();
             endFloat = true;
          
         }

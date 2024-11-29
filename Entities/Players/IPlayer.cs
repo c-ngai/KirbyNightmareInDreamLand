@@ -49,7 +49,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         void LeftCollisionWithBlock(Rectangle intersection);
         void BottomCollisionWithPlatform(Rectangle intersection);
         void TopCollisionWithBlock(Rectangle intersection);
-        void SwallowEnemy(KirbyType kirbyType);
+        void EatEnemy(KirbyType kirbyType);
         KirbyType GetPowerUp();
         void ChangePose(KirbyPose pose);
     
