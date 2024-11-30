@@ -22,7 +22,7 @@ namespace KirbyNightmareInDreamLand
         SlopeGentle2Right,
         SlopeGentle1Right,
         SlopeSteepRight,
-        BouncingStar, Enemy, EnemyAttack, Player, PlayerAttack, PlayerSuitcase, KirbyStar, PowerUp
+        BouncingStar, Enemy, EnemyAttack, Player, PlayerAttack, KirbyBriefcase, KirbyStar, PowerUp
     }
     public sealed class CollisionDetection
     {

@@ -11,7 +11,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class Slide : IProjectile, ICollidable
     {
-        IPlayer player;
+        public IPlayer player { get; private set; }
         public bool CollisionActive { get; private set;} = true;
         public Vector2 Position {get; private set;}
         public Vector2 Velocity {get; private set;}
@@ -25,7 +25,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
             Position =pos;
             startingX = pos.X;
             ObjectManager.Instance.AddProjectile(this);
-            ObjectManager.Instance.RegisterDynamicObject(this);
             SoundManager.Play("slide");
         }
         public void EndAttack()

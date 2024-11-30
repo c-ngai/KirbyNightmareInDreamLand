@@ -41,11 +41,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 case ("Fire"):
                     return new KirbyFlamethrower(kirby, !isLeft);
                 case ("Professor"):
-                    return new Suitcase(position, isLeft);
+                    return new KirbyBriefcase(kirby, position, isLeft);
                 case ("Star"):
-                    return new KirbyStar(position, !isLeft);
+                    return new KirbyStar(kirby, position, !isLeft);
                 case ("Puff"):
-                    return new KirbyPuff(position, !isLeft);
+                    return new KirbyPuff(kirby, position, !isLeft);
                 case ("Slide"):
                     return new Slide(position, isLeft, kirby);
                 default:
@@ -56,7 +56,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public void EndAttack()
         {
-            if (attackType != "Star") // this is dumb fix later if time -mark at 1am
+            if (attackType != "Star" && attackType != "Professor") // this is dumb fix later if time -mark at 1am
             {
                 currentAttack.EndAttack();
             }
@@ -66,16 +66,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             return currentAttack.IsDone();
         }
-
-        public void Update(GameTime gameTime, Player kirby)
-        {
-            currentAttack.Update();
-        }
-        public void Draw(SpriteBatch spriteBatch, Player kirby)
-        {
-            currentAttack.Draw(spriteBatch);
-        }
-
 
     }
 }

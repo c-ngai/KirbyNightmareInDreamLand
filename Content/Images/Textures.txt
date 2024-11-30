@@ -17,6 +17,7 @@ Images/Kirby/kirby2_fire
 Images/Kirby/kirby3_fire
 Images/Kirby/kirby0_professor
 Images/Misc/enemies
+Images/Misc/professorkirby
 Images/Misc/items
 Images/Misc/projectiles
 Images/Misc/particles
@@ -32,6 +33,7 @@ Images/Level/room2_level
 Images/Level/room3_level
 Images/Level/level2_foreground_spritesheet
 Images/Level/level2_background_spritesheet
+Images/Level/classroom
 Images/UI/pause_screen_spritesheet
 Images/UI/game_over_spritesheet
 Images/UI/winning_screen

@@ -67,10 +67,11 @@ namespace KirbyNightmareInDreamLand.Actions
             else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.WallLeftBounce();
-            }else if (object1 is Suitcase sc)
-            {
-                sc.Explode();
             }
+            //else if (object1 is KirbyBriefcase sc)
+            //{
+            //    sc.Explode();
+            //}
         }
 
         public static void TopBlockCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
@@ -106,9 +107,9 @@ namespace KirbyNightmareInDreamLand.Actions
             else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.FloorBounce();
-            }else if (object1 is Suitcase sc)
+            }else if (object1 is KirbyBriefcase briefcase)
             {
-                sc.EndAttack();
+                briefcase.EndAttack();
             }
 
         }
@@ -136,7 +137,7 @@ namespace KirbyNightmareInDreamLand.Actions
             else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.FloorBounce();
-            }else if (object1 is Suitcase sc)
+            }else if (object1 is KirbyBriefcase sc)
             {
                 sc.EndAttack();
             }
@@ -159,7 +160,7 @@ namespace KirbyNightmareInDreamLand.Actions
             else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.FloorBounce();
-            }else if (object1 is Suitcase sc)
+            }else if (object1 is KirbyBriefcase sc)
             {
                 sc.EndAttack();
             }
@@ -182,9 +183,6 @@ namespace KirbyNightmareInDreamLand.Actions
             else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.FloorBounce();
-            }else if (object1 is Suitcase sc)
-            {
-                sc.Explode();
             }
         }
 
@@ -205,7 +203,7 @@ namespace KirbyNightmareInDreamLand.Actions
             else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.FloorBounce();
-            }else if (object1 is Suitcase sc)
+            }else if (object1 is KirbyBriefcase sc)
             {
                 sc.EndAttack();
             }
@@ -228,7 +226,7 @@ namespace KirbyNightmareInDreamLand.Actions
             else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
             {
                 star.FloorBounce();
-            }else if (object1 is Suitcase sc)
+            }else if (object1 is KirbyBriefcase sc)
             {
                 sc.EndAttack();
             }
@@ -252,7 +250,7 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 star.FloorBounce();
             } 
-            else if (object1 is Suitcase sc)
+            else if (object1 is KirbyBriefcase sc)
             {
                 sc.EndAttack();
             }

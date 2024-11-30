@@ -622,7 +622,7 @@ namespace KirbyNightmareInDreamLand
             #endregion
 
             #region Suitcase-Tile Collisons
-            key1 = CollisionType.PlayerSuitcase;
+            key1 = CollisionType.KirbyBriefcase;
             key2 = CollisionType.Platform;
             action1 = TileCollisionActions.BottomPlatformCollision;
             collisionResponse.RegisterCollision(key1, key2, CollisionSide.Bottom, action1, null);
@@ -711,6 +711,10 @@ namespace KirbyNightmareInDreamLand
                     collisionResponse.RegisterCollision(key1, key2, action1, null);
 
                 key2 = CollisionType.KirbyStar;
+                    action1 = DynamicCollisionActions.EnemyKirbyAttackCollision;
+                    collisionResponse.RegisterCollision(key1, key2, action1, null);
+
+                key2 = CollisionType.KirbyBriefcase;
                     action1 = DynamicCollisionActions.EnemyKirbyAttackCollision;
                     collisionResponse.RegisterCollision(key1, key2, action1, null);
 

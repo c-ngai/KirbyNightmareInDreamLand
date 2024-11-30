@@ -53627,9 +53627,9 @@
                 "Y": 429,
                 "Width": 27,
                 "Height": 24,
-                "CenterX": 13,
+                "CenterX": 18,
                 "CenterY": 23,
-                "Time": 6
+                "Time": 4
             },
             {
                 "X": 33,
@@ -53665,7 +53665,86 @@
                 "Height": 22,
                 "CenterX": 6,
                 "CenterY": 21,
-                "Time": 12
+                "Time": 8
+            },
+            {
+                "X": 153,
+                "Y": 431,
+                "Width": 22,
+                "Height": 22,
+                "CenterX": 9,
+                "CenterY": 21,
+                "Time": 2
+            },
+            {
+                "X": 180,
+                "Y": 432,
+                "Width": 24,
+                "Height": 21,
+                "CenterX": 12,
+                "CenterY": 20,
+                "Time": 2
+            },
+            {
+                "X": 210,
+                "Y": 431,
+                "Width": 24,
+                "Height": 22,
+                "CenterX": 13,
+                "CenterY": 21,
+                "Time": 2
+            }
+        ]
+    },
+    "kirby0_professor_attacking_left": {
+        "Source texture": "kirby0_professor",
+        "Loop point": 7,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 1,
+                "Y": 429,
+                "Width": 27,
+                "Height": 24,
+                "CenterX": 18,
+                "CenterY": 23,
+                "Time": 4
+            },
+            {
+                "X": 33,
+                "Y": 429,
+                "Width": 25,
+                "Height": 24,
+                "CenterX": 13,
+                "CenterY": 23,
+                "Time": 4
+            },
+            {
+                "X": 60,
+                "Y": 430,
+                "Width": 25,
+                "Height": 23,
+                "CenterX": 11,
+                "CenterY": 22,
+                "Time": 2
+            },
+            {
+                "X": 93,
+                "Y": 432,
+                "Width": 22,
+                "Height": 21,
+                "CenterX": 7,
+                "CenterY": 20,
+                "Time": 2
+            },
+            {
+                "X": 123,
+                "Y": 431,
+                "Width": 24,
+                "Height": 22,
+                "CenterX": 6,
+                "CenterY": 21,
+                "Time": 8
             },
             {
                 "X": 153,
@@ -55681,6 +55760,491 @@
         ]
     },
 
+    "professorkirby_standing_right": {
+        "Source texture": "professorkirby",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 8,
+                "Width": 25,
+                "Height": 33,
+                "CenterX": 13,
+                "CenterY": 32,
+                "Time": 1
+            }
+        ]
+    },
+    "professorkirby_standing_left": {
+        "Source texture": "professorkirby",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 8,
+                "Width": 25,
+                "Height": 33,
+                "CenterX": 13,
+                "CenterY": 32,
+                "Time": 1
+            }
+        ]
+    },
+    "professorkirby_walking_right": {
+        "Source texture": "professorkirby",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 49,
+                "Width": 31,
+                "Height": 34,
+                "CenterX": 19,
+                "CenterY": 35,
+                "Time": 11
+            },
+            {
+                "X": 45,
+                "Y": 50,
+                "Width": 29,
+                "Height": 35,
+                "CenterX": 17,
+                "CenterY": 34,
+                "Time": 8
+            },
+            {
+                "X": 84,
+                "Y": 52,
+                "Width": 25,
+                "Height": 33,
+                "CenterX": 13,
+                "CenterY": 32,
+                "Time": 8
+            },
+            {
+                "X": 122,
+                "Y": 50,
+                "Width": 22,
+                "Height": 35,
+                "CenterX": 10,
+                "CenterY": 34,
+                "Time": 8
+            },
+            {
+                "X": 157,
+                "Y": 50,
+                "Width": 22,
+                "Height": 35,
+                "CenterX": 10,
+                "CenterY": 34,
+                "Time": 11
+            },
+            {
+                "X": 122,
+                "Y": 50,
+                "Width": 22,
+                "Height": 35,
+                "CenterX": 10,
+                "CenterY": 34,
+                "Time": 8
+            },
+            {
+                "X": 84,
+                "Y": 52,
+                "Width": 25,
+                "Height": 33,
+                "CenterX": 13,
+                "CenterY": 32,
+                "Time": 8
+            },
+            {
+                "X": 45,
+                "Y": 50,
+                "Width": 29,
+                "Height": 35,
+                "CenterX": 17,
+                "CenterY": 34,
+                "Time": 8
+            }
+        ]
+    },
+    "professorkirby_walking_left": {
+        "Source texture": "professorkirby",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 49,
+                "Width": 31,
+                "Height": 34,
+                "CenterX": 19,
+                "CenterY": 35,
+                "Time": 11
+            },
+            {
+                "X": 45,
+                "Y": 50,
+                "Width": 29,
+                "Height": 35,
+                "CenterX": 17,
+                "CenterY": 34,
+                "Time": 8
+            },
+            {
+                "X": 84,
+                "Y": 52,
+                "Width": 25,
+                "Height": 33,
+                "CenterX": 13,
+                "CenterY": 32,
+                "Time": 8
+            },
+            {
+                "X": 122,
+                "Y": 50,
+                "Width": 22,
+                "Height": 35,
+                "CenterX": 10,
+                "CenterY": 34,
+                "Time": 8
+            },
+            {
+                "X": 157,
+                "Y": 50,
+                "Width": 22,
+                "Height": 35,
+                "CenterX": 10,
+                "CenterY": 34,
+                "Time": 11
+            },
+            {
+                "X": 122,
+                "Y": 50,
+                "Width": 22,
+                "Height": 35,
+                "CenterX": 10,
+                "CenterY": 34,
+                "Time": 8
+            },
+            {
+                "X": 84,
+                "Y": 52,
+                "Width": 25,
+                "Height": 33,
+                "CenterX": 13,
+                "CenterY": 32,
+                "Time": 8
+            },
+            {
+                "X": 45,
+                "Y": 50,
+                "Width": 29,
+                "Height": 35,
+                "CenterX": 17,
+                "CenterY": 34,
+                "Time": 8
+            }
+        ]
+    },
+    "professorkirby_jumping_right": {
+        "Source texture": "professorkirby",
+        "Loop point": 6,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 84,
+                "Y": 52,
+                "Width": 25,
+                "Height": 33,
+                "CenterX": 13,
+                "CenterY": 32,
+                "Time": 1
+            },
+            {
+                "X": 122,
+                "Y": 50,
+                "Width": 22,
+                "Height": 35,
+                "CenterX": 10,
+                "CenterY": 34,
+                "Time": 2
+            },
+            {
+                "X": 84,
+                "Y": 52,
+                "Width": 25,
+                "Height": 33,
+                "CenterX": 13,
+                "CenterY": 32,
+                "Time": 2
+            },
+            {
+                "X": 45,
+                "Y": 50,
+                "Width": 29,
+                "Height": 35,
+                "CenterX": 17,
+                "CenterY": 34,
+                "Time": 2
+            },
+            {
+                "X": 84,
+                "Y": 52,
+                "Width": 25,
+                "Height": 33,
+                "CenterX": 13,
+                "CenterY": 32,
+                "Time": 2
+            },
+            {
+                "X": 122,
+                "Y": 50,
+                "Width": 22,
+                "Height": 35,
+                "CenterX": 10,
+                "CenterY": 34,
+                "Time": 2
+            },
+            {
+                "X": 157,
+                "Y": 50,
+                "Width": 22,
+                "Height": 35,
+                "CenterX": 10,
+                "CenterY": 34,
+                "Time": 1
+            }
+        ]
+    },
+    "professorkirby_jumping_left": {
+        "Source texture": "professorkirby",
+        "Loop point": 6,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 84,
+                "Y": 52,
+                "Width": 25,
+                "Height": 33,
+                "CenterX": 13,
+                "CenterY": 32,
+                "Time": 1
+            },
+            {
+                "X": 122,
+                "Y": 50,
+                "Width": 22,
+                "Height": 35,
+                "CenterX": 10,
+                "CenterY": 34,
+                "Time": 2
+            },
+            {
+                "X": 84,
+                "Y": 52,
+                "Width": 25,
+                "Height": 33,
+                "CenterX": 13,
+                "CenterY": 32,
+                "Time": 2
+            },
+            {
+                "X": 45,
+                "Y": 50,
+                "Width": 29,
+                "Height": 35,
+                "CenterX": 17,
+                "CenterY": 34,
+                "Time": 2
+            },
+            {
+                "X": 84,
+                "Y": 52,
+                "Width": 25,
+                "Height": 33,
+                "CenterX": 13,
+                "CenterY": 32,
+                "Time": 2
+            },
+            {
+                "X": 122,
+                "Y": 50,
+                "Width": 22,
+                "Height": 35,
+                "CenterX": 10,
+                "CenterY": 34,
+                "Time": 2
+            },
+            {
+                "X": 157,
+                "Y": 50,
+                "Width": 22,
+                "Height": 35,
+                "CenterX": 10,
+                "CenterY": 34,
+                "Time": 1
+            }
+        ]
+    },
+    "professorkirby_attacking_right": {
+        "Source texture": "professorkirby",
+        "Loop point": 4,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 99,
+                "Width": 28,
+                "Height": 28,
+                "CenterX": 18,
+                "CenterY": 27,
+                "Time": 4
+            },
+            {
+                "X": 40,
+                "Y": 99,
+                "Width": 32,
+                "Height": 28,
+                "CenterX": 22,
+                "CenterY": 27,
+                "Time": 6
+            },
+            {
+                "X": 76,
+                "Y": 93,
+                "Width": 33,
+                "Height": 34,
+                "CenterX": 12,
+                "CenterY": 33,
+                "Time": 8
+            },
+            {
+                "X": 113,
+                "Y": 95,
+                "Width": 34,
+                "Height": 32,
+                "CenterX": 13,
+                "CenterY": 31,
+                "Time": 6
+            },
+            {
+                "X": 151,
+                "Y": 100,
+                "Width": 28,
+                "Height": 27,
+                "CenterX": 12,
+                "CenterY": 26,
+                "Time": 4
+            }
+        ]
+    },
+    "professorkirby_attacking_left": {
+        "Source texture": "professorkirby",
+        "Loop point": 4,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 99,
+                "Width": 28,
+                "Height": 28,
+                "CenterX": 18,
+                "CenterY": 27,
+                "Time": 4
+            },
+            {
+                "X": 40,
+                "Y": 99,
+                "Width": 32,
+                "Height": 28,
+                "CenterX": 22,
+                "CenterY": 27,
+                "Time": 6
+            },
+            {
+                "X": 76,
+                "Y": 93,
+                "Width": 33,
+                "Height": 34,
+                "CenterX": 12,
+                "CenterY": 33,
+                "Time": 8
+            },
+            {
+                "X": 113,
+                "Y": 95,
+                "Width": 34,
+                "Height": 32,
+                "CenterX": 13,
+                "CenterY": 31,
+                "Time": 6
+            },
+            {
+                "X": 151,
+                "Y": 100,
+                "Width": 28,
+                "Height": 27,
+                "CenterX": 12,
+                "CenterY": 26,
+                "Time": 4
+            }
+        ]
+    },
+    "professorkirby_hurt_right": {
+        "Source texture": "professorkirby",
+        "Loop point": 1,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 137,
+                "Width": 36,
+                "Height": 33,
+                "CenterX": 15,
+                "CenterY": 32,
+                "Time": 4
+            },
+            {
+                "X": 48,
+                "Y": 135,
+                "Width": 37,
+                "Height": 35,
+                "CenterX": 18,
+                "CenterY": 34,
+                "Time": 1
+            }
+        ]
+    },
+    "professorkirby_hurt_left": {
+        "Source texture": "professorkirby",
+        "Loop point": 1,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 137,
+                "Width": 36,
+                "Height": 33,
+                "CenterX": 15,
+                "CenterY": 32,
+                "Time": 4
+            },
+            {
+                "X": 48,
+                "Y": 135,
+                "Width": 37,
+                "Height": 35,
+                "CenterX": 18,
+                "CenterY": 34,
+                "Time": 1
+            }
+        ]
+    },
+
     "projectile_kirby_beam1": {
         "Source texture": "projectiles",
         "Loop point": 5,
@@ -56950,6 +57514,498 @@
             }
         ]
     },
+    "projectile_briefcase_right": {
+        "Source texture": "projectiles",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 242,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 268,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 294,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 320,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 346,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 372,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 398,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 8,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 34,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 60,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 86,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 112,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 138,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 164,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 190,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 216,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            }
+        ]
+    },
+    "projectile_briefcase_left": {
+        "Source texture": "projectiles",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 242,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 268,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 294,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 320,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 346,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 372,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 398,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 8,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 34,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 60,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 86,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 112,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 138,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 164,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 190,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            },
+            {
+                "X": 216,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 12,
+                "Time": 2
+            }
+        ]
+    },
+    "projectile_briefcasewindup_right": {
+        "Source texture": "projectiles",
+        "Loop point": 3,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 34,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 27,
+                "CenterY": 11,
+                "Time": 2
+            },
+            {
+                "X": 86,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 31,
+                "CenterY": 17,
+                "Time": 2
+            },
+            {
+                "X": 138,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 27,
+                "CenterY": 31,
+                "Time": 2
+            },
+            {
+                "X": 190,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 21,
+                "CenterY": 36,
+                "Time": 2
+            }
+        ]
+    },
+    "projectile_briefcasewindup_left": {
+        "Source texture": "projectiles",
+        "Loop point": 3,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 34,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 27,
+                "CenterY": 11,
+                "Time": 2
+            },
+            {
+                "X": 86,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 31,
+                "CenterY": 17,
+                "Time": 2
+            },
+            {
+                "X": 138,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 27,
+                "CenterY": 31,
+                "Time": 2
+            },
+            {
+                "X": 190,
+                "Y": 428,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 21,
+                "CenterY": 36,
+                "Time": 2
+            }
+        ]
+    },
+    "projectile_briefcaseopen_right": {
+        "Source texture": "projectiles",
+        "Loop point": 4,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 456,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 15,
+                "Time": 1
+            },
+            {
+                "X": 34,
+                "Y": 456,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 15,
+                "Time": 2
+            },
+            {
+                "X": 60,
+                "Y": 456,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 15,
+                "Time": 3
+            },
+            {
+                "X": 86,
+                "Y": 456,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 15,
+                "Time": 4
+            },
+            {
+                "X": 112,
+                "Y": 456,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 15,
+                "Time": 1
+            }
+        ]
+    },
+    "projectile_briefcaseopen_left": {
+        "Source texture": "projectiles",
+        "Loop point": 4,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 456,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 15,
+                "Time": 1
+            },
+            {
+                "X": 34,
+                "Y": 456,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 15,
+                "Time": 2
+            },
+            {
+                "X": 60,
+                "Y": 456,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 15,
+                "Time": 3
+            },
+            {
+                "X": 86,
+                "Y": 456,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 15,
+                "Time": 4
+            },
+            {
+                "X": 112,
+                "Y": 456,
+                "Width": 24,
+                "Height": 24,
+                "CenterX": 12,
+                "CenterY": 15,
+                "Time": 1
+            }
+        ]
+    },
 
     "particle_bumpstar": {
         "Source texture": "particles",
@@ -57695,23 +58751,6 @@
         ]
     },
 
-    "hub_foreground": {
-        "Source texture": "hub_spritesheet",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 0,
-                "Y": 0,
-                "Width": 416,
-                "Height": 352,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-
     "hub_door_1": {
         "Source texture": "hub_spritesheet",
         "Loop point": 0,
@@ -57728,7 +58767,6 @@
             }
         ]
     },
-
     "hub_door_2": {
         "Source texture": "hub_spritesheet",
         "Loop point": 0,
@@ -57745,7 +58783,6 @@
             }
         ]
     },
-
     "hub_door_1_animation_open": {
         "Source texture": "hub_spritesheet",
         "Loop point": 2,
@@ -57780,7 +58817,6 @@
             }
         ]
     },
-
     "hub_door_1_animation_close": {
         "Source texture": "hub_spritesheet",
         "Loop point": 3,
@@ -57824,7 +58860,6 @@
             }
         ]
     },
-
     "hub_door_2_animation_open": {
         "Source texture": "hub_spritesheet",
         "Loop point": 2,
@@ -57859,7 +58894,6 @@
             }
         ]
     },
-
     "hub_door_2_animation_close": {
         "Source texture": "hub_spritesheet",
         "Loop point": 2,
@@ -57894,7 +58928,6 @@
             }
         ]
     },
-
     "hub_door3": {
         "Source texture": "hub_spritesheet",
         "Loop point": 0,
@@ -57911,7 +58944,6 @@
             }
         ]
     },
-
     "hub_door3_animation_open": {
         "Source texture": "hub_spritesheet",
         "Loop point": 2,
@@ -57946,7 +58978,6 @@
             }
         ]
     },
-
     "hub_door3_animation_close": {
         "Source texture": "hub_spritesheet",
         "Loop point": 2,
@@ -57981,7 +59012,6 @@
             }
         ]
     },
-
     "hub_door4": {
         "Source texture": "hub_spritesheet",
         "Loop point": 0,
@@ -57998,7 +59028,6 @@
             }
         ]
     },
-
     "hub_door4_animation_open": {
         "Source texture": "hub_spritesheet",
         "Loop point": 2,
@@ -58033,7 +59062,6 @@
             }
         ]
     },
-
     "hub_door4_animation_close": {
         "Source texture": "hub_spritesheet",
         "Loop point": 2,
@@ -58085,7 +59113,6 @@
             }
         ]
     },
-
     "door_sign_number2": {
         "Source texture": "hub_spritesheet",
         "Loop point": 0,
@@ -58102,7 +59129,6 @@
             }
         ]
     },
-
     "door_sign_number3": {
         "Source texture": "hub_spritesheet",
         "Loop point": 0,
@@ -58119,7 +59145,6 @@
             }
         ]
     },
-
     "door_sign_number1": {
         "Source texture": "hub_spritesheet",
         "Loop point": 0,
@@ -58185,7 +59210,119 @@
             }
         ]
     },
+    "orange_meadow_background": {
+        "Source texture": "level2_background_spritesheet",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 0,
+                "Width": 360,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
+        ]
+    },
+    "space_background": {
+        "Source texture": "level2_background_spritesheet",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 160,
+                "Width": 360,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
+        ]
+    },
+    "blue_rocks_background": {
+        "Source texture": "level2_background_spritesheet",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 320,
+                "Width": 360,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
+        ]
+    },
+    "blue_sky_background": {
+        "Source texture": "level2_background_spritesheet",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 480,
+                "Width": 360,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
+        ]
+    },
+    "beach_background": {
+        "Source texture": "level2_background_spritesheet",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 640,
+                "Width": 512,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
+        ]
+    },
+    "pink_mountain_background": {
+        "Source texture": "level2_background_spritesheet",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 800,
+                "Width": 360,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
+        ]
+    },
 
+    "hub_foreground": {
+        "Source texture": "hub_spritesheet",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 0,
+                "Width": 416,
+                "Height": 352,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
+        ]
+    },
     "foreground_room1": {
         "Source texture": "room1_level",
         "Loop point": 0,
@@ -58282,7 +59419,6 @@
 
         ]
     },
-
     "foreground_room3": {
         "Source texture": "room3_level",
         "Loop point": 0,
@@ -58361,6 +59497,98 @@
                 "Time": 8
             }
 
+        ]
+    },
+    "level2_room1_foreground": {
+        "Source texture": "level2_foreground_spritesheet",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 784,
+                "Width": 1280,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 5
+            },
+            {
+                "X": 0,
+                "Y": 980,
+                "Width": 1280,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 5
+            },
+            {
+                "X": 0,
+                "Y": 1176,
+                "Width": 1280,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 5
+            },
+            {
+                "X": 0,
+                "Y": 1372,
+                "Width": 1280,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 5
+            }
+
+        ]
+    },
+    "level2_room2_foreground": {
+        "Source texture": "level2_foreground_spritesheet",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 0,
+                "Width": 1438,
+                "Height": 330,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
+        ]
+    },
+    "level2_room3_foreground": {
+        "Source texture": "level2_foreground_spritesheet",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 332,
+                "Width": 783,
+                "Height": 416,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
+        ]
+    },
+    "foreground_classroom": {
+        "Source texture": "classroom",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 0,
+                "Width": 240,
+                "Height": 160,
+                "CenterX": 0,
+                "CenterY": 0,
+                "Time": 1
+            }
         ]
     },
 
@@ -58620,7 +59848,6 @@
             }
         ]
     },
-
 
     "hud_card_beam": {
         "Source texture": "hud",
@@ -59510,7 +60737,6 @@
             }
         ]
     },
-
     "Game_over_foreground_no_letters": {
         "Source texture": "game_over_spritesheet",
         "Loop point": 0,
@@ -59527,8 +60753,6 @@
             }
         ]
     },
-
-
     "Game_over_background": {
         "Source texture": "game_over_spritesheet",
         "Loop point": 0,
@@ -59545,7 +60769,6 @@
             }
         ]
     },
-
     "Game_over_continue_button": {
         "Source texture": "game_over_spritesheet",
         "Loop point": 0,
@@ -59562,7 +60785,6 @@
             }
         ]
     },
-
     "Game_over_quit_button": {
         "Source texture": "game_over_spritesheet",
         "Loop point": 0,
@@ -59580,7 +60802,6 @@
         ]
     },
 
-
     "Winning_background": {
         "Source texture": "winning_screen",
         "Loop point": 0,
@@ -59597,7 +60818,6 @@
             }
         ]
     },
-
     "Winning_quit_selected": {
         "Source texture": "winning_screen",
         "Loop point": 0,
@@ -59614,7 +60834,6 @@
             }
         ]
     },
-
     "Winning_continue_selected_button": {
         "Source texture": "winning_screen",
         "Loop point": 0,
@@ -59632,7 +60851,6 @@
         ]
     },
 
-
     "button_continue": {
         "Source texture": "buttons",
         "Loop point": 0,
@@ -59649,7 +60867,6 @@
             }
         ]
     },
-
     "button_quit": {
         "Source texture": "buttons",
         "Loop point": 0,
@@ -59676,189 +60893,6 @@
                 "X": 0,
                 "Y": 0,
                 "Width": 240,
-                "Height": 160,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-
-    "level2_room2_foreground": {
-        "Source texture": "level2_foreground_spritesheet",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 0,
-                "Y": 0,
-                "Width": 1438,
-                "Height": 330,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-
-
-    "level2_room1_foreground": {
-        "Source texture": "level2_foreground_spritesheet",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 0,
-                "Y": 784,
-                "Width": 1280,
-                "Height": 160,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 5
-            },
-            {
-                "X": 0,
-                "Y": 980,
-                "Width": 1280,
-                "Height": 160,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 5
-            },
-            {
-                "X": 0,
-                "Y": 1176,
-                "Width": 1280,
-                "Height": 160,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 5
-            },
-            {
-                "X": 0,
-                "Y": 1372,
-                "Width": 1280,
-                "Height": 160,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 5
-            }
-
-        ]
-    },
-
-    "level2_room3_foreground": {
-        "Source texture": "level2_foreground_spritesheet",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 0,
-                "Y": 332,
-                "Width": 783,
-                "Height": 416,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-
-    "orange_meadow_background": {
-        "Source texture": "level2_background_spritesheet",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 0,
-                "Y": 0,
-                "Width": 360,
-                "Height": 160,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-
-    "space_background": {
-        "Source texture": "level2_background_spritesheet",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 0,
-                "Y": 160,
-                "Width": 360,
-                "Height": 160,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-
-    "blue_rocks_background": {
-        "Source texture": "level2_background_spritesheet",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 0,
-                "Y": 320,
-                "Width": 360,
-                "Height": 160,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-
-    "blue_sky_background": {
-        "Source texture": "level2_background_spritesheet",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 0,
-                "Y": 480,
-                "Width": 360,
-                "Height": 160,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-
-    "beach_background": {
-        "Source texture": "level2_background_spritesheet",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 0,
-                "Y": 640,
-                "Width": 512,
-                "Height": 160,
-                "CenterX": 0,
-                "CenterY": 0,
-                "Time": 1
-            }
-        ]
-    },
-
-
-    "pink_mountain_background": {
-        "Source texture": "level2_background_spritesheet",
-        "Loop point": 0,
-        "Flip horizontally?": false,
-        "Frames": [
-            {
-                "X": 0,
-                "Y": 800,
-                "Width": 360,
                 "Height": 160,
                 "CenterX": 0,
                 "CenterY": 0,

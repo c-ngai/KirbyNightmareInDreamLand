@@ -5,11 +5,14 @@ using System.Net.NetworkInformation;
 using System;
 using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Actions;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class KirbyPuff : IProjectile, ICollidable, IExplodable
     {
+        public IPlayer player { get; private set; }
+
         private Sprite projectileSprite;
         private Vector2 position;
         public bool CollisionActive { get; private set;} = true;
@@ -33,8 +36,9 @@ namespace KirbyNightmareInDreamLand.Projectiles
             get => velocity;            // Return the current velocity of the puff
             set => velocity = value;    // Set the velocity of the puff to the given value
         }
-        public KirbyPuff(Vector2 kirbyPosition, bool isFacingRight)
+        public KirbyPuff(IPlayer _player, Vector2 kirbyPosition, bool isFacingRight)
         {
+            player = _player;
 
             this.isFacingRight = isFacingRight;
             Vector2 offset = isFacingRight ? Constants.Kirby.PUFF_ATTACK_OFFSET : -Constants.Kirby.PUFF_ATTACK_OFFSET;
@@ -54,7 +58,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 : SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_left");
 
             ObjectManager.Instance.AddProjectile(this);
-            ObjectManager.Instance.RegisterDynamicObject(this);
 
             SoundManager.Play("spitair");
         }

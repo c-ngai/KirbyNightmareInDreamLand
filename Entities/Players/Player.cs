@@ -28,8 +28,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         private double invincibilityTimer = 0;
         private bool hurtStun = false;
         private int damageCounter;
-        private bool isTransitioningAttack = false;
+        private bool isAttacking = false;
         private double timer = 0;
+
+        public bool powerChangeAnimation { get; set; } = false; // is this kirby currently in a power change animation?
 
         //others
         private string oldState;
@@ -103,6 +105,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if (!state.GetStateString().Equals(oldState))
             {
                 playerSprite = SpriteFactory.Instance.CreateSprite(state.GetSpriteParameters());
+                playerSprite.Update();
             }
         }
 
@@ -206,7 +209,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         private bool CanControl()
         {
-            return IsActive && !DEAD && !hurtStun && !isTransitioningAttack && GetKirbyPose() != KirbyPose.Swallow;
+            return IsActive && !DEAD && !hurtStun && !isAttacking && GetKirbyPose() != KirbyPose.Swallow;
         }
         #endregion
 
@@ -683,7 +686,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 ChangePose(KirbyPose.Attacking);
             }
             
-            isTransitioningAttack = true;
+            isAttacking = true;
 
             
         }
@@ -778,26 +781,27 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
 
         bool TEMP = false;
+        private int powerChangeTimer = 0;
         #region MoveKirby
         public void HandleMovementTransitions()
         {
             // continues start of Kirby's attack animations and ends it when counter is complete
-            if (isTransitioningAttack && attack == null)
+            if (isAttacking && attack == null)
             {
-                isTransitioningAttack = false;
+                isAttacking = false;
             }
-            else if (isTransitioningAttack && (
+            else if (isAttacking && (
                    attack.attackType == "Normal"    && attackTimer > 30 && wantToStopAttacking
                 || attack.attackType == "Beam"      && attackTimer > 42
                 || attack.attackType == "Spark"     && attackTimer > 20 && wantToStopAttacking
                 || attack.attackType == "Fire"      && attackTimer > 30 && wantToStopAttacking
-                || attack.attackType == "Professor" && attackTimer > 32
+                || attack.attackType == "Professor" && attackTimer > 26
                 || attack.attackType == "Star"      && attackTimer > 15
                 || attack.attackType == "Puff"      && attackTimer > 9
                 || attack.attackType == "Slide"     && attackTimer > 40
             ))
             {
-                isTransitioningAttack = false;
+                isAttacking = false;
                 if (state.CanStand())
                 {
                     ChangePose(KirbyPose.Standing);
@@ -820,9 +824,18 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 if (powerUp != KirbyType.Normal)
                 {
                     Attack();
-                    StopAttacking(); // TEMPORARY, FIX LATER
+                    powerChangeTimer = Constants.Transition.ATTACK_STATE_FRAMES;
                     SoundManager.Play("powerup");
+                    powerChangeAnimation = true;
                     Game1.Instance.Level.ChangeToPowerChangeState();
+                }
+            }
+
+            if (powerChangeTimer > 0)
+            {
+                powerChangeTimer--;
+                if (powerChangeTimer == 0) {
+                    StopAttacking();
                 }
             }
 
@@ -845,6 +858,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
         }
 
+        string test1;
         // makes state changes by calling other player methods, calls state.Update(), and finally calls Draw last?
         public void Update(GameTime gameTime)
         {
@@ -852,8 +866,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 HandleMovementTransitions();
                 Fall();
-                movement.MovePlayer(this, gameTime);
+                if (!powerChangeAnimation)
+                {
+                    movement.MovePlayer(this, gameTime);
+                }
                 EndInvinciblility(gameTime);
+                test1 = state.GetStateString();
+                //UpdateTexture();
                 playerSprite.Update();
 
                 damageCounter++;
@@ -904,6 +923,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 UpdateTexture();
 
+                //string test2 = state.GetStateString();
+                //if (test1 != test2)
+                //{
+                //    Debug.WriteLine("SPRITE MISMATCH, " + test1 + ", " + test2);
+                //}
+
                 if (invincible)
                 {
                     playerSprite.Draw(movement.GetPosition(), spriteBatch);
@@ -937,11 +962,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
                     spriteBatch.DrawString(LevelLoader.Instance.Font, movement.GetType().ToString().Substring(43), position3, Color.Black);
                     spriteBatch.DrawString(LevelLoader.Instance.Font, "poseCounter = " + poseCounter, position1, Color.Black);
-                    //spriteBatch.DrawString(LevelLoader.Instance.Font, GetKirbyPose().ToString(), position2, Color.Black);
-                    spriteBatch.DrawString(LevelLoader.Instance.Font, isTransitioningAttack.ToString(), position2, Color.Black);
+                    spriteBatch.DrawString(LevelLoader.Instance.Font, GetKirbyPose().ToString(), position2, Color.Black);
+                    //spriteBatch.DrawString(LevelLoader.Instance.Font, isTransitioningAttack.ToString(), position2, Color.Black);
                     //spriteBatch.DrawString(LevelLoader.Instance.Font, GetKirbyVelocity().X.ToString(), position1, Color.Black);
                     //spriteBatch.DrawString(LevelLoader.Instance.Font, GetKirbyVelocity().Y.ToString(), position2, Color.Black);
-                    GameDebug.Instance.DrawPoint(spriteBatch, GetKirbyPosition() + GetKirbyVelocity() * 8, Color.Magenta, 1f);
+                    //GameDebug.Instance.DrawPoint(spriteBatch, GetKirbyPosition() + GetKirbyVelocity() * 8, Color.Magenta, 1f);
                 }
 
 

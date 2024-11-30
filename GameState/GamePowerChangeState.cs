@@ -1,3 +1,4 @@
+using KirbyNightmareInDreamLand.Entities.Players;
 using KirbyNightmareInDreamLand.Levels;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -39,9 +40,22 @@ namespace KirbyNightmareInDreamLand.GameState
 
         public override void Update()
         {
-            Game1.Instance.manager.UpdatePlayers();
-
-            Game1.Instance.manager.UpdateProjectiles();
+            // Update only players who are changing power right now
+            foreach (IPlayer player in _manager.Players)
+            {
+                if (player.powerChangeAnimation)
+                {
+                    player.Update(Game1.Instance.time);
+                }
+            }
+            // Update only projectiles originating from players who are changing power right now
+            for (int i = 0; i < _manager.Projectiles.Count; i++)
+            {
+                if (_manager.Projectiles[i].player.powerChangeAnimation)
+                {
+                    _manager.Projectiles[i].Update();
+                }
+            }
 
             timer ++;
 
@@ -70,6 +84,13 @@ namespace KirbyNightmareInDreamLand.GameState
                 {
                     FadeAlpha = startFade; // reset fadeAlpha so fade-out is ready to go
                     CurrentlyFadingIn = false; // Fade-in complete
+
+                    // set the powerChangeAnimation states of all the players to false
+                    foreach (IPlayer player in _manager.Players)
+                    {
+                        player.powerChangeAnimation = false;
+                    }
+
                     level.ChangeState(Game1.Instance.Level._playingState);
                 }
             }

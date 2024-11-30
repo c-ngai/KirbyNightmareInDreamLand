@@ -4,11 +4,14 @@ using System;
 using KirbyNightmareInDreamLand.Sprites;
 using KirbyNightmareInDreamLand.Actions;
 using Microsoft.Xna.Framework.Input;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class KirbyFlameSegment : IProjectile, ICollidable
     {
+        public IPlayer player { get; private set; }
+
         private Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;
@@ -33,8 +36,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
             set => velocity = value;
         }
 
-        public KirbyFlameSegment(Vector2 startPosition, Vector2 velocity, float currentSpeed, bool isLeft)
+        public KirbyFlameSegment(Vector2 startPosition, Vector2 velocity, float currentSpeed, bool isLeft, IPlayer _player)
         {
+            player = _player;
+
             Position = startPosition;
             this.velocity = velocity;
             IsActive = true;
