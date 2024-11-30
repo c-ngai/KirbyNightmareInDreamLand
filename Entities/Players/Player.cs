@@ -843,6 +843,16 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 }
             }
 
+            // ends attack end animations
+            if (GetKirbyPose() == KirbyPose.AttackingEnd &&
+                (GetKirbyType().Equals("Normal") && poseCounter > 3
+                || GetKirbyType().Equals("Spark") && poseCounter > 1
+                || GetKirbyType().Equals("Fire") && poseCounter > 7))
+            {
+                ChangePose(KirbyPose.Standing);
+            }
+
+
             if (powerChangeTimer > 0)
             {
                 powerChangeTimer--;
