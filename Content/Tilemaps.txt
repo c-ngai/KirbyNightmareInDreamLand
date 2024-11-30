@@ -8,3 +8,4 @@ Content/Tilemaps/hub_tileset.csv
 Content/Tilemaps/level2_room1_tileset.csv
 Content/Tilemaps/level2_room2_tileset.csv
 Content/Tilemaps/level2_room3_tileset.csv
+Content/Tilemaps/classroom.csv

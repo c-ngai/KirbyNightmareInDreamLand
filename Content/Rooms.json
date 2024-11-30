@@ -112,7 +112,7 @@
                 "SpawnTileY": 3
             },
             {
-                "EnemyType": "BrontoBurt",
+                "EnemyType": "WaddleDee",
                 "SpawnTileX": 24,
                 "SpawnTileY": 8
             },
@@ -925,8 +925,8 @@
             {
                 "TileX": 10,
                 "TileY": 13,
-                "DestinationRoom": "",
-                "DestinationTileX": 3,
+                "DestinationRoom": "classroom",
+                "DestinationTileX": 1,
                 "DestinationTileY": 7,
                 "DrawDoorStars": false,
                 "IsBigDoor": true
@@ -950,5 +950,41 @@
                 "IsBigDoor": true
             }
         ]
+    },
+
+    "classroom": {
+        "Foreground sprite": "foreground_classroom",
+        "Background sprite": "",
+        "Tilemap": "classroom",
+
+        "Song": "song_hub",
+
+        "Spawn tile X": 1,
+        "Spawn tile Y": 7,
+
+        "Lock camera X?": true,
+        "Locked camera X": 0,
+        "Lock camera Y?": true,
+        "Locked camera Y": 0,
+
+        "Doors": [
+            {
+                "TileX": 1,
+                "TileY": 7,
+                "DestinationRoom": "hub",
+                "DestinationTileX": 10,
+                "DestinationTileY": 13,
+                "DrawDoorStars": true,
+                "IsBigDoor": false
+            }
+        ],
+        "Enemies": [
+            {
+                "EnemyType": "ProfessorKirby",
+                "SpawnTileX": 13,
+                "SpawnTileY": 7
+            }
+        ]
     }
+
 }

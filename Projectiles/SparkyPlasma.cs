@@ -5,11 +5,13 @@ using System;
 using KirbyNightmareInDreamLand.StateMachines;
 using System.Runtime.InteropServices;
 using KirbyNightmareInDreamLand.Actions;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class SparkyPlasma : IProjectile, ICollidable
     {
+        public IPlayer player { get => null; } // this projectile never originates from a player
         //private readonly Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;

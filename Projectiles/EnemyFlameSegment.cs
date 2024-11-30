@@ -3,11 +3,13 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using KirbyNightmareInDreamLand.Sprites;
 using KirbyNightmareInDreamLand.Actions;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class EnemyFlameSegment : IProjectile, ICollidable
     {
+        public IPlayer player { get => null; } // this projectile never originates from a player
         private Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;

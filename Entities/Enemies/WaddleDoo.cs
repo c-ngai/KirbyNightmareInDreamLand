@@ -49,8 +49,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 // Handle the beam if active
                 if (isBeamActive)
                 {
-                    beam.Update();
-                    if (!beam.IsBeamActive())
+                    if (beam.IsDone())
                     {
                         isBeamActive = false;
                     }
