@@ -1,0 +1,45 @@
+Sprint 5 Readabilty Code Review     11/29/2024
+
+Author of Code Review: Mark DeLeo
+Name of .cs file being reviewed: currently Projectiles/KirbyBriefcase.cs, but was Entities/Players/PlayerAttack/SuitcaseAttack.cs at the time of reviewing
+Author of .cs file being reviewed: Lina Ordonez Aguiar
+
+Number of minutes to complete review: 20 minutes
+
+################################################################################ 
+
+10 Code Smells
+
+ 1. SameNameDifferentMeaning
+ 2. YouDontNeedItAnymore
+ 3. DataClumps
+ 4. InappropriateIntimacy
+ 5. FeatureEnvy
+ 6. DuplicatedCode
+ 7. VariableSameNameAsType
+ 8. TooManyParameters
+ 9. LongMethod
+10. LawOfDemeter
+
+################################################################################
+
+
+Comments on Code Smells:
+
+ - SameNameDifferentMeaning: Well, actually the exact opposite of this: same meaning different name, but I'm gonna count it anyway. substage and timer both appear to do the exact same thing for different stages: be a frame counter. Can they be combined?
+
+
+Comments on Code Readability:
+
+ - I like the splitting of the briefcase projectile's behavior into stages, but it would be nice if comments were left to make it a little more clear which stage does what.
+
+ - The substage variable is a little confusing, I'm fairly certain it's just a frame counter for stage 1, right? It's especially confusing because of the presence of the variable named timer that seems to do the exact same thing but for stage 3. Is there a reason for two different timers? You could just use one and reset it between stages, right?
+
+ - Unclear naming conventions can snowball, like in StageOnePositionsRight. I'm fairly certain I know what this is doing because we talked about it in class, but if we had not, it would probably take me a small while to figure out what its purpose is. Comments comments comments! Leave comments!
+
+ - Fields at the top could be grouped by relevant categories maybe
+
+ - Yay constants! Few magic numbers, nice. I assume the ones in StageOnePositionsRight were temporary, it seems like that whole thing was headed toward Constants.
+
+ - All control statements have curly braces, even ones that only contain one statement. I love to see it
+
