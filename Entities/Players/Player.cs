@@ -91,7 +91,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 ChangePose(KirbyPose.FreeFall);
             }
             SetDirectionRight();
-            ChangeToNormalMovement();
             attack?.EndAttack();
             attack = null;
         }
@@ -676,6 +675,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             if (CanControl())
             {
+                ChangeToNormalMovement();
                 if (_game.Level.atDoor(GetKirbyPosition()))
                 {
                     SoundManager.Play("enterdoor");
