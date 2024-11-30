@@ -41,6 +41,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public bool CollisionActive { get; private set; } = true;
         public bool DEAD { get; private set; } = false;
         private int deathCounter = 0;
+        public bool facingLeftWall { get; private set; } = false;
+        public bool facingRightWall { get; private set; } = false;
         // IsActive is false after a player's death animation finishes, and is true again any time they respawn
         public bool IsActive { get; private set; } = true;
 
@@ -434,9 +436,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if (CanControl())
             {
                 SetDirectionLeft();
+                facingRightWall = false;
                 movement.Walk(state.IsLeft());
                 //check if kirby should change pose
-                if (state.CanMove())
+                if (state.CanMove() && !facingLeftWall)
                 {
                     ChangePose(KirbyPose.Walking);
                 }
@@ -449,8 +452,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 SetDirectionRight();
                 movement.Walk(state.IsLeft());
+                facingLeftWall = false;
                 //walk connot override walking, jumping, floating, crouching, and attack
-                if (state.CanMove())
+                if (state.CanMove() && !facingRightWall)
                 {
                     ChangePose(KirbyPose.Walking);
                 }
@@ -501,8 +505,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if (CanControl())
             {
                 SetDirectionLeft();
+                facingRightWall = false;
                 movement.Run(state.IsLeft());
-                if (state.CanMove())
+                if (state.CanMove() && !facingLeftWall)
                 {
                     DashEffects();
                     ChangePose(KirbyPose.Running);
@@ -514,8 +519,9 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if (CanControl())
             {
                 SetDirectionRight();
+                facingLeftWall = false;
                 movement.Run(state.IsLeft());
-                if (state.CanMove())
+                if (state.CanMove() && !facingRightWall)
                 {
                     DashEffects();
                     ChangePose(KirbyPose.Running);
@@ -687,8 +693,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
             
             isAttacking = true;
-
-            
         }
 
         private void SetNewAttack(PlayerAttack playerAttack)
@@ -1128,7 +1132,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void RightCollisionWithBlock(Rectangle intersection)
         {
             // ensures Kirby pose is unchanged when floating and jumping
-            if (!state.IsFloating() && !state.IsJumping())
+            if (!state.IsFloating() && !state.IsJumping() && !state.IsFalling())
             {
                 ChangePose(KirbyPose.Standing);
             }
@@ -1139,12 +1143,16 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 ChangePose(KirbyPose.WallSquish);
             }
             movement.AdjustFromRightCollisionBlock(intersection);
+            if (!state.IsLeft())
+            {
+                facingRightWall = true;
+            }
         }
         //kirby collides with the left side of a block
         public void LeftCollisionWithBlock(Rectangle intersection)
         {
             // ensures Kirby pose is unchanged when floating and jumping
-            if (!state.IsFloating() && !state.IsJumping())
+            if (!state.IsFloating() && !state.IsJumping() && !state.IsFalling())
             {
                 ChangePose(KirbyPose.Standing);
             }
@@ -1155,6 +1163,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 ChangePose(KirbyPose.WallSquish);
             }
             movement.AdjustFromLeftCollisionBlock(intersection);
+            if (state.IsLeft())
+            {
+                facingLeftWall = true;
+            }
         }
 
         public void TopCollisionWithBlock(Rectangle intersection)
