@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
 using KirbyNightmareInDreamLand.Entities.Players;
 using System.Runtime.Serialization;
+using System.Diagnostics;
+using System.Linq;
 
 namespace KirbyNightmareInDreamLand.UI
 {
@@ -104,7 +106,7 @@ namespace KirbyNightmareInDreamLand.UI
                 }
 
                 // Update positions for active powerup cards
-                foreach (var powerupKey in powerupActive.Keys)
+                foreach (string powerupKey in powerupActive.Keys)
                 {
                     UpdatePowerupPosition(powerupKey);
                 }
@@ -114,7 +116,7 @@ namespace KirbyNightmareInDreamLand.UI
         public void ActivatePowerup(string powerupKey)
         {
             string oldPowerUp = "nor";
-            foreach (var key in powerupActive.Keys)
+            foreach (string key in powerupActive.Keys)
             {
                 if (powerupActive[key] == true)
                 {
@@ -122,10 +124,10 @@ namespace KirbyNightmareInDreamLand.UI
                 }
             }
 
-            if(!powerupKey.Equals(oldPowerUp))
+            if(!powerupKey.Equals(oldPowerUp) && powerupActive.Keys.Contains(powerupKey)) // be careful setting dictionary entries of keys you aren't sure exist!! it can make new entries!! this caused issues when a player got a power while another player was in mouthful state, because it made a new entry for mouthful but not in every dictionary
             {
                 // Deactivate all powerups first
-                foreach (var key in powerupActive.Keys)
+                foreach (string key in powerupActive.Keys)
                 {
                     powerupActive[key] = false;
                 }
@@ -139,7 +141,7 @@ namespace KirbyNightmareInDreamLand.UI
 
         private void DeactivateAllPowerups()
         {
-            foreach (var key in powerupActive.Keys)
+            foreach (string key in powerupActive.Keys)
             {
                 powerupActive[key] = false;
             }
@@ -204,7 +206,7 @@ namespace KirbyNightmareInDreamLand.UI
             {
                 if (targetPlayer != null)
                 {
-                    foreach (var powerupKey in powerupPositions.Keys)
+                    foreach (string powerupKey in powerupPositions.Keys)
                     {
                         if (powerupActive[powerupKey])
                         {

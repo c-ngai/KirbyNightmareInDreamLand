@@ -417,8 +417,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #region Movement
         public void GoToRoomSpawn()
         {
-            movement.GoToRoomSpawn();
-            ChangePose(KirbyPose.Standing);
+            movement.GoToRoomSpawn(this, playerIndex);
             if (!IsActive && (lives > 0 || _game.Level.CurrentRoom.Name == "hub"))
             {
                 if (DEAD && lives > 0)
@@ -668,13 +667,14 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             if (CanControl())
             {
-                ChangeToNormalMovement();
                 if (_game.Level.atDoor(GetKirbyPosition()))
                 {
+                    ChangeToNormalMovement();
+                    movement.StopMovement();
                     SoundManager.Play("enterdoor");
                     ChangePose(KirbyPose.EnterDoor);
+                    _game.Level.EnterDoorAt(GetKirbyPosition());
                 }
-                _game.Level.EnterDoorAt(GetKirbyPosition());
             }
         }
         #endregion
@@ -927,8 +927,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     playerSprite.Draw(movement.GetPosition(), spriteBatch);
                 }
 
-                // Draw an arrow pointing to this player if off screen IF this is not the player of the current view
-                if (playerIndex != _game.CurrentCamera)
+                // Draw an arrow pointing to this player if off screen IF this is not the player of the current view (and if not in a menu room)
+                if (playerIndex != _game.CurrentCamera && !_game.Level.InMenuRoom())
                 {
                     DrawArrow(spriteBatch);
                 }

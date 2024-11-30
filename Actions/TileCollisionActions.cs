@@ -114,11 +114,11 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 star.FloorBounce();
             }
-            else if (object1 is KirbyBriefcase briefcase)
+            else if (object1 is KirbyBriefcase briefcase && briefcase.Velocity.Y > 0)
             {
                 briefcase.EndAttack();
             }
-            else if (object1 is EnemyBriefcase enemyBriefcase)
+            else if (object1 is EnemyBriefcase enemyBriefcase && enemyBriefcase.Velocity.Y > 0)
             {
                 enemyBriefcase.EndAttack();
             }

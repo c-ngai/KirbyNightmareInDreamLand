@@ -6,23 +6,28 @@ namespace KirbyNightmareInDreamLand.Commands
 {
     public class GraphicsToggleSplitscreenCommand : ICommand
     {
-        Game1 game;
-        GraphicsDeviceManager graphics;
+        private static Game1 game = Game1.Instance;
+        private static GraphicsDeviceManager graphics = game.Graphics;
         public GraphicsToggleSplitscreenCommand()
         {
-            this.game = Game1.Instance;
-            this.graphics = game.Graphics;
+
         }
 
         public void Execute()
         {
-            game.SPLITSCREEN_MODE = !game.SPLITSCREEN_MODE;
+            if (game.SPLITSCREEN_AVAILABLE) {
+                game.SPLITSCREEN_MODE = !game.SPLITSCREEN_MODE;
+            }
 
-            
+            UpdateSplitscreenScaling();
+        }
+
+        public static void UpdateSplitscreenScaling()
+        {
             if (game.IS_FULLSCREEN)
             {
                 // When toggling ON splitscreen while in fullscreen mode
-                if (game.SPLITSCREEN_MODE)
+                if (game.SPLITSCREEN_MODE && game.SPLITSCREEN_AVAILABLE)
                 {
                     // If the window size is not already a multiple of twice the game size (2x, 4x, 6x, etc)
                     if ((game.WINDOW_WIDTH / Constants.Graphics.GAME_WIDTH) % 2 != 0)
@@ -52,7 +57,7 @@ namespace KirbyNightmareInDreamLand.Commands
             }
 
             // When toggling ON splitscreen while NOT in fullscreen mode
-            else if (game.SPLITSCREEN_MODE)
+            else if (game.SPLITSCREEN_MODE && game.SPLITSCREEN_AVAILABLE)
             {
                 // If the window size is not already a multiple of twice the game size (2x, 4x, 6x, etc)
                 if ((game.WINDOW_WIDTH / Constants.Graphics.GAME_WIDTH) % 2 != 0)
@@ -77,8 +82,7 @@ namespace KirbyNightmareInDreamLand.Commands
                 graphics.PreferredBackBufferHeight = game.WINDOW_HEIGHT;
                 graphics.ApplyChanges();
             }
-            
-            
         }
+
     }
 }

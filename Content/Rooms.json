@@ -863,7 +863,7 @@
 
         "Foreground sprite": "Game_over_foreground",
         "Background sprite": "Game_over_background",
-        "Tilemap": "room1_tileset",
+        "Tilemap": "game_over_tileset",
 
         "Song": "song_gameover",
 
@@ -882,7 +882,7 @@
 
         "Foreground sprite": "Winning_background",
         "Background sprite": "",
-        "Tilemap": "room1_tileset",
+        "Tilemap": "game_over_tileset",
 
         "Song": "song_victorydancelong",
 

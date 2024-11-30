@@ -68,6 +68,7 @@ namespace KirbyNightmareInDreamLand
         public int WINDOW_YOFFSET { get; set; }
         public int MAX_WINDOW_WIDTH { get; set; }
         public int MAX_WINDOW_WIDTH_SPLITSCREEN { get; set; }
+        public bool SPLITSCREEN_AVAILABLE { get; set; }
         public int TARGET_FRAMERATE { get; set; }
         public bool PAUSED = false;
 
@@ -295,7 +296,7 @@ namespace KirbyNightmareInDreamLand
             base.Draw(gameTime);
 
 
-            if (SPLITSCREEN_MODE)
+            if (SPLITSCREEN_MODE && SPLITSCREEN_AVAILABLE)
             {
                 for (int i = 0; i < Constants.Game.MAXIMUM_PLAYER_COUNT; i++)
                 {

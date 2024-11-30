@@ -311,7 +311,7 @@ namespace KirbyNightmareInDreamLand
             // Bottom side
             spriteBatch.Draw(LevelLoader.Instance.Borders, new Rectangle(0, _game.WINDOW_YOFFSET + _game.WINDOW_HEIGHT, _game.WINDOW_WIDTH + 2 * _game.WINDOW_XOFFSET, _game.WINDOW_YOFFSET), color);
 
-            if (_game.SPLITSCREEN_MODE)
+            if (_game.SPLITSCREEN_MODE && _game.SPLITSCREEN_AVAILABLE)
             {
                 int scale = _game.WINDOW_HEIGHT / Constants.Graphics.GAME_HEIGHT / 2;
                 Rectangle line = new Rectangle(
