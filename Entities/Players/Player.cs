@@ -966,7 +966,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     //spriteBatch.DrawString(LevelLoader.Instance.Font, isTransitioningAttack.ToString(), position2, Color.Black);
                     //spriteBatch.DrawString(LevelLoader.Instance.Font, GetKirbyVelocity().X.ToString(), position1, Color.Black);
                     //spriteBatch.DrawString(LevelLoader.Instance.Font, GetKirbyVelocity().Y.ToString(), position2, Color.Black);
-                    //GameDebug.Instance.DrawPoint(spriteBatch, GetKirbyPosition() + GetKirbyVelocity() * 8, Color.Magenta, 1f);
+                    GameDebug.Instance.DrawPoint(spriteBatch, GetKirbyPosition() + GetKirbyVelocity() * 8, Color.Magenta, 1f);
                 }
 
 

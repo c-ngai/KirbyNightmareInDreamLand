@@ -458,6 +458,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/Kirby/kirby1_normal.png
 
+#begin Images/Kirby/kirby1_professor.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=0,219,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Kirby/kirby1_professor.png
+
 #begin Images/Kirby/kirby1_spark.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -506,6 +518,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/Kirby/kirby2_normal.png
 
+#begin Images/Kirby/kirby2_professor.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=0,219,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Kirby/kirby2_professor.png
+
 #begin Images/Kirby/kirby2_spark.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -553,6 +577,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/Kirby/kirby3_normal.png
+
+#begin Images/Kirby/kirby3_professor.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=0,219,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Kirby/kirby3_professor.png
 
 #begin Images/Kirby/kirby3_spark.png
 /importer:TextureImporter
