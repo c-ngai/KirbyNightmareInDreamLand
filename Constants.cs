@@ -320,6 +320,7 @@ namespace KirbyNightmareInDreamLand
             public static Vector2 SUITCASE_EXPLODE_OFFSET = new Vector2(-SUITCASE_EXPLODE_WIDTH / 2, -SUITCASE_EXPLODE_HEIGHT / 2);
 
             public static int BRIEFCASE_WINDUP_FRAMES = 8;
+            public static int ENEMY_BRIEFCASE_WINDUP_FRAMES = 10;
             public static int BRIEFCASE_EXPLODE_COLLISION_FRAMES = 5;
         }
         #endregion
@@ -416,6 +417,10 @@ namespace KirbyNightmareInDreamLand
             public const float JUMP_VELOCITY = 2.5f;
             public const float FORWARD_MOVEMENT = 0.5f;
             public const float DEAD_FRAMES = 20;
+            public const int WALK_MIN_FRAMES = 60;
+            public const int WALK_MAX_FRAMES = 180;
+            public static Vector2 BRIEFCASE_OFFSET_RIGHT = new Vector2(0, -20);
+            public static Vector2 BRIEFCASE_OFFSET_LEFT = new Vector2(-0, -20);
         }
 
         #endregion
