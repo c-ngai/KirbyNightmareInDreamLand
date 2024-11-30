@@ -498,8 +498,8 @@
                 "TileX": 36,
                 "TileY": 6,
                 "DestinationRoom": "hub",
-                "DestinationTileX": 10,
-                "DestinationTileY": 13,
+                "DestinationTileX": 14,
+                "DestinationTileY": 18,
                 "DrawDoorStars": true,
                 "IsBigDoor": false
             },

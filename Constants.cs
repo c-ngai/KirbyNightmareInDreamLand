@@ -94,6 +94,9 @@ namespace KirbyNightmareInDreamLand
             public static Vector2 ROOM1_SPAWN_POINT = new Vector2(2, 4);
             public static Vector2 HUB_SPAWN_POINT = new Vector2(2, 7);
             public static Vector2 GAME_OVER_SPAWN_POINT = new Vector2(2, 7);
+            public static Vector2 HUB_DOOR_1_SPAWN_POINT = new Vector2(120, 270);
+            public static Vector2 HUB_DOOR_2_SPAWN_POINT = new Vector2(250, 300);
+
 
         }
         #region  Collision
@@ -473,6 +476,12 @@ namespace KirbyNightmareInDreamLand
             public const int HEALTH_INIT_X = 104;
             public const int HEALTH_Y = 146;
             public const int HEALTH_NEXT_X = 8;
+        }
+
+        public class Hub
+        {
+            public static Vector2 DRAW_HUB_DOOR_OFFSET = new Vector2(0, -8);
+            public static Vector2 DRAW_HUB_DOOR_SIGN_OFFSET = new Vector2(2, -24);
         }
 
         public class RoomStrings

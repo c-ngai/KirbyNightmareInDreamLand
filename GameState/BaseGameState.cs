@@ -23,6 +23,10 @@ namespace KirbyNightmareInDreamLand.GameState
         public Vector2 SpawnPoint { get; set; }
         private List<Sprite> TileSprites;
 
+        private static Vector2 drawHubDoorOffset = Constants.Hub.DRAW_HUB_DOOR_OFFSET;
+        private static Vector2 drawHubSignOffset = Constants.Hub.DRAW_HUB_DOOR_SIGN_OFFSET;
+
+
         private static Dictionary<int, ISprite> HubDoors = new Dictionary<int, ISprite> 
         {
             { 0 , SpriteFactory.Instance.CreateSprite("hub_door_1")},
@@ -46,10 +50,6 @@ namespace KirbyNightmareInDreamLand.GameState
             { 2 , SpriteFactory.Instance.CreateSprite("hub_door3_animation_close")},
             { 3 , SpriteFactory.Instance.CreateSprite("hub_door4_animation_close")}
         };
-
-        private static Vector2 drawHubDoorOffset = new Vector2(0, -8);
-
-        private static Vector2 drawHubSignOffset = new Vector2(2, -24);
 
         // Holds a sprite for kirby and each enemy type to draw at their spawn points in level debug mode.
         private Dictionary<string, Sprite> SpawnSprites = new Dictionary<string, Sprite>()
@@ -127,17 +127,17 @@ namespace KirbyNightmareInDreamLand.GameState
 
         public virtual void SelectQuitButton()
         {
-
+            // implimentation in game over and winning states 
         }
 
         public virtual void SelectContinueButton()
         {
-
+            // implimentation in game over and winning states 
         }
 
         public virtual void SelectButton()
         {
-
+            // implimentation in game over and winning states 
         }
 
         // only draw foreground is not implemented in the base class 
@@ -225,6 +225,18 @@ namespace KirbyNightmareInDreamLand.GameState
                         door_animation.Value.Update();
                     }
                 }
+            }
+        }
+
+        public void ResetHubDoorAnimations()
+        {
+            foreach (KeyValuePair<int, ISprite> door_animation in OpenHubDoorAnimations)
+            {                
+                door_animation.Value.ResetAnimation();                
+            }
+            foreach (KeyValuePair<int, ISprite> door_animation in CloseHubDoorAnimations)
+            {
+                door_animation.Value.ResetAnimation();
             }
         }
 
