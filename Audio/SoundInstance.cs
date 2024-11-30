@@ -1,17 +1,4 @@
-﻿using KirbyNightmareInDreamLand.Entities.Players;
-using KirbyNightmareInDreamLand.Sprites;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using static KirbyNightmareInDreamLand.Constants;
+﻿using Microsoft.Xna.Framework.Audio;
 
 namespace KirbyNightmareInDreamLand.Audio
 {
@@ -20,48 +7,47 @@ namespace KirbyNightmareInDreamLand.Audio
         public SoundEffectInstance soundEffectInstance;
         public SoundEndBehavior soundEndBehavior;
         public SoundEffectInstance nextSound;
+        public string name;
 
         public bool isPlaying;
         public bool inLoopSection;
-        public bool DELETE_ME;
+        public bool paused;
+        public bool deleteMe;
         public bool temp;
 
-        public SoundInstance(Sound sound, bool _temp)
+        public SoundInstance(Sound sound, bool isTemporary)
         {
-            // Create SoundEffectInstances from the SoundEffects in the passed Sound data
+            // create SoundEffectInstances from the SoundEffects in the passed Sound data
             soundEffectInstance = sound.soundEffect.CreateInstance();
             soundEndBehavior = sound.soundEndBehavior;
             nextSound = sound.nextSound?.CreateInstance();
+            name = sound.name;
 
-            // Initialize booleans
+            // initialize booleans
             isPlaying = false;
             inLoopSection = false;
-            DELETE_ME = false;
-            temp = _temp;
+            paused = false;
+            deleteMe = false;
+            temp = isTemporary;
 
-            // If this sound loops, set the loop behavior for the SoundEffectInstance to true
+            // if this sound loops, set the loop behavior for the SoundEffectInstance to true
             if (soundEndBehavior == SoundEndBehavior.Loop)
             {
                 soundEffectInstance.IsLooped = true;
             }
-            // If this sound loops after an intro, set the loop behavior for the nextSound SoundEffectInstance to true
+            // if this sound loops after an intro, set the loop behavior for the nextSound SoundEffectInstance to true
             else if (soundEndBehavior == SoundEndBehavior.LoopNext)
             {
                 nextSound.IsLooped = true;
             }
-
-            // Add reference to self to the sound instances list in SoundManager
-            SoundManager.SoundInstances.Add(this);
         }
-
-
 
         public void Update()
         {
-            // If the sound has finished playing
+            // if the sound has finished playing
             if (isPlaying && !inLoopSection && soundEffectInstance.State == SoundState.Stopped)
             {
-                // If soundEndBehavior is PlayNext, then play the next sound
+                // if soundEndBehavior is PlayNext, then play the next sound
                 if (soundEndBehavior == SoundEndBehavior.LoopNext)
                 {
                     nextSound.Play();
@@ -70,12 +56,17 @@ namespace KirbyNightmareInDreamLand.Audio
                 // If this is a temporary sound (automatically generated from SoundManager.Play), flag self for deletion
                 if (temp)
                 {
-                    DELETE_ME = true;
+                    deleteMe = true;
                 }
             }
+
+            // update pitch
+            soundEffectInstance.Pitch = SoundManager.pitch;
+            if (nextSound != null)
+            {
+                nextSound.Pitch = SoundManager.pitch;
+            }
         }
-
-
 
         public void Play()
         {
@@ -84,8 +75,6 @@ namespace KirbyNightmareInDreamLand.Audio
             soundEffectInstance.Play();
         }
 
-
-
         public void Stop()
         {
             soundEffectInstance.Stop();
@@ -93,13 +82,37 @@ namespace KirbyNightmareInDreamLand.Audio
             isPlaying = false;
         }
 
+        public void Pause()
+        {
+            if (isPlaying)
+            {
+                soundEffectInstance.Pause();
+                nextSound?.Pause();
+                paused = true;
+            }
+        }
 
+        public void Resume()
+        {
+            if (paused)
+            {
+                if (inLoopSection)
+                {
+                    nextSound?.Resume();
+                }
+                else
+                {
+                    soundEffectInstance.Resume();
+                }
+                paused = false;
+            }
+        }
 
         public void Dispose()
         {
             soundEffectInstance.Dispose();
             nextSound?.Dispose();
-            DELETE_ME = true;
+            deleteMe = true;
         }
 
     }

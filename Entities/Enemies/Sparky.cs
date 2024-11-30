@@ -8,6 +8,8 @@ using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 using KirbyNightmareInDreamLand.Projectiles;
 using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -23,29 +25,51 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public Sparky(Vector2 startPosition) : base(startPosition, EnemyType.Sparky)
         {
             //initialize to hop
-            stateMachine.ChangePose(EnemyPose.Hop);
-            ChangeState(new SparkyPause1State(this)); // Set initial state
-            yVel = 0;
-            xVel = Constants.Sparky.HOP_SPEED;
+            //stateMachine.ChangePose(EnemyPose.Hop);
+            //ChangeState(new SparkyPause1State(this)); // Set initial state
+            //velocity.Y = 0;
+            //velocity.X = Constants.Sparky.HOP_SPEED;
+            affectedByGravity = true;
+            gravity = Constants.Sparky.GRAVITY;
         }
+
+        public override void Spawn()
+        {
+            base.Spawn();
+            stateMachine.ChangePose(EnemyPose.Hop);
+            currentState = new SparkyPauseState(this);
+        }
+
+        public override void TakeDamage(Rectangle intersection, Vector2 positionOfDamageSource)
+        {
+            base.TakeDamage(intersection, positionOfDamageSource);
+            sparkyPlasma?.EndAttack();
+        }
+
+
+        public override void GetInhaled(Rectangle intersection, IPlayer player)
+        {
+            base.GetInhaled(intersection, player);
+            sparkyPlasma?.EndAttack();
+        }
+
+
+        public override void Move()
+        {
+            base.Move();
+            velocity.X = stateMachine.IsLeft() ? -Constants.Sparky.HOP_SPEED : Constants.Sparky.HOP_SPEED;
+        }
+
 
         public override void Jump()
         {
             if (!isJumping)
             {
                 isJumping = true;
-
-                if (isTallJump)
-                {
-                    yVel = -Constants.Sparky.TALL_JUMP_VELOCITY;
-                } else
-                {
-                    yVel = -Constants.Sparky.SHORT_JUMP_VELOCITY;
-                }
+                isTallJump = random.Next(0, 3) == 0; // one in three chance for a jump to be a tall jump
+                velocity.Y = isTallJump ? -Constants.Sparky.TALL_JUMP_VELOCITY : -Constants.Sparky.SHORT_JUMP_VELOCITY;
                 isTallJump = !isTallJump;
             }
-
-            Move();
         }
 
         public override Vector2 CalculateRectanglePoint(Vector2 pos)
@@ -62,18 +86,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.ENEMY_WIDTH, Constants.HitBoxes.ENEMY_HEIGHT);
         }
         
-         public override void Update(GameTime gameTime)
-         {
-             if (!isDead)
-             {
-                 IncrementFrameCounter();
-                 currentState.Update();
-                 UpdateTexture();
-                 enemySprite.Update();
-
-                Fall();
-                GetHitBox();            
-                        
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime); 
+            
+            if (active)
+            {            
                  // Handle the beam if active
                  if (isPlasmaActive)
                  {
@@ -83,38 +101,45 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                         sparkyPlasma.EndAttack();
                         isPlasmaActive = false;
                      }
-                 } 
-             }
+                 }
+            }
         }
 
         public override void Attack()
-         {
+        {
              if (!isPlasmaActive)
              {
                 sparkyPlasma = new SparkyPlasma(position);
                 isPlasmaActive = true;
              }
-         }
+        }
 
         public override void BottomCollisionWithBlock(Rectangle intersection)
         {
-            isFalling = false;
+            base.BottomCollisionWithBlock(intersection);
+            
             isJumping = false;
-            position.Y = intersection.Y;
 
             // Note (Mark) THIS IS A BIT JANK
             // Basically: if colliding with a block from above, change to walking state if jumping
-            if (currentState.GetType().Equals(typeof(SparkyJumpState))) {
-                if (isTallJump)
-                {
-                    ChangeState(new SparkyPause1State(this));
-                }
-                else
-                {
-                    ChangeState(new SparkyPause2State(this));
-                }
+            if (currentState.GetType().Equals(typeof(SparkyJumpState)))
+            {
+                ChangeState(new SparkyPauseState(this));
             }
-            yVel = 0;
+        }
+
+        public override void BottomCollisionWithPlatform(Rectangle intersection)
+        {
+            base.BottomCollisionWithPlatform(intersection);
+
+            isJumping = false;
+
+            // Note (Mark) THIS IS A BIT JANK
+            // Basically: if colliding with a block from above, change to walking state if jumping
+            if (currentState.GetType().Equals(typeof(SparkyJumpState)))
+            {
+                ChangeState(new SparkyPauseState(this));
+            }
         }
 
         public override void AdjustOnSlopeCollision(Tile tile, float slope, float yIntercept)
@@ -138,21 +163,24 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                     // TODO: remove band-aid. waddle doo is always still inside the slope on the first frame of his jump, but he shouldn't be. check the order that velocity and position changes happen. position should change by velocity ONCE at the end of an update
                     if (currentState.GetType().Equals(typeof(SparkyJumpState)) && frameCounter > 0)
                     {
-                        if (isTallJump)
-                        {
-                            ChangeState(new SparkyPause1State(this));
-                        }
-                        else
-                        {
-                            ChangeState(new SparkyPause2State(this));
-                        }
+                        ChangeState(new SparkyPauseState(this));
                     }
-                    yVel = 0;
+                    velocity.Y = 0;
                 }
                 //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
             }
         }
 
+        public override void Dispose()
+        {
+            base.Dispose();
+            ObjectManager.Instance.RemoveDynamicObject(sparkyPlasma);
+        }
+
+        public override KirbyType PowerType()
+        {
+            return KirbyType.Spark;
+        }
 
     }
 }

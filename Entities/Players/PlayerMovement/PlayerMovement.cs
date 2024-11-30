@@ -7,6 +7,8 @@ using KirbyNightmareInDreamLand.Levels;
 using System.Diagnostics;
 using System;
 using KirbyNightmareInDreamLand.Particles;
+using static KirbyNightmareInDreamLand.Constants;
+using System.Xml.Linq;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -16,58 +18,87 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //seperate movement and state 
         //make these #define
 
-        protected float yVel = 0;
-        protected float xVel = 0;
+        protected Vector2 position;
+        protected Vector2 velocity;
+
         protected float walkingVel = Constants.Physics.WALKING_VELOCITY;
         protected float runningVel = Constants.Physics.RUNNING_VELOCITY;
         protected float gravity = Constants.Physics.GRAVITY;
-        protected float dt = Constants.Physics.DT;
+        protected float terminalVelocity = Constants.Physics.TERMINAL_VELOCITY;
+        protected float groundCollisionOffset = Constants.Collision.GROUND_COLLISION_OFFSET;
         protected float damageVel = Constants.Physics.DAMAGE_VELOCITY;
         protected float ceiling = Constants.Kirby.CEILING;
-        public ITimeCalculator timer;
+        private ITimeCalculator timer;
         protected bool landed = true;
+        public bool onSlope { get; private set; }
 
         private int levelBoundsLeft =  Constants.Kirby.BOUNDS;
         private int levelBoundsRight = Constants.Kirby.BOUNDS * -1;
 
-        protected Vector2 position;
         //constructor
-        public PlayerMovement(Vector2 pos)
+        public PlayerMovement(Vector2 pos, Vector2 vel)
         {
-            timer = new TimeCalculator();
             position = pos;
+            velocity = vel;
+            onSlope = false;
         }
         public Vector2 GetPosition()
         {
             return position;
         }
+        public Vector2 GetVelocity()
+        {
+            return velocity;
+        }
 
         public void StopMovement()
         {
-            xVel = 0;
+            velocity.X = 0;
         }
-        public void DeathMovement()
+        public void CancelVelocity()
         {
-            xVel = 0;
-            yVel = 0;
+            velocity.X = 0;
+            velocity.Y = 0;
         }
 
         public void GoToRoomSpawn()
         {
             position = Game1.Instance.Level.SpawnPoint;
+            CancelVelocity();
+        }
+
+        public void SetOnSlope(bool isOnSlope)
+        {
+            onSlope = isOnSlope;
         }
 
         #region Walking
         public virtual void Walk(bool isLeft)
         {
-            xVel = isLeft ? walkingVel * -1 : walkingVel;
+            velocity.X += isLeft ? Constants.Physics.WALKING_ACCELLERATION * -1 : Constants.Physics.WALKING_ACCELLERATION;
+            if (velocity.X > Constants.Physics.WALKING_VELOCITY)
+            {
+                velocity.X = Constants.Physics.WALKING_VELOCITY;
+            }
+            else if (velocity.X < -Constants.Physics.WALKING_VELOCITY)
+            {
+                velocity.X = -Constants.Physics.WALKING_VELOCITY;
+            }
         }
         #endregion
 
         #region Running
         public virtual void Run(bool isLeft)
         {
-            xVel = isLeft ? runningVel * -1 : xVel = runningVel;
+            velocity.X += isLeft ? Constants.Physics.RUNNING_ACCELLERATION * -1 : Constants.Physics.RUNNING_ACCELLERATION;
+            if (velocity.X > Constants.Physics.RUNNING_VELOCITY)
+            {
+                velocity.X = Constants.Physics.RUNNING_VELOCITY;
+            }
+            else if (velocity.X < -Constants.Physics.RUNNING_VELOCITY)
+            {
+                velocity.X = -Constants.Physics.RUNNING_VELOCITY;
+            }
         }
         #endregion
 
@@ -92,19 +123,19 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             if (intersection.X <= position.X) 
             {
-                xVel = damageVel;
+                velocity.X = damageVel;
             }
             else
             {
-                xVel = damageVel * -1;
+                velocity.X = damageVel * -1;
             }
 
-            yVel = 0;
+            velocity.Y = 0;
         }
         //starts floating pose animation
         public void DeathSpin()
         {
-            yVel = Constants.Physics.DEATH_VELOCITY;
+            velocity.Y = Constants.Physics.DEATH_VELOCITY;
             
         }
         #endregion
@@ -113,15 +144,49 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             //does nothing -- overwritten by other classes
         }
+
+        public void bounceJump()
+        {
+            landed = false;
+            velocity.Y = Constants.Physics.BOUNCE_VEL;
+        }
         #region Move Sprite
         //update kirby position in UI
-        public virtual void UpdatePosition(GameTime gameTime)
+        public virtual void UpdatePosition(Player kirby)
         {
-            yVel += gravity * dt;
-            
-            position.X += xVel;
-            position.Y += yVel; // + gravity * dt *dt *.5f;
+            // Apply gravity unless in DeathStun pose
+            if (kirby.state.GetPose() != KirbyPose.DeathStun)
+            {
+                velocity.Y += gravity;
+            }
+
+            if (velocity.Y > terminalVelocity && !kirby.DEAD)
+            {
+                velocity.Y = terminalVelocity;
+            }
+
+            DecelerateX(Constants.Physics.X_DECELERATION);
+
+            position.X += velocity.X;
+            position.Y += velocity.Y; // + gravity * dt *dt *.5f;
         }
+
+        public void DecelerateX(float deceleration)
+        {
+            if (velocity.X > 0)
+            {
+                velocity.X -= deceleration;
+            }
+            else if (velocity.X < 0)
+            {
+                velocity.X += deceleration;
+            }
+            if (velocity.X < deceleration / 2 && velocity.X > -deceleration / 2)
+            {
+                velocity.X = 0;
+            }
+        }
+
         public virtual void AdjustX(Player kirby)
         {
             //checks kirby wont go through the level bounds 
@@ -135,38 +200,40 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 position.X = Game1.Instance.Level.CurrentRoom.Width + levelBoundsRight;
             }
         }
-        public void FallOffScreenOne(Player kirby)
+
+        public static int callCount = 0;
+        public void FallOffScreenCollisionInactive(Player kirby)
         {
-            if(kirby.DEAD == true) // game over 
+            callCount++;
+            if (kirby.lives == 0) // game over 
             {
                 Game1.Instance.Level.GameOver();
-                kirby.FillFullHealth();
-            } else {
+                kirby.FillLives();
+            }
+            else {
+                //Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
+                //Game1.Instance.Level.ChangeToPlaying();
+
+                Game1.Instance.Level.NextRoom = Game1.Instance.Level.CurrentRoom.Name;
+                Game1.Instance.Level.NextSpawn = Game1.Instance.Level.CurrentRoom.SpawnPoint;
+                Game1.Instance.Level.ChangeToTransitionState();
                 kirby.RestartKirby();
-                Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
-                Game1.Instance.Level.ChangeToPlaying();
+                //Game1.Instance.Level.LoadRoom(Game1.Instance.Level.CurrentRoom.Name);
+                //Game1.Instance.Level.ChangeToPlaying();
+
+                Game1.Instance.Level.NextRoom = Game1.Instance.Level.CurrentRoom.Name;
+                Game1.Instance.Level.NextSpawn = Game1.Instance.Level.SpawnPoint;
+                Game1.Instance.Level.ChangeToTransitionState();
             }
         }
-        public void FallOffScreenTwo(Player kirby)
-        {
-            kirby.FallOffScreenDeath();
-
-        }
+   
         public virtual void AdjustY(Player kirby)
         {
             //dont go through the ceiling
-            if (position.Y < ceiling)
+            if (position.Y < ceiling && !kirby.DEAD)
             {
-                yVel = 0;
+                //velocity.Y = 0;
                 position.Y = ceiling;
-            }
-            if(position.Y > Game1.Instance.Level.CurrentRoom.Height)
-            {
-                if(kirby.CollisionActive){
-                    FallOffScreenTwo(kirby);
-                } else {
-                    FallOffScreenOne(kirby);
-                }
             }
         }
         //ensures sprite does not leave the window
@@ -175,11 +242,26 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             AdjustX(kirby);
             AdjustY(kirby);
         }
+
+        // Checks if Kirby has fallen below the death barrier (1 block below bottom of stage)
+        public void DeathBarrierCheck(Player kirby)
+        {
+            if (position.Y > Game1.Instance.Level.CurrentRoom.DeathBarrier)
+            {
+                // If Kirby was (previously) alive, kill him
+                if (!kirby.DEAD)
+                {
+                    kirby.Die();
+                }
+            }
+        }
+
         //updates position and adjusts frame. 
         public virtual void MovePlayer(Player kirby, GameTime gameTime)
         {
-            UpdatePosition(gameTime);
+            UpdatePosition(kirby);
             Adjust(kirby);
+            DeathBarrierCheck(kirby);
         }
         #endregion
         public void ChangeKirbyLanded(bool land)
@@ -190,49 +272,63 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #region TileCollision
         public virtual void AdjustFromBottomCollisionBlock(Rectangle intersection)
         {
-            yVel = 0;
-            position.Y = intersection.Y;
-            ChangeKirbyLanded(true);
+            velocity.Y = 0;
+            position.Y = (float)intersection.Y + groundCollisionOffset;
         }
 
         public virtual void AdjustFromRightCollisionBlock(Rectangle intersection)
         {
             position.X -= intersection.Width;
-            xVel = 0;
+            velocity.X = 0;
         }
 
         public virtual void AdjustFromLeftCollisionBlock(Rectangle intersection)
         {
             position.X += intersection.Width;
-            xVel = 0;
+            velocity.X = 0;
+        }
+
+        public virtual void AdjustFromTopCollisionBlock(Rectangle intersection)
+        {
+            position.Y += intersection.Height;
         }
 
         public void AdjustFromBottomCollisionPlatform(Rectangle intersection, IPlayerStateMachine state)
         {
             // Only adjust if kirby was moving downwards during the collision
-            if (yVel > 0 || state.GetPose() == KirbyPose.FreeFall || state.GetPose() == KirbyPose.JumpFalling)
+            if (velocity.Y > 0)
             {
-                position.Y = intersection.Y;
-                yVel = 0;
-                ChangeKirbyLanded(true);
+                velocity.Y = 0;
+                position.Y = (float)intersection.Y + groundCollisionOffset;
             }
         }
 
-        public void AdjustOnSlopeCollision(IPlayerStateMachine state, Tile tile, float slope, float yIntercept)
+        public void AdjustOnSlopeCollision(PlayerStateMachine state, Tile tile, float slope, float yIntercept, Player kirby)
         {
-            Rectangle intersection = tile.rectangle;
-            if (position.X > intersection.Left && position.X < intersection.Right)
-            {
-                float offset = position.X - intersection.X;
-
-                float kirbyAdjustment = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
-                if (position.Y > kirbyAdjustment || state.CanMove() ) // "is kirby moving on the ground in a way where we want him to stay locked on the ground"
+            // Only adjust if kirby was moving downwards during the collision
+            if (velocity.Y > 0)
+            { 
+                Rectangle intersection = tile.rectangle;
+                if (position.X > intersection.Left && position.X < intersection.Right)
                 {
-                    position.Y = kirbyAdjustment;
-                    yVel = Math.Abs(xVel); // If on a slope, set yVel to the absolute value of xVel so that kirby magnetizes down to the slope
-                    ChangeKirbyLanded(true);
+                    float offset = position.X - intersection.X;
+
+                    float kirbyAdjustment = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
+                    if (position.Y > kirbyAdjustment || state.CanMove()) // "is kirby moving on the ground in a way where we want him to stay locked on the ground"
+                    {
+                        position.Y = kirbyAdjustment;
+                        // needs this adjustment to ensure proper collision when non floating, if this is added when floating Kirby cannot float directly up when he's landed on the slope
+                        if (!kirby.state.IsFloating())
+                        {
+                            position.Y += groundCollisionOffset;
+                        }
+                        velocity.Y = Math.Abs(velocity.X); // If on a slope, set velocity.Y to the absolute value of velocity.X so that kirby magnetizes down to the slope
+                        ChangeKirbyLanded(true);
+                        kirby.HandleFreeFall();
+                    }
                 }
             }
+            onSlope = true;
         }
         #endregion
     }

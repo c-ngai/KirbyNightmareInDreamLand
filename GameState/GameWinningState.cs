@@ -1,4 +1,5 @@
 ﻿using System;
+using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Entities.Players;
 using KirbyNightmareInDreamLand.Sprites;
 using Microsoft.Xna.Framework;
@@ -8,29 +9,29 @@ namespace KirbyNightmareInDreamLand.GameState
 {
 	public class GameWinningState : BaseGameState
 	{
+        private Game1 _game;
         private ObjectManager _manager;
-        SpriteBatch spriteBatch;
         public Sprite currentButtonSprite;
         public Sprite selectQuitScreen;
         public Sprite selectContinueScreen;
 
-        private Vector2 kirbyStartRoomSpawn = Constants.Level.ROOM1_SPAWN_POINT;
+        private Vector2 kirbyHubRoomSpawn = Constants.Level.HUB_SPAWN_POINT;
         private string room1String = Constants.RoomStrings.ROOM_1;
         private Vector2 buttonPosition = Constants.ButtonLocations.LEVEL_COMPLETE_BUTTONS;
 
         public GameWinningState(Levels.Level _level) : base(_level)
         {
-
+            _game = Game1.Instance;
             _manager = Game1.Instance.manager;
-            spriteBatch = Game1.Instance._spriteBatch;
             selectContinueScreen = SpriteFactory.Instance.CreateSprite("Winning_continue_selected_button");
             selectQuitScreen = SpriteFactory.Instance.CreateSprite("Winning_quit_selected");
             currentButtonSprite = selectContinueScreen;
         }
 
-        public override void Draw()
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            DrawBackground(spriteBatch);
+            Camera camera = _game.cameras[_game.CurrentCamera];
+            DrawBackground(spriteBatch, camera);
             DrawForeground(spriteBatch);
             currentButtonSprite.Draw(buttonPosition, spriteBatch);
             foreach (IPlayer player in _manager.Players) player.Draw(spriteBatch);
@@ -60,26 +61,39 @@ namespace KirbyNightmareInDreamLand.GameState
         public override void SelectQuitButton()
         {
             currentButtonSprite = selectQuitScreen;
+            SoundManager.Play("movecursor");
         }
 
         public override void SelectContinueButton()
         {
             currentButtonSprite = selectContinueScreen;
+            SoundManager.Play("movecursor");
         }
 
         public override void SelectButton()
         {
+            SoundManager.Play("select");
             if (currentButtonSprite == selectQuitScreen)
             {               
                 Game1.Instance.Exit();
 
             }
             else
-            {        
-                level.NextRoom = room1String;
-                level.NextSpawn = kirbyStartRoomSpawn;
-                level.LoadRoom(level.NextRoom, level.NextSpawn); // load new room
-                level.ChangeToPlaying();
+            {
+                if(level.PreviousRoom == "room3")
+                {
+                    level.NextRoom = "hub";
+                    level.NextSpawn = null; //new Vector2(112, 270);
+                    // level.LoadRoom(level.NextRoom, level.NextSpawn); // load new room
+                    level.ChangeToTransitionState();
+                }
+                if (level.PreviousRoom == "level2_room3")
+                {
+                    level.NextRoom = "hub";
+                    level.NextSpawn = null; //new Vector2(112, 270);
+                    // level.LoadRoom(level.NextRoom, level.NextSpawn); // load new room
+                    level.ChangeToTransitionState();
+                }
             }
         }
 

@@ -4,15 +4,19 @@ using KirbyNightmareInDreamLand.Sprites;
 using System;
 using KirbyNightmareInDreamLand.StateMachines;
 using System.Runtime.InteropServices;
+using KirbyNightmareInDreamLand.Actions;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class SparkyPlasma : IProjectile, ICollidable
     {
-        private readonly Sprite projectileSprite;
+        public IPlayer player { get => null; } // this projectile never originates from a player
+        //private readonly Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;
         private int framesActive;
+        public bool CollisionActive { get; set; } = true;
         public bool IsActive { get; private set; } = true;
 
         public Vector2 Position
@@ -31,44 +35,44 @@ namespace KirbyNightmareInDreamLand.Projectiles
         {
             Position = startPosition;
             framesActive = 0;
-            projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_sparky_plasma");
-            ObjectManager.Instance.RegisterDynamicObject(this);
+            //projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_sparky_plasma");
+            ObjectManager.Instance.AddProjectile(this);
         }
 
-        public string GetObjectType()
+        public CollisionType GetCollisionType()
         {
-            return "EnemyAttack";
+            return CollisionType.EnemyAttack;
         }
 
         public void Update()
         {
             if (IsActive)
             {
-                projectileSprite.Update();
+                //projectileSprite.Update();
                 framesActive++;
 
-                if (IsDone())
+                if (framesActive >= Constants.Sparky.ATTACK_TIME)
                 {
                     EndAttack();
                 }
+            }
+            else
+            {
+                CollisionActive = false;
             }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (!IsActive)
-            {
-                ObjectManager.Instance.RemoveDynamicObject(this); 
-            }
 
         }
 
         public bool IsDone()
         {
-            return framesActive >= Constants.Sparky.ATTACK_TIME;
+            return !IsActive;
         }
 
-        public bool CollisionActive { get; set; } = true;
+        
 
         public virtual Vector2 CalculateRectanglePoint(Vector2 pos)
         {
@@ -91,8 +95,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public void EndAttack()
         {
             IsActive = false;  
-            CollisionActive = false;
-            ObjectManager.Instance.RemoveDynamicObject(this);         
+            CollisionActive = false;    
         }
     }
 }

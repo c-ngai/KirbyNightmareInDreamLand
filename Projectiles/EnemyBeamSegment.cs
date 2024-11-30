@@ -3,11 +3,14 @@ using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
 using System;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
+using KirbyNightmareInDreamLand.Actions;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class EnemyBeamSegment : IProjectile, ICollidable, IExplodable
     {
+        public IPlayer player { get => null; } // this projectile never originates from a player
         private Vector2 position; // acts as pivot point
         private Vector2 velocity;
         private int frameCount = 0;
@@ -25,16 +28,16 @@ namespace KirbyNightmareInDreamLand.Projectiles
             get => velocity;
             set => velocity = value;
         }
-        public string GetObjectType()
+        public CollisionType GetCollisionType()
         {
-            return "EnemyAttack";
+            return CollisionType.EnemyAttack;
         }
         public EnemyBeamSegment(Vector2 startPosition, Vector2 beamVelocity)
         {
             Position = startPosition;
             Velocity = beamVelocity;
             projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_waddledoo_beam");
-            ObjectManager.Instance.RegisterDynamicObject(this);
+            ObjectManager.Instance.AddProjectile(this);
         }
 
 
@@ -70,7 +73,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
         public bool IsDone()
         {
-            return true;
+            return !IsActive;
         }
 
         public bool CollisionActive { get; set; } = true;

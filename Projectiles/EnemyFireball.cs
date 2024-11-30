@@ -2,11 +2,14 @@
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
 using System;
+using KirbyNightmareInDreamLand.Actions;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class EnemyFireball : IProjectile, ICollidable, IExplodable
     {
+        public IPlayer player { get => null; } // this projectile never originates from a player
         private Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;
@@ -37,11 +40,11 @@ namespace KirbyNightmareInDreamLand.Projectiles
             Velocity = fireballDirection * Constants.EnemyFire.SPEED;
 
             projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_hothead_fireball");
-            ObjectManager.Instance.RegisterDynamicObject(this);
+            ObjectManager.Instance.AddProjectile(this);
         }
-        public string GetObjectType()
+        public CollisionType GetCollisionType()
         {
-            return "EnemyAttack";
+            return CollisionType.EnemyAttack;
         }
 
         public void Update()
@@ -51,6 +54,13 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 Position += Velocity;
 
                 projectileSprite.Update();
+
+                // Despawn if outside room
+                if (position.X < -16 || position.X > Game1.Instance.Level.CurrentRoom.Width + 16)
+                {
+                    IsActive = false;
+                    CollisionActive = false;
+                }
             }
 
         }
@@ -61,15 +71,11 @@ namespace KirbyNightmareInDreamLand.Projectiles
             {
                 projectileSprite.Draw(Position, spriteBatch);
             }
-            else
-            {
-                ObjectManager.Instance.RemoveDynamicObject(this); // Deregister if dead
-            }
         }
     
         public bool IsDone()
         {
-            return true;
+            return !IsActive;
         }
 
         public bool CollisionActive { get; set; } = true;

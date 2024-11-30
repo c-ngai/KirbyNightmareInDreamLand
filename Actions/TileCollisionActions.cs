@@ -2,200 +2,296 @@
 using KirbyNightmareInDreamLand.Entities.Players;
 using KirbyNightmareInDreamLand.Entities.Enemies;
 using KirbyNightmareInDreamLand.Projectiles;
-using KirbyNightmareInDreamLand.Collision;
-using System.Numerics;
 using KirbyNightmareInDreamLand.Levels;
-using System.Diagnostics;
 namespace KirbyNightmareInDreamLand.Actions
 {
     public class TileCollisionActions
     {
+        /** ICollidable objects colliding with blocks from different directions **/
+        #region blockCollisions
+        // bottom side of a ICollidable object colliding with a block
         public static void BottomBlockCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            string type = object1.GetObjectType();
-            if (type.Equals("Player"))
+            if (object1 is IPlayer player)
             {
-                Player player = (Player)object1;
                 player.BottomCollisionWithBlock(intersection);
             }
-            else if (type.Equals("Enemy"))
+            else if (object1 is IEnemy enemy && !enemy.IsBeingInhaled)
             {
-                Enemy enemy = (Enemy)object1;
                 enemy.BottomCollisionWithBlock(intersection);
             }
             else if (object1 is IExplodable projectile)
             {
                 projectile.EndAttack();
             }
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled)
+            {
+                star.FloorBounce();
+            }
         }
 
+        // right side of a ICollidable object colliding with a block
         public static void RightBlockCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            string type = object1.GetObjectType();
-            if (type.Equals("Player"))
+            if (object1 is IPlayer player)
             {
-                Player player = (Player)object1;
                 player.RightCollisionWithBlock(intersection);
             }
-            else if (type.Equals("Enemy"))
+            else if (object1 is IEnemy enemy && !enemy.IsBeingInhaled)
             {
-                Enemy enemy = (Enemy)object1;
-                enemy.ChangeDirection();
+                enemy.RightCollisionWithBlock(intersection);
             }
             else if (object1 is IExplodable projectile)
             {
                 projectile.EndAttack();
             }
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled)
+            {
+                star.WallRightBounce();
+            }
         }
 
+        // left side of a ICollidable object colliding with a block
         public static void LeftBlockCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            string type = object1.GetObjectType();
-            if (type.Equals("Player"))
+            if (object1 is IPlayer player)
             {
-                Player player = (Player)object1;
                 player.LeftCollisionWithBlock(intersection);
             }
-            else if (type.Equals("Enemy"))
+            else if (object1 is IEnemy enemy && !enemy.IsBeingInhaled)
             {
-                Enemy enemy = (Enemy)object1;
-                enemy.ChangeDirection();
+                enemy.LeftCollisionWithBlock(intersection);
             }
             else if (object1 is IExplodable projectile)
             {
                 projectile.EndAttack();
             }
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled)
+            {
+                star.WallLeftBounce();
+            }
+            // TODO: extra visual effect for demo day (stretch goal)
+            //else if (object1 is KirbyBriefcase sc)
+            //{
+            //    sc.Explode();
+            //}
         }
 
+        // top side of a ICollidable object colliding with a block
+        public static void TopBlockCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
+        {
+            if (object1 is IPlayer player)
+            {
+                player.TopCollisionWithBlock(intersection);
+            }
+            else if (object1 is IEnemy enemy && !enemy.IsBeingInhaled)
+            {
+                enemy.TopCollisionWithBlock(intersection);
+            }
+            else if (object1 is IExplodable projectile)
+            {
+                projectile.EndAttack();
+            }
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled)
+            {
+                star.CeilingBounce();
+            }
+        }
+        #endregion
+
+        // bottom side of a ICollidable object colliding with a platform
         public static void BottomPlatformCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            Player player = (Player)object1;
-            player.BottomCollisionWithPlatform(intersection);
-        }
-
-        public static void BottomAirCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
-        {
-            string type = object1.GetObjectType();
-
-            if (type.Equals("Player"))
+            if (object1 is IPlayer player)
             {
-                Player currentPlayer = (Player)object1;
-                currentPlayer.BottomCollisionWithAir(intersection);
-
-            } else if (type.Equals("Enemy"))
-
+                player.BottomCollisionWithPlatform(intersection);
+            }
+            else if (object1 is IEnemy enemy && !enemy.IsBeingInhaled)
             {
-                Enemy enemy = (Enemy)object1;
-                enemy.BottomCollisionWithAir(intersection);
+                enemy.BottomCollisionWithPlatform(intersection);
+            }
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled)
+            {
+                star.FloorBounce();
+            }
+            else if (object1 is KirbyBriefcase briefcase)
+            {
+                briefcase.EndAttack();
+            }
+            else if (object1 is EnemyBriefcase enemyBriefcase)
+            {
+                enemyBriefcase.EndAttack();
             }
         }
 
+        // enemy colliding with water (dies)
         public static void WaterCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
             Enemy enemy = (Enemy)object1;
-            enemy.TakeDamage(intersection);
+            enemy.TakeDamage(intersection, intersection.Center.ToVector2());
         }
 
+        /** ICollidable objects colliding with the different slope types **/
+        #region slopeCollisions
         public static void GentleLeftSlopeCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            string type = object1.GetObjectType();
+            CollisionType type = object1.GetCollisionType();
             Tile tile = (Tile)object2;
-            if (type.Equals("Player"))
+            if (type == CollisionType.Player)
             {
                 Player player = (Player)object1;
-            
+
                 player.CollisionWithGentle1LeftSlope(tile);
             }
-            else if (type.Equals("Enemy"))
+            else if (object1 is Enemy enemy && !enemy.IsBeingInhaled)
             {
-                Enemy enemy = (Enemy)object1;
-                enemy.AdjustGentle1SlopeLeftCollision(tile);
+                enemy.CollisionWithGentle1LeftSlope(tile);
+            }
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled)
+            {
+                star.FloorBounce();
+            }
+            else if (object1 is KirbyBriefcase sc)
+            {
+                sc.EndAttack();
+            }
+            else if (object1 is EnemyBriefcase en)
+            {
+                en.EndAttack();
             }
         }
 
         public static void GentleRightSlopeCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            string type = object1.GetObjectType();
+            CollisionType type = object1.GetCollisionType();
             Tile tile = (Tile)object2;
-            if (type.Equals("Player"))
+            if (type == CollisionType.Player)
             {
                 Player player = (Player)object1;
 
                 player.CollisionWithGentle1RightSlope(tile);
             }
-            else if (type.Equals("Enemy"))
+            else if (object1 is Enemy enemy && !enemy.IsBeingInhaled)
             {
-                Enemy enemy = (Enemy)object1;
-                enemy.AdjustGentle1SlopeRightCollision(tile);
+                enemy.CollisionWithGentle1RightSlope(tile);
+            }
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled)
+            {
+                star.FloorBounce();
+            }
+            else if (object1 is KirbyBriefcase sc)
+            {
+                sc.EndAttack();
+            }
+            else if (object1 is EnemyBriefcase en)
+            {
+                en.EndAttack();
             }
         }
 
         public static void MediumLeftSlopeCollison(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            string type = object1.GetObjectType();
+            CollisionType type = object1.GetCollisionType();
             Tile tile = (Tile)object2;
-            if (type.Equals("Player"))
+            if (type == CollisionType.Player)
             {
                 Player player = (Player)object1;
 
                 player.CollisionWithGentle2LeftSlope(tile);
             }
-            else if (type.Equals("Enemy"))
+            else if (object1 is Enemy enemy && !enemy.IsBeingInhaled)
             {
-                Enemy enemy = (Enemy)object1;
-                enemy.AdjustGentle2SlopeLeftCollision(tile);
+                enemy.CollisionWithGentle2LeftSlope(tile);
+            }
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled)
+            {
+                star.FloorBounce();
             }
         }
 
         public static void MediumRightSlopeCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            string type = object1.GetObjectType();
+            CollisionType type = object1.GetCollisionType();
             Tile tile = (Tile)object2;
-            if (type.Equals("Player"))
+            if (type == CollisionType.Player)
             {
                 Player player = (Player)object1;
 
                 player.CollisionWithGentle2RightSlope(tile);
             }
-            else if (type.Equals("Enemy"))
+            else if (object1 is Enemy enemy && !enemy.IsBeingInhaled)
             {
-                Enemy enemy = (Enemy)object1;
-                enemy.AdjustGentle2SlopeRightCollision(tile);
+                enemy.CollisionWithGentle2RightSlope(tile);
+            }
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled)
+            {
+                star.FloorBounce();
+            }
+            else if (object1 is KirbyBriefcase sc)
+            {
+                sc.EndAttack();
+            }
+            else if (object1 is EnemyBriefcase en)
+            {
+                en.EndAttack();
             }
         }
 
         public static void SteepLeftSlopeCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            string type = object1.GetObjectType();
+            CollisionType type = object1.GetCollisionType();
             Tile tile = (Tile)object2;
-            if (type.Equals("Player"))
+            if (type == CollisionType.Player)
             {
                 Player player = (Player)object1;
 
                 player.CollisionWithSteepLeftSlope(tile);
             }
-            else if (type.Equals("Enemy"))
+            else if (object1 is Enemy enemy && !enemy.IsBeingInhaled)
             {
-                Enemy enemy = (Enemy)object1;
-                enemy.AdjustSteepSlopeLeftCollision(tile);
+                enemy.CollisionWithSteepLeftSlope(tile);
+            }
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled)
+            {
+                star.FloorBounce();
+            }
+            else if (object1 is KirbyBriefcase sc)
+            {
+                sc.EndAttack();
+            }
+            else if (object1 is EnemyBriefcase en)
+            {
+                en.EndAttack();
             }
         }
 
         public static void SteepRightSlopeCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            string type = object1.GetObjectType();
+            CollisionType type = object1.GetCollisionType();
             Tile tile = (Tile)object2;
-            if (type.Equals("Player"))
+            if (type == CollisionType.Player)
             {
                 Player player = (Player)object1;
 
                 player.CollisionWithSteepRightSlope(tile);
             }
-            else if (type.Equals("Enemy"))
+            else if (object1 is Enemy enemy && !enemy.IsBeingInhaled)
             {
-                Enemy enemy = (Enemy)object1;
-                enemy.AdjustSteepSlopeRightCollision(tile);
+                enemy.CollisionWithSteepRightSlope(tile);
+            }
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled)
+            {
+                star.FloorBounce();
+            }
+            else if (object1 is KirbyBriefcase sc)
+            {
+                sc.EndAttack();
+            }
+            else if (object1 is EnemyBriefcase en)
+            {
+                en.EndAttack();
             }
         }
+        #endregion
     }
 }

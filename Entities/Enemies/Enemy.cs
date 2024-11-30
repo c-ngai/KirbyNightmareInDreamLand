@@ -10,6 +10,9 @@ using KirbyNightmareInDreamLand.Levels;
 using System.Diagnostics;
 using KirbyNightmareInDreamLand.Audio;
 using System.Threading.Tasks;
+using KirbyNightmareInDreamLand.Actions;
+using Microsoft.VisualBasic;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -17,43 +20,36 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
     {
         protected Vector2 position; //Where enemy is drawn on screen
         protected Vector2 spawnPosition; //Where enemy is first drawn on screen
+        protected Vector2 velocity;
+        protected float vibrate;
+
         protected int health; //Enemy health
-        protected bool isDead;  //If enemy is dead
+        protected bool active;  //If enemy is dead
         protected Sprite enemySprite;
-        protected EnemyStateMachine stateMachine;
+        public Random random;
+        public EnemyStateMachine stateMachine { get;  private set; }
         protected IEnemyState currentState; // Current state of the enemy
         protected string oldState; //Previous state
         protected int frameCounter; // Frame counter for tracking state duration
-        protected float xVel;
-        protected float yVel;
         protected float gravity;
-        protected Boolean isFalling;
+        protected bool affectedByGravity;
+        protected bool isFalling;
+        protected bool isBeingInhaled;
 
-        public bool CollisionActive { get; set; } = true;
+        public bool CollisionActive { get; set; }
 
         protected Enemy(Vector2 startPosition, EnemyType type)
         {
-            //Initialize all variables
-            position = startPosition;
             spawnPosition = startPosition;
-            health = Constants.Enemies.HEALTH;
-            isDead = false;
-            xVel = 0;
-            yVel = 0;
-            isFalling = true;
             gravity = Constants.Physics.GRAVITY;
             stateMachine = new EnemyStateMachine(type);
-            oldState = string.Empty;
-            currentState = new WaddleDooWalkingState(this); // Initialize with the walking state
-            ObjectManager.Instance.RegisterDynamicObject(this);
-            currentState.Enter();
-            frameCounter = 0;
-            UpdateTexture();
+            random = new Random();
+            ObjectManager.Instance.AddEnemy(this);
         }
 
-        public string GetObjectType()
+        public CollisionType GetCollisionType()
         {
-            return Constants.CollisionObjectType.ENEMY;
+            return CollisionType.Enemy;
         }
 
         public Vector2 Position
@@ -73,36 +69,35 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             set => health = value;
         }
 
-        public bool IsDead
+        public bool Active
         {
-            get => isDead;
-            set => isDead = value;
+            get => active;
+            set => active = value;
+        }
+
+        public bool IsBeingInhaled
+        {
+            get => isBeingInhaled;
+            set => isBeingInhaled = value;
+        }
+
+        public float Vibrate
+        {
+            get => vibrate;
+            set => vibrate = value;
         }
 
         public int FrameCounter
         {
             get { return frameCounter; }
         }
-        public static String GetCollisionType()
-        {
-            return "Enemy";
-        }
-        public void IncrementFrameCounter()
-        {
-            frameCounter++;
-        }
-        public void UpdateDirection()
-        {
-            if(ObjectManager.Instance.Players[0].GetKirbyPosition().X < this.position.X){
-                stateMachine.FaceLeft();
-            } else {
-                stateMachine.FaceRight();
-            }
-        }
 
-        public void ResetFrameCounter()
+        public void FaceNearestPlayer()
         {
-            frameCounter = 0;
+            IPlayer nearestPlayer = ObjectManager.Instance.NearestPlayer(position);
+            float nearestPlayerX = nearestPlayer.GetKirbyPosition().X;
+            bool isLeft = nearestPlayerX < position.X;
+            SetDirection(isLeft);
         }
 
         public void UpdateTexture()
@@ -116,14 +111,49 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public void ChangeState(IEnemyState newState)
         {
+            // Call exit on the current state, if there is one, so that it may take care of any final business if it needs (stopping sounds, ending attacks, deallocating resources, etc)
             currentState?.Exit();
+            currentState?.Dispose();
+            // Set the current state to the given new state and call Enter on it
             currentState = newState;
             currentState.Enter();
+            // Reset the state update counter
+            frameCounter = 0;
         }
 
-        public async void TakeDamage(Rectangle intersection)
+        public virtual void TakeDamage(Rectangle intersection, Vector2 positionOfDamageSource)
         {
+            if (!isBeingInhaled)
+            {
+                UpdateScore();
 
+                currentState.TakeDamage();
+                //positionOfDamageSource.Y += 8; // I like to shift the position of the damage source used to calculate the velocity down a little, otherwise hitting things straight on usually sends them down into the ground
+                velocity = (GetHitBox().Center.ToVector2() - positionOfDamageSource) / 8;
+                CollisionActive = false;
+                SoundManager.Play("enemydamage");
+            }
+        }
+
+        public virtual void GetInhaled(Rectangle intersection, IPlayer player)
+        {
+            if (!isBeingInhaled)
+            {
+                isBeingInhaled = true;
+                velocity = Vector2.Zero;
+                ChangeState(new EnemyInhaledState(this, player));
+            }
+        }
+
+
+        public void GetSwallowed(Rectangle intersection)
+        {
+            UpdateScore();
+            Dispose();
+        }
+
+        private void UpdateScore()
+        {
             int points = 0;
 
             // Determine points based on the type of enemy
@@ -138,24 +168,16 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
             // Update the score in ObjectManager
             Game1.Instance.manager.UpdateScore(points);
-
-            currentState.TakeDamage();
-            CollisionActive = false;
-            SoundManager.Play("enemydamage");
-            await Task.Delay(Constants.Enemies.DELAY);
-            SoundManager.Play("enemyexplode");
-        }
-
-        public void GetSwallowed(Rectangle intersection)
-        {
-            currentState.TakeDamage();
-            this.TakeDamage(intersection);
-            CollisionActive = false;
         }
 
         public virtual void ChangeDirection()
         {
             currentState.ChangeDirection();
+        }
+
+        public void SetDirection(bool facingLeft)
+        {
+            stateMachine.SetDirection(facingLeft);
         }
 
         public void ChangePose(EnemyPose pose)
@@ -173,83 +195,111 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             return stateMachine.GetStateString();
         }
 
+        public virtual void Spawn()
+        {
+            CollisionActive = true;
+            active = true;
+            isBeingInhaled = false;
+            position = spawnPosition;
+            velocity = Vector2.Zero;
+            vibrate = 0;
+            FaceNearestPlayer();
+            health = Constants.Enemies.HEALTH;
+            frameCounter = 0;
+        }
+
+        private void Despawn()
+        {
+            Dispose();
+        }
+
+        public void UpdatePosition()
+        {
+            if (affectedByGravity && !isBeingInhaled && health > 0)
+            {
+                velocity.Y += gravity;  // Increase vertical velocity by gravity
+            }
+
+            position.X += velocity.X;
+            position.Y += velocity.Y;  // Apply the updated velocity to the enemy's Y position
+        }
+
+        public void DecelerateX(float deceleration)
+        {
+            if (velocity.X > 0)
+            {
+                velocity.X -= deceleration;
+            }
+            else if (velocity.X < 0)
+            {
+                velocity.X += deceleration;
+            }
+            if (velocity.X < deceleration / 2 && velocity.X > -deceleration / 2)
+            {
+                velocity.X = 0;
+            }
+        }
+
         public virtual void Update(GameTime gameTime) 
         {
-            /* TO-DO: Should this be in Draw or update?
-             * 
-            //respawn enemy if dead but just outside camera bounds
-            if (IsDead && Game1.Instance.Camera.GetEnemyBounds().Contains(spawnPosition.ToPoint()))
-            {
-                // Respawn the enemy
-                CollisionActive = true;
-                IsDead = false;
-                health = Constants.Enemies.HEALTH;
-                position = spawnPosition;
-                frameCounter = 0;
-                UpdateTexture();
-            }*/
 
-            if (CollisionActive && !IsDead /*&& Game1.Instance.Camera.GetEnemyBounds().Contains(position.ToPoint())*/)
+            //respawn enemy if dead but just outside camera bounds
+            if (!active && Camera.InAnyEnemyRespawnBounds(spawnPosition))
             {
-                IncrementFrameCounter();
+                Spawn();
+            }
+            else if (active && !Camera.InAnyActiveEnemyBounds(position))
+            {
+                Despawn();
+            }
+
+            if (active)
+            {
+                frameCounter++;
                 currentState.Update();
                 UpdateTexture();
                 enemySprite.Update();
 
-                Fall();
-
-                GetHitBox(); // Ensure hitbox is updated
-            } else {
-                CollisionActive = false;
+                UpdatePosition();
             }
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            //Draw if enemy is alive and 
-            if (CollisionActive && !IsDead /* && Game1.Instance.Camera.GetEnemyBounds().Contains(position.ToPoint())*/)
+            //Draw if enemy is alive 
+            if (active)
             {
-                enemySprite.Draw(position, spriteBatch);
-                //spriteBatch.DrawString(LevelLoader.Instance.Font, frameCounter.ToString(), position, Color.Black);
-            }
+                Vector2 vibratePos = new Vector2((float)random.NextDouble() - 0.5f, (float)random.NextDouble() - 0.5f);
+                vibratePos.Normalize();
+                enemySprite.Draw(position + vibratePos * vibrate, spriteBatch);
 
-            /*
-            // TO-DO: Should this be in Draw or update?
-            //respawn enemy if dead but just outside camera bounds
-            else if (IsDead && Game1.Instance.Camera.GetEnemyBounds().Contains(spawnPosition.ToPoint()))
-            {
-                //load at spawn point
-                CollisionActive = true;
-                IsDead = false;
-                health = Constants.Enemies.HEALTH;
-                position = spawnPosition;
-                frameCounter = 0;
-                UpdateTexture();
-            }          */
+                if (Game1.Instance.DEBUG_TEXT_ENABLED)
+                {
+                    spriteBatch.DrawString(LevelLoader.Instance.Font, frameCounter.ToString(), (position + new Vector2(-8, -32)), Color.Black);
+                }
+                
+            }
         }
 
         public virtual void Attack() { }
 
         public virtual void Jump() { }
 
-        public virtual void Fall()
+        public virtual void Move() { }
+
+        public virtual void StopMoving()
         {
-            yVel += gravity / Constants.Enemies.GRAVITY_OFFSET;  // Increase vertical velocity by gravity
-            position.Y += yVel;  // Apply the updated velocity to the enemy's Y position
+            velocity.X = 0;
         }
 
-        public virtual void Move()
+        public void AccellerateTowards(Vector2 _position)
         {
-            // Walking back and forth in X axis 
-            if (stateMachine.IsLeft())
-            {
-                position.X -= xVel;
-            }
-            else
-            {
-                position.X += xVel;
-            }
-            UpdateTexture();
+            float magnitude = velocity.Length();
+            velocity = _position - position;
+            velocity.Normalize();
+            velocity *= magnitude + 0.2f;
+            //velocity.X += (_position.X - position.X) / 200;
+            //velocity.Y += (_position.Y - position.Y) / 200;
         }
 
         public virtual Vector2 CalculateRectanglePoint(Vector2 pos)
@@ -272,15 +322,35 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void BottomCollisionWithBlock(Rectangle intersection)
         {
-            position.Y = intersection.Y; // Note: +1 removed because in Game1.Update I made level update before collision is called. This makes collisions happen after preexisting momentum is applied -Mark
-            yVel = 0;
+            position.Y = intersection.Y + Constants.Collision.GROUND_COLLISION_OFFSET;
+            velocity.Y = 0;
             isFalling = false;
         }
-        // Commented out the inside for now. Is this necessary? -Mark
-        public void BottomCollisionWithAir(Rectangle intersection)
+
+        public virtual void TopCollisionWithBlock(Rectangle intersection)
         {
-            //isFalling = true;
-            //Fall();
+            position.Y += intersection.Height;
+        }
+        public virtual void RightCollisionWithBlock(Rectangle intersection)
+        {
+            position.X -= intersection.Width;
+            bool left = true;
+            SetDirection(left);
+        }
+
+        public virtual void LeftCollisionWithBlock(Rectangle intersection)
+        {
+            position.X += intersection.Width;
+            bool left = false;
+            SetDirection(left);
+        }
+
+        public virtual void BottomCollisionWithPlatform(Rectangle intersection)
+        {
+
+            position.Y = intersection.Y + Constants.Collision.GROUND_COLLISION_OFFSET;
+            velocity.Y = 0;
+            isFalling = false;
         }
         public virtual void AdjustOnSlopeCollision(Tile tile, float slope, float yIntercept)
         {
@@ -288,52 +358,62 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             if (position.X > intersection.Left && position.X < intersection.Right)
             {
                 float offset = position.X - intersection.X;
-                //Debug.WriteLine($"Starting Y position: {position.Y}");
                 float slopeY = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
-                //GameDebug.Instance.LogPosition(new Vector2(position.X, position.Y));
                 if (position.Y > slopeY)
                 {
-                    position.Y = slopeY;
-                    yVel = 0;
+                    position.Y = slopeY + Constants.Collision.GROUND_COLLISION_OFFSET;
+                    velocity.Y = 0;
                 }
-                //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
             }
         }
-        public void AdjustGentle1SlopeLeftCollision(Tile tile)
+        public void CollisionWithGentle1LeftSlope(Tile tile)
         {
             float slope = Constants.Collision.GENTLE1_SLOPE_LEFT_M;
             float yIntercept = Constants.Collision.GENTLE1_SLOPE_LEFT_YINTERCEPT;
             AdjustOnSlopeCollision(tile, slope, yIntercept);
         }
-        public void AdjustGentle2SlopeLeftCollision(Tile tile)
+        public void CollisionWithGentle2LeftSlope(Tile tile)
         {
             float slope = Constants.Collision.GENTLE2_SLOPE_LEFT_M;
             float yIntercept = Constants.Collision.GENTLE2_SLOPE_LEFT_YINTERCEPT;
             AdjustOnSlopeCollision(tile, slope, yIntercept);
         }
-        public void AdjustSteepSlopeLeftCollision(Tile tile)
+        public void CollisionWithSteepLeftSlope(Tile tile)
         {
             float slope = Constants.Collision.STEEP_SLOPE_LEFT_M;
             float yIntercept = Constants.Collision.STEEP_SLOPE_LEFT_YINTERCEPT;
             AdjustOnSlopeCollision(tile, slope, yIntercept);
         }
-        public void AdjustGentle1SlopeRightCollision(Tile tile)
+        public void CollisionWithGentle1RightSlope(Tile tile)
         {
             float slope = Constants.Collision.GENTLE1_SLOPE_RIGHT_M;
             float yIntercept = Constants.Collision.GENTLE1_SLOPE_RIGHT_YINTERCEPT;
             AdjustOnSlopeCollision(tile, slope, yIntercept);
         }
-        public void AdjustGentle2SlopeRightCollision(Tile tile)
+        public void CollisionWithGentle2RightSlope(Tile tile)
         {
             float slope = Constants.Collision.GENTLE2_SLOPE_RIGHT_M;
             float yIntercept = Constants.Collision.GENTLE2_SLOPE_RIGHT_YINTERCEPT;
             AdjustOnSlopeCollision(tile, slope, yIntercept);
         }
-        public void AdjustSteepSlopeRightCollision(Tile tile)
+        public void CollisionWithSteepRightSlope(Tile tile)
         {
             float slope = Constants.Collision.STEEP_SLOPE_RIGHT_M;
             float yIntercept = Constants.Collision.STEEP_SLOPE_RIGHT_YINTERCEPT;
             AdjustOnSlopeCollision(tile, slope, yIntercept);
+        }
+
+
+        public virtual void Dispose()
+        {
+            CollisionActive = false;
+            Active = false;
+            currentState?.Dispose();
+        }
+
+        public virtual KirbyType PowerType()
+        {
+            return KirbyType.Normal;
         }
     }
 }

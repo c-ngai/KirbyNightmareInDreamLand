@@ -4,21 +4,26 @@ using KirbyNightmareInDreamLand.Sprites;
 using System.Net.NetworkInformation;
 using System;
 using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Actions;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class KirbyPuff : IProjectile, ICollidable
+    public class KirbyPuff : IProjectile, ICollidable, IExplodable
     {
+        public IPlayer player { get; private set; }
+
         private Sprite projectileSprite;
         private Vector2 position;
         public bool CollisionActive { get; private set;} = true;
         private Vector2 velocity;
+        private Vector2 deceleration;
         private bool isFacingRight;
         private int frameCount = 0;
         public bool isActive = true;
-        public string GetObjectType()
+        public CollisionType GetCollisionType()
         {
-            return "PlayerAttack";
+            return CollisionType.PlayerAttack;
         }
         public Vector2 Position
         {
@@ -31,12 +36,14 @@ namespace KirbyNightmareInDreamLand.Projectiles
             get => velocity;            // Return the current velocity of the puff
             set => velocity = value;    // Set the velocity of the puff to the given value
         }
-        public KirbyPuff(Vector2 kirbyPosition, bool isFacingRight)
+        public KirbyPuff(IPlayer _player, Vector2 kirbyPosition, bool isFacingRight)
         {
+            player = _player;
 
             this.isFacingRight = isFacingRight;
             Vector2 offset = isFacingRight ? Constants.Kirby.PUFF_ATTACK_OFFSET : -Constants.Kirby.PUFF_ATTACK_OFFSET;
 
+            deceleration = new Vector2(0.2f, 0);
 
             Position = kirbyPosition + offset;
 
@@ -50,11 +57,14 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 ? SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_right")
                 : SpriteFactory.Instance.CreateSprite("projectile_kirby_airpuff_left");
 
-            ObjectManager.Instance.RegisterDynamicObject(this);
+            ObjectManager.Instance.AddProjectile(this);
 
             SoundManager.Play("spitair");
         }
-         public Vector2 CalculateRectanglePoint(Vector2 pos)
+
+
+
+        public Vector2 CalculateRectanglePoint(Vector2 pos)
         {
             return pos + Constants.HitBoxes.PUFF_OFFSET; 
         }
@@ -69,11 +79,13 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void EndAttack()
         {
-            CollisionActive = false;
+            // nothing for now, you never really want a puff to be cut short
+            //isActive = false;
+            //CollisionActive = false;
         }
         public bool IsDone()
         {
-            return isActive;
+            return !isActive;
         }
         public void Update()
         {
@@ -82,8 +94,13 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 // Decelerate the puff by reducing its velocity
                 if (Velocity.Length() > 0)
                 {
-                    Vector2 deceleration = Vector2.Normalize(Velocity) * Constants.Puff.DECELERATION_RATE;
-                    Velocity -= deceleration;
+                    //Vector2 deceleration = Vector2.Normalize(Velocity) * Constants.Puff.DECELERATION_RATE;
+                    //Velocity -= deceleration;
+                    
+                    Velocity -= Velocity.X > 0
+                        ? deceleration
+                        : -deceleration;
+                    
 
                     // Make the velocity zero if it becomes negative or close to zero
                     if (Velocity.Length() < Constants.Puff.SMALL_VELOCITY)
@@ -99,6 +116,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 if (frameCount >= Constants.Puff.MAX_FRAMES || Velocity == Vector2.Zero)
                 {
                     isActive = false;
+                    CollisionActive = false;
                     projectileSprite = null; // Remove the sprite to avoid memory leaks
                     EndAttack();
                 }
@@ -109,7 +127,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
                     projectileSprite?.Update();
                 }
             }
-            GetHitBox();
         }
         
 

@@ -20,7 +20,7 @@ namespace KirbyNightmareInDreamLand.Commands
             // If a player of this index exists
             if (playerIndex < _players.Count)
             {
-                _players[playerIndex].StopMoving();
+                //_players[playerIndex].StopMoving();
             }
         }
     }

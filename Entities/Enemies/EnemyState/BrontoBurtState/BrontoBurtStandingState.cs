@@ -18,8 +18,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState
 
             public void Enter()
             {
-                _enemy.ChangePose(EnemyPose.Standing);
-                _enemy.ResetFrameCounter(); // Reset frame counter when entering the state
+                _enemy.ChangePose(EnemyPose.Standing); // Reset frame counter when entering the state
             }
 
             public void Update()
@@ -28,8 +27,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState
 
                 if (_enemy.FrameCounter >= Constants.BrontoBurt.STANDING_FRAMES)
                 {
-                    _enemy.ChangeState(new BrontoBurtFlyingSlowState(_enemy));
-                    _enemy.UpdateTexture();
+                    _enemy.ChangeState(new BrontoBurtFlyingState(_enemy));
                 }
             }
 
@@ -38,8 +36,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState
             public void TakeDamage()
             {
                 // Transition to hurt state on taking damage
-                _enemy.ChangeState(new BrontoBurtHurtState(_enemy));
-                _enemy.UpdateTexture();
+                _enemy.ChangeState(new EnemyHurtState(_enemy));
             }
 
             public void ChangeDirection()
@@ -47,5 +44,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.BrontoBurtState
             // Implement direction change logic, if applicable
                 _enemy.ToggleDirection();
         }
+
+
+        public void Dispose()
+        {
+
         }
+
+    }
     }

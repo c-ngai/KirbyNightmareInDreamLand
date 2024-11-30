@@ -1,26 +1,25 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
-using System.Collections.Generic;
-using System;
-using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class KirbyBeamSegment : IProjectile, ICollidable
     {
+        public IPlayer player { get; private set; }
+
         private Vector2 position;
         private Vector2 velocity;
         private int frameCount = 0;
         public bool IsActive {get; private set;}= true;
-        private int maxFrames = 6; // Segment disappears after 6 frames
-        private ISprite sprite1;
-        private ISprite sprite2;
+        private int maxFrames = Constants.KirbyBeam.MAX_BEAM_FRAMES; // segment disappears after 6 frames
+        private ISprite sprite;
         public bool CollisionActive { get; private set;} = true;
 
-        public string GetObjectType()
+        public CollisionType GetCollisionType()
         {
-            return "PlayerAttack";
+            return CollisionType.PlayerAttack;
         }
 
         public Vector2 Position
@@ -35,12 +34,15 @@ namespace KirbyNightmareInDreamLand.Projectiles
             set => velocity = value;
         }
 
-        public KirbyBeamSegment(Vector2 startPosition, Vector2 beamVelocity, bool isLeft)
+        public KirbyBeamSegment(Vector2 startPosition, Vector2 beamVelocity, bool odd, IPlayer _player)
         {
+            player = _player;
+
             Position = startPosition;
             Velocity = beamVelocity;
-            sprite1 = SpriteFactory.Instance.CreateSprite("projectile_kirby_beam1");
-            sprite2 = SpriteFactory.Instance.CreateSprite("projectile_kirby_beam2");
+            sprite = odd ?
+                SpriteFactory.Instance.CreateSprite("projectile_kirby_beam1")
+              : SpriteFactory.Instance.CreateSprite("projectile_kirby_beam2");
             ObjectManager.Instance.RegisterDynamicObject(this);
         }
 
@@ -51,18 +53,8 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 // Update position based on velocity
                 Position += Velocity;
             } 
-            
 
-            // Update animation Chandled internally by sprite)
-            if (frameCount % 2 == 0)
-            {
-                sprite2.Update();
-
-            }
-            else
-            {
-                sprite1.Update();
-            }
+            sprite.Update();
 
             // Increment frame count and check if the segment should disappear
             frameCount++;
@@ -98,14 +90,9 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (frameCount % 2 == 0 && IsActive)
+            if (IsActive)
             {
-                sprite2.Draw(Position, spriteBatch);
-
-            }
-            else if (IsActive)
-            {
-                sprite1.Draw(Position, spriteBatch);
+                sprite.Draw(Position, spriteBatch);
             }
         }
     }

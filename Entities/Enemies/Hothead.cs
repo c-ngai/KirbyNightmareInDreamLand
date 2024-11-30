@@ -1,10 +1,12 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
+﻿using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
+using KirbyNightmareInDreamLand.Entities.Players;
 using KirbyNightmareInDreamLand.Projectiles;
 using KirbyNightmareInDreamLand.StateMachines;
-using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState;
-using KirbyNightmareInDreamLand.Audio;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
@@ -12,56 +14,62 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
     {
 
         // All fireballs and flamethrower
-        private readonly List<IProjectile> fireballs;
-        private readonly EnemyFlamethrower flamethrower;
+        private EnemyFlamethrower flamethrower;
 
         //Checks if flamethrower attack is active
-         private bool isFlamethrowerActive;
-         private int flamethrowerFrameCounter;
+        private int attackTimer;
 
         public Hothead(Vector2 startPosition) : base(startPosition, EnemyType.Hothead)
         {
-            //Initializes attacks and pose for enemy
-            fireballs = new List<IProjectile>();
-            flamethrower = new EnemyFlamethrower();
-            isFlamethrowerActive = false;
-            flamethrowerFrameCounter = 0;
+            attackTimer = 0;
+            affectedByGravity = true;
+        }
+
+        public override void Spawn()
+        {
+            base.Spawn();
+            stateMachine.ChangePose(EnemyPose.Walking);
             currentState = new HotheadWalkingState(this);
-            //TO-DO: spawn facing the direction kirby is in
-            yVel = 0;
-            xVel = Constants.Hothead.MOVE_SPEED;
+        }
+
+
+        public override void TakeDamage(Rectangle intersection, Vector2 positionOfDamageSource)
+        {
+            base.TakeDamage(intersection, positionOfDamageSource);
+            flamethrower?.EndAttack();
+        }
+
+        public override void GetInhaled(Rectangle intersection, IPlayer player)
+        {
+            base.GetInhaled(intersection, player);
+            flamethrower?.EndAttack();
+        }
+
+        public override void Move()
+        {
+            base.Move();
+            velocity.X = stateMachine.IsLeft() ? -Constants.Hothead.MOVE_SPEED : Constants.Hothead.MOVE_SPEED;
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (!isDead)
-            {
-                IncrementFrameCounter();
-                currentState.Update();
-                UpdateTexture();
-                // Update the sprite and fireballs
-                Fall();
+            base.Update(gameTime);
 
-                enemySprite.Update();
-                UpdateFireballs();
-                GetHitBox();
+            if (active)
+            { 
 
                 // Update flamethrower if active
-                if (isFlamethrowerActive)
+                if (currentState.GetType().Equals(typeof(HotheadAttackingState)))
                 {
-                    flamethrower.Update(gameTime, ProjectilePosition(), stateMachine.IsLeft() ? Constants.Hothead.FLAMETHROWER_LEFT : Constants.Hothead.FLAMETHROWER_RIGHT);
-                    flamethrowerFrameCounter++;
+                    attackTimer--;
 
-                    if (flamethrowerFrameCounter >= Constants.Hothead.ATTACK_FRAMES)
+                    if (attackTimer <= 0)
                     {
-                        isFlamethrowerActive = false; // Deactivate flamethrower
-                        flamethrower.ClearSegments(); // Clear fire
+                        flamethrower?.EndAttack();
+                        ChangeState(new HotheadWalkingState(this));
                     }
                 }
-                else
-                {
-                    flamethrower.ClearSegments(); // Clear segments when not active
-                }
+
             }
         }
 
@@ -72,57 +80,62 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             return stateMachine.IsLeft() ? new Vector2(position.X - Constants.Hothead.FLAMETHROWER_X_OFFSET, position.Y - Constants.Hothead.FLAMETHROWER_Y_OFFSET) : new Vector2(position.X + Constants.Hothead.FLAMETHROWER_X_OFFSET, position.Y - Constants.Hothead.FLAMETHROWER_Y_OFFSET);
         }
 
-        public void Flamethrower(/*GameTime gameTime*/)
+        public void FlamethrowerAttack()
         {
-            //Shoots flamethrower if called while inactive
-            if (!isFlamethrowerActive)
-            {
-                isFlamethrowerActive = true;
+            flamethrower = new EnemyFlamethrower(ProjectilePosition(), stateMachine.IsLeft());
 
-                //need to loop
-                //SoundManager.Play("hotheadflamethrowerattack");
+            //need to loop
+            //SoundManager.Play("hotheadflamethrowerattack");
 
-                // Set the start position for the flamethrower
-                Vector2 flameDirection = stateMachine.IsLeft() ? Constants.Hothead.FLAMETHROWER_LEFT : Constants.Hothead.FLAMETHROWER_RIGHT;
-                flamethrowerFrameCounter = 0; 
-            }
+            // Set the start position for the flamethrower
+            attackTimer = Constants.Hothead.FLAMETHROWER_ATTACK_FRAMES;
         }
 
-        public override void Attack()
+        public void FireballAttack()
         {
             SoundManager.Play("hotheadfireballattack");
             //Shoots fireball projectile attack
             Vector2 projectileDirection = stateMachine.IsLeft() ? Constants.Hothead.FIREBALL_LEFT : Constants.Hothead.FIREBALL_RIGHT;
-            IProjectile newFireball = new EnemyFireball(ProjectilePosition(), projectileDirection);
-            fireballs.Add(newFireball);
+            new EnemyFireball(ProjectilePosition(), projectileDirection);
+
+            attackTimer = Constants.Hothead.FIREBALL_ATTACK_FRAMES;
         }
 
-        private void UpdateFireballs()
+        public override void Attack()
         {
-            //Updates all fireballs on list
-            foreach (var fireball in fireballs)
+            IPlayer nearestPlayer = ObjectManager.Instance.NearestPlayer(position);
+            float distance = Vector2.Distance(position, nearestPlayer.GetKirbyPosition());
+            // If a player is close, use flamethrower attack
+            if (distance < Constants.Hothead.FLAMETHROWER_RANGE)
             {
-                fireball.Update();
+                FlamethrowerAttack();
+            }
+            // If no player is close, use the fireball
+            else
+            {
+                FireballAttack();
             }
         }
+
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             //Draw enemy, flamethrower, and projectile depending if alive or active
-            if (!isDead)
+            if (active)
             {
-                if (isFlamethrowerActive)
-                {
-                    flamethrower.Draw(spriteBatch);
-                }
-
                 enemySprite.Draw(position, spriteBatch);
-
-                foreach (var fireball in fireballs)
-                {
-                    fireball.Draw(spriteBatch);
-                }
             }
+        }
+
+        public override KirbyType PowerType()
+        {
+            return KirbyType.Fire;
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            flamethrower?.EndAttack();
         }
 
     }

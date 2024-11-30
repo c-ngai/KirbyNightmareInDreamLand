@@ -15,6 +15,9 @@ namespace KirbyNightmareInDreamLand.Levels
         [JsonPropertyName("Tilemap")]
         public string TilemapName { get; set; }
 
+        [JsonPropertyName("Song")]
+        public string Song { get; set; }
+
         [JsonPropertyName("Spawn tile X")]
         public int SpawnTileX { get; set; }
 
@@ -53,6 +56,8 @@ namespace KirbyNightmareInDreamLand.Levels
         public string DestinationRoom { get; set; }
         public int DestinationTileX { get; set; }
         public int DestinationTileY { get; set; }
+        public bool DrawDoorStars { get; set; }
+        public bool IsBigDoor { get; set; }
     }
 
     // Class for deserializing each enemy in RoomJsonData.

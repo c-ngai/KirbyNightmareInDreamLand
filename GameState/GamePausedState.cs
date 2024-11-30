@@ -4,50 +4,44 @@ using KirbyNightmareInDreamLand.Sprites;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using KirbyNightmareInDreamLand.Levels;
 
 namespace KirbyNightmareInDreamLand.GameState
 {
-	public class GamePausedState : IGameState
+	public class GamePausedState : BaseGameState
 	{
-        SpriteBatch spriteBatch;
-        Camera _camera;
 
-		public GamePausedState()
-		{
-            spriteBatch = Game1.Instance._spriteBatch;
-            _camera = Game1.Instance.Camera;
-        }
+        private Sprite backgroundSprite = SpriteFactory.Instance.CreateSprite("pause_screen_background");
 
-        public void Draw()
+        // Holds a sprite for kirby and each enemy type to draw at their spawn points in level debug mode.
+        private Dictionary<string, Sprite> pauseSprites = new Dictionary<string, Sprite>()
         {
-            GameDebug.Instance.DrawSolidRectangle(spriteBatch, _camera.bounds, Color.White, 1);
-            List<string> kirbyType = new List<string>();
-            foreach (Player player in Game1.Instance.manager.Players)
-            {
-                kirbyType.Add(player.GetKirbyTypePause());
-            }
-            ISprite pause_sprite = SpriteFactory.Instance.CreateSprite(kirbyType[0] + "_pause_screen");
-            ISprite pause_background = SpriteFactory.Instance.CreateSprite("pause_screen_background");
-            pause_background.Draw(new Vector2(_camera.bounds.X, _camera.bounds.Y), spriteBatch);
-            pause_sprite.Draw(new Vector2(_camera.bounds.X, _camera.bounds.Y), spriteBatch);
-        }
+            { "Normal" , SpriteFactory.Instance.CreateSprite("Normal_pause_screen") },
+            { "Beam" , SpriteFactory.Instance.CreateSprite("Beam_pause_screen") },
+            { "Spark" , SpriteFactory.Instance.CreateSprite("Spark_pause_screen") },
+            { "Fire" , SpriteFactory.Instance.CreateSprite("Fire_pause_screen") },
+            { "Professor" , SpriteFactory.Instance.CreateSprite("Professor_pause_screen") },
+            { "Dead" , SpriteFactory.Instance.CreateSprite("Dead_pause_screen") }
+        };
 
-        public void Update()
+        public GamePausedState(Level _level) : base(_level)
         {
-            // do nothing
+
         }
 
-        public void SelectQuitButton()
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            // do nothing
+            Camera _camera = _game.cameras[_game.CurrentCamera];
+
+            //GameDebug.Instance.DrawSolidRectangle(spriteBatch, _camera.bounds, Color.White, 1);
+
+            string kirbyType = _manager.Players[_game.CurrentCamera].GetKirbyTypePause();
+
+            backgroundSprite.Draw(new Vector2(_camera.bounds.X, _camera.bounds.Y), spriteBatch);
+            pauseSprites[kirbyType].Draw(new Vector2(_camera.bounds.X, _camera.bounds.Y), spriteBatch);
         }
 
-        public void SelectContinueButton()
-        {
-            // do nothing
-        }
-
-        public void SelectButton()
+        public override void Update()
         {
             // do nothing
         }

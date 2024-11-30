@@ -20,13 +20,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState
         public void Enter()
         {
             _enemy.ChangePose(EnemyPose.Walking);
-            _enemy.ResetFrameCounter();
         }
 
         public void Update()
         {
            _enemy.Move(); // Execute walking movement logic
-            _enemy.IncrementFrameCounter(); // Increment the enemy's frame counter
+             // Increment the enemy's frame counter
         }
 
         public void Exit()
@@ -36,13 +35,18 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState
 
         public void TakeDamage()
         {
-            _enemy.ChangeState(new WaddleDeeHurtState(_enemy));
-            _enemy.UpdateTexture();
+            _enemy.ChangeState(new EnemyHurtState(_enemy));
         }
 
         public void ChangeDirection()
         {
             _enemy.ToggleDirection();
         }
+
+        public void Dispose()
+        {
+
+        }
+
     }
 }

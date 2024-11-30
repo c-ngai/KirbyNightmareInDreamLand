@@ -2,24 +2,27 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using KirbyNightmareInDreamLand.Sprites;
+using KirbyNightmareInDreamLand.Actions;
+using Microsoft.Xna.Framework.Input;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class KirbyFlameSegment : IProjectile, ICollidable
     {
+        public IPlayer player { get; private set; }
+
         private Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;
-        private float speed;
-        private float delay; // Delay before this segment becomes active
         private static Random random = new Random(); // Random instance for sprite selection
         private int frameCount;
         private bool IsLeft;
         public bool IsActive { get; private set; } // Expose IsActive for external checks
         public bool CollisionActive { get; private set;} = true;
-        public string GetObjectType()
+        public CollisionType GetCollisionType()
         {
-            return "PlayerAttack";
+            return CollisionType.PlayerAttack;
         }
         public Vector2 Position
         {
@@ -33,39 +36,20 @@ namespace KirbyNightmareInDreamLand.Projectiles
             set => velocity = value;
         }
 
-        public KirbyFlameSegment(Vector2 startPosition, Vector2 flameDirection, float currentSpeed, float currentDelay, bool isLeft)
+        public KirbyFlameSegment(Vector2 startPosition, Vector2 velocity, float currentSpeed, bool isLeft, IPlayer _player)
         {
+            player = _player;
+
             Position = startPosition;
-            speed = currentSpeed;
-            delay = currentDelay;
-            IsActive = false;
+            this.velocity = velocity;
+            IsActive = true;
             frameCount = 0;
             IsLeft = isLeft;
-
-            // Normalize the direction vector and multiply by the speed
-            if (flameDirection != Vector2.Zero)
-            {
-                flameDirection.Normalize();
-            }
-
-            Velocity = flameDirection * speed; // Apply the variable speed
 
             // Randomly select either the first or second set of sprites based on direction
             bool useSecondSprite = random.Next(2) == 0; // 50% chance to use the second sprite
 
-            if (flameDirection.X >= 0)
-            {
-                // Right-facing direction
-                if (useSecondSprite)
-                {
-                    projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_fire2_right");
-                }
-                else
-                {
-                    projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_fire1_right");
-                }
-            }
-            else
+            if (IsLeft)
             {
                 // Left-facing direction
                 if (useSecondSprite)
@@ -77,20 +61,32 @@ namespace KirbyNightmareInDreamLand.Projectiles
                     projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_fire1_left");
                 }
             }
-            ObjectManager.Instance.RegisterDynamicObject(this);
+            else
+            {
+                // Right-facing direction
+                if (useSecondSprite)
+                {
+                    projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_fire2_right");
+                }
+                else
+                {
+                    projectileSprite = SpriteFactory.Instance.CreateSprite("projectile_kirby_fire1_right");
+                }
+            }
+            ObjectManager.Instance.AddProjectile(this);
         }
 
         public void Update()
         {
-            //Reduce delay over time
-            if (delay > 0)
-            {
-                delay -= Constants.KirbyFire.SECONDS_PER_FRAME; // 60fps. 1/60 = ~0.016 seconds per frame
-            }
-            else
-            {
-                IsActive = true;
-            }
+            ////Reduce delay over time
+            //if (delay > 0)
+            //{
+            //    delay -= Constants.KirbyFire.SECONDS_PER_FRAME; // 60fps. 1/60 = ~0.016 seconds per frame
+            //}
+            //else
+            //{
+            //    IsActive = true;
+            //}
 
             // Only update position if the flame segment is active
             if (IsActive)
@@ -127,12 +123,12 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public bool IsDone()
         {
-            IsActive = false;
-            projectileSprite = null;
-            return IsActive;
+            return !IsActive;
         }
         public void EndAttack()
         {
+            IsActive = false;
+            projectileSprite = null;
             CollisionActive = false;
         }
         

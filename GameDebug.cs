@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics.PackedVector;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using KirbyNightmareInDreamLand.Controllers;
+using KirbyNightmareInDreamLand.Sprites;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -172,24 +173,43 @@ namespace KirbyNightmareInDreamLand
             texts.Add("Current Max FPS: " + Math.Round(maxFrameRate));
             texts.Add("Average Max FPS: " + Math.Round(maxfpsLog.Average()));
             texts.Add("Current room: " + _game.Level.CurrentRoom.Name);
+
+            // texts.Add("Previous room: " + _game.Level.PreviousRoom);
+            texts.Add("Game state: " + _game.Level._currentState.ToString().Substring(36));
+            // texts.Add("Next room: " + _game.Level.NextRoom);
+            // texts.Add("Next spawn point " + _game.Level.NextSpawn);
+            texts.Add("Calls to FallOffScreenOne:" + Entities.Players.PlayerMovement.callCount);
             texts.Add("");
             texts.Add("Sprite.Draw calls: " + NumOfSpriteDrawCalls);
             texts.Add("SpriteBatch.Draw calls: " + NumOfSpriteBatchDrawCalls);
             texts.Add("Static ExecuteCollision calls: " + NumOfStaticExecuteCollisionCalls);
             texts.Add("Dynamic ExecuteCollision calls: " + NumOfDynamicExecuteCollisionCalls);
-            texts.Add("ObjectManager.DynamicObjects.Count: " + ObjectManager.Instance.DynamicObjects.Count);
             texts.Add("");
-            texts.Add("+/- : Resize window");
-            texts.Add("F : Toggle fullscreen");
+            texts.Add("Dynamic Objects: " + ObjectManager.Instance.DynamicObjects.Count);
+            texts.Add("Players: " + ObjectManager.Instance.Players.Count);
+            texts.Add("Enemies: " + ObjectManager.Instance.Enemies.Count);
+            texts.Add("Projectiles: " + ObjectManager.Instance.Projectiles.Count);
+            texts.Add("Particles: " + ObjectManager.Instance.Particles.Count);
             texts.Add("");
             texts.Add("F1 : Toggle debug text");
             texts.Add("F2 : Toggle sprite debug mode");
             texts.Add("F3 : Toggle level debug mode");
-            texts.Add("F4 : Toggle sprite culling");
-            texts.Add("F5 : Toggle collision debug mode");
-            texts.Add("M : Toggle mute");
-            texts.Add("Game state " + _game.Level._currentState);
-            texts.Add("Game state " + _game.Level._currentState.ToString());
+            texts.Add("F4 : Toggle collision debug mode");
+            texts.Add("F5 : Toggle zoom-out debug mode");
+            texts.Add("F6 : Toggle sprite culling");
+            texts.Add("[/] : Increase/decrease target framerate");
+            texts.Add("Alt (hold) : Log player position to screen");
+            texts.Add("Ctrl : Clear player position log");
+
+            //if (Game1.Instance.UpdateCounter % 120 == 0)
+            //{
+            //    Debug.WriteLine("##### DYNAMIC OBJECTS #####");
+            //    foreach (ICollidable obj in ObjectManager.Instance.DynamicObjects)
+            //    {
+            //        Debug.WriteLine("   Object: " + obj.GetType());
+            //    }
+            //}
+
             //texts.Add("Alt (hold) : Record Kirby position");
             //texts.Add("Ctrl : Clear Kirby position log");
 
@@ -265,13 +285,22 @@ namespace KirbyNightmareInDreamLand
         }
 
 
+        public void DrawEmptyPlayerScreen(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, null);
+            spriteBatch.Draw(SpriteFactory.Instance.Textures["emptyplayerscreen"], bounds, Color.White);
+            spriteBatch.End();
+        }
+
+
         private Color translucent = new Color( 255, 255, 255, 127 );
         // Draws black letterbox borders on the edge of the screen. Should be only visible in fullscreen. Done to maintain aspect ratio and integer scaling regardless of display resolution.
         public void DrawBorders(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, null);
 
-            Color color = _game.DEBUG_TEXT_ENABLED ? translucent : Color.White;
+            //Color color = _game.DEBUG_TEXT_ENABLED ? translucent : Color.White;
+            Color color = Color.White;
 
             // Left side
             spriteBatch.Draw(LevelLoader.Instance.Borders, new Rectangle(0, _game.WINDOW_YOFFSET, _game.WINDOW_XOFFSET, _game.WINDOW_HEIGHT), color);
@@ -281,6 +310,26 @@ namespace KirbyNightmareInDreamLand
             spriteBatch.Draw(LevelLoader.Instance.Borders, new Rectangle(_game.WINDOW_XOFFSET + _game.WINDOW_WIDTH, _game.WINDOW_YOFFSET, _game.WINDOW_XOFFSET, _game.WINDOW_HEIGHT), color);
             // Bottom side
             spriteBatch.Draw(LevelLoader.Instance.Borders, new Rectangle(0, _game.WINDOW_YOFFSET + _game.WINDOW_HEIGHT, _game.WINDOW_WIDTH + 2 * _game.WINDOW_XOFFSET, _game.WINDOW_YOFFSET), color);
+
+            if (_game.SPLITSCREEN_MODE)
+            {
+                int scale = _game.WINDOW_HEIGHT / Constants.Graphics.GAME_HEIGHT / 2;
+                Rectangle line = new Rectangle(
+                        _game.WINDOW_XOFFSET + _game.WINDOW_WIDTH / 2,
+                        _game.WINDOW_YOFFSET,
+                        scale,
+                        _game.WINDOW_HEIGHT
+                    );
+                GameDebug.Instance.DrawSolidRectangle(spriteBatch, line, Color.Black, 1f);
+                line = new Rectangle(
+                        _game.WINDOW_XOFFSET,
+                        _game.WINDOW_YOFFSET + _game.WINDOW_HEIGHT / 2,
+                        _game.WINDOW_WIDTH,
+                        scale
+                    );
+                GameDebug.Instance.DrawSolidRectangle(spriteBatch, line, Color.Black, 1f);
+            }
+
 
             // weird color blendstate test: mouse X on screen determines opacity of a red rectangle covering the whole screen
             //byte alpha = (byte)((Mouse.GetState().X * 255 / Game1.Instance.GraphicsDevice.Viewport.Width - Game1.Instance.GraphicsDevice.Viewport.X));

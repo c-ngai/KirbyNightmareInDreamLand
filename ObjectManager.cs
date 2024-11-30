@@ -9,6 +9,9 @@ using System.Diagnostics;
 using System;
 using System.Linq;
 using KirbyNightmareInDreamLand.Particles;
+using KirbyNightmareInDreamLand.Actions;
+using KirbyNightmareInDreamLand.Entities.PowerUps;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace KirbyNightmareInDreamLand
 {
@@ -20,21 +23,20 @@ namespace KirbyNightmareInDreamLand
         public List<ICollidable> StaticObjects { get; private set; }
         public List<ICollidable> DebugStaticObjects { get; private set; }
 
-        // Single-player but can later be updated to an array of kirbys for multiplayer
         public List<IPlayer> Players { get; private set; }
-
-
-        public Player kirby { get; private set; }
-
-        public IEnemy[] EnemyList { get; set; }
-
+        public List<IEnemy> Enemies { get; set; }
+        public List<IProjectile> Projectiles { get; set; }
         public List<IParticle> Particles { get; private set; }
+
         public Sprite Item { get; set; }
 
-        public string[] tileTypes { get; private set; } = new string[Constants.Level.NUMBER_OF_TILE_TYPES];
+        //public string[] tileTypes { get; private set; } = new string[Constants.Level.NUMBER_OF_TILE_TYPES];
 
         // fields and methods for score
         public int Score { get; private set; }
+
+
+        private Random random;
 
 
         private static ObjectManager instance = new ObjectManager();
@@ -51,9 +53,27 @@ namespace KirbyNightmareInDreamLand
             DynamicObjects = new List<ICollidable>();
             StaticObjects = new List<ICollidable>();
             DebugStaticObjects = new List<ICollidable>();
-            Particles = new List<IParticle>();
+
             Players = new List<IPlayer>();
-            InitializeTileTypes();
+            Enemies = new List<IEnemy>();
+            Projectiles = new List<IProjectile>();
+            Particles = new List<IParticle>();
+            
+            random = new Random();
+            //InitializeTileTypes();
+        }
+
+        public void ClearObjects()
+        {
+            foreach (IEnemy enemy in Enemies)
+            {
+                enemy.Dispose();
+            }
+            Enemies.Clear();
+            Projectiles.Clear();
+            Particles.Clear();
+
+            DynamicObjects.Clear();
         }
 
         public void UpdateScore(int points)
@@ -63,8 +83,7 @@ namespace KirbyNightmareInDreamLand
 
         public void AddKirby(IPlayer Kirby)
         {
-            kirby = (Player) Kirby;
-            Players.Add(Kirby);
+            Players.Add((Player)Kirby);
         }
         #region keyboard
         public void ChangeKeyboard()
@@ -73,35 +92,21 @@ namespace KirbyNightmareInDreamLand
         }
         #endregion
 
+        public void AddEnemy(IEnemy enemy)
+        {
+            Enemies.Add(enemy);
+        }
+        public void AddProjectile(IProjectile projectile)
+        {
+            Projectiles.Add(projectile);
+        }
+
         public void AddParticle(IParticle particle)
         {
             Particles.Add(particle);
         }
 
-        public void UpdateParticles()
-        {
-            Particles.RemoveAll(obj => obj.IsDone());
-        }
-
         #region Collision
-        public void InitializeTileTypes()
-        {
-            tileTypes[(int)TileCollisionType.Air] = "Air";
-            tileTypes[(int)TileCollisionType.Block] = "Block";
-            tileTypes[(int)TileCollisionType.Platform] = "Platform";
-            tileTypes[(int)TileCollisionType.Water] = "Water";
-            tileTypes[(int)TileCollisionType.SlopeSteepLeft] = "SlopeSteepLeft";
-            tileTypes[(int)TileCollisionType.SlopeGentle1Left] = "SlopeGentle1Left";
-            tileTypes[(int)TileCollisionType.SlopeGentle2Left] = "SlopeGentle2Left";
-            tileTypes[(int)TileCollisionType.SlopeGentle2Right] = "SlopeGentle2Right";
-            tileTypes[(int)TileCollisionType.SlopeGentle1Right] = "SlopeGentle1Right";
-            tileTypes[(int)TileCollisionType.SlopeSteepRight] = "SlopeSteepRight";
-        }
-        public void ResetDynamicCollisionBoxes()
-        {
-            DynamicObjects.Clear();
-        }
-
         // Note this removes all static objects which will be an issue if there are other non-tile ones
         public void ResetStaticObjects()
         {
@@ -140,17 +145,46 @@ namespace KirbyNightmareInDreamLand
         }
         public void OrganizeList()
         {
-            DynamicObjects = DynamicObjects.OrderBy<ICollidable, String>(o => o.GetObjectType()).ToList();
+            DynamicObjects = DynamicObjects.OrderBy<ICollidable, CollisionType>(o => o.GetCollisionType()).ToList();
         }
 
-        public void UpdateDynamicObjects()
+        private void UpdateDynamicObjects()
         {
+            foreach (ICollidable player in Players)
+            {
+                if (player.CollisionActive && !DynamicObjects.Contains(player))
+                {
+                    RegisterDynamicObject(player);
+                }
+            }
+            foreach (ICollidable enemy in Enemies)
+            {
+                if (enemy.CollisionActive && !DynamicObjects.Contains(enemy))
+                {
+                    RegisterDynamicObject(enemy);
+                }
+            }
+            foreach (ICollidable projectile in Projectiles)
+            {
+                if (projectile.CollisionActive && !DynamicObjects.Contains(projectile))
+                {
+                    RegisterDynamicObject(projectile);
+                }
+            }
             DynamicObjects.RemoveAll(obj => !obj.CollisionActive);
         }
 
+        private void EmptyLists()
+        {
+            DynamicObjects.RemoveAll(obj => obj is IProjectile projectile && projectile.IsDone());
+            Projectiles.RemoveAll(obj => obj.IsDone());
+            Particles.RemoveAll(obj => obj.IsDone());
+        }
+
+
         public void RemoveNonPlayers()
         {
-            DynamicObjects.RemoveAll(obj => !obj.GetObjectType().Equals("Player"));
+            DynamicObjects.RemoveAll(obj => !obj.GetCollisionType().Equals("Player"));
         }
 
         public void ClearPlayerList()
@@ -158,5 +192,164 @@ namespace KirbyNightmareInDreamLand
             Players.Clear();
         }
         #endregion
+
+        public IPlayer NearestPlayer(Vector2 position)
+        {
+            IPlayer nearestPlayer = null;
+            float minDistance = float.MaxValue;
+            foreach (IPlayer player in Players)
+            {
+                float distance = Vector2.Distance(position, player.GetKirbyPosition());
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    nearestPlayer = player;
+                }
+            }
+            return nearestPlayer;
+        }
+
+        public bool AllPlayersInactive()
+        {
+            foreach (IPlayer player in Players)
+            {
+                if (player.IsActive)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public bool AllPlayersDead()
+        {
+            foreach (IPlayer player in Players)
+            {
+                if (!player.DEAD)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public bool AllPlayersOutOfLives()
+        {
+            foreach (IPlayer player in Players)
+            {
+                if (player.lives > 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public void FillAllPlayerLives()
+        {
+            foreach (IPlayer player in Players)
+            {
+                player.FillLives();
+            }
+        }
+
+        public void UpdatePlayers()
+        {
+            foreach (IPlayer player in Players)
+            {
+                player.Update(Game1.Instance.time);
+            }
+        }
+
+        public void UpdateProjectiles()
+        {
+            for (int i = 0; i < Projectiles.Count; i++)
+            {
+                Projectiles[i].Update();
+            }
+        }
+
+        public void Update()
+        {
+            foreach (IPlayer player in Players)
+            {
+                player.Update(Game1.Instance.time);
+            }
+            foreach (Enemy enemy in Enemies)
+            {
+                enemy.Update(Game1.Instance.time);
+            }
+            //UpdateEnemies();
+            foreach (PowerUp powerUp in Game1.Instance.Level.powerUpList)
+            {
+                powerUp.Update();
+            }
+            for (int i = 0; i < Projectiles.Count; i++)
+            {
+                Projectiles[i].Update();
+            }
+            //UpdateProjectiles();
+            foreach (IParticle particle in Particles)
+            {
+                particle.Update();
+            }
+            //UpdateParticles();
+            UpdateDynamicObjects();
+            EmptyLists();
+        }
+
+        public void DrawPlayers(SpriteBatch spriteBatch)
+        {
+            foreach (IPlayer player in Players)
+            {
+                player.Draw(spriteBatch);
+            }
+        }
+
+        public void DrawEnemies(SpriteBatch spriteBatch)
+        {
+            foreach (Enemy enemy in Enemies)
+            {
+                enemy.Draw(spriteBatch);
+            }
+        }
+
+        public void DrawPowerups(SpriteBatch spriteBatch)
+        {
+            foreach (PowerUp powerUp in Game1.Instance.Level.powerUpList)
+            {
+                powerUp.Draw(spriteBatch);
+            }
+        }
+
+        public void DrawProjectiles(SpriteBatch spriteBatch)
+        {
+            //for (int i = Projectiles.Count - 1; i >= 0; i--)
+            //{
+            //    Projectiles[i].Draw(spriteBatch);
+            //}
+            // Draw projectiles in random order, makes effects like fire look a lot better
+            foreach (int i in Enumerable.Range(0, Projectiles.Count).OrderBy(x => random.Next()))
+            {
+                Projectiles[i].Draw(spriteBatch);
+            }
+        }
+
+        public void DrawParticles(SpriteBatch spriteBatch)
+        {
+            foreach (IParticle particle in Particles)
+            {
+                particle.Draw(spriteBatch);
+            }
+        }
+
+        public void DrawAllObjects(SpriteBatch spriteBatch)
+        {
+            DrawPlayers(spriteBatch);
+            DrawEnemies(spriteBatch);
+            DrawPowerups(spriteBatch);
+            DrawProjectiles(spriteBatch);
+            DrawParticles(spriteBatch);
+        }
     }
 }

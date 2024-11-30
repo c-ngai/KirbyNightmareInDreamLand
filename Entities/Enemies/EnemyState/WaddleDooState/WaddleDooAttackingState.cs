@@ -15,18 +15,16 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
         public void Enter()
         {
             _enemy.ChangePose(EnemyPose.Attacking);
-            _enemy.ResetFrameCounter();
             _enemy.Attack(); // Perform attack action immediately upon entering
         }
 
         public void Update()
         {
-            _enemy.IncrementFrameCounter();
+            
 
             if (_enemy.FrameCounter >= Constants.WaddleDoo.ATTACK_FRAMES)
             {
-                _enemy.ChangeState(new WaddleDooJumpingState(_enemy));
-                _enemy.UpdateTexture();
+                _enemy.ChangeState(new WaddleDooWalkingState(_enemy));
             }
         }
 
@@ -37,13 +35,18 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState
 
         public void TakeDamage()
         {
-            _enemy.ChangeState(new WaddleDooHurtState(_enemy));
-            _enemy.UpdateTexture();
+            _enemy.ChangeState(new EnemyHurtState(_enemy));
         }
 
         public void ChangeDirection()
         {
             _enemy.ToggleDirection();
         }
+
+        public void Dispose()
+        {
+
+        }
+
     }
 }

@@ -2,34 +2,36 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Audio;
+using System.Diagnostics;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
     public class FloatingMovement : PlayerMovement
     {
-        protected float floatVel = Constants.Physics.FLOAT_VEL;
-        protected float floatGravity = Constants.Physics.FLOAT_GRAVITY;
         //protected new float gravity = Constants.Physics.FLOAT_GRAVITY2;
-        private float floatFallingWindow = Constants.Graphics.FLOOR + 50;
         protected bool endFloat = false;
-        public FloatingMovement(Vector2 pos) : base(pos)
+        public FloatingMovement(Vector2 pos, Vector2 vel) : base(pos, vel)
         {
             landed = false;
+            gravity = Constants.Physics.FLOAT_GRAVITY;
+            terminalVelocity = Constants.Physics.FLOATING_TERMINAL_VELOCITY;
         }
         public override void Walk(bool isLeft)
         {
-            if (isLeft)
+            velocity.X += isLeft ? Constants.Physics.FLOATING_XACCELLERATION * -1 : Constants.Physics.FLOATING_XACCELLERATION;
+            if (velocity.X > Constants.Physics.FLOATING_XVELOCITY)
             {
-                xVel = floatVel * -1; // times -1 to go in opposite direction
+                velocity.X = Constants.Physics.FLOATING_XVELOCITY;
             }
-            else
+            else if (velocity.X < -Constants.Physics.FLOATING_XVELOCITY)
             {
-                xVel = floatVel;
+                velocity.X = -Constants.Physics.FLOATING_XVELOCITY;
             }
         }
 
         public override void Run(bool isLeft)
         {
+            // Horizontal movement in midair while running is identical to walking
             Walk(isLeft);
         }
 
@@ -38,93 +40,66 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             endFloat = false;
             landed = false;
-            yVel = floatVel * -1; //go up
-            
+            velocity.Y += -0.3f; //go up
+            if (velocity.Y < Constants.Physics.FLOAT_MIN_YVEL)
+            {
+                velocity.Y = Constants.Physics.FLOAT_MIN_YVEL;
+            }
+            gravity = Constants.Physics.FLOAT_GRAVITY;
+            terminalVelocity = Constants.Physics.FLOATING_TERMINAL_VELOCITY;
         }
 
-        public void AdjustYPositionWhileFloating(Player kirby)
+        public void AdjustPoseWhileFloating(Player kirby)
         {
             //dont go through the floor but float state as not been terminated
-            if (landed)
-            {   
-                kirby.ChangePose(KirbyPose.FloatingGrounded);
+            if (kirby.state.GetPose() != KirbyPose.FloatingStart)
+            {
+                if (landed)
+                {
+                    kirby.ChangePose(KirbyPose.FloatingGrounded);
+                }
+                else if (velocity.Y > 0)
+                {
+                    kirby.ChangePose(KirbyPose.FloatingFalling);
+                }
+                else
+                {
+                    kirby.ChangePose(KirbyPose.FloatingRising);
+                }
             }
         }
-        public void AdjustYPositionWhileNotFloating(Player kirby)
+        public void LandIfOnGround(Player kirby)
         {
             //dont go through the floor but floating was ended
             if (landed)
             {
-                kirby.ChangePose(KirbyPose.Standing);
-                kirby.ChangeMovement();
+                kirby.ChangeToNormalMovement();
             }
         }
 
         public override void AdjustY(Player kirby)
         {
+            base.AdjustY(kirby);
+
             if (endFloat)
             {
-                AdjustYPositionWhileNotFloating(kirby);
+                LandIfOnGround(kirby);
             }
             else
             {
-                AdjustYPositionWhileFloating(kirby);
-            }
-            //dont go through the ceiling
-            if (position.Y < Constants.Kirby.CEILING)
-            {
-                yVel = 0;
-                position.Y = Constants.Kirby.CEILING;
-            }
-             if(position.Y > Game1.Instance.Level.CurrentRoom.Height)
-            {
-                if(kirby.CollisionActive){
-                    FallOffScreenTwo(kirby);
-                } else {
-                    FallOffScreenOne(kirby);
-                }
-            }
-        }
-
-        public override void UpdatePosition(GameTime gameTime)
-        {
-            yVel += floatGravity * dt;
-            position.X += xVel;
-            position.Y += yVel;
-        }
-        //the animation of kirby letting air go
-        public void FloatingEndAnimation(Player kirby)
-        {
-            kirby.ChangePose(KirbyPose.FloatingEnd);
-        }
-
-        public void FloatingFallingAnimation(Player kirby)
-        {
-            //floating doesnt go into the falling animation within a certain distance from floor
-            if (position.Y < floatFallingWindow)
-            {
-                kirby.ChangePose(KirbyPose.FreeFall);
-
+                AdjustPoseWhileFloating(kirby);
             }
         }
 
         //attack (or pressing z) undoes float
         public override void Attack(Player kirby)
         {
-            if (!kirby.GetKirbyPose().Equals("FloatingGrounded"))
-            {
-                //SoundManager.Play("spitair");
-                FloatingEndAnimation(kirby);
-                floatGravity = gravity;
-                endFloat = true;
-                yVel = floatVel;
-                FloatingFallingAnimation(kirby);
-            }
-            else
-            {
-                FloatingEndAnimation(kirby);
-                endFloat = true;
-            }
+            gravity = Constants.Physics.GRAVITY;
+            terminalVelocity = Constants.Physics.TERMINAL_VELOCITY;
+            //kirby.ChangePose(KirbyPose.FloatingEnd);
+            kirby.ChangeToNormalMovement();
+            endFloat = true;
+         
         }
 
     }

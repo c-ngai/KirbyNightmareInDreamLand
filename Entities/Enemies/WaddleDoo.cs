@@ -24,30 +24,32 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public WaddleDoo(Vector2 startPosition) : base(startPosition, EnemyType.WaddleDoo)
         {
-            //Initialize pose
+            affectedByGravity = true;
+        }
+
+        public override void Spawn()
+        {
+            base.Spawn();
             stateMachine.ChangePose(EnemyPose.Walking);
             ChangeState(new WaddleDooWalkingState(this));
-            //TO-DO: spawn facing the direction kirby is in
-            stateMachine.ChangeDirection();
-            yVel = 0;
-            xVel = Constants.WaddleDoo.MOVE_SPEED;
+        }
+
+        public override void Move()
+        {
+            base.Move();
+            velocity.X = stateMachine.IsLeft() ? -Constants.WaddleDoo.MOVE_SPEED : Constants.WaddleDoo.MOVE_SPEED;
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (!isDead)
-            {
-                IncrementFrameCounter();
-                currentState.Update();
-                enemySprite.Update();
-                GetHitBox();
-                 Fall();
+            base.Update(gameTime);
 
+            if (active)
+            {
                 // Handle the beam if active
                 if (isBeamActive)
                 {
-                    beam.Update();
-                    if (!beam.IsBeamActive())
+                    if (beam.IsDone())
                     {
                         isBeamActive = false;
                     }
@@ -67,10 +69,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             {
                 // Start jumping and store initial y
                 isJumping = true;
-                yVel = -Constants.WaddleDoo.JUMP_VELOCITY;
+                velocity.Y = -Constants.WaddleDoo.JUMP_VELOCITY;
             }
-
-            Move();
         }
 
         public override void Attack()
@@ -86,24 +86,23 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (!isDead)
+            base.Draw(spriteBatch);
+            if (active)
             {
                 // Draw the beam if it's active
                 if (isBeamActive)
                 {
                     beam.Draw(spriteBatch);
                 }
-                //draw enemy
-                enemySprite.Draw(position, spriteBatch);
                 //spriteBatch.DrawString(LevelLoader.Instance.Font, isJumping.ToString(), position + new Vector2(-24, -30), Color.Black);
             }
         }
 
         public override void BottomCollisionWithBlock(Rectangle intersection)
         {
-            isFalling = false;
+            base.BottomCollisionWithBlock(intersection);
+
             isJumping = false;
-            position.Y = intersection.Y;
             
             // Note (Mark) THIS IS A BIT JANK
             // Basically: if colliding with a block from above, change to walking state if jumping
@@ -111,7 +110,20 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             {
                 ChangeState(new WaddleDooWalkingState(this));
             }
-            yVel = 0;
+        }
+
+        public override void BottomCollisionWithPlatform(Rectangle intersection)
+        {
+            base.BottomCollisionWithPlatform(intersection);
+
+            isJumping = false;
+
+            // Note (Mark) THIS IS A BIT JANK
+            // Basically: if colliding with a block from above, change to walking state if jumping
+            if (currentState.GetType().Equals(typeof(WaddleDooJumpingState)))
+            {
+                ChangeState(new WaddleDooWalkingState(this));
+            }
         }
 
         public override void AdjustOnSlopeCollision(Tile tile, float slope, float yIntercept)
@@ -137,10 +149,15 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                     {
                         ChangeState(new WaddleDooWalkingState(this));
                     }
-                    yVel = 0;
+                    velocity.Y = 0;
                 }
                 //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
             }
+        }
+
+        public override KirbyType PowerType()
+        {
+            return KirbyType.Beam;
         }
 
     }

@@ -18,19 +18,17 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState
         }
         public void Enter()
         {
-            _enemy.ChangePose(EnemyPose.Hop);
-            _enemy.ResetFrameCounter(); 
+            _enemy.StopMoving();
         }
 
         public void Update()
         {
             // Wait for a defined period of time
-            _enemy.IncrementFrameCounter();
+            
 
             if (_enemy.FrameCounter >= Constants.PoppyBrosJr.PAUSE_TIME)
             {
                 _enemy.ChangeState(new PoppyBrosJrHopState(_enemy));
-                _enemy.UpdateTexture();
             }
         }
 
@@ -38,13 +36,18 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState
 
         public void TakeDamage()
         {
-            _enemy.ChangeState(new PoppyBrosJrHurtState(_enemy));
-            _enemy.UpdateTexture();
+            _enemy.ChangeState(new EnemyHurtState(_enemy));
         }
 
         public void ChangeDirection()
         {
             _enemy.ToggleDirection();
         }
+
+        public void Dispose()
+        {
+
+        }
+
     }
 }

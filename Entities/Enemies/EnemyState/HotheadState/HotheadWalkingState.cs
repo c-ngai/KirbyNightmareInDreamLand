@@ -9,29 +9,30 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState
 {
     public class HotheadWalkingState : IEnemyState
     {
-        private readonly Hothead _hothead;
+        private readonly Enemy _enemy;
 
-        public HotheadWalkingState(Hothead hothead)
+        private int walkingDuration;
+
+        public HotheadWalkingState(Enemy enemy)
         {
-            _hothead = hothead ?? throw new ArgumentNullException(nameof(hothead));
+            _enemy = enemy ?? throw new ArgumentNullException(nameof(enemy));
+            // Set the duration of this walking state to a random value in the range
+            walkingDuration = _enemy.random.Next(Constants.Hothead.WALK_MIN_FRAMES, Constants.Hothead.WALK_MAX_FRAMES);
         }
 
         public void Enter()
         {
-            _hothead.ChangePose(EnemyPose.Walking);
-            _hothead.ResetFrameCounter();
+            _enemy.ChangePose(EnemyPose.Walking);
         }
 
         public void Update()
         {
-            _hothead.Move(); // Execute walking movement logic
-            _hothead.IncrementFrameCounter();
+            _enemy.Move(); // Execute walking movement logic
 
-            if (_hothead.FrameCounter >= Constants.Hothead.WALK_FRAMES)
+            if (_enemy.FrameCounter >= walkingDuration)
             {
-                _hothead.UpdateDirection();
-                _hothead.ChangeState(new HotheadChargingState(_hothead));
-                _hothead.UpdateTexture();
+                _enemy.FaceNearestPlayer();
+                _enemy.ChangeState(new HotheadChargingState(_enemy));
             }
         }
 
@@ -42,13 +43,18 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState
 
         public void TakeDamage()
         {
-            _hothead.ChangeState(new HotheadHurtState(_hothead));
-            _hothead.UpdateTexture();
+            _enemy.ChangeState(new EnemyHurtState(_enemy));
         }
 
         public void ChangeDirection()
         {
-            _hothead.ToggleDirection();
+            _enemy.ToggleDirection();
         }
+
+        public void Dispose()
+        {
+
+        }
+
     }
 }

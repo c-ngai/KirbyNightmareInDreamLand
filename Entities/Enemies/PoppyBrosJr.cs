@@ -6,46 +6,75 @@ using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.PoppyBrosJrState;
 using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDooState;
 using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState;
+using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
     public class PoppyBrosJr : Enemy
     {
-        private bool isJumping = false;
-        public bool IsJumping => isJumping;
+        private bool landed = false;
+        private bool mainDirection;
 
         public PoppyBrosJr(Vector2 startPosition) : base(startPosition, EnemyType.PoppyBrosJr)
         {
+            affectedByGravity = true;
+            gravity = Constants.PoppyBrosJr.GRAVITY;
+        }
+
+        public override void Spawn()
+        {
+            base.Spawn();
             stateMachine.ChangePose(EnemyPose.Hop);
-            ChangeState(new PoppyBrosJrHopState(this));
-            yVel = 0;
-            xVel = Constants.PoppyBrosJr.MOVE_SPEED;
+            currentState = new PoppyBrosJrHopState(this);
+            mainDirection = stateMachine.IsLeft();
+        }
+
+        public override void Move()
+        {
+            base.Move();
+            velocity.X = stateMachine.IsLeft() ? -Constants.PoppyBrosJr.MOVE_SPEED : Constants.PoppyBrosJr.MOVE_SPEED;
         }
 
         public override void Jump()
         {
-            if (!isJumping)
+            if (landed)
             {
-                // Start jumping and store initial y
-                isJumping = true;
-                yVel = -Constants.PoppyBrosJr.JUMP_VELOCITY;
+                // Change direction if facing away from the main direction, or on a random 1/4 chance
+                if (stateMachine.IsLeft() != mainDirection || random.Next(0, 4) == 0)
+                {
+                    ChangeDirection();
+                }
+                ChangePose(EnemyPose.Hop);
+                enemySprite.ResetAnimation();
+                velocity.Y = Constants.PoppyBrosJr.JUMP_VELOCITY;
+                landed = false;
             }
-            Move();
         }
 
         public override void BottomCollisionWithBlock(Rectangle intersection)
         {
-            isFalling = false;
-            isJumping = false;
-            position.Y = intersection.Y;
-
+            base.BottomCollisionWithBlock(intersection);
+            
+            landed = true;
             // Note (Mark) THIS IS A BIT JANK
             // Basically: if colliding with a block from above, change to walking state if jumping
             if (currentState.GetType().Equals(typeof(PoppyBrosJrHopState)))
             {
                 ChangeState(new PoppyBrosJrLandState(this));
             }
-            yVel = 0;
+        }
+
+        public override void BottomCollisionWithPlatform(Rectangle intersection)
+        {
+            base.BottomCollisionWithPlatform(intersection);
+
+            landed = true;
+            // Note (Mark) THIS IS A BIT JANK
+            // Basically: if colliding with a block from above, change to walking state if jumping
+            if (currentState.GetType().Equals(typeof(PoppyBrosJrHopState)))
+            {
+                ChangeState(new PoppyBrosJrLandState(this));
+            }
         }
 
         public override void AdjustOnSlopeCollision(Tile tile, float slope, float yIntercept)
@@ -65,16 +94,18 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                     position.Y = slopeY;
 
                     isFalling = false;
-                    isJumping = false;
+                    landed = true;
                     // TODO: remove band-aid. waddle doo is always still inside the slope on the first frame of his jump, but he shouldn't be. check the order that velocity and position changes happen. position should change by velocity ONCE at the end of an update
                     if (currentState.GetType().Equals(typeof(PoppyBrosJrHopState)) && frameCounter > 0)
                     {
                         ChangeState(new PoppyBrosJrLandState(this));
                     }
-                    yVel = 0;
+                    velocity.Y = 0;
                 }
                 //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
             }
         }
+
+
     }
 }

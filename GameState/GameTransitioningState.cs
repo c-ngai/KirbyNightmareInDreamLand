@@ -1,4 +1,5 @@
-﻿using KirbyNightmareInDreamLand.Levels;
+﻿using KirbyNightmareInDreamLand.Entities.Players;
+using KirbyNightmareInDreamLand.Levels;
 using Microsoft.Xna.Framework;
 
 
@@ -27,9 +28,6 @@ namespace KirbyNightmareInDreamLand.GameState
 
         public override void Update()
         {
-
-            base.Update();
-
             //System.Diagnostics.Debug.WriteLine($"FadeAlpha: {FadeAlpha}, CurrentlyFadingOut: {CurrentlyFadingOut}, CurrentlyFadingIn: {CurrentlyFadingIn}");
 
             // if we are currently fading out we want to keep fading out
@@ -43,33 +41,80 @@ namespace KirbyNightmareInDreamLand.GameState
                 }
             }
 
+            Vector2? doorPositionForNextRoom = level.NextSpawn;
+
             // if we are transitioning and not fading out we want to use the opaque screen to load the new room 
             if (!CurrentlyFadingOut && !CurrentlyFadingIn)
             {
-                level.LoadRoom(level.NextRoom, level.NextSpawn); // load new room
-                //System.Diagnostics.Debug.WriteLine("Next room is ..." + level.NextRoom);
+                if (level.NextRoom == "winner_room")
+                {
+                    level.LoadRoom(level.NextRoom, new Vector2 (100, 100));
+                }
+                else if (level.CurrentRoom.Name == "winner_room" && level.PreviousRoom == "room3")
+                {
+                    level.LoadRoom(level.NextRoom, new Vector2(120, 270));
+                }
+                else if (level.CurrentRoom.Name == "winner_room" && level.PreviousRoom == "level2_room3")
+                {
+                    level.LoadRoom(level.NextRoom, new Vector2(250, 300));
+                }
+                else
+                {
+                    level.LoadRoom(level.NextRoom, doorPositionForNextRoom); // load new room
+                }
                 CurrentlyFadingIn = true; //  Que the fade in
             }
 
             // if we are currently fading in we want to keep fading in
-            if ( CurrentlyFadingIn)
+            if (CurrentlyFadingIn)
             {
                 level.FadeAlpha -= FadeSpeed; // decrement opacity 
                 if (level.FadeAlpha <= transparentAlpha) // if we are transparent 
                 {
                     level.FadeAlpha = startFade; // reset fadeAlpha so fade-out is ready to go
                     CurrentlyFadingIn = false; // Fade-in complete
+
+                    level.IsDoorBeingOpened = false;
+                    level.IsDoorBeingExited = true;
+
                     if (level.NextRoom == gameOverString)
                     {
                         level.ChangeState(Game1.Instance.Level._gameOverState);
+                        level.ExitDoorAt(doorPositionForNextRoom);
+                    }
+                    else if (level.NextRoom == "winner_room")
+                    {
+                        level.ChangeState(Game1.Instance.Level._winningState);
+                        level.ExitDoorAt(doorPositionForNextRoom);
+                    }
+                    else if (level.CurrentRoom.Name == "winner_room" && level.PreviousRoom == "room3")
+                    {
+                        level.ChangeState(Game1.Instance.Level._playingState); // We are done transitioning so set game state to playing
+                        level.ExitDoorAt(new Vector2(6, 16));
+                    }
+                    else if (level.CurrentRoom.Name == "winner_room" && level.PreviousRoom == "level2_room3")
+                    {
+                        level.ChangeState(Game1.Instance.Level._playingState); // We are done transitioning so set game state to playing
+                        level.ExitDoorAt(new Vector2(14, 18));
                     }
                     else
                     {
-                        level.ChangeState(Game1.Instance.Level._playingState); // We are done transitioning so set game state to playing 
+                        level.ChangeState(Game1.Instance.Level._playingState); // We are done transitioning so set game state to playing
+                        level.ExitDoorAt(doorPositionForNextRoom);
                     }
                 }
+
+                // ensures all Kirbys reset to default movement and positon after each door
+                foreach (Player player in ObjectManager.Instance.Players)
+                {
+                    player.ResetAfterDoor();
+                }
             }
+
+            base.Update();
         }
+
+
     }
 }
 

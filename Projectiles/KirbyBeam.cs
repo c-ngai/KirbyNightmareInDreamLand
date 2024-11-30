@@ -1,4 +1,5 @@
 ﻿using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Entities.Players;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -6,8 +7,9 @@ using System.Collections.Generic;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class KirbyBeam : IProjectile
+    public class KirbyBeam : IProjectile, ICollidable
     {
+        public IPlayer player { get; private set; }
         private Vector2 position;
         private Vector2 velocity;
         private int segmentsFired;
@@ -34,17 +36,21 @@ namespace KirbyNightmareInDreamLand.Projectiles
             set => velocity = value;
         }
 
-        public KirbyBeam(Vector2 kirbyPosition, bool isFacingRight)
+        public KirbyBeam(IPlayer player, bool isFacingRight)
         {
+            this.player = player;
+
             // Calculate the position based on Kirby's position and the offset
             this.isFacingRight = isFacingRight;
             Vector2 offset = isFacingRight ? Constants.Kirby.BEAM_ATTACK_OFFSET_RIGHT : Constants.Kirby.BEAM_ATTACK_OFFSET_LEFT;
-            this.position = kirbyPosition + offset;
+            this.position = player.GetKirbyPosition() + offset;
 
             beamSegments = new List<KirbyBeamSegment>();
             frameCounter = 0;
             segmentsFired = 0;
             SoundManager.Play("kirbybeamattack");
+
+            ObjectManager.Instance.AddProjectile(this);
         }
 
         private float GetRotation()
@@ -56,10 +62,15 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
         public void Update()
         {
-            if (segmentsFired < totalSegments && (frameCounter % fourthFrameInPattern != 0 || frameCounter % fifthFrameInPattern != 0))
+            Vector2 offset = isFacingRight ? Constants.Kirby.BEAM_ATTACK_OFFSET_RIGHT : Constants.Kirby.BEAM_ATTACK_OFFSET_LEFT;
+            this.position = player.GetKirbyPosition() + offset;
+
+            if (segmentsFired < totalSegments && frameCounter % 5 < 3 )//(frameCounter % fourthFrameInPattern != 0 || frameCounter % fifthFrameInPattern != 0))
             {
                 Vector2 velocity = new Vector2((float)Math.Cos(GetRotation()), (float)Math.Sin(GetRotation())) * UnitsPerFrame;
-                beamSegments.Add(new KirbyBeamSegment(position, velocity, !isFacingRight));
+                velocity += player.GetKirbyVelocity();
+                bool odd = frameCounter % 2 != 0;
+                beamSegments.Add(new KirbyBeamSegment(position, velocity, odd, player));
                 segmentsFired++;
             }
 
@@ -71,16 +82,15 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void EndAttack()
         {
-            foreach (var segment in beamSegments)
-            {
-                if(segment.IsDone())
-                {
-                    //segment.EndAttack(); //destroys the hit box if it is done
-                }
-            }
+
         }
+        // Done if all segments are done (and not on the firs)
         public bool IsDone()
         {
+            if (frameCounter <= 1)
+            {
+                return false;
+            }
             foreach (var segment in beamSegments)
             {
                 if(!segment.IsDone())
@@ -98,5 +108,23 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 segment.Draw(spriteBatch);
             }
         }
+
+        // THESE METHODS NEVER CALLED, ObjectManager just needs all IProjectiles to be
+        // ICollidables. This class is a non-colliding projectile, so it's basically
+        // just an ICollidable that always says no when asked if its collision is active.
+        public bool CollisionActive { get; private set; } = false;
+        public Rectangle GetHitBox()
+        {
+            return Rectangle.Empty;
+        }
+        public Vector2 GetPosition()
+        {
+            return Vector2.Zero;
+        }
+        public CollisionType GetCollisionType()
+        {
+            return CollisionType.PlayerAttack;
+        }
+
     }
 }

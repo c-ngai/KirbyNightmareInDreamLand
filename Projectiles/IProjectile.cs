@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using KirbyNightmareInDreamLand.Entities.Players;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace KirbyNightmareInDreamLand.Projectiles
@@ -11,5 +12,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
         void EndAttack();
         Vector2 Position { get; } // Position of the projectile
         Vector2 Velocity { get;} // Velocity or direction of the projectile
+        IPlayer player { get; } // the player that created this projectile, if any. if not created by a player, this value is null
     }
 }

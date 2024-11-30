@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using KirbyNightmareInDreamLand.StateMachines;
 using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Particles;
+using System.Diagnostics;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -9,46 +10,71 @@ namespace KirbyNightmareInDreamLand.Entities.Players
     {
         public const float jumpCeiling = Constants.Physics.JUMP_CEILING;
 
-        protected float jumpVel = Constants.Physics.JUMP_VEL;
-        protected float jumpHeight = Constants.Physics.JUMP_MAX_HEIGHT;
+        protected float jumpYVel = Constants.Physics.JUMP_VEL;
+        protected float jumpXVel = Constants.Physics.JUMPING_XVELOCITY;
+        protected int jumpFrames = Constants.Physics.JUMP_MAX_FRAMES;
+        protected int frameCounter;
+        protected int lastFrameJumpCalled;
 
-        private float startingY;
-
-        public new float yVel = Constants.Physics.JUMP_VEL;
-        public JumpMovement(Vector2 pos) : base(pos)
+        public JumpMovement(Vector2 pos, Vector2 vel) : base(pos, vel)
         {
             landed = false;
-            startingY = position.Y;
+            frameCounter = 0;
+            lastFrameJumpCalled = Game1.Instance.UpdateCounter;
+            velocity.Y = Constants.Physics.JUMP_VEL;
         }
 
         public override void Walk(bool isLeft)
         {
-            xVel = isLeft ? jumpVel :jumpVel * -1;
+            velocity.X += isLeft ? Constants.Physics.JUMPING_XACCELLERATION * -1 : Constants.Physics.JUMPING_XACCELLERATION;
+            if (velocity.X > Constants.Physics.JUMPING_XVELOCITY)
+            {
+                velocity.X = Constants.Physics.JUMPING_XVELOCITY;
+            }
+            else if (velocity.X < -Constants.Physics.JUMPING_XVELOCITY)
+            {
+                velocity.X = -Constants.Physics.JUMPING_XVELOCITY;
+            }
         }
+
+        public override void Run(bool isLeft)
+        {
+            // Horizontal movement in midair while running is identical to walking
+            Walk(isLeft);
+        }
+
         #region Jumping
         public void FinishJump(Player kirby)
         {
-            kirby.ChangePose(KirbyPose.Standing);
-            yVel = 0;
-            kirby.ChangeMovement();
+            kirby.ChangeToNormalMovement();
             SoundManager.Play("land");
-            IParticle star = new Star(position);
-
         }
         //checks if kirby is going down to start the falling animation
         public void JumpCheck(Player kirby)
         {
-            if (yVel > 0)
+            if (velocity.Y > 0 && kirby.GetKirbyPose() == KirbyPose.JumpRising)
             {
                 kirby.ChangePose(KirbyPose.JumpFalling);
             }
         }
         public override void Jump(bool isLeft)
         {
-            if (position.Y > startingY - jumpHeight && yVel < 0)
+            //if (position.Y > startingY - jumpHeight && velocity.Y < 0)
+            //{ //makes it so kirby can only jump so high
+            //    velocity.Y = jumpVel;
+            //}
+
+            int updateCounter = Game1.Instance.UpdateCounter;
+            // jump if:
+            //   1. haven't run out of frames yet
+            //   2. AND if jump was called no later than last frame. (if you let go of jump for even a single frame you stop rising)
+            if (frameCounter < jumpFrames && updateCounter <= lastFrameJumpCalled + 1)
             { //makes it so kirby can only jump so high
-                yVel = jumpVel;
+                velocity.Y = jumpYVel;
+                frameCounter++;
+                
             }
+            lastFrameJumpCalled = updateCounter;
         }
 
         #endregion
@@ -57,35 +83,16 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             //does nothing
         }
         #region Move Sprite
-        //update kirby position in UI
-        public override void UpdatePosition(GameTime gameTime)
-        {
-            yVel += gravity * dt;
-            position.X += xVel;
-            position.Y += yVel ;//+ gravity * dt *dt *.5f;
-        }
 
         public override void AdjustY(Player kirby)
         {
+            base.AdjustY(kirby);
+            
             //dont go through the floor
             if (landed)
             {
                 FinishJump(kirby);
                 //once he is back on the floor kirby is normal again
-            }
-            //dont go through the ceiling
-            if (position.Y < jumpCeiling)
-            {
-                yVel = 0;
-                position.Y = jumpCeiling;
-            }
-             if(position.Y > Game1.Instance.Level.CurrentRoom.Height)
-            {
-                if(kirby.CollisionActive){
-                    FallOffScreenTwo(kirby);
-                } else {
-                    FallOffScreenOne(kirby);
-                }
             }
         }
         //ensures sprite does not leave the window
@@ -98,8 +105,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         //updates position and adjusts frame. 
         public override void MovePlayer(Player kirby, GameTime gameTime)
         {
-            UpdatePosition(gameTime);
-            Adjust(kirby);
+            base.MovePlayer(kirby, gameTime);
+
+            // If Kirby has just let go of jump and is still rising, cut his vertical velocity off a bit. This is a subtle feature in the actual game that makes jumping feel snappier and easier to control
+            if (Game1.Instance.UpdateCounter == lastFrameJumpCalled + 1 && velocity.Y < Constants.Physics.JUMP_RELEASE_VEL)
+            {
+                velocity.Y = Constants.Physics.JUMP_RELEASE_VEL;
+            }
         }
         #endregion
 

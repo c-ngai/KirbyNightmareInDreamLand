@@ -9,35 +9,21 @@ namespace KirbyNightmareInDreamLand
 {
 	public class GameOverLay
 	{
-        SpriteBatch spriteBatch;
-        Camera _camera;
+        Game1 _game;
 
 		public GameOverLay()
         {
-            spriteBatch = Game1.Instance._spriteBatch;
-            _camera = Game1.Instance.Camera;
+            _game = Game1.Instance;
         }
 
-        public void DrawFade(float alphaFade)
+        public void DrawFade(SpriteBatch spriteBatch, float alphaFade)
         {
-            System.Diagnostics.Debug.WriteLine("Current alpha fade value = " + alphaFade);
-            GameDebug.Instance.DrawSolidRectangle(spriteBatch, _camera.bounds, Color.White, alphaFade);
-        }
+            Camera camera = _game.cameras[_game.CurrentCamera];
 
-        public void DrawPause()
-        {
-            GameDebug.Instance.DrawSolidRectangle(spriteBatch, _camera.bounds, Color.White, 1);
-            List<string> kirbyType = new List<string>();
-            foreach (Player player in Game1.Instance.manager.Players)
-            {
-                kirbyType.Add(player.GetKirbyTypePause());
-            }
-            ISprite pause_sprite = SpriteFactory.Instance.CreateSprite(kirbyType[0] + "_pause_screen");
-            ISprite pause_background = SpriteFactory.Instance.CreateSprite("pause_screen_background");
-            pause_background.Draw(new Vector2(_camera.bounds.X, _camera.bounds.Y), spriteBatch);
-            pause_sprite.Draw(new Vector2(_camera.bounds.X, _camera.bounds.Y), spriteBatch);
+            // this version uses color addition instead of the typical multiplication to achieve a fade effect more similar to the GBA
+            int a = (int)(alphaFade * Constants.Graphics.FADE_COLOR_ADDITION);
+            GameDebug.Instance.DrawSolidRectangle(spriteBatch, camera.bounds, new Color(a, a, a, 0), 1f);
         }
-
     }
 
 }
