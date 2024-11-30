@@ -118,6 +118,8 @@ namespace KirbyNightmareInDreamLand
 
             public const float STEEP_SLOPE_RIGHT_M = -1;
             public const int STEEP_SLOPE_RIGHT_YINTERCEPT = 16;
+
+            public const int COLLISION_RADIUS = 55;
         }
         #endregion
         #region  HitBoxes

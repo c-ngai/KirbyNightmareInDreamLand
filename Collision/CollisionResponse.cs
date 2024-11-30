@@ -17,16 +17,13 @@ namespace KirbyNightmareInDreamLand.Collision
                 return instance;
             }
         }
-        public bool DictEmpty()
-        {
-            return collisionMapping.Count == 0;
-        }
+
         public CollisionResponse()
         {
             collisionMapping = new();
         }
 
-        // Creates string mappings of object types and collision side to determine object reactions 
+        // creates string mappings of object types and collision side to determine object reactions 
         // gets called by level loader
         public void RegisterCollision(CollisionType object1Type, CollisionType object2Type, CollisionSide side, Action<ICollidable, ICollidable, Rectangle> object1Command, Action<ICollidable, ICollidable, Rectangle> object2Command)
         {
@@ -34,7 +31,7 @@ namespace KirbyNightmareInDreamLand.Collision
             Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>> commands = new Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>>(object1Command, object2Command);
             collisionMapping.Add(objects, commands);
         }
-        // Overflow method, don't specify a side to register it for all sides
+        // overflow method, don't specify a side to register it for all sides
         public void RegisterCollision(CollisionType object1Type, CollisionType object2Type, Action<ICollidable, ICollidable, Rectangle> object1Command, Action<ICollidable, ICollidable, Rectangle> object2Command)
         {
             foreach (CollisionSide side in Enum.GetValues(typeof(CollisionSide)))
@@ -43,29 +40,29 @@ namespace KirbyNightmareInDreamLand.Collision
             }
         }
 
+        // handles collision reactions
         public void ExecuteCollision(ICollidable object1, ICollidable object2, CollisionSide side)
         {
             CollisionType key1 = object1.GetCollisionType();
-            CollisionType key2 = object2.GetCollisionType();
-            if(true) //ShouldCollide(key1, key2))
-            {   
-                //hand side that is being collided
-                Tuple<CollisionType, CollisionType, CollisionSide> objects = new Tuple<CollisionType, CollisionType, CollisionSide>(key1, key2, side);
+            CollisionType key2 = object2.GetCollisionType(); 
 
-                if (collisionMapping.ContainsKey(objects))
+            // create key with objects and side that is being collided
+            Tuple<CollisionType, CollisionType, CollisionSide> objects = new Tuple<CollisionType, CollisionType, CollisionSide>(key1, key2, side);
+
+            // checks collision is in dictionary before calling dictionary to execute reaction
+            if (collisionMapping.ContainsKey(objects))
+            {
+                Rectangle intersection = Rectangle.Intersect(object1.GetHitBox(), object2.GetHitBox());
+                Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>> commands = collisionMapping[objects];
+                if (commands.Item1 != null)
                 {
-                    Rectangle intersection = Rectangle.Intersect(object1.GetHitBox(), object2.GetHitBox());
-                    Tuple<Action<ICollidable, ICollidable, Rectangle>, Action<ICollidable, ICollidable, Rectangle>> commands = collisionMapping[objects];
-                    if (commands.Item1 != null)
-                    {
-                        commands.Item1(object1, object2, intersection);
-                    }
-                    if (commands.Item2 != null)
-                    {
-                        commands.Item2(object1, object2, intersection);
-                    }
+                    commands.Item1(object1, object2, intersection);
                 }
-            } 
+                if (commands.Item2 != null)
+                {
+                    commands.Item2(object1, object2, intersection);
+                }
+            }
         }
     }
 }
