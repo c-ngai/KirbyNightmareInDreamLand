@@ -184,7 +184,7 @@ namespace KirbyNightmareInDreamLand
             public const float INVINCIBLE_TIME = 1.5f;
             public const int MAX_HEALTH = 6; //6
             public const int MAX_LIVES = 3; //3
-            public const int STARTINGXPOSITION = 30;
+            public const int STARTING_XPOSITION = 30;
             public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(11, -9);
             public static Vector2 BEAM_ATTACK_OFFSET_LEFT = new Vector2(-11, -9);
             public static Vector2 PUFF_ATTACK_OFFSET = new Vector2(15, 0);
@@ -200,21 +200,17 @@ namespace KirbyNightmareInDreamLand
             public static float SLIDE_VEL = 2.5f;
             public static float CEILING = 15;
             public static int BOUNDS = 10;
-            public static int MINFREEFALLFARFRAMES = 16;
-            public static int BOUNCEJUMPFRAME = 2;
-            public static int STOPBOUNCEFRAME = 22;
-            public static int STOPFLOATINGTRANSITIONFRAME = 9;
+            public static int MIN_FREEFALL_FAR_FRAMES = 16;
+            public static int BOUNCE_JUMP_FRAME = 2;
+            public static int STOP_BOUNCE_FRAME = 22;
+            public static int STOP_FLOATING_TRANSITION_FRAME = 9;
             public static int HURT_STUN_FRAMES = 24;
-            public static int STOPHURTFRAME = 20;
+            public static int STOP_HURT_FRAME = 20;
         }
         #endregion
-        public class WaitTimes
+        public class SoundValues
         {
-            public const int DELAY_400 = 400;
-            public const int DELAY_1500 = 1500;
-            public const int DELAY_800 = 800;
-            public const int DELAY_500 = 500;
-            public const int DELAY_200 = 200;
+            public const int PITCH_ADJUSTMENT = 60;
         }
 
         public class Controller

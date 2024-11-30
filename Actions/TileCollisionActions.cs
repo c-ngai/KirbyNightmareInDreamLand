@@ -2,11 +2,7 @@
 using KirbyNightmareInDreamLand.Entities.Players;
 using KirbyNightmareInDreamLand.Entities.Enemies;
 using KirbyNightmareInDreamLand.Projectiles;
-using KirbyNightmareInDreamLand.Collision;
-using System.Numerics;
 using KirbyNightmareInDreamLand.Levels;
-using System.Diagnostics;
-using System;
 namespace KirbyNightmareInDreamLand.Actions
 {
     public class TileCollisionActions

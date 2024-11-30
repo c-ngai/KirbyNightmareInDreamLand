@@ -478,7 +478,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     ChangePose(KirbyPose.FreeFall);
                 }
                 // should kirby enter free fall far
-                if (GetKirbyPose() == KirbyPose.FreeFall && poseCounter > Constants.Kirby.MINFREEFALLFARFRAMES && state.GetKirbyType() != KirbyType.Mouthful)
+                if (GetKirbyPose() == KirbyPose.FreeFall && poseCounter > Constants.Kirby.MIN_FREEFALL_FAR_FRAMES && state.GetKirbyType() != KirbyType.Mouthful)
                 {
                     ChangePose(KirbyPose.FreeFallFar);
                 }
@@ -498,7 +498,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
 
             // changes kirby to freefall once stop floating should end
-            if (GetKirbyPose() == KirbyPose.FloatingEnd && poseCounter > Constants.Kirby.STOPFLOATINGTRANSITIONFRAME)
+            if (GetKirbyPose() == KirbyPose.FloatingEnd && poseCounter > Constants.Kirby.STOP_FLOATING_TRANSITION_FRAME)
             {
                 ChangePose(KirbyPose.FreeFall);
                 movement.ChangeKirbyLanded(false);
@@ -581,7 +581,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 ChangePose(KirbyPose.FloatingStart);
             }
-            else if (GetKirbyPose() == KirbyPose.FloatingStart && poseCounter >= Constants.Kirby.STOPFLOATINGTRANSITIONFRAME)
+            else if (GetKirbyPose() == KirbyPose.FloatingStart && poseCounter >= Constants.Kirby.STOP_FLOATING_TRANSITION_FRAME)
             {
                 ChangePose(KirbyPose.FloatingRising);
             }
@@ -874,7 +874,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
 
             // end Kirby's hurt animation
-            if (GetKirbyPose() == KirbyPose.Hurt && poseCounter >= Constants.Kirby.STOPHURTFRAME)
+            if (GetKirbyPose() == KirbyPose.Hurt && poseCounter >= Constants.Kirby.STOP_HURT_FRAME)
             {
                 ChangePose(KirbyPose.Standing);
             }
@@ -1115,12 +1115,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if (GetKirbyPose() == KirbyPose.Bounce)
             {
                 ChangePose(KirbyPose.Bounce);
-                if (poseCounter == Constants.Kirby.BOUNCEJUMPFRAME)
+                if (poseCounter == Constants.Kirby.BOUNCE_JUMP_FRAME)
                 {
                     testint = poseCounter;
                     movement.bounceJump();
                 }
-                else if (poseCounter > Constants.Kirby.STOPBOUNCEFRAME)
+                else if (poseCounter > Constants.Kirby.STOP_BOUNCE_FRAME)
                 {
                     ChangePose(KirbyPose.Standing);
                     IParticle star = new CollisionStar(movement.GetPosition());
