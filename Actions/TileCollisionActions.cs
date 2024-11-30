@@ -13,7 +13,7 @@ namespace KirbyNightmareInDreamLand.Actions
     {
         public static void BottomBlockCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
-            if (object1 is IPlayer player) 
+            if (object1 is IPlayer player)
             {
                 player.BottomCollisionWithBlock(intersection);
             }
@@ -24,8 +24,8 @@ namespace KirbyNightmareInDreamLand.Actions
             else if (object1 is IExplodable projectile)
             {
                 projectile.EndAttack();
-            } 
-            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
+            }
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled)
             {
                 star.FloorBounce();
             }
@@ -44,8 +44,8 @@ namespace KirbyNightmareInDreamLand.Actions
             else if (object1 is IExplodable projectile)
             {
                 projectile.EndAttack();
-            }   
-            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
+            }
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled)
             {
                 star.WallRightBounce();
             }
@@ -64,7 +64,7 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 projectile.EndAttack();
             }
-            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled)
             {
                 star.WallLeftBounce();
             }
@@ -104,12 +104,17 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 enemy.BottomCollisionWithPlatform(intersection);
             }
-            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled)
             {
                 star.FloorBounce();
-            }else if (object1 is KirbyBriefcase briefcase)
+            }
+            else if (object1 is KirbyBriefcase briefcase)
             {
                 briefcase.EndAttack();
+            }
+            else if (object1 is EnemyBriefcase enemyBriefcase)
+            {
+                enemyBriefcase.EndAttack();
             }
 
         }
@@ -127,19 +132,24 @@ namespace KirbyNightmareInDreamLand.Actions
             if (type == CollisionType.Player)
             {
                 Player player = (Player)object1;
-            
+
                 player.CollisionWithGentle1LeftSlope(tile);
             }
             else if (object1 is Enemy enemy && !enemy.IsBeingInhaled)
             {
                 enemy.CollisionWithGentle1LeftSlope(tile);
-            } 
-            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
+            }
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled)
             {
                 star.FloorBounce();
-            }else if (object1 is KirbyBriefcase sc)
+            }
+            else if (object1 is KirbyBriefcase sc)
             {
                 sc.EndAttack();
+            }
+            else if (object1 is EnemyBriefcase en)
+            {
+                en.EndAttack();
             }
         }
 
@@ -156,13 +166,18 @@ namespace KirbyNightmareInDreamLand.Actions
             else if (object1 is Enemy enemy && !enemy.IsBeingInhaled)
             {
                 enemy.CollisionWithGentle1RightSlope(tile);
-            } 
-            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
+            }
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled)
             {
                 star.FloorBounce();
-            }else if (object1 is KirbyBriefcase sc)
+            }
+            else if (object1 is KirbyBriefcase sc)
             {
                 sc.EndAttack();
+            }
+            else if (object1 is EnemyBriefcase en)
+            {
+                en.EndAttack();
             }
         }
 
@@ -180,7 +195,7 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 enemy.CollisionWithGentle2LeftSlope(tile);
             }
-            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled)
             {
                 star.FloorBounce();
             }
@@ -200,12 +215,17 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 enemy.CollisionWithGentle2RightSlope(tile);
             }
-            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled)
             {
                 star.FloorBounce();
-            }else if (object1 is KirbyBriefcase sc)
+            }
+            else if (object1 is KirbyBriefcase sc)
             {
                 sc.EndAttack();
+            }
+            else if (object1 is EnemyBriefcase en)
+            {
+                en.EndAttack();
             }
         }
 
@@ -223,12 +243,17 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 enemy.CollisionWithSteepLeftSlope(tile);
             }
-            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled)
             {
                 star.FloorBounce();
-            }else if (object1 is KirbyBriefcase sc)
+            }
+            else if (object1 is KirbyBriefcase sc)
             {
                 sc.EndAttack();
+            }
+            else if (object1 is EnemyBriefcase en)
+            {
+                en.EndAttack();
             }
         }
 
@@ -246,13 +271,17 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 enemy.CollisionWithSteepRightSlope(tile);
             }
-            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled) 
+            else if (object1 is KirbyBouncingStar star && !star.isBeingInhaled)
             {
                 star.FloorBounce();
-            } 
+            }
             else if (object1 is KirbyBriefcase sc)
             {
                 sc.EndAttack();
+            }
+            else if (object1 is EnemyBriefcase en)
+            {
+                en.EndAttack();
             }
         }
     }

@@ -14,26 +14,14 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.ProfessorKirbySt
 
         public void Enter()
         {
+            _enemy.FaceNearestPlayer();
             _enemy.ChangePose(EnemyPose.Jumping);
+            _enemy.Jump();
         }
 
         public void Update()
         {
-            if (_enemy is WaddleDoo jumpableEnemy)
-            {
-                jumpableEnemy.Jump(); // Perform jump action
-                
-
-                if (!jumpableEnemy.IsJumping)
-                {
-                    _enemy.ChangeState(new ProfessorKirbyWalkingState(_enemy));
-                }
-            }
-            else
-            {
-                // If the enemy cannot jump, transition back to walking
-                _enemy.ChangeState(new ProfessorKirbyWalkingState(_enemy));
-            }
+            _enemy.Move();
         }
 
         public void Exit()
