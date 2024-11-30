@@ -190,6 +190,7 @@ namespace KirbyNightmareInDreamLand
             public const int MAX_HEALTH = 6; //6
             public const int MAX_LIVES = 3; //3
             public const int STARTING_XPOSITION = 30;
+            public const int KIRBY_VERTICAL_MIDDLE = 8;
             public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(11, -9);
             public static Vector2 BEAM_ATTACK_OFFSET_LEFT = new Vector2(-11, -9);
             public static Vector2 PUFF_ATTACK_OFFSET = new Vector2(15, 0);
@@ -209,10 +210,21 @@ namespace KirbyNightmareInDreamLand
             public static int BOUNCE_JUMP_FRAME = 2;
             public static int STOP_BOUNCE_FRAME = 22;
             public static int STOP_FLOATING_TRANSITION_FRAME = 9;
+            public static int STOP_SWALLOWING = 25;
             public static int HURT_STUN_FRAMES = 24;
             public static int STOP_HURT_FRAME = 20;
+            public static int FLOATING_LOOP = 16;
+            public static int START_DEATH_SPIN = 90;
+            public static int SET_DEATH_INACTIVE = 240;
+            public static int DEATH_STAR_ANIMATION_LOOP = 8;
+            public static int INVINCIBLE_ANIMATION_LOOP = 8;
+            public static int INVINCIBLE_COLOR_CHANGE = 4;
         }
         #endregion
+        public class Arrows
+        {
+            public const int MAX_ARROWS = 3;
+        }
         public class SoundValues
         {
             public const int PITCH_ADJUSTMENT = 60;
@@ -230,8 +242,24 @@ namespace KirbyNightmareInDreamLand
             public const float THUMBSTICK_DEADZONE = 0.25f;
         }
 
+        public class Attack
+        {
+            public const int END_INHALE = 30;
+            public const int END_BEAM = 42;
+            public const int END_SPARK = 20;
+            public const int END_FIRE = 30;
+            public const int END_PROFESSOR = 26;
+            public const int END_STAR = 15;
+            public const int END_PUFF = 9;
+            public const int END_SLIDE = 40;
+            public const int END_ATTACK_INHALE_ANIMATION = 3;
+            public const int END_ATTACK_SPARK_ANIMATION = 1;
+            public const int END_ATTACK_FIRE_ANIMATION = 7;
+        }
+
+
         #region Projectiles
-      public class EnemyFire
+        public class EnemyFire
         {
             // For flame segmentts
             public const int MAX_FRAMES = 13; // Number of frames before the flame segment disappears
