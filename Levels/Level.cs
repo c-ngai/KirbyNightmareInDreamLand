@@ -1,4 +1,5 @@
-﻿using KirbyNightmareInDreamLand.Entities.Enemies;
+﻿using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Entities.Enemies;
 using KirbyNightmareInDreamLand.Entities.Players;
 using KirbyNightmareInDreamLand.Entities.PowerUps;
 using KirbyNightmareInDreamLand.GameState;
@@ -20,8 +21,13 @@ namespace KirbyNightmareInDreamLand.Levels
     {
 
         private readonly Game1 _game;
-        private readonly ObjectManager _manager; 
-        public Vector2 SpawnPoint { get; private set; }
+        private readonly ObjectManager _manager;
+        private Vector2 spawnPoint;
+        public Vector2 SpawnPoint
+        {
+            get => spawnPoint;
+            set => spawnPoint = value;
+        }
 
         public float FadeAlpha;
 
@@ -245,12 +251,14 @@ namespace KirbyNightmareInDreamLand.Levels
                 CurrentRoom = LevelLoader.Instance.Rooms[RoomName];
                 // Debug.WriteLine("current room is " + CurrentRoom);
                 LoadLevelObjects();
-                SpawnPoint = _spawnPoint ?? CurrentRoom.SpawnPoint;
+                spawnPoint = _spawnPoint ?? CurrentRoom.SpawnPoint;
+                spawnPoint.Y += Constants.Collision.GROUND_COLLISION_OFFSET;
                 foreach (IPlayer player in _manager.Players)
                 {
                     player?.GoToRoomSpawn();
                     //_manager.RegisterDynamicObject((Player)player);
                 }
+                SoundManager.PlaySong(CurrentRoom.Song);
                 NewRoom = true;
             }
             else

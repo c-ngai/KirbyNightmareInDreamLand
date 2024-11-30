@@ -3,11 +3,13 @@ using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
 using System;
 using KirbyNightmareInDreamLand.Actions;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class EnemyFireball : IProjectile, ICollidable, IExplodable
     {
+        public IPlayer player { get => null; } // this projectile never originates from a player
         private Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;
@@ -52,6 +54,13 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 Position += Velocity;
 
                 projectileSprite.Update();
+
+                // Despawn if outside room
+                if (position.X < -16 || position.X > Game1.Instance.Level.CurrentRoom.Width + 16)
+                {
+                    IsActive = false;
+                    CollisionActive = false;
+                }
             }
 
         }
@@ -66,7 +75,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
     
         public bool IsDone()
         {
-            return true;
+            return !IsActive;
         }
 
         public bool CollisionActive { get; set; } = true;

@@ -1,0 +1,43 @@
+Sprint 5 Readabilty Code Review 11/26/24
+
+Author of Code Review: Carman 
+Name of .cs file being reviewed: Player.cs
+Author of .cs file being reivewed: Mark
+
+Time taken to complete review: 15 min
+
+################################################################################
+
+10 Code Smells:
+
+1. Data Clumps
+2. SameNameDifferentMeaning
+3. TooMuchDocumentation
+4. Divergent Change
+5. Shotgun Surgery
+6. Middleman
+7. Lazy Class
+8. Inappropriate Intimacy
+9. Backpedaling
+10. YouDon'tNeedItAnymore
+
+################################################################################
+
+Code Quality:
+
+	This class is really convoluted just because of the sheer amount of methods required to get Kirby to work. Particularly because I have been working on this class with Mark 
+this sprint, we have been focused on correcting bugs and adding features over organizing and separating methods out. There are plans in place to refactor this class and clean it
+up to reduce coupling. A lot of old methods should have more comments which has made it more difficult to debug currently. Because of the convolution of the class and its ties to
+other classes, shotgun surgery was necessary to implement some of the new features for this sprint such as multiplayer, sprite animations, and other debugging fixes with movement.
+It is also experiencing inappropriate intimacy as Kirby is knowing far too much about its state with too many connected conditional calls when it should instead be asking the state
+about it with general methods. 
+
+Hypothetical Change Suggestion:
+
+	If we were to implement swimming, the current system would be able to support it by adding new movements/physics and should require additions rather than changes to the 
+current class.
+
+Comments:
+
+	Great job on implementing multiplayer and I really appreciate the split screen and arrows pointing to players offscreen. 
+	

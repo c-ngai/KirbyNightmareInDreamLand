@@ -13,9 +13,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public int health { get; }
         public int lives { get; }
         public bool IsActive { get; }
+        public bool DEAD { get; }
+        public bool powerChangeAnimation { get; set; }
         void Crouch();
         void EndCrouch();
-        void AttackPressed();
         Vector2 GetKirbyPosition();
         Vector2 GetKirbyVelocity();
         string GetKirbyType();
@@ -32,6 +33,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         void RunRight();
         void RunLeft();
         void EnterDoor();
+        void ResetAfterDoor();
         void StopAttacking();
         void SetDirectionLeft();
         void SetDirectionRight();
@@ -47,7 +49,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         void LeftCollisionWithBlock(Rectangle intersection);
         void BottomCollisionWithPlatform(Rectangle intersection);
         void TopCollisionWithBlock(Rectangle intersection);
-        void SwallowEnemy(KirbyType kirbyType);
+        void EatEnemy(KirbyType kirbyType);
         KirbyType GetPowerUp();
         void ChangePose(KirbyPose pose);
     

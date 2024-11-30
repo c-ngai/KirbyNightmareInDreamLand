@@ -6,11 +6,14 @@ using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Actions;
 using System.Diagnostics;
 using KirbyNightmareInDreamLand.Particles;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class KirbyStar : IProjectile, ICollidable, IExplodable
     {
+        public IPlayer player { get; private set; }
+
         private Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;
@@ -28,8 +31,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
             set => velocity = value;    // Set the velocity of the star to the given value
         }
 
-        public KirbyStar(Vector2 kirbyPosition, bool isFacingRight)
+        public KirbyStar(IPlayer _player, Vector2 kirbyPosition, bool isFacingRight)
         {
+            player = _player;
+
             Position = kirbyPosition + (isFacingRight ? Constants.Kirby.STAR_ATTACK_OFFSET_RIGHT: Constants.Kirby.STAR_ATTACK_OFFSET_LEFT);
 
             // Set the initial velocity based on the direction Kirby is facing
@@ -43,7 +48,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 : SpriteFactory.Instance.CreateSprite("projectile_kirby_star_left");
 
             ObjectManager.Instance.AddProjectile(this);
-            ObjectManager.Instance.RegisterDynamicObject(this);
 
             SoundManager.Play("spit");
         }

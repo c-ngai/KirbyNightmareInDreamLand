@@ -11,7 +11,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
     public class KirbyFlamethrower : IProjectile, ICollidable
     {
 
-        private IPlayer player;
+        public IPlayer player { get; private set; }
         private Vector2 position;
         private Vector2 velocity;
         private List<KirbyFlameSegment> flameSegments;
@@ -109,7 +109,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
             velocity += player.GetKirbyVelocity();
             
-            KirbyFlameSegment newSegment = new KirbyFlameSegment(position, velocity, randomSpeed, !isFacingRight);
+            KirbyFlameSegment newSegment = new KirbyFlameSegment(position, velocity, randomSpeed, !isFacingRight, player);
             flameSegments.Add(newSegment);
         }
 

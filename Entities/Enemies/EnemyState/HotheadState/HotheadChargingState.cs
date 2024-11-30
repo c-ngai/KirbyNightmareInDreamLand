@@ -9,48 +9,44 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.HotheadState
 {
     public class HotheadChargingState : IEnemyState
     {
-            private readonly Hothead _hothead;
+        private readonly Enemy _enemy;
 
-            public HotheadChargingState(Hothead hothead)
+        public HotheadChargingState(Enemy enemy)
+        {
+            _enemy = enemy ?? throw new ArgumentNullException(nameof(enemy));
+        }
+
+        public void Enter()
+        {
+            _enemy.ChangePose(EnemyPose.Charging);
+            _enemy.FaceNearestPlayer();
+            _enemy.StopMoving();
+        }
+
+        public void Update()
+        {
+            if (_enemy.FrameCounter >= Constants.Hothead.CHARGE_FRAMES)
             {
-                _hothead = hothead ?? throw new ArgumentNullException(nameof(hothead));
+                _enemy.ChangeState(new HotheadAttackingState(_enemy));
             }
+        }
 
-            public void Enter()
-            {
-                _hothead.ChangePose(EnemyPose.Charging);
-                _hothead.ResetFrameCounter();
-            }
+        public void Exit() { }
 
-            public void Update()
-            {
-                if (_hothead.FrameCounter == Constants.Hothead.FRAME_1) // Fireball on frame 1
-                {
-                    _hothead.Attack();
-                }
+        public void TakeDamage()
+        {
+            _enemy.ChangeState(new EnemyHurtState(_enemy));
+        }
 
-                if (_hothead.FrameCounter >= Constants.Hothead.SHOOT_FRAMES)
-                {
-                    _hothead.ChangeState(new HotheadAttackingState(_hothead));
-                }
-            }
-
-            public void Exit() { }
-
-            public void TakeDamage()
-            {
-                _hothead.ChangeState(new EnemyHurtState(_hothead));
-            }
-
-            public void ChangeDirection()
-            {
-                _hothead.ToggleDirection();
-            }
+        public void ChangeDirection()
+        {
+            _enemy.ToggleDirection();
+        }
 
         public void Dispose()
         {
 
         }
 
-        }
     }
+}

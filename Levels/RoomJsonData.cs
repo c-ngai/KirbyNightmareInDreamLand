@@ -15,6 +15,9 @@ namespace KirbyNightmareInDreamLand.Levels
         [JsonPropertyName("Tilemap")]
         public string TilemapName { get; set; }
 
+        [JsonPropertyName("Song")]
+        public string Song { get; set; }
+
         [JsonPropertyName("Spawn tile X")]
         public int SpawnTileX { get; set; }
 

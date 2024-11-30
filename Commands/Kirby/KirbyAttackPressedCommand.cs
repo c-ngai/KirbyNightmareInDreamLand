@@ -17,11 +17,7 @@ namespace KirbyNightmareInDreamLand.Commands
 
         public void Execute()
         {
-            // If a player of this index exists
-            if (playerIndex < _players.Count)
-            {
-                _players[playerIndex].AttackPressed();
-            }
+            // Removed distinction with regular attack
         }
     }
 }

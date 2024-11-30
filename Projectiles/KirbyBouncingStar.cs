@@ -12,6 +12,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class KirbyBouncingStar : IProjectile, ICollidable
     {
+        public IPlayer player { get => null; } // although this projectile does originate from a player, in this one case we do not care. bouncing star should still freeze during power change state even if the player whose power is changing created that particular bouncing star
         private Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;
@@ -54,7 +55,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 : SpriteFactory.Instance.CreateSprite("projectile_kirby_bouncingstar_left");
 
             ObjectManager.Instance.AddProjectile(this);
-            ObjectManager.Instance.RegisterDynamicObject(this);
 
             //SoundManager.Play("spit");
             this.IsLeft = IsLeft;

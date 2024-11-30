@@ -37,14 +37,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public override void Move()
         {
             base.Move();
-            if (stateMachine.IsLeft())
-            {
-                velocity.X = -Constants.WaddleDee.MOVE_SPEED;
-            }
-            else
-            {
-                velocity.X = Constants.WaddleDee.MOVE_SPEED;
-            }
+            velocity.X = stateMachine.IsLeft() ? -Constants.WaddleDoo.MOVE_SPEED : Constants.WaddleDoo.MOVE_SPEED;
         }
 
         public override void Update(GameTime gameTime)
@@ -56,8 +49,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 // Handle the beam if active
                 if (isBeamActive)
                 {
-                    beam.Update();
-                    if (!beam.IsBeamActive())
+                    if (beam.IsDone())
                     {
                         isBeamActive = false;
                     }
@@ -79,8 +71,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 isJumping = true;
                 velocity.Y = -Constants.WaddleDoo.JUMP_VELOCITY;
             }
-
-            Move();
         }
 
         public override void Attack()
@@ -110,9 +100,9 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public override void BottomCollisionWithBlock(Rectangle intersection)
         {
-            isFalling = false;
+            base.BottomCollisionWithBlock(intersection);
+
             isJumping = false;
-            position.Y = intersection.Y;
             
             // Note (Mark) THIS IS A BIT JANK
             // Basically: if colliding with a block from above, change to walking state if jumping
@@ -120,7 +110,20 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             {
                 ChangeState(new WaddleDooWalkingState(this));
             }
-            velocity.Y = 0;
+        }
+
+        public override void BottomCollisionWithPlatform(Rectangle intersection)
+        {
+            base.BottomCollisionWithPlatform(intersection);
+
+            isJumping = false;
+
+            // Note (Mark) THIS IS A BIT JANK
+            // Basically: if colliding with a block from above, change to walking state if jumping
+            if (currentState.GetType().Equals(typeof(WaddleDooJumpingState)))
+            {
+                ChangeState(new WaddleDooWalkingState(this));
+            }
         }
 
         public override void AdjustOnSlopeCollision(Tile tile, float slope, float yIntercept)

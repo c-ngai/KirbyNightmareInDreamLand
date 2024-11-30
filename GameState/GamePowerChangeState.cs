@@ -1,3 +1,4 @@
+using KirbyNightmareInDreamLand.Entities.Players;
 using KirbyNightmareInDreamLand.Levels;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,7 +18,7 @@ namespace KirbyNightmareInDreamLand.GameState
         private float startFade = 0.0f;
         private float FadeAlpha;
 
-        private double timer = 0;
+        private int timer = 0;
 
         public GamePowerChangeState(Level _level) : base( _level)
         {
@@ -31,17 +32,32 @@ namespace KirbyNightmareInDreamLand.GameState
             base.Draw(spriteBatch);
             Camera camera = _game.cameras[_game.CurrentCamera];
             GameDebug.Instance.DrawSolidRectangle(spriteBatch, camera.bounds, Color.Black, FadeAlpha);
+            //GameDebug.Instance.DrawSolidRectangle(spriteBatch, camera.bounds, new Color(), 1f);
+            //GameDebug.Instance.DrawSolidRectangle(spriteBatch, camera.bounds, Color.Black, 1f);
             Game1.Instance.manager.DrawPlayers(spriteBatch);
             Game1.Instance.manager.DrawProjectiles(spriteBatch);
         }
 
         public override void Update()
         {
-            Game1.Instance.manager.UpdatePlayers();
+            // Update only players who are changing power right now
+            foreach (IPlayer player in _manager.Players)
+            {
+                if (player.powerChangeAnimation)
+                {
+                    player.Update(Game1.Instance.time);
+                }
+            }
+            // Update only projectiles originating from players who are changing power right now and if that player is not null
+            for (int i = 0; i < _manager.Projectiles.Count; i++)
+            {
+                if (_manager.Projectiles[i].player != null && _manager.Projectiles[i].player.powerChangeAnimation)
+                {
+                    _manager.Projectiles[i].Update();
+                }
+            }
 
-            Game1.Instance.manager.UpdateProjectiles();
-
-            timer += Game1.Instance.time.ElapsedGameTime.TotalSeconds;
+            timer ++;
 
             // if we are currently fading out we want to keep fading out
             if (CurrentlyFadingOut)
@@ -55,7 +71,7 @@ namespace KirbyNightmareInDreamLand.GameState
             }
 
             // if we are transitioning and not fading out we want wait until the attack state timer ends to fade in
-            if (!CurrentlyFadingOut && !CurrentlyFadingIn  && timer > Constants.Transition.ATTACK_STATE_TIMER)
+            if (!CurrentlyFadingOut && !CurrentlyFadingIn  && timer > Constants.Transition.ATTACK_STATE_FRAMES)
             {
                 CurrentlyFadingIn = true; //  Que the fade in
             }
@@ -68,6 +84,13 @@ namespace KirbyNightmareInDreamLand.GameState
                 {
                     FadeAlpha = startFade; // reset fadeAlpha so fade-out is ready to go
                     CurrentlyFadingIn = false; // Fade-in complete
+
+                    // set the powerChangeAnimation states of all the players to false
+                    foreach (IPlayer player in _manager.Players)
+                    {
+                        player.powerChangeAnimation = false;
+                    }
+
                     level.ChangeState(Game1.Instance.Level._playingState);
                 }
             }

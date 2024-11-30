@@ -25,37 +25,13 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState
         public void Enter()
         {
             _enemy.ChangePose(EnemyPose.Hurt);
-            _enemy.ResetFrameCounter();
         }
 
         public void Update()
         {
 
-            _enemy.IncrementFrameCounter();
-
-            // PROBABLY SUPER TIGHT OF COUPLING, FIX LATER
-            //if (_player.state.GetPose() == KirbyPose.Inhaling)
-            //{
             _enemy.AccellerateTowards(_player.GetKirbyPosition());
-            //}
-            //else
-            //{
-            //    _enemy.ChangeState(new EnemyHurtState(_enemy));
-            //}
 
-            
-
-            //if (_enemy.FrameCounter >= Constants.WaddleDee.HURT_FRAMES)
-            //{
-            //    _enemy.ChangeState(new WaddleDeeWalkingState(_enemy));
-            //    _enemy.UpdateTexture();
-
-            //    if (_enemy.Health <= 0)
-            //    {
-            //        _enemy.Active = false;
-            //        _enemy.CollisionActive = false;
-            //    }
-            //}
         }
 
         public void Exit() { }

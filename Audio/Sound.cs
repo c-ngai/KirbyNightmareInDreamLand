@@ -1,17 +1,4 @@
-﻿using KirbyNightmareInDreamLand.Entities.Players;
-using KirbyNightmareInDreamLand.Sprites;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using static KirbyNightmareInDreamLand.Constants;
+﻿using Microsoft.Xna.Framework.Audio;
 
 namespace KirbyNightmareInDreamLand.Audio
 {
@@ -24,12 +11,14 @@ namespace KirbyNightmareInDreamLand.Audio
         public SoundEffect soundEffect;
         public SoundEndBehavior soundEndBehavior;
         public SoundEffect nextSound;
+        public string name;
 
-        public Sound(SoundEffect _soundEffect, SoundEndBehavior _soundEndBehavior, SoundEffect _nextSound)
+        public Sound(SoundEffect _soundEffect, SoundEndBehavior _soundEndBehavior, SoundEffect _nextSound, string _name)
         {
             soundEffect = _soundEffect;
             soundEndBehavior = _soundEndBehavior;
             nextSound = _nextSound;
+            name = _name;
         }
     }
 }

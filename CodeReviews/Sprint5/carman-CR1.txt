@@ -1,0 +1,37 @@
+Sprint 5 Readabilty Code Review 11/26/24
+
+Author of Code Review: Carman 
+Name of .cs file being reviewed: ProfessorKirby.cs
+Author of .cs file being reivewed: Gwyn
+
+Time taken to complete review: 10 min
+
+################################################################################
+
+10 Code Smells:
+
+1. Data Clumps
+2. SameNameDifferentMeaning
+3. TooMuchDocumentation
+4. Divergent Change
+5. Shotgun Surgery
+6. Middleman
+7. Lazy Class
+8. Inappropriate Intimacy
+9. Backpedaling
+10. YouDon'tNeedItAnymore
+
+################################################################################
+
+Readability:
+
+	The methods were mostly simple and concise and followed good naming conventions that made it intuitive to read. I liked that it used meaningful constants to get rid of magic 
+numbers for things like velocity and health to help with readability. However, a few magic numbers still need to be taken care of like the 17 and 7 adjustments on projectile position. 
+I would also keep in mind the projectileposition method since depending on how you're implementing his briefcase attack, you may want to create a briefcase class that implements 
+IProjectile to separate out the two since it may be complicated and harm readability by doing it all within the Professor Kirby class.
+
+
+Comments:
+
+	I noticed a lot of TODO comments so just a reminder to look over those before submission. Also a reminder to remove commented out temporary debug prints. I really loved the 
+art and design you did for Professor Kirby Enemy and that you asked for team feedback on the art while working on it. It turned out fantastic. It was a pleasure working with you!

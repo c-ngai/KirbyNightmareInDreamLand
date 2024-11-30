@@ -1,20 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Sprites;
-using System.Collections.Generic;
-using System;
-using KirbyNightmareInDreamLand.Audio;
-using KirbyNightmareInDreamLand.Actions;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class KirbyBeamSegment : IProjectile, ICollidable
     {
+        public IPlayer player { get; private set; }
+
         private Vector2 position;
         private Vector2 velocity;
         private int frameCount = 0;
         public bool IsActive {get; private set;}= true;
-        private int maxFrames = 6; // Segment disappears after 6 frames
+        private int maxFrames = Constants.KirbyBeam.MAX_BEAM_FRAMES; // segment disappears after 6 frames
         private ISprite sprite;
         public bool CollisionActive { get; private set;} = true;
 
@@ -35,8 +34,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
             set => velocity = value;
         }
 
-        public KirbyBeamSegment(Vector2 startPosition, Vector2 beamVelocity, bool odd)
+        public KirbyBeamSegment(Vector2 startPosition, Vector2 beamVelocity, bool odd, IPlayer _player)
         {
+            player = _player;
+
             Position = startPosition;
             Velocity = beamVelocity;
             sprite = odd ?

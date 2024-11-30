@@ -22,7 +22,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
         public void Enter()
         {
             _enemy.ChangePose(EnemyPose.Attacking);
-            _enemy.ResetFrameCounter();
             sound = SoundManager.CreateInstance("sparkyattack");
             sound.Play();
         }
@@ -34,7 +33,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.SparkyState
             // Transition to hurt state after the attack frames
             if (_enemy.FrameCounter >= Constants.Sparky.ATTACK_TIME)
             {
-                _enemy.ChangeState(new SparkyPause1State(_enemy));
+                _enemy.ChangeState(new SparkyPauseState(_enemy));
             }
         }
 

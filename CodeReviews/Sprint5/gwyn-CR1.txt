@@ -1,0 +1,38 @@
+Author of Code Review: Gwyn Barnholtz
+Date: 11/30
+Sprint 5
+Reviewing: BaseGameState.cs
+Author of .cs file: Vivian
+Number of minutes to complete review: 10
+################################################################################ 
+
+10 Code Smells
+
+Long Functions
+Large Class
+Long Parameters
+Duplicate Code
+Feature Envy
+Switch Statements
+Shotgun Surgery
+Same Name, Different Meaning
+Data Clumps
+Temporary Field
+
+################################################################################
+
+Comments on Code Smells:
+	Some of the functions can be long (such as DrawCollisionTiles() with 40 lines), 
+	however, is reasonable. The class is also a bit long, about 350 lines. The params 
+	are reasonable at 0-3. There isn’t much duplicated code, feature envy, or switch 
+	statements. If any code here was changed drastically, it would impact the other 
+	states- however should still be good. The naming conventions seem intuitive and 
+	no confusion for meaning. There is a lot of data in each dictionary that has to be 
+	loaded in within the class, which could be potentially managed in level loader. 
+	No temporary fields. Looks good!
+
+Comments on Readability:
+	The code is very readable, with a good amount of comments which I appreciate. Every 
+	variable and function called makes sense, so I can tell easily what is going on. 
+	I appreciate the descriptions whenever they are left. Overall, I think you did a 
+	great job!

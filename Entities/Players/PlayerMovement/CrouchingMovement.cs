@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using KirbyNightmareInDreamLand.StateMachines;
 using Microsoft.Xna.Framework;
 namespace KirbyNightmareInDreamLand.Entities.Players
@@ -8,7 +9,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public CrouchingMovement(Vector2 pos, Vector2 vel) : base(pos, vel) { }
 
         private float slideVel = Constants.Kirby.SLIDE_VEL;
-        private double timer = 0;
+        private int frameCounter = 0;
 
         public override void Walk(bool isLeft)
         {
@@ -38,20 +39,26 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             if(kirby.IsSliding())
             {
-                timer += gameTime.ElapsedGameTime.TotalSeconds; 
-                if(timer > Constants.Kirby.SLIDE_TIME)
+                frameCounter++; 
+                if(frameCounter > Constants.Kirby.SLIDE_FRAMES)
                 {
-                    StopMovement();
                     kirby.EndSlide();
-                    timer = 0;
+                    frameCounter = 0;
                     kirby.attack?.EndAttack();
-                } 
+                    Debug.WriteLine("END SLIDE");
+                }
+                Debug.WriteLine(frameCounter);
+            }
+            else if (!kirby.state.IsCrouching()) // this is dumb and i hate it but it kind of works so i'm leaving it. 
+            {
+                kirby.EndSlide();
+                kirby.attack?.EndAttack();
             }
         }
         public override void EndSlide()
         {
-            StopMovement();
-            timer = 0;
+            //StopMovement();
+            frameCounter = 0;
         }
         public override void MovePlayer(Player kirby, GameTime gameTime)
         {

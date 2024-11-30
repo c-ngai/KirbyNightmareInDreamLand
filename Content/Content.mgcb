@@ -19,6 +19,18 @@
 /processorParam:Quality=Best
 /build:Audio/bounce.wav
 
+#begin Audio/briefcaseopen.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/briefcaseopen.wav
+
+#begin Audio/briefcasethrow.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/briefcasethrow.wav
+
 #begin Audio/cancel.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -223,6 +235,36 @@
 /processorParam:Quality=Best
 /build:Audio/slide.wav
 
+#begin Audio/song_gameover.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/song_gameover.wav
+
+#begin Audio/song_hub.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/song_hub.wav
+
+#begin Audio/song_icecreamisland_loop.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/song_icecreamisland_loop.wav
+
+#begin Audio/song_icecreamisland.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/song_icecreamisland.wav
+
+#begin Audio/song_treasureroom.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/song_treasureroom.wav
+
 #begin Audio/song_vegetablevalley_loop.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -234,6 +276,18 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/song_vegetablevalley.wav
+
+#begin Audio/song_victorydancelong.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/song_victorydancelong.wav
+
+#begin Audio/song_victorydanceshort.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/song_victorydanceshort.wav
 
 #begin Audio/sparkyattack.wav
 /importer:WavImporter
@@ -404,6 +458,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/Kirby/kirby1_normal.png
 
+#begin Images/Kirby/kirby1_professor.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=0,219,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Kirby/kirby1_professor.png
+
 #begin Images/Kirby/kirby1_spark.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -451,6 +517,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/Kirby/kirby2_normal.png
+
+#begin Images/Kirby/kirby2_professor.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=0,219,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Kirby/kirby2_professor.png
 
 #begin Images/Kirby/kirby2_spark.png
 /importer:TextureImporter
@@ -500,6 +578,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/Kirby/kirby3_normal.png
 
+#begin Images/Kirby/kirby3_professor.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=0,219,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Kirby/kirby3_professor.png
+
 #begin Images/Kirby/kirby3_spark.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -524,6 +614,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/Level/backgrounds.png
 
+#begin Images/Level/classroom.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Level/classroom.png
+
 #begin Images/Level/collisionTileset.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -547,6 +649,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/Level/doorstars.png
+
+#begin Images/Level/level2_background_spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Level/level2_background_spritesheet.png
+
+#begin Images/Level/level2_foreground_spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Level/level2_foreground_spritesheet.png
 
 #begin Images/Level/room1_level.png
 /importer:TextureImporter
@@ -671,6 +797,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/Misc/playerarrows.png
 
+#begin Images/Misc/professorkirby.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=0,219,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Misc/professorkirby.png
+
 #begin Images/Misc/projectiles.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -782,11 +920,23 @@
 #begin Tilemaps.txt
 /copy:Tilemaps.txt
 
+#begin Tilemaps/classroom.csv
+/copy:Tilemaps/classroom.csv
+
 #begin Tilemaps/game_over_tileset.csv
 /copy:Tilemaps/game_over_tileset.csv
 
 #begin Tilemaps/hub_tileset.csv
 /copy:Tilemaps/hub_tileset.csv
+
+#begin Tilemaps/level2_room1_tileset.csv
+/copy:Tilemaps/level2_room1_tileset.csv
+
+#begin Tilemaps/level2_room2_tileset.csv
+/copy:Tilemaps/level2_room2_tileset.csv
+
+#begin Tilemaps/level2_room3_tileset.csv
+/copy:Tilemaps/level2_room3_tileset.csv
 
 #begin Tilemaps/room1_tileset.csv
 /copy:Tilemaps/room1_tileset.csv

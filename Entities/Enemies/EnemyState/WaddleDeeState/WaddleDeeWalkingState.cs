@@ -20,13 +20,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.WaddleDeeState
         public void Enter()
         {
             _enemy.ChangePose(EnemyPose.Walking);
-            _enemy.ResetFrameCounter();
         }
 
         public void Update()
         {
            _enemy.Move(); // Execute walking movement logic
-            _enemy.IncrementFrameCounter(); // Increment the enemy's frame counter
+             // Increment the enemy's frame counter
         }
 
         public void Exit()

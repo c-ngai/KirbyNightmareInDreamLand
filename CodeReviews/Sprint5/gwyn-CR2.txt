@@ -1,0 +1,37 @@
+Author of Code Review: Gwyn Barnholtz
+Date: 11/30
+Sprint 5
+Reviewing: KirbyBouncingStar.cs
+Author of .cs file: Lina
+Number of minutes to complete review: 10
+################################################################################ 
+
+10 Code Smells
+
+Long Functions
+Large Class
+Long Parameters
+Duplicate Code
+Feature Envy
+Switch Statements
+Shotgun Surgery
+Same Name, Different Meaning
+Data Clumps
+Temporary Field
+
+################################################################################
+
+Comments on Code Smells:
+	None of the functions are particularly long. The class is a bit long, but not bad. 
+	The parameters are reasonable (0-3). There isn’t feature envy, switch statements, 
+	or potential for shotgun surgery. There is some duplicate code for sounds, since 
+	every wall bounce makes the ‘starbounce” noise. There isn’t confusion for what name 
+	is what meaning. There aren’t data clumps or any temp fields. Overall, looks good!
+
+Comments on Quality:
+	
+	The star in game looks great! It bounces as intended. It does sometimes get stuck 
+	on walls and makes repetitive sounds, but only in certain circumstances. The actual 
+	code itself utilizes features of C# well, deals with this specific collison type, 
+	and handles all cases of collision Looks good!
+

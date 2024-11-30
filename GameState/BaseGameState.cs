@@ -61,6 +61,7 @@ namespace KirbyNightmareInDreamLand.GameState
             { "PoppyBrosJr" , SpriteFactory.Instance.CreateSprite("poppybrosjr_hop_left") },
             { "Sparky" , SpriteFactory.Instance.CreateSprite("sparky_standing_left") },
             { "Hothead" , SpriteFactory.Instance.CreateSprite("hothead_walking_left") },
+            { "ProfessorKirby" , SpriteFactory.Instance.CreateSprite("hothead_walking_left") }
         };
 
         public BaseGameState(Level _level)
@@ -76,7 +77,7 @@ namespace KirbyNightmareInDreamLand.GameState
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             Camera camera = _game.cameras[_game.CurrentCamera];
-            if (Game1.Instance.DEBUG_LEVEL_MODE)
+            if (Game1.Instance.DEBUG_LEVEL_MODE || level.CurrentRoom.Name == "treasureroom")
             {
                 DebugDraw(spriteBatch, camera);
             }
@@ -85,7 +86,7 @@ namespace KirbyNightmareInDreamLand.GameState
                 DrawBackground(spriteBatch, camera);
                 DrawForeground(spriteBatch);
                 DrawDoorStars(spriteBatch);
-                _manager.Draw(spriteBatch);
+                _manager.DrawAllObjects(spriteBatch);
             }
         }
 
@@ -102,14 +103,23 @@ namespace KirbyNightmareInDreamLand.GameState
             if (level.CurrentRoom.BackgroundSprite != null)
             {
                 Vector2 cameraPosition = new Vector2(
-                    _camera.GetPosition().X * (1),
-                    _camera.GetPosition().Y * (1)
+                    _camera.GetPosition().X,
+                    _camera.GetPosition().Y
                 );
 
                 Vector2 backgroundScreenPosition = new Vector2(
                     _camera.GetPosition().X * ((float)(_camera.bounds.Width - level.CurrentRoom.BackgroundSprite.Width) / (level.CurrentRoom.Width - _camera.bounds.Width)),
                     _camera.GetPosition().Y * ((float)(_camera.bounds.Height - level.CurrentRoom.BackgroundSprite.Height) / (level.CurrentRoom.Height - _camera.bounds.Height))
                 );
+
+                if (float.IsNaN(backgroundScreenPosition.X))
+                {
+                    backgroundScreenPosition.X = 0f;
+                }
+                if (float.IsNaN(backgroundScreenPosition.Y))
+                {
+                    backgroundScreenPosition.Y = 0f;
+                }
 
                 Vector2 backgroundPosition = cameraPosition + backgroundScreenPosition;
                 level.CurrentRoom.BackgroundSprite.Draw(backgroundPosition, spriteBatch);
@@ -226,7 +236,7 @@ namespace KirbyNightmareInDreamLand.GameState
             DrawDebugDoors(spriteBatch);
             DrawDoorStars(spriteBatch);
             DrawSpawnPoints(spriteBatch);
-            _manager.Draw(spriteBatch);
+            _manager.DrawAllObjects(spriteBatch);
         }
 
         // Draws a rectangle at every door with its destination room written above
@@ -283,8 +293,6 @@ namespace KirbyNightmareInDreamLand.GameState
             // Temporarily disable sprite debug mode if it's on. Sprite debug with debug tiles makes the screen look very messy, it's not useful information. This feels like a sloppy solution but it works for now.
             bool old_DEBUG_SPRITE_MODE = Game1.Instance.DEBUG_SPRITE_MODE;
             Game1.Instance.DEBUG_SPRITE_MODE = false;
-
-            Game1.Instance.DEBUG_LEVEL_MODE = true;
 
             // Set bounds on the TileMap to iterate from
             int TopY, BottomY, LeftX, RightX;

@@ -1,0 +1,40 @@
+Sprint 5 Quality Code Review     11/29/2024
+
+Author of Code Review: Mark DeLeo
+Name of .cs file being reviewed: Player.cs
+Author of .cs file being reviewed: Carman Ngai
+
+Number of minutes to complete review: 25 minutes
+
+################################################################################ 
+
+10 Code Smells
+
+ 1. SameNameDifferentMeaning
+ 2. YouDontNeedItAnymore
+ 3. DataClumps
+ 4. InappropriateIntimacy
+ 5. FeatureEnvy
+ 6. DuplicatedCode
+ 7. VariableSameNameAsType
+ 8. TooManyParameters
+ 9. LongMethod
+10. LawOfDemeter
+
+################################################################################
+
+
+Comments on Code Smells:
+
+ - SameNameDifferentMeaning: A lot of entities have a Fall() method, but they almost all do different things. They're usually vaguely related to falling, but it's enough variation that when I see a method called Fall() I can't reasonably infer what it does without looking inside and doing a little investigating (especially if there are little to no comments inside). I like what Fall() does but it should probably either be renamed, or its contents should move elsewhere in the update cycle.
+
+ - DuplicatedCode: There's a good handful of statements that look something like this:
+	   if kirby is in pose A and has been for >X frames, switch to pose B
+   Maybe this could be streamlined or even data driven? Not a huge deal though
+
+ - FeatureEnvy: Kirby has a lot of new functionality and some of it has become a bit scattered. A lot of the functionality's placement could use some reevaluation and reorganizing. Stuff like Fall()'s contents, which I mentioned above.
+
+
+Comments on Code Quality:
+
+A lot of great fixes since the last sprint!!!! The fixes are so numerous and various that it's a little hard for me to say too much that applies to all of it in general. I guess my biggest general criticism would be that Player in general operates many things by special cases. There are a lot of things that are considered on a case by case basis that feel like they're begging to have a generalized solution that applies to all cases. Kirby switching poses based on previous pose and pose counter, kirby being able or not able to do certain actions in certain poses, etc. The code that's there works pretty good, and WAY better than it used to, but it's especially hard to debug because of this special case treatment. Special cases should always be minimized in favor of general solutions, at least I think so.

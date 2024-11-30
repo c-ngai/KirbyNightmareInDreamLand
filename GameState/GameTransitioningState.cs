@@ -1,4 +1,5 @@
-﻿using KirbyNightmareInDreamLand.Levels;
+﻿using KirbyNightmareInDreamLand.Entities.Players;
+using KirbyNightmareInDreamLand.Levels;
 using Microsoft.Xna.Framework;
 
 
@@ -53,6 +54,10 @@ namespace KirbyNightmareInDreamLand.GameState
                 {
                     level.LoadRoom(level.NextRoom, new Vector2(120, 270));
                 }
+                else if (level.CurrentRoom.Name == "winner_room" && level.PreviousRoom == "level2_room3")
+                {
+                    level.LoadRoom(level.NextRoom, new Vector2(250, 300));
+                }
                 else
                 {
                     level.LoadRoom(level.NextRoom, doorPositionForNextRoom); // load new room
@@ -61,7 +66,7 @@ namespace KirbyNightmareInDreamLand.GameState
             }
 
             // if we are currently fading in we want to keep fading in
-            if ( CurrentlyFadingIn)
+            if (CurrentlyFadingIn)
             {
                 level.FadeAlpha -= FadeSpeed; // decrement opacity 
                 if (level.FadeAlpha <= transparentAlpha) // if we are transparent 
@@ -87,11 +92,22 @@ namespace KirbyNightmareInDreamLand.GameState
                         level.ChangeState(Game1.Instance.Level._playingState); // We are done transitioning so set game state to playing
                         level.ExitDoorAt(new Vector2(6, 16));
                     }
+                    else if (level.CurrentRoom.Name == "winner_room" && level.PreviousRoom == "level2_room3")
+                    {
+                        level.ChangeState(Game1.Instance.Level._playingState); // We are done transitioning so set game state to playing
+                        level.ExitDoorAt(new Vector2(14, 18));
+                    }
                     else
                     {
                         level.ChangeState(Game1.Instance.Level._playingState); // We are done transitioning so set game state to playing
                         level.ExitDoorAt(doorPositionForNextRoom);
                     }
+                }
+
+                // ensures all Kirbys reset to default movement and positon after each door
+                foreach (Player player in ObjectManager.Instance.Players)
+                {
+                    player.ResetAfterDoor();
                 }
             }
 

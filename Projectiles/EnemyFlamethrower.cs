@@ -1,19 +1,36 @@
-﻿using Microsoft.Xna.Framework;
+﻿using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Entities.Players;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
-    public class EnemyFlamethrower
+    public class EnemyFlamethrower : IProjectile, ICollidable
     {
+        public IPlayer player { get => null; } // this projectile never originates from a player
         private List<EnemyFlameSegment> flameSegments;
         private Vector2 startPosition;
         private float elapsedTime;
         private Vector2 flameDirection; 
         private bool isLeft;
         private int frameCounter;
-        private int wait = 16;
+        private int wait = 0;
+        private bool IsActive;
+        private SoundInstance sound;
+
+        public Vector2 Position
+        {
+            get => startPosition;
+            set => startPosition = value;
+        }
+
+        public Vector2 Velocity
+        {
+            get => Vector2.Zero;
+        }
 
         public EnemyFlamethrower(Vector2 startPosition, bool isLeft)
         {
@@ -23,12 +40,39 @@ namespace KirbyNightmareInDreamLand.Projectiles
             flameSegments = new List<EnemyFlameSegment>();
             elapsedTime = 0f;
             frameCounter = 0;
+            IsActive = true;
+
+            ObjectManager.Instance.AddProjectile(this);
+
+            sound = SoundManager.CreateInstance("hotheadflamethrowerattack");
+            sound.Play();
         }
 
-        public void Update(GameTime gameTime)
+        public void EndAttack()
+        {
+            sound.Stop();
+            IsActive = false;
+        }
+        public bool IsDone()
+        {
+            if (frameCounter <= wait)
+            {
+                return false;
+            }
+            foreach (var segment in flameSegments)
+            {
+                if (!segment.IsDone())
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public void Update()
         {
             // Check if it's time to spawn new flame segments
-            if (frameCounter >=  Random.Shared.Next(15, 20))
+            if (IsActive && frameCounter % 2 == 0 && frameCounter >= wait)
             {
                 SpawnFlameSegment();
             }
@@ -36,7 +80,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
             flameSegments.RemoveAll(obj => obj.IsDone());
         }
-         private void SpawnFlameSegment()
+        private void SpawnFlameSegment()
         {
             Random random = new Random();
             float angleOffset = !isLeft ? 0f : (float)Math.PI; // Adjust angle based on direction
@@ -63,9 +107,23 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 //segment.Draw(spriteBatch);
             }
         }
-        public void ClearSegments()
+
+        // THESE METHODS NEVER CALLED, ObjectManager just needs all IProjectiles to be
+        // ICollidables. This class is a non-colliding projectile, so it's basically
+        // just an ICollidable that always says no when asked if its collision is active.
+        public bool CollisionActive { get; private set; } = false;
+        public Rectangle GetHitBox()
         {
-            flameSegments.Clear();
+            return Rectangle.Empty;
         }
+        public Vector2 GetPosition()
+        {
+            return Vector2.Zero;
+        }
+        public CollisionType GetCollisionType()
+        {
+            return CollisionType.PlayerAttack;
+        }
+
     }
 }
