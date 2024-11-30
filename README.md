@@ -1,5 +1,7 @@
 # Kirby: Nightmare in Dream Land
-by **Team Kirby Superstars**  
+11/29/2024 <br>
+Sprint 5 <br>
+by **Team Kirby Superstars** <br> 
 Gwyneth Barnholtz, Mark DeLeo, Vivian Ferrigni, Payton Murphy, Carman Ngai, Lina Ordonez Aguiar
 
 ## Contents

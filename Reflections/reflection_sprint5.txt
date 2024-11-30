@@ -1,0 +1,32 @@
+﻿Sprint 5 Reflection
+11/29/2024
+
+###############################################################################
+
+1. Team Dynamics
+
+
+As expected, this sprint was very very work heavy. Admittedly, we kind of put this onto
+ourselves and were expecting to take on a lot, but that doesn't take away from the fact
+that this Sprint was probaby one of if not THE most overwhelming of the bunch. Though we
+maybe were a bit overly ambitious with our Sprint 5 features, it was super rewarding.
+From getting multiplayer to work, to implementing gamepad controls, to seeing the custom
+enemy develop, this sprint was by far the most fun we've had all semester. I think that
+really helped boost team moral despite everyone's heavy workload. When we ideated our
+features for Sprint 5, our team was super enthusiastic and excited for what we planned
+to do, and that spirit never really left throughout the sprint. Our support for eachother
+and pride in what we were able to accomplish this semester helped our team dynamics
+tremendously, and we're super excited to share what we built!
+
+
+2. Adherence To Deadlines
+
+
+Well, we really tried our best. Due to our overwhelming amount of Sprint 5 features that
+we commited to completing for our final game, we fell a little bit short of our goal by the
+time the Saturday noon deadline rolled around. We did get a lot of our features implemented,
+but we needed a little extra time to refine some features and fix some bugs. We ended up 
+asking Professor Kirby for an extension until midnight Sunday 12/01 last Tuesday, but we have
+not gotten a response yet. We decided that it would probably be best to submit what we have and
+hope to have the chance to resubmit again after we polish some things up. Overall though, we 
+still made a huge amount of progress.
