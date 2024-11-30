@@ -17,7 +17,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public bool powerChangeAnimation { get; set; }
         void Crouch();
         void EndCrouch();
-        void AttackPressed();
         Vector2 GetKirbyPosition();
         Vector2 GetKirbyVelocity();
         string GetKirbyType();
