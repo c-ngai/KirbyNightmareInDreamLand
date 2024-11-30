@@ -57696,7 +57696,7 @@
                 "Height": 24,
                 "CenterX": 12,
                 "CenterY": 0,
-                "Time": 5
+                "Time": 1
             },
             {
                 "X": 462,
@@ -57705,7 +57705,7 @@
                 "Height": 24,
                 "CenterX": 2,
                 "CenterY": 0,
-                "Time": 5
+                "Time": 1
             },
             {
                 "X": 416,
@@ -57714,7 +57714,7 @@
                 "Height": 24,
                 "CenterX": 0,
                 "CenterY": 0,
-                "Time": 5
+                "Time": 1
             },
             {
                 "X": 416,
@@ -58523,7 +58523,7 @@
       }
     ]
   },
-  "hud_power_beam": {
+  "hud_card_beam": {
     "Source texture": "hud",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -58539,7 +58539,7 @@
       }
     ]
   },
-  "hud_power_spark": {
+  "hud_card_spark": {
     "Source texture": "hud",
     "Loop point": 0,
     "Flip horizontally?": false,
@@ -58555,7 +58555,7 @@
       }
     ]
   },
-  "hud_power_fire": {
+  "hud_card_fire": {
     "Source texture": "hud",
     "Loop point": 0,
     "Flip horizontally?": false,

@@ -184,8 +184,6 @@ namespace KirbyNightmareInDreamLand
             //music?.Play();
         }
 
-
-
         protected override void UnloadContent()
         {
 
