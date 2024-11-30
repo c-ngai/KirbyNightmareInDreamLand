@@ -1,23 +1,21 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using System.Diagnostics;
-using System.Collections.Generic;
 
 namespace KirbyNightmareInDreamLand.Sprites
 {
 
     public class Sprite : ISprite
     {
-        // To store a reference to the current game.
+        // stores a reference to the current game
         private Game1 _game;
         private Camera _camera;
 
-        // The SpriteAnimation used.
+        // the SpriteAnimation used
         private SpriteAnimation _spriteAnimation;
 
-        // The current frame of the animation.
+        // current frame of the animation
         private int currentFrame;
-        // The current number of game ticks since last frame advance.
+        // current number of game ticks since last frame advance
         private int tickCounter;
         private int counter = 0;
 
@@ -42,12 +40,11 @@ namespace KirbyNightmareInDreamLand.Sprites
             _game = Game1.Instance;
         }
 
-
-
-        // Updates the animation for the game tick.
+        // updates the animation for the game tick.
         public void Update()
         {
-            // Advance the tick counter. If it's reached the frame time of the current frame, advance the frame and reset the tick counter.
+            // advance the tick counter
+            // if it's reached the frame time of the current frame, advance the frame and reset the tick counter
             tickCounter++;
             if (tickCounter == _spriteAnimation.FrameTimes[currentFrame])
             {
@@ -61,7 +58,7 @@ namespace KirbyNightmareInDreamLand.Sprites
             }
         }
 
-        // Draws the sprite to the spriteBatch.
+        // draws the sprite to the spriteBatch.
         public void Draw(Vector2 position, SpriteBatch spriteBatch, Color color, float layerDepth)
         {
             _camera = _game.cameras[_game.CurrentCamera];
@@ -79,63 +76,46 @@ namespace KirbyNightmareInDreamLand.Sprites
                 frameCenter.X = sourceRectangle.Width - frameCenter.X;
             }
 
-
-
             Rectangle destinationRectangle = new Rectangle((position - frameCenter).ToPoint(), sourceRectangle.Size);
 
-            // Cull the sprite if it is not within the camera rectangle and if culling is enabled.
+            // cull the sprite if it is not within the camera rectangle and if culling is enabled.
             bool cull = false;
             if (_game.CULLING_ENABLED && !_camera.GetBounds().Intersects(destinationRectangle))
             {
                 cull = true;
             }
 
-            // Draw the sprite if it has not been culled.
+            // draw the sprite if it has not been culled
             if (!cull)
             {
-                // Draw the sprite to the spriteBatch.
+                // draw the sprite to the spriteBatch.
                 spriteBatch.Draw(texture, position, sourceRectangle, color, 0, frameCenter, 1, _spriteAnimation.SpriteEffects, layerDepth);
                 GameDebug.Instance.NumOfSpriteBatchDrawCalls++;
-                // DEBUG VISUALS, TIDY UP LATER
+
+                // DEBUG VISUALS
                 if (_game.DEBUG_SPRITE_MODE == true)
                 {
-                    GameDebug.Instance.DrawRectangle(spriteBatch, destinationRectangle, Color.Blue, 0.5f);
-                    GameDebug.Instance.DrawPoint(spriteBatch, position, Color.Red, 0.75f);
+                    GameDebug.Instance.DrawRectangle(spriteBatch, destinationRectangle, Color.Blue, Constants.Graphics.BLUE_ALPHA);
+                    GameDebug.Instance.DrawPoint(spriteBatch, position, Color.Red, Constants.Graphics.RED_ALPHA);
                 }
             }
             GameDebug.Instance.NumOfSpriteDrawCalls++;
         }
 
-        // Draws the sprite to the spriteBatch. With unspecified layer depth, uses 0.
+        // draws the sprite to the spriteBatch. With unspecified layer depth, uses 0.
         public void Draw(Vector2 position, SpriteBatch spriteBatch, Color color)
         {
             Draw(position, spriteBatch, color, 0);
         }
 
-        // Draws the sprite to the spriteBatch. With unspecified color mask and layer depth, uses white (no change to source image) and 0.
+        //dDraws the sprite to the spriteBatch. With unspecified color mask and layer depth, uses white (no change to source image) and 0.
         public void Draw(Vector2 position, SpriteBatch spriteBatch)
         {
             Draw(position, spriteBatch, Color.White, 0);
         }
 
-
-        public void DamageDraw(Vector2 position, SpriteBatch spriteBatch)
-        {
-            if (counter < 4)
-            {
-                Draw(position, spriteBatch);
-            }
-            else
-            {
-                Draw(position, spriteBatch, Color.Red);
-            }
-            // spriteBatch.DrawString(LevelLoader.Instance.Font, counter.ToString(), position, Color.Black); // DEBUG, draw counter
-            counter++;
-            if (counter == 8)
-                counter = 0;
-        }
-
-        // Resets the animation to the start. Should be desirable to call any time an entity's sprite is switched.
+        // resets the animation to the start
+        // should be desirable to call any time an entity's sprite is switched
         public void ResetAnimation()
         {
             currentFrame = 0;

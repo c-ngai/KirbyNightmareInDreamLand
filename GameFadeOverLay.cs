@@ -20,8 +20,8 @@ namespace KirbyNightmareInDreamLand
         {
             Camera camera = _game.cameras[_game.CurrentCamera];
 
-            // This version uses color addition instead of the typical multiplication to achieve a fade effect more similar to the GBA. Most probably won't notice the difference lol -Mark
-            int a = (int)(alphaFade * 255);
+            // this version uses color addition instead of the typical multiplication to achieve a fade effect more similar to the GBA
+            int a = (int)(alphaFade * Constants.Graphics.FADE_COLOR_ADDITION);
             GameDebug.Instance.DrawSolidRectangle(spriteBatch, camera.bounds, new Color(a, a, a, 0), 1f);
         }
     }

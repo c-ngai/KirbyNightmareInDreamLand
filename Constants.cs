@@ -49,6 +49,9 @@ namespace KirbyNightmareInDreamLand
             public const int PLAYER_ARROW_VISIBILITY_BOUNDS_OUTSET = 10;
             public const int PLAYER_ARROW_BOUNDS_INSET = 12;
             public const int PLAYER_ARROW_BOUNDS_BOTTOM_INSET = 14;
+            public const float BLUE_ALPHA = 0.5f;
+            public const float RED_ALPHA = 0.75f;
+            public const float FADE_COLOR_ADDITION = 255;
         }
         #endregion
         #region  Physics
@@ -303,6 +306,7 @@ namespace KirbyNightmareInDreamLand
             public const int UNITS_PER_FRAME = 10;
             public const int FRAME_FOUR = 3;
             public const int FRAME_FIVE = 4;
+            public const int MAX_BEAM_FRAMES = 6;
         }
 
         public class Briefcase
