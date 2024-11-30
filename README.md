@@ -60,7 +60,7 @@ IMPORTANT: Level 3 in the level hub is a testing room for debugging purposes and
 
 Backlogged Tasks:
 
-None!
+Visual implementations for **additional** particles and attack visual effects before demo day. These don't affect game play and were stretch goals under our sprite polish objective.
 
 ###############################################################################
 

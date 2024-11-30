@@ -11,6 +11,9 @@ namespace KirbyNightmareInDreamLand.Actions
 {
     public class TileCollisionActions
     {
+        /** ICollidable objects colliding with blocks from different directions **/
+        #region blockCollisions
+        // bottom side of a ICollidable object colliding with a block
         public static void BottomBlockCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
             if (object1 is IPlayer player)
@@ -31,6 +34,7 @@ namespace KirbyNightmareInDreamLand.Actions
             }
         }
 
+        // right side of a ICollidable object colliding with a block
         public static void RightBlockCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
             if (object1 is IPlayer player)
@@ -50,6 +54,8 @@ namespace KirbyNightmareInDreamLand.Actions
                 star.WallRightBounce();
             }
         }
+
+        // left side of a ICollidable object colliding with a block
         public static void LeftBlockCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
             if (object1 is IPlayer player)
@@ -68,12 +74,14 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 star.WallLeftBounce();
             }
+            // TODO: extra visual effect for demo day (stretch goal)
             //else if (object1 is KirbyBriefcase sc)
             //{
             //    sc.Explode();
             //}
         }
 
+        // top side of a ICollidable object colliding with a block
         public static void TopBlockCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
             if (object1 is IPlayer player)
@@ -93,7 +101,9 @@ namespace KirbyNightmareInDreamLand.Actions
                 star.CeilingBounce();
             }
         }
+        #endregion
 
+        // bottom side of a ICollidable object colliding with a platform
         public static void BottomPlatformCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
             if (object1 is IPlayer player)
@@ -116,15 +126,17 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 enemyBriefcase.EndAttack();
             }
-
         }
 
+        // enemy colliding with water (dies)
         public static void WaterCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
             Enemy enemy = (Enemy)object1;
             enemy.TakeDamage(intersection, intersection.Center.ToVector2());
         }
 
+        /** ICollidable objects colliding with the different slope types **/
+        #region slopeCollisions
         public static void GentleLeftSlopeCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
             CollisionType type = object1.GetCollisionType();
@@ -284,5 +296,6 @@ namespace KirbyNightmareInDreamLand.Actions
                 en.EndAttack();
             }
         }
+        #endregion
     }
 }
