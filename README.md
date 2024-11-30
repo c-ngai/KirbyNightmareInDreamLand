@@ -40,46 +40,33 @@ Monogame is only directly compatible with XInput controllers, if you want to use
 <br/>
 
 When on Game over and Level Complete Screens 'up' and 'down' arrow keys navigate
-between Quit and Continue buttons, to select a highlighted button, use 'space'.
+between Quit and Continue buttons, to select a highlighted button, use 'enter'.
 
-Quit exits the program and continue restarts the game in room 1. Level Complete Screen happens when you 
-enter the last door in Level 3.
+Quit exits the program and continue restarts the game in the level hub. Level Complete Screen happens when you 
+enter the last door in Room 3 of each level.
 
+**Debug Controls:**  
+
+Press F1 to see debug text on screen
+Press F2 to see sprite debug boxes
+Press F3 to see level debug
+Press F4 to see collision debug
+Press F5 to see the screen zoomed out which allows you to see enemy respawn/despawn behavior
+	Combine this with F3 to see where enemy spawnpoints
+
+IMPORTANT: Level 3 in the level hub is a testing room for debugging purposes and not an actual playable level!
 
 ###############################################################################
 
 Backlogged Tasks:
 
-Improve enemy spawning: make it so that enemies only load when nearby screen camera and will respawn when player goes 
-backward through the level. We backlogged this task to complete in Sprint5 because it is of the features we wish to 
-implement of having better enemy AI. 
+None!
 
 ###############################################################################
 
 Known bugs:
 
-Player Movement:
- - if you are attacking and move the player, it lets you do movement in place instead of staying on the attack animations for fire and spark kirbys
- - slide sometimes doesn't work when you change kirby's direction after sliding and Kirby stays in crouch but will be fine again once you exit crouch
- - movements sometimes have soft locks, mostly fixed but some movement has issues when multiple commands are being executed
-
-Enemy:
- - PoppyBrosJr hopping sprites has a glitch
- - Flying enemy also struggles with wall collision because it is changing it's direction but not fixing the pathing
- - Looping enemy sounds don't stop when moving between levels
- - Hothead flamethrower needs to be separated out as a projectile attack (needs to be done to implement it as a collidable)
-
-Mouse Controller and Game State:
-- because using the mouse controller to go through rooms the game state is not changed, controls get stuck in the
-  wrong keymap and the quit continue buttons are drawn on regular levels when you cycle to different levels after reaching the ending
-  "Game Over"/"Level Complete" screens. We will fix next sprint
-- if you transition between doors while moving, kirby keeps moving while transitioning
-- when you lose your final health and die, it does not enter game end sequence and you instead lose access to Kirby and have full health again
-  * we have the game over sequence coded in so we think it is an issue with state transition that we will fix next sprint
-- reset does not reset player state (if kirby enters invulnerable and reset is hit he will still be in invulnerable)
-
-Particles:
-- Need to stop run particles from displaying when double press happens when floating
+None!
 
 ###############################################################################
 
