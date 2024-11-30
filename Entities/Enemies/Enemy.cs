@@ -262,10 +262,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
                 UpdatePosition();
             }
-            //else
-            //{
-            //    Dispose();
-            //}
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
@@ -362,15 +358,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             if (position.X > intersection.Left && position.X < intersection.Right)
             {
                 float offset = position.X - intersection.X;
-                //Debug.WriteLine($"Starting Y position: {position.Y}");
                 float slopeY = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
-                //GameDebug.Instance.LogPosition(new Vector2(position.X, position.Y));
                 if (position.Y > slopeY)
                 {
                     position.Y = slopeY + Constants.Collision.GROUND_COLLISION_OFFSET;
                     velocity.Y = 0;
                 }
-                //Debug.WriteLine($"(0,0) point: {intersection.Y + 16}, offset {offset}, slope {slope}, yInterceptAdjustment {yIntercept}");
             }
         }
         public void CollisionWithGentle1LeftSlope(Tile tile)

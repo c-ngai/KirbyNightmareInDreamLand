@@ -6,11 +6,14 @@ using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.ProfessorKirbyState;
 using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Projectiles;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
     public class ProfessorKirby : Enemy
     {
+        // left level boundary
+        private int levelBoundsLeft = 0;
 
         // Jump variables
         private bool isJumping = false;
@@ -27,6 +30,21 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             health = Constants.ProfessorKirby.HEALTH;
         }
 
+        public virtual void AdjustXPositionToLevelBoundaries()
+        {
+            // ensures Professor Kirby wont go through the level bounds 
+            if (position.X < levelBoundsLeft)
+            {
+                position.X = levelBoundsLeft;
+                ChangeDirection();
+            }
+            if (position.X > Game1.Instance.Level.CurrentRoom.Width)
+            {
+                position.X = Game1.Instance.Level.CurrentRoom.Width;
+                ChangeDirection();
+            }
+        }
+
         public override void Spawn()
         {
             base.Spawn();
@@ -36,6 +54,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public override void Move()
         {
             base.Move();
+            AdjustXPositionToLevelBoundaries();
             velocity.X = stateMachine.IsLeft() ? -Constants.ProfessorKirby.MOVE_SPEED : Constants.ProfessorKirby.MOVE_SPEED;
         }
 
