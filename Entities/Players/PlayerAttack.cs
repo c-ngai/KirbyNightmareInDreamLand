@@ -3,6 +3,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using KirbyNightmareInDreamLand.Projectiles;
+using KirbyNightmareInDreamLand.StateMachines;
 using System.Collections.Generic;
 using KirbyNightmareInDreamLand;
 using System;
@@ -17,6 +18,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public IProjectile currentAttack {get; private set;}
         private Vector2 position;
         private bool isLeft;
+        private Player currentKirby;
         public PlayerAttack(Player kirby, string _attackType)
         {
             //InitializeAttackDictionary();
@@ -25,6 +27,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             // Set the attack based on the string
             currentAttack = AttackFactory(kirby, _attackType);
             attackType = _attackType;
+            currentKirby = kirby;
         }
 
         // THIS METHOD SUCKS AND IS A BAND-AID REPAIR FOR THE METHOD BELOW
@@ -59,6 +62,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if (attackType != "Star" && attackType != "Professor") // this is dumb fix later if time -mark at 1am
             {
                 currentAttack.EndAttack();
+
+                // only change to attack end if it has an ending attack animation
+                if (attackType == "Normal" || attackType == "Spark" || attackType == "Fire")
+                {
+                    currentKirby.ChangePose(StateMachines.KirbyPose.AttackingEnd);
+                }
+                
             }
         }
 

@@ -305,23 +305,27 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public void AdjustOnSlopeCollision(PlayerStateMachine state, Tile tile, float slope, float yIntercept, Player kirby)
         {
-            Rectangle intersection = tile.rectangle;
-            if (position.X > intersection.Left && position.X < intersection.Right)
-            {
-                float offset = position.X - intersection.X;
-
-                float kirbyAdjustment = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
-                if (position.Y > kirbyAdjustment || state.CanMove() ) // "is kirby moving on the ground in a way where we want him to stay locked on the ground"
+            // Only adjust if kirby was moving downwards during the collision
+            if (velocity.Y > 0)
+            { 
+                Rectangle intersection = tile.rectangle;
+                if (position.X > intersection.Left && position.X < intersection.Right)
                 {
-                    position.Y = kirbyAdjustment;
-                    // needs this adjustment to ensure proper collision when non floating, if this is added when floating Kirby cannot float directly up when he's landed on the slope
-                    if (!kirby.state.IsFloating())
+                    float offset = position.X - intersection.X;
+
+                    float kirbyAdjustment = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
+                    if (position.Y > kirbyAdjustment || state.CanMove()) // "is kirby moving on the ground in a way where we want him to stay locked on the ground"
                     {
-                        position.Y += groundCollisionOffset;
+                        position.Y = kirbyAdjustment;
+                        // needs this adjustment to ensure proper collision when non floating, if this is added when floating Kirby cannot float directly up when he's landed on the slope
+                        if (!kirby.state.IsFloating())
+                        {
+                            position.Y += groundCollisionOffset;
+                        }
+                        velocity.Y = Math.Abs(velocity.X); // If on a slope, set velocity.Y to the absolute value of velocity.X so that kirby magnetizes down to the slope
+                        ChangeKirbyLanded(true);
+                        kirby.HandleFreeFall();
                     }
-                    velocity.Y = Math.Abs(velocity.X); // If on a slope, set velocity.Y to the absolute value of velocity.X so that kirby magnetizes down to the slope
-                    ChangeKirbyLanded(true);
-                    kirby.HandleFreeFall();
                 }
             }
             onSlope = true;
