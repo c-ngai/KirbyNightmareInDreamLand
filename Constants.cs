@@ -194,7 +194,8 @@ namespace KirbyNightmareInDreamLand
             public static Vector2 STAR_ATTACK_OFFSET_LEFT= new Vector2(-8, -10);
             public static Vector2 BOUNCING_STAR_OFFSET_RIGHT= new Vector2(8, -10);
             public static Vector2 BOUNCING_STAR_OFFSET_LEFT= new Vector2(-8, -10);
-            public static Vector2 SUITCASE_OFFSET_LEFT= new Vector2(-8, -10);
+            public static Vector2 BRIEFCASE_OFFSET_RIGHT = new Vector2(6, -25);
+            public static Vector2 BRIEFCASE_OFFSET_LEFT= new Vector2(-6, -25);
             public static int SLIDE_FRAMES = 40;
             public static float SLIDE_VEL = 2.5f;
             public static float CEILING = 15;
@@ -306,19 +307,20 @@ namespace KirbyNightmareInDreamLand
             public const int FRAME_FIVE = 4;
         }
 
-        public class KirbySuitcase
+        public class Briefcase
         {
-            public static Vector2 SUITCASE_VEL_LEFT = new Vector2(-5, .5f);
-            public static Vector2 SUITCASE_VEL_RIGHT = new Vector2(5, .5f);
+            public static Vector2 SUITCASE_VEL_LEFT = new Vector2(-2, -2);
+            public static Vector2 SUITCASE_VEL_RIGHT = new Vector2(2, -2);
 
             public static int SUITCASE_WIDTH = 12;
             public static int SUITCASE_HEIGHT = 12;
-            public static int SUITCASE_EXPLODE_WIDTH = 36;
-            public static int SUITCASE_EXPLODE_HEIGHT = 36;
-            public static Vector2 SUITCASE_OFFSET_RIGHT = new Vector2(7, -12);
-            public static Vector2 SUITCASE_OFFSET_LEFT = new Vector2(-19, -12);
-            public static Vector2 SUITCASE_EXPLODE_OFFSET_RIGHT = new Vector2(14, -12);
-            public static Vector2 SUITCASE_EXPLODE_OFFSET_LEFT = new Vector2(-19, -12);
+            public static int SUITCASE_EXPLODE_WIDTH = 48;
+            public static int SUITCASE_EXPLODE_HEIGHT = 48;
+            public static Vector2 SUITCASE_OFFSET = new Vector2(-SUITCASE_WIDTH / 2, -SUITCASE_HEIGHT / 2);
+            public static Vector2 SUITCASE_EXPLODE_OFFSET = new Vector2(-SUITCASE_EXPLODE_WIDTH / 2, -SUITCASE_EXPLODE_HEIGHT / 2);
+
+            public static int BRIEFCASE_WINDUP_FRAMES = 8;
+            public static int BRIEFCASE_EXPLODE_COLLISION_FRAMES = 5;
         }
         #endregion
         #region enemies
@@ -407,7 +409,7 @@ namespace KirbyNightmareInDreamLand
         {
             public const int HEALTH = 10;
             public const float MOVE_SPEED = 0.5f;
-            public const int WALK_FRAMES = 250;
+            public const int WALK_FRAMES = 60;
             public const int STOP_FRAMES = 120;
             public const int ATTACK_FRAMES = 50;
             public const int JUMPING_FRAMES = 50;
@@ -495,7 +497,7 @@ namespace KirbyNightmareInDreamLand
             public const float FADE_VALUE_OPAQUE = 1.0f;
             public const float FADE_VALUE_HALF_OPAQUE = 0.5f;
             public const float FADE_VALUE_TRANSPARENT = 0.05f;
-            public const int ATTACK_STATE_FRAMES = 80;
+            public const int ATTACK_STATE_FRAMES = 60;
 
         }
         #endregion

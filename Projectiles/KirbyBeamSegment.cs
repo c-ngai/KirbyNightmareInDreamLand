@@ -5,11 +5,14 @@ using System.Collections.Generic;
 using System;
 using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Actions;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class KirbyBeamSegment : IProjectile, ICollidable
     {
+        public IPlayer player { get; private set; }
+
         private Vector2 position;
         private Vector2 velocity;
         private int frameCount = 0;
@@ -35,8 +38,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
             set => velocity = value;
         }
 
-        public KirbyBeamSegment(Vector2 startPosition, Vector2 beamVelocity, bool odd)
+        public KirbyBeamSegment(Vector2 startPosition, Vector2 beamVelocity, bool odd, IPlayer _player)
         {
+            player = _player;
+
             Position = startPosition;
             Velocity = beamVelocity;
             sprite = odd ?

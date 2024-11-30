@@ -176,6 +176,7 @@ namespace KirbyNightmareInDreamLand
 
         private void EmptyLists()
         {
+            DynamicObjects.RemoveAll(obj => obj is IProjectile projectile && projectile.IsDone());
             Projectiles.RemoveAll(obj => obj.IsDone());
             Particles.RemoveAll(obj => obj.IsDone());
         }

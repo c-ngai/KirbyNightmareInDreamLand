@@ -9,7 +9,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class KirbyBeam : IProjectile, ICollidable
     {
-        private IPlayer player;
+        public IPlayer player { get; private set; }
         private Vector2 position;
         private Vector2 velocity;
         private int segmentsFired;
@@ -70,7 +70,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 Vector2 velocity = new Vector2((float)Math.Cos(GetRotation()), (float)Math.Sin(GetRotation())) * UnitsPerFrame;
                 velocity += player.GetKirbyVelocity();
                 bool odd = frameCounter % 2 != 0;
-                beamSegments.Add(new KirbyBeamSegment(position, velocity, odd));
+                beamSegments.Add(new KirbyBeamSegment(position, velocity, odd, player));
                 segmentsFired++;
             }
 

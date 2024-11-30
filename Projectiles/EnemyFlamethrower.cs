@@ -1,4 +1,5 @@
 ﻿using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Entities.Players;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
@@ -9,6 +10,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class EnemyFlamethrower : IProjectile, ICollidable
     {
+        public IPlayer player { get => null; } // this projectile never originates from a player
         private List<EnemyFlameSegment> flameSegments;
         private Vector2 startPosition;
         private float elapsedTime;

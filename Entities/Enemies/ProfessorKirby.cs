@@ -57,7 +57,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 {
                     briefcase.Update();
                     //TO-DO - CHANGE TO BRIEFCASE IS BRIEFCASE ACTIVE
-                    if (!briefcase.IsBeamActive())
+                    if (!briefcase.IsDone())
                     {
                         isBriefcaseActive = false;
                     }

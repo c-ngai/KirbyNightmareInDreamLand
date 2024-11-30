@@ -14,6 +14,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public int lives { get; }
         public bool IsActive { get; }
         public bool DEAD { get; }
+        public bool powerChangeAnimation { get; set; }
         void Crouch();
         void EndCrouch();
         void AttackPressed();
