@@ -15,6 +15,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.ProfessorKirbySt
         public void Enter()
         {
             _enemy.FaceNearestPlayer();
+            _enemy.StopMoving();
             _enemy.ChangePose(EnemyPose.Attacking);
             _enemy.Attack(); // Perform attack action immediately upon entering
         }

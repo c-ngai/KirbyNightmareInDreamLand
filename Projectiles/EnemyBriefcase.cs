@@ -97,7 +97,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
         public CollisionType GetCollisionType()
         {
-            return CollisionType.KirbyBriefcase;
+            return CollisionType.EnemyAttack;
         }
 
         public void Update()

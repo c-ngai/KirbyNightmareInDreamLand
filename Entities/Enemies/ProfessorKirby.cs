@@ -49,7 +49,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             {
                 if (isBriefcaseActive)
                 {
-                    briefcase.Update();
+                    //briefcase.Update();
                     if (!briefcase.IsDone())
                     {
                         isBriefcaseActive = false;
@@ -72,8 +72,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 isJumping = true;
                 velocity.Y = -Constants.ProfessorKirby.JUMP_VELOCITY;
             }
-
-            Move();
         }
 
         public override void Attack()

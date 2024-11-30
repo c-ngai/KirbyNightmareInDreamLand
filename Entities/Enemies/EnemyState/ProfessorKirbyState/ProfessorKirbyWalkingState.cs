@@ -17,8 +17,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.ProfessorKirbySt
             // Set the duration of this walking state to a random value in the range
             walkingDuration = _enemy.random.Next(Constants.ProfessorKirby.WALK_MIN_FRAMES, Constants.ProfessorKirby.WALK_MAX_FRAMES);
 
-            // CHANGE
-            // Randomly decide the next action to be either an attack or a jump
+            //TO-DO CHANGE IF WANT TO ADD JUMP
+            //Randomly decide the next action to be either an attack or a jump
             //nextActionAttack = _enemy.random.Next(2) == 0;
             nextActionAttack = true;
         }
