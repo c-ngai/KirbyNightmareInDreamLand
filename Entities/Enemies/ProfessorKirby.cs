@@ -16,7 +16,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         private bool isJumping = false;
 
         // Briefcase ability
-        //TO-DO: SWITCH FROM ENEMY BEAM TO BRIEFCASE PROJECTILE
          private EnemyBriefcase briefcase;
          private bool isBriefcaseActive = false;
 
@@ -37,7 +36,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public override void Move()
         {
             base.Move();
-
             velocity.X = stateMachine.IsLeft() ? -Constants.ProfessorKirby.MOVE_SPEED : Constants.ProfessorKirby.MOVE_SPEED;
         }
 
@@ -49,7 +47,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             {
                 if (isBriefcaseActive)
                 {
-                    //briefcase.Update();
                     if (!briefcase.IsDone())
                     {
                         isBriefcaseActive = false;
@@ -60,7 +57,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         private Vector2 ProjectilePosition()
         {
-            // Adjust beam based on direction facing
+            // Adjust briefcase based on direction facing
             return stateMachine.IsLeft() ? new Vector2(position.X - 17, position.Y - 7) : new Vector2(position.X + 17, position.Y - 7);
         }
 
