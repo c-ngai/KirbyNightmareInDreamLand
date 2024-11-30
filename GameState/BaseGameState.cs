@@ -61,6 +61,7 @@ namespace KirbyNightmareInDreamLand.GameState
             { "PoppyBrosJr" , SpriteFactory.Instance.CreateSprite("poppybrosjr_hop_left") },
             { "Sparky" , SpriteFactory.Instance.CreateSprite("sparky_standing_left") },
             { "Hothead" , SpriteFactory.Instance.CreateSprite("hothead_walking_left") },
+            { "ProfessorKirby" , SpriteFactory.Instance.CreateSprite("hothead_walking_left") }
         };
 
         public BaseGameState(Level _level)
