@@ -206,6 +206,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             return movement.GetVelocity();
         }
 
+        public void ResetAtWall()
+        {
+            facingLeftWall = false;
+            facingRightWall = false;
+        }
+
         private bool CanControl()
         {
             return IsActive && !DEAD && !hurtStun && !isTransitioningAttack && GetKirbyPose() != KirbyPose.Swallow;
@@ -464,6 +470,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             // sould kirby exhibit falling behavior
             if (movement.GetVelocity().Y > 0 && !movement.onSlope && !DEAD && !state.IsFloating() && !state.IsAttacking())
             {
+                ResetAtWall();
                 // if kirby was not falling enter freefall
                 if (!state.IsFalling() && !hurtStun)
                 {
@@ -546,6 +553,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             if (CanControl())
             {
+                ResetAtWall();
                 if (state.CanJump())
                 { //not floating, not jumping, not crouching
                     movement = new JumpMovement(movement.GetPosition(), movement.GetVelocity());
@@ -581,6 +589,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             if (CanControl())
             {
+                ResetAtWall();
                 // Play the floating sound every time the FloatingRising sprite loops
                 if (state.GetPose() == KirbyPose.FloatingRising && poseCounter % 16 == 0)
                 {
@@ -828,6 +837,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     SoundManager.Play("powerup");
                     Game1.Instance.Level.ChangeToPowerChangeState();
                 }
+            }
+
+            // ends wall squish animation
+            if (GetKirbyPose() == KirbyPose.WallSquish && poseCounter >= 5)
+            {
+                ChangePose(KirbyPose.Standing);
             }
 
             // if kirby was still in the starting float sequence and the user stops pressing up, finish the sequence
@@ -1153,14 +1168,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             movement.AdjustFromBottomCollisionPlatform(intersection, state);
             HandleFreeFall();
             TEMP = true;
-        }
-        //kirby collision with air so he falls
-        public void BottomCollisionWithAir(Rectangle intersection)
-        {
-            if (oldPose == KirbyPose.FreeFall)
-            {
-                ChangePose(KirbyPose.Standing);
-            }
         }
 
         //slope collision
