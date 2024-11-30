@@ -25,7 +25,7 @@ namespace KirbyNightmareInDreamLand.Actions
                 if (enemy.IsBeingInhaled)
                 {
                     enemy.GetSwallowed(intersection);
-                    player.SwallowEnemy(enemy.PowerType());
+                    player.EatEnemy(enemy.PowerType());
                 }
                 else
                 {
@@ -91,7 +91,7 @@ namespace KirbyNightmareInDreamLand.Actions
                 if (star.isBeingInhaled)
                 {
                     star.GetSwallowed(intersection);
-                    player.SwallowEnemy(star.PowerUp());
+                    player.EatEnemy(star.PowerUp());
                 }
             }
         }

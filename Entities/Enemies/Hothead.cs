@@ -16,16 +16,12 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         // All fireballs and flamethrower
         private EnemyFlamethrower flamethrower;
 
-        private SoundInstance flamethrowerSound;
-
         //Checks if flamethrower attack is active
         private int attackTimer;
 
         public Hothead(Vector2 startPosition) : base(startPosition, EnemyType.Hothead)
         {
             attackTimer = 0;
-            flamethrowerSound = SoundManager.CreateInstance("hotheadflamethrowerattack");
-
             affectedByGravity = true;
         }
 
@@ -139,7 +135,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public override void Dispose()
         {
             base.Dispose();
-            flamethrowerSound.Dispose();
+            flamethrower?.EndAttack();
         }
 
     }

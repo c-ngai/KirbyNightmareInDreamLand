@@ -3,6 +3,7 @@ using System;
 using System.Net;
 using KirbyNightmareInDreamLand.Actions;
 using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Entities.Players;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -10,15 +11,16 @@ namespace KirbyNightmareInDreamLand.Projectiles
 {
     public class ElectricAttack : IProjectile, ICollidable
     {
-        
+        private IPlayer player;
         public Vector2 Position {get; private set;}
         public Vector2 Velocity {get; private set;}
         public bool CollisionActive { get; private set;} = true;
         private bool IsActive;
         private SoundInstance sound;
 
-        public ElectricAttack(Vector2 pos, bool isLeft)
+        public ElectricAttack(IPlayer _player, Vector2 pos, bool isLeft)
         {
+            player = _player;
             Position = pos;
             IsActive = true;
             ObjectManager.Instance.AddProjectile(this);
@@ -32,6 +34,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
         public void Update()
         {
+            Position = player.GetKirbyPosition();
         }
 
         public Vector2 CalculateRectanglePoint(Vector2 pos)

@@ -42,8 +42,6 @@ namespace KirbyNightmareInDreamLand
 
         public GamePlayingState GameState;
 
-        public SoundInstance music;
-
         // Sets up single reference for game time for things such as commands which cannot get current time elsewise
         // Note this is program time and not game time 
         public GameTime time { get; set; }
@@ -179,9 +177,7 @@ namespace KirbyNightmareInDreamLand
             // Load the desired keymap by name
             LevelLoader.Instance.LoadKeymap("main");
             LevelLoader.Instance.LoadButtonmap("main");
-
-            music = SoundManager.CreateInstance("song_vegetablevalley");
-            //music?.Play();
+            
         }
 
         protected override void UnloadContent()

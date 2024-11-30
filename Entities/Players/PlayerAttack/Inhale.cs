@@ -33,7 +33,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void OnCollide(KirbyType kirbyType)
         {
-           player.SwallowEnemy(kirbyType);
+           player.EatEnemy(kirbyType);
         }
         public void EndAttack()
         {

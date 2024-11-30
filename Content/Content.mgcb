@@ -223,6 +223,36 @@
 /processorParam:Quality=Best
 /build:Audio/slide.wav
 
+#begin Audio/song_gameover.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/song_gameover.wav
+
+#begin Audio/song_hub.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/song_hub.wav
+
+#begin Audio/song_icecreamisland_loop.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/song_icecreamisland_loop.wav
+
+#begin Audio/song_icecreamisland.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/song_icecreamisland.wav
+
+#begin Audio/song_treasureroom.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/song_treasureroom.wav
+
 #begin Audio/song_vegetablevalley_loop.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -234,6 +264,18 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/song_vegetablevalley.wav
+
+#begin Audio/song_victorydancelong.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/song_victorydancelong.wav
+
+#begin Audio/song_victorydanceshort.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/song_victorydanceshort.wav
 
 #begin Audio/sparkyattack.wav
 /importer:WavImporter

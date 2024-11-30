@@ -123,19 +123,26 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         public virtual void TakeDamage(Rectangle intersection, Vector2 positionOfDamageSource)
         {
-            UpdateScore();
+            if (!isBeingInhaled)
+            {
+                UpdateScore();
 
-            currentState.TakeDamage();
-            //positionOfDamageSource.Y += 8; // I like to shift the position of the damage source used to calculate the velocity down a little, otherwise hitting things straight on usually sends them down into the ground
-            velocity = (GetHitBox().Center.ToVector2() - positionOfDamageSource) / 8;
-            CollisionActive = false;
-            SoundManager.Play("enemydamage");
+                currentState.TakeDamage();
+                //positionOfDamageSource.Y += 8; // I like to shift the position of the damage source used to calculate the velocity down a little, otherwise hitting things straight on usually sends them down into the ground
+                velocity = (GetHitBox().Center.ToVector2() - positionOfDamageSource) / 8;
+                CollisionActive = false;
+                SoundManager.Play("enemydamage");
+            }
         }
 
         public virtual void GetInhaled(Rectangle intersection, IPlayer player)
         {
-            isBeingInhaled = true;
-            ChangeState(new EnemyInhaledState(this, player));
+            if (!isBeingInhaled)
+            {
+                isBeingInhaled = true;
+                velocity = Vector2.Zero;
+                ChangeState(new EnemyInhaledState(this, player));
+            }
         }
 
 

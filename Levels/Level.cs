@@ -1,4 +1,5 @@
-﻿using KirbyNightmareInDreamLand.Entities.Enemies;
+﻿using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Entities.Enemies;
 using KirbyNightmareInDreamLand.Entities.Players;
 using KirbyNightmareInDreamLand.Entities.PowerUps;
 using KirbyNightmareInDreamLand.GameState;
@@ -257,6 +258,7 @@ namespace KirbyNightmareInDreamLand.Levels
                     player?.GoToRoomSpawn();
                     //_manager.RegisterDynamicObject((Player)player);
                 }
+                SoundManager.PlaySong(CurrentRoom.Song);
                 NewRoom = true;
             }
             else

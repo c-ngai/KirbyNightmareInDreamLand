@@ -102,14 +102,23 @@ namespace KirbyNightmareInDreamLand.GameState
             if (level.CurrentRoom.BackgroundSprite != null)
             {
                 Vector2 cameraPosition = new Vector2(
-                    _camera.GetPosition().X * (1),
-                    _camera.GetPosition().Y * (1)
+                    _camera.GetPosition().X,
+                    _camera.GetPosition().Y
                 );
 
                 Vector2 backgroundScreenPosition = new Vector2(
                     _camera.GetPosition().X * ((float)(_camera.bounds.Width - level.CurrentRoom.BackgroundSprite.Width) / (level.CurrentRoom.Width - _camera.bounds.Width)),
                     _camera.GetPosition().Y * ((float)(_camera.bounds.Height - level.CurrentRoom.BackgroundSprite.Height) / (level.CurrentRoom.Height - _camera.bounds.Height))
                 );
+
+                if (float.IsNaN(backgroundScreenPosition.X))
+                {
+                    backgroundScreenPosition.X = 0f;
+                }
+                if (float.IsNaN(backgroundScreenPosition.Y))
+                {
+                    backgroundScreenPosition.Y = 0f;
+                }
 
                 Vector2 backgroundPosition = cameraPosition + backgroundScreenPosition;
                 level.CurrentRoom.BackgroundSprite.Draw(backgroundPosition, spriteBatch);
