@@ -68,7 +68,7 @@ namespace KirbyNightmareInDreamLand.GameState
 
                 level.IsDoorBeingOpened = false;
                 level.IsDoorBeingExited = true;
-                // base.ResetHubDoorAnimations();  
+                base.ResetHubDoorAnimations();  
                 CurrentlyFadingIn = true; //  Que the fade in
             }
 

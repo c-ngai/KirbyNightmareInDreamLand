@@ -26,29 +26,36 @@ namespace KirbyNightmareInDreamLand.GameState
         private static Vector2 drawHubDoorOffset = Constants.Hub.DRAW_HUB_DOOR_OFFSET;
         private static Vector2 drawHubSignOffset = Constants.Hub.DRAW_HUB_DOOR_SIGN_OFFSET;
 
-
-        private static Dictionary<int, ISprite> HubDoors = new Dictionary<int, ISprite> 
+        private static Dictionary<int, ISprite> HubDoorsClosed = new Dictionary<int, ISprite> 
         {
-            { 0 , SpriteFactory.Instance.CreateSprite("hub_door_1")},
-            { 1, SpriteFactory.Instance.CreateSprite("hub_door_2")},
-            { 2, SpriteFactory.Instance.CreateSprite("hub_door3")},
-            { 3, SpriteFactory.Instance.CreateSprite("hub_door4")}
+            { 0, SpriteFactory.Instance.CreateSprite("hub_door_1_closed")},
+            { 1, SpriteFactory.Instance.CreateSprite("hub_door_2_closed")},
+            { 2, SpriteFactory.Instance.CreateSprite("hub_door_3_closed")},
+            { 3, SpriteFactory.Instance.CreateSprite("hub_door_4_closed")}
+        };
+
+        private static Dictionary<int, ISprite> HubDoorsOpen = new Dictionary<int, ISprite>
+        {
+            { 0, SpriteFactory.Instance.CreateSprite("hub_door_1_open")},
+            { 1, SpriteFactory.Instance.CreateSprite("hub_door_2_open")},
+            { 2, SpriteFactory.Instance.CreateSprite("hub_door_3_open")},
+            { 3, SpriteFactory.Instance.CreateSprite("hub_door_4_open")}
         };
 
         private static Dictionary<int, ISprite> OpenHubDoorAnimations = new Dictionary<int, ISprite>
         {
             { 0 , SpriteFactory.Instance.CreateSprite("hub_door_1_animation_open")},
             { 1 , SpriteFactory.Instance.CreateSprite("hub_door_2_animation_open")},
-            { 2 , SpriteFactory.Instance.CreateSprite("hub_door3_animation_open")},
-            { 3 , SpriteFactory.Instance.CreateSprite("hub_door4_animation_open")}
+            { 2 , SpriteFactory.Instance.CreateSprite("hub_door_3_animation_open")},
+            { 3 , SpriteFactory.Instance.CreateSprite("hub_door_4_animation_open")}
         };
 
         private static Dictionary<int, ISprite> CloseHubDoorAnimations = new Dictionary<int, ISprite>
         {
             { 0 , SpriteFactory.Instance.CreateSprite("hub_door_1_animation_close")},
             { 1 , SpriteFactory.Instance.CreateSprite("hub_door_2_animation_close")},
-            { 2 , SpriteFactory.Instance.CreateSprite("hub_door3_animation_close")},
-            { 3 , SpriteFactory.Instance.CreateSprite("hub_door4_animation_close")}
+            { 2 , SpriteFactory.Instance.CreateSprite("hub_door_3_animation_close")},
+            { 3 , SpriteFactory.Instance.CreateSprite("hub_door_4_animation_close")}
         };
 
         // Holds a sprite for kirby and each enemy type to draw at their spawn points in level debug mode.
@@ -191,7 +198,7 @@ namespace KirbyNightmareInDreamLand.GameState
 
         public void DrawHubDoor(Vector2 position, int door_num, SpriteBatch spriteBatch)
         {
-            if (level.IsDoorBeingOpened && level.DoorBeingOpened == door_num)
+            if ( level.IsDoorBeingOpened && level.DoorBeingOpened == door_num )
             {
                 OpenHubDoorAnimations[door_num].Draw(position + drawHubDoorOffset, spriteBatch);
             }
@@ -201,7 +208,7 @@ namespace KirbyNightmareInDreamLand.GameState
             }
             else
             {
-                HubDoors[door_num].Draw(position + drawHubDoorOffset, spriteBatch);
+                HubDoorsClosed[door_num].Draw(position + drawHubDoorOffset, spriteBatch);
             }
         }
 
