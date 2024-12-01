@@ -181,8 +181,6 @@ namespace KirbyNightmareInDreamLand
             
         }
 
-
-
         protected override void UnloadContent()
         {
 

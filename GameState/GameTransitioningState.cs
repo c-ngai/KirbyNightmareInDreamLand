@@ -19,6 +19,9 @@ namespace KirbyNightmareInDreamLand.GameState
         private string gameOverString = Constants.RoomStrings.GAME_OVER_ROOM;
         public float FadeAlpha { get; private set; }
 
+        private Vector2 hubDoor1SpawnPoint = Constants.Level.HUB_DOOR_1_SPAWN_POINT;
+        private Vector2 hubDoor2SpawnPoint = Constants.Level.HUB_DOOR_2_SPAWN_POINT;
+
         public GameTransitioningState(Level _level) : base( _level)
         {
             level.FadeAlpha = Constants.Transition.FADE_OUT_START;
@@ -48,20 +51,24 @@ namespace KirbyNightmareInDreamLand.GameState
             {
                 if (level.NextRoom == "winner_room")
                 {
-                    level.LoadRoom(level.NextRoom, new Vector2 (100, 100));
+                    level.LoadRoom(level.NextRoom, new Vector2(100, 100));
                 }
                 else if (level.CurrentRoom.Name == "winner_room" && level.PreviousRoom == "room3")
                 {
-                    level.LoadRoom(level.NextRoom, new Vector2(120, 270));
+                    level.LoadRoom(level.NextRoom, hubDoor1SpawnPoint);
                 }
                 else if (level.CurrentRoom.Name == "winner_room" && level.PreviousRoom == "level2_room3")
                 {
-                    level.LoadRoom(level.NextRoom, new Vector2(250, 300));
+                    level.LoadRoom(level.NextRoom, hubDoor2SpawnPoint);
                 }
                 else
                 {
                     level.LoadRoom(level.NextRoom, doorPositionForNextRoom); // load new room
                 }
+
+                level.IsDoorBeingOpened = false;
+                level.IsDoorBeingExited = true;
+                base.ResetHubDoorAnimations();  
                 CurrentlyFadingIn = true; //  Que the fade in
             }
 
@@ -74,34 +81,20 @@ namespace KirbyNightmareInDreamLand.GameState
                     level.FadeAlpha = startFade; // reset fadeAlpha so fade-out is ready to go
                     CurrentlyFadingIn = false; // Fade-in complete
 
-                    level.IsDoorBeingOpened = false;
-                    level.IsDoorBeingExited = true;
-
                     if (level.NextRoom == gameOverString)
                     {
                         level.ChangeState(Game1.Instance.Level._gameOverState);
-                        level.ExitDoorAt(doorPositionForNextRoom);
                     }
                     else if (level.NextRoom == "winner_room")
                     {
                         level.ChangeState(Game1.Instance.Level._winningState);
-                        level.ExitDoorAt(doorPositionForNextRoom);
-                    }
-                    else if (level.CurrentRoom.Name == "winner_room" && level.PreviousRoom == "room3")
-                    {
-                        level.ChangeState(Game1.Instance.Level._playingState); // We are done transitioning so set game state to playing
-                        level.ExitDoorAt(new Vector2(6, 16));
-                    }
-                    else if (level.CurrentRoom.Name == "winner_room" && level.PreviousRoom == "level2_room3")
-                    {
-                        level.ChangeState(Game1.Instance.Level._playingState); // We are done transitioning so set game state to playing
-                        level.ExitDoorAt(new Vector2(14, 18));
                     }
                     else
                     {
                         level.ChangeState(Game1.Instance.Level._playingState); // We are done transitioning so set game state to playing
-                        level.ExitDoorAt(doorPositionForNextRoom);
                     }
+                    level.ExitDoorAt(doorPositionForNextRoom);
+
                 }
 
                 // ensures all Kirbys reset to default movement and positon after each door
