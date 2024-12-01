@@ -68,7 +68,8 @@ namespace KirbyNightmareInDreamLand.GameState
 
                 level.IsDoorBeingOpened = false;
                 level.IsDoorBeingExited = true;
-                base.ResetHubDoorAnimations();  
+                base.ResetHubDoorAnimations();
+                level.ExitDoorAt(doorPositionForNextRoom);
                 CurrentlyFadingIn = true; //  Que the fade in
             }
 
@@ -93,8 +94,6 @@ namespace KirbyNightmareInDreamLand.GameState
                     {
                         level.ChangeState(Game1.Instance.Level._playingState); // We are done transitioning so set game state to playing
                     }
-                    level.ExitDoorAt(doorPositionForNextRoom);
-
                 }
 
                 // ensures all Kirbys reset to default movement and positon after each door

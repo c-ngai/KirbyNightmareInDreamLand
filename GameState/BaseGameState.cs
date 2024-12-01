@@ -26,20 +26,12 @@ namespace KirbyNightmareInDreamLand.GameState
         private static Vector2 drawHubDoorOffset = Constants.Hub.DRAW_HUB_DOOR_OFFSET;
         private static Vector2 drawHubSignOffset = Constants.Hub.DRAW_HUB_DOOR_SIGN_OFFSET;
 
-        private static Dictionary<int, ISprite> HubDoorsClosed = new Dictionary<int, ISprite> 
+        private static Dictionary<int, ISprite> HubDoorsClosed = new Dictionary<int, ISprite>
         {
             { 0, SpriteFactory.Instance.CreateSprite("hub_door_1_closed")},
             { 1, SpriteFactory.Instance.CreateSprite("hub_door_2_closed")},
             { 2, SpriteFactory.Instance.CreateSprite("hub_door_3_closed")},
             { 3, SpriteFactory.Instance.CreateSprite("hub_door_4_closed")}
-        };
-
-        private static Dictionary<int, ISprite> HubDoorsOpen = new Dictionary<int, ISprite>
-        {
-            { 0, SpriteFactory.Instance.CreateSprite("hub_door_1_open")},
-            { 1, SpriteFactory.Instance.CreateSprite("hub_door_2_open")},
-            { 2, SpriteFactory.Instance.CreateSprite("hub_door_3_open")},
-            { 3, SpriteFactory.Instance.CreateSprite("hub_door_4_open")}
         };
 
         private static Dictionary<int, ISprite> OpenHubDoorAnimations = new Dictionary<int, ISprite>
@@ -183,7 +175,6 @@ namespace KirbyNightmareInDreamLand.GameState
                 }
                 else
                 {
-                    // add behavior for drawing hub doors
                     DrawHubDoor(doorPos, i, spriteBatch);
                     DrawDoorSign(doorPos, i, spriteBatch);
                 }
