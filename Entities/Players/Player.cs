@@ -574,6 +574,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #region float
         private void StartFloating()
         {
+            // enter floating movement
+            if (!movement.GetType().Equals(typeof(FloatingMovement)))
+            {
+                movement = new FloatingMovement(movement.GetPosition(), movement.GetVelocity());
+            }
+
+            // floating start transition animation
             if (GetKirbyPose() != KirbyPose.FloatingStart)
             {
                 ChangePose(KirbyPose.FloatingStart);
@@ -600,10 +607,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 //crouching and sliding cannot be overwritten by float 
                 if (IsFloating() && GetKirbyPose() != KirbyPose.FloatingStart && GetKirbyPose() != KirbyPose.FloatingEnd && !IsFalling())
                 {
-                    if (!movement.GetType().Equals(typeof(FloatingMovement)))
-                    {
-                        movement = new FloatingMovement(movement.GetPosition(), movement.GetVelocity());
-                    }
                     movement.Jump(state.IsLeft());
                     ChangePose(KirbyPose.FloatingRising);
                 }
