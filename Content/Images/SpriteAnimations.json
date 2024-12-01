@@ -65460,6 +65460,184 @@
             }
         ]
     },
+    "particle_enemyexplode": {
+        "Source texture": "particle_enemyexplode",
+        "Loop point": 18,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 0,
+                "Width": 72,
+                "Height": 72,
+                "CenterX": 36,
+                "CenterY": 36,
+                "Time": 2
+            },
+            {
+                "X": 0,
+                "Y": 72,
+                "Width": 72,
+                "Height": 72,
+                "CenterX": 36,
+                "CenterY": 36,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 144,
+                "Width": 72,
+                "Height": 72,
+                "CenterX": 36,
+                "CenterY": 36,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 216,
+                "Width": 72,
+                "Height": 72,
+                "CenterX": 36,
+                "CenterY": 36,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 288,
+                "Width": 72,
+                "Height": 72,
+                "CenterX": 36,
+                "CenterY": 36,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 360,
+                "Width": 72,
+                "Height": 72,
+                "CenterX": 36,
+                "CenterY": 36,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 432,
+                "Width": 72,
+                "Height": 72,
+                "CenterX": 36,
+                "CenterY": 36,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 504,
+                "Width": 72,
+                "Height": 72,
+                "CenterX": 36,
+                "CenterY": 36,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 576,
+                "Width": 72,
+                "Height": 72,
+                "CenterX": 36,
+                "CenterY": 36,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 648,
+                "Width": 72,
+                "Height": 72,
+                "CenterX": 36,
+                "CenterY": 36,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 720,
+                "Width": 72,
+                "Height": 72,
+                "CenterX": 36,
+                "CenterY": 36,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 792,
+                "Width": 72,
+                "Height": 72,
+                "CenterX": 36,
+                "CenterY": 36,
+                "Time": 4
+            },
+            {
+                "X": 0,
+                "Y": 864,
+                "Width": 72,
+                "Height": 72,
+                "CenterX": 36,
+                "CenterY": 36,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 936,
+                "Width": 72,
+                "Height": 72,
+                "CenterX": 36,
+                "CenterY": 36,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 1008,
+                "Width": 72,
+                "Height": 72,
+                "CenterX": 36,
+                "CenterY": 36,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 1080,
+                "Width": 72,
+                "Height": 72,
+                "CenterX": 36,
+                "CenterY": 36,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 1152,
+                "Width": 72,
+                "Height": 72,
+                "CenterX": 36,
+                "CenterY": 36,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 1224,
+                "Width": 72,
+                "Height": 72,
+                "CenterX": 36,
+                "CenterY": 36,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 1296,
+                "Width": 72,
+                "Height": 72,
+                "CenterX": 36,
+                "CenterY": 36,
+                "Time": 1
+            }
+        ]
+    },
     "particle_dropability": {
         "Source texture": "particles",
         "Loop point": 8,
@@ -65544,6 +65722,452 @@
                 "Height": 48,
                 "CenterX": 24,
                 "CenterY": 24,
+                "Time": 1
+            }
+        ]
+    },
+    "particle_inhale_right": {
+        "Source texture": "particle_inhale",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 0,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 60,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 120,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 180,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 240,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 300,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 360,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 420,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 480,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 540,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 600,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 660,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 720,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 780,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 840,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 900,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 960,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 1020,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 1080,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 1140,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 1200,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 1260,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 1320,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 1380,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            }
+        ]
+    },
+    "particle_inhale_left": {
+        "Source texture": "particle_inhale",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 0,
+                "Y": 0,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 60,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 120,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 180,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 240,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 300,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 360,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 420,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 480,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 540,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 600,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 660,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 720,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 780,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 840,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 900,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 960,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 1020,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 1080,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 1140,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 1200,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 1260,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 1320,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
+                "Time": 1
+            },
+            {
+                "X": 0,
+                "Y": 1380,
+                "Width": 54,
+                "Height": 60,
+                "CenterX": -2,
+                "CenterY": 37,
                 "Time": 1
             }
         ]

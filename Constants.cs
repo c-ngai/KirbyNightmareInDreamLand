@@ -487,6 +487,9 @@ namespace KirbyNightmareInDreamLand
             public static int OFFSET8 = 8;
             public static int STAR_MAX_FRAMES = 14;
             public static int STAREXPLODE_MAX_FRAMES = 14;
+            public static int ENEMYEXPLODE_MAX_FRAMES = 23;
+            public static int ENEMYEXPLODE_START_FRAME = 6; // frames before enemy disappears
+            public static Vector2 ENEMYEXPLODE_OFFSET = new Vector2(0, -8);
             public static int DROPABILITY_MAX_FRAMES = 8;
 
             public static int DASH_CLOUD_FRAMES = 10;
@@ -532,7 +535,7 @@ namespace KirbyNightmareInDreamLand
             public const float FADE_VALUE_OPAQUE = 1.0f;
             public const float FADE_VALUE_HALF_OPAQUE = 0.5f;
             public const float FADE_VALUE_TRANSPARENT = 0.05f;
-            public const int ATTACK_STATE_FRAMES = 60;
+            public const int ATTACK_STATE_FRAMES = 45;
 
         }
         #endregion

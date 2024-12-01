@@ -25,16 +25,16 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies.EnemyState
         {
             _enemy.Vibrate = (float)(Constants.Enemies.HURT_FRAMES - _enemy.FrameCounter) / Constants.Enemies.HURT_FRAMES * Constants.Enemies.HURT_VIBRATE_MAX_MAGNITUDE;
 
-            //TO-DO: CHANGE TO WHEN KIRBY + ENEMY COLLIDE
-            if (_enemy.FrameCounter >= Constants.Enemies.HURT_FRAMES)
+            // Just before disappearing, start the explosion particle
+            if (_enemy.FrameCounter == Constants.Enemies.HURT_FRAMES - Constants.Particle.ENEMYEXPLODE_START_FRAME && _enemy.Health <= 0)
             {
-                if (_enemy.Health <= 0)
-                {
-                    _enemy.Active = false;
-                    _enemy.CollisionActive = false;
-                    new StarExplode(_enemy.GetPosition());
-                    SoundManager.Play("enemyexplode");
-                }
+                new EnemyExplode(_enemy);
+                SoundManager.Play("enemyexplode");
+            }
+            // When hurt frames are up, disappear
+            if (_enemy.FrameCounter >= Constants.Enemies.HURT_FRAMES && _enemy.Health <= 0)
+            {
+                _enemy.Active = false;
             }
         }
 
