@@ -188,14 +188,14 @@ namespace KirbyNightmareInDreamLand
         {
             public const float INVINCIBLE_TIME = 1.5f;
             public const int MAX_HEALTH = 6; //6
-            public const int MAX_LIVES = 3; //3
+            public const int MAX_LIVES = 2; //2
             public const int STARTING_XPOSITION = 30;
             public const int KIRBY_VERTICAL_MIDDLE = 8;
-            public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(11, -9);
-            public static Vector2 BEAM_ATTACK_OFFSET_LEFT = new Vector2(-11, -9);
+            public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(13, -11);
+            public static Vector2 BEAM_ATTACK_OFFSET_LEFT = new Vector2(-13, -11);
             public static Vector2 PUFF_ATTACK_OFFSET = new Vector2(15, 0);
-            public static Vector2 FLAME_ATTACK_OFFSET_RIGHT = new Vector2(30, -10);
-            public static Vector2 FLAME_ATTACK_OFFSET_LEFT = new Vector2(-25, -10);
+            public static Vector2 FLAME_ATTACK_OFFSET_RIGHT = new Vector2(25, -12);
+            public static Vector2 FLAME_ATTACK_OFFSET_LEFT = new Vector2(-25, -12);
             public static Vector2 STAR_ATTACK_OFFSET_RIGHT= new Vector2(8, -10);
             public static Vector2 STAR_ATTACK_OFFSET_LEFT= new Vector2(-8, -10);
             public static Vector2 BOUNCING_STAR_OFFSET_RIGHT= new Vector2(8, -10);
@@ -321,7 +321,7 @@ namespace KirbyNightmareInDreamLand
             public const float SPEED = 4f; // Constant speed of the star
             public static Vector2  BOUNCING_STAR_VEL_LEFT = new Vector2 (-1f, -5f);
             public static Vector2  BOUNCING_STAR_VEL_RIGHT = new Vector2 (1f, -5f);
-            public static double BOUNCING_TIMER = 7;
+            public static double BOUNCING_TIMER = 4;
 
         }
 
@@ -442,7 +442,7 @@ namespace KirbyNightmareInDreamLand
             public const float MOVE_SPEED = 0.5f;
             public const int WALK_FRAMES = 60;
             public const int STOP_FRAMES = 120;
-            public const int ATTACK_FRAMES = 50;
+            public const int ATTACK_FRAMES = 30;
             public const int JUMPING_FRAMES = 50;
             public const float JUMP_VELOCITY = 2.5f;
             public const float FORWARD_MOVEMENT = 0.5f;
@@ -494,6 +494,19 @@ namespace KirbyNightmareInDreamLand
 
             public static int DASH_CLOUD_FRAMES = 10;
             public static int DASH_CLOUD_LOOPS = 3;
+
+            public static int PAPER_COUNT = 16;
+            public static int PAPER_START_FRAME = 3;
+            public static Vector2 PAPER_SPAWN_OFFSET = new Vector2(0, -5);
+            public static float PAPER_INITIAL_XVEL_MIN = -2f;
+            public static float PAPER_INITIAL_XVEL_MAX = 2f;
+            public static float PAPER_INITIAL_YVEL_MIN = -2f;
+            public static float PAPER_INITIAL_YVEL_MAX = -0.5f;
+            public static float PAPER_TERMINALVEL_MIN = 1.25f;
+            public static float PAPER_TERMINALVEL_MAX = 1.75f;
+            public static float PAPER_GRAVITY = 0.05f;
+            public static float PAPER_X_DECELERATION = 0.05f;
+            public static int PAPER_FRAMES = 36;
         }
 
         public class HUD

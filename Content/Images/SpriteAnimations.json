@@ -66172,6 +66172,164 @@
             }
         ]
     },
+    "particle_paper1": {
+        "Source texture": "particles",
+        "Loop point": 0,
+        "Flip horizontally?": false,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 76,
+                "Width": 30,
+                "Height": 13,
+                "CenterX": 15,
+                "CenterY": 10,
+                "Time": 8
+            },
+            {
+                "X": 40,
+                "Y": 76,
+                "Width": 30,
+                "Height": 13,
+                "CenterX": 15,
+                "CenterY": 10,
+                "Time": 4
+            },
+            {
+                "X": 72,
+                "Y": 76,
+                "Width": 30,
+                "Height": 13,
+                "CenterX": 15,
+                "CenterY": 10,
+                "Time": 2
+            },
+            {
+                "X": 104,
+                "Y": 76,
+                "Width": 30,
+                "Height": 13,
+                "CenterX": 15,
+                "CenterY": 10,
+                "Time": 4
+            },
+            {
+                "X": 136,
+                "Y": 76,
+                "Width": 30,
+                "Height": 13,
+                "CenterX": 15,
+                "CenterY": 10,
+                "Time": 8
+            },
+            {
+                "X": 104,
+                "Y": 76,
+                "Width": 30,
+                "Height": 13,
+                "CenterX": 15,
+                "CenterY": 10,
+                "Time": 4
+            },
+            {
+                "X": 72,
+                "Y": 76,
+                "Width": 30,
+                "Height": 13,
+                "CenterX": 15,
+                "CenterY": 10,
+                "Time": 2
+            },
+            {
+                "X": 40,
+                "Y": 76,
+                "Width": 30,
+                "Height": 13,
+                "CenterX": 15,
+                "CenterY": 10,
+                "Time": 4
+            }
+        ]
+    },
+    "particle_paper2": {
+        "Source texture": "particles",
+        "Loop point": 0,
+        "Flip horizontally?": true,
+        "Frames": [
+            {
+                "X": 8,
+                "Y": 76,
+                "Width": 30,
+                "Height": 13,
+                "CenterX": 15,
+                "CenterY": 10,
+                "Time": 8
+            },
+            {
+                "X": 40,
+                "Y": 76,
+                "Width": 30,
+                "Height": 13,
+                "CenterX": 15,
+                "CenterY": 10,
+                "Time": 4
+            },
+            {
+                "X": 72,
+                "Y": 76,
+                "Width": 30,
+                "Height": 13,
+                "CenterX": 15,
+                "CenterY": 10,
+                "Time": 2
+            },
+            {
+                "X": 104,
+                "Y": 76,
+                "Width": 30,
+                "Height": 13,
+                "CenterX": 15,
+                "CenterY": 10,
+                "Time": 4
+            },
+            {
+                "X": 136,
+                "Y": 76,
+                "Width": 30,
+                "Height": 13,
+                "CenterX": 15,
+                "CenterY": 10,
+                "Time": 8
+            },
+            {
+                "X": 104,
+                "Y": 76,
+                "Width": 30,
+                "Height": 13,
+                "CenterX": 15,
+                "CenterY": 10,
+                "Time": 4
+            },
+            {
+                "X": 72,
+                "Y": 76,
+                "Width": 30,
+                "Height": 13,
+                "CenterX": 15,
+                "CenterY": 10,
+                "Time": 2
+            },
+            {
+                "X": 40,
+                "Y": 76,
+                "Width": 30,
+                "Height": 13,
+                "CenterX": 15,
+                "CenterY": 10,
+                "Time": 4
+            }
+        ]
+    },
 
     "maximtomato": {
         "Source texture": "items",

@@ -737,7 +737,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void EatEnemy(KirbyType kirbyType) //changes to mouthful state
         {
-            powerUp = kirbyType;
+            if (kirbyType != KirbyType.Normal)
+            {
+                powerUp = kirbyType;
+            }
             SoundManager.Play("catch");
             attack?.EndAttack();
             attack = null;
@@ -799,11 +802,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     state.ChangeType(powerUp);
                     if (powerUp != KirbyType.Normal)
                     {
+                        Game1.Instance.Level.ChangeToPowerChangeState();
                         Attack();
                         powerChangeTimer = Constants.Transition.ATTACK_STATE_FRAMES;
-                        SoundManager.Play("powerup");
                         powerChangeAnimation = true;
-                        Game1.Instance.Level.ChangeToPowerChangeState();
+                        SoundManager.Play("powerup"); // must play the sound after switching the state because the state pauses all existing sounds
                     }
                 }
             }
