@@ -28,8 +28,8 @@ namespace KirbyNightmareInDreamLand.Actions
                 }
                 else
                 {
-                    enemy.TakeDamage(intersection, player.GetHitBox().Center.ToVector2());
-                    player.TakeDamage(intersection, enemy.GetHitBox().Center.ToVector2());
+                    enemy.TakeDamage(null, intersection, player.GetHitBox().Center.ToVector2());
+                    player.TakeDamage(null, intersection, enemy.GetHitBox().Center.ToVector2());
                 }
             }
         }
@@ -39,7 +39,7 @@ namespace KirbyNightmareInDreamLand.Actions
         public static void KirbyEnemyAttackCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
             Player player = (Player)object2;
-            player.TakeDamage(intersection, object1.GetPosition());
+            player.TakeDamage(object1, intersection, object1.GetPosition());
 
             if (object1 is IExplodable projectile)
             {
@@ -67,7 +67,7 @@ namespace KirbyNightmareInDreamLand.Actions
                 }
                 else
                 {
-                    enemy.TakeDamage(intersection, object2.GetHitBox().Center.ToVector2());
+                    enemy.TakeDamage(null, intersection, object2.GetHitBox().Center.ToVector2());
                 }
             }
         }

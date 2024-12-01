@@ -40,9 +40,9 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             currentState = new SparkyPauseState(this);
         }
 
-        public override void TakeDamage(Rectangle intersection, Vector2 positionOfDamageSource)
+        public override void TakeDamage(ICollidable damageDealer, Rectangle intersection, Vector2 positionOfDamageSource)
         {
-            base.TakeDamage(intersection, positionOfDamageSource);
+            base.TakeDamage(null, intersection, positionOfDamageSource);
             sparkyPlasma?.EndAttack();
         }
 
