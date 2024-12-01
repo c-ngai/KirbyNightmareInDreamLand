@@ -19,7 +19,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private int frameCount;
         private bool IsLeft;
         public bool IsActive { get; private set; } // Expose IsActive for external checks
-        public bool CollisionActive { get; private set;} = true;
+        public bool CollisionActive { get; private set;}
         public CollisionType GetCollisionType()
         {
             return CollisionType.PlayerAttack;
@@ -46,8 +46,10 @@ namespace KirbyNightmareInDreamLand.Projectiles
             frameCount = 0;
             IsLeft = isLeft;
 
-            // Randomly select either the first or second set of sprites based on direction
-            bool useSecondSprite = random.Next(2) == 0; // 50% chance to use the second sprite
+            CollisionActive = !player.powerChangeAnimation; // power change animation attacks have no collision, as they're supposed to be purely visual
+
+                // Randomly select either the first or second set of sprites based on direction
+                bool useSecondSprite = random.Next(2) == 0; // 50% chance to use the second sprite
 
             if (IsLeft)
             {

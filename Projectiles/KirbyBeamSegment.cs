@@ -15,7 +15,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public bool IsActive {get; private set;}= true;
         private int maxFrames = Constants.KirbyBeam.MAX_BEAM_FRAMES; // segment disappears after 6 frames
         private ISprite sprite;
-        public bool CollisionActive { get; private set;} = true;
+        public bool CollisionActive { get; private set;}
 
         public CollisionType GetCollisionType()
         {
@@ -37,6 +37,8 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public KirbyBeamSegment(Vector2 startPosition, Vector2 beamVelocity, bool odd, IPlayer _player)
         {
             player = _player;
+
+            CollisionActive = !player.powerChangeAnimation; // power change animation attacks have no collision, as they're supposed to be purely visual
 
             Position = startPosition;
             Velocity = beamVelocity;

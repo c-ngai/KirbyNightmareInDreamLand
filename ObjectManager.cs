@@ -28,6 +28,8 @@ namespace KirbyNightmareInDreamLand
         public List<IProjectile> Projectiles { get; set; }
         public List<IParticle> Particles { get; private set; }
 
+        private List<int> projectileOrder;
+
         public Sprite Item { get; set; }
 
         //public string[] tileTypes { get; private set; } = new string[Constants.Level.NUMBER_OF_TILE_TYPES];
@@ -296,6 +298,7 @@ namespace KirbyNightmareInDreamLand
             //UpdateParticles();
             UpdateDynamicObjects();
             EmptyLists();
+            projectileOrder = Enumerable.Range(0, Projectiles.Count).OrderBy(x => random.Next()).ToList();
         }
 
         public void DrawPlayers(SpriteBatch spriteBatch)
@@ -324,12 +327,8 @@ namespace KirbyNightmareInDreamLand
 
         public void DrawProjectiles(SpriteBatch spriteBatch)
         {
-            //for (int i = Projectiles.Count - 1; i >= 0; i--)
-            //{
-            //    Projectiles[i].Draw(spriteBatch);
-            //}
             // Draw projectiles in random order, makes effects like fire look a lot better
-            foreach (int i in Enumerable.Range(0, Projectiles.Count).OrderBy(x => random.Next()))
+            foreach (int i in projectileOrder)
             {
                 Projectiles[i].Draw(spriteBatch);
             }
@@ -351,5 +350,27 @@ namespace KirbyNightmareInDreamLand
             DrawProjectiles(spriteBatch);
             DrawParticles(spriteBatch);
         }
+
+        // Draw ONLY the players currently changing power and their projectiles
+        public void DrawPowerChangeObjects(SpriteBatch spriteBatch)
+        {
+            foreach (IPlayer player in Players)
+            {
+                if (player.powerChangeAnimation)
+                {
+                    player.Draw(spriteBatch);
+                }
+            }
+            // temporary projectile order just for the power change projectiles. yes, this generates more than it needs to. for what it's worth to me though, the overhead is negligible.
+            List<int> projectileOrder2 = Enumerable.Range(0, Projectiles.Count).OrderBy(x => random.Next()).ToList();
+            foreach (int i in projectileOrder2)
+            {
+                if (Projectiles[i].player != null && Projectiles[i].player.powerChangeAnimation)
+                {
+                    Projectiles[i].Draw(spriteBatch);
+                }
+            }
+        }
+
     }
 }

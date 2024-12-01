@@ -884,7 +884,7 @@
         "Background sprite": "",
         "Tilemap": "game_over_tileset",
 
-        "Song": "song_victorydancelong",
+        "Song": "song_victorydanceshort",
 
         "Spawn tile X": 10,
         "Spawn tile Y": 7,

@@ -228,21 +228,18 @@ namespace KirbyNightmareInDreamLand
             UpdateCounter++;
         }
 
-        private RasterizerState[] rasterizerStates = { new RasterizerState { ScissorTestEnable = false } , new RasterizerState { ScissorTestEnable = true } };
+        public RasterizerState[] rasterizerStates = { new RasterizerState { ScissorTestEnable = false } , new RasterizerState { ScissorTestEnable = true } };
+        public RasterizerState rasterizerState;
+        public Matrix viewMatrix;
         private void DrawView(Rectangle bounds)
         {
             // Level spritebatch
             GraphicsDevice.ScissorRectangle = bounds;
-            RasterizerState rasterizerState = DEBUG_ZOOM_MODE && !SPLITSCREEN_MODE ? rasterizerStates[0] : rasterizerStates[1];
-            Matrix viewMatrix = Matrix.CreateScale((float)bounds.Width / Constants.Graphics.GAME_WIDTH) * Matrix.CreateTranslation(bounds.X, bounds.Y, 0);
+            rasterizerState = DEBUG_ZOOM_MODE && !SPLITSCREEN_MODE ? rasterizerStates[0] : rasterizerStates[1];
+            viewMatrix = Matrix.CreateScale((float)bounds.Width / Constants.Graphics.GAME_WIDTH) * Matrix.CreateTranslation(bounds.X, bounds.Y, 0);
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, rasterizerState, null, cameras[CurrentCamera].LevelMatrix * viewMatrix);
             
             Level.Draw(_spriteBatch);
-
-            if (Level.IsCurrentState("KirbyNightmareInDreamLand.GameState.GameTransitioningState"))
-            {
-                gameOverLay.DrawFade(_spriteBatch, Level.FadeAlpha);
-            }
 
             if (DEBUG_COLLISION_MODE)
             {
@@ -332,39 +329,24 @@ namespace KirbyNightmareInDreamLand
                 DrawView(bounds);
             }
 
+            // Draw borders (should only be visible in fullscreen for letterboxing)
+            GameDebug.Instance.DrawBorders(_spriteBatch);
 
-            //Rectangle bounds1 = new Rectangle(
-            //        WINDOW_XOFFSET,
-            //        WINDOW_YOFFSET,
-            //        WINDOW_WIDTH,
-            //        WINDOW_HEIGHT);
-            //int x = Mouse.GetState().X * 255 / WINDOW_WIDTH;
-
-            //BlendState blendState = new BlendState
-            //{
-            //    ColorSourceBlend = Blend.One,
-            //    AlphaSourceBlend = Blend.One,
-                
-            //    ColorDestinationBlend = Blend.InverseSourceAlpha,
-            //    AlphaDestinationBlend = Blend.InverseSourceAlpha,
-
-            //    ColorBlendFunction = BlendFunction.ReverseSubtract,
-            //    AlphaBlendFunction = BlendFunction.Add
-            //};
-
-            //_spriteBatch.Begin(SpriteSortMode.Deferred, blendState, SamplerState.PointClamp, null, null, null, null);
-            ////GameDebug.Instance.DrawSolidRectangle(_spriteBatch, bounds1, new Color(x, x, x, 0), 1f);
-            //GameDebug.Instance.DrawSolidRectangle(_spriteBatch, bounds1, new Color(x, x, x, 0), 1f);
-            //_spriteBatch.End();
+            // Draw game transition state fade
+            if (Level.IsCurrentState("KirbyNightmareInDreamLand.GameState.GameTransitioningState"))
+            {
+                Rectangle fadeBounds = new Rectangle(WINDOW_XOFFSET, WINDOW_YOFFSET, WINDOW_WIDTH, WINDOW_HEIGHT);
+                viewMatrix = Matrix.CreateScale((float)fadeBounds.Width / Constants.Graphics.GAME_WIDTH);
+                _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, viewMatrix);
+                gameOverLay.DrawFade(_spriteBatch, fadeBounds, Level.FadeAlpha);
+                _spriteBatch.End();
+            }
 
             // Draw Debug Text
             if (DEBUG_TEXT_ENABLED)
             {
                 GameDebug.Instance.DrawDebugText(_spriteBatch);
             }
-
-            // Draw borders (should only be visible in fullscreen for letterboxing)
-            GameDebug.Instance.DrawBorders(_spriteBatch);
 
             // Stop timer for calculating max fps
             TickStopwatch.Stop();
