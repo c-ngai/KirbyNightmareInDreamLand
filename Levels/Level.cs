@@ -1,4 +1,4 @@
-﻿using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Commands;
 using KirbyNightmareInDreamLand.Entities.Enemies;
 using KirbyNightmareInDreamLand.Entities.Players;
@@ -75,6 +75,7 @@ namespace KirbyNightmareInDreamLand.Levels
             _currentState = new GamePlayingState(this);
 
             IsDoorBeingOpened = false;
+            IsDoorBeingExited = false;
             DoorBeingOpened = 0;
 
             _playingState = new GamePlayingState(this);
