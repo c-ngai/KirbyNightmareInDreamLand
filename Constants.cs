@@ -49,6 +49,9 @@ namespace KirbyNightmareInDreamLand
             public const int PLAYER_ARROW_VISIBILITY_BOUNDS_OUTSET = 10;
             public const int PLAYER_ARROW_BOUNDS_INSET = 12;
             public const int PLAYER_ARROW_BOUNDS_BOTTOM_INSET = 14;
+            public const float BLUE_ALPHA = 0.5f;
+            public const float RED_ALPHA = 0.75f;
+            public const float FADE_COLOR_ADDITION = 255;
         }
         #endregion
         #region  Physics
@@ -121,6 +124,8 @@ namespace KirbyNightmareInDreamLand
 
             public const float STEEP_SLOPE_RIGHT_M = -1;
             public const int STEEP_SLOPE_RIGHT_YINTERCEPT = 16;
+
+            public const int COLLISION_RADIUS = 55;
         }
         #endregion
         #region  HitBoxes
@@ -187,7 +192,8 @@ namespace KirbyNightmareInDreamLand
             public const float INVINCIBLE_TIME = 1.5f;
             public const int MAX_HEALTH = 6; //6
             public const int MAX_LIVES = 3; //3
-            public const int STARTINGXPOSITION = 30;
+            public const int STARTING_XPOSITION = 30;
+            public const int KIRBY_VERTICAL_MIDDLE = 8;
             public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(11, -9);
             public static Vector2 BEAM_ATTACK_OFFSET_LEFT = new Vector2(-11, -9);
             public static Vector2 PUFF_ATTACK_OFFSET = new Vector2(15, 0);
@@ -203,21 +209,28 @@ namespace KirbyNightmareInDreamLand
             public static float SLIDE_VEL = 2.5f;
             public static float CEILING = 15;
             public static int BOUNDS = 10;
-            public static int MINFREEFALLFARFRAMES = 16;
-            public static int BOUNCEJUMPFRAME = 2;
-            public static int STOPBOUNCEFRAME = 22;
-            public static int STOPFLOATINGTRANSITIONFRAME = 9;
+            public static int MIN_FREEFALL_FAR_FRAMES = 16;
+            public static int BOUNCE_JUMP_FRAME = 2;
+            public static int STOP_BOUNCE_FRAME = 22;
+            public static int STOP_FLOATING_TRANSITION_FRAME = 9;
+            public static int STOP_SWALLOWING = 25;
             public static int HURT_STUN_FRAMES = 24;
-            public static int STOPHURTFRAME = 20;
+            public static int STOP_HURT_FRAME = 20;
+            public static int FLOATING_LOOP = 16;
+            public static int START_DEATH_SPIN = 90;
+            public static int SET_DEATH_INACTIVE = 240;
+            public static int DEATH_STAR_ANIMATION_LOOP = 8;
+            public static int INVINCIBLE_ANIMATION_LOOP = 8;
+            public static int INVINCIBLE_COLOR_CHANGE = 4;
         }
         #endregion
-        public class WaitTimes
+        public class Arrows
         {
-            public const int DELAY_400 = 400;
-            public const int DELAY_1500 = 1500;
-            public const int DELAY_800 = 800;
-            public const int DELAY_500 = 500;
-            public const int DELAY_200 = 200;
+            public const int MAX_ARROWS = 3;
+        }
+        public class SoundValues
+        {
+            public const int PITCH_ADJUSTMENT = 60;
         }
 
         public class Controller
@@ -232,8 +245,24 @@ namespace KirbyNightmareInDreamLand
             public const float THUMBSTICK_DEADZONE = 0.25f;
         }
 
+        public class Attack
+        {
+            public const int END_INHALE = 30;
+            public const int END_BEAM = 42;
+            public const int END_SPARK = 20;
+            public const int END_FIRE = 30;
+            public const int END_PROFESSOR = 26;
+            public const int END_STAR = 15;
+            public const int END_PUFF = 9;
+            public const int END_SLIDE = 40;
+            public const int END_ATTACK_INHALE_ANIMATION = 3;
+            public const int END_ATTACK_SPARK_ANIMATION = 1;
+            public const int END_ATTACK_FIRE_ANIMATION = 7;
+        }
+
+
         #region Projectiles
-      public class EnemyFire
+        public class EnemyFire
         {
             // For flame segmentts
             public const int MAX_FRAMES = 13; // Number of frames before the flame segment disappears
@@ -308,6 +337,7 @@ namespace KirbyNightmareInDreamLand
             public const int UNITS_PER_FRAME = 10;
             public const int FRAME_FOUR = 3;
             public const int FRAME_FIVE = 4;
+            public const int MAX_BEAM_FRAMES = 6;
         }
 
         public class Briefcase
@@ -323,6 +353,7 @@ namespace KirbyNightmareInDreamLand
             public static Vector2 SUITCASE_EXPLODE_OFFSET = new Vector2(-SUITCASE_EXPLODE_WIDTH / 2, -SUITCASE_EXPLODE_HEIGHT / 2);
 
             public static int BRIEFCASE_WINDUP_FRAMES = 8;
+            public static int ENEMY_BRIEFCASE_WINDUP_FRAMES = 10;
             public static int BRIEFCASE_EXPLODE_COLLISION_FRAMES = 5;
         }
         #endregion
@@ -419,6 +450,10 @@ namespace KirbyNightmareInDreamLand
             public const float JUMP_VELOCITY = 2.5f;
             public const float FORWARD_MOVEMENT = 0.5f;
             public const float DEAD_FRAMES = 20;
+            public const int WALK_MIN_FRAMES = 60;
+            public const int WALK_MAX_FRAMES = 180;
+            public static Vector2 BRIEFCASE_OFFSET_RIGHT = new Vector2(0, -20);
+            public static Vector2 BRIEFCASE_OFFSET_LEFT = new Vector2(-0, -20);
         }
 
         #endregion
@@ -455,6 +490,9 @@ namespace KirbyNightmareInDreamLand
             public static int OFFSET8 = 8;
             public static int STAR_MAX_FRAMES = 14;
             public static int STAREXPLODE_MAX_FRAMES = 14;
+            public static int ENEMYEXPLODE_MAX_FRAMES = 23;
+            public static int ENEMYEXPLODE_START_FRAME = 6; // frames before enemy disappears
+            public static Vector2 ENEMYEXPLODE_OFFSET = new Vector2(0, -8);
             public static int DROPABILITY_MAX_FRAMES = 8;
 
             public static int DASH_CLOUD_FRAMES = 10;
@@ -506,7 +544,7 @@ namespace KirbyNightmareInDreamLand
             public const float FADE_VALUE_OPAQUE = 1.0f;
             public const float FADE_VALUE_HALF_OPAQUE = 0.5f;
             public const float FADE_VALUE_TRANSPARENT = 0.05f;
-            public const int ATTACK_STATE_FRAMES = 60;
+            public const int ATTACK_STATE_FRAMES = 45;
 
         }
         #endregion

@@ -20,12 +20,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             //if (!kirby.IsWithEnemy()) StopMovement();
         }
 
-        public override void MovePlayer(Player kirby, GameTime gameTime)
-        {
-            UpdatePosition(kirby);
-            Adjust(kirby);
-            DeathBarrierCheck(kirby);
-        }
 
     }
 }

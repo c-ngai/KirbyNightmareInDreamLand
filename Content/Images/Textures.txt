@@ -16,6 +16,9 @@ Images/Kirby/kirby1_fire
 Images/Kirby/kirby2_fire
 Images/Kirby/kirby3_fire
 Images/Kirby/kirby0_professor
+Images/Kirby/kirby1_professor
+Images/Kirby/kirby2_professor
+Images/Kirby/kirby3_professor
 Images/Misc/enemies
 Images/Misc/professorkirby
 Images/Misc/items
@@ -23,6 +26,8 @@ Images/Misc/projectiles
 Images/Misc/particles
 Images/Misc/particle_dash
 Images/Misc/particle_starexplode
+Images/Misc/particle_enemyexplode
+Images/Misc/particle_inhale
 Images/Misc/playerarrows
 Images/Misc/playerarrow_you
 Images/Level/doorstars

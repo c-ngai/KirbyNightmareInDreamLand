@@ -48,10 +48,10 @@ namespace KirbyNightmareInDreamLand.GameState
                     player.Update(Game1.Instance.time);
                 }
             }
-            // Update only projectiles originating from players who are changing power right now
+            // Update only projectiles originating from players who are changing power right now and if that player is not null
             for (int i = 0; i < _manager.Projectiles.Count; i++)
             {
-                if (_manager.Projectiles[i].player.powerChangeAnimation)
+                if (_manager.Projectiles[i].player != null && _manager.Projectiles[i].player.powerChangeAnimation)
                 {
                     _manager.Projectiles[i].Update();
                 }

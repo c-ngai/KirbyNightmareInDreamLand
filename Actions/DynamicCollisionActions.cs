@@ -1,27 +1,26 @@
 ﻿using Microsoft.Xna.Framework;
 using KirbyNightmareInDreamLand.Entities.Enemies;
 using KirbyNightmareInDreamLand.Entities.Players;
-using System.Collections.Generic;
-using System;
 using KirbyNightmareInDreamLand.Projectiles;
-using System.Runtime.Serialization;
 using KirbyNightmareInDreamLand.Entities.PowerUps;
-using System.Diagnostics;
 
 namespace KirbyNightmareInDreamLand.Actions
 {
     public class DynamicCollisionActions
     {
-        //kirby and enemy collide with each other
+        // Kirby and enemy collide with each other
         public static void KirbyEnemyCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
             CollisionType type1 = object1.GetCollisionType();
             CollisionType type2 = object2.GetCollisionType();
+
+            // handles collision for each entity
             if (type1 == CollisionType.Enemy && type2 == CollisionType.Player)
             {
                 Enemy enemy = (Enemy)object1;
                 Player player = (Player)object2;
                 
+                // differentiates between collision from kirby inhale vs regular physical contact
                 if (enemy.IsBeingInhaled)
                 {
                     enemy.GetSwallowed(intersection);
@@ -35,7 +34,8 @@ namespace KirbyNightmareInDreamLand.Actions
             }
         }
 
-        //kirby collides with an enemy attack 
+        #region attackCollisions
+        // Kirby collides with an enemy attack 
         public static void KirbyEnemyAttackCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
             Player player = (Player)object2;
@@ -47,7 +47,7 @@ namespace KirbyNightmareInDreamLand.Actions
             }
         }
 
-        //enemy collides with kirby attack --check for inhale
+        // enemy collides with Kirby attack - checks for inhale
         public static void EnemyKirbyAttackCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
             if (object2 is IExplodable projectile)
@@ -63,7 +63,6 @@ namespace KirbyNightmareInDreamLand.Actions
                 if (object2 is Inhale)
                 {
                     Inhale attack = (Inhale)object2;
-                    //attack.OnCollide(enemy.PowerType()); //change skirby to mouthful
                     enemy.GetInhaled(intersection, attack.player);
                 }
                 else
@@ -73,7 +72,7 @@ namespace KirbyNightmareInDreamLand.Actions
             }
         }
 
-        //boincing star collides with inhale attack
+        // bouncing star collides with inhale attack
         public static void PlayerAttackBouncingStarCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
             if(object1 is KirbyBouncingStar star)
@@ -84,6 +83,8 @@ namespace KirbyNightmareInDreamLand.Actions
                 }
             }
         }
+
+        // re-swallowing of a Kirby power-up star 
         public static void KirbyBouncingStarCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
             if (object1 is KirbyBouncingStar star && object2 is Player player)
@@ -95,8 +96,9 @@ namespace KirbyNightmareInDreamLand.Actions
                 }
             }
         }
+        #endregion
 
-        //kirby intercats with item
+        // Kirby interacts with item, currently its just the powerup tomato so kirby simply regains health
         public static void KirbyItemCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
             Player player = (Player)object1;
@@ -104,19 +106,6 @@ namespace KirbyNightmareInDreamLand.Actions
 
             PowerUp pu = (PowerUp)object2;
             pu.UsePowerUp();
-        }
-
-        //kirby interacts with powerupstar 
-        public static void KirbyProjectileCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
-        {
-            Player player = (Player)object1;
-            player.FillHealth();
-
-            if(object2 is KirbyStar)
-            {
-                KirbyStar star = (KirbyStar)object2;
-                star.EndAttack(); //change skirby to mouthful
-            }
         }
     }
 }

@@ -108,7 +108,7 @@ namespace KirbyNightmareInDreamLand
         {
             // Ensures player list is empty
             manager.ClearPlayerList();
-            manager.AddKirby(new Player(new Vector2(Constants.Kirby.STARTINGXPOSITION, Constants.Graphics.FLOOR), 0));
+            manager.AddKirby(new Player(new Vector2(Constants.Kirby.STARTING_XPOSITION, Constants.Graphics.FLOOR), 0));
         }
         #endregion
 

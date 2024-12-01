@@ -35,7 +35,7 @@ namespace KirbyNightmareInDreamLand.GameState
             DrawBackground(spriteBatch, camera);
             DrawForeground(spriteBatch);
             currentButtonSprite.Draw(buttonPosition, spriteBatch);
-            foreach (IPlayer player in _manager.Players) player.Draw(spriteBatch);
+            _manager.DrawAllObjects(spriteBatch);
         }
 
         public override void Update()

@@ -61,10 +61,21 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             velocity.Y = 0;
         }
 
-        public void GoToRoomSpawn()
+        public void GoToRoomSpawn(Player kirby, int playerIndex)
         {
-            position = Game1.Instance.Level.SpawnPoint;
-            CancelVelocity();
+            // Special case: in game over and level complete rooms, spawn the different kirbys at different hard-coded points so that they don't all stack
+            if (Game1.Instance.Level.InMenuRoom())
+            {
+                position = new Vector2(-128 + playerIndex * 24, 80);
+                velocity = new Vector2(4, -2 - playerIndex * 0.5f);
+                kirby.ChangePose(KirbyPose.FreeFall);
+            }
+            else
+            {
+                position = Game1.Instance.Level.SpawnPoint;
+                CancelVelocity();
+                kirby.ChangePose(KirbyPose.Standing);
+            }
         }
 
         public void SetOnSlope(bool isOnSlope)
@@ -260,7 +271,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public virtual void MovePlayer(Player kirby, GameTime gameTime)
         {
             UpdatePosition(kirby);
-            Adjust(kirby);
+            // If not in a menu room
+            if (!Game1.Instance.Level.InMenuRoom())
+            {
+                Adjust(kirby);
+            }
             DeathBarrierCheck(kirby);
         }
         #endregion
@@ -305,23 +320,27 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public void AdjustOnSlopeCollision(PlayerStateMachine state, Tile tile, float slope, float yIntercept, Player kirby)
         {
-            Rectangle intersection = tile.rectangle;
-            if (position.X > intersection.Left && position.X < intersection.Right)
-            {
-                float offset = position.X - intersection.X;
-
-                float kirbyAdjustment = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
-                if (position.Y > kirbyAdjustment || state.CanMove() ) // "is kirby moving on the ground in a way where we want him to stay locked on the ground"
+            // Only adjust if kirby was moving downwards during the collision
+            if (velocity.Y > 0)
+            { 
+                Rectangle intersection = tile.rectangle;
+                if (position.X > intersection.Left && position.X < intersection.Right)
                 {
-                    position.Y = kirbyAdjustment;
-                    // needs this adjustment to ensure proper collision when non floating, if this is added when floating Kirby cannot float directly up when he's landed on the slope
-                    if (!kirby.state.IsFloating())
+                    float offset = position.X - intersection.X;
+
+                    float kirbyAdjustment = (intersection.Y + Constants.Level.TILE_SIZE) - (offset * slope) - yIntercept;
+                    if (position.Y > kirbyAdjustment || state.CanMove()) // "is kirby moving on the ground in a way where we want him to stay locked on the ground"
                     {
-                        position.Y += groundCollisionOffset;
+                        position.Y = kirbyAdjustment;
+                        // needs this adjustment to ensure proper collision when non floating, if this is added when floating Kirby cannot float directly up when he's landed on the slope
+                        if (!kirby.state.IsFloating())
+                        {
+                            position.Y += groundCollisionOffset;
+                        }
+                        velocity.Y = Math.Abs(velocity.X); // If on a slope, set velocity.Y to the absolute value of velocity.X so that kirby magnetizes down to the slope
+                        ChangeKirbyLanded(true);
+                        kirby.HandleFreeFall();
                     }
-                    velocity.Y = Math.Abs(velocity.X); // If on a slope, set velocity.Y to the absolute value of velocity.X so that kirby magnetizes down to the slope
-                    ChangeKirbyLanded(true);
-                    kirby.HandleFreeFall();
                 }
             }
             onSlope = true;

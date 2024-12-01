@@ -6,18 +6,20 @@ using KirbyNightmareInDreamLand.Entities.Enemies.EnemyState.ProfessorKirbyState;
 using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Projectiles;
+using KirbyNightmareInDreamLand.Entities.Players;
 
 namespace KirbyNightmareInDreamLand.Entities.Enemies
 {
     public class ProfessorKirby : Enemy
     {
+        // left level boundary
+        private int levelBoundsLeft = 0;
 
         // Jump variables
         private bool isJumping = false;
 
         // Briefcase ability
-        //TO-DO: SWITCH FROM ENEMY BEAM TO BRIEFCASE PROJECTILE
-         private EnemyBeam briefcase;
+         private EnemyBriefcase briefcase;
          private bool isBriefcaseActive = false;
 
         public bool IsJumping => isJumping;
@@ -26,6 +28,21 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         {
             affectedByGravity = true;
             health = Constants.ProfessorKirby.HEALTH;
+        }
+
+        public virtual void AdjustXPositionToLevelBoundaries()
+        {
+            // ensures Professor Kirby wont go through the level bounds 
+            if (position.X < levelBoundsLeft)
+            {
+                position.X = levelBoundsLeft;
+                ChangeDirection();
+            }
+            if (position.X > Game1.Instance.Level.CurrentRoom.Width)
+            {
+                position.X = Game1.Instance.Level.CurrentRoom.Width;
+                ChangeDirection();
+            }
         }
 
         public override void Spawn()
@@ -37,14 +54,8 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         public override void Move()
         {
             base.Move();
-            if (stateMachine.IsLeft())
-            {
-                velocity.X = -Constants.ProfessorKirby.MOVE_SPEED;
-            }
-            else
-            {
-                velocity.X = Constants.ProfessorKirby.MOVE_SPEED;
-            }
+            AdjustXPositionToLevelBoundaries();
+            velocity.X = stateMachine.IsLeft() ? -Constants.ProfessorKirby.MOVE_SPEED : Constants.ProfessorKirby.MOVE_SPEED;
         }
 
         public override void Update(GameTime gameTime)
@@ -55,8 +66,6 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             {
                 if (isBriefcaseActive)
                 {
-                    briefcase.Update();
-                    //TO-DO - CHANGE TO BRIEFCASE IS BRIEFCASE ACTIVE
                     if (!briefcase.IsDone())
                     {
                         isBriefcaseActive = false;
@@ -67,7 +76,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
         private Vector2 ProjectilePosition()
         {
-            // Adjust beam based on direction facing
+            // Adjust briefcase based on direction facing
             return stateMachine.IsLeft() ? new Vector2(position.X - 17, position.Y - 7) : new Vector2(position.X + 17, position.Y - 7);
         }
 
@@ -79,20 +88,14 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
                 isJumping = true;
                 velocity.Y = -Constants.ProfessorKirby.JUMP_VELOCITY;
             }
-
-            Move();
         }
 
         public override void Attack()
         {
-            //TO-DO - INPUT PROFESSORKIRBYATTACK SOUND
-            //SoundManager.Play("professorkirbyattack");
-
             //If active, create a new beam using the current position and direction
             if (!isBriefcaseActive)
             {
-                //TO-DO- CHANGE TO NEW BRIEFCASE ATTACK
-                briefcase = new EnemyBeam(ProjectilePosition(), !stateMachine.IsLeft());
+                briefcase = new EnemyBriefcase(ProjectilePosition(), stateMachine.IsLeft());
                 isBriefcaseActive = true;
             }
         }
