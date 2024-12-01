@@ -6,7 +6,7 @@
         Standing, Crouching, Swimming, Attacking, ThrowEnemy, AttackingEnd,
         JumpRising, JumpFalling, Walking, FloatingStart, FloatingGrounded, FloatingRising,
         FloatingFalling, FloatingEnd, Inhaling, Catch, Running, Hurt, Sliding, FreeFall, Swallow,
-        DeathSpin, DeathStun, WallSquish, EnterDoor, FreeFallFar, Bounce
+        DeathSpin, DeathStun, WallSquish, EnterDoor, FreeFallFar, Bounce, HurtSpark, HurtFire, BurnBounce
     };
     public interface IPlayerStateMachine : IStateMachine
     {

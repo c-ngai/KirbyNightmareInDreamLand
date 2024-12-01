@@ -156,6 +156,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             //does nothing -- overwritten by other classes
         }
 
+        public void burnBounceJump()
+        {
+            landed = false;
+            velocity.Y = Constants.Physics.BURN_BOUNCE_VEL;
+        }
         public void bounceJump()
         {
             landed = false;
