@@ -18,6 +18,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
         bool IsBeingInhaled { get; }
         void UpdateTexture();
         string GetStateString();
+        Vector2 GetPosition();
         void ChangePose(EnemyPose pose);
         void Dispose();
         KirbyType PowerType();
