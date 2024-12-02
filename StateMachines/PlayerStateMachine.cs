@@ -46,9 +46,12 @@ namespace KirbyNightmareInDreamLand.StateMachines
         #endregion Pose
 
         #region Type
-        public void ChangeType(KirbyType newPower)
+        public void ChangeType(KirbyType? newPower)
         {
-            type = newPower;
+            if (newPower != null)
+            {
+                type = (KirbyType)newPower;
+            }
         }
 
         public KirbyType GetKirbyType()
@@ -65,6 +68,10 @@ namespace KirbyNightmareInDreamLand.StateMachines
         public bool IsHurt()
         {
             return GetPose() == KirbyPose.Hurt || GetPose() == KirbyPose.HurtFire || GetPose() == KirbyPose.HurtSpark || GetPose() == KirbyPose.BurnBounce;
+        }
+        public bool IsSpecialHurt()
+        {
+            return GetPose() == KirbyPose.HurtFire || GetPose() == KirbyPose.HurtSpark || GetPose() == KirbyPose.BurnBounce;
         }
         public bool IsJumping()
         {

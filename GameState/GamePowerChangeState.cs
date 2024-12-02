@@ -15,8 +15,8 @@ namespace KirbyNightmareInDreamLand.GameState
 
         private bool CurrentlyFadingOut;
         private bool CurrentlyFadingIn;
-        private float FadeSpeed = 0.05f;
-        private float opaqueAlpha = 0.5f;
+        private float FadeSpeed = Constants.Transition.FADE_SPEED_DARK;
+        private float opaqueAlpha = Constants.Transition.FADE_VALUE_HALF_OPAQUE;
         private float transparentAlpha = 0.05f;
         private float startFade = 0.0f;
         private float FadeAlpha;
@@ -96,7 +96,7 @@ namespace KirbyNightmareInDreamLand.GameState
             }
 
             // if we are transitioning and not fading out we want wait until the attack state timer ends to fade in
-            if (!CurrentlyFadingOut && !CurrentlyFadingIn  && timer > Constants.Transition.ATTACK_STATE_FRAMES)
+            if (!CurrentlyFadingOut && !CurrentlyFadingIn  && timer > Constants.Transition.FADE_HOLD_FRAMES)
             {
                 CurrentlyFadingIn = true; //  Que the fade in
             }

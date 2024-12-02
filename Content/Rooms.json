@@ -968,7 +968,15 @@
         "Locked camera Y": 0,
 
         "Doors": [
-            {},
+            {
+                "TileX": 9999,
+                "TileY": 9999,
+                "DestinationRoom": "this is only here so that the actual door draws as the correct one because door sprites are based on index. not my code lol",
+                "DestinationTileX": 9999,
+                "DestinationTileY": 9999,
+                "DrawDoorStars": true,
+                "IsBigDoor": true
+            },
             {
                 "TileX": 1,
                 "TileY": 7,

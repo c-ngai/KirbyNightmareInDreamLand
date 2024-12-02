@@ -140,6 +140,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             if (!isBeingInhaled)
             {
                 isBeingInhaled = true;
+                CollisionActive = true;
                 velocity = Vector2.Zero;
                 ChangeState(new EnemyInhaledState(this, player));
             }

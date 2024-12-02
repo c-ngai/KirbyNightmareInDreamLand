@@ -14,7 +14,7 @@
         public void SetDirectionRight();
         public void ChangePose(KirbyPose newPose);
         public KirbyPose GetPose();
-        public void ChangeType(KirbyType newType);
+        public void ChangeType(KirbyType? newType);
         public KirbyType GetKirbyType();
         public bool CanMove();
 

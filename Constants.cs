@@ -561,11 +561,13 @@ namespace KirbyNightmareInDreamLand
         public class Transition
         {
             public const float FADE_SPEED = 0.03f;
+            public const float FADE_SPEED_DARK = 0.125f;
             public const float FADE_OUT_START = 0.0f;
             public const float FADE_VALUE_OPAQUE = 1.0f;
             public const float FADE_VALUE_HALF_OPAQUE = 0.5f;
             public const float FADE_VALUE_TRANSPARENT = 0.05f;
-            public const int ATTACK_STATE_FRAMES = 45;
+            public const int FADE_HOLD_FRAMES = 75;
+            public const int ATTACK_FRAMES = 45;
 
         }
         #endregion

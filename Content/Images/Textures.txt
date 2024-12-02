@@ -27,6 +27,7 @@ Images/Misc/particle_dash
 Images/Misc/particle_starexplode
 Images/Misc/particle_enemyexplode
 Images/Misc/particle_inhale
+Images/Misc/particle_getpower
 Images/Misc/playerarrows
 Images/Misc/playerarrow_you
 Images/Level/doorstars
