@@ -59,10 +59,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public override void Jump(bool isLeft)
         {
-            //if (position.Y > startingY - jumpHeight && velocity.Y < 0)
-            //{ //makes it so kirby can only jump so high
-            //    velocity.Y = jumpVel;
-            //}
 
             int updateCounter = Game1.Instance.UpdateCounter;
             // jump if:
