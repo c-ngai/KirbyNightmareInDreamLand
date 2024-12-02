@@ -129,7 +129,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
 
                 currentState.TakeDamage();
                 //positionOfDamageSource.Y += 8; // I like to shift the position of the damage source used to calculate the velocity down a little, otherwise hitting things straight on usually sends them down into the ground
-                velocity = (GetHitBox().Center.ToVector2() - positionOfDamageSource) / 8;
+                velocity = (GetHitBox().Center.ToVector2() - positionOfDamageSource) * Constants.Enemies.DAMAGE_OFFSET_TO_KNOCKBACK_VELOCITY_RATIO;
                 CollisionActive = false;
                 SoundManager.Play("enemydamage");
             }

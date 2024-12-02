@@ -71,7 +71,7 @@ namespace KirbyNightmareInDreamLand.Controllers
             }
 
             // Makes it so that the mouse disppears if it hasn't moved in more than half a second
-            if (updatesSinceLastMovement > 30)
+            if (updatesSinceLastMovement > Constants.Controller.MOUSE_IDLE_HIDE_FRAMES)
             {
                 game.IsMouseVisible = false;
             }

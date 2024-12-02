@@ -245,6 +245,7 @@ namespace KirbyNightmareInDreamLand
         {
             // determines max time that can elapse for double button presses to register as a command
             public const double RESPONSE_FRAMES = 15;
+            public const int MOUSE_IDLE_HIDE_FRAMES = 30;
         }
 
         public class GamePad
@@ -377,6 +378,7 @@ namespace KirbyNightmareInDreamLand
             public const int DAMAGE_TAKEN = 1;
             public const int HURT_VIBRATE_MAX_MAGNITUDE = 4;
             public const int HURT_FRAMES = 24;
+            public const float DAMAGE_OFFSET_TO_KNOCKBACK_VELOCITY_RATIO = 1 / 8f;
         }
 
         public class WaddleDee
