@@ -97,8 +97,8 @@ namespace KirbyNightmareInDreamLand
             public static Vector2 ROOM1_SPAWN_POINT = new Vector2(2, 4);
             public static Vector2 HUB_SPAWN_POINT = new Vector2(2, 7);
             public static Vector2 GAME_OVER_SPAWN_POINT = new Vector2(2, 7);
-            public static Vector2 HUB_DOOR_1_SPAWN_POINT = new Vector2(120, 270);
-            public static Vector2 HUB_DOOR_2_SPAWN_POINT = new Vector2(250, 300);
+            public static Vector2 HUB_DOOR_1_SPAWN_POINT = new Vector2(112, 272);
+            public static Vector2 HUB_DOOR_2_SPAWN_POINT = new Vector2(240, 304);
 
 
         }
@@ -490,6 +490,7 @@ namespace KirbyNightmareInDreamLand
             public static int OFFSET8 = 8;
             public static int STAR_MAX_FRAMES = 14;
             public static int STAREXPLODE_MAX_FRAMES = 14;
+            public static int STARDUST_MAX_FRAMES = 7;
             public static int ENEMYEXPLODE_MAX_FRAMES = 23;
             public static int ENEMYEXPLODE_START_FRAME = 6; // frames before enemy disappears
             public static Vector2 ENEMYEXPLODE_OFFSET = new Vector2(0, -8);

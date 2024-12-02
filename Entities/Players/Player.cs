@@ -676,7 +676,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     ChangeToNormalMovement();
                     movement.StopMovement();
                     SoundManager.Play("enterdoor");
-                    ChangePose(KirbyPose.EnterDoor);
+                    if (_game.Level.CurrentRoom.Name != "classroom")
+                    {
+                        ChangePose(KirbyPose.EnterDoor);
+                    }
                     _game.Level.EnterDoorAt(GetKirbyPosition());
                 }
             }
@@ -947,7 +950,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     position2.Floor();
                     position3.Floor();
 
-                    spriteBatch.DrawString(LevelLoader.Instance.Font, movement.GetType().ToString().Substring(43), position3, Color.Black);
+                    spriteBatch.DrawString(LevelLoader.Instance.Font, GetKirbyPosition().ToString(), position3, Color.Black);
+                    //spriteBatch.DrawString(LevelLoader.Instance.Font, movement.GetType().ToString().Substring(43), position3, Color.Black);
                     spriteBatch.DrawString(LevelLoader.Instance.Font, "poseCounter = " + poseCounter, position1, Color.Black);
                     spriteBatch.DrawString(LevelLoader.Instance.Font, GetKirbyPose().ToString(), position2, Color.Black);
                     //spriteBatch.DrawString(LevelLoader.Instance.Font, isTransitioningAttack.ToString(), position2, Color.Black);
