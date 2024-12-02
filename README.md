@@ -27,9 +27,7 @@ Gwyneth Barnholtz, Mark DeLeo, Vivian Ferrigni, Payton Murphy, Carman Ngai, Lina
 
 **Gamepad-specific control notes:**  
 
-Monogame is only directly compatible with XInput controllers, if you want to use DirectInput controllers you will need a way to emulate XInput with DirectInput. For example, to use Nintendo Switch controllers with this game, use [BetterJoy](https://www.betterjoy.org/) to emulate Nintendo Switch controllers as generic XInput. Controllers will be automatically mapped to a player slot, but to change this, use the left and right bumpers to decrement and increment the player slot that you control. There's nothing in the code stopping multiple controllers from controlling one player, so coordinate the controllers to be mapped to the players you want. If you press F1 to enter debug text mode, there will also be a graphic in the top-right corner to visualize left stick input. This can make it easier to tell who's controlling who, since the slots are color-coded to the Kirbys and will turn gray if no controller is mapped to that slot. 
-
----
+Monogame is only directly compatible with XInput controllers, if you want to use DirectInput controllers you will need a way to emulate XInput with DirectInput. For example, to use Nintendo Switch controllers with this game, use [BetterJoy](https://www.betterjoy.org/) to emulate Nintendo Switch controllers as generic XInput. Controllers will be automatically mapped to a player slot, but to change this, use the left and right bumpers to decrement and increment the player slot that you control. There's nothing in the code stopping multiple controllers from controlling one player, so coordinate the controllers to be mapped to the players you want. If you press F1 to enter debug text mode, there will also be a graphic in the top-right corner to visualize left stick input. This can make it easier to tell who's controlling who, since the slots are color-coded to the Kirbys and will turn gray if no controller is mapped to that slot.
 
 **Debug Controls:**  
 
@@ -50,11 +48,11 @@ None!
 
 Note: We never intended to implement swimming so Players can walk through water as if it is air. 
 
-##Known bugs:
+## Known bugs:
 
 None!
 
-##Documentation/Planning Tools:
+## Documentation/Planning Tools:
 
 Google Drive of Meeting Notes and other Documents: https://drive.google.com/drive/folders/1nM9rI0OnBROJPyXMQbhXYzAOB0yF1QNA?usp=sharing 
 Trello of Task Management: https://trello.com/invite/b/66f251d9de3625e8267d2b35/ATTI4fe46a09f5ff46b9f0fbfb8de88d8bff86EA3A3F/kirby-nightmare-in-dreamland-pls-use-this-one
