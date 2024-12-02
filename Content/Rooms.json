@@ -498,7 +498,7 @@
                 "TileX": 36,
                 "TileY": 6,
                 "DestinationRoom": "hub",
-                "DestinationTileX": 14,
+                "DestinationTileX": 14.5,
                 "DestinationTileY": 18,
                 "DrawDoorStars": true,
                 "IsBigDoor": false
@@ -926,7 +926,7 @@
                 "TileX": 10,
                 "TileY": 13,
                 "DestinationRoom": "classroom",
-                "DestinationTileX": 1,
+                "DestinationTileX": 1.5,
                 "DestinationTileY": 7,
                 "DrawDoorStars": false,
                 "IsBigDoor": true
@@ -969,13 +969,22 @@
 
         "Doors": [
             {
+                "TileX": 9999,
+                "TileY": 9999,
+                "DestinationRoom": "this is only here so that the actual door draws as the correct one because door sprites are based on index. not my code lol",
+                "DestinationTileX": 9999,
+                "DestinationTileY": 9999,
+                "DrawDoorStars": true,
+                "IsBigDoor": true
+            },
+            {
                 "TileX": 1,
                 "TileY": 7,
                 "DestinationRoom": "hub",
-                "DestinationTileX": 10,
+                "DestinationTileX": 10.5,
                 "DestinationTileY": 13,
-                "DrawDoorStars": true,
-                "IsBigDoor": false
+                "DrawDoorStars": false,
+                "IsBigDoor": true
             }
         ],
         "Enemies": [

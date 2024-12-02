@@ -132,7 +132,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         #region DeathSpin
         public void ReceiveDamage(Rectangle intersection)
         {
-            if (intersection.X <= position.X) 
+            if (intersection.Center.X <= position.X) 
             {
                 velocity.X = damageVel;
             }
@@ -156,6 +156,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             //does nothing -- overwritten by other classes
         }
 
+        public void burnBounceJump()
+        {
+            landed = false;
+            velocity.Y = Constants.Physics.BURN_BOUNCE_VEL;
+        }
         public void bounceJump()
         {
             landed = false;
@@ -176,7 +181,14 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 velocity.Y = terminalVelocity;
             }
 
-            DecelerateX(Constants.Physics.X_DECELERATION);
+            if (kirby.state.IsSpecialHurt())
+            {
+                DecelerateX(Constants.Physics.X_DECELERATION / 2);
+            }
+            else
+            {
+                DecelerateX(Constants.Physics.X_DECELERATION);
+            }
 
             position.X += velocity.X;
             position.Y += velocity.Y; // + gravity * dt *dt *.5f;

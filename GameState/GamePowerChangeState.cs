@@ -96,7 +96,7 @@ namespace KirbyNightmareInDreamLand.GameState
             }
 
             // if we are transitioning and not fading out we want wait until the attack state timer ends to fade in
-            if (!CurrentlyFadingOut && !CurrentlyFadingIn  && timer > Constants.Transition.ATTACK_STATE_FRAMES)
+            if (!CurrentlyFadingOut && !CurrentlyFadingIn  && timer > Constants.Transition.FADE_HOLD_FRAMES)
             {
                 CurrentlyFadingIn = true; //  Que the fade in
             }

@@ -337,7 +337,7 @@ namespace KirbyNightmareInDreamLand
             {
                 Rectangle fadeBounds = new Rectangle(WINDOW_XOFFSET, WINDOW_YOFFSET, WINDOW_WIDTH, WINDOW_HEIGHT);
                 viewMatrix = Matrix.CreateScale((float)fadeBounds.Width / Constants.Graphics.GAME_WIDTH);
-                _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, viewMatrix);
+                _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
                 gameOverLay.DrawFade(_spriteBatch, fadeBounds, Level.FadeAlpha);
                 _spriteBatch.End();
             }

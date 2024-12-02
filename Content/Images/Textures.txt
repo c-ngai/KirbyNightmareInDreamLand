@@ -1,4 +1,3 @@
-Images/Spritesheets/hub_spritesheet
 Images/Kirby/kirby0_normal
 Images/Kirby/kirby1_normal
 Images/Kirby/kirby2_normal
@@ -28,17 +27,20 @@ Images/Misc/particle_dash
 Images/Misc/particle_starexplode
 Images/Misc/particle_enemyexplode
 Images/Misc/particle_inhale
+Images/Misc/particle_getpower
 Images/Misc/playerarrows
 Images/Misc/playerarrow_you
 Images/Level/doorstars
 Images/Level/backgrounds
 Images/Level/collisionTileset
+Images/Level/hub_spritesheet
 Images/Level/room1_level
 Images/Level/room2_level
 Images/Level/room3_level
 Images/Level/level2_foreground_spritesheet
 Images/Level/level2_background_spritesheet
 Images/Level/classroom
+Images/Level/classroom_door
 Images/UI/pause_screen_spritesheet
 Images/UI/game_over_spritesheet
 Images/UI/winning_screen

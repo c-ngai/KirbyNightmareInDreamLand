@@ -6,7 +6,7 @@
         Standing, Crouching, Swimming, Attacking, ThrowEnemy, AttackingEnd,
         JumpRising, JumpFalling, Walking, FloatingStart, FloatingGrounded, FloatingRising,
         FloatingFalling, FloatingEnd, Inhaling, Catch, Running, Hurt, Sliding, FreeFall, Swallow,
-        DeathSpin, DeathStun, WallSquish, EnterDoor, FreeFallFar, Bounce
+        DeathSpin, DeathStun, WallSquish, EnterDoor, FreeFallFar, Bounce, HurtSpark, HurtFire, BurnBounce
     };
     public interface IPlayerStateMachine : IStateMachine
     {
@@ -14,7 +14,7 @@
         public void SetDirectionRight();
         public void ChangePose(KirbyPose newPose);
         public KirbyPose GetPose();
-        public void ChangeType(KirbyType newType);
+        public void ChangeType(KirbyType? newType);
         public KirbyType GetKirbyType();
         public bool CanMove();
 
