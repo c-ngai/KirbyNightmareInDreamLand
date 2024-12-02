@@ -17,7 +17,6 @@ namespace KirbyNightmareInDreamLand.Sprites
         private int currentFrame;
         // current number of game ticks since last frame advance
         private int tickCounter;
-        private int counter = 0;
 
         public int Width
         {

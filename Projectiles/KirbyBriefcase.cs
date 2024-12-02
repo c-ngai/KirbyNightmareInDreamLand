@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Entities.Players;
+using KirbyNightmareInDreamLand.Particles;
 using KirbyNightmareInDreamLand.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -69,12 +70,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
             SoundManager.Play("briefcasethrow");
         }
-
-        public void Explode()
-        {
-            
-        }
-
         public void EndAttack()
         {
             if (!windup && !exploded)
@@ -105,15 +100,31 @@ namespace KirbyNightmareInDreamLand.Projectiles
             if (windup && timer >= Constants.Briefcase.BRIEFCASE_WINDUP_FRAMES)
             {
                 windup = false;
-                CollisionActive = true;
+                if (!player.powerChangeAnimation) // power change animation attacks have no collision, as they're supposed to be purely visual
+                {
+                    CollisionActive = true;
+                }
                 position = IsLeft ?
                     player.GetKirbyPosition() + Constants.Kirby.BRIEFCASE_OFFSET_LEFT :
                     player.GetKirbyPosition() + Constants.Kirby.BRIEFCASE_OFFSET_RIGHT;
+                
+                // Uncomment if you want the briefcase's velocity to carry off of kirby's existing momentum. Personally I like it but it is a little hard to control so I took it out -Mark
+                //velocity += player.GetKirbyVelocity();
             }
-            if (exploded && timer >= Constants.Briefcase.BRIEFCASE_EXPLODE_COLLISION_FRAMES)
+            // End collision a few frames after explosion
+            if (exploded && timer == Constants.Briefcase.BRIEFCASE_EXPLODE_COLLISION_FRAMES)
             {
                 CollisionActive = false;
             }
+            // A few frames after explosion, release paper particles
+            if (exploded && timer == Constants.Particle.PAPER_START_FRAME)
+            {
+                for (int i = 0; i < Constants.Particle.PAPER_COUNT; i++)
+                {
+                    new Paper(position);
+                }
+            }
+            
 
             // if in windup stage
             if (windup)

@@ -21,7 +21,7 @@ namespace KirbyNightmareInDreamLand.Controllers
         public MouseController()
         {
             this.game = Game1.Instance;
-            roomList = new List<string> { "hub", "room1", "room2", "room3", "treasureroom", "game_over", "winner_room"}; // Make sure names align with what's in Rooms.json
+            roomList = new List<string> { "hub", "room1", "room2", "room3", "level2_room1", "level2_room2", "level2_room3", "treasureroom", "game_over", "winner_room"}; // Make sure names align with what's in Rooms.json
             previousMouseState = Mouse.GetState();
             updatesSinceLastMovement = 0;
         }
@@ -71,7 +71,7 @@ namespace KirbyNightmareInDreamLand.Controllers
             }
 
             // Makes it so that the mouse disppears if it hasn't moved in more than half a second
-            if (updatesSinceLastMovement > 30)
+            if (updatesSinceLastMovement > Constants.Controller.MOUSE_IDLE_HIDE_FRAMES)
             {
                 game.IsMouseVisible = false;
             }

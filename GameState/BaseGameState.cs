@@ -22,34 +22,44 @@ namespace KirbyNightmareInDreamLand.GameState
         private readonly Sprite DoorStarsSprite;
         public Vector2 SpawnPoint { get; set; }
         private List<Sprite> TileSprites;
+        private static Color translucent = Constants.DebugValues.TRANSLUCENT;
 
-        private static Dictionary<int, ISprite> HubDoors = new Dictionary<int, ISprite> 
+        private static Vector2 drawHubDoorOffset = Constants.Hub.DRAW_HUB_DOOR_OFFSET;
+        private static Vector2 drawHubSignOffset = Constants.Hub.DRAW_HUB_DOOR_SIGN_OFFSET;
+
+        private static Dictionary<int, ISprite> HubDoorsClosed = new Dictionary<int, ISprite>
         {
-            { 0 , SpriteFactory.Instance.CreateSprite("hub_door_1")},
-            { 1, SpriteFactory.Instance.CreateSprite("hub_door_2")},
-            { 2, SpriteFactory.Instance.CreateSprite("hub_door3")},
-            { 3, SpriteFactory.Instance.CreateSprite("hub_door4")}
+            { 0, SpriteFactory.Instance.CreateSprite("hub_door_1_closed")},
+            { 1, SpriteFactory.Instance.CreateSprite("hub_door_2_closed")},
+            { 2, SpriteFactory.Instance.CreateSprite("hub_door_3_closed")},
+            { 3, SpriteFactory.Instance.CreateSprite("hub_door_4_closed")}
         };
 
         private static Dictionary<int, ISprite> OpenHubDoorAnimations = new Dictionary<int, ISprite>
         {
             { 0 , SpriteFactory.Instance.CreateSprite("hub_door_1_animation_open")},
             { 1 , SpriteFactory.Instance.CreateSprite("hub_door_2_animation_open")},
-            { 2 , SpriteFactory.Instance.CreateSprite("hub_door3_animation_open")},
-            { 3 , SpriteFactory.Instance.CreateSprite("hub_door4_animation_open")}
+            { 2 , SpriteFactory.Instance.CreateSprite("hub_door_3_animation_open")},
+            { 3 , SpriteFactory.Instance.CreateSprite("hub_door_4_animation_open")}
         };
 
         private static Dictionary<int, ISprite> CloseHubDoorAnimations = new Dictionary<int, ISprite>
         {
             { 0 , SpriteFactory.Instance.CreateSprite("hub_door_1_animation_close")},
             { 1 , SpriteFactory.Instance.CreateSprite("hub_door_2_animation_close")},
-            { 2 , SpriteFactory.Instance.CreateSprite("hub_door3_animation_close")},
-            { 3 , SpriteFactory.Instance.CreateSprite("hub_door4_animation_close")}
+            { 2 , SpriteFactory.Instance.CreateSprite("hub_door_3_animation_close")},
+            { 3 , SpriteFactory.Instance.CreateSprite("hub_door_4_animation_close")}
         };
 
-        private static Vector2 drawHubDoorOffset = new Vector2(0, -8);
+        private static Dictionary<int, ISprite> DoorSigns = new Dictionary<int, ISprite>
+        {
+            { 0 , SpriteFactory.Instance.CreateSprite("door_sign_number0")},
+            { 1 , SpriteFactory.Instance.CreateSprite("door_sign_number1")},
+            { 2 , SpriteFactory.Instance.CreateSprite("door_sign_number2")},
+            { 3 , SpriteFactory.Instance.CreateSprite("door_sign_number3")}
+        };
 
-        private static Vector2 drawHubSignOffset = new Vector2(2, -24);
+        private Sprite classroom_door = SpriteFactory.Instance.CreateSprite("classroom_door");
 
         // Holds a sprite for kirby and each enemy type to draw at their spawn points in level debug mode.
         private Dictionary<string, Sprite> SpawnSprites = new Dictionary<string, Sprite>()
@@ -85,8 +95,15 @@ namespace KirbyNightmareInDreamLand.GameState
             {
                 DrawBackground(spriteBatch, camera);
                 DrawForeground(spriteBatch);
-                DrawDoorStars(spriteBatch);
+                if (level.CurrentRoom.Name != "classroom") // Doorstars go behind objects by default
+                {
+                    DrawDoorStars(spriteBatch, Color.White);
+                }
                 _manager.DrawAllObjects(spriteBatch);
+                if (level.CurrentRoom.Name == "classroom") // Doorstars go in front in the classroom
+                {
+                    DrawDoorStars(spriteBatch, translucent);
+                }
             }
         }
 
@@ -128,17 +145,17 @@ namespace KirbyNightmareInDreamLand.GameState
 
         public virtual void SelectQuitButton()
         {
-
+            // implimentation in game over and winning states 
         }
 
         public virtual void SelectContinueButton()
         {
-
+            // implimentation in game over and winning states 
         }
 
         public virtual void SelectButton()
         {
-
+            // implimentation in game over and winning states 
         }
 
         // only draw foreground is not implemented in the base class 
@@ -165,43 +182,41 @@ namespace KirbyNightmareInDreamLand.GameState
         }
 
         // Draws the stars around each door
-        public void DrawDoorStars(SpriteBatch spriteBatch)
+        public void DrawDoorStars(SpriteBatch spriteBatch, Color color)
         {
             for (int i = 0; i < level.CurrentRoom.Doors.Count; i++)
             {
                 Vector2 doorPos = level.CurrentRoom.Doors[i].Bounds.Location.ToVector2();
                 if (level.CurrentRoom.Doors[i].DrawDoorStars)
                 {
-                    DoorStarsSprite.Draw(doorPos, spriteBatch);
+                    DoorStarsSprite.Draw(doorPos, spriteBatch, color);
                 }
                 else
                 {
-                    // add behavior for drawing hub doors
-                    DrawHubDoor(doorPos, i, spriteBatch);
-                    DrawDoorSign(doorPos, i, spriteBatch);
+                    DrawHubDoor(doorPos, i, spriteBatch, color);
+                    DrawDoorSign(doorPos, i, spriteBatch, color);
                 }
             }
         }
 
-        private void DrawDoorSign(Vector2 position, int door_number, SpriteBatch spriteBatch)
+        private void DrawDoorSign(Vector2 position, int door_number, SpriteBatch spriteBatch, Color color)
         {
-            ISprite signSprite = SpriteFactory.Instance.CreateSprite("door_sign_number" + door_number);
-            signSprite.Draw(position + drawHubSignOffset, spriteBatch);
+            DoorSigns[door_number].Draw(position + drawHubSignOffset, spriteBatch, color);
         }
 
-        public void DrawHubDoor(Vector2 position, int door_num, SpriteBatch spriteBatch)
+        public void DrawHubDoor(Vector2 position, int door_num, SpriteBatch spriteBatch, Color color)
         {
-            if (level.IsDoorBeingOpened && level.DoorBeingOpened == door_num)
+            if ( level.IsDoorBeingOpened && level.DoorBeingOpened == door_num )
             {
-                OpenHubDoorAnimations[door_num].Draw(position + drawHubDoorOffset, spriteBatch);
+                OpenHubDoorAnimations[door_num].Draw(position + drawHubDoorOffset, spriteBatch, color);
             }
             else if (level.IsDoorBeingExited && level.DoorBeingExited == door_num)
             {
-                CloseHubDoorAnimations[door_num].Draw(position + drawHubDoorOffset, spriteBatch);
+                CloseHubDoorAnimations[door_num].Draw(position + drawHubDoorOffset, spriteBatch, color);
             }
             else
             {
-                HubDoors[door_num].Draw(position + drawHubDoorOffset, spriteBatch);
+                HubDoorsClosed[door_num].Draw(position + drawHubDoorOffset, spriteBatch, color);
             }
         }
 
@@ -229,12 +244,24 @@ namespace KirbyNightmareInDreamLand.GameState
             }
         }
 
+        public void ResetHubDoorAnimations()
+        {
+            foreach (KeyValuePair<int, ISprite> door_animation in OpenHubDoorAnimations)
+            {                
+                door_animation.Value.ResetAnimation();                
+            }
+            foreach (KeyValuePair<int, ISprite> door_animation in CloseHubDoorAnimations)
+            {
+                door_animation.Value.ResetAnimation();
+            }
+        }
+
         public void DebugDraw(SpriteBatch spriteBatch, Camera camera)
         {
             DrawBackground(spriteBatch, camera);
             DrawCollisionTiles(spriteBatch, camera);
             DrawDebugDoors(spriteBatch);
-            DrawDoorStars(spriteBatch);
+            DrawDoorStars(spriteBatch, Color.White);
             DrawSpawnPoints(spriteBatch);
             _manager.DrawAllObjects(spriteBatch);
         }
@@ -260,12 +287,11 @@ namespace KirbyNightmareInDreamLand.GameState
                 Vector2 textPos = doorPos - new Vector2(-9 + textSize.X / 2, -1 + textSize.Y);
                 textPos.Floor();
 
-                GameDebug.Instance.DrawSolidRectangle(spriteBatch, level.CurrentRoom.Doors[i].Bounds, color, 0.5f);
+                GameDebug.Instance.DrawSolidRectangle(spriteBatch, level.CurrentRoom.Doors[i].Bounds, color, Constants.DebugValues.HALF_OPAQUE);
                 spriteBatch.DrawString(LevelLoader.Instance.Font, level.CurrentRoom.Doors[i].DestinationRoom, textPos, color);
             }
         }
 
-        Color translucent = new Color(127, 127, 127, 127);
         // Draws static, transparent sprites of the corresponding enemy for each enemy spawn point in the level.
         private void DrawSpawnPoints(SpriteBatch spriteBatch)
         {

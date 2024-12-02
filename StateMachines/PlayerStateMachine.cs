@@ -12,7 +12,7 @@ namespace KirbyNightmareInDreamLand.StateMachines
 
         public PlayerStateMachine(int playerIndex)
         {
-            colorIndex = playerIndex % 4;
+            colorIndex = playerIndex % Constants.Game.MAXIMUM_PLAYER_COUNT;
             facingLeft = false;
             pose = KirbyPose.FreeFall;
             type = KirbyType.Normal;
@@ -46,9 +46,12 @@ namespace KirbyNightmareInDreamLand.StateMachines
         #endregion Pose
 
         #region Type
-        public void ChangeType(KirbyType newPower)
+        public void ChangeType(KirbyType? newPower)
         {
-            type = newPower;
+            if (newPower != null)
+            {
+                type = (KirbyType)newPower;
+            }
         }
 
         public KirbyType GetKirbyType()
@@ -61,6 +64,14 @@ namespace KirbyNightmareInDreamLand.StateMachines
         {
             return GetKirbyType() == KirbyType.Beam || GetKirbyType() == KirbyType.Fire 
                 || GetKirbyType() == KirbyType.Spark || GetKirbyType() == KirbyType.Professor;
+        }
+        public bool IsHurt()
+        {
+            return GetPose() == KirbyPose.Hurt || GetPose() == KirbyPose.HurtFire || GetPose() == KirbyPose.HurtSpark || GetPose() == KirbyPose.BurnBounce;
+        }
+        public bool IsSpecialHurt()
+        {
+            return GetPose() == KirbyPose.HurtFire || GetPose() == KirbyPose.HurtSpark || GetPose() == KirbyPose.BurnBounce;
         }
         public bool IsJumping()
         {

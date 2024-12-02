@@ -1,4 +1,5 @@
-﻿using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Commands;
 using KirbyNightmareInDreamLand.Entities.Enemies;
 using KirbyNightmareInDreamLand.Entities.Players;
 using KirbyNightmareInDreamLand.Entities.PowerUps;
@@ -58,14 +59,7 @@ namespace KirbyNightmareInDreamLand.Levels
         public readonly IGameState _playingState;
         private readonly IGameState _pausedState;
         public readonly IGameState _gameOverState;
-        private readonly IGameState _debugState;
         public readonly IGameState _winningState;
-        private readonly IGameState _transitionState;
-        private readonly BaseGameState _lifeLost;
-
-        private Vector2 gameOverSpawnPoint = Constants.Level.GAME_OVER_SPAWN_POINT;
-        private string gameOverRoomString = Constants.RoomStrings.GAME_OVER_ROOM;
-        private string winningRoomString = Constants.RoomStrings.LEVEL_COMPLETE_ROOM;
 
         public Level()
         {
@@ -74,12 +68,12 @@ namespace KirbyNightmareInDreamLand.Levels
             _currentState = new GamePlayingState(this);
 
             IsDoorBeingOpened = false;
+            IsDoorBeingExited = false;
             DoorBeingOpened = 0;
 
             _playingState = new GamePlayingState(this);
             _pausedState = new GamePausedState(this);
             _gameOverState = new GameGameOverState(this);
-            _transitionState = new GameTransitioningState(this);
             _winningState = new GameWinningState(this);
             oldGameState = _currentState.ToString();
         }
@@ -92,6 +86,12 @@ namespace KirbyNightmareInDreamLand.Levels
         public bool IsCurrentState(string state)
         {
             return (_currentState).ToString().Equals(state);
+        }
+
+        public bool InMenuRoom()
+        {
+            return CurrentRoom.Name == Constants.RoomStrings.GAME_OVER_ROOM
+                || CurrentRoom.Name == Constants.RoomStrings.LEVEL_COMPLETE_ROOM;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -144,16 +144,6 @@ namespace KirbyNightmareInDreamLand.Levels
             ChangeState(_playingState);
         }
 
-        public void ChangeToLifeLost()
-        {
-            ChangeState(_lifeLost);
-        }
-
-        public void ChangeToPlaying()
-        {
-            ChangeState(_playingState);
-        }
-
         public void SelectQuit()
         {
             _currentState.SelectQuitButton();
@@ -184,13 +174,8 @@ namespace KirbyNightmareInDreamLand.Levels
             NextSpawn = null; // gameOverSpawnPoint;
             PreviousRoom = CurrentRoom.Name;
             PreviousSpawn = CurrentRoom.SpawnPoint;
-            System.Diagnostics.Debug.WriteLine("next room to load is - " + NextRoom);
+            Debug.WriteLine("next room to load is - " + NextRoom);
             _currentState = new GameTransitioningState(this);
-        }
-
-        public void ChangeStateToDebug()
-        {
-            ChangeState(_debugState);
         }
 
         // tells player if they are at a door or not 
@@ -258,6 +243,9 @@ namespace KirbyNightmareInDreamLand.Levels
                     player?.GoToRoomSpawn();
                     //_manager.RegisterDynamicObject((Player)player);
                 }
+                // Disable splitscreen if room camera is locked in both directions
+                _game.SPLITSCREEN_AVAILABLE = !(CurrentRoom.CameraXLock && CurrentRoom.CameraYLock);
+                GraphicsToggleSplitscreenCommand.UpdateSplitscreenScaling();
                 SoundManager.PlaySong(CurrentRoom.Song);
                 NewRoom = true;
             }

@@ -13,8 +13,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;
-        private float speed;
-        private float delay; // Delay before this segment becomes active
         private bool isActive; 
         private static Random random = new Random(); // Random instance for sprite selection
         private int frameCount = -1;
@@ -86,7 +84,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public virtual Vector2 CalculateRectanglePoint(Vector2 pos)
         {
             float x = pos.X - Constants.HitBoxes.FLAME_WIDTH /2;
-            float y = pos.Y - Constants.HitBoxes.FLAME_HEIGHT + 6;
+            float y = pos.Y - Constants.HitBoxes.FLAME_HEIGHT + Constants.Hothead.FLAMETHROWER_Y_HITBOX_OFFSET ;
             Vector2 rectPoint = new Vector2(x, y);
             return rectPoint;
         }

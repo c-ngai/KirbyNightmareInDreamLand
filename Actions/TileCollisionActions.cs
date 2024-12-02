@@ -114,11 +114,11 @@ namespace KirbyNightmareInDreamLand.Actions
             {
                 star.FloorBounce();
             }
-            else if (object1 is KirbyBriefcase briefcase)
+            else if (object1 is KirbyBriefcase briefcase && briefcase.Velocity.Y > 0)
             {
                 briefcase.EndAttack();
             }
-            else if (object1 is EnemyBriefcase enemyBriefcase)
+            else if (object1 is EnemyBriefcase enemyBriefcase && enemyBriefcase.Velocity.Y > 0)
             {
                 enemyBriefcase.EndAttack();
             }
@@ -128,7 +128,7 @@ namespace KirbyNightmareInDreamLand.Actions
         public static void WaterCollision(ICollidable object1, ICollidable object2, Rectangle intersection)
         {
             Enemy enemy = (Enemy)object1;
-            enemy.TakeDamage(intersection, intersection.Center.ToVector2());
+            enemy.TakeDamage(null, intersection, intersection.Center.ToVector2());
         }
 
         /** ICollidable objects colliding with the different slope types **/

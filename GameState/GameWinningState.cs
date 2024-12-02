@@ -9,20 +9,17 @@ namespace KirbyNightmareInDreamLand.GameState
 {
 	public class GameWinningState : BaseGameState
 	{
-        private Game1 _game;
-        private ObjectManager _manager;
         public Sprite currentButtonSprite;
         public Sprite selectQuitScreen;
         public Sprite selectContinueScreen;
 
-        private Vector2 kirbyHubRoomSpawn = Constants.Level.HUB_SPAWN_POINT;
-        private string room1String = Constants.RoomStrings.ROOM_1;
         private Vector2 buttonPosition = Constants.ButtonLocations.LEVEL_COMPLETE_BUTTONS;
+
+        private Vector2 hubDoor1Position = Constants.Level.HUB_DOOR_1_SPAWN_POINT;
+        private Vector2 hubDoor2Position = Constants.Level.HUB_DOOR_2_SPAWN_POINT;
 
         public GameWinningState(Levels.Level _level) : base(_level)
         {
-            _game = Game1.Instance;
-            _manager = Game1.Instance.manager;
             selectContinueScreen = SpriteFactory.Instance.CreateSprite("Winning_continue_selected_button");
             selectQuitScreen = SpriteFactory.Instance.CreateSprite("Winning_quit_selected");
             currentButtonSprite = selectContinueScreen;
@@ -34,7 +31,7 @@ namespace KirbyNightmareInDreamLand.GameState
             DrawBackground(spriteBatch, camera);
             DrawForeground(spriteBatch);
             currentButtonSprite.Draw(buttonPosition, spriteBatch);
-            foreach (IPlayer player in _manager.Players) player.Draw(spriteBatch);
+            _manager.DrawAllObjects(spriteBatch);
         }
 
         public override void Update()
@@ -83,15 +80,13 @@ namespace KirbyNightmareInDreamLand.GameState
                 if(level.PreviousRoom == "room3")
                 {
                     level.NextRoom = "hub";
-                    level.NextSpawn = null; //new Vector2(112, 270);
-                    // level.LoadRoom(level.NextRoom, level.NextSpawn); // load new room
+                    level.NextSpawn = hubDoor1Position;
                     level.ChangeToTransitionState();
                 }
                 if (level.PreviousRoom == "level2_room3")
                 {
                     level.NextRoom = "hub";
-                    level.NextSpawn = null; //new Vector2(112, 270);
-                    // level.LoadRoom(level.NextRoom, level.NextSpawn); // load new room
+                    level.NextSpawn = hubDoor2Position;
                     level.ChangeToTransitionState();
                 }
             }

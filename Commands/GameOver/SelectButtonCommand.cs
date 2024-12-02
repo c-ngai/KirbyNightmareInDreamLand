@@ -9,7 +9,6 @@ namespace KirbyNightmareInDreamLand.Commands
         public void Execute()
         {
             Game1.Instance.Level.SelectButton();
-            System.Diagnostics.Debug.WriteLine("losing my mind rn");
         }
     }
 
