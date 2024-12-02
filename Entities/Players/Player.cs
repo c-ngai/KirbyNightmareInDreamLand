@@ -1,4 +1,5 @@
 using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Entities.Enemies;
 using KirbyNightmareInDreamLand.Levels;
 using KirbyNightmareInDreamLand.Particles;
 using KirbyNightmareInDreamLand.Projectiles;
@@ -52,7 +53,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         // IsActive is false after a player's death animation finishes, and is true again any time they respawn
         public bool IsActive { get; private set; } = true;
 
-        private KirbyType powerUp = KirbyType.Normal;
+        private KirbyType? powerInMouth = null;
+
+        private Sprite getpower_back = SpriteFactory.Instance.CreateSprite("getpower_back");
+        private Sprite getpower_front = SpriteFactory.Instance.CreateSprite("getpower_front");
 
 
         //constructor
@@ -230,7 +234,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void ChangeToFire()
         {
-            powerUp = KirbyType.Fire;
             state.ChangeType(KirbyType.Fire);
         }
         public void ChangeToSpark()
@@ -361,11 +364,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 Debug.Write(damageDealer);
 
                 // has different damage animations depending on what hit Kirby
-                if (damageDealer is SparkyPlasma)
+                if (damageDealer is SparkyPlasma || damageDealer is Sparky)
                 {
                     ChangePose(KirbyPose.HurtSpark);
                 }
-                else if (damageDealer is EnemyFlameSegment || damageDealer is EnemyFireball)
+                else if (damageDealer is EnemyFlameSegment || damageDealer is EnemyFireball || damageDealer is Hothead)
                 {
                     ChangePose(KirbyPose.HurtFire);
                 }
@@ -385,7 +388,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 {
                     new KirbyBouncingStar(GetKirbyPosition(), IsLeft(), GetPowerUp());
                     new DropAbility(GetKirbyPosition());
-                    powerUp = KirbyType.Normal;
+                    // powerInMouth = KirbyType.Normal;
                     ChangeToNormal();
                 }
             }
@@ -692,7 +695,10 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                         ChangeToNormal();
                     }
                     SoundManager.Play("enterdoor");
-                    ChangePose(KirbyPose.EnterDoor);
+                    if (_game.Level.CurrentRoom.Name != "classroom")
+                    {
+                        ChangePose(KirbyPose.EnterDoor);
+                    }
                     _game.Level.EnterDoorAt(GetKirbyPosition());
                 }
             }
@@ -752,7 +758,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             if (kirbyType != KirbyType.Normal)
             {
-                powerUp = kirbyType;
+                powerInMouth = kirbyType;
             }
             SoundManager.Play("catch");
             attack?.EndAttack();
@@ -766,6 +772,13 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             ChangePose(KirbyPose.Swallow);
             isSwallowing = true;
             swallowTimer = 0;
+            if (powerInMouth != KirbyType.Normal)
+            {
+                Game1.Instance.Level.ChangeToPowerChangeState();
+                powerChangeAnimation = true;
+                getpower_back.ResetAnimation();
+                getpower_front.ResetAnimation();
+            }
         }
         #endregion
 
@@ -795,7 +808,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 // kirby mouthful attack, switch to normal attack
                 if (attack.attackType == "Star")
                 {
-                    powerUp = KirbyType.Normal;
+                    powerInMouth = null;
                     ChangeToNormal();
                 }
                 attack?.EndAttack();
@@ -812,13 +825,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 {
                     isSwallowing = false;
                     ChangePose(KirbyPose.Standing);
-                    state.ChangeType(powerUp);
-                    if (powerUp != KirbyType.Normal)
+                    state.ChangeType(powerInMouth);
+                    if (powerInMouth != KirbyType.Normal)
                     {
-                        Game1.Instance.Level.ChangeToPowerChangeState();
                         Attack();
-                        powerChangeTimer = Constants.Transition.ATTACK_STATE_FRAMES;
-                        powerChangeAnimation = true;
+                        powerChangeTimer = Constants.Transition.ATTACK_FRAMES;
                         SoundManager.Play("powerup"); // must play the sound after switching the state because the state pauses all existing sounds
                     }
                 }
@@ -835,6 +846,25 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 ChangePose(KirbyPose.Standing);
             }
         }
+        
+        public void HandlePowerChangeAnimations()
+        {
+            // ends initial attack animation sequence from power changes
+            if (powerChangeTimer > 0)
+            {
+                powerChangeTimer--;
+                if (powerChangeTimer == 0)
+                {
+                    StopAttacking();
+                }
+            }
+           
+            if (powerChangeAnimation)
+            {
+                getpower_back.Update();
+                getpower_front.Update();
+            }
+        }
 
         public void HandleAttackAnimations()
         {
@@ -846,16 +876,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
             // ends attack end animations
             AttackEndAnimations();
-
-            // ends initial attack animation sequence from power changes
-            if (powerChangeTimer > 0)
-            {
-                powerChangeTimer--;
-                if (powerChangeTimer == 0)
-                {
-                    StopAttacking();
-                }
-            }
+            
+            HandlePowerChangeAnimations();
         }
 
         public void HandleHurtAnimations()
@@ -937,12 +959,11 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             }
 
             // ensures player cannot move during damage animation
-            if (!DEAD && hurtStun && damageCounter > Constants.Kirby.HURT_STUN_FRAMES)
+            if (!DEAD && hurtStun && damageCounter > Constants.Kirby.HURT_STUN_FRAMES && !state.IsSpecialHurt())
             {
                 hurtStun = false;
                 ChangePose(KirbyPose.FreeFall);
             }
-
         }
         public void UpdateCounters()
         {
@@ -986,19 +1007,24 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 UpdateTexture();
 
-                if (invincible)
+                // If in power change state, draw the back half of the effect (goes behind kirby)
+                if (powerChangeAnimation)
                 {
-                    playerSprite.Draw(movement.GetPosition(), spriteBatch);
-                    // Draw a second, tinted, translucent copy of the sprite on top of itself to tint it brigher. Use of unpremultiplied color in a premultiplied environment to do this
-                    if (damageCounter % Constants.Kirby.INVINCIBLE_ANIMATION_LOOP < Constants.Kirby.INVINCIBLE_COLOR_CHANGE && !hurtStun)
-                    {
-                        playerSprite.Draw(movement.GetPosition(), spriteBatch, Constants.Graphics.INVINCIBLE_COLOR);
-                    }
-
+                    getpower_back.Draw(GetPosition(), spriteBatch);
                 }
-                else
+
+                // Draw kirby
+                playerSprite.Draw(movement.GetPosition(), spriteBatch);
+                if (invincible && !hurtStun && damageCounter % Constants.Kirby.INVINCIBLE_ANIMATION_LOOP < Constants.Kirby.INVINCIBLE_COLOR_CHANGE)
                 {
-                    playerSprite.Draw(movement.GetPosition(), spriteBatch);
+                    // Draw a second, tinted, translucent copy of the sprite on top of itself to tint it brigher. Use of unpremultiplied color in a premultiplied environment to do this
+                    playerSprite.Draw(movement.GetPosition(), spriteBatch, Constants.Graphics.INVINCIBLE_COLOR);
+                }
+
+                // If in power change state, draw the front half of the effect (goes in front of kirby)
+                if (powerChangeAnimation)
+                {
+                    getpower_front.Draw(GetPosition(), spriteBatch);
                 }
 
                 // Draw an arrow pointing to this player if off screen IF this is not the player of the current view (and if not in a menu room)
@@ -1017,7 +1043,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     position2.Floor();
                     position3.Floor();
 
-                    spriteBatch.DrawString(LevelLoader.Instance.Font, movement.GetType().ToString().Substring(43), position3, Color.Black);
+                    spriteBatch.DrawString(LevelLoader.Instance.Font, GetKirbyPosition().ToString(), position3, Color.Black);
+                    //spriteBatch.DrawString(LevelLoader.Instance.Font, movement.GetType().ToString().Substring(43), position3, Color.Black);
                     spriteBatch.DrawString(LevelLoader.Instance.Font, "poseCounter = " + poseCounter, position1, Color.Black);
                     spriteBatch.DrawString(LevelLoader.Instance.Font, GetKirbyPose().ToString(), position2, Color.Black);
                     //spriteBatch.DrawString(LevelLoader.Instance.Font, isTransitioningAttack.ToString(), position2, Color.Black);
@@ -1025,7 +1052,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     //spriteBatch.DrawString(LevelLoader.Instance.Font, GetKirbyVelocity().Y.ToString(), position2, Color.Black);
                     GameDebug.Instance.DrawPoint(spriteBatch, GetKirbyPosition() + GetKirbyVelocity() * 8, Color.Magenta, 1f);
                 }
-
 
                 UpdateOldStates();
             }

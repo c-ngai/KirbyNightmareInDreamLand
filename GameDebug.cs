@@ -178,7 +178,9 @@ namespace KirbyNightmareInDreamLand
             texts.Add("Game state: " + _game.Level._currentState.ToString().Substring(36));
             // texts.Add("Next room: " + _game.Level.NextRoom);
             // texts.Add("Next spawn point " + _game.Level.NextSpawn);
-            texts.Add("Calls to FallOffScreenOne:" + Entities.Players.PlayerMovement.callCount);
+            //texts.Add("Calls to FallOffScreenOne:" + Entities.Players.PlayerMovement.callCount);
+            //texts.Add("IsDoorBeingOpened: " + _game.Level.IsDoorBeingOpened + ", " + _game.Level.DoorBeingOpened);
+            //texts.Add("IsDoorBeingExited: " + _game.Level.IsDoorBeingExited + ", " + _game.Level.DoorBeingExited);
             texts.Add("");
             texts.Add("Sprite.Draw calls: " + NumOfSpriteDrawCalls);
             texts.Add("SpriteBatch.Draw calls: " + NumOfSpriteBatchDrawCalls);

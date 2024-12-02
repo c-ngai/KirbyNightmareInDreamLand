@@ -17,6 +17,9 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private Sprite projectileSprite;
         private Vector2 position;
         private Vector2 velocity;
+
+        private int frameCounter;
+
         public bool CollisionActive { get; private set;} = true;
 
         public Vector2 Position
@@ -47,6 +50,8 @@ namespace KirbyNightmareInDreamLand.Projectiles
                 ? SpriteFactory.Instance.CreateSprite("projectile_kirby_star_right")
                 : SpriteFactory.Instance.CreateSprite("projectile_kirby_star_left");
 
+            frameCounter = 0;
+
             ObjectManager.Instance.AddProjectile(this);
 
             SoundManager.Play("spit");
@@ -64,6 +69,11 @@ namespace KirbyNightmareInDreamLand.Projectiles
             {
                 CollisionActive = false;
             }
+            if (frameCounter % Constants.Particle.STARDUST_MAX_FRAMES == 0)
+            {
+                new Stardust(position - velocity * 2);
+            }
+            frameCounter++;
         }
         public Vector2 CalculateRectanglePoint(Vector2 pos)
         {

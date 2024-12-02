@@ -98,8 +98,8 @@ namespace KirbyNightmareInDreamLand
             public static Vector2 ROOM1_SPAWN_POINT = new Vector2(2, 4);
             public static Vector2 HUB_SPAWN_POINT = new Vector2(2, 7);
             public static Vector2 GAME_OVER_SPAWN_POINT = new Vector2(2, 7);
-            public static Vector2 HUB_DOOR_1_SPAWN_POINT = new Vector2(120, 270);
-            public static Vector2 HUB_DOOR_2_SPAWN_POINT = new Vector2(250, 300);
+            public static Vector2 HUB_DOOR_1_SPAWN_POINT = new Vector2(112, 272);
+            public static Vector2 HUB_DOOR_2_SPAWN_POINT = new Vector2(240, 304);
 
 
         }
@@ -499,6 +499,7 @@ namespace KirbyNightmareInDreamLand
             public static int OFFSET8 = 8;
             public static int STAR_MAX_FRAMES = 14;
             public static int STAREXPLODE_MAX_FRAMES = 14;
+            public static int STARDUST_MAX_FRAMES = 7;
             public static int ENEMYEXPLODE_MAX_FRAMES = 23;
             public static int ENEMYEXPLODE_START_FRAME = 6; // frames before enemy disappears
             public static Vector2 ENEMYEXPLODE_OFFSET = new Vector2(0, -8);
@@ -563,11 +564,13 @@ namespace KirbyNightmareInDreamLand
         public class Transition
         {
             public const float FADE_SPEED = 0.03f;
+            public const float FADE_SPEED_DARK = 0.125f;
             public const float FADE_OUT_START = 0.0f;
             public const float FADE_VALUE_OPAQUE = 1.0f;
             public const float FADE_VALUE_HALF_OPAQUE = 0.5f;
             public const float FADE_VALUE_TRANSPARENT = 0.05f;
-            public const int ATTACK_STATE_FRAMES = 45;
+            public const int FADE_HOLD_FRAMES = 75;
+            public const int ATTACK_FRAMES = 45;
 
         }
         #endregion

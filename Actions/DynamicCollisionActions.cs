@@ -29,7 +29,7 @@ namespace KirbyNightmareInDreamLand.Actions
                 else
                 {
                     enemy.TakeDamage(null, intersection, player.GetHitBox().Center.ToVector2());
-                    player.TakeDamage(null, intersection, enemy.GetHitBox().Center.ToVector2());
+                    player.TakeDamage(object1, intersection, enemy.GetHitBox().Center.ToVector2());
                 }
             }
         }

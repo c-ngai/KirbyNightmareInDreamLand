@@ -54,8 +54,8 @@ namespace KirbyNightmareInDreamLand.Levels
         public int TileX { get; set; }
         public int TileY { get; set; }
         public string DestinationRoom { get; set; }
-        public int DestinationTileX { get; set; }
-        public int DestinationTileY { get; set; }
+        public float DestinationTileX { get; set; }
+        public float DestinationTileY { get; set; }
         public bool DrawDoorStars { get; set; }
         public bool IsBigDoor { get; set; }
     }

@@ -614,6 +614,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/Level/backgrounds.png
 
+#begin Images/Level/classroom_door.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Level/classroom_door.png
+
 #begin Images/Level/classroom.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -649,6 +661,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/Level/doorstars.png
+
+#begin Images/Level/hub_spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Level/hub_spritesheet.png
 
 #begin Images/Level/level2_background_spritesheet.png
 /importer:TextureImporter
@@ -761,6 +785,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/Misc/particle_enemyexplode.png
 
+#begin Images/Misc/particle_getpower.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Misc/particle_getpower.png
+
 #begin Images/Misc/particle_inhale.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -847,18 +883,6 @@
 
 #begin Images/SpriteAnimations.json
 /copy:Images/SpriteAnimations.json
-
-#begin Images/Spritesheets/hub_spritesheet.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/Spritesheets/hub_spritesheet.png
 
 #begin Images/Textures.txt
 /copy:Images/Textures.txt
