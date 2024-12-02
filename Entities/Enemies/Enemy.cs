@@ -121,7 +121,7 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             frameCounter = 0;
         }
 
-        public virtual void TakeDamage(Rectangle intersection, Vector2 positionOfDamageSource)
+        public virtual void TakeDamage(ICollidable damageDealer, Rectangle intersection, Vector2 positionOfDamageSource)
         {
             if (!isBeingInhaled)
             {

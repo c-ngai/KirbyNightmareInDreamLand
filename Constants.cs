@@ -70,6 +70,7 @@ namespace KirbyNightmareInDreamLand
             public const float FLOAT_MIN_YVEL = -1.3f;
 
             public const float BOUNCE_VEL = -2.25f;
+            public const float BURN_BOUNCE_VEL = -3f;
 
             public const float WALKING_VELOCITY = 1.3f;
             public const float WALKING_ACCELLERATION = 0.1f;
@@ -216,12 +217,18 @@ namespace KirbyNightmareInDreamLand
             public static int STOP_SWALLOWING = 25;
             public static int HURT_STUN_FRAMES = 24;
             public static int STOP_HURT_FRAME = 20;
+            public static int STOP_HURT_FIRE_FRAME = 16;
+            public static int STOP_HURT_SPARK_FRAME = 12;
+            public static int STOP_BURN_BOUNCE_FRAME = 24;
             public static int FLOATING_LOOP = 16;
             public static int START_DEATH_SPIN = 90;
             public static int SET_DEATH_INACTIVE = 240;
             public static int DEATH_STAR_ANIMATION_LOOP = 8;
             public static int INVINCIBLE_ANIMATION_LOOP = 8;
             public static int INVINCIBLE_COLOR_CHANGE = 4;
+            public static int JUMP_FREEFALL_START = 12;
+            public static int BOUNCE_FREEFALL_START = 16;
+            public static int WALL_SQUISH_END = 5;
         }
         #endregion
         public class Arrows
