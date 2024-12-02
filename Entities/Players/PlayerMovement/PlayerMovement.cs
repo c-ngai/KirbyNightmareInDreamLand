@@ -8,6 +8,7 @@ using System;
 using KirbyNightmareInDreamLand.Particles;
 using static KirbyNightmareInDreamLand.Constants;
 using System.Xml.Linq;
+using KirbyNightmareInDreamLand.Audio;
 
 namespace KirbyNightmareInDreamLand.Entities.Players
 {
@@ -316,6 +317,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public virtual void AdjustFromTopCollisionBlock(Rectangle intersection)
         {
             position.Y += intersection.Height;
+            velocity.Y = 0;
         }
 
         public void AdjustFromBottomCollisionPlatform(Rectangle intersection, IPlayerStateMachine state)

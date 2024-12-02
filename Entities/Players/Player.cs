@@ -1044,8 +1044,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     position2.Floor();
                     position3.Floor();
 
-                    spriteBatch.DrawString(LevelLoader.Instance.Font, powerInMouth.ToString(), position3, Color.Black);
-                    //spriteBatch.DrawString(LevelLoader.Instance.Font, movement.GetType().ToString().Substring(43), position3, Color.Black);
+                    //spriteBatch.DrawString(LevelLoader.Instance.Font, powerInMouth.ToString(), position3, Color.Black);
+                    spriteBatch.DrawString(LevelLoader.Instance.Font, movement.GetType().ToString().Substring(43), position3, Color.Black);
                     spriteBatch.DrawString(LevelLoader.Instance.Font, "poseCounter = " + poseCounter, position1, Color.Black);
                     spriteBatch.DrawString(LevelLoader.Instance.Font, GetKirbyPose().ToString(), position2, Color.Black);
                     //spriteBatch.DrawString(LevelLoader.Instance.Font, isTransitioningAttack.ToString(), position2, Color.Black);
@@ -1275,6 +1275,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void TopCollisionWithBlock(Rectangle intersection)
         {
             movement.AdjustFromTopCollisionBlock(intersection);
+            // new CollisionStar(movement.GetPosition() + new Vector2(0, -16));
+            // SoundManager.Play("land");
         }
 
         // the bottom of Kirby collides with a platform
