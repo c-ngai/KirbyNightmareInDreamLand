@@ -756,7 +756,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         }
         public void EatEnemy(KirbyType kirbyType) //changes to mouthful state
         {
-            if (kirbyType != KirbyType.Normal)
+            if (powerInMouth == null || kirbyType != KirbyType.Normal)
             {
                 powerInMouth = kirbyType;
             }
@@ -832,6 +832,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                         powerChangeTimer = Constants.Transition.ATTACK_FRAMES;
                         SoundManager.Play("powerup"); // must play the sound after switching the state because the state pauses all existing sounds
                     }
+                    powerInMouth = null;
                 }
             }
         }
@@ -1043,7 +1044,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                     position2.Floor();
                     position3.Floor();
 
-                    spriteBatch.DrawString(LevelLoader.Instance.Font, GetKirbyPosition().ToString(), position3, Color.Black);
+                    spriteBatch.DrawString(LevelLoader.Instance.Font, powerInMouth.ToString(), position3, Color.Black);
                     //spriteBatch.DrawString(LevelLoader.Instance.Font, movement.GetType().ToString().Substring(43), position3, Color.Black);
                     spriteBatch.DrawString(LevelLoader.Instance.Font, "poseCounter = " + poseCounter, position1, Color.Black);
                     spriteBatch.DrawString(LevelLoader.Instance.Font, GetKirbyPose().ToString(), position2, Color.Black);
