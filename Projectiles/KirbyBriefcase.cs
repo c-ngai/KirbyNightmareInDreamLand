@@ -70,12 +70,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
 
             SoundManager.Play("briefcasethrow");
         }
-
-        public void Explode()
-        {
-            
-        }
-
         public void EndAttack()
         {
             if (!windup && !exploded)
