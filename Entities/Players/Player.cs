@@ -327,6 +327,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public void TakeDamage(ICollidable damageDealer, Rectangle intersection, Vector2 positionOfDamageSource)
         {
+            ResetAtWall();
             if (!invincible)
             {
                 invincible = true;
