@@ -40,7 +40,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         {
             endFloat = false;
             landed = false;
-            velocity.Y += -0.3f; //go up
+            velocity.Y += Constants.Kirby.FLOAT_UP; //go up
             if (velocity.Y < Constants.Physics.FLOAT_MIN_YVEL)
             {
                 velocity.Y = Constants.Physics.FLOAT_MIN_YVEL;

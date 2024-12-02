@@ -296,7 +296,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
             hurtStun = true; // so that kirby does NOT flash yellow yet
 
-
             ChangeToNormal();
             ChangeToNormalMovement();
             movement.CancelVelocity();

@@ -195,6 +195,7 @@ namespace KirbyNightmareInDreamLand
             public const int MAX_LIVES = 2; //2
             public const int STARTING_XPOSITION = 30;
             public const int KIRBY_VERTICAL_MIDDLE = 8;
+            public const float FLOAT_UP = -0.3f;
             public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(13, -11);
             public static Vector2 BEAM_ATTACK_OFFSET_LEFT = new Vector2(-13, -11);
             public static Vector2 PUFF_ATTACK_OFFSET = new Vector2(15, 0);
@@ -440,6 +441,7 @@ namespace KirbyNightmareInDreamLand
             public static Vector2 FLAMETHROWER_RIGHT = new Vector2(1, 0);
             public const int FLAMETHROWER_X_OFFSET = 18;
             public const int FLAMETHROWER_Y_OFFSET = 7;
+            public const int FLAMETHROWER_Y_HITBOX_OFFSET = 6;
             public static Vector2 FLAMETHROWER_OFFSET = new Vector2(18,7);
             public static Vector2 FIREBALL_LEFT = new Vector2(-1, -0.5f);
             public static Vector2 FIREBALL_RIGHT = new Vector2(1, -0.5f);
@@ -529,6 +531,7 @@ namespace KirbyNightmareInDreamLand
             public const int SPRITES_Y = 147;
             public const int SCORE_PAD = 8;
             public const int SPRITE_GAP = 8;
+            public const int SCORE1 = 176;
             public static Vector2 LIVES_ICON_POS = new Vector2(57, 147);
             public const int LIVES_PAD = 2;
             public static Vector2 LIVES_TENS_POS = new Vector2(80, 147);
