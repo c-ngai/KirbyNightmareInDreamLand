@@ -481,7 +481,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void HandleFalling()
         {
             // should kirby exhibit falling behavior
-            if (movement.GetVelocity().Y > 0 && !movement.onSlope && !DEAD && !state.IsFloating() && !state.IsAttacking())
+            if (movement.GetVelocity().Y > 0 && !movement.onSlope && !DEAD && !state.IsFloating() && !state.IsAttacking() && GetKirbyPose() != KirbyPose.EnterDoor)
             {
                 ResetAtWall();
                 // if kirby was not falling enter freefall
@@ -693,6 +693,12 @@ namespace KirbyNightmareInDreamLand.Entities.Players
                 {
                     ChangeToNormalMovement();
                     movement.StopMovement();
+                    // release enemy before entering door
+                    if (state.EnemyInMouth())
+                    {
+                        Attack();
+                        ChangeToNormal();
+                    }
                     SoundManager.Play("enterdoor");
                     ChangePose(KirbyPose.EnterDoor);
                     _game.Level.EnterDoorAt(GetKirbyPosition());
@@ -868,6 +874,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             // on the first frame of spark and fire hurt animation launch Kirby into the air
             if ((GetKirbyPose() == KirbyPose.HurtSpark || GetKirbyPose() == KirbyPose.HurtFire) && poseCounter == 0)
             {
+                ResetAtWall();
                 movement.burnBounceJump();
             }
 
@@ -1109,6 +1116,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             // ensures the right animation of bounce, freefallfar, or freefall is executed
             if (GetKirbyPose() == KirbyPose.Bounce)
             {
+                ResetAtWall();
                 ChangePose(KirbyPose.Bounce);
                 if (poseCounter == Constants.Kirby.BOUNCE_JUMP_FRAME)
                 {
@@ -1141,6 +1149,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             // complete burn animation sequence
             if (shouldEnterBurnBounce)
             {
+                ResetAtWall();
                 ChangePose(KirbyPose.BurnBounce);
                 if (poseCounter == Constants.Kirby.BOUNCE_JUMP_FRAME)
                 {
@@ -1168,8 +1177,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 ChangePose(KirbyPose.Standing);
             }
-            // detects initial collision
-            if ((oldPose == KirbyPose.Walking || oldPose == KirbyPose.Running) && GetKirbyPose() == KirbyPose.Standing)
+            // detects initial collision and prevents wall squish with mouthful
+            if ((oldPose == KirbyPose.Walking || oldPose == KirbyPose.Running) && GetKirbyPose() == KirbyPose.Standing && !state.EnemyInMouth())
             {
                 IParticle star = new CollisionStar(movement.GetPosition());
                 ChangePose(KirbyPose.WallSquish);
@@ -1188,8 +1197,8 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             {
                 ChangePose(KirbyPose.Standing);
             }
-            // detects initial collision
-            if ((oldPose == KirbyPose.Walking || oldPose == KirbyPose.Running) && GetKirbyPose() == KirbyPose.Standing)
+            // detects initial collision and prevents wall squish with mouthful
+            if ((oldPose == KirbyPose.Walking || oldPose == KirbyPose.Running) && GetKirbyPose() == KirbyPose.Standing && !state.EnemyInMouth())
             {
                 IParticle star = new CollisionStar(movement.GetPosition());
                 ChangePose(KirbyPose.WallSquish);
