@@ -1,7 +1,10 @@
+using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Entities.Players;
 using KirbyNightmareInDreamLand.Levels;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace KirbyNightmareInDreamLand.GameState
 {
@@ -13,15 +16,28 @@ namespace KirbyNightmareInDreamLand.GameState
         private bool CurrentlyFadingOut;
         private bool CurrentlyFadingIn;
         private float FadeSpeed = 0.05f;
-        private float opaqueAlpha = 0.25f;
+        private float opaqueAlpha = 0.5f;
         private float transparentAlpha = 0.05f;
         private float startFade = 0.0f;
         private float FadeAlpha;
 
         private int timer = 0;
 
+        private BlendState subtractive = new BlendState
+        {
+            ColorSourceBlend = Blend.One,
+            AlphaSourceBlend = Blend.One,
+
+            ColorDestinationBlend = Blend.InverseSourceAlpha,
+            AlphaDestinationBlend = Blend.InverseSourceAlpha,
+
+            ColorBlendFunction = BlendFunction.ReverseSubtract,
+            AlphaBlendFunction = BlendFunction.Add
+        };
+
         public GamePowerChangeState(Level _level) : base( _level)
         {
+            SoundManager.PauseAllSounds();
             FadeAlpha = Constants.Transition.FADE_OUT_START;
             CurrentlyFadingIn = false;
             CurrentlyFadingOut = true;
@@ -31,11 +47,20 @@ namespace KirbyNightmareInDreamLand.GameState
         {
             base.Draw(spriteBatch);
             Camera camera = _game.cameras[_game.CurrentCamera];
-            GameDebug.Instance.DrawSolidRectangle(spriteBatch, camera.bounds, Color.Black, FadeAlpha);
-            //GameDebug.Instance.DrawSolidRectangle(spriteBatch, camera.bounds, new Color(), 1f);
-            //GameDebug.Instance.DrawSolidRectangle(spriteBatch, camera.bounds, Color.Black, 1f);
-            Game1.Instance.manager.DrawPlayers(spriteBatch);
-            Game1.Instance.manager.DrawProjectiles(spriteBatch);
+
+            // end the old spritebatch and start a fade spritebatch
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, subtractive, SamplerState.PointClamp, null, _game.rasterizerState, null, _game.cameras[_game.CurrentCamera].LevelMatrix * _game.viewMatrix);
+
+            GameDebug.Instance.DrawSolidRectangle(spriteBatch, camera.bounds, new Color(FadeAlpha, FadeAlpha, FadeAlpha, 0), 1f);
+            //GameDebug.Instance.DrawSolidRectangle(spriteBatch, camera.bounds, Color.Black, FadeAlpha);
+
+            // end the fade spritebatch and start a new copy of the old spritebatch
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, _game.rasterizerState, null, _game.cameras[_game.CurrentCamera].LevelMatrix * _game.viewMatrix);
+
+            // Draw ONLY the players currently changing power and their projectiles
+            Game1.Instance.manager.DrawPowerChangeObjects(spriteBatch);
         }
 
         public override void Update()
@@ -90,7 +115,7 @@ namespace KirbyNightmareInDreamLand.GameState
                     {
                         player.powerChangeAnimation = false;
                     }
-
+                    SoundManager.ResumeAllSounds();
                     level.ChangeState(Game1.Instance.Level._playingState);
                 }
             }

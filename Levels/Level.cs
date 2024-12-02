@@ -1,4 +1,5 @@
-﻿using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Audio;
+using KirbyNightmareInDreamLand.Commands;
 using KirbyNightmareInDreamLand.Entities.Enemies;
 using KirbyNightmareInDreamLand.Entities.Players;
 using KirbyNightmareInDreamLand.Entities.PowerUps;
@@ -74,6 +75,7 @@ namespace KirbyNightmareInDreamLand.Levels
             _currentState = new GamePlayingState(this);
 
             IsDoorBeingOpened = false;
+            IsDoorBeingExited = false;
             DoorBeingOpened = 0;
 
             _playingState = new GamePlayingState(this);
@@ -92,6 +94,12 @@ namespace KirbyNightmareInDreamLand.Levels
         public bool IsCurrentState(string state)
         {
             return (_currentState).ToString().Equals(state);
+        }
+
+        public bool InMenuRoom()
+        {
+            return CurrentRoom.Name == Constants.RoomStrings.GAME_OVER_ROOM
+                || CurrentRoom.Name == Constants.RoomStrings.LEVEL_COMPLETE_ROOM;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -258,6 +266,9 @@ namespace KirbyNightmareInDreamLand.Levels
                     player?.GoToRoomSpawn();
                     //_manager.RegisterDynamicObject((Player)player);
                 }
+                // Disable splitscreen if room camera is locked in both directions
+                _game.SPLITSCREEN_AVAILABLE = !(CurrentRoom.CameraXLock && CurrentRoom.CameraYLock);
+                GraphicsToggleSplitscreenCommand.UpdateSplitscreenScaling();
                 SoundManager.PlaySong(CurrentRoom.Song);
                 NewRoom = true;
             }

@@ -61,8 +61,7 @@ namespace KirbyNightmareInDreamLand.GameState
             else
             {
                 Game1.Instance.manager.FillAllPlayerLives();
-                level.NextRoom = "hub";//level.PreviousRoom;
-                level.NextSpawn = null;//level.CurrentRoom.SpawnPoint;
+                level.NextRoom = "hub";
                 level.ChangeToTransitionState();
             }
         }

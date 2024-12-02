@@ -70,6 +70,7 @@ namespace KirbyNightmareInDreamLand
             public const float FLOAT_MIN_YVEL = -1.3f;
 
             public const float BOUNCE_VEL = -2.25f;
+            public const float BURN_BOUNCE_VEL = -3f;
 
             public const float WALKING_VELOCITY = 1.3f;
             public const float WALKING_ACCELLERATION = 0.1f;
@@ -97,6 +98,9 @@ namespace KirbyNightmareInDreamLand
             public static Vector2 ROOM1_SPAWN_POINT = new Vector2(2, 4);
             public static Vector2 HUB_SPAWN_POINT = new Vector2(2, 7);
             public static Vector2 GAME_OVER_SPAWN_POINT = new Vector2(2, 7);
+            public static Vector2 HUB_DOOR_1_SPAWN_POINT = new Vector2(120, 270);
+            public static Vector2 HUB_DOOR_2_SPAWN_POINT = new Vector2(250, 300);
+
 
         }
         #region  Collision
@@ -188,14 +192,14 @@ namespace KirbyNightmareInDreamLand
         {
             public const float INVINCIBLE_TIME = 1.5f;
             public const int MAX_HEALTH = 6; //6
-            public const int MAX_LIVES = 3; //3
+            public const int MAX_LIVES = 2; //2
             public const int STARTING_XPOSITION = 30;
             public const int KIRBY_VERTICAL_MIDDLE = 8;
-            public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(11, -9);
-            public static Vector2 BEAM_ATTACK_OFFSET_LEFT = new Vector2(-11, -9);
+            public static Vector2 BEAM_ATTACK_OFFSET_RIGHT = new Vector2(13, -11);
+            public static Vector2 BEAM_ATTACK_OFFSET_LEFT = new Vector2(-13, -11);
             public static Vector2 PUFF_ATTACK_OFFSET = new Vector2(15, 0);
-            public static Vector2 FLAME_ATTACK_OFFSET_RIGHT = new Vector2(30, -10);
-            public static Vector2 FLAME_ATTACK_OFFSET_LEFT = new Vector2(-25, -10);
+            public static Vector2 FLAME_ATTACK_OFFSET_RIGHT = new Vector2(25, -12);
+            public static Vector2 FLAME_ATTACK_OFFSET_LEFT = new Vector2(-25, -12);
             public static Vector2 STAR_ATTACK_OFFSET_RIGHT= new Vector2(8, -10);
             public static Vector2 STAR_ATTACK_OFFSET_LEFT= new Vector2(-8, -10);
             public static Vector2 BOUNCING_STAR_OFFSET_RIGHT= new Vector2(8, -10);
@@ -213,12 +217,18 @@ namespace KirbyNightmareInDreamLand
             public static int STOP_SWALLOWING = 25;
             public static int HURT_STUN_FRAMES = 24;
             public static int STOP_HURT_FRAME = 20;
+            public static int STOP_HURT_FIRE_FRAME = 16;
+            public static int STOP_HURT_SPARK_FRAME = 12;
+            public static int STOP_BURN_BOUNCE_FRAME = 24;
             public static int FLOATING_LOOP = 16;
             public static int START_DEATH_SPIN = 90;
             public static int SET_DEATH_INACTIVE = 240;
             public static int DEATH_STAR_ANIMATION_LOOP = 8;
             public static int INVINCIBLE_ANIMATION_LOOP = 8;
             public static int INVINCIBLE_COLOR_CHANGE = 4;
+            public static int JUMP_FREEFALL_START = 12;
+            public static int BOUNCE_FREEFALL_START = 16;
+            public static int WALL_SQUISH_END = 5;
         }
         #endregion
         public class Arrows
@@ -321,7 +331,7 @@ namespace KirbyNightmareInDreamLand
             public const float SPEED = 4f; // Constant speed of the star
             public static Vector2  BOUNCING_STAR_VEL_LEFT = new Vector2 (-1f, -5f);
             public static Vector2  BOUNCING_STAR_VEL_RIGHT = new Vector2 (1f, -5f);
-            public static double BOUNCING_TIMER = 7;
+            public static double BOUNCING_TIMER = 4;
 
         }
 
@@ -442,7 +452,7 @@ namespace KirbyNightmareInDreamLand
             public const float MOVE_SPEED = 0.5f;
             public const int WALK_FRAMES = 60;
             public const int STOP_FRAMES = 120;
-            public const int ATTACK_FRAMES = 50;
+            public const int ATTACK_FRAMES = 30;
             public const int JUMPING_FRAMES = 50;
             public const float JUMP_VELOCITY = 2.5f;
             public const float FORWARD_MOVEMENT = 0.5f;
@@ -487,10 +497,26 @@ namespace KirbyNightmareInDreamLand
             public static int OFFSET8 = 8;
             public static int STAR_MAX_FRAMES = 14;
             public static int STAREXPLODE_MAX_FRAMES = 14;
+            public static int ENEMYEXPLODE_MAX_FRAMES = 23;
+            public static int ENEMYEXPLODE_START_FRAME = 6; // frames before enemy disappears
+            public static Vector2 ENEMYEXPLODE_OFFSET = new Vector2(0, -8);
             public static int DROPABILITY_MAX_FRAMES = 8;
 
             public static int DASH_CLOUD_FRAMES = 10;
             public static int DASH_CLOUD_LOOPS = 3;
+
+            public static int PAPER_COUNT = 16;
+            public static int PAPER_START_FRAME = 3;
+            public static Vector2 PAPER_SPAWN_OFFSET = new Vector2(0, -5);
+            public static float PAPER_INITIAL_XVEL_MIN = -2f;
+            public static float PAPER_INITIAL_XVEL_MAX = 2f;
+            public static float PAPER_INITIAL_YVEL_MIN = -2f;
+            public static float PAPER_INITIAL_YVEL_MAX = -0.5f;
+            public static float PAPER_TERMINALVEL_MIN = 1.25f;
+            public static float PAPER_TERMINALVEL_MAX = 1.75f;
+            public static float PAPER_GRAVITY = 0.05f;
+            public static float PAPER_X_DECELERATION = 0.05f;
+            public static int PAPER_FRAMES = 36;
         }
 
         public class HUD
@@ -510,6 +536,12 @@ namespace KirbyNightmareInDreamLand
             public const int HEALTH_INIT_X = 104;
             public const int HEALTH_Y = 146;
             public const int HEALTH_NEXT_X = 8;
+        }
+
+        public class Hub
+        {
+            public static Vector2 DRAW_HUB_DOOR_OFFSET = new Vector2(0, -8);
+            public static Vector2 DRAW_HUB_DOOR_SIGN_OFFSET = new Vector2(2, -24);
         }
 
         public class RoomStrings
@@ -532,7 +564,7 @@ namespace KirbyNightmareInDreamLand
             public const float FADE_VALUE_OPAQUE = 1.0f;
             public const float FADE_VALUE_HALF_OPAQUE = 0.5f;
             public const float FADE_VALUE_TRANSPARENT = 0.05f;
-            public const int ATTACK_STATE_FRAMES = 60;
+            public const int ATTACK_STATE_FRAMES = 45;
 
         }
         #endregion

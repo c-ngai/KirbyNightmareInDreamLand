@@ -5,6 +5,7 @@ using System.Net;
 using KirbyNightmareInDreamLand.Actions;
 using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Entities.Players;
+using KirbyNightmareInDreamLand.Sprites;
 using KirbyNightmareInDreamLand.StateMachines;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -19,6 +20,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         private bool IsActive;
         private bool IsLeft;
         public IPlayer player { get; private set; }
+        Sprite sprite;
         private SoundInstance sound;
         public Inhale(Vector2 pos, bool isLeft, Player kirby)
         {
@@ -26,10 +28,15 @@ namespace KirbyNightmareInDreamLand.Projectiles
             IsLeft = isLeft;
             player = kirby;
             IsActive = true;
-            ObjectManager.Instance.AddProjectile(this);
-            //ObjectManager.Instance.RegisterDynamicObject(this);
+
+            sprite = player.IsLeft()
+                ? SpriteFactory.Instance.CreateSprite("particle_inhale_left")
+                : SpriteFactory.Instance.CreateSprite("particle_inhale_right");
+
             sound = SoundManager.CreateInstance("inhale");
             sound.Play();
+
+            ObjectManager.Instance.AddProjectile(this);
         }
         public void OnCollide(KirbyType kirbyType)
         {
@@ -47,6 +54,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void Update()
         {
+            sprite.Update();
             Position = player.GetKirbyPosition();
         }
         public Vector2 CalculateRectanglePoint(Vector2 pos)
@@ -68,7 +76,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            //uneeded
+            sprite.Draw(Position, spriteBatch);
         }
 
 

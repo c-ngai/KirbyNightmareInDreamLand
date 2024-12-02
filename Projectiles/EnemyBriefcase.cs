@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Entities.Players;
+using KirbyNightmareInDreamLand.Particles;
 using KirbyNightmareInDreamLand.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -115,6 +116,14 @@ namespace KirbyNightmareInDreamLand.Projectiles
             if (exploded && timer >= Constants.Briefcase.BRIEFCASE_EXPLODE_COLLISION_FRAMES)
             {
                 CollisionActive = false;
+            }
+            // A few frames after explosion, release paper particles
+            if (exploded && timer == Constants.Particle.PAPER_START_FRAME)
+            {
+                for (int i = 0; i < Constants.Particle.PAPER_COUNT; i++)
+                {
+                    new Paper(position);
+                }
             }
 
             // if in windup stage
