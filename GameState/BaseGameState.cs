@@ -22,6 +22,7 @@ namespace KirbyNightmareInDreamLand.GameState
         private readonly Sprite DoorStarsSprite;
         public Vector2 SpawnPoint { get; set; }
         private List<Sprite> TileSprites;
+        private static Color translucent = Constants.DebugValues.TRANSLUCENT;
 
         private static Vector2 drawHubDoorOffset = Constants.Hub.DRAW_HUB_DOOR_OFFSET;
         private static Vector2 drawHubSignOffset = Constants.Hub.DRAW_HUB_DOOR_SIGN_OFFSET;
@@ -270,12 +271,11 @@ namespace KirbyNightmareInDreamLand.GameState
                 Vector2 textPos = doorPos - new Vector2(-9 + textSize.X / 2, -1 + textSize.Y);
                 textPos.Floor();
 
-                GameDebug.Instance.DrawSolidRectangle(spriteBatch, level.CurrentRoom.Doors[i].Bounds, color, 0.5f);
+                GameDebug.Instance.DrawSolidRectangle(spriteBatch, level.CurrentRoom.Doors[i].Bounds, color, Constants.DebugValues.HALF_OPAQUE);
                 spriteBatch.DrawString(LevelLoader.Instance.Font, level.CurrentRoom.Doors[i].DestinationRoom, textPos, color);
             }
         }
 
-        Color translucent = new Color(127, 127, 127, 127);
         // Draws static, transparent sprites of the corresponding enemy for each enemy spawn point in the level.
         private void DrawSpawnPoints(SpriteBatch spriteBatch)
         {

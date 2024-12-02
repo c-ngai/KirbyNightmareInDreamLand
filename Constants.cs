@@ -557,6 +557,7 @@ namespace KirbyNightmareInDreamLand
             public const float FADE_VALUE_OPAQUE = 1.0f;
             public const float FADE_VALUE_HALF_OPAQUE = 0.5f;
             public const float FADE_VALUE_TRANSPARENT = 0.05f;
+            public const float HALF_OPAQUE = 0.5f;
             public const int ATTACK_STATE_FRAMES = 45;
 
         }
@@ -567,9 +568,10 @@ namespace KirbyNightmareInDreamLand
         {
             public const int GREEN_R = 0;
             public const int GREEN_G = 255;
+            public static Color TRANSLUCENT = new Color(127, 127, 127, 127);
             public const int GREEN_B = 0;
             public const float GREEN_ALPHA = 0.5f;
-
+            public const float HALF_OPAQUE = 0.5f;
             public const float RED_ALPHA = 1.0f;
         }
         #endregion
