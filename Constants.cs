@@ -139,6 +139,8 @@ namespace KirbyNightmareInDreamLand
             public const int SPARKY_ATTACK_WIDTH = 40;
             public const int SPARKY_ATTACK_HEIGHT = 40;
             public const int SPARKY_ATTACK_OFFSET =11;
+            public const int PROFESSOR_KIRBY_WIDTH = 13;
+            public const int PROFESSOR_KIRBY_HEIGHT = 31;
             public const int BEAM_HEIGHT = 10;
             public const int BEAM_WIDTH = 10;
             public const int BEAM_HEIGHT_OFFSET = 7;
@@ -353,6 +355,8 @@ namespace KirbyNightmareInDreamLand
         {
             public static Vector2 SUITCASE_VEL_LEFT = new Vector2(-2, -2);
             public static Vector2 SUITCASE_VEL_RIGHT = new Vector2(2, -2);
+            public static Vector2 ENEMY_SUITCASE_VEL_LEFT = new Vector2(-1, -2);
+            public static Vector2 ENEMY_SUITCASE_VEL_RIGHT = new Vector2(1, -2);
 
             public static int SUITCASE_WIDTH = 12;
             public static int SUITCASE_HEIGHT = 12;

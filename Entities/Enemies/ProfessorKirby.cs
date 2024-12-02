@@ -154,5 +154,19 @@ namespace KirbyNightmareInDreamLand.Entities.Enemies
             return KirbyType.Professor;
         }
 
+        public override Vector2 CalculateRectanglePoint(Vector2 pos)
+        {
+            float x = pos.X - Constants.HitBoxes.PROFESSOR_KIRBY_WIDTH / 2;
+            float y = pos.Y - Constants.HitBoxes.PROFESSOR_KIRBY_HEIGHT;
+            Vector2 rectPoint = new Vector2(x, y);
+            return rectPoint;
+        }
+
+        public override Rectangle GetHitBox()
+        {
+            Vector2 rectPoint = CalculateRectanglePoint(position);
+            return new Rectangle((int)rectPoint.X, (int)rectPoint.Y, Constants.HitBoxes.PROFESSOR_KIRBY_WIDTH, Constants.HitBoxes.PROFESSOR_KIRBY_HEIGHT);
+        }
+
     }
 }

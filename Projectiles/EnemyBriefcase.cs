@@ -51,7 +51,7 @@ namespace KirbyNightmareInDreamLand.Projectiles
             enemyPosition = pos;
             IsActive = true;
             CollisionActive = false;
-            velocity = isLeft ? Constants.Briefcase.SUITCASE_VEL_LEFT :Constants.Briefcase.SUITCASE_VEL_RIGHT;
+            velocity = isLeft ? Constants.Briefcase.ENEMY_SUITCASE_VEL_LEFT :Constants.Briefcase.ENEMY_SUITCASE_VEL_RIGHT;
             IsLeft= isLeft;
             windup = true;
             exploded = false;
