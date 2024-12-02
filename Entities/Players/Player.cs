@@ -874,6 +874,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             // on the first frame of spark and fire hurt animation launch Kirby into the air
             if ((GetKirbyPose() == KirbyPose.HurtSpark || GetKirbyPose() == KirbyPose.HurtFire) && poseCounter == 0)
             {
+                ResetAtWall();
                 movement.burnBounceJump();
             }
 
@@ -1115,6 +1116,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             // ensures the right animation of bounce, freefallfar, or freefall is executed
             if (GetKirbyPose() == KirbyPose.Bounce)
             {
+                ResetAtWall();
                 ChangePose(KirbyPose.Bounce);
                 if (poseCounter == Constants.Kirby.BOUNCE_JUMP_FRAME)
                 {
@@ -1147,6 +1149,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             // complete burn animation sequence
             if (shouldEnterBurnBounce)
             {
+                ResetAtWall();
                 ChangePose(KirbyPose.BurnBounce);
                 if (poseCounter == Constants.Kirby.BOUNCE_JUMP_FRAME)
                 {
