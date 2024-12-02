@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using System.Threading.Tasks;
-using KirbyNightmareInDreamLand.Time;
 using KirbyNightmareInDreamLand.StateMachines;
 using Microsoft.VisualBasic;
 using KirbyNightmareInDreamLand.Levels;
@@ -28,7 +27,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         protected float groundCollisionOffset = Constants.Collision.GROUND_COLLISION_OFFSET;
         protected float damageVel = Constants.Physics.DAMAGE_VELOCITY;
         protected float ceiling = Constants.Kirby.CEILING;
-        private ITimeCalculator timer;
         protected bool landed = true;
         public bool onSlope { get; private set; }
 

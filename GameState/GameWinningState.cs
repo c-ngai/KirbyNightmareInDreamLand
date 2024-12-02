@@ -9,8 +9,6 @@ namespace KirbyNightmareInDreamLand.GameState
 {
 	public class GameWinningState : BaseGameState
 	{
-        private Game1 _game;
-        private ObjectManager _manager;
         public Sprite currentButtonSprite;
         public Sprite selectQuitScreen;
         public Sprite selectContinueScreen;
@@ -22,8 +20,6 @@ namespace KirbyNightmareInDreamLand.GameState
 
         public GameWinningState(Levels.Level _level) : base(_level)
         {
-            _game = Game1.Instance;
-            _manager = Game1.Instance.manager;
             selectContinueScreen = SpriteFactory.Instance.CreateSprite("Winning_continue_selected_button");
             selectQuitScreen = SpriteFactory.Instance.CreateSprite("Winning_quit_selected");
             currentButtonSprite = selectContinueScreen;

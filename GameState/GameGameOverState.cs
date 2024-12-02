@@ -15,8 +15,6 @@ namespace KirbyNightmareInDreamLand.GameState
         private ISprite currentButtonSprite;
         private ISprite selectQuitScreen;
         private ISprite selectContinueScreen;
-        private Vector2 kirbyStartRoomSpawn = Constants.Level.ROOM1_SPAWN_POINT;
-        private string room1String = Constants.RoomStrings.ROOM_1;
         private Vector2 buttonPosition = Constants.ButtonLocations.GAMEOVER_BUTTONS;
 
         public GameGameOverState(Level _level) : base(_level)

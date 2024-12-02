@@ -1,22 +1,14 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
-using KirbyNightmareInDreamLand.Entities.Players;
-using KirbyNightmareInDreamLand.Entities.Enemies;
+﻿using KirbyNightmareInDreamLand.Audio;
 using KirbyNightmareInDreamLand.Controllers;
+using KirbyNightmareInDreamLand.GameState;
 using KirbyNightmareInDreamLand.Levels;
-using KirbyNightmareInDreamLand.Collision;
+using KirbyNightmareInDreamLand.UI;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Diagnostics;
-using System.Linq;
-using KirbyNightmareInDreamLand.UI;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Media;
-using System.Xml.Linq;
-using KirbyNightmareInDreamLand.Audio;
-using Microsoft.Xna.Framework.Input;
-using KirbyNightmareInDreamLand.GameState;
-using KirbyNightmareInDreamLand.Particles;
 
 namespace KirbyNightmareInDreamLand
 {

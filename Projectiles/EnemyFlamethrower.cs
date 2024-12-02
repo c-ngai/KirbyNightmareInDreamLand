@@ -13,7 +13,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
         public IPlayer player { get => null; } // this projectile never originates from a player
         private List<EnemyFlameSegment> flameSegments;
         private Vector2 startPosition;
-        private float elapsedTime;
         private Vector2 flameDirection; 
         private bool isLeft;
         private int frameCounter;
@@ -38,7 +37,6 @@ namespace KirbyNightmareInDreamLand.Projectiles
             this.flameDirection = isLeft ? Constants.Hothead.FLAMETHROWER_LEFT : Constants.Hothead.FLAMETHROWER_RIGHT;
             this.isLeft = isLeft;
             flameSegments = new List<EnemyFlameSegment>();
-            elapsedTime = 0f;
             frameCounter = 0;
             IsActive = true;
 
