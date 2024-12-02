@@ -193,7 +193,7 @@ namespace KirbyNightmareInDreamLand.UI
                 char digitChar = scoreText[i];
                 int digit = int.Parse(digitChar.ToString());
 
-                float xPosition = 176 + i * Constants.HUD.SPRITE_GAP;
+                float xPosition = Constants.HUD.SCORE1 + i * Constants.HUD.SPRITE_GAP;
                 hudElements[$"hud_{digit}"].Draw(new Vector2(xPosition, Constants.HUD.SPRITES_Y), spriteBatch);
             }
         }

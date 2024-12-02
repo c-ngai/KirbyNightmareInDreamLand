@@ -531,6 +531,7 @@ namespace KirbyNightmareInDreamLand
             public const int SPRITES_Y = 147;
             public const int SCORE_PAD = 8;
             public const int SPRITE_GAP = 8;
+            public const int SCORE1 = 176;
             public static Vector2 LIVES_ICON_POS = new Vector2(57, 147);
             public const int LIVES_PAD = 2;
             public static Vector2 LIVES_TENS_POS = new Vector2(80, 147);
