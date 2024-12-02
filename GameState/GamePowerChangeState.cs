@@ -15,10 +15,10 @@ namespace KirbyNightmareInDreamLand.GameState
 
         private bool CurrentlyFadingOut;
         private bool CurrentlyFadingIn;
-        private float FadeSpeed = Constants.Transition.FADE_SPEED_DARK;
-        private float opaqueAlpha = Constants.Transition.FADE_VALUE_HALF_OPAQUE;
-        private float transparentAlpha = 0.05f;
-        private float startFade = 0.0f;
+        private float FadeSpeed = Constants.Transition.FADE_VALUE_TRANSPARENT;
+        private float opaqueAlpha = Constants.Transition.HALF_OPAQUE;
+        private float transparentAlpha = Constants.Transition.FADE_VALUE_TRANSPARENT;
+        private float startFade = Constants.Transition.FADE_OUT_START;
         private float FadeAlpha;
 
         private int timer = 0;
