@@ -27,6 +27,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             if(kirby.IsSliding())
             {   
                 velocity.X = kirby.IsLeft() ? slideVel * -1 : slideVel;
+                velocity.Y = Constants.Kirby.SLIDE_YVEL;
             }
         }
 
@@ -67,18 +68,6 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             AdjustY(kirby);
             AdjustSlide(kirby, gameTime);
             DeathBarrierCheck(kirby);
-        }
-        public override void AdjustFromRightCollisionBlock(Rectangle intersection)
-        {
-            position.X -= intersection.Width;
-            velocity.X = 0;
-            
-        }
-
-        public override void AdjustFromLeftCollisionBlock(Rectangle intersection)
-        {
-            position.X += intersection.Width;
-            velocity.X = 0;
         }
 
     }
