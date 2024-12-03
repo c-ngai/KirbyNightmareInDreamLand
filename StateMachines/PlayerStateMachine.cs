@@ -113,7 +113,7 @@ namespace KirbyNightmareInDreamLand.StateMachines
             //walk and running cannot override jumping, floating, crouching, and attack
             bool checkOne = !IsJumping() && !IsFloating();
             bool checkTwo = !IsCrouching() && !IsAttacking();
-            return checkOne && checkTwo && !IsFalling() && GetPose() != KirbyPose.Bounce;
+            return checkOne && checkTwo && !IsFalling() && GetPose() != KirbyPose.Bounce && GetPose() != KirbyPose.WallSquish;
         }
 
         public bool CanJump(){

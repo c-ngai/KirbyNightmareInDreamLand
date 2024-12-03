@@ -102,10 +102,10 @@ namespace KirbyNightmareInDreamLand
                 // checks for static collision in all tiles nearby dynamic objects tracked in StaticObjects
                 foreach (var staticObj in manager.StaticObjects)
                 {
-                    if (dynamicObj.GetHitBox().Intersects(staticObj.GetHitBox()))
-                    {
-                        Rectangle intersection = Rectangle.Intersect(dynamicObj.GetHitBox(), staticObj.GetHitBox());
+                    Rectangle intersection = Rectangle.Intersect(dynamicObj.GetHitBox(), staticObj.GetHitBox());
 
+                    if (intersection.Width * intersection.Height > 1) // if intersection's area is greater than 1 (it is 0 if there is no intersection)
+                    {
                         CollisionSide side = DetectCollisionSide(dynamicObj.GetHitBox(), intersection);
 
                         CollisionType type1 = dynamicObj.GetCollisionType();
