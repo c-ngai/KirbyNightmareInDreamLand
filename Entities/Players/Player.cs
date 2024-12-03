@@ -1252,15 +1252,17 @@ namespace KirbyNightmareInDreamLand.Entities.Players
         public void TopCollisionWithBlock(Rectangle intersection)
         {
             movement.AdjustFromTopCollisionBlock(intersection);
-            new CollisionStar(movement.GetPosition() + new Vector2(0, -Constants.HitBoxes.ENTITY_HEIGHT));
-            SoundManager.Play("land");
+            if (state.IsJumping())
+            {
+                new CollisionStar(movement.GetPosition() + new Vector2(0, -Constants.HitBoxes.ENTITY_HEIGHT));
+                SoundManager.Play("land");
+            }
         }
 
         // the bottom of Kirby collides with a platform
         public void BottomCollisionWithPlatform(Rectangle intersection)
         {
-            movement.AdjustFromBottomCollisionPlatform(intersection, state);
-            HandleFreeFall();
+            movement.AdjustFromBottomCollisionPlatform(intersection, this);
         }
 
         // slope collision

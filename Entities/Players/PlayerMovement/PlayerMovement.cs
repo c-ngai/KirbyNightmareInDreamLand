@@ -326,13 +326,14 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             
         }
 
-        public void AdjustFromBottomCollisionPlatform(Rectangle intersection, IPlayerStateMachine state)
+        public void AdjustFromBottomCollisionPlatform(Rectangle intersection, Player kirby)
         {
             // Only adjust if kirby was moving downwards during the collision
-            if (velocity.Y > 0)
+            if (position.Y - velocity.Y <= intersection.Top + groundCollisionOffset)
             {
                 velocity.Y = 0;
                 position.Y = (float)intersection.Y + groundCollisionOffset;
+                kirby.HandleFreeFall();
             }
         }
 
