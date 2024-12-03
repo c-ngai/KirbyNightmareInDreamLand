@@ -100,6 +100,7 @@ namespace KirbyNightmareInDreamLand
             public static Vector2 GAME_OVER_SPAWN_POINT = new Vector2(2, 7);
             public static Vector2 HUB_DOOR_1_SPAWN_POINT = new Vector2(112, 272);
             public static Vector2 HUB_DOOR_2_SPAWN_POINT = new Vector2(240, 304);
+            public static Vector2 HUB_DOOR_3_SPAWN_POINT = new Vector2(320, 192);
 
 
         }

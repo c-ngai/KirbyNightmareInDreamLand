@@ -17,6 +17,7 @@ namespace KirbyNightmareInDreamLand.GameState
 
         private Vector2 hubDoor1Position = Constants.Level.HUB_DOOR_1_SPAWN_POINT;
         private Vector2 hubDoor2Position = Constants.Level.HUB_DOOR_2_SPAWN_POINT;
+        private Vector2 hubDoor3Position = Constants.Level.HUB_DOOR_3_SPAWN_POINT;
 
         public GameWinningState(Levels.Level _level) : base(_level)
         {
@@ -87,6 +88,12 @@ namespace KirbyNightmareInDreamLand.GameState
                 {
                     level.NextRoom = "hub";
                     level.NextSpawn = hubDoor2Position;
+                    level.ChangeToTransitionState();
+                }
+                if (level.PreviousRoom == "level3_room3")
+                {
+                    level.NextRoom = "hub";
+                    level.NextSpawn = hubDoor3Position;
                     level.ChangeToTransitionState();
                 }
             }
