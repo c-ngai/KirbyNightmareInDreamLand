@@ -304,29 +304,36 @@ namespace KirbyNightmareInDreamLand.Entities.Players
 
         public virtual void AdjustFromRightCollisionBlock(Rectangle intersection)
         {
-            position.X -= intersection.Width;
+            //position.X -= intersection.Width - groundCollisionOffset;
+            position.X = intersection.Left - Constants.HitBoxes.ENTITY_WIDTH / 2;
             velocity.X = 0;
         }
 
         public virtual void AdjustFromLeftCollisionBlock(Rectangle intersection)
         {
-            position.X += intersection.Width;
+            //position.X += intersection.Width - 0.9999f;
+            position.X = intersection.Right + Constants.HitBoxes.ENTITY_WIDTH / 2;
             velocity.X = 0;
         }
 
         public virtual void AdjustFromTopCollisionBlock(Rectangle intersection)
         {
-            position.Y += intersection.Height;
-            velocity.Y = 0;
+            position.Y = intersection.Bottom + Constants.HitBoxes.ENTITY_HEIGHT;
+            if (velocity.Y < 0)
+            {
+                velocity.Y = 0;
+            }
+            
         }
 
-        public void AdjustFromBottomCollisionPlatform(Rectangle intersection, IPlayerStateMachine state)
+        public void AdjustFromBottomCollisionPlatform(Rectangle intersection, Player kirby)
         {
             // Only adjust if kirby was moving downwards during the collision
-            if (velocity.Y > 0)
+            if (position.Y - velocity.Y <= intersection.Top + groundCollisionOffset)
             {
                 velocity.Y = 0;
                 position.Y = (float)intersection.Y + groundCollisionOffset;
+                kirby.HandleFreeFall();
             }
         }
 

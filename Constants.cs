@@ -211,6 +211,7 @@ namespace KirbyNightmareInDreamLand
             public static Vector2 BRIEFCASE_OFFSET_LEFT= new Vector2(-6, -25);
             public static int SLIDE_FRAMES = 40;
             public static float SLIDE_VEL = 2.5f;
+            public static float SLIDE_YVEL = 1f; // band aid solution to prevent him from bouncing off of slopes too much when starting a slide
             public static float CEILING = 15;
             public static int BOUNDS = 10;
             public static int MIN_FREEFALL_FAR_FRAMES = 16;

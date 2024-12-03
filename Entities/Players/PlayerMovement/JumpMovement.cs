@@ -64,7 +64,7 @@ namespace KirbyNightmareInDreamLand.Entities.Players
             // jump if:
             //   1. haven't run out of frames yet
             //   2. AND if jump was called no later than last frame. (if you let go of jump for even a single frame you stop rising)
-            if (frameCounter < jumpFrames && updateCounter <= lastFrameJumpCalled + 1)
+            if (frameCounter < jumpFrames && updateCounter <= lastFrameJumpCalled + 1 && velocity.Y < 0)
             { //makes it so kirby can only jump so high
                 velocity.Y = jumpYVel;
                 frameCounter++;
